@@ -1,0 +1,764 @@
+'use client';
+
+import { useState, useEffect, useRef, useCallback, type ComponentType } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import {
+  Globe, Contact, Wifi, Mail, MessageSquare, Phone,
+  Calendar, FileText, Share2, Download, ArrowLeft, ArrowRight,
+  CheckCircle2, Palette, Eye, MapPin, Bitcoin, Type, Video,
+  Music, MessageCircle, Instagram, Youtube, Linkedin, Facebook, ChevronDown, Link2,
+} from 'lucide-react';
+import { toast } from 'sonner';
+import { motion, AnimatePresence } from 'framer-motion';
+import { QRPreview } from './qr-preview';
+import { QRStyleEditor, DEFAULT_QR_STYLE } from './qr-style-editor';
+import type { QRStyleConfig } from '@/lib/qr-style';
+import { normalizeQRStyle } from '@/lib/qr-style';
+import { QR_CATEGORIES, QR_CATEGORY_GROUPS, isDynamicCategory, buildQRPayload, categoryDisplayName } from '@/lib/qr-utils';
+import { CategoryFields } from './category-fields';
+import { IndustryTemplatePicker } from './industry-template-picker';
+import { IndustryTemplateGuide } from './industry-template-guide';
+import { TemplateSectionFields } from './template-section-fields';
+import type { IndustryTemplate } from '@/lib/industry-templates';
+import { stripMetaFields, buildLandingFromTemplate, getTemplateById, validateTemplateRequiredFields } from '@/lib/industry-templates';
+import { defaultLeadForm } from '@/lib/landing-page';
+import { AiDesignAssistant } from './ai-design-assistant';
+import { ScannabilityPanel } from './scannability-panel';
+import { AdvancedSettings, AdvancedValues, emptyAdvanced } from './advanced-settings';
+import { LandingPageEditor, emptyLandingPage, LandingPageData } from './landing-page-editor';
+import { ScheduleSettings, emptyScheduleData, ScheduleData } from './schedule-settings';
+import { GeofenceSettings, emptyGeofenceData, GeofenceData } from './geofence-settings';
+import { AbTestSettings, emptyAbTestData } from './ab-test-settings';
+import type { AbTestData } from '@/lib/ab-routing';
+import { GpsHeatmapSettings } from './gps-heatmap';
+import { ScanNotifySettings, emptyScanNotify, ScanNotifyValues } from './scan-notify-settings';
+import {
+  AnalyticsPixelSettings,
+  emptyPixelAnalytics,
+  type PixelAnalyticsConfig,
+} from './analytics-pixel-settings';
+import { useLanguage } from '@/components/i18n/language-provider';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
+import { LinkHubEditor, hubLinksValid, firstHubUrl } from './link-hub-editor';
+import { QRQuickCreate } from './qr-quick-create';
+import { CreateStepTip } from './create-step-tip';
+import {
+  clearQrCreateDraft,
+  loadQrCreateDraft,
+  saveQrCreateDraft,
+  type QrCreateDraft,
+} from '@/lib/qr-create-draft';
+
+const CATEGORY_ICONS: Record<string, ComponentType<{ className?: string }>> = {
+  url: Globe, text: Type, vcard: Contact, wifi: Wifi, email: Mail, sms: MessageSquare, phone: Phone,
+  location: MapPin, event: Calendar, menu: FileText, social: Share2, app: Download, pdf: FileText, file: FileText,
+  whatsapp: MessageCircle, telegram: MessageCircle, discord: MessageCircle, instagram: Instagram,
+  facebook: Facebook, tiktok: Share2, linkedin: Linkedin, youtube: Youtube, spotify: Music,
+  zoom: Video, google_meet: Video, crypto: Bitcoin, link_hub: Link2,
+};
+
+const STEP_KEYS = ['create.steps.start', 'create.steps.content', 'create.steps.design', 'create.steps.review'] as const;
+
+export function QRCreateWizard() {
+  const { t } = useLanguage();
+  const router = useRouter();
+  const { data: session, status: authStatus } = useSession() || {};
+  const isGuest = authStatus === 'unauthenticated';
+  const [step, setStep] = useState(0);
+  const [category, setCategory] = useState('');
+  const [name, setName] = useState('');
+  const [qrData, setQrData] = useState<Record<string, string>>({});
+  const [style, setStyle] = useState<QRStyleConfig>(DEFAULT_QR_STYLE);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const [advanced, setAdvanced] = useState<AdvancedValues>(emptyAdvanced);
+  const [landingEnabled, setLandingEnabled] = useState(false);
+  const [landingPage, setLandingPage] = useState<LandingPageData>(emptyLandingPage);
+  const [scheduleEnabled, setScheduleEnabled] = useState(false);
+  const [scheduleData, setScheduleData] = useState<ScheduleData>(emptyScheduleData);
+  const [geofenceEnabled, setGeofenceEnabled] = useState(false);
+  const [geofenceData, setGeofenceData] = useState<GeofenceData>(emptyGeofenceData);
+  const [abTestEnabled, setAbTestEnabled] = useState(false);
+  const [abTestData, setAbTestData] = useState<AbTestData>(emptyAbTestData);
+  const [gpsHeatmapEnabled, setGpsHeatmapEnabled] = useState(false);
+  const [nfcEnabled, setNfcEnabled] = useState(false);
+  const [scanNotify, setScanNotify] = useState<ScanNotifyValues>(emptyScanNotify);
+  const [pixels, setPixels] = useState<PixelAnalyticsConfig>(emptyPixelAnalytics);
+  const [activeTemplate, setActiveTemplate] = useState<IndustryTemplate | null>(null);
+  const [templateGuideDismissed, setTemplateGuideDismissed] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const searchParams = useSearchParams();
+  const [mode, setMode] = useState<'quick' | 'wizard'>(() =>
+    searchParams?.get('quick') === '1' ? 'quick' : 'wizard'
+  );
+  const urlParamsApplied = useRef(false);
+  const draftRestored = useRef(false);
+
+  const buildCurrentDraft = useCallback((): QrCreateDraft => ({
+    version: 1,
+    savedAt: new Date().toISOString(),
+    step,
+    category,
+    name,
+    qrData,
+    style,
+    logoPreview,
+    templateId: activeTemplate?.id ?? null,
+    advanced,
+    landingEnabled,
+    landingPage,
+    scheduleEnabled,
+    scheduleData,
+    geofenceEnabled,
+    geofenceData,
+    abTestEnabled,
+    abTestData,
+    gpsHeatmapEnabled,
+    nfcEnabled,
+    scanNotify,
+    pixels,
+  }), [
+    step, category, name, qrData, style, logoPreview, activeTemplate,
+    advanced, landingEnabled, landingPage, scheduleEnabled, scheduleData,
+    geofenceEnabled, geofenceData, abTestEnabled, abTestData,
+    gpsHeatmapEnabled, nfcEnabled, scanNotify, pixels,
+  ]);
+
+  const applyDraft = useCallback((draft: QrCreateDraft) => {
+    setStep(draft.step);
+    setCategory(draft.category);
+    setName(draft.name);
+    setQrData(draft.qrData);
+    setStyle(normalizeQRStyle(draft.style));
+    setLogoPreview(draft.logoPreview);
+    setAdvanced(draft.advanced);
+    setLandingEnabled(draft.landingEnabled);
+    setLandingPage(draft.landingPage);
+    setScheduleEnabled(draft.scheduleEnabled);
+    setScheduleData(draft.scheduleData);
+    setGeofenceEnabled(draft.geofenceEnabled);
+    setGeofenceData(draft.geofenceData);
+    setAbTestEnabled(draft.abTestEnabled);
+    setAbTestData(draft.abTestData);
+    setGpsHeatmapEnabled(draft.gpsHeatmapEnabled);
+    setNfcEnabled(draft.nfcEnabled);
+    setScanNotify(draft.scanNotify);
+    setPixels(draft.pixels);
+    if (draft.templateId) {
+      const tmpl = getTemplateById(draft.templateId);
+      if (tmpl) setActiveTemplate(tmpl);
+    }
+  }, []);
+
+  const redirectGuestToSignup = useCallback(() => {
+    saveQrCreateDraft({ ...buildCurrentDraft(), step: 3 });
+    const callback = encodeURIComponent('/qr/create?restore=1');
+    router.push(`/signup?callbackUrl=${callback}`);
+  }, [buildCurrentDraft, router]);
+
+  const saveGuestDraft = useCallback(() => {
+    if (!isGuest || !category) return;
+    saveQrCreateDraft(buildCurrentDraft());
+  }, [isGuest, category, buildCurrentDraft]);
+
+  const applyTemplate = useCallback((template: IndustryTemplate) => {
+    setActiveTemplate(template);
+    setTemplateGuideDismissed(false);
+    setCategory(template.category);
+    setQrData({ ...template.qrData });
+    setStyle(normalizeQRStyle({ ...DEFAULT_QR_STYLE, ...template.style }));
+    setName(template.suggestedQrName);
+    const built = buildLandingFromTemplate(template, template.qrData);
+    if (built.enabled) {
+      setLandingEnabled(true);
+      setLandingPage({
+        ...emptyLandingPage,
+        template: built.template ?? 'minimal',
+        title: built.title ?? template.suggestedQrName,
+        subtitle: built.subtitle ?? '',
+        accentColor: built.accentColor ?? emptyLandingPage.accentColor,
+        ctaLabel: built.ctaLabel ?? 'Continue',
+        leadFormEnabled: built.leadFormEnabled ?? false,
+        leadForm: { ...defaultLeadForm, ...built.leadForm },
+      });
+    }
+    setStep(1);
+  }, []);
+
+  useEffect(() => {
+    if (urlParamsApplied.current) return;
+    const templateId = searchParams.get('template');
+    const categoryId = searchParams.get('category');
+    if (templateId) {
+      const template = getTemplateById(templateId);
+      if (template) {
+        urlParamsApplied.current = true;
+        applyTemplate(template);
+      }
+    } else if (categoryId && QR_CATEGORIES.some((c) => c.id === categoryId)) {
+      urlParamsApplied.current = true;
+      setActiveTemplate(null);
+      setCategory(categoryId);
+      setStep(1);
+    }
+  }, [searchParams, applyTemplate]);
+
+  useEffect(() => {
+    if (draftRestored.current || authStatus !== 'authenticated') return;
+    if (searchParams.get('restore') !== '1') return;
+    const draft = loadQrCreateDraft();
+    if (!draft) return;
+    draftRestored.current = true;
+    applyDraft(draft);
+    toast.success(t('create.draftRestored'));
+    router.replace('/qr/create');
+  }, [authStatus, searchParams, applyDraft, router, t]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    saveGuestDraft();
+  }, [step, saveGuestDraft]);
+
+  const goToStep = (next: number) => {
+    setStep(next);
+  };
+
+  const payloadData = () => stripMetaFields(qrData);
+
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target?.files?.[0];
+    if (file) {
+      setLogoFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const uploadLogo = async (file?: File | null): Promise<{ cloud_storage_path: string } | null> => {
+    const toUpload = file ?? logoFile;
+    if (!toUpload) return null;
+
+    try {
+      const formData = new FormData();
+      formData.append('file', toUpload);
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!res.ok) return null;
+
+      const { path } = await res.json();
+      return { cloud_storage_path: path };
+    } catch (e: any) {
+      console.error('Logo upload failed:', e);
+      return null;
+    }
+  };
+
+  const handleSave = async () => {
+    if (!name.trim()) {
+      toast.error(t('create.nameRequired'));
+      return;
+    }
+
+    if (!session) {
+      redirectGuestToSignup();
+      return;
+    }
+
+    setSaving(true);
+
+    try {
+      let logoPath = null;
+      let fileToUpload: File | null = logoFile;
+      if (!fileToUpload && logoPreview?.startsWith('data:')) {
+        const blob = await fetch(logoPreview).then((r) => r.blob());
+        fileToUpload = new File([blob], 'logo.png', { type: blob.type || 'image/png' });
+      }
+      if (fileToUpload) {
+        const result = await uploadLogo(fileToUpload);
+        logoPath = result?.cloud_storage_path ?? null;
+        if (!logoPath) {
+          toast.error(t('create.logoUploadFailed'));
+        }
+      }
+
+      const res = await fetch('/api/qr', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          category,
+          qrData: payloadData(),
+          style,
+          logoPath,
+          logoIsPublic: true,
+          password: advanced.password || undefined,
+          expiresAt: advanced.expiresAt || undefined,
+          scanLimit: advanced.scanLimit || undefined,
+          iosUrl: advanced.iosUrl || undefined,
+          androidUrl: advanced.androidUrl || undefined,
+          utmEnabled: advanced.utmEnabled,
+          utmSource: advanced.utmSource || undefined,
+          utmMedium: advanced.utmMedium || undefined,
+          utmCampaign: advanced.utmCampaign || name || undefined,
+          landingPageEnabled: landingEnabled,
+          landingPageData: landingEnabled ? { ...landingPage, title: landingPage.title || name } : undefined,
+          scheduleEnabled: scheduleEnabled,
+          scheduleData: scheduleEnabled ? scheduleData : undefined,
+          geofenceEnabled: geofenceEnabled,
+          geofenceData: geofenceEnabled ? geofenceData : undefined,
+          abTestEnabled: abTestEnabled,
+          abTestData: abTestEnabled ? abTestData : undefined,
+          gpsHeatmapEnabled,
+          nfcEnabled,
+          scanNotifyEnabled: scanNotify.enabled,
+          scanNotifyFirst: scanNotify.firstScan,
+          scanNotifyMilestones: scanNotify.milestones,
+          scanNotifyEvery: scanNotify.everyScan,
+          ga4Enabled: pixels.ga4Enabled,
+          ga4MeasurementId: pixels.ga4MeasurementId,
+          metaPixelEnabled: pixels.metaPixelEnabled,
+          metaPixelId: pixels.metaPixelId,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        clearQrCreateDraft();
+        router.replace(`/qr/${data?.qrCode?.id ?? ''}`);
+      } else if (res.status === 401) {
+        redirectGuestToSignup();
+      } else {
+        const err = await res.json();
+        toast.error(err?.error ?? t('create.createFailed'));
+      }
+    } catch (e: any) {
+      toast.error(t('bulk.somethingWrong'));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const steps = STEP_KEYS.map((key) => t(key));
+
+  const canProceed = () => {
+    if (step === 0) return !!category;
+    if (step === 1) {
+      if (!name.trim()) return false;
+      if (category === 'link_hub') {
+        return hubLinksValid(landingPage.hubLinks) && !!firstHubUrl(landingPage.hubLinks);
+      }
+      if (activeTemplate && !validateTemplateRequiredFields(activeTemplate, qrData)) return false;
+      return !!buildQRPayload(category, payloadData()).trim();
+    }
+    return true;
+  };
+
+  if (mode === 'quick') {
+    return (
+      <QRQuickCreate
+        onAdvanced={(data) => {
+          if (data.url) {
+            setCategory('url');
+            setQrData({ url: data.url });
+            setName(data.name || '');
+            setStyle(data.style);
+            setStep(1);
+          }
+          setMode('wizard');
+        }}
+      />
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {session && (
+        <div className="flex items-center gap-2 text-sm">
+          <Link href="/dashboard" className="text-muted-foreground hover:text-foreground">
+            ← {t('common.dashboard')}
+          </Link>
+        </div>
+      )}
+
+      {isGuest && (
+        <Card className="border-primary/30 bg-primary/5">
+          <CardContent className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm font-medium">{t('create.guestBannerTitle')}</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">{t('create.guestBannerDesc')}</p>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <Link
+                href={`/login?callbackUrl=${encodeURIComponent('/qr/create?restore=1')}`}
+                onClick={saveGuestDraft}
+              >
+                <Button variant="outline" size="sm">{t('common.signIn')}</Button>
+              </Link>
+              <Button size="sm" onClick={redirectGuestToSignup}>
+                {t('common.signUp')}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      <div>
+        <h1 className="font-display text-2xl font-bold tracking-tight">{t('create.title')}</h1>
+        <p className="mt-1 text-muted-foreground">{t('create.subtitle')}</p>
+      </div>
+
+      {/* Progress Steps */}
+      <div className="flex items-center gap-2">
+        {steps.map((s: string, i: number) => (
+          <div key={i} className="flex items-center gap-2">
+            <div
+              className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-colors ${
+                i <= step ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
+              }`}
+            >
+              {i < step ? <CheckCircle2 className="h-4 w-4" /> : i + 1}
+            </div>
+            <span className={`hidden text-sm sm:block ${i <= step ? 'font-medium' : 'text-muted-foreground'}`}>{s}</span>
+            {i < steps.length - 1 && <div className={`h-px w-8 ${i < step ? 'bg-primary' : 'bg-border'}`} />}
+          </div>
+        ))}
+      </div>
+
+      <CreateStepTip step={step} />
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={step}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -20 }}
+          transition={{ duration: 0.2 }}
+        >
+          {step === 0 && (
+            <div className="space-y-6">
+              <IndustryTemplatePicker
+                onApply={applyTemplate}
+              />
+              {QR_CATEGORY_GROUPS.map((group) => (
+                <Card key={group.id}>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="font-display text-base">{group.label}</CardTitle>
+                    {'subtitle' in group && group.subtitle && (
+                      <p className="text-xs text-muted-foreground">{group.subtitle}</p>
+                    )}
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                      {QR_CATEGORIES.filter((c) => c.group === group.id).map((cat) => {
+                        const Icon = CATEGORY_ICONS[cat.id] ?? Globe;
+                        const isPopular = 'popular' in cat && cat.popular;
+                        return (
+                          <button
+                            key={cat.id}
+                            type="button"
+                            data-testid={`qr-category-${cat.id}`}
+                            onClick={() => {
+                              setActiveTemplate(null);
+                              setCategory(cat.id);
+                              setQrData({});
+                              if (cat.id === 'link_hub') {
+                                setLandingEnabled(true);
+                                setLandingPage({
+                                  ...emptyLandingPage,
+                                  template: 'minimal',
+                                  hubMode: true,
+                                  hubLinks: [
+                                    { label: 'Website', url: '' },
+                                    { label: 'Instagram', url: '' },
+                                  ],
+                                });
+                              }
+                              setStep(1);
+                            }}
+                            className={`relative flex items-center gap-3 rounded-lg border p-4 text-left transition-all hover:shadow-sm ${
+                              category === cat.id ? 'border-primary bg-primary/5 shadow-sm' : 'border-border/50 hover:border-border'
+                            }`}
+                          >
+                            {isPopular && (
+                              <Badge className="absolute right-2 top-2 text-[10px] px-1.5 py-0">{t('create.popular')}</Badge>
+                            )}
+                            <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
+                              category === cat.id ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
+                            }`}>
+                              <Icon className="h-5 w-5" />
+                            </div>
+                            <div className="min-w-0 pr-8">
+                              <p className="font-medium text-sm">{cat.name}</p>
+                              <p className="text-xs text-muted-foreground line-clamp-2">{cat.description}</p>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+              <p className="text-center text-xs text-muted-foreground">
+                {t('create.templateHint')}
+              </p>
+            </div>
+          )}
+
+          {step === 1 && (
+            <div className="grid gap-6 lg:grid-cols-2">
+              <Card className="order-2 lg:order-1">
+                <CardHeader>
+                  <CardTitle className="font-display">{t('create.yourContent')}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {activeTemplate && !templateGuideDismissed && (
+                    <IndustryTemplateGuide
+                      template={activeTemplate}
+                      onDismiss={() => setTemplateGuideDismissed(true)}
+                    />
+                  )}
+                  <div className="space-y-2">
+                    <Label>{t('create.qrNameLabel')}</Label>
+                    <Input
+                      placeholder={t('create.qrNamePlaceholder')}
+                      value={name}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                    />
+                  </div>
+                  {category === 'link_hub' ? (
+                    <LinkHubEditor
+                      landing={landingPage}
+                      qrName={name}
+                      onChange={(next) => {
+                        setLandingPage(next);
+                        const url = firstHubUrl(next.hubLinks);
+                        if (url) setQrData({ url });
+                      }}
+                    />
+                  ) : activeTemplate ? (
+                    <TemplateSectionFields
+                      template={activeTemplate}
+                      data={qrData}
+                      onChange={(next) => {
+                        setQrData(next);
+                        if (activeTemplate.landingPage?.enabled) {
+                          const built = buildLandingFromTemplate(activeTemplate, next);
+                          setLandingPage((prev) => ({
+                            ...prev,
+                            title: built.title ?? prev.title,
+                            subtitle: built.subtitle ?? prev.subtitle,
+                          }));
+                        }
+                      }}
+                    />
+                  ) : (
+                    <CategoryFields
+                      category={category}
+                      data={qrData}
+                      onChange={setQrData}
+                    />
+                  )}
+                </CardContent>
+              </Card>
+              <div className="order-1 h-fit lg:order-2 lg:sticky lg:top-24">
+                <QRPreview
+                  category={category}
+                  qrData={qrData}
+                  style={style}
+                  logoPreview={logoPreview}
+                />
+              </div>
+            </div>
+          )}
+
+          {step === 2 && (
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div className="order-2 space-y-6 lg:order-1">
+                <AiDesignAssistant
+                  category={category}
+                  qrName={name}
+                  style={style}
+                  onApplyStyle={(patch) => setStyle(normalizeQRStyle({ ...style, ...patch }))}
+                  onLogoSize={(size) => setStyle(normalizeQRStyle({ ...style, logoSize: size }))}
+                />
+                <QRStyleEditor
+                  style={style}
+                  onStyleChange={(next) => setStyle(normalizeQRStyle(next))}
+                  onLogoChange={handleLogoChange}
+                  logoPreview={logoPreview}
+                />
+                <Collapsible>
+                  <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg border border-border/60 bg-muted/30 px-4 py-3 text-left text-sm font-medium hover:bg-muted/50 [&[data-state=open]>svg]:rotate-180">
+                    <span>
+                      {t('create.advancedOptions')}
+                      <span className="mt-0.5 block text-xs font-normal text-muted-foreground">
+                        {t('create.advancedOptionsDesc')}
+                      </span>
+                    </span>
+                    <ChevronDown className="h-4 w-4 shrink-0 transition-transform" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="mt-4 space-y-6">
+                <AdvancedSettings
+                  category={category}
+                  values={advanced}
+                  onChange={setAdvanced}
+                />
+                {isDynamicCategory(category) && (
+                  <>
+                    <LandingPageEditor
+                      enabled={landingEnabled}
+                      onEnabledChange={setLandingEnabled}
+                      data={landingPage}
+                      onChange={setLandingPage}
+                      qrName={name}
+                      category={category}
+                    />
+                    <ScheduleSettings
+                      enabled={scheduleEnabled}
+                      onEnabledChange={setScheduleEnabled}
+                      data={scheduleData}
+                      onChange={setScheduleData}
+                    />
+                    <GeofenceSettings
+                      enabled={geofenceEnabled}
+                      onEnabledChange={setGeofenceEnabled}
+                      data={geofenceData}
+                      onChange={setGeofenceData}
+                    />
+                    <AbTestSettings
+                      enabled={abTestEnabled}
+                      onEnabledChange={setAbTestEnabled}
+                      data={abTestData}
+                      onChange={setAbTestData}
+                      defaultUrl={qrData.url || ''}
+                    />
+                    <GpsHeatmapSettings
+                      enabled={gpsHeatmapEnabled}
+                      onEnabledChange={setGpsHeatmapEnabled}
+                    />
+                  </>
+                )}
+                <ScanNotifySettings values={scanNotify} onChange={setScanNotify} />
+                <AnalyticsPixelSettings values={pixels} onChange={setPixels} />
+                  </CollapsibleContent>
+                </Collapsible>
+              </div>
+              <div className="order-1 h-fit space-y-4 lg:order-2 lg:sticky lg:top-24">
+                <QRPreview
+                  category={category}
+                  qrData={qrData}
+                  style={style}
+                  logoPreview={logoPreview}
+                  showScanTest
+                  onStyleChange={(next) => setStyle(normalizeQRStyle(next))}
+                />
+                <ScannabilityPanel style={style} hasLogo={!!logoPreview} contentLength={buildQRPayload(category, payloadData()).length} />
+              </div>
+            </div>
+          )}
+
+          {step === 3 && (
+            <div className="grid gap-6 lg:grid-cols-2">
+              <Card className="order-2 lg:order-1">
+                <CardHeader>
+                  <CardTitle className="font-display">{t('create.summary')}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">{t('create.reviewName')}</span>
+                    <span className="font-medium">{name}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">{t('create.reviewCategory')}</span>
+                    <Badge variant="outline">{categoryDisplayName(category)}</Badge>
+                  </div>
+                  {style.frameStyle !== 'none' && style.frameText?.trim() && (
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">{t('create.reviewFrameLabel')}</span>
+                      <span className="text-sm font-medium">{style.frameText}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">{t('create.reviewLogo')}</span>
+                    <span className="text-sm">{logoFile ? logoFile.name : t('create.none')}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">{t('create.reviewForeground')}</span>
+                    <div className="flex items-center gap-2">
+                      <div className="h-4 w-4 rounded border" style={{ backgroundColor: style?.fgColor ?? '#000' }} />
+                      <span className="font-mono text-xs">{style?.fgColor ?? '#000'}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">{t('create.reviewBackground')}</span>
+                    <div className="flex items-center gap-2">
+                      <div className="h-4 w-4 rounded border" style={{ backgroundColor: style?.bgColor ?? '#FFF' }} />
+                      <span className="font-mono text-xs">{style?.bgColor ?? '#FFF'}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              <div className="order-1 h-fit lg:order-2 lg:sticky lg:top-24">
+                <QRPreview
+                  category={category}
+                  qrData={qrData}
+                  style={style}
+                  logoPreview={logoPreview}
+                  showExtras
+                />
+              </div>
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Navigation — sticky so Next/Create stays visible */}
+      <div className="sticky bottom-0 z-40 -mx-4 mt-6 border-t border-border/60 bg-background/95 px-4 py-3 backdrop-blur-sm supports-[backdrop-filter]:bg-background/80 lg:-mx-0 lg:rounded-xl lg:border lg:shadow-sm">
+        <div className="flex items-center justify-between gap-3">
+          <Button
+            variant="outline"
+            onClick={() => goToStep(Math.max(0, step - 1))}
+            disabled={step === 0}
+            className="gap-2"
+          >
+            <ArrowLeft className="h-4 w-4" /> {t('create.back')}
+          </Button>
+
+          {step < 3 ? (
+            <Button
+              onClick={() => goToStep(Math.min(3, step + 1))}
+              disabled={!canProceed()}
+              className="gap-2 shrink-0"
+            >
+              {t('create.next')} <ArrowRight className="h-4 w-4" />
+            </Button>
+          ) : (
+            <Button onClick={handleSave} loading={saving} className="gap-2 shrink-0">
+              <CheckCircle2 className="h-4 w-4" />
+              {isGuest ? t('create.signUpToSave') : t('create.createQr')}
+            </Button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

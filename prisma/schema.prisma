@@ -1,0 +1,324 @@
+generator client {
+    provider = "prisma-client-js"
+    binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  role          String    @default("user")
+  plan          String    @default("free")
+  activeWorkspaceId String?
+  verificationCode String?
+  verificationExpiry DateTime?
+  passwordResetToken String?
+  passwordResetExpiry DateTime?
+  stripeCustomerId String?
+  stripeSubscriptionId String?
+  // REST API access
+  apiKeyHash       String?   @unique
+  apiKeyPrefix     String?
+  apiKeyCreatedAt  DateTime?
+  referralCode       String?   @unique
+  referredByUserId   String?
+  referralSignupCount Int      @default(0)
+  brandingSettings   Json?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+  qrCodes       QRCode[]
+  folders       QRFolder[]
+  customDomains CustomDomain[]
+  webhooks      WebhookEndpoint[]
+  styleTemplates QRStyleTemplate[]
+  ownedWorkspaces Workspace[] @relation("WorkspaceOwner")
+  workspaceMembers WorkspaceMember[]
+
+  @@index([plan])
+  @@index([createdAt])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model QRCode {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  shortCode   String   @unique
+  category    String
+  targetUrl   String
+  qrData      Json
+  style       Json     @default("{}")
+  logoPath    String?
+  logoIsPublic Boolean @default(true)
+  isActive    Boolean  @default(true)
+  isFavorite  Boolean  @default(false)
+  isArchived  Boolean  @default(false)
+  totalScans  Int      @default(0)
+  // Advanced / differentiating features (all optional & backward compatible)
+  password    String?   // bcrypt hash; if set, scanners must enter password
+  expiresAt   DateTime? // after this date the QR stops redirecting
+  scanLimit   Int?      // max number of scans before the QR is disabled
+  iosUrl      String?   // smart routing: redirect iOS devices here
+  androidUrl  String?   // smart routing: redirect Android devices here
+  // UTM tracking for Google Analytics
+  utmEnabled   Boolean  @default(false)
+  utmSource    String?
+  utmMedium    String?
+  utmCampaign  String?
+  // GA4 + Meta Pixel (client-side on scan / landing)
+  ga4Enabled         Boolean @default(false)
+  ga4MeasurementId   String?
+  metaPixelEnabled   Boolean @default(false)
+  metaPixelId        String?
+  // Banner landing page (shown before redirect)
+  landingPageEnabled Boolean @default(false)
+  landingPageData    Json?
+  // Time-based smart routing
+  scheduleEnabled    Boolean @default(false)
+  scheduleData       Json?
+  // Geofencing (location-based routing)
+  geofenceEnabled    Boolean @default(false)
+  geofenceData       Json?
+  // A/B variant routing
+  abTestEnabled      Boolean @default(false)
+  abTestData         Json?
+  // GPS heatmap (optional browser geolocation on scan)
+  gpsHeatmapEnabled  Boolean @default(false)
+  // NFC tag support (same URL + src=nfc tracking)
+  nfcEnabled         Boolean @default(false)
+  // Scan email notifications
+  scanNotifyEnabled      Boolean @default(false)
+  scanNotifyFirst        Boolean @default(true)
+  scanNotifyMilestones   Boolean @default(true)
+  scanNotifyEvery        Boolean @default(false)
+  scanNotifiedMilestones Json    @default("[]")
+  // Bulk import grouping
+  batchId     String?
+  batchLabel  String?
+  // Organization
+  folderId    String?
+  labels      Json     @default("[]")
+  workspaceId String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace   Workspace? @relation(fields: [workspaceId], references: [id], onDelete: SetNull)
+  folder      QRFolder? @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  scans       QRScan[]
+  leads       LeadSubmission[]
+
+  @@index([userId])
+  @@index([workspaceId])
+  @@index([shortCode])
+  @@index([userId, batchId])
+  @@index([userId, folderId])
+}
+
+model QRFolder {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  color     String   @default("#4f46e5")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  qrCodes   QRCode[]
+
+  @@unique([userId, name])
+  @@index([userId])
+}
+
+model CustomDomain {
+  id            String    @id @default(cuid())
+  userId        String
+  domain        String    @unique
+  status        String    @default("pending")
+  verifyToken   String
+  isPrimary     Boolean   @default(false)
+  verifiedAt    DateTime?
+  lastCheckedAt DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+}
+
+model QRScan {
+  id        String   @id @default(cuid())
+  qrCodeId  String
+  ip        String?
+  userAgent String?
+  referer   String?
+  country   String?
+  city      String?
+  device    String?
+  browser   String?
+  os        String?
+  scanSource String?  @default("qr") // qr | nfc | link
+  abVariantId String?
+  latitude  Float?
+  longitude Float?
+  scannedAt DateTime @default(now())
+  qrCode    QRCode   @relation(fields: [qrCodeId], references: [id], onDelete: Cascade)
+
+  @@index([qrCodeId])
+  @@index([scannedAt])
+  @@index([qrCodeId, scannedAt])
+}
+
+model WebhookEndpoint {
+  id        String   @id @default(cuid())
+  userId    String
+  url       String
+  secret    String
+  label     String?
+  enabled   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model LeadSubmission {
+  id        String   @id @default(cuid())
+  qrCodeId  String
+  name      String?
+  email     String?
+  phone     String?
+  message   String?
+  country   String?
+  city      String?
+  device    String?
+  createdAt DateTime @default(now())
+  qrCode    QRCode   @relation(fields: [qrCodeId], references: [id], onDelete: Cascade)
+
+  @@index([qrCodeId])
+  @@index([createdAt])
+}
+
+model QRStyleTemplate {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  style     Json
+  logoPath  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, name])
+  @@index([userId])
+}
+
+model Workspace {
+  id             String   @id @default(cuid())
+  name           String
+  slug           String   @unique
+  ownerId        String
+  isPersonal     Boolean  @default(false)
+  ssoEnabled     Boolean  @default(false)
+  ssoProvider    String?
+  allowedDomains Json?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  owner          User     @relation("WorkspaceOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  members        WorkspaceMember[]
+  qrCodes        QRCode[]
+
+  @@index([ownerId])
+}
+
+model WorkspaceMember {
+  id          String    @id @default(cuid())
+  workspaceId String
+  userId      String?
+  email       String
+  role        String    @default("editor")
+  status      String    @default("pending")
+  inviteToken String?   @unique
+  invitedAt   DateTime  @default(now())
+  joinedAt    DateTime?
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user        User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@unique([workspaceId, email])
+  @@index([userId])
+  @@index([workspaceId])
+  @@index([inviteToken])
+}
+
+model BlogPost {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  description String
+  keywords    String[]  @default([])
+  category    String    @default("Guides")
+  author      String    @default("QRbanner Team")
+  sections    Json
+  readingMinutes Int    @default(8)
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([published, publishedAt])
+}
+
+model MediaAsset {
+  id        String   @id @default(cuid())
+  userId    String
+  filename  String
+  url       String
+  mimeType  String
+  sizeBytes Int
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}

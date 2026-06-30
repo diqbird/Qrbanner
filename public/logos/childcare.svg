@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 32" fill="none" role="img" aria-label="Childcare">
+  <rect width="128" height="32" rx="6" fill="currentColor" fill-opacity="0.05"/>
+  <circle cx="14" cy="14" r="3" stroke="currentColor" stroke-opacity="0.55" stroke-width="1.4"/>
+  <path d="M9 22c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-opacity="0.55" stroke-width="1.4" stroke-linecap="round"/>
+  <text x="30" y="20.5" font-family="system-ui,-apple-system,sans-serif" font-size="10.5" font-weight="600" letter-spacing="0.02em" fill="currentColor" fill-opacity="0.78">Childcare</text>
+</svg>

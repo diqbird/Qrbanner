@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 32" fill="none" role="img" aria-label="Coffee and Cafés">
+  <rect width="128" height="32" rx="6" fill="currentColor" fill-opacity="0.05"/>
+  <path d="M9 12h6v6c0 1.1-.9 2-2 2h-2c-1.1 0-2-.9-2-2v-6z" stroke="currentColor" stroke-opacity="0.55" stroke-width="1.4"/>
+  <path d="M15 14h2c1.1 0 2 .9 2 2v1c0 1.1-.9 2-2 2h-2" stroke="currentColor" stroke-opacity="0.55" stroke-width="1.4"/>
+  <path d="M10 20h8" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.2" stroke-linecap="round"/>
+  <text x="30" y="20.5" font-family="system-ui,-apple-system,sans-serif" font-size="10.5" font-weight="600" letter-spacing="0.02em" fill="currentColor" fill-opacity="0.78">Coffee &amp; Cafés</text>
+</svg>

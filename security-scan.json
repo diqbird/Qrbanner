@@ -1,0 +1,17 @@
+{
+  "total": 2,
+  "flaggedCount": 0,
+  "flagged": [],
+  "topByScans": [
+    {
+      "scanUrl": "https://qrbanner.com/s/JUNOJKno",
+      "targetUrl": "sms:353535353534?body=test123",
+      "scans": 2
+    },
+    {
+      "scanUrl": "https://qrbanner.com/s/BULSbKFM",
+      "targetUrl": "sdfsdfds",
+      "scans": 1
+    }
+  ]
+}

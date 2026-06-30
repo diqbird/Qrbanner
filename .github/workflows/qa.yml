@@ -1,0 +1,46 @@
+name: QA
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    name: Playwright E2E
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install --ignore-engines
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+      - name: Run E2E tests
+        env:
+          PLAYWRIGHT_BASE_URL: https://qrbanner.com
+          CI: true
+        run: yarn test:e2e
+
+  lighthouse:
+    name: Lighthouse audit
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium --with-deps
+      - name: Run Lighthouse
+        env:
+          PLAYWRIGHT_BASE_URL: https://qrbanner.com
+          CI: true
+        run: |
+          export CHROME_PATH=$(find $HOME/.cache/ms-playwright -type f \( -name chrome -o -name chrome-headless-shell \) | head -1)
+          node scripts/lighthouse-audit.mjs

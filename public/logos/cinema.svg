@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 32" fill="none" role="img" aria-label="Cinema">
+  <rect width="128" height="32" rx="6" fill="currentColor" fill-opacity="0.05"/>
+  <rect x="9" y="11" width="16" height="12" rx="2" stroke="currentColor" stroke-opacity="0.55" stroke-width="1.4"/>
+  <path d="M12 11v4l2-1 2 1v-4M18 11v4l2-1 2 1v-4" stroke="currentColor" stroke-opacity="0.45" stroke-width="1.1" stroke-linejoin="round"/>
+  <text x="30" y="20.5" font-family="system-ui,-apple-system,sans-serif" font-size="11" font-weight="600" letter-spacing="0.03em" fill="currentColor" fill-opacity="0.78">Cinema</text>
+</svg>

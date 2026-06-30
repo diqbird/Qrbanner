@@ -1,0 +1,11 @@
+<priority>0.8</priority>
+</url>
+</urlset>
+
+HTTP:200
+
+<priority>0.8</priority>
+</url>
+</urlset>
+
+HTTP:200

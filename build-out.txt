@@ -1,0 +1,25 @@
+��� �� /s/[code]                     0 B                0 B
+��� �� /settings                     18.2 kB         173 kB
+��� �� /signup                       7.86 kB         138 kB
+��� ��� /sitemap.xml                  0 B                0 B
+��� �� /solutions                    194 B          96.5 kB
+��� ��� /solutions/[slug]             194 B          96.5 kB
+���   ��� /solutions/restaurant-menu
+���   ��� /solutions/business-card
+���   ��� /solutions/wifi-guest
+���   ��� /solutions/event-rsvp
+��� �� /terms                        194 B          96.5 kB
+��� �� /verify                       4.02 kB         126 kB
++ First Load JS shared by all     87.6 kB
+  ��� chunks/2117-b68b9e35.js       31.8 kB
+  ��� chunks/fd9d1056-943b298d.js   53.6 kB
+  ��� other shared chunks (total)   2.22 kB
+
+
+�� Middleware                      64.5 kB
+
+���  (Static)   prerendered as static content
+���  (SSG)      prerendered as static HTML (uses getStaticProps)
+��  (Dynamic)  server-rendered on demand
+
+Done in 25.83s.
