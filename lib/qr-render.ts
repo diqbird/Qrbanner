@@ -53,6 +53,59 @@ function frameHasLabelBar(style: QRStyleConfig): boolean {
   return frameLabelVisible(style);
 }
 
+function fillFramedBackground(
+  ctx: CanvasRenderingContext2D,
+  w: number,
+  h: number,
+  style: QRStyleConfig
+) {
+  if (style.backgroundGradientEnabled && style.backgroundGradientColor2) {
+    const g = ctx.createLinearGradient(0, 0, w, h);
+    g.addColorStop(0, style.bgColor);
+    g.addColorStop(1, style.backgroundGradientColor2);
+    ctx.fillStyle = g;
+  } else {
+    ctx.fillStyle = style.bgColor;
+  }
+  ctx.fillRect(0, 0, w, h);
+}
+
+function drawLabelBar(
+  ctx: CanvasRenderingContext2D,
+  style: QRStyleConfig,
+  outW: number,
+  pad: number,
+  qrCanvas: HTMLCanvasElement,
+  badgeH: number,
+  skipFrameText: boolean
+) {
+  const barY = pad + qrCanvas.height + (style.frameStyle === 'scan-me' ? 8 : 0);
+  const barH = badgeH - (style.frameStyle === 'scan-me' ? 8 : 0);
+  const frameColor = style.frameColor || style.fgColor;
+
+  ctx.fillStyle = frameColor;
+  if (style.frameStyle === 'scan-me') {
+    roundRect(ctx, pad - 4, pad - 4, qrCanvas.width + 8, qrCanvas.height + barH + 16, 16);
+    ctx.fill();
+    ctx.drawImage(qrCanvas, pad, pad);
+  } else if (
+    ['badge', 'border', 'rounded', 'shadow', 'double', 'sticker', 'coupon'].includes(style.frameStyle)
+  ) {
+    roundRect(ctx, pad, barY, qrCanvas.width, barH, style.frameStyle === 'coupon' ? 4 : 0);
+    ctx.fill();
+  }
+
+  ctx.fillStyle = style.frameTextColor;
+  const fontSize = Math.max(10, Math.round(barH * 0.42));
+  ctx.font = `bold ${fontSize}px system-ui, -apple-system, sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const label = (style.frameText || 'Scan me').trim().slice(0, 32);
+  if (!skipFrameText && label) {
+    ctx.fillText(label, outW / 2, barY + barH / 2 + (style.frameStyle === 'scan-me' ? 4 : 0));
+  }
+}
+
 function applyFrame(
   qrCanvas: HTMLCanvasElement,
   style: QRStyleConfig,
@@ -69,14 +122,34 @@ function applyFrame(
   const ctx = out.getContext('2d');
   if (!ctx) return qrCanvas;
 
-  ctx.fillStyle = style.bgColor;
-  ctx.fillRect(0, 0, out.width, out.height);
+  fillFramedBackground(ctx, out.width, out.height, style);
 
   const qrX = pad;
   const qrY = pad;
-  ctx.drawImage(qrCanvas, qrX, qrY);
-
   const frameColor = style.frameColor || style.fgColor;
+
+  if (style.frameStyle === 'shadow' || style.frameStyle === 'sticker') {
+    ctx.save();
+    ctx.shadowColor = style.frameStyle === 'shadow' ? 'rgba(0,0,0,0.28)' : 'rgba(0,0,0,0.14)';
+    ctx.shadowBlur = style.frameStyle === 'shadow' ? 22 : 14;
+    ctx.shadowOffsetY = style.frameStyle === 'shadow' ? 10 : 5;
+    const cardH = qrCanvas.height + 16 + (showLabelBar ? badgeH : 0);
+    roundRect(ctx, qrX - 8, qrY - 8, qrCanvas.width + 16, cardH, 20);
+    if (style.frameStyle === 'sticker') {
+      const stickerGrad = ctx.createLinearGradient(0, qrY - 8, 0, qrY + cardH);
+      stickerGrad.addColorStop(0, '#ffffff');
+      stickerGrad.addColorStop(1, style.bgColor);
+      ctx.fillStyle = stickerGrad;
+    } else {
+      ctx.fillStyle = '#ffffff';
+    }
+    ctx.fill();
+    ctx.restore();
+  }
+
+  if (style.frameStyle !== 'scan-me') {
+    ctx.drawImage(qrCanvas, qrX, qrY);
+  }
 
   if (style.frameStyle === 'border') {
     ctx.strokeStyle = frameColor;
@@ -85,41 +158,53 @@ function applyFrame(
   }
 
   if (style.frameStyle === 'rounded') {
-    const rx = pad - 6;
-    const ry = pad - 6;
-    const rw = qrCanvas.width + 12;
-    const rh = qrCanvas.height + 12;
     ctx.strokeStyle = frameColor;
     ctx.lineWidth = 5;
-    roundRect(ctx, rx, ry, rw, rh, 18);
+    roundRect(ctx, pad - 6, pad - 6, qrCanvas.width + 12, qrCanvas.height + 12, 18);
+    ctx.stroke();
+  }
+
+  if (style.frameStyle === 'double') {
+    ctx.strokeStyle = frameColor;
+    ctx.lineWidth = 4;
+    roundRect(ctx, pad - 10, pad - 10, qrCanvas.width + 20, qrCanvas.height + 20, 12);
+    ctx.stroke();
+    ctx.strokeStyle = style.fgColor;
+    ctx.lineWidth = 2;
+    roundRect(ctx, pad - 5, pad - 5, qrCanvas.width + 10, qrCanvas.height + 10, 8);
+    ctx.stroke();
+  }
+
+  if (style.frameStyle === 'coupon') {
+    ctx.setLineDash([8, 5]);
+    ctx.strokeStyle = frameColor;
+    ctx.lineWidth = 2;
+    roundRect(ctx, pad - 6, pad - 6, qrCanvas.width + 12, qrCanvas.height + 12 + (showLabelBar ? badgeH : 0), 6);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    const midY = pad + qrCanvas.height / 2;
+    for (const nx of [pad - 6, pad + qrCanvas.width + 6]) {
+      ctx.beginPath();
+      ctx.arc(nx, midY, 7, 0, Math.PI * 2);
+      ctx.fillStyle = style.backgroundGradientEnabled && style.backgroundGradientColor2
+        ? style.backgroundGradientColor2
+        : style.bgColor;
+      ctx.fill();
+      ctx.strokeStyle = frameColor;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+  }
+
+  if (style.frameStyle === 'sticker') {
+    ctx.strokeStyle = 'rgba(0,0,0,0.06)';
+    ctx.lineWidth = 1;
+    roundRect(ctx, qrX - 8, qrY - 8, qrCanvas.width + 16, qrCanvas.height + 16 + (showLabelBar ? badgeH : 0), 20);
     ctx.stroke();
   }
 
   if (showLabelBar) {
-    const barY = pad + qrCanvas.height + (style.frameStyle === 'scan-me' ? 8 : 0);
-    const barH = badgeH - (style.frameStyle === 'scan-me' ? 8 : 0);
-    ctx.fillStyle = frameColor;
-    if (style.frameStyle === 'scan-me') {
-      roundRect(ctx, pad - 4, pad - 4, qrCanvas.width + 8, qrCanvas.height + barH + 16, 16);
-      ctx.fill();
-      ctx.drawImage(qrCanvas, qrX, qrY);
-    } else if (style.frameStyle === 'badge' || style.frameStyle === 'border' || style.frameStyle === 'rounded') {
-      ctx.fillRect(pad, barY, qrCanvas.width, barH);
-    }
-
-    ctx.fillStyle = style.frameTextColor;
-    const fontSize = Math.max(10, Math.round(barH * 0.42));
-    ctx.font = `bold ${fontSize}px system-ui, -apple-system, sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    const label = (style.frameText || 'Scan me').trim().slice(0, 32);
-    if (!skipFrameText) {
-      ctx.fillText(
-        label,
-        out.width / 2,
-        barY + barH / 2 + (style.frameStyle === 'scan-me' ? 4 : 0)
-      );
-    }
+    drawLabelBar(ctx, style, out.width, pad, qrCanvas, badgeH, skipFrameText);
   }
 
   return out;

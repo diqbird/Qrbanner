@@ -8,7 +8,10 @@ export type PrintTemplateId =
   | 'a5-flyer'
   | 'desk-stand'
   | 'rollup'
-  | 'story';
+  | 'story'
+  | 'business-card'
+  | 'sticker'
+  | 'table-card';
 
 export interface PrintTemplate {
   id: PrintTemplateId;
@@ -16,15 +19,21 @@ export interface PrintTemplate {
   description: string;
   width: number;
   height: number;
+  /** Typical physical size label for UI */
+  physicalSize?: string;
+  useCase?: string;
 }
 
 export const PRINT_TEMPLATES: PrintTemplate[] = [
-  { id: 'a4-portrait', name: 'A4 Poster', description: '210 × 297 mm — wall & window', width: 1240, height: 1754 },
-  { id: 'a4-landscape', name: 'A4 Landscape', description: '297 × 210 mm — horizontal', width: 1754, height: 1240 },
-  { id: 'a5-flyer', name: 'A5 Flyer', description: '148 × 210 mm — handouts', width: 874, height: 1240 },
-  { id: 'desk-stand', name: 'Desk Stand', description: 'Table tent — fold & stand', width: 1240, height: 1754 },
-  { id: 'rollup', name: 'Roll-up Preview', description: '85 × 200 cm scaled preview', width: 850, height: 2000 },
-  { id: 'story', name: 'Story / Vertical', description: '1080 × 1920 — social & displays', width: 1080, height: 1920 },
+  { id: 'a4-portrait', name: 'A4 Poster', description: '210 × 297 mm — wall & window', physicalSize: 'A4', useCase: 'Poster, window, entrance', width: 1240, height: 1754 },
+  { id: 'a4-landscape', name: 'A4 Landscape', description: '297 × 210 mm — yard signs & horizontal', physicalSize: 'A4 landscape', useCase: 'Yard sign, truck decal', width: 1754, height: 1240 },
+  { id: 'a5-flyer', name: 'A5 Flyer', description: '148 × 210 mm — handouts & inserts', physicalSize: 'A5', useCase: 'Flyer, invitation insert', width: 874, height: 1240 },
+  { id: 'desk-stand', name: 'Desk Stand', description: 'Table tent — fold & stand', physicalSize: 'A4 tent', useCase: 'Restaurant table, lobby', width: 1240, height: 1754 },
+  { id: 'rollup', name: 'Roll-up Preview', description: '85 × 200 cm scaled preview', physicalSize: '85×200 cm', useCase: 'Event entrance, trade show', width: 850, height: 2000 },
+  { id: 'story', name: 'Story / Vertical', description: '1080 × 1920 — social & displays', physicalSize: '9:16', useCase: 'Instagram story, digital screen', width: 1080, height: 1920 },
+  { id: 'business-card', name: 'Business Card', description: '85 × 55 mm — contact & networking', physicalSize: '85×55 mm', useCase: 'Business card, badge', width: 1050, height: 650 },
+  { id: 'sticker', name: 'Sticker / Label', description: '76 × 76 mm — packaging & shelf', physicalSize: '3×3 in', useCase: 'Product label, Wi‑Fi sticker', width: 900, height: 900 },
+  { id: 'table-card', name: 'Table Card', description: '100 × 150 mm — counter & mirror cling', physicalSize: '100×150 mm', useCase: 'Café counter, salon reception', width: 800, height: 1200 },
 ];
 
 export interface PrintBannerOptions {
@@ -95,6 +104,188 @@ function drawRoundedRect(
 }
 
 export async function renderPrintBanner(options: PrintBannerOptions): Promise<HTMLCanvasElement> {
+  if (options.templateId === 'business-card') {
+    return renderBusinessCardBanner(options);
+  }
+  if (options.templateId === 'sticker') {
+    return renderStickerBanner(options);
+  }
+  if (options.templateId === 'table-card') {
+    return renderTableCardBanner(options);
+  }
+  return renderStandardPrintBanner(options);
+}
+
+async function renderBusinessCardBanner(options: PrintBannerOptions): Promise<HTMLCanvasElement> {
+  const tpl = getTemplate('business-card');
+  const canvas = document.createElement('canvas');
+  canvas.width = tpl.width;
+  canvas.height = tpl.height;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('Canvas not supported');
+
+  const accent = options.accentColor || '#0071e3';
+  const pad = tpl.width * 0.08;
+  fillPrintBackground(ctx, tpl.width, tpl.height, options);
+
+  ctx.fillStyle = accent;
+  ctx.fillRect(0, 0, tpl.width * 0.04, tpl.height);
+
+  const qrSize = Math.round(tpl.height * 0.7);
+  const qrX = tpl.width - qrSize - pad;
+  const qrY = (tpl.height - qrSize) / 2;
+  const qrStyle = normalizeQRStyle({
+    ...options.style,
+    fgColor: options.fgColor,
+    bgColor: options.bgColor,
+    errorCorrection: options.style?.errorCorrection ?? 'H',
+  });
+  const qrCanvas = await drawQr(options.qrContent, qrSize, qrStyle, options.logoDataUrl);
+  ctx.drawImage(qrCanvas, qrX, qrY, qrSize, qrSize);
+
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#1d1d1f';
+  ctx.font = `bold ${Math.round(tpl.height * 0.11)}px -apple-system, sans-serif`;
+  const title = options.title || 'Scan Me';
+  wrapText(ctx, title, qrX - pad * 2).slice(0, 2).forEach((line, i) => {
+    ctx.fillText(line, pad, tpl.height * 0.28 + i * tpl.height * 0.14);
+  });
+
+  if (options.subtitle) {
+    ctx.fillStyle = '#6e6e73';
+    ctx.font = `${Math.round(tpl.height * 0.065)}px -apple-system, sans-serif`;
+    wrapText(ctx, options.subtitle, qrX - pad * 2).slice(0, 2).forEach((line, i) => {
+      ctx.fillText(line, pad, tpl.height * 0.55 + i * tpl.height * 0.09);
+    });
+  }
+
+  ctx.fillStyle = '#aeaeb2';
+  ctx.font = `${Math.round(tpl.height * 0.045)}px -apple-system, sans-serif`;
+  ctx.fillText('qrbanner.com', pad, tpl.height - pad * 0.6);
+  return canvas;
+}
+
+async function renderStickerBanner(options: PrintBannerOptions): Promise<HTMLCanvasElement> {
+  const tpl = getTemplate('sticker');
+  const canvas = document.createElement('canvas');
+  canvas.width = tpl.width;
+  canvas.height = tpl.height;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('Canvas not supported');
+
+  const accent = options.accentColor || '#0071e3';
+  fillPrintBackground(ctx, tpl.width, tpl.height, options);
+
+  ctx.strokeStyle = accent;
+  ctx.lineWidth = 6;
+  ctx.strokeRect(8, 8, tpl.width - 16, tpl.height - 16);
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#1d1d1f';
+  ctx.font = `bold ${Math.round(tpl.width * 0.055)}px -apple-system, sans-serif`;
+  ctx.fillText((options.title || 'Scan Me').slice(0, 24), tpl.width / 2, tpl.width * 0.1);
+
+  const qrSize = Math.round(tpl.width * 0.58);
+  const qrY = tpl.width * 0.16;
+  const qrStyle = normalizeQRStyle({
+    ...options.style,
+    fgColor: options.fgColor,
+    bgColor: options.bgColor,
+    errorCorrection: 'H',
+    margin: 10,
+  });
+  const qrCanvas = await drawQr(options.qrContent, qrSize, qrStyle, options.logoDataUrl);
+  ctx.drawImage(qrCanvas, (tpl.width - qrSize) / 2, qrY, qrSize, qrSize);
+
+  ctx.fillStyle = accent;
+  ctx.font = `600 ${Math.round(tpl.width * 0.038)}px -apple-system, sans-serif`;
+  ctx.fillText('Scan with camera', tpl.width / 2, qrY + qrSize + tpl.width * 0.08);
+
+  ctx.fillStyle = '#86868b';
+  ctx.font = `${Math.round(tpl.width * 0.028)}px -apple-system, sans-serif`;
+  if (options.subtitle) {
+    wrapText(ctx, options.subtitle, tpl.width * 0.85).slice(0, 2).forEach((line, i) => {
+      ctx.fillText(line, tpl.width / 2, qrY + qrSize + tpl.width * 0.14 + i * tpl.width * 0.05);
+    });
+  }
+
+  return canvas;
+}
+
+async function renderTableCardBanner(options: PrintBannerOptions): Promise<HTMLCanvasElement> {
+  const tpl = getTemplate('table-card');
+  const canvas = document.createElement('canvas');
+  canvas.width = tpl.width;
+  canvas.height = tpl.height;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('Canvas not supported');
+
+  const accent = options.accentColor || '#0071e3';
+  const pad = tpl.width * 0.1;
+  fillPrintBackground(ctx, tpl.width, tpl.height, options);
+
+  ctx.fillStyle = accent;
+  ctx.fillRect(0, 0, tpl.width, tpl.height * 0.018);
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#1d1d1f';
+  ctx.font = `bold ${Math.round(tpl.width * 0.085)}px -apple-system, sans-serif`;
+  wrapText(ctx, options.title || 'Scan Me', tpl.width - pad * 2).slice(0, 2).forEach((line, i) => {
+    ctx.fillText(line, tpl.width / 2, tpl.height * 0.12 + i * tpl.width * 0.1);
+  });
+
+  if (options.subtitle) {
+    ctx.fillStyle = '#6e6e73';
+    ctx.font = `${Math.round(tpl.width * 0.042)}px -apple-system, sans-serif`;
+    wrapText(ctx, options.subtitle, tpl.width - pad * 2).slice(0, 2).forEach((line, i) => {
+      ctx.fillText(line, tpl.width / 2, tpl.height * 0.26 + i * tpl.width * 0.055);
+    });
+  }
+
+  const qrSize = Math.min(tpl.width * 0.55, tpl.height * 0.38);
+  const qrStyle = normalizeQRStyle({
+    ...options.style,
+    fgColor: options.fgColor,
+    bgColor: options.bgColor,
+    errorCorrection: options.style?.errorCorrection ?? 'H',
+  });
+  const qrCanvas = await drawQr(options.qrContent, qrSize, qrStyle, options.logoDataUrl);
+  const qrY = tpl.height * 0.34;
+  ctx.drawImage(qrCanvas, (tpl.width - qrSize) / 2, qrY, qrSize, qrSize);
+
+  ctx.fillStyle = accent;
+  ctx.font = `600 ${Math.round(tpl.width * 0.04)}px -apple-system, sans-serif`;
+  ctx.fillText('Scan with your camera', tpl.width / 2, qrY + qrSize + tpl.width * 0.1);
+
+  ctx.fillStyle = '#aeaeb2';
+  ctx.font = `${Math.round(tpl.width * 0.03)}px -apple-system, sans-serif`;
+  ctx.fillText('qrbanner.com', tpl.width / 2, tpl.height - pad * 0.5);
+  return canvas;
+}
+
+function fillPrintBackground(
+  ctx: CanvasRenderingContext2D,
+  w: number,
+  h: number,
+  options: PrintBannerOptions
+) {
+  const bg2 = options.style?.backgroundGradientColor2 ?? '#f0f4ff';
+  if (options.style?.backgroundGradientEnabled) {
+    const grad = ctx.createLinearGradient(0, 0, w, h);
+    grad.addColorStop(0, options.bgColor || '#ffffff');
+    grad.addColorStop(0.5, bg2);
+    grad.addColorStop(1, '#ffffff');
+    ctx.fillStyle = grad;
+  } else {
+    const grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, '#f5f5f7');
+    grad.addColorStop(1, '#ffffff');
+    ctx.fillStyle = grad;
+  }
+  ctx.fillRect(0, 0, w, h);
+}
+
+async function renderStandardPrintBanner(options: PrintBannerOptions): Promise<HTMLCanvasElement> {
   const tpl = getTemplate(options.templateId);
   const canvas = document.createElement('canvas');
   canvas.width = tpl.width;
@@ -105,12 +296,7 @@ export async function renderPrintBanner(options: PrintBannerOptions): Promise<HT
   const accent = options.accentColor || '#0071e3';
   const pad = tpl.width * 0.08;
 
-  // Background gradient
-  const grad = ctx.createLinearGradient(0, 0, 0, tpl.height);
-  grad.addColorStop(0, '#f5f5f7');
-  grad.addColorStop(1, '#ffffff');
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, tpl.width, tpl.height);
+  fillPrintBackground(ctx, tpl.width, tpl.height, options);
 
   // Accent bar
   ctx.fillStyle = accent;

@@ -1,5 +1,9 @@
 import type { QRStyleConfig } from '@/lib/qr-style';
 import type { LandingPageData, LeadFormConfig } from '@/lib/landing-page';
+import { buildDesignProfile, type TemplateDesignProfile } from '@/lib/template-design-standards';
+import { INDUSTRY_VISUAL_PRESET_MAP, mergeIndustryVisualStyle } from '@/lib/visual-qr-presets';
+import { getPrintLayoutForIndustry, type IndustryPrintLayout } from '@/lib/industry-print-layouts';
+import { ARCHETYPE_INDUSTRY_TEMPLATES } from '@/lib/industry-archetype-templates';
 
 export type TemplateFieldType =
   | 'text'
@@ -45,6 +49,12 @@ export interface IndustryTemplate {
     leadFormEnabled?: boolean;
     leadForm?: Partial<LeadFormConfig>;
   };
+  /** Populated at runtime via getTemplateById — master-prompt design metadata */
+  designProfile?: TemplateDesignProfile;
+  /** Linked professional visual preset */
+  visualPresetId?: string;
+  /** Recommended print banner layout — populated via getTemplateById */
+  printLayout?: IndustryPrintLayout;
 }
 
 export const INDUSTRY_TEMPLATES: IndustryTemplate[] = [
@@ -741,6 +751,618 @@ export const INDUSTRY_TEMPLATES: IndustryTemplate[] = [
       },
     },
   },
+
+  {
+    id: 'wifi-guest',
+    name: 'Guest Wi‑Fi',
+    category: 'wifi',
+    tagline: 'Lobby and room cards — connect without typing passwords',
+    description: 'Cafés, hotels, rentals and offices share guest network access in one scan.',
+    useCases: ['Hotel room folder', 'Café counter tent', 'Co-working lobby', 'Airbnb welcome card'],
+    suggestedQrName: 'Guest Wi‑Fi',
+    qrData: { ssid: '', password: '', encryption: 'WPA', _venueName: '' },
+    style: {
+      fgColor: '#0369a1',
+      bgColor: '#f0f9ff',
+      dotStyle: 'rounded',
+      frameStyle: 'badge',
+      frameText: 'JOIN Wi‑Fi',
+      errorCorrection: 'H',
+    },
+    sections: [
+      {
+        id: 'venue',
+        title: 'Venue label',
+        description: 'Printed name on your Wi‑Fi sign — not encoded in the QR.',
+        fields: [
+          { key: '_venueName', label: 'Venue name', placeholder: 'e.g. Harbor Hotel Lobby', type: 'text' },
+        ],
+      },
+      {
+        id: 'network',
+        title: 'Guest network',
+        description: 'SSID, password and security type for automatic join.',
+        fields: [
+          { key: 'ssid', label: 'Network name (SSID)', placeholder: 'Guest_WiFi', required: true, type: 'text' },
+          { key: 'password', label: 'Password', placeholder: 'guest2026', type: 'text' },
+          {
+            key: 'encryption',
+            label: 'Security type',
+            type: 'select',
+            options: [
+              { value: 'WPA', label: 'WPA / WPA2' },
+              { value: 'WEP', label: 'WEP' },
+              { value: 'nopass', label: 'Open (no password)' },
+            ],
+          },
+        ],
+      },
+    ],
+    tips: [
+      'Use a guest VLAN isolated from your business network.',
+      'Rotate passwords monthly in high-traffic venues.',
+      'Print at least 3×3 cm for lobby stands.',
+    ],
+  },
+
+  {
+    id: 'retail-stores',
+    name: 'Retail & In-Store',
+    category: 'url',
+    tagline: 'Shelf talkers and packaging → product pages and promos',
+    description: 'Link packaging, displays and window signs to live product or offer pages.',
+    useCases: ['Shelf talker', 'Product hang tag', 'Window display', 'Loyalty signup'],
+    suggestedQrName: 'Retail Promo — Spring Sale',
+    qrData: { url: 'https://yourstore.com/promo', _productName: '', _campaign: '', _storeLocation: '' },
+    style: {
+      fgColor: '#7c3aed',
+      bgColor: '#faf5ff',
+      dotStyle: 'rounded',
+      frameStyle: 'scan-me',
+      frameText: 'SHOP NOW',
+      gradientEnabled: true,
+      gradientColor2: '#a78bfa',
+    },
+    sections: [
+      {
+        id: 'product',
+        title: 'Product or promo link',
+        description: 'Destination shoppers land on after scanning.',
+        fields: [
+          { key: 'url', label: 'Promo or product URL', placeholder: 'https://yourstore.com/spring-sale', required: true, type: 'url' },
+        ],
+      },
+      {
+        id: 'campaign',
+        title: 'Campaign tracking',
+        description: 'Internal labels for analytics and batches.',
+        fields: [
+          { key: '_productName', label: 'Product or SKU', placeholder: 'Organic olive oil 500ml', type: 'text' },
+          { key: '_campaign', label: 'Campaign', placeholder: 'Spring 2026 window', type: 'text' },
+          { key: '_storeLocation', label: 'Store / aisle', placeholder: 'Downtown · Aisle 4', type: 'text' },
+        ],
+      },
+    ],
+    tips: [
+      'UTM tags: source=qr_shelf, medium=print.',
+      'Bulk CSV import for hundreds of SKUs.',
+      'Schedule promo URL swaps by date.',
+    ],
+  },
+
+  {
+    id: 'hotels-hospitality',
+    name: 'Hotel & Hospitality',
+    category: 'link_hub',
+    tagline: 'One scan — Wi‑Fi, menus, spa and local guide',
+    description: 'Guest hub for rooms, lobbies and pool areas.',
+    useCases: ['Room tent card', 'Lobby directory', 'Pool signage', 'Spa menu stand'],
+    suggestedQrName: 'Guest Hub — Main Lobby',
+    qrData: { url: '' },
+    style: {
+      fgColor: '#1e40af',
+      bgColor: '#eff6ff',
+      dotStyle: 'classy-rounded',
+      frameStyle: 'badge',
+      frameText: 'GUEST INFO',
+      gradientEnabled: true,
+      gradientColor2: '#3b82f6',
+    },
+    sections: [
+      {
+        id: 'property',
+        title: 'Property identity',
+        description: 'Shown on the guest hub landing page.',
+        fields: [
+          { key: '_propertyName', label: 'Property name', placeholder: 'Harbor Bay Hotel', type: 'text' },
+        ],
+      },
+    ],
+    tips: [
+      'Update seasonal spa and restaurant links without reprinting.',
+      'Add language routing for international guests.',
+      'Use hotel landing template for elegant branding.',
+    ],
+    landingPage: {
+      enabled: true,
+      template: 'hotel',
+      title: 'Welcome',
+      subtitle: 'Everything you need during your stay',
+      accentColor: '#1e40af',
+      ctaLabel: 'Explore',
+      hubMode: true,
+      hubLinks: [
+        { label: 'Guest Wi‑Fi', url: 'https://yourhotel.com/wifi' },
+        { label: 'Room Service Menu', url: 'https://yourhotel.com/menu' },
+        { label: 'Spa & Amenities', url: 'https://yourhotel.com/spa' },
+        { label: 'Local Guide', url: 'https://yourhotel.com/guide' },
+      ],
+    },
+  },
+
+  {
+    id: 'healthcare-clinics',
+    name: 'Healthcare & Clinic',
+    category: 'url',
+    tagline: 'Patient intake and education — no paper stacks',
+    description: 'Waiting room QR to forms, booking and care instructions.',
+    useCases: ['Waiting room poster', 'Check-in desk', 'Exam room handout', 'Post-visit care'],
+    suggestedQrName: 'Patient Portal — Main Clinic',
+    qrData: { url: 'https://yourclinic.com/intake', _clinicName: '', _department: '' },
+    style: {
+      fgColor: '#0d9488',
+      bgColor: '#f0fdfa',
+      dotStyle: 'rounded',
+      frameStyle: 'badge',
+      frameText: 'PATIENT INFO',
+    },
+    sections: [
+      {
+        id: 'portal',
+        title: 'Patient destination',
+        description: 'Intake form, booking page or education PDF on your portal.',
+        fields: [
+          { key: 'url', label: 'Portal URL', placeholder: 'https://yourclinic.com/intake', required: true, type: 'url' },
+        ],
+      },
+      {
+        id: 'clinic',
+        title: 'Clinic details',
+        description: 'Landing page context — not encoded in the QR link.',
+        fields: [
+          { key: '_clinicName', label: 'Clinic name', placeholder: 'Westside Family Medicine', type: 'text' },
+          { key: '_department', label: 'Department', placeholder: 'Pediatrics / Urgent care', type: 'text' },
+        ],
+      },
+    ],
+    tips: [
+      'Never put PHI in the QR URL — link to your compliant portal.',
+      'Password-protect staff-only flows.',
+      'Update forms when protocols change — same printed QR.',
+    ],
+    landingPage: {
+      enabled: true,
+      template: 'business',
+      title: 'Patient Resources',
+      subtitle: 'Forms, appointments and care instructions',
+      accentColor: '#0d9488',
+      ctaLabel: 'Continue',
+    },
+  },
+
+  {
+    id: 'museums-venues',
+    name: 'Museum & Venue',
+    category: 'url',
+    tagline: 'Exhibit labels → audio, tickets and donations',
+    description: 'Gallery and venue QR for rich media and timed entry.',
+    useCases: ['Exhibit plaque', 'Gallery zone sign', 'Donation stand', 'Timed-entry gate'],
+    suggestedQrName: 'Exhibit — Gallery 3',
+    qrData: { url: 'https://yourmuseum.com/exhibit/3', _exhibitTitle: '', _gallery: '' },
+    style: {
+      fgColor: '#78350f',
+      bgColor: '#fffbeb',
+      dotStyle: 'square',
+      frameStyle: 'scan-me',
+      frameText: 'LEARN MORE',
+    },
+    sections: [
+      {
+        id: 'exhibit',
+        title: 'Exhibit destination',
+        description: 'Audio guide, video, ticket page or donation link.',
+        fields: [
+          { key: 'url', label: 'Exhibit URL', placeholder: 'https://yourmuseum.com/exhibit/renaissance', required: true, type: 'url' },
+        ],
+      },
+      {
+        id: 'label',
+        title: 'Exhibit label',
+        description: 'Title shown on landing before redirect.',
+        fields: [
+          { key: '_exhibitTitle', label: 'Exhibit title', placeholder: 'Renaissance Masters', type: 'text' },
+          { key: '_gallery', label: 'Gallery / zone', placeholder: 'Gallery 3 · East Wing', type: 'text' },
+        ],
+      },
+    ],
+    tips: [
+      'Multilingual routing by visitor country.',
+      'Track popular exhibits by scan volume.',
+      'Minimum 2×2 cm at arm\'s length viewing distance.',
+    ],
+    landingPage: {
+      enabled: true,
+      template: 'minimal',
+      title: 'Exhibit Guide',
+      subtitle: 'Audio, video and extended content',
+      accentColor: '#78350f',
+      ctaLabel: 'Open Guide',
+    },
+  },
+
+  {
+    id: 'fitness-gyms',
+    name: 'Fitness & Gym',
+    category: 'url',
+    tagline: 'Class schedules and memberships from the lobby',
+    description: 'Studios and gyms link posters to timetables and signup.',
+    useCases: ['Lobby schedule board', 'Equipment zone', 'Trainer poster', 'Trial pass promo'],
+    suggestedQrName: 'Class Schedule — Downtown Gym',
+    qrData: { url: 'https://yourgym.com/schedule', _gymName: '', _trialOffer: '' },
+    style: {
+      fgColor: '#dc2626',
+      bgColor: '#fef2f2',
+      dotStyle: 'rounded',
+      frameStyle: 'badge',
+      frameText: 'JOIN NOW',
+      gradientEnabled: true,
+      gradientColor2: '#f97316',
+    },
+    sections: [
+      {
+        id: 'schedule',
+        title: 'Schedule or signup',
+        description: 'Live class timetable, membership or trial page.',
+        fields: [
+          { key: 'url', label: 'Schedule URL', placeholder: 'https://yourgym.com/schedule', required: true, type: 'url' },
+        ],
+      },
+      {
+        id: 'gym',
+        title: 'Gym branding',
+        description: 'Landing page headline and promo line.',
+        fields: [
+          { key: '_gymName', label: 'Gym / studio name', placeholder: 'IronWorks Fitness', type: 'text' },
+          { key: '_trialOffer', label: 'Trial offer', placeholder: '7-day free pass', type: 'text' },
+        ],
+      },
+    ],
+    tips: [
+      'Update weekly class changes without new posters.',
+      'Equipment zone QR → how-to video for each machine.',
+      'Geofence routing for multi-location chains.',
+    ],
+    landingPage: {
+      enabled: true,
+      template: 'business',
+      title: 'Class Schedule',
+      subtitle: 'Book your next session',
+      accentColor: '#dc2626',
+      ctaLabel: 'View Schedule',
+    },
+  },
+
+  {
+    id: 'salon-spa',
+    name: 'Salon & Spa',
+    category: 'url',
+    tagline: 'Booking and service menus from mirror clings',
+    description: 'Salons link reception QR to live booking and retail offers.',
+    useCases: ['Mirror cling', 'Reception desk', 'Stylist card', 'Retail shelf'],
+    suggestedQrName: 'Book Appointment — Main Salon',
+    qrData: { url: 'https://yoursalon.com/book', _salonName: '', _topService: '' },
+    style: {
+      fgColor: '#be185d',
+      bgColor: '#fdf2f8',
+      dotStyle: 'extra-rounded',
+      cornerStyle: 'extra-rounded',
+      frameStyle: 'rounded',
+      frameText: 'BOOK NOW',
+    },
+    sections: [
+      {
+        id: 'booking',
+        title: 'Booking link',
+        description: 'Online scheduler or service menu page.',
+        fields: [
+          { key: 'url', label: 'Booking URL', placeholder: 'https://yoursalon.com/book', required: true, type: 'url' },
+        ],
+      },
+      {
+        id: 'salon',
+        title: 'Salon details',
+        description: 'Brand line on landing page.',
+        fields: [
+          { key: '_salonName', label: 'Salon name', placeholder: 'Luxe Hair & Spa', type: 'text' },
+          { key: '_topService', label: 'Featured service', placeholder: 'Balayage · Gel manicure', type: 'text' },
+        ],
+      },
+    ],
+    tips: [
+      'Seasonal promo swaps without reprinting clings.',
+      'Lead form for bridal and event packages.',
+      'Stylist-specific URLs for commission tracking.',
+    ],
+    landingPage: {
+      enabled: true,
+      template: 'business',
+      title: 'Book Your Visit',
+      subtitle: 'Services, stylists and seasonal offers',
+      accentColor: '#be185d',
+      ctaLabel: 'Book Now',
+      leadFormEnabled: true,
+      leadForm: { collectName: true, collectEmail: true, collectPhone: true, requiredEmail: true },
+    },
+  },
+
+  {
+    id: 'nonprofit-fundraising',
+    name: 'Nonprofit & Fundraising',
+    category: 'url',
+    tagline: 'Donate, volunteer and sign up from printed collateral',
+    description: 'Galas, drives and mailers link to donation and volunteer pages.',
+    useCases: ['Gala table tent', 'Direct mail insert', 'Event poster', 'Volunteer booth'],
+    suggestedQrName: 'Donate — Annual Gala 2026',
+    qrData: { url: 'https://yourcharity.org/donate', _orgName: '', _campaign: '' },
+    style: {
+      fgColor: '#b91c1c',
+      bgColor: '#fef2f2',
+      dotStyle: 'rounded',
+      frameStyle: 'badge',
+      frameText: 'DONATE',
+      errorCorrection: 'H',
+    },
+    sections: [
+      {
+        id: 'donate',
+        title: 'Donation or signup',
+        description: 'Givebutter, Stripe, volunteer form or impact report.',
+        fields: [
+          { key: 'url', label: 'Campaign URL', placeholder: 'https://yourcharity.org/gala-2026', required: true, type: 'url' },
+        ],
+      },
+      {
+        id: 'org',
+        title: 'Organization',
+        description: 'Campaign name on landing page.',
+        fields: [
+          { key: '_orgName', label: 'Organization', placeholder: 'Community Garden Alliance', type: 'text' },
+          { key: '_campaign', label: 'Campaign', placeholder: 'Spring planting drive 2026', type: 'text' },
+        ],
+      },
+    ],
+    tips: [
+      'Swap donation URLs between campaigns — same poster QR.',
+      'Track table tents vs posters by batch label.',
+      'A/B test donation page copy on landing.',
+    ],
+    landingPage: {
+      enabled: true,
+      template: 'event',
+      title: 'Support Our Mission',
+      subtitle: 'Every gift makes a difference',
+      accentColor: '#b91c1c',
+      ctaLabel: 'Donate Now',
+    },
+  },
+
+  {
+    id: 'dental-clinics',
+    name: 'Dental Practice',
+    category: 'url',
+    tagline: 'Intake, booking and aftercare from chairside',
+    description: 'Reception and appointment cards link to patient flows.',
+    useCases: ['Reception poster', 'Appointment reminder card', 'Chairside aftercare', 'Whitening promo'],
+    suggestedQrName: 'Patient Intake — Main Office',
+    qrData: { url: 'https://yourdental.com/intake', _practiceName: '', _servicePromo: '' },
+    style: {
+      fgColor: '#0891b2',
+      bgColor: '#ecfeff',
+      dotStyle: 'rounded',
+      frameStyle: 'badge',
+      frameText: 'PATIENT CARE',
+    },
+    sections: [
+      {
+        id: 'intake',
+        title: 'Patient destination',
+        description: 'Intake form, booking or aftercare instructions.',
+        fields: [
+          { key: 'url', label: 'Patient URL', placeholder: 'https://yourdental.com/intake', required: true, type: 'url' },
+        ],
+      },
+      {
+        id: 'practice',
+        title: 'Practice details',
+        description: 'Landing page context.',
+        fields: [
+          { key: '_practiceName', label: 'Practice name', placeholder: 'Bright Smile Dental', type: 'text' },
+          { key: '_servicePromo', label: 'Current promo', placeholder: 'Free whitening consult', type: 'text' },
+        ],
+      },
+    ],
+    tips: [
+      'Link to HIPAA-compliant portal — no PHI in QR.',
+      'Aftercare PDF patients can save to photos.',
+      'Promote hygiene specials on seasonal cards.',
+    ],
+    landingPage: {
+      enabled: true,
+      template: 'business',
+      title: 'Patient Resources',
+      subtitle: 'Intake, booking and aftercare',
+      accentColor: '#0891b2',
+      ctaLabel: 'Get Started',
+    },
+  },
+
+  {
+    id: 'home-services',
+    name: 'Home Services',
+    category: 'url',
+    tagline: 'Truck decals and yard signs → booking and reviews',
+    description: 'HVAC, plumbing and contractors capture leads from the field.',
+    useCases: ['Truck decal', 'Yard sign', 'Door hanger', 'Job site sign'],
+    suggestedQrName: 'Request Service — HVAC',
+    qrData: { url: 'https://yourcompany.com/book', _companyName: '', _serviceArea: '', _seasonalPromo: '' },
+    style: {
+      fgColor: '#ea580c',
+      bgColor: '#fff7ed',
+      dotStyle: 'square',
+      frameStyle: 'scan-me',
+      frameText: 'GET QUOTE',
+    },
+    sections: [
+      {
+        id: 'booking',
+        title: 'Service request',
+        description: 'Online scheduler, estimate form or promo landing.',
+        fields: [
+          { key: 'url', label: 'Booking URL', placeholder: 'https://yourcompany.com/estimate', required: true, type: 'url' },
+        ],
+      },
+      {
+        id: 'company',
+        title: 'Company details',
+        description: 'Brand and territory for landing page.',
+        fields: [
+          { key: '_companyName', label: 'Company name', placeholder: 'CoolAir HVAC', type: 'text' },
+          { key: '_serviceArea', label: 'Service area', placeholder: 'Greater Boston', type: 'text' },
+          { key: '_seasonalPromo', label: 'Seasonal offer', placeholder: 'AC tune-up $79', type: 'text' },
+        ],
+      },
+    ],
+    tips: [
+      'Per-technician QR for territory tracking.',
+      'Rotate seasonal promos on same truck decal.',
+      'Webhook to CRM when lead form submits.',
+    ],
+    landingPage: {
+      enabled: true,
+      template: 'business',
+      title: 'Request Service',
+      subtitle: 'Fast estimates and seasonal offers',
+      accentColor: '#ea580c',
+      ctaLabel: 'Book Now',
+      leadFormEnabled: true,
+      leadForm: { collectName: true, collectEmail: true, collectPhone: true, collectMessage: true, requiredEmail: false },
+    },
+  },
+
+  {
+    id: 'coffee-shops-cafes',
+    name: 'Coffee Shop & Café',
+    category: 'url',
+    tagline: 'Loyalty, menu and ordering from the counter',
+    description: 'Cafés link table tents to loyalty signup and seasonal menus.',
+    useCases: ['Counter tent', 'Table card', 'Takeaway cup sleeve', 'Loyalty poster'],
+    suggestedQrName: 'Café Menu — Downtown',
+    qrData: { url: 'https://yourcafe.com/menu', _cafeName: '', _loyaltyNote: '' },
+    style: {
+      fgColor: '#92400e',
+      bgColor: '#fffbeb',
+      dotStyle: 'rounded',
+      frameStyle: 'badge',
+      frameText: 'ORDER',
+      gradientEnabled: true,
+      gradientColor2: '#d97706',
+    },
+    sections: [
+      {
+        id: 'menu',
+        title: 'Menu or loyalty',
+        description: 'Digital menu, loyalty signup or mobile order page.',
+        fields: [
+          { key: 'url', label: 'Menu / loyalty URL', placeholder: 'https://yourcafe.com/menu', required: true, type: 'url' },
+        ],
+      },
+      {
+        id: 'cafe',
+        title: 'Café branding',
+        description: 'Name and loyalty hook on landing.',
+        fields: [
+          { key: '_cafeName', label: 'Café name', placeholder: 'Roast & Co.', type: 'text' },
+          { key: '_loyaltyNote', label: 'Loyalty hook', placeholder: 'Scan → 10% off first order', type: 'text' },
+        ],
+      },
+    ],
+    tips: [
+      'Pair with a separate Wi‑Fi QR for guest network.',
+      'Update seasonal drinks without reprinting tents.',
+      'UTM: source=qr_counter for attribution.',
+    ],
+    landingPage: {
+      enabled: true,
+      template: 'restaurant',
+      title: 'Today\'s Menu',
+      subtitle: 'Seasonal drinks and loyalty rewards',
+      accentColor: '#92400e',
+      ctaLabel: 'View Menu',
+    },
+  },
+
+  {
+    id: 'tourist-attractions',
+    name: 'Tourist Attraction',
+    category: 'url',
+    tagline: 'Entrance scan → tickets, audio and maps',
+    description: 'Landmarks and attractions guide visitors without extra hardware.',
+    useCases: ['Entrance gate', 'Trail marker', 'Ticket booth', 'Audio guide post'],
+    suggestedQrName: 'Visitor Guide — Main Entrance',
+    qrData: { url: 'https://yourattraction.com/visit', _attractionName: '', _hours: '' },
+    style: {
+      fgColor: '#15803d',
+      bgColor: '#f0fdf4',
+      dotStyle: 'rounded',
+      frameStyle: 'scan-me',
+      frameText: 'VISITOR INFO',
+      gradientEnabled: true,
+      gradientColor2: '#22c55e',
+    },
+    sections: [
+      {
+        id: 'visit',
+        title: 'Visitor destination',
+        description: 'Tickets, audio guide, map or exhibit page.',
+        fields: [
+          { key: 'url', label: 'Visitor URL', placeholder: 'https://yourattraction.com/tickets', required: true, type: 'url' },
+        ],
+      },
+      {
+        id: 'attraction',
+        title: 'Attraction details',
+        description: 'Name and hours on landing page.',
+        fields: [
+          { key: '_attractionName', label: 'Attraction name', placeholder: 'Harbor Lighthouse', type: 'text' },
+          { key: '_hours', label: 'Hours', placeholder: 'Daily 9:00–18:00', type: 'text' },
+        ],
+      },
+    ],
+    tips: [
+      'Multilingual routing for international tourists.',
+      'Per-entrance QR for crowd flow analytics.',
+      'Update hours and exhibits without reprinting signs.',
+    ],
+    landingPage: {
+      enabled: true,
+      template: 'minimal',
+      title: 'Plan Your Visit',
+      subtitle: 'Tickets, audio guides and maps',
+      accentColor: '#15803d',
+      ctaLabel: 'Get Tickets',
+    },
+  },
+  ...ARCHETYPE_INDUSTRY_TEMPLATES,
 ];
 
 export function stripMetaFields(data: Record<string, string>): Record<string, string> {
@@ -752,7 +1374,18 @@ export function stripMetaFields(data: Record<string, string>): Record<string, st
 }
 
 export function getTemplateById(id: string): IndustryTemplate | undefined {
-  return INDUSTRY_TEMPLATES.find((t) => t.id === id);
+  const template = INDUSTRY_TEMPLATES.find((t) => t.id === id);
+  if (!template) return undefined;
+  const style = mergeIndustryVisualStyle(template.id, template.style);
+  const visualPresetId = INDUSTRY_VISUAL_PRESET_MAP[template.id];
+  const printLayout = getPrintLayoutForIndustry(template.id);
+  return {
+    ...template,
+    style,
+    visualPresetId,
+    printLayout,
+    designProfile: buildDesignProfile({ ...template, style }),
+  };
 }
 
 export function validateTemplateRequiredFields(
@@ -776,7 +1409,7 @@ export function buildLandingFromTemplate(
   leadForm?: Partial<LeadFormConfig>;
 } {
   const lp = template.landingPage ?? {};
-  const metaTitle = qrData._headline ?? qrData._eventName ?? qrData._venueName ?? qrData._fullName ?? qrData.title;
+  const metaTitle = qrData._headline ?? qrData._eventName ?? qrData._venueName ?? qrData._fullName ?? qrData._propertyName ?? qrData._clinicName ?? qrData._exhibitTitle ?? qrData._gymName ?? qrData._salonName ?? qrData._orgName ?? qrData._practiceName ?? qrData._companyName ?? qrData._cafeName ?? qrData._attractionName ?? qrData.title;
   const metaSubtitle = [qrData._specialty, qrData._specs, qrData._price, qrData._eventDate, qrData._address]
     .filter(Boolean)
     .join(' · ');

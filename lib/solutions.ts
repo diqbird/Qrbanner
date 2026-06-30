@@ -103,6 +103,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Generate a Wi‑Fi QR code for guest networks. Share SSID and password securely — no more dictating passwords.',
     keywords: ['WiFi QR code generator', 'guest WiFi QR', 'Wi-Fi password QR'],
     icon: 'wifi',
+    templateId: 'wifi-guest',
     categoryId: 'wifi',
     benefits: [
       'Faster guest onboarding',
@@ -164,6 +165,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Retail QR codes for product labels, shelf displays and in-store promotions. Dynamic links, scan analytics and bulk import for chains.',
     keywords: ['retail QR code', 'in-store QR', 'product label QR', 'shelf QR code'],
     icon: 'store',
+    templateId: 'retail-stores',
     categoryId: 'url',
     benefits: [
       'Swap promo URLs without reprinting shelf materials',
@@ -194,7 +196,8 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Hotel and hospitality QR codes for guest Wi‑Fi, room directories, spa menus and local guides. Dynamic updates and multilingual routing.',
     keywords: ['hotel QR code', 'hospitality QR', 'guest room QR', 'resort QR menu'],
     icon: 'hotel',
-    categoryId: 'url',
+    templateId: 'hotels-hospitality',
+    categoryId: 'link_hub',
     benefits: [
       'Combine Wi‑Fi, menu and concierge in one hub page',
       'Route guests by language or country',
@@ -224,6 +227,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Healthcare QR codes for patient intake, appointment links and education materials. Password protection and audit-friendly analytics.',
     keywords: ['healthcare QR code', 'clinic QR', 'patient intake QR', 'hospital QR'],
     icon: 'heart-pulse',
+    templateId: 'healthcare-clinics',
     categoryId: 'url',
     benefits: [
       'Password-protected links for sensitive flows',
@@ -254,6 +258,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Museum and venue QR codes for exhibit labels, audio guides, donations and ticketing. Analytics per gallery or installation.',
     keywords: ['museum QR code', 'exhibit QR', 'venue QR', 'gallery QR label'],
     icon: 'landmark',
+    templateId: 'museums-venues',
     categoryId: 'url',
     benefits: [
       'Multilingual routing by visitor country',
@@ -284,6 +289,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Agency QR code platform with white-label, bulk import, team workspaces, API and client reporting.',
     keywords: ['agency QR codes', 'white label QR', 'QR reseller', 'marketing agency QR'],
     icon: 'megaphone',
+    templateId: 'portfolio',
     categoryId: 'url',
     benefits: [
       'Agency plan with 5,000+ codes and white-label',
@@ -314,6 +320,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Real estate QR codes for yard signs, brochures and open houses. Dynamic listing links and lead capture landing pages.',
     keywords: ['real estate QR code', 'property listing QR', 'open house QR', 'realtor QR'],
     icon: 'building',
+    templateId: 'real-estate',
     categoryId: 'url',
     benefits: [
       'Change listing URL when status updates',
@@ -344,6 +351,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'University and college QR codes for campus wayfinding, dining halls, student clubs and orientation. Dynamic links with scan analytics.',
     keywords: ['university QR code', 'campus QR', 'college QR code', 'student services QR', 'campus wayfinding QR'],
     icon: 'graduation-cap',
+    templateId: 'campus-institution',
     categoryId: 'url',
     benefits: [
       'Update orientation links between semesters',
@@ -374,6 +382,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Stadium and event venue QR codes for mobile concessions, digital programs, parking maps and sponsor offers with real-time analytics.',
     keywords: ['stadium QR code', 'event venue QR', 'sports arena QR', 'concession menu QR', 'festival QR code'],
     icon: 'trophy',
+    templateId: 'event-registration',
     categoryId: 'url',
     benefits: [
       'Change trailer and promo URLs on release day',
@@ -404,6 +413,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Government QR codes for citizen services, permit applications, public facility info and multilingual outreach with audit-friendly updates.',
     keywords: ['government QR code', 'public sector QR', 'citizen services QR', 'municipal QR code', 'agency QR'],
     icon: 'landmark',
+    templateId: 'campus-institution',
     categoryId: 'pdf',
     benefits: [
       'Update policy PDFs without new poster runs',
@@ -434,6 +444,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Supermarket and grocery QR codes for shelf talkers, loyalty programs, recipe content and weekly promotions with store-level analytics.',
     keywords: ['supermarket QR code', 'grocery QR', 'retail shelf QR', 'loyalty QR code', 'grocery promotion QR'],
     icon: 'shopping-cart',
+    templateId: 'retail-grocery',
     categoryId: 'url',
     benefits: [
       'Weekly promo swaps without reprinting shelf talkers',
@@ -464,6 +475,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Cinema and theater QR codes for showtimes, mobile ticketing, concession menus and loyalty signups with dynamic updates across multiplex locations.',
     keywords: ['cinema QR code', 'movie theater QR', 'showtime QR', 'concession menu QR', 'multiplex QR'],
     icon: 'film',
+    templateId: 'entertainment-venue',
     categoryId: 'url',
     benefits: [
       'Premiere and showtime swaps without new posters',
@@ -494,6 +506,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Warehouse and logistics QR codes for dock status, pallet tracking, safety forms and driver instructions with API webhooks to your WMS.',
     keywords: ['warehouse QR code', 'logistics QR', 'dock QR code', '3PL QR', 'pallet tracking QR'],
     icon: 'truck',
+    templateId: 'property-facilities',
     categoryId: 'url',
     benefits: [
       'Live hold/release URLs for staging lanes',
@@ -524,6 +537,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Car dealership QR codes for window stickers, service check-in, test drives and OEM promos with geofence routing per lot location.',
     keywords: ['car dealership QR', 'automotive QR code', 'service lane QR', 'test drive QR', 'auto inventory QR'],
     icon: 'car',
+    templateId: 'automotive-marine',
     categoryId: 'url',
     benefits: [
       'Inventory and incentive swaps without new stickers',
@@ -554,6 +568,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Gym and fitness studio QR codes for class schedules, membership signup, trainer profiles and equipment how-to videos with dynamic updates.',
     keywords: ['gym QR code', 'fitness studio QR', 'class schedule QR', 'membership QR', 'health club QR'],
     icon: 'dumbbell',
+    templateId: 'fitness-gyms',
     categoryId: 'url',
     benefits: [
       'Weekly class schedule updates without new posters',
@@ -584,6 +599,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Salon and spa QR codes for appointment booking, service menus, stylist bios and retail promos with dynamic updates across multi-location chains.',
     keywords: ['salon QR code', 'spa QR code', 'beauty booking QR', 'nail salon QR', 'salon marketing QR'],
     icon: 'sparkles',
+    templateId: 'salon-spa',
     categoryId: 'url',
     benefits: [
       'Booking links always current for each stylist chair',
@@ -614,6 +630,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Nonprofit QR codes for fundraising galas, donation drives, volunteer signups and impact storytelling with transparent scan analytics.',
     keywords: ['nonprofit QR code', 'fundraising QR', 'donation QR code', 'charity event QR', 'galas QR'],
     icon: 'heart',
+    templateId: 'nonprofit-fundraising',
     categoryId: 'url',
     benefits: [
       'Swap donation URLs between campaigns',
@@ -644,6 +661,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Brewery and craft beverage QR codes for tap lists, event tickets, merch stores and loyalty clubs with dynamic menu updates across taprooms.',
     keywords: ['brewery QR code', 'taproom QR', 'craft beer menu QR', 'beverage marketing QR', 'coaster QR'],
     icon: 'beer',
+    templateId: 'entertainment-venue',
     categoryId: 'url',
     benefits: [
       'Tap list updates on release day',
@@ -674,6 +692,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Insurance agency QR codes for quote requests, policy PDFs, renewal reminders and client onboarding with password-protected document links.',
     keywords: ['insurance QR code', 'insurance agency QR', 'policy QR', 'insurance marketing QR', 'renewal QR'],
     icon: 'shield',
+    templateId: 'professional-services',
     categoryId: 'pdf',
     benefits: [
       'Product and rate update without new mailers',
@@ -704,6 +723,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Property management QR codes for tenant portals, maintenance requests, lease documents and move-in guides with per-building scan analytics.',
     keywords: ['property management QR', 'tenant portal QR', 'apartment building QR', 'maintenance request QR', 'lease QR code'],
     icon: 'building',
+    templateId: 'property-facilities',
     categoryId: 'url',
     benefits: [
       'Swap vendor and policy links without new signage',
@@ -734,6 +754,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Dental clinic QR codes for patient intake, online booking, post-visit care instructions and insurance verification with HIPAA-friendly HTTPS landing pages.',
     keywords: ['dental QR code', 'dentist office QR', 'patient intake QR', 'dental appointment QR', 'dental marketing QR'],
     icon: 'smile',
+    templateId: 'dental-clinics',
     categoryId: 'url',
     benefits: [
       'Digital intake before the appointment',
@@ -764,6 +785,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Veterinary clinic QR codes for pet intake, online booking, vaccination reminders and aftercare instructions with per-location scan analytics.',
     keywords: ['veterinary QR code', 'vet clinic QR', 'pet intake QR', 'veterinary appointment QR', 'animal hospital QR'],
     icon: 'paw-print',
+    templateId: 'specialty-healthcare',
     categoryId: 'url',
     benefits: [
       'Digital pet intake before visits',
@@ -794,6 +816,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Law firm QR codes for client intake, secure document portals, consultation booking and practice area updates with password-protected links.',
     keywords: ['law firm QR code', 'legal intake QR', 'attorney QR', 'law office marketing QR', 'client portal QR'],
     icon: 'scale',
+    templateId: 'professional-services',
     categoryId: 'url',
     benefits: [
       'Client intake before consultations',
@@ -824,6 +847,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Accounting firm QR codes for client intake, tax document uploads, appointment booking and seasonal deadline reminders with password-protected links.',
     keywords: ['accounting firm QR', 'CPA QR code', 'tax client intake QR', 'accountant marketing QR', 'client portal QR'],
     icon: 'calculator',
+    templateId: 'professional-services',
     categoryId: 'url',
     benefits: [
       'Tax season intake before appointments',
@@ -854,6 +878,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Optometry and eye care QR codes for patient intake, appointment booking, eyewear promos and recall reminders with per-location scan analytics.',
     keywords: ['optometry QR code', 'eye care QR', 'optometrist marketing QR', 'patient intake QR', 'eyewear promo QR'],
     icon: 'eye',
+    templateId: 'specialty-healthcare',
     categoryId: 'url',
     benefits: [
       'Digital intake before eye exams',
@@ -884,6 +909,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Childcare and daycare QR codes for enrollment intake, parent communication portals, event signups and policy updates with password-protected links.',
     keywords: ['childcare QR code', 'daycare QR', 'preschool enrollment QR', 'parent communication QR', 'daycare marketing'],
     icon: 'baby',
+    templateId: 'family-community',
     categoryId: 'url',
     benefits: [
       'Digital enrollment before tours',
@@ -914,6 +940,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Home services QR codes for HVAC, plumbing and contractors — booking, estimate requests, review collection and seasonal promo swaps from truck and yard signage.',
     keywords: ['home services QR', 'HVAC QR code', 'plumber QR', 'contractor marketing QR', 'service request QR'],
     icon: 'wrench',
+    templateId: 'home-services',
     categoryId: 'url',
     benefits: [
       'Service request forms on mobile',
@@ -944,6 +971,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Senior living and assisted living QR codes for family portals, activity signups, care updates and community event registration with password-protected links.',
     keywords: ['senior living QR', 'assisted living QR', 'nursing home QR', 'family portal QR', 'senior care marketing'],
     icon: 'heart-handshake',
+    templateId: 'family-community',
     categoryId: 'url',
     benefits: [
       'Family portal and newsletter links',
@@ -974,6 +1002,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Pet grooming salon QR codes for online booking, pet intake forms, vaccination records and loyalty promos with per-location scan analytics.',
     keywords: ['pet grooming QR', 'dog grooming QR', 'pet salon QR', 'grooming appointment QR', 'pet spa marketing'],
     icon: 'scissors',
+    templateId: 'local-services-hub',
     categoryId: 'url',
     benefits: [
       'Online booking from window signage',
@@ -1004,6 +1033,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Coworking space QR codes for member Wi‑Fi, meeting room booking, event signups and community updates with per-location scan analytics.',
     keywords: ['coworking QR code', 'coworking WiFi QR', 'flex office QR', 'coworking marketing', 'member portal QR'],
     icon: 'briefcase',
+    templateId: 'property-facilities',
     categoryId: 'wifi',
     benefits: [
       'Member Wi‑Fi without typing passwords',
@@ -1034,6 +1064,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Music venue and festival QR codes for ticket sales, merch stores, artist setlists and fan signups with dynamic updates between shows.',
     keywords: ['music venue QR', 'concert QR code', 'festival QR', 'venue marketing QR', 'ticket QR'],
     icon: 'music',
+    templateId: 'entertainment-venue',
     categoryId: 'url',
     benefits: [
       'Ticket URL swaps between shows',
@@ -1064,6 +1095,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Farmers market QR codes for vendor directories, weekly produce specials, vendor applications and event updates with per-market scan analytics.',
     keywords: ['farmers market QR', 'farm stand QR', 'produce market QR', 'vendor directory QR', 'farmers market marketing'],
     icon: 'wheat',
+    templateId: 'retail-grocery',
     categoryId: 'url',
     benefits: [
       'Weekly vendor list updates',
@@ -1094,6 +1126,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Winery and tasting room QR codes for tasting menus, wine club signups, event tickets and DTC shop links with dynamic release updates.',
     keywords: ['winery QR code', 'tasting room QR', 'wine club QR', 'vineyard marketing QR', 'wine tasting QR'],
     icon: 'wine',
+    templateId: 'entertainment-venue',
     categoryId: 'url',
     benefits: [
       'Tasting menu updates on release day',
@@ -1124,6 +1157,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Marina and boating QR codes for slip information, harbor maps, charter bookings and guest services with per-dock scan analytics.',
     keywords: ['marina QR code', 'boating QR', 'harbor QR', 'yacht club QR', 'marina marketing'],
     icon: 'anchor',
+    templateId: 'automotive-marine',
     categoryId: 'url',
     benefits: [
       'Slip assignment and harbor map updates',
@@ -1154,6 +1188,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Recruitment and staffing QR codes for job listings, mobile applications, onboarding portals and career fair signups with per-recruiter tracking.',
     keywords: ['recruitment QR code', 'hiring QR', 'job fair QR', 'staffing agency QR', 'careers QR'],
     icon: 'user-plus',
+    templateId: 'cv-resume',
     categoryId: 'url',
     benefits: [
       'Job listing swaps without new posters',
@@ -1184,6 +1219,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Trade show and expo QR codes for booth lead capture, product demos, session schedules and post-show follow-up with per-event scan analytics.',
     keywords: ['trade show QR code', 'expo booth QR', 'conference QR', 'lead capture QR', 'exhibition QR'],
     icon: 'ticket',
+    templateId: 'event-registration',
     categoryId: 'url',
     benefits: [
       'Lead form swaps between shows',
@@ -1214,6 +1250,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Coffee shop and café QR codes for loyalty signup, seasonal menus, guest Wi‑Fi and mobile ordering with per-location scan analytics.',
     keywords: ['coffee shop QR code', 'café QR', 'loyalty QR', 'café menu QR', 'coffee loyalty QR'],
     icon: 'coffee',
+    templateId: 'coffee-shops-cafes',
     categoryId: 'url',
     benefits: [
       'Loyalty signup without app download',
@@ -1244,6 +1281,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Tourist attraction QR codes for audio guides, mobile tickets, wayfinding maps and exhibit updates with per-entrance scan analytics.',
     keywords: ['tourist attraction QR', 'museum QR code', 'landmark QR', 'audio guide QR', 'attraction ticketing QR'],
     icon: 'map-pin',
+    templateId: 'tourist-attractions',
     categoryId: 'url',
     benefits: [
       'Audio guide swaps without new signs',
@@ -1274,6 +1312,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Florist and gift shop QR codes for seasonal catalogs, delivery order forms, loyalty signup and event promos with per-store scan analytics.',
     keywords: ['florist QR code', 'gift shop QR', 'flower delivery QR', 'seasonal catalog QR', 'gift shop loyalty QR'],
     icon: 'flower',
+    templateId: 'retail-grocery',
     categoryId: 'url',
     benefits: [
       'Seasonal catalog swaps on counter signs',
@@ -1304,6 +1343,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Bakery and pastry shop QR codes for daily specials, pre-order forms, loyalty signup and catering inquiries with per-location scan analytics.',
     keywords: ['bakery QR code', 'pastry shop QR', 'bakery loyalty QR', 'pre-order QR', 'catering QR'],
     icon: 'cake',
+    templateId: 'retail-grocery',
     categoryId: 'url',
     benefits: [
       'Daily special swaps on counter signs',
@@ -1334,6 +1374,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Car wash and detailing QR codes for membership signup, service menus, queue status and mobile payments with per-bay scan analytics.',
     keywords: ['car wash QR code', 'detailing QR', 'car wash membership QR', 'auto detailing QR', 'car wash marketing'],
     icon: 'spray-can',
+    templateId: 'automotive-marine',
     categoryId: 'url',
     benefits: [
       'Membership signup on bay signage',
@@ -1364,6 +1405,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Food truck QR codes for daily menus, location schedules, mobile pre-orders and loyalty signup with per-event scan analytics.',
     keywords: ['food truck QR code', 'mobile food QR', 'food truck menu QR', 'festival food QR', 'food truck marketing'],
     icon: 'utensils-crossed',
+    templateId: 'mobile-vendor',
     categoryId: 'url',
     benefits: [
       'Daily menu swaps on window signs',
@@ -1394,6 +1436,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Landscaping and lawn care QR codes for service quotes, seasonal promos, review requests and crew scheduling with per-route scan analytics.',
     keywords: ['landscaping QR code', 'lawn care QR', 'yard sign QR', 'landscaping marketing QR', 'lawn service QR'],
     icon: 'trees',
+    templateId: 'local-services-hub',
     categoryId: 'url',
     benefits: [
       'Quote form swaps on yard signs',
@@ -1424,6 +1467,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Dry cleaning and laundry QR codes for price lists, pickup scheduling, loyalty signup and stain-care guides with per-location scan analytics.',
     keywords: ['dry cleaning QR code', 'laundry QR', 'laundromat QR', 'garment tag QR', 'dry cleaner marketing'],
     icon: 'shirt',
+    templateId: 'local-services-hub',
     categoryId: 'url',
     benefits: [
       'Price list swaps on counter signs',
@@ -1454,6 +1498,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Church and faith organization QR codes for weekly bulletins, online giving, event registration and volunteer signup with per-campus scan analytics.',
     keywords: ['church QR code', 'faith organization QR', 'church giving QR', 'bulletin QR', 'church event QR'],
     icon: 'church',
+    templateId: 'family-community',
     categoryId: 'url',
     benefits: [
       'Weekly bulletin swaps on pew cards',
@@ -1484,6 +1529,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Printing and copy shop QR codes for price sheets, file upload portals, order tracking and loyalty programs with per-location scan analytics.',
     keywords: ['print shop QR code', 'copy center QR', 'printing business QR', 'print order QR', 'copy shop marketing'],
     icon: 'printer',
+    templateId: 'local-services-hub',
     categoryId: 'url',
     benefits: [
       'Price sheet swaps on counter signs',
@@ -1514,6 +1560,7 @@ export const SOLUTION_PAGES: SolutionPage[] = [
       'Tutoring and learning center QR codes for class schedules, enrollment forms, parent resources and trial lesson signup with per-location scan analytics.',
     keywords: ['tutoring QR code', 'learning center QR', 'enrollment QR', 'tutoring marketing QR', 'education center QR'],
     icon: 'book-open',
+    templateId: 'cv-resume',
     categoryId: 'url',
     benefits: [
       'Class schedule swaps on lobby signs',

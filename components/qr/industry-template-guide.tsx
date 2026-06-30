@@ -3,9 +3,14 @@
 import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Lightbulb, Target, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { Lightbulb, Target, X, ChevronDown, ChevronUp, ScanLine, Palette, Printer } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { resolveTemplateName } from '@/lib/i18n/resolve-template-copy';
 import type { IndustryTemplate } from '@/lib/industry-templates';
 import { categoryShortName } from '@/lib/qr-utils';
+import { computeScannability } from '@/lib/scannability';
+import { getVisualPresetById } from '@/lib/visual-qr-presets';
+import { PRINT_TEMPLATES } from '@/lib/print-banner';
 
 export function IndustryTemplateGuide({
   template,
@@ -14,16 +19,38 @@ export function IndustryTemplateGuide({
   template: IndustryTemplate;
   onDismiss?: () => void;
 }) {
+  const { t } = useLanguage();
   const [tipsOpen, setTipsOpen] = useState(false);
+  const profile = template.designProfile;
+  const scan = computeScannability(template.style);
+  const visualPreset = template.visualPresetId ? getVisualPresetById(template.visualPresetId) : undefined;
+  const displayName = resolveTemplateName(t, template.id, template.name);
 
   return (
-    <div className="rounded-lg border border-primary/30 bg-primary/5 p-3">
+    <div className="rounded-lg border border-primary/30 bg-primary/5 p-3" data-testid="industry-template-guide">
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <p className="text-sm font-medium">{template.name}</p>
+            <p className="text-sm font-medium">{displayName}</p>
             <Badge variant="secondary" className="text-[10px]">
               {categoryShortName(template.category)}
+            </Badge>
+            {profile ? (
+              <Badge variant="outline" className="text-[10px] capitalize">
+                {profile.designStyle}
+              </Badge>
+            ) : null}
+            {visualPreset ? (
+              <Badge variant="outline" className="text-[10px]">
+                {visualPreset.name}
+              </Badge>
+            ) : null}
+            <Badge
+              variant={scan.grade === 'A' || scan.grade === 'B' ? 'secondary' : 'destructive'}
+              className="text-[10px] gap-0.5"
+            >
+              <ScanLine className="h-3 w-3" />
+              {scan.grade} · {scan.score}
             </Badge>
           </div>
           <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">{template.tagline}</p>
@@ -34,7 +61,7 @@ export function IndustryTemplateGuide({
           size="icon"
           className="h-7 w-7 shrink-0"
           onClick={onDismiss}
-          aria-label="Dismiss template guide"
+          aria-label={t('templates.guide.dismissAria')}
         >
           <X className="h-4 w-4" />
         </Button>
@@ -48,11 +75,42 @@ export function IndustryTemplateGuide({
         onClick={() => setTipsOpen((v) => !v)}
       >
         {tipsOpen ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
-        {tipsOpen ? 'Hide tips' : 'Show tips'}
+        {tipsOpen ? t('templates.guide.hideTips') : t('templates.guide.showTips')}
       </Button>
 
       {tipsOpen && (
         <div className="mt-3 space-y-3 border-t border-primary/20 pt-3">
+          {profile ? (
+            <div>
+              <p className="mb-1.5 flex items-center gap-1 text-xs font-medium text-muted-foreground">
+                <Palette className="h-3.5 w-3.5" /> {t('templates.guide.suggestedCtas')}
+              </p>
+              <div className="flex flex-wrap gap-1">
+                {profile.ctaSuggestions.map((cta) => (
+                  <Badge key={cta} variant="outline" className="text-[10px] font-normal">
+                    {cta}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          ) : null}
+          {template.printLayout ? (
+            <div>
+              <p className="mb-1.5 flex items-center gap-1 text-xs font-medium text-muted-foreground">
+                <Printer className="h-3.5 w-3.5" /> {t('templates.guide.recommendedPrint')}
+              </p>
+              <div className="flex flex-wrap gap-1 mb-1">
+                <Badge variant="secondary" className="text-[10px] font-normal">
+                  {PRINT_TEMPLATES.find((p) => p.id === template.printLayout?.recommended)?.name ??
+                    template.printLayout.recommended}
+                </Badge>
+                <span className="text-[10px] text-muted-foreground self-center">
+                  min {template.printLayout.minPrintCm} cm QR
+                </span>
+              </div>
+              <p className="text-[11px] text-muted-foreground">{template.printLayout.notes}</p>
+            </div>
+          ) : null}
           <div>
             <p className="mb-1.5 flex items-center gap-1 text-xs font-medium text-muted-foreground">
               <Target className="h-3.5 w-3.5" /> Best for

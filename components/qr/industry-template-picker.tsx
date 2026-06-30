@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { INDUSTRY_TEMPLATES, type IndustryTemplate } from '@/lib/industry-templates';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { resolveTemplateName } from '@/lib/i18n/resolve-template-copy';
+import { INDUSTRY_TEMPLATES, getTemplateById, type IndustryTemplate } from '@/lib/industry-templates';
 import { categoryShortName } from '@/lib/qr-utils';
 import { LayoutTemplate, ChevronDown, ChevronUp } from 'lucide-react';
 
@@ -14,18 +16,20 @@ function TemplateCard({
   template: IndustryTemplate;
   onApply: (t: IndustryTemplate) => void;
 }) {
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
+  const displayName = resolveTemplateName(t, template.id, template.name);
 
   return (
-    <div className="rounded-lg border overflow-hidden">
+    <div className="rounded-lg border overflow-hidden" data-testid={`industry-template-${template.id}`}>
       <button
         type="button"
-        onClick={() => onApply(template)}
+        onClick={() => onApply(getTemplateById(template.id) ?? template)}
         className="w-full p-3 text-left hover:bg-primary/5 transition-colors"
       >
         <div className="flex items-start justify-between gap-2">
           <div>
-            <p className="text-sm font-medium">{template.name}</p>
+            <p className="text-sm font-medium">{displayName}</p>
             <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{template.tagline}</p>
           </div>
           <Badge variant="outline" className="text-[10px] shrink-0">
@@ -38,7 +42,7 @@ function TemplateCard({
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-center gap-1 border-t py-1.5 text-[10px] text-muted-foreground hover:bg-muted/50"
       >
-        {template.sections.length} sections
+        {t('templates.picker.sectionsCount', { n: template.sections.length })}
         {open ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
       </button>
       {open && (
@@ -63,15 +67,15 @@ export function IndustryTemplatePicker({
 }: {
   onApply: (template: IndustryTemplate) => void;
 }) {
+  const { t } = useLanguage();
+
   return (
-    <Card>
+    <Card data-testid="industry-template-picker">
       <CardHeader className="pb-2">
         <CardTitle className="font-display text-base flex items-center gap-2">
-          <LayoutTemplate className="h-4 w-4 text-primary" /> Quick-start templates
+          <LayoutTemplate className="h-4 w-4 text-primary" /> {t('templates.picker.title')}
         </CardTitle>
-        <p className="text-xs text-muted-foreground">
-          Ready-made setups for restaurants, business cards, events and more — customize everything in the next step.
-        </p>
+        <p className="text-xs text-muted-foreground">{t('templates.picker.subtitle')}</p>
       </CardHeader>
       <CardContent>
         <div className="grid gap-2 sm:grid-cols-2 max-h-[360px] overflow-y-auto pr-1">

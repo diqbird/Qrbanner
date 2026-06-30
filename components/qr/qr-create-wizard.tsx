@@ -181,18 +181,25 @@ export function QRCreateWizard() {
     setStyle(normalizeQRStyle({ ...DEFAULT_QR_STYLE, ...template.style }));
     setName(template.suggestedQrName);
     const built = buildLandingFromTemplate(template, template.qrData);
-    if (built.enabled) {
+    const hubLinks = template.landingPage?.hubLinks;
+    const wantsLanding = built.enabled || template.category === 'link_hub';
+    if (wantsLanding) {
       setLandingEnabled(true);
       setLandingPage({
         ...emptyLandingPage,
-        template: built.template ?? 'minimal',
+        template: built.template ?? (template.category === 'link_hub' ? 'hotel' : 'minimal'),
         title: built.title ?? template.suggestedQrName,
         subtitle: built.subtitle ?? '',
         accentColor: built.accentColor ?? emptyLandingPage.accentColor,
         ctaLabel: built.ctaLabel ?? 'Continue',
         leadFormEnabled: built.leadFormEnabled ?? false,
         leadForm: { ...defaultLeadForm, ...built.leadForm },
+        ...(hubLinks?.length ? { hubMode: true, hubLinks: [...hubLinks] } : {}),
       });
+      if (template.category === 'link_hub' && hubLinks?.length) {
+        const url = hubLinks.find((l) => l.url?.trim())?.url ?? '';
+        if (url) setQrData({ url });
+      }
     }
     setStep(1);
   }, []);
@@ -545,15 +552,34 @@ export function QRCreateWizard() {
                     />
                   </div>
                   {category === 'link_hub' ? (
-                    <LinkHubEditor
-                      landing={landingPage}
-                      qrName={name}
-                      onChange={(next) => {
-                        setLandingPage(next);
-                        const url = firstHubUrl(next.hubLinks);
-                        if (url) setQrData({ url });
-                      }}
-                    />
+                    <div className="space-y-4">
+                      {activeTemplate ? (
+                        <TemplateSectionFields
+                          template={activeTemplate}
+                          data={qrData}
+                          onChange={(next) => {
+                            setQrData(next);
+                            if (activeTemplate.landingPage?.enabled) {
+                              const built = buildLandingFromTemplate(activeTemplate, next);
+                              setLandingPage((prev) => ({
+                                ...prev,
+                                title: built.title ?? prev.title,
+                                subtitle: built.subtitle ?? prev.subtitle,
+                              }));
+                            }
+                          }}
+                        />
+                      ) : null}
+                      <LinkHubEditor
+                        landing={landingPage}
+                        qrName={name}
+                        onChange={(next) => {
+                          setLandingPage(next);
+                          const url = firstHubUrl(next.hubLinks);
+                          if (url) setQrData((prev) => ({ ...prev, url }));
+                        }}
+                      />
+                    </div>
                   ) : activeTemplate ? (
                     <TemplateSectionFields
                       template={activeTemplate}
@@ -585,6 +611,8 @@ export function QRCreateWizard() {
                   qrData={qrData}
                   style={style}
                   logoPreview={logoPreview}
+                  printLayout={activeTemplate?.printLayout}
+                  accentColor={landingPage.accentColor}
                 />
               </div>
             </div>
@@ -602,6 +630,7 @@ export function QRCreateWizard() {
                 />
                 <QRStyleEditor
                   style={style}
+                  highlightVisualPresetId={activeTemplate?.visualPresetId}
                   onStyleChange={(next) => setStyle(normalizeQRStyle(next))}
                   onLogoChange={handleLogoChange}
                   logoPreview={logoPreview}
@@ -669,6 +698,8 @@ export function QRCreateWizard() {
                   style={style}
                   logoPreview={logoPreview}
                   showScanTest
+                  printLayout={activeTemplate?.printLayout}
+                  accentColor={landingPage.accentColor}
                   onStyleChange={(next) => setStyle(normalizeQRStyle(next))}
                 />
                 <ScannabilityPanel style={style} hasLogo={!!logoPreview} contentLength={buildQRPayload(category, payloadData()).length} />
@@ -724,6 +755,8 @@ export function QRCreateWizard() {
                   style={style}
                   logoPreview={logoPreview}
                   showExtras
+                  printLayout={activeTemplate?.printLayout}
+                  accentColor={landingPage.accentColor}
                 />
               </div>
             </div>

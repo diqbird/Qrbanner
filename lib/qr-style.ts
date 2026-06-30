@@ -15,7 +15,16 @@ export type CornerStyle =
   | 'classy'
   | 'classy-rounded';
 
-export type FrameStyle = 'none' | 'border' | 'rounded' | 'badge' | 'scan-me';
+export type FrameStyle =
+  | 'none'
+  | 'border'
+  | 'rounded'
+  | 'badge'
+  | 'scan-me'
+  | 'shadow'
+  | 'double'
+  | 'sticker'
+  | 'coupon';
 
 import { SHOW_QR_DESCRIPTION } from './marketing-config';
 
@@ -40,6 +49,9 @@ export interface QRStyleConfig {
   transparentBg: boolean;
   /** Quiet zone (modules) around QR — 0–20 */
   margin: number;
+  /** Gradient fill on framed export canvas (outside QR modules) */
+  backgroundGradientEnabled?: boolean;
+  backgroundGradientColor2?: string;
 }
 
 export const DOT_STYLES: { id: DotStyle; label: string }[] = [
@@ -67,6 +79,10 @@ export const FRAME_STYLES: { id: FrameStyle; label: string; description: string 
   { id: 'rounded', label: 'Rounded', description: 'Soft rounded frame' },
   { id: 'badge', label: 'Badge', description: 'Bottom label bar' },
   { id: 'scan-me', label: 'Scan Me', description: 'Bold call-to-action frame' },
+  { id: 'shadow', label: 'Shadow', description: 'Elevated card with drop shadow' },
+  { id: 'double', label: 'Double', description: 'Twin border — premium print look' },
+  { id: 'sticker', label: 'Sticker', description: 'Die-cut sticker with soft shadow' },
+  { id: 'coupon', label: 'Coupon', description: 'Perforated promo ticket style' },
 ];
 
 export const FRAME_TEXT_PRESETS: { label: string; text: string }[] = [
@@ -106,6 +122,8 @@ export const DEFAULT_QR_STYLE: QRStyleConfig = {
   logoSize: 0.22,
   transparentBg: false,
   margin: 6,
+  backgroundGradientEnabled: false,
+  backgroundGradientColor2: '#f5f5f7',
 };
 
 export const STYLE_PRESETS: { name: string; style: Partial<QRStyleConfig> }[] = [
@@ -157,7 +175,16 @@ export function frameLabelVisible(
   const show = options?.showQrDescription ?? SHOW_QR_DESCRIPTION;
   if (!show) return false;
   if (style.frameStyle === 'none') return false;
-  return ['badge', 'scan-me', 'border', 'rounded'].includes(style.frameStyle);
+  return [
+    'badge',
+    'scan-me',
+    'border',
+    'rounded',
+    'shadow',
+    'double',
+    'sticker',
+    'coupon',
+  ].includes(style.frameStyle);
 }
 
 /** Label bar position as fractions of the framed canvas (preview base 280px). */

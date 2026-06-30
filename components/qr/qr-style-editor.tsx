@@ -18,6 +18,7 @@ import {
   normalizeQRStyle,
 } from '@/lib/qr-style';
 import { StyleTemplateLibrary } from './style-template-library';
+import { VisualPresetPicker, findMatchingVisualPresetId } from './visual-preset-picker';
 import { FrameLabelSettings } from './frame-label-settings';
 import { useLanguage } from '@/components/i18n/language-provider';
 
@@ -62,6 +63,7 @@ export function QRStyleEditor({
   logoPreview,
   logoPath,
   onTemplateLogoApply,
+  highlightVisualPresetId,
 }: {
   style: Partial<QRStyleConfig>;
   onStyleChange: (style: QRStyleConfig) => void;
@@ -69,9 +71,11 @@ export function QRStyleEditor({
   logoPreview: string | null;
   logoPath?: string | null;
   onTemplateLogoApply?: (path: string | null) => void;
+  highlightVisualPresetId?: string;
 }) {
   const { t } = useLanguage();
   const s = normalizeQRStyle(style);
+  const activeVisualPreset = highlightVisualPresetId ?? findMatchingVisualPresetId(s);
 
   const update = (patch: Partial<QRStyleConfig>) => {
     onStyleChange({ ...s, ...patch });
@@ -96,6 +100,12 @@ export function QRStyleEditor({
           </TabsList>
 
           <TabsContent value="colors" className="space-y-5">
+            <VisualPresetPicker
+              currentStyle={s}
+              highlightPresetId={activeVisualPreset}
+              onApply={onStyleChange}
+            />
+
             <div className="space-y-2">
               <Label>{t('style.stylePresets')}</Label>
               <div className="flex flex-wrap gap-2">
@@ -151,6 +161,38 @@ export function QRStyleEditor({
               <Label>Transparent background (PNG export)</Label>
               <Switch checked={s.transparentBg} onCheckedChange={(v) => update({ transparentBg: v })} />
             </div>
+
+            {s.frameStyle !== 'none' && (
+              <div className="rounded-lg border p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label className="flex items-center gap-2">
+                      <Sparkles className="h-4 w-4" /> {t('style.frameBackgroundGradient')}
+                    </Label>
+                    <p className="text-xs text-muted-foreground mt-1">{t('style.frameBackgroundGradientHint')}</p>
+                  </div>
+                  <Switch
+                    checked={!!s.backgroundGradientEnabled}
+                    onCheckedChange={(v) => update({ backgroundGradientEnabled: v })}
+                  />
+                </div>
+                {s.backgroundGradientEnabled && (
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="color"
+                      value={s.backgroundGradientColor2 ?? '#f5f5f7'}
+                      onChange={(e) => update({ backgroundGradientColor2: e.target.value })}
+                      className="h-9 w-9 cursor-pointer rounded border-0"
+                    />
+                    <Input
+                      value={s.backgroundGradientColor2 ?? '#f5f5f7'}
+                      onChange={(e) => update({ backgroundGradientColor2: e.target.value })}
+                      className="font-mono text-xs"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="rounded-lg border p-4 space-y-3">
               <div className="flex items-center justify-between">
@@ -340,7 +382,7 @@ export function QRStyleEditor({
               <Label className="flex items-center gap-2">
                 <Frame className="h-4 w-4" /> Frame Style
               </Label>
-              <div className="grid gap-2 sm:grid-cols-2">
+              <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                 {FRAME_STYLES.map((fs) => (
                   <button
                     key={fs.id}

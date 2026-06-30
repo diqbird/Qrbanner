@@ -1,5 +1,6 @@
 import type { TranslationTree } from './types';
 import { fieldsTr } from './fields';
+import { industryTemplateCopyTr } from './industry-template-copy';
 
 export const tr: TranslationTree = {
   common: {
@@ -549,6 +550,7 @@ export const tr: TranslationTree = {
     signUpToSave: 'Kaydetmek ve taramaları izlemek için ücretsiz kayıt olun',
   },
   fields: fieldsTr,
+  templates: industryTemplateCopyTr,
   linkHub: {
     title: 'Link Hub',
     subtitle: 'Tek QR — birden fazla buton (Linktree tarzı)',
@@ -726,7 +728,13 @@ export const tr: TranslationTree = {
       rounded: 'Yuvarlak',
       badge: 'Rozet',
       'scan-me': 'Scan Me',
+      shadow: 'Gölge',
+      double: 'Çift çerçeve',
+      sticker: 'Sticker',
+      coupon: 'Kupon',
     },
+    frameBackgroundGradient: 'Çerçeve arka plan gradyanı',
+    frameBackgroundGradientHint: 'Çerçeveli QR arkasında yumuşak gradyan — baskı ve sosyal medya için ideal.',
   },
   scan: {
     title: 'Tarama Simülasyonu',
@@ -788,6 +796,7 @@ export const tr: TranslationTree = {
     pdfDownloaded: 'Baskı banner PDF indirildi',
     pngDownloaded: 'Baskı banner PNG indirildi',
     generateFailed: 'Banner oluşturulamadı',
+    recommended: 'Önerilen',
   },
   billing: {
     manage: 'Faturalandırmayı yönet',

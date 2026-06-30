@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
 import { FileImage, Download, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useScanBaseUrl, buildScanLink } from '@/lib/use-scan-base-url';
@@ -16,6 +17,7 @@ import {
   downloadCanvasAsPdf,
   downloadCanvasAsPng,
 } from '@/lib/print-banner';
+import type { IndustryPrintLayout } from '@/lib/industry-print-layouts';
 import { useLanguage } from '@/components/i18n/language-provider';
 
 import type { QRStyleConfig } from '@/lib/qr-style';
@@ -26,6 +28,7 @@ interface PrintBannerExportProps {
   style: Partial<QRStyleConfig>;
   logoPreview?: string | null;
   accentColor?: string;
+  printLayout?: IndustryPrintLayout;
 }
 
 export function PrintBannerExport({
@@ -34,13 +37,45 @@ export function PrintBannerExport({
   style,
   logoPreview,
   accentColor = '#0071e3',
+  printLayout,
 }: PrintBannerExportProps) {
   const { t } = useLanguage();
-  const [templateId, setTemplateId] = useState<PrintTemplateId>('a4-portrait');
-  const [title, setTitle] = useState(qrName || '');
-  const [subtitle, setSubtitle] = useState(() => t('printBanner.subtitleDefault'));
+  const [templateId, setTemplateId] = useState<PrintTemplateId>(
+    printLayout?.recommended ?? 'a4-portrait'
+  );
+  const [title, setTitle] = useState(qrName || printLayout?.headline || '');
+  const [subtitle, setSubtitle] = useState(
+    () => printLayout?.subtitle ?? t('printBanner.subtitleDefault')
+  );
   const [accent, setAccent] = useState(accentColor);
   const [generating, setGenerating] = useState(false);
+
+  useEffect(() => {
+    if (!printLayout) return;
+    setTemplateId(printLayout.recommended);
+    if (printLayout.headline && !qrName) setTitle(printLayout.headline);
+    if (printLayout.subtitle) setSubtitle(printLayout.subtitle);
+  }, [printLayout, qrName]);
+
+  const orderedTemplates = useMemo(() => {
+    if (!printLayout) return PRINT_TEMPLATES.map((tpl) => ({ tpl, recommended: false }));
+    const order = [printLayout.recommended, ...printLayout.alternates];
+    const seen = new Set<string>();
+    const sorted = order
+      .filter((id) => {
+        if (seen.has(id)) return false;
+        seen.add(id);
+        return PRINT_TEMPLATES.some((t) => t.id === id);
+      })
+      .map((id) => ({
+        tpl: PRINT_TEMPLATES.find((t) => t.id === id)!,
+        recommended: id === printLayout.recommended,
+      }));
+    for (const tpl of PRINT_TEMPLATES) {
+      if (!seen.has(tpl.id)) sorted.push({ tpl, recommended: false });
+    }
+    return sorted;
+  }, [printLayout]);
 
   const scanBaseUrl = useScanBaseUrl();
   const qrContent = shortCode ? buildScanLink(shortCode, scanBaseUrl) : scanBaseUrl;
@@ -87,20 +122,31 @@ export function PrintBannerExport({
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <Label>{t('printBanner.template')}</Label>
-          <div className="grid gap-2 sm:grid-cols-2">
-            {PRINT_TEMPLATES.map((tpl) => (
+          {printLayout ? (
+            <p className="text-xs text-muted-foreground">{printLayout.notes}</p>
+          ) : null}
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {orderedTemplates.map(({ tpl, recommended }) => (
               <button
                 key={tpl.id}
                 type="button"
                 onClick={() => setTemplateId(tpl.id)}
-                className={`rounded-lg border p-3 text-left transition-all ${
+                className={`relative rounded-lg border p-3 text-left transition-all ${
                   templateId === tpl.id
                     ? 'border-primary bg-primary/5 ring-1 ring-primary'
                     : 'border-border/50 hover:border-border'
                 }`}
               >
-                <p className="text-sm font-medium">{tpl.name}</p>
+                {recommended ? (
+                  <Badge className="absolute right-2 top-2 text-[9px] px-1.5 py-0">
+                    {t('printBanner.recommended')}
+                  </Badge>
+                ) : null}
+                <p className="text-sm font-medium pr-16">{tpl.name}</p>
                 <p className="text-xs text-muted-foreground">{tpl.description}</p>
+                {tpl.physicalSize ? (
+                  <p className="text-[10px] text-muted-foreground mt-1">{tpl.physicalSize}</p>
+                ) : null}
               </button>
             ))}
           </div>

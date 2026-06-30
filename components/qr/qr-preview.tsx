@@ -25,6 +25,8 @@ import { useScanBaseUrl, buildScanLink } from '@/lib/use-scan-base-url';
 import { useShowQrDescription } from '@/components/site-settings-provider';
 import { useLanguage } from '@/components/i18n/language-provider';
 
+import type { IndustryPrintLayout } from '@/lib/industry-print-layouts';
+
 const EXPORT_SIZES = [512, 1024, 2048, 4096] as const;
 
 interface QRPreviewProps {
@@ -38,6 +40,7 @@ interface QRPreviewProps {
   showExtras?: boolean;
   showScanTest?: boolean;
   showPrintBanner?: boolean;
+  printLayout?: IndustryPrintLayout;
   onStyleChange?: (style: QRStyleConfig) => void;
 }
 
@@ -52,6 +55,7 @@ export function QRPreview({
   showPrintBanner,
   showExtras,
   showScanTest,
+  printLayout,
   onStyleChange,
 }: QRPreviewProps) {
   const { t } = useLanguage();
@@ -377,6 +381,7 @@ export function QRPreview({
           style={normalized}
           logoPreview={logoPreview}
           accentColor={accentColor}
+          printLayout={printLayout}
         />
       )}
     </div>

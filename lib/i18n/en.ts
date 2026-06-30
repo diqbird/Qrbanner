@@ -1,5 +1,6 @@
 import type { TranslationTree } from './types';
 import { fieldsEn } from './fields';
+import { industryTemplateCopyEn } from './industry-template-copy';
 
 export const en: TranslationTree = {
   common: {
@@ -549,6 +550,7 @@ export const en: TranslationTree = {
     signUpToSave: 'Sign up free to save & track scans',
   },
   fields: fieldsEn,
+  templates: industryTemplateCopyEn,
   linkHub: {
     title: 'Link Hub',
     subtitle: 'One QR code — multiple buttons (Linktree style)',
@@ -726,7 +728,13 @@ export const en: TranslationTree = {
       rounded: 'Rounded',
       badge: 'Badge',
       'scan-me': 'Scan Me',
+      shadow: 'Shadow',
+      double: 'Double',
+      sticker: 'Sticker',
+      coupon: 'Coupon',
     },
+    frameBackgroundGradient: 'Frame background gradient',
+    frameBackgroundGradientHint: 'Soft gradient behind the framed QR — great for print and social.',
   },
   scan: {
     title: 'Scan Simulation',
@@ -788,6 +796,7 @@ export const en: TranslationTree = {
     pdfDownloaded: 'Print banner PDF downloaded',
     pngDownloaded: 'Print banner PNG downloaded',
     generateFailed: 'Failed to generate banner',
+    recommended: 'Recommended',
   },
   billing: {
     manage: 'Manage billing',
