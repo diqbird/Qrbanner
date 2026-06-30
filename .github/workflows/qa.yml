@@ -17,7 +17,7 @@ jobs:
           node-version: '20'
           cache: yarn
       - name: Install dependencies
-        run: yarn install --ignore-engines
+        run: yarn install --frozen-lockfile --ignore-engines
       - name: Install Playwright browsers
         run: npx playwright install chromium --with-deps
       - name: Run E2E tests
