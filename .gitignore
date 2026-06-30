@@ -33,7 +33,7 @@ blob-report/
 .turbo
 scripts/deploy-*-last.log
 scripts/e2e-run-last.log
-scripts/lighthouse-run-last.log
+scripts/gh-auth-pending.txt
 scripts/_deploy_*.txt
 
 # IDE
