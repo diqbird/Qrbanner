@@ -44,5 +44,6 @@ jobs:
         env:
           PLAYWRIGHT_BASE_URL: https://qrbanner.com
           CI: true
-          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
-        run: node scripts/lighthouse-audit.mjs
+        run: |
+          google-chrome --version
+          node scripts/lighthouse-audit.mjs
