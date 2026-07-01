@@ -36,16 +36,13 @@ jobs:
         with:
           node-version: '20'
           cache: yarn
+      - uses: browser-actions/setup-chrome@v1
+        id: setup-chrome
       - name: Install dependencies
         run: yarn install --frozen-lockfile --ignore-engines
-      - name: Install Playwright Chromium
-        run: npx playwright install chromium --with-deps
       - name: Run Lighthouse
         env:
           PLAYWRIGHT_BASE_URL: https://qrbanner.com
           CI: true
-        run: |
-          export CHROME_PATH=$(node -e "const { chromium } = require('@playwright/test'); console.log(chromium.executablePath())")
-          echo "CHROME_PATH=$CHROME_PATH"
-          test -f "$CHROME_PATH"
-          node scripts/lighthouse-audit.mjs
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: node scripts/lighthouse-audit.mjs
