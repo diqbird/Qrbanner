@@ -34,6 +34,7 @@ FILES = [
     "components/qr/landing-page-editor.tsx",
     "components/qr/landing-page-preview.tsx",
     "lib/landing-page.ts",
+    "app/s/[code]/route.ts",
     "components/qr/qr-preview.tsx",
     "components/qr/print-banner-export.tsx",
     "components/qr/qr-create-wizard.tsx",
