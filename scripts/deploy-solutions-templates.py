@@ -59,6 +59,11 @@ FILES = [
     "components/analytics/period-change-badge.tsx",
     "app/api/dashboard/analytics/route.ts",
     "app/api/qr/[id]/analytics/route.ts",
+    "lib/admin-billing-stats.ts",
+    "app/api/admin/stats/route.ts",
+    "app/api/admin/users/route.ts",
+    "components/admin/admin-content.tsx",
+    "components/admin/admin-billing-panel.tsx",
 ]
 
 if not PW:

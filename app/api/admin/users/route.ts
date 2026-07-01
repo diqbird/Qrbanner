@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { requireAdminUserId } from '@/lib/admin-auth';
 import { normalizePlanId, type PlanId } from '@/lib/plans';
+import { billingStatusForUser } from '@/lib/admin-billing-stats';
 
 export async function GET(req: NextRequest) {
   const adminId = await requireAdminUserId();
@@ -25,7 +26,7 @@ export async function GET(req: NextRequest) {
       { name: { contains: q, mode: 'insensitive' } },
     ];
   }
-  if (planFilter && ['free', 'pro', 'business'].includes(planFilter)) {
+  if (planFilter && ['free', 'pro', 'business', 'agency'].includes(planFilter)) {
     where.plan = planFilter;
   }
 
@@ -41,6 +42,7 @@ export async function GET(req: NextRequest) {
       role: true,
       createdAt: true,
       emailVerified: true,
+      stripeSubscriptionId: true,
       _count: { select: { qrCodes: true } },
     },
   });
@@ -55,6 +57,7 @@ export async function GET(req: NextRequest) {
       createdAt: u.createdAt,
       emailVerified: !!u.emailVerified,
       qrCount: u._count.qrCodes,
+      billingStatus: billingStatusForUser(u.plan, u.stripeSubscriptionId),
     })),
   });
 }

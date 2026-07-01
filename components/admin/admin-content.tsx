@@ -24,18 +24,23 @@ import { Users, QrCode, ScanLine, Crown, UserPlus, Shield } from 'lucide-react';
 import { toast } from 'sonner';
 import { PLANS } from '@/lib/plans';
 import { AdminBlogPanel } from '@/components/admin/admin-blog-panel';
+import { AdminBillingPanel } from '@/components/admin/admin-billing-panel';
 import { AdminSiteSettings } from '@/components/admin/admin-site-settings';
 import { MediaLibraryCard } from '@/components/dashboard/media-library-card';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 
+import type { AdminPlanCounts } from '@/lib/admin-billing-stats';
+
 interface Stats {
   totalUsers: number;
-  planCounts: { free: number; pro: number; business: number };
+  planCounts: AdminPlanCounts;
   qrTotal: number;
   scanTotal: number;
   signupsLast7Days: number;
   premiumUsers: number;
+  stripeSubscribers: number;
+  estimatedMrr: number;
 }
 
 interface AdminUser {
@@ -47,6 +52,7 @@ interface AdminUser {
   createdAt: string;
   emailVerified: boolean;
   qrCount: number;
+  billingStatus: 'free' | 'stripe' | 'manual';
 }
 
 export function AdminContent() {
@@ -149,6 +155,7 @@ export function AdminContent() {
               {t('admin.premiumBreakdown', {
                 pro: stats?.planCounts.pro ?? 0,
                 business: stats?.planCounts.business ?? 0,
+                agency: stats?.planCounts.agency ?? 0,
               })}
             </p>
           </CardContent>
@@ -175,6 +182,14 @@ export function AdminContent() {
         </Card>
       </div>
 
+      {stats ? (
+        <AdminBillingPanel
+          planCounts={stats.planCounts}
+          estimatedMrr={stats.estimatedMrr}
+          stripeSubscribers={stats.stripeSubscribers}
+        />
+      ) : null}
+
       <Card>
         <CardHeader>
           <CardTitle className="font-display text-lg flex items-center gap-2">
@@ -196,6 +211,7 @@ export function AdminContent() {
                 <SelectItem value="free">{t('admin.planFree')}</SelectItem>
                 <SelectItem value="pro">{t('admin.planPro')}</SelectItem>
                 <SelectItem value="business">{t('admin.planBusiness')}</SelectItem>
+                <SelectItem value="agency">{t('admin.planAgency')}</SelectItem>
               </SelectContent>
             </Select>
             <Button variant="outline" size="sm" onClick={() => fetchData()}>
@@ -209,6 +225,7 @@ export function AdminContent() {
               <TableRow>
                 <TableHead>{t('admin.memberCol')}</TableHead>
                 <TableHead>{t('admin.planCol')}</TableHead>
+                <TableHead>{t('admin.billingCol')}</TableHead>
                 <TableHead>{t('admin.roleCol')}</TableHead>
                 <TableHead>{t('admin.qrsCol')}</TableHead>
                 <TableHead>{t('admin.joinedCol')}</TableHead>
@@ -217,7 +234,7 @@ export function AdminContent() {
             <TableBody>
               {users.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
+                  <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
                     {t('admin.noMembers')}
                   </TableCell>
                 </TableRow>
@@ -249,6 +266,18 @@ export function AdminContent() {
                           ))}
                         </SelectContent>
                       </Select>
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant={u.billingStatus === 'stripe' ? 'secondary' : 'outline'}
+                        className="text-[10px] font-normal"
+                      >
+                        {u.billingStatus === 'stripe'
+                          ? t('admin.billingStripe')
+                          : u.billingStatus === 'manual'
+                            ? t('admin.billingManual')
+                            : t('admin.billingFree')}
+                      </Badge>
                     </TableCell>
                     <TableCell>
                       <Select
