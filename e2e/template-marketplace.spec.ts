@@ -21,5 +21,22 @@ test.describe('Template marketplace', () => {
     await expect(page.getByTestId('marketplace-template-restaurant-menu')).toContainText(
       /Restoran Menüsü|restaurant/i,
     );
+  test('detail page links to create wizard', async ({ page }) => {
+    await page.goto('/templates/restaurant-menu');
+    await expect(page.getByTestId('template-detail')).toBeVisible();
+
+    const cta = page.getByTestId('template-detail-create-cta');
+    await expect(cta).toHaveAttribute('href', '/qr/create?template=restaurant-menu');
+    await cta.click();
+    await expect(page).toHaveURL(/\/qr\/create\?template=restaurant-menu/);
+  });
+
+  test('marketplace title links to detail page', async ({ page }) => {
+    await page.goto('/templates');
+    const card = page.getByTestId('marketplace-template-restaurant-menu');
+    const titleLink = card.locator('a[href="/templates/restaurant-menu"]').first();
+    await expect(titleLink).toBeVisible();
+    await titleLink.click();
+    await expect(page).toHaveURL(/\/templates\/restaurant-menu/);
   });
 });

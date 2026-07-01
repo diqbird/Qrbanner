@@ -1151,6 +1151,13 @@ export const tr: TranslationTree = {
     browseSolutions: 'Çözümlere göz at',
     cta: 'Sıfırdan başla',
   },
+  templateDetail: {
+    metaTitle: '{{name}} QR Şablonu',
+    backToMarketplace: 'Marketplace\'e dön',
+    createCta: 'Bu şablonla oluştur',
+    useCasesTitle: 'En uygun kullanım',
+    tipsTitle: 'Uzman ipuçları',
+  },
   vsIndex: {
     metaTitle: 'QRbanner Karşılaştırmaları — QR TIGER, Flowcode, Uniqode ve Daha Fazlası',
     metaDescription:

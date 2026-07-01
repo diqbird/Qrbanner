@@ -1151,6 +1151,13 @@ export const en: TranslationTree = {
     browseSolutions: 'Browse solutions',
     cta: 'Start from scratch',
   },
+  templateDetail: {
+    metaTitle: '{{name}} QR Template',
+    backToMarketplace: 'Back to marketplace',
+    createCta: 'Create with this template',
+    useCasesTitle: 'Best for',
+    tipsTitle: 'Pro tips',
+  },
   vsIndex: {
     metaTitle: 'QRbanner Comparisons — vs QR TIGER, Flowcode, Uniqode & More',
     metaDescription:

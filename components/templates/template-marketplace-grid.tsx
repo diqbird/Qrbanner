@@ -50,7 +50,9 @@ function MarketplaceCard({ template }: { template: IndustryTemplate }) {
         <TemplateSwatch template={template} />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <h2 className="font-display text-base font-semibold">{name}</h2>
+            <Link href={`/templates/${template.id}`} className="font-display text-base font-semibold hover:text-primary">
+              {name}
+            </Link>
             <Badge variant="outline" className="text-[10px]">
               {categoryShortName(template.category)}
             </Badge>

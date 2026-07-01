@@ -4,6 +4,7 @@ import { buildQrTypePages } from '@/lib/qr-type-pages';
 import { COMPETITOR_PAGES } from '@/lib/competitor-pages';
 import { STATIC_POSTS } from '@/lib/blog/posts-service';
 import { CASE_STUDIES } from '@/lib/case-studies';
+import { INDUSTRY_TEMPLATES } from '@/lib/industry-templates';
 import type { BlogPost } from '@/lib/blog/types';
 
 const SITE_URL = (
@@ -107,6 +108,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.75,
   }));
 
+  const templateDetailEntries = INDUSTRY_TEMPLATES.map((tpl) => ({
+    url: `${SITE_URL}/templates/${tpl.id}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }));
+
   return [
     ...PUBLIC_PATHS.map(({ path, priority, changeFrequency }) => ({
       url: `${SITE_URL}${path}`,
@@ -119,5 +127,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...vsEntries,
     ...blogEntries,
     ...caseStudyEntries,
+    ...templateDetailEntries,
   ];
 }
