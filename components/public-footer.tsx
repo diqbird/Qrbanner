@@ -5,9 +5,11 @@ import { SiteLogo } from '@/components/brand/site-logo';
 import { Mail } from 'lucide-react';
 import { SUPPORT_EMAIL, supportMailto, whatsappUrl } from '@/lib/site-contact';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { useLocalePath } from '@/components/i18n/use-locale-path';
 
 export function PublicFooter() {
   const { t } = useLanguage();
+  const localePath = useLocalePath();
 
   const sections = [
     {
@@ -75,7 +77,7 @@ export function PublicFooter() {
       <div className="mx-auto max-w-[1200px] px-4 py-10 sm:px-6">
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-sm">
-            <Link href="/" className="inline-block">
+            <Link href={localePath('/')} className="inline-block">
               <SiteLogo layout="stacked" className="items-start" nameClassName="text-lg" />
             </Link>
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
@@ -108,7 +110,7 @@ export function PublicFooter() {
                         </a>
                       ) : (
                         <Link
-                          href={link.href}
+                          href={localePath(link.href)}
                           className="text-sm text-muted-foreground hover:text-foreground transition-colors break-words"
                         >
                           {link.label}

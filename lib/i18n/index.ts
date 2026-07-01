@@ -19,3 +19,11 @@ export function translate(
 export { dictionaries };
 export type { Locale };
 export { LOCALES, LOCALE_STORAGE_KEY } from './types';
+export {
+  DEFAULT_LOCALE,
+  LOCALE_HEADER,
+  localizePath,
+  parseLocalePath,
+  pathsMatchLocalized,
+  shouldLocalizePath,
+} from './locale-path';

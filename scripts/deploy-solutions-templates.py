@@ -96,6 +96,15 @@ FILES = [
     "components/public-header.tsx",
     "components/public-footer.tsx",
     "app/sitemap.ts",
+    "middleware.ts",
+    "lib/i18n/locale-path.ts",
+    "lib/i18n/server.ts",
+    "lib/i18n/index.ts",
+    "components/i18n/language-provider.tsx",
+    "components/i18n/use-locale-path.ts",
+    "components/public-header.tsx",
+    "components/public-footer.tsx",
+    "app/layout.tsx",
 ]
 
 if not PW:

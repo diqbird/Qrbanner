@@ -5,6 +5,7 @@ import { COMPETITOR_PAGES } from '@/lib/competitor-pages';
 import { STATIC_POSTS } from '@/lib/blog/posts-service';
 import { CASE_STUDIES } from '@/lib/case-studies';
 import { INDUSTRY_TEMPLATES } from '@/lib/industry-templates';
+import { localizePath, shouldLocalizePath } from '@/lib/i18n/locale-path';
 import type { BlogPost } from '@/lib/blog/types';
 
 const SITE_URL = (
@@ -115,6 +116,59 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  const trUrl = (path: string) => `${SITE_URL}${localizePath(path, 'tr')}`;
+
+  const trPublicEntries = PUBLIC_PATHS.filter(({ path }) =>
+    shouldLocalizePath(path || '/')
+  ).map(({ path, priority, changeFrequency }) => ({
+    url: trUrl(path || '/'),
+    lastModified: now,
+    changeFrequency,
+    priority: Math.max(0.3, priority - 0.05),
+  }));
+
+  const trSolutionEntries = SOLUTION_PAGES.map((s) => ({
+    url: trUrl(`/solutions/${s.slug}`),
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }));
+
+  const trQrTypeEntries = buildQrTypePages().map((p) => ({
+    url: trUrl(`/qr-types/${p.slug}`),
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.75,
+  }));
+
+  const trVsEntries = COMPETITOR_PAGES.map((p) => ({
+    url: trUrl(`/vs/${p.slug}`),
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }));
+
+  const trBlogEntries = posts.map((post) => ({
+    url: trUrl(`/blog/${post.slug}`),
+    lastModified: safeDate(post.updatedAt),
+    changeFrequency: 'monthly' as const,
+    priority: 0.75,
+  }));
+
+  const trCaseStudyEntries = CASE_STUDIES.map((study) => ({
+    url: trUrl(`/case-studies/${study.slug}`),
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }));
+
+  const trTemplateDetailEntries = INDUSTRY_TEMPLATES.map((tpl) => ({
+    url: trUrl(`/templates/${tpl.id}`),
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.75,
+  }));
+
   return [
     ...PUBLIC_PATHS.map(({ path, priority, changeFrequency }) => ({
       url: `${SITE_URL}${path}`,
@@ -128,5 +182,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...blogEntries,
     ...caseStudyEntries,
     ...templateDetailEntries,
+    ...trPublicEntries,
+    ...trSolutionEntries,
+    ...trQrTypeEntries,
+    ...trVsEntries,
+    ...trBlogEntries,
+    ...trCaseStudyEntries,
+    ...trTemplateDetailEntries,
   ];
 }

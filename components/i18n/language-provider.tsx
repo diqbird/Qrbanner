@@ -9,7 +9,9 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { translate, type Locale, LOCALE_STORAGE_KEY } from '@/lib/i18n';
+import { localizePath, parseLocalePath } from '@/lib/i18n/locale-path';
 
 interface LanguageContextValue {
   locale: Locale;
@@ -21,10 +23,15 @@ const LanguageContext = createContext<LanguageContextValue | null>(null);
 
 function detectInitialLocale(): Locale {
   if (typeof window === 'undefined') return 'en';
+
+  const fromPath = parseLocalePath(window.location.pathname).locale;
+  if (fromPath) return fromPath;
+
   try {
     const stored = localStorage.getItem(LOCALE_STORAGE_KEY);
     if (stored === 'tr' || stored === 'en') return stored;
   } catch {}
+
   if (typeof navigator !== 'undefined' && navigator.language.toLowerCase().startsWith('tr')) {
     return 'tr';
   }
@@ -32,6 +39,8 @@ function detectInitialLocale(): Locale {
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
+  const router = useRouter();
+  const pathname = usePathname();
   const [locale, setLocaleState] = useState<Locale>('en');
   const [ready, setReady] = useState(false);
 
@@ -42,6 +51,14 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!ready) return;
+    const fromPath = parseLocalePath(pathname).locale;
+    if (fromPath && fromPath !== locale) {
+      setLocaleState(fromPath);
+    }
+  }, [pathname, ready, locale]);
+
+  useEffect(() => {
+    if (!ready) return;
     document.documentElement.lang = locale === 'tr' ? 'tr' : 'en';
     try {
       localStorage.setItem(LOCALE_STORAGE_KEY, locale);
@@ -49,9 +66,18 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     } catch {}
   }, [locale, ready]);
 
-  const setLocale = useCallback((next: Locale) => {
-    setLocaleState(next);
-  }, []);
+  const setLocale = useCallback(
+    (next: Locale) => {
+      setLocaleState(next);
+      const logicalPath = parseLocalePath(pathname).pathname;
+      const search = typeof window !== 'undefined' ? window.location.search : '';
+      const nextPath = `${localizePath(logicalPath, next)}${search}`;
+      if (nextPath !== `${pathname}${search}`) {
+        router.push(nextPath);
+      }
+    },
+    [pathname, router]
+  );
 
   const t = useCallback(
     (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars),

@@ -9,6 +9,8 @@ import { SiteLogo } from '@/components/brand/site-logo';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { LanguageSwitcher } from '@/components/i18n/language-switcher';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { useLocalePath } from '@/components/i18n/use-locale-path';
+import { pathsMatchLocalized } from '@/lib/i18n/locale-path';
 import { demoBookingUrl } from '@/lib/site-contact';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
@@ -25,6 +27,7 @@ const NAV_LINKS = [
 
 export function PublicHeader() {
   const { t } = useLanguage();
+  const localePath = useLocalePath();
   const { data: session } = useSession() || {};
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -60,7 +63,7 @@ export function PublicHeader() {
     >
       <div className="mx-auto flex h-[52px] max-w-[1080px] items-center justify-between px-4 sm:h-14 sm:px-6">
         <Link
-          href="/"
+          href={localePath('/')}
           className="rounded-lg outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
           aria-label={t('common.homeAria')}
         >
@@ -71,10 +74,10 @@ export function PublicHeader() {
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
-              href={link.href}
+              href={localePath(link.href)}
               className={cn(
                 'rounded-lg px-3 py-2 text-[13px] font-medium transition-colors',
-                pathname === link.href || pathname.startsWith(`${link.href}/`)
+                pathsMatchLocalized(pathname, link.href)
                   ? 'text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
               )}
@@ -146,10 +149,10 @@ export function PublicHeader() {
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
-                  href={link.href}
+                  href={localePath(link.href)}
                   className={cn(
                     'block rounded-xl px-4 py-3 text-[15px] font-medium transition-colors',
-                    pathname === link.href
+                    pathsMatchLocalized(pathname, link.href)
                       ? 'bg-muted text-foreground'
                       : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'
                   )}

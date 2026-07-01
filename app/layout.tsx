@@ -71,7 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var l=localStorage.getItem('qrb-locale');if(l==='tr'||l==='en')document.documentElement.lang=l;}catch(e){}})();`,
+            __html: `(function(){try{var p=location.pathname;if(/^\\/tr(\\/|$)/.test(p)){document.documentElement.lang='tr';return;}var l=localStorage.getItem('qrb-locale');if(l==='tr'||l==='en')document.documentElement.lang=l;}catch(e){}})();`,
           }}
         />
       </head>
