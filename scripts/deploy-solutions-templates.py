@@ -75,6 +75,14 @@ FILES = [
     "app/api/invite/[token]/route.ts",
     "components/dashboard/team-workspace-settings.tsx",
     "components/auth/login-form.tsx",
+    "prisma/schema.prisma",
+    "lib/webhooks.ts",
+    "lib/webhook-deliveries.ts",
+    "lib/openapi-spec.ts",
+    "app/api/openapi.json/route.ts",
+    "app/api/webhooks/deliveries/route.ts",
+    "components/dashboard/webhook-settings.tsx",
+    "app/(public)/developers/page.tsx",
     "components/templates/template-marketplace-grid.tsx",
     "components/templates/template-detail-shell.tsx",
     "app/(public)/templates/page.tsx",
@@ -111,6 +119,13 @@ for rel in FILES:
     sftp.put(local_path, remote_path)
     print("ok", rel)
 sftp.close()
+
+_, stdout_db, _ = c.exec_command(
+    f"cd {REMOTE} && npx prisma generate && npx prisma db push --skip-generate 2>&1 | tail -10",
+    timeout=180,
+)
+db_out = stdout_db.read().decode("utf-8", errors="replace")
+print("db push:", db_out.strip() or "ok")
 
 _, stdout, _ = c.exec_command(
     f"cd {REMOTE} && yarn build > /tmp/qrb-solutions-templates.log 2>&1; echo EXIT:$?; tail -12 /tmp/qrb-solutions-templates.log",

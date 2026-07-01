@@ -7,7 +7,7 @@ import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
-import { ArrowRight, Code2, Key, Webhook } from 'lucide-react';
+import { ArrowRight, Code2, FileJson, Key, Webhook } from 'lucide-react';
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
@@ -122,6 +122,20 @@ X-API-Key: qb_live_...`}
                 </pre>
                 <Link href="/integrations" className="mt-4 inline-block text-sm text-primary hover:underline">
                   {t('developersPage.integrationsLink')} →
+                </Link>
+              </div>
+              <div className="rounded-xl border border-border/50 bg-card/80 p-6 backdrop-blur-sm">
+                <h2 className="font-display font-semibold flex items-center gap-2">
+                  <FileJson className="h-4 w-4 text-primary" /> {t('developersPage.openapiTitle')}
+                </h2>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{t('developersPage.openapiBody')}</p>
+                <Link
+                  href="/api/openapi.json"
+                  className="mt-4 inline-flex items-center gap-1 text-sm text-primary hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t('developersPage.openapiLink')} →
                 </Link>
               </div>
               <div className="rounded-xl border border-border/50 bg-card/80 p-6 backdrop-blur-sm">

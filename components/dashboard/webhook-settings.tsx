@@ -23,9 +23,23 @@ interface WebhookRow {
   createdAt: string;
 }
 
+interface DeliveryRow {
+  id: string;
+  endpointId: string;
+  endpointUrl: string | null;
+  endpointLabel: string | null;
+  event: string;
+  statusCode: number | null;
+  success: boolean;
+  error: string | null;
+  durationMs: number | null;
+  createdAt: string;
+}
+
 export function WebhookSettings() {
   const { t } = useLanguage();
   const [webhooks, setWebhooks] = useState<WebhookRow[]>([]);
+  const [deliveries, setDeliveries] = useState<DeliveryRow[]>([]);
   const [limit, setLimit] = useState(2);
   const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState('');
@@ -33,6 +47,18 @@ export function WebhookSettings() {
   const [working, setWorking] = useState(false);
   const [newSecret, setNewSecret] = useState<string | null>(null);
   const [showSecretDialog, setShowSecretDialog] = useState(false);
+
+  const fetchDeliveries = useCallback(async () => {
+    try {
+      const res = await fetch('/api/webhooks/deliveries?limit=20');
+      if (res.ok) {
+        const data = await res.json();
+        setDeliveries(data.deliveries ?? []);
+      }
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   const fetchWebhooks = useCallback(async () => {
     try {
@@ -51,7 +77,8 @@ export function WebhookSettings() {
 
   useEffect(() => {
     fetchWebhooks();
-  }, [fetchWebhooks]);
+    fetchDeliveries();
+  }, [fetchWebhooks, fetchDeliveries]);
 
   const addWebhook = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,6 +97,7 @@ export function WebhookSettings() {
       setUrl('');
       setLabel('');
       fetchWebhooks();
+      fetchDeliveries();
       toast.success(t('settings.webhooks.added'));
     } catch {
       toast.error(t('auth.somethingWrong'));
@@ -177,6 +205,41 @@ export function WebhookSettings() {
               )}
             </>
           )}
+
+          <div className="space-y-3 border-t border-border/50 pt-4">
+            <div>
+              <p className="text-sm font-medium">{t('settings.webhooks.deliveriesTitle')}</p>
+              <p className="text-xs text-muted-foreground">{t('settings.webhooks.deliveriesDesc')}</p>
+            </div>
+            {deliveries.length === 0 ? (
+              <p className="text-sm text-muted-foreground">{t('settings.webhooks.deliveriesEmpty')}</p>
+            ) : (
+              <div className="space-y-2">
+                {deliveries.map((d) => (
+                  <div
+                    key={d.id}
+                    className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border/50 px-3 py-2 text-xs"
+                  >
+                    <div className="min-w-0">
+                      <p className="font-medium">
+                        {d.endpointLabel ?? d.endpointUrl ?? d.endpointId}
+                      </p>
+                      <p className="text-muted-foreground">
+                        {d.event} · {new Date(d.createdAt).toLocaleString()}
+                        {d.durationMs != null ? ` · ${t('settings.webhooks.deliveryDuration', { ms: d.durationMs })}` : ''}
+                      </p>
+                      {d.error && <p className="text-destructive">{d.error}</p>}
+                    </div>
+                    <Badge variant={d.success ? 'default' : 'destructive'}>
+                      {d.success
+                        ? `${t('settings.webhooks.deliverySuccess')}${d.statusCode ? ` ${d.statusCode}` : ''}`
+                        : t('settings.webhooks.deliveryFailed')}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </CardContent>
       </Card>
 
