@@ -158,7 +158,7 @@ export const dynamicQrCodesGuide: BlogPost = {
     {
       type: 'p',
       content:
-        'Uniqode (formerly Beaconstac) leads for enterprise compliance (HIPAA, SOC 2) at higher price points. Flowcode excels at design-forward campaigns for Fortune 500 brands. Bitly bundles QR with link management. QRbanner targets teams that want dynamic codes, routing, analytics, API access, and print-ready design in one place—with a generous free tier (25 dynamic codes) and transparent pricing at $9.99/mo Pro and $29.99/mo Business. Evaluate based on: codes staying active after cancel, bulk import limits, custom domains, webhook integrations, and whether scan simulation is built into the editor.',
+        'Look for platforms that combine dynamic redirects, routing rules, analytics, API access, and print-ready design in one place. QRbanner offers a generous free tier (25 dynamic codes), transparent pricing at $9.99/mo Pro and $29.99/mo Business, and codes that stay active after cancel. Evaluate based on: codes staying active after downgrade, bulk import limits, custom domains, webhook integrations, SAML for enterprise teams, and whether scan simulation is built into the editor.',
     },
     {
       type: 'h2',

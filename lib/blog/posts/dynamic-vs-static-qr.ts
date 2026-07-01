@@ -37,7 +37,7 @@ export const dynamicVsStaticQr: BlogPost = {
     {
       type: 'p',
       content:
-        'QRbanner adds schedule and geofence routing, custom scan domains, bulk CSV import, REST API, webhooks and white-label landing pages. See the full list on /features or compare alternatives on /vs/scanova.',
+        'QRbanner adds schedule and geofence routing, custom scan domains, bulk CSV import, REST API, webhooks, landing CTA analytics and white-label landing pages. See the full list on /features or compare alternatives on /vs.',
     },
     {
       type: 'h2',

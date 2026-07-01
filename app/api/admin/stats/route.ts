@@ -15,7 +15,7 @@ export async function GET() {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const [totalUsers, byPlan, byRole, qrTotal, scanTotal, last7Days, stripeSubscribers] =
+  const [totalUsers, byPlan, byRole, qrTotal, scanTotal, last7Days, stripeSubscribers, stripeByPlan] =
     await Promise.all([
       prisma.user.count(),
       prisma.user.groupBy({ by: ['plan'], _count: { id: true } }),
@@ -28,9 +28,18 @@ export async function GET() {
       prisma.user.count({
         where: { stripeSubscriptionId: { not: null } },
       }),
+      prisma.user.groupBy({
+        by: ['plan'],
+        where: {
+          stripeSubscriptionId: { not: null },
+          plan: { in: ['pro', 'business', 'agency'] },
+        },
+        _count: { id: true },
+      }),
     ]);
 
   const planCounts = planCountsFromGroupBy(byPlan);
+  const stripePlanCounts = planCountsFromGroupBy(stripeByPlan);
 
   return NextResponse.json({
     totalUsers,
@@ -41,6 +50,6 @@ export async function GET() {
     signupsLast7Days: last7Days,
     premiumUsers: premiumUserCount(planCounts),
     stripeSubscribers,
-    estimatedMrr: estimatedMrr(planCounts),
+    estimatedMrr: estimatedMrr(stripePlanCounts),
   });
 }

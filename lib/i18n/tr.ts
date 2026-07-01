@@ -1022,9 +1022,9 @@ export const tr: TranslationTree = {
     premiumTitle: 'Premium (Pro + Business)',
     premiumBreakdown: 'Pro {{pro}} · Business {{business}} · Agency {{agency}}',
     billingTitle: 'Faturalandırma özeti',
-    billingSubtitle: 'Tüm üyeler için gelir tahmini ve Stripe abonelik durumu.',
+    billingSubtitle: 'Stripe abonelik geliri ve tüm üyelerde faturalandırma durumu.',
     estimatedMrr: 'Tahmini MRR',
-    estimatedMrrHint: 'Atanan plan kademelerine göre (manuel yükseltmeler dahil).',
+    estimatedMrrHint: 'Yalnızca aktif Stripe aboneliklerine göre (manuel admin yükseltmeleri hariç).',
     stripeSubscribers: 'Stripe aboneleri',
     manualPremium: 'Manuel premium',
     manualPremiumHint: 'Aktif Stripe abonelik ID\'si olmayan ücretli plan.',
@@ -1249,11 +1249,11 @@ export const tr: TranslationTree = {
     tipsTitle: 'Uzman ipuçları',
   },
   vsIndex: {
-    metaTitle: 'QRbanner Karşılaştırmaları — QR TIGER, Flowcode, Uniqode ve Daha Fazlası',
+    metaTitle: 'QRbanner Karşılaştırmaları — Özellik ve Fiyat Rehberleri',
     metaDescription:
-      'QRbanner ile QR TIGER, Flowcode, Uniqode, QR Code Monkey ve Bitly karşılaştırması. Özellikler, fiyatlandırma ve ücretsiz plan limitleri.',
+      'QRbanner\'ı diğer QR platformlarıyla karşılaştırın. Özellik, fiyatlandırma ve ücretsiz plan limitleri için dürüst yan yana karşılaştırmalar.',
     title: 'QRbanner nasıl karşılaştırılır',
-    subtitle: 'Önde gelen QR platformlarıyla özellik ve fiyat karşılaştırmaları.',
+    subtitle: 'Diğer QR platformlarıyla özellik ve fiyat karşılaştırmaları.',
   },
   integrationsPage: {
     metaTitle: 'Entegrasyonlar — API, Webhook ve Zapier',

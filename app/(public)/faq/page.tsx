@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { FAQ_ITEMS, faqJsonLd, pageMetadata, webPageJsonLd } from '@/lib/seo';
+import { getFaqItems } from '@/lib/i18n/faq-items';
+import { faqJsonLd, pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { FaqPageContent } from '@/components/public/faq-page-content';
@@ -33,7 +34,7 @@ export default async function FAQPage() {
 
   return (
     <>
-      <JsonLd data={[faqJsonLd(FAQ_ITEMS), webPageJsonLd({ title: pageTitle, description: pageDesc, path: '/faq' })]} />
+      <JsonLd data={[faqJsonLd(getFaqItems(locale)), webPageJsonLd({ title: pageTitle, description: pageDesc, path: '/faq' })]} />
       <PublicBreadcrumbs items={[{ label: t('nav.faq'), href: '/faq' }]} />
       <div className="py-10 sm:py-16">
         <div className="mx-auto max-w-3xl px-4 sm:px-6">

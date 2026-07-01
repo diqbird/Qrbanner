@@ -59,7 +59,7 @@ export function FeaturesPageContent() {
           <Link href="/pricing">
             <Button variant="outline">{t('nav.pricing')}</Button>
           </Link>
-          <Link href="/vs/scanova">
+          <Link href="/vs">
             <Button variant="ghost">{t('features.compareCompetitors')}</Button>
           </Link>
         </div>

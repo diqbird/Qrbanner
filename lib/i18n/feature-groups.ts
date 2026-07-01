@@ -19,6 +19,7 @@ const GROUPS_TR: { title: string; description: string; features: { title: string
       { title: 'Baskı Banner Dışa Aktarma', description: 'QR, başlık ve marka renklerinizle baskıya hazır pazarlama posterleri indirin (PNG/PDF).' },
       { title: 'Tasarım Asistanı', description: 'QR tipinize uygun renk ve stil önerileri — kolay tarama için optimize.' },
       { title: 'Tarama Güvenilirlik Kontrolü', description: 'Basmadan önce tasarımınızın ne kadar taranabilir olduğunu görün — kontrast, boyut ve kamera önizlemesi.' },
+      { title: 'AI Açılış Sayfası Metni', description: 'Açılış sayfası düzenleyicisinde başlık, alt başlık, CTA ve SEO metinlerini tek tıkla oluşturun.' },
     ],
   },
   {
@@ -46,6 +47,7 @@ const GROUPS_TR: { title: string; description: string; features: { title: string
       { title: 'Tarama Webhook\'ları', description: 'Her taramada HMAC imzalı HTTP POST bildirimleri — Zapier, Slack veya CRM\'inize bağlayın.' },
       { title: 'NFC Etiket Desteği', description: 'NFC etiketlerini aynı dinamik URL ile programlayın. Taramalar analitikte ayrı NFC olarak izlenir.' },
       { title: 'GPS Isı Haritası', description: 'Taramada isteğe bağlı tarayıcı konumu ve IP yedeklemesi — tarama kümelerini haritada görselleştirin.' },
+      { title: 'Açılış Sayfası CTA Analitiği', description: 'Tarama açılış sayfalarındaki buton tıklamalarını izleyin — taramadan aksiyona dönüşümü ölçün.' },
     ],
   },
   {
@@ -58,9 +60,11 @@ const GROUPS_TR: { title: string; description: string; features: { title: string
       { title: 'Marka Stil Şablonları', description: 'QR nokta stilleri, renkler ve çerçeveleri kampanyalar arasında kaydedin ve yeniden kullanın.' },
       { title: 'Özel Tarama Alan Adları', description: 'DNS ile alan adınızı doğrulayın ve taramaları markanızın URL\'si üzerinden sunun (ör. go.markaniz.com).' },
       { title: 'Ekip Çalışma Alanları', description: 'Ekip alanları oluşturun, rollü üyeler davet edin (sahip, admin, editör, görüntüleyici) ve birlikte çalışın.' },
-      { title: 'SSO Girişi', description: 'Google veya Microsoft Azure AD ile giriş. İş ekipleri için çalışma alanı düzeyinde SSO zorunluluğu.' },
+      { title: 'SSO & SAML', description: 'Google veya Microsoft Azure AD ile giriş. Business çalışma alanları SSO zorunluluğu ve SAML (Okta, Azure AD vb.) yapılandırabilir.' },
       { title: 'Erişim Kontrolleri', description: 'Şifre korumalı QR\'lar, isteğe bağlı son kullanma tarihleri ve kapalı kampanyalar için tarama limitleri.' },
       { title: 'İstediğiniz Zaman Düzenleyin', description: 'Basılı QR görselini değiştirmeden içerik, stil, yönlendirme kuralları ve pikselleri güncelleyin.' },
+      { title: 'İki Faktörlü Kimlik Doğrulama', description: 'TOTP kimlik doğrulayıcı uygulamalarıyla hesabınızı koruyun — Google Authenticator, 1Password ve daha fazlası.' },
+      { title: 'OpenAPI & Webhook Günlükleri', description: 'REST API v1 için OpenAPI 3.0 belgesini indirin ve Ayarlar\'da webhook teslimat geçmişini inceleyin.' },
     ],
   },
 ];

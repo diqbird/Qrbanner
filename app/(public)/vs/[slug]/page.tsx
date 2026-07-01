@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { COMPETITOR_PAGES, getCompetitorBySlug } from '@/lib/competitor-pages';
+import { getPublicComparisonMeta, getPublicComparisonView, getPublicListTitle } from '@/lib/competitor-public';
 import { pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { getServerLocale } from '@/lib/i18n/server';
@@ -12,12 +13,14 @@ export function generateStaticParams() {
   return COMPETITOR_PAGES.map((p) => ({ slug: p.slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: { params: { slug: string } }) {
   const page = getCompetitorBySlug(params.slug);
   if (!page) return {};
+  const locale = await getServerLocale();
+  const meta = getPublicComparisonMeta(page, locale);
   return pageMetadata({
-    title: page.title,
-    description: page.metaDescription,
+    title: meta.title,
+    description: meta.description,
     path: `/vs/${page.slug}`,
   });
 }
@@ -28,27 +31,28 @@ export default async function VsDetailPage({ params }: { params: { slug: string 
 
   const locale = await getServerLocale();
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
+  const view = getPublicComparisonView(page, locale);
 
   return (
     <>
       <PublicBreadcrumbs
         items={[
           { label: t('nav.comparisons'), href: '/vs' },
-          { label: page.name, href: `/vs/${page.slug}` },
+          { label: view.breadcrumbLabel, href: `/vs/${page.slug}` },
         ]}
       />
       <div className="py-10 sm:py-16">
         <div className="mx-auto max-w-3xl px-4 sm:px-6">
           <header className="text-center">
-            <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">{page.headline}</h1>
-            <p className="mt-4 text-lg text-muted-foreground">{page.summary}</p>
+            <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">{view.headline}</h1>
+            <p className="mt-4 text-lg text-muted-foreground">{view.summary}</p>
           </header>
 
           <div className="mt-12 grid gap-6 sm:grid-cols-2">
             <section className="rounded-xl border border-primary/20 bg-primary/5 p-5">
               <h2 className="font-display font-semibold text-primary">{t('vsDetail.qrbannerAdvantages')}</h2>
               <ul className="mt-4 space-y-2">
-                {page.qrbannerWins.map((item) => (
+                {view.qrbannerWins.map((item) => (
                   <li key={item} className="flex gap-2 text-sm">
                     <CheckCircle2 className="h-4 w-4 shrink-0 text-primary mt-0.5" />
                     {item}
@@ -57,11 +61,9 @@ export default async function VsDetailPage({ params }: { params: { slug: string 
               </ul>
             </section>
             <section className="rounded-xl border border-border/50 bg-card p-5">
-              <h2 className="font-display font-semibold">
-                {t('vsDetail.competitorConsiderations', { name: page.name })}
-              </h2>
+              <h2 className="font-display font-semibold">{view.considerationsTitle}</h2>
               <ul className="mt-4 space-y-2">
-                {page.competitorWeaknesses.map((item) => (
+                {view.competitorWeaknesses.map((item) => (
                   <li key={item} className="text-sm text-muted-foreground">• {item}</li>
                 ))}
               </ul>
@@ -74,11 +76,11 @@ export default async function VsDetailPage({ params }: { params: { slug: string 
                 <tr className="border-b bg-muted/40 text-left">
                   <th className="p-4 font-medium">{t('vsDetail.colFeature')}</th>
                   <th className="p-4 font-medium">{t('vsDetail.colQrbanner')}</th>
-                  <th className="p-4 font-medium">{page.name}</th>
+                  <th className="p-4 font-medium">{view.typicalLabel}</th>
                 </tr>
               </thead>
               <tbody>
-                {page.comparisonRows.map((row) => (
+                {view.comparisonRows.map((row) => (
                   <tr key={row.feature} className="border-b last:border-0">
                     <td className="p-4">{row.feature}</td>
                     <td className="p-4 font-medium text-primary">{row.qrbanner}</td>

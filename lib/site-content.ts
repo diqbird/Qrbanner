@@ -28,6 +28,9 @@ import {
   Split,
   Nfc,
   Sparkles,
+  MousePointerClick,
+  ShieldCheck,
+  FileJson,
 } from 'lucide-react';
 import { PLANS } from '@/lib/plans';
 
@@ -86,6 +89,12 @@ export const FEATURE_GROUPS: { title: string; description: string; features: Sit
         title: 'Scan Reliability Check',
         description: 'See how scannable your design is before you print — contrast, size and camera preview.',
         tag: 'Differentiator',
+      },
+      {
+        icon: Sparkles,
+        title: 'AI Landing Copy',
+        description: 'Generate titles, subtitles, CTA labels and SEO metadata in the landing page editor with one click.',
+        tag: 'New',
       },
     ],
   },
@@ -176,6 +185,12 @@ export const FEATURE_GROUPS: { title: string; description: string; features: Sit
         title: 'GPS Heatmap',
         description: 'Optional browser geolocation on scan plus IP fallback — visualize scan clusters on a map.',
       },
+      {
+        icon: MousePointerClick,
+        title: 'Landing CTA Analytics',
+        description: 'Track button clicks on scan landing pages — measure conversion from scan to action.',
+        tag: 'New',
+      },
     ],
   },
   {
@@ -214,8 +229,8 @@ export const FEATURE_GROUPS: { title: string; description: string; features: Sit
       },
       {
         icon: Shield,
-        title: 'SSO Login',
-        description: 'Sign in with Google or Microsoft Azure AD. Workspace-level SSO enforcement for business teams.',
+        title: 'SSO & SAML',
+        description: 'Sign in with Google or Microsoft Azure AD. Business workspaces can enforce SSO and configure SAML (Okta, Azure AD, etc.).',
       },
       {
         icon: Shield,
@@ -226,6 +241,17 @@ export const FEATURE_GROUPS: { title: string; description: string; features: Sit
         icon: RefreshCw,
         title: 'Edit Anytime',
         description: 'Update content, style, routing rules and pixels without changing the printed QR image.',
+      },
+      {
+        icon: ShieldCheck,
+        title: 'Two-Factor Authentication',
+        description: 'Protect your account with TOTP authenticator apps — Google Authenticator, 1Password and more.',
+        tag: 'New',
+      },
+      {
+        icon: FileJson,
+        title: 'OpenAPI & Webhook Logs',
+        description: 'Download the OpenAPI 3.0 spec for REST API v1 and inspect webhook delivery history in Settings.',
       },
     ],
   },
@@ -293,4 +319,10 @@ export const COMPARISON_ROWS: { feature: string; qrbanner: string; typical: stri
   { feature: 'NFC tag tracking', qrbanner: 'Included', typical: 'Rare' },
   { feature: 'GPS scan heatmap', qrbanner: 'Included', typical: 'Paid tier' },
   { feature: 'SSO (Google / Microsoft)', qrbanner: 'Included', typical: 'Enterprise' },
+  { feature: 'SAML SSO (Business)', qrbanner: 'Included', typical: 'Enterprise' },
+  { feature: 'TOTP two-factor auth', qrbanner: 'Included', typical: 'Rare' },
+  { feature: 'Landing CTA click analytics', qrbanner: 'Included', typical: 'Paid tier' },
+  { feature: 'AI landing page copy', qrbanner: 'Pro+', typical: 'Rare' },
+  { feature: 'OpenAPI specification', qrbanner: 'Included', typical: 'Rare' },
+  { feature: 'Webhook delivery logs', qrbanner: 'Included', typical: 'Rare' },
 ];

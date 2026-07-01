@@ -1022,9 +1022,9 @@ export const en: TranslationTree = {
     premiumTitle: 'Premium (Pro + Business)',
     premiumBreakdown: 'Pro {{pro}} · Business {{business}} · Agency {{agency}}',
     billingTitle: 'Billing overview',
-    billingSubtitle: 'Revenue estimate and Stripe subscription health across all members.',
+    billingSubtitle: 'Stripe subscription revenue and billing health across all members.',
     estimatedMrr: 'Estimated MRR',
-    estimatedMrrHint: 'Based on assigned plan tiers (includes manual upgrades).',
+    estimatedMrrHint: 'Based on active Stripe subscriptions only (excludes manual admin upgrades).',
     stripeSubscribers: 'Stripe subscribers',
     manualPremium: 'Manual premium',
     manualPremiumHint: 'Paid plan without an active Stripe subscription ID.',
@@ -1249,11 +1249,11 @@ export const en: TranslationTree = {
     tipsTitle: 'Pro tips',
   },
   vsIndex: {
-    metaTitle: 'QRbanner Comparisons — vs QR TIGER, Flowcode, Uniqode & More',
+    metaTitle: 'QRbanner Comparisons — Feature & Pricing Guides',
     metaDescription:
-      'Honest comparisons of QRbanner with QR TIGER, Flowcode, Uniqode, QR Code Monkey and Bitly. Features, pricing and free plan limits.',
+      'Compare QRbanner with other QR platforms. Honest side-by-side feature, pricing and free-plan comparisons — no vendor lock-in.',
     title: 'How QRbanner compares',
-    subtitle: 'Side-by-side feature and pricing comparisons with leading QR platforms.',
+    subtitle: 'Side-by-side feature and pricing comparisons with other QR platforms.',
   },
   integrationsPage: {
     metaTitle: 'Integrations — API, Webhooks & Zapier',

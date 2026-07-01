@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { COMPETITOR_PAGES } from '@/lib/competitor-pages';
+import { getPublicListTitle, sanitizeCompetitorBrands } from '@/lib/competitor-public';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
@@ -15,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: t('vsIndex.metaTitle'),
     description: t('vsIndex.metaDescription'),
     path: '/vs',
-    keywords: ['QRbanner vs QR Tiger', 'QR code platform comparison', 'best QR code generator'],
+    keywords: ['QR code platform comparison', 'dynamic QR comparison', 'best QR code generator'],
   });
 }
 
@@ -49,8 +50,12 @@ export default async function VsIndexPage() {
                   className="group flex items-center justify-between rounded-xl border border-border/50 bg-card p-5 transition-colors hover:border-primary/40"
                 >
                   <div>
-                    <h2 className="font-display font-semibold group-hover:text-primary">{p.title}</h2>
-                    <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{p.summary}</p>
+                    <h2 className="font-display font-semibold group-hover:text-primary">
+                      {getPublicListTitle(p, locale)}
+                    </h2>
+                    <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
+                      {sanitizeCompetitorBrands(p.summary)}
+                    </p>
                   </div>
                   <ArrowRight className="h-5 w-5 shrink-0 text-muted-foreground group-hover:text-primary" />
                 </Link>

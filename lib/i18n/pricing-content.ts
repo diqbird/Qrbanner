@@ -14,45 +14,72 @@ function planFeatures(plan: PlanLimits, locale: Locale): string[] {
       ? `${plan.maxCustomDomains} özel tarama alan adı`
       : `${plan.maxCustomDomains} custom scan domain${plan.maxCustomDomains === 1 ? '' : 's'}`;
 
+  const sharedTr = [
+    'Akıllı yönlendirme (zaman, konum, cihaz)',
+    'Açılış sayfası + lead yakalama + CTA analitiği',
+    'GA4, Meta Pixel ve tarama webhook\'ları',
+    'Marka stil şablonları ve çözüm şablonları',
+    'Klasörler, etiketler ve tarama bildirimleri',
+    'İki faktörlü kimlik doğrulama (TOTP)',
+  ];
+  const sharedEn = [
+    'Smart routing (schedule, geofence, device)',
+    'Landing pages, lead capture & CTA analytics',
+    'GA4, Meta Pixel & scan webhooks with delivery logs',
+    'Brand style templates & solution templates',
+    'Folders, labels & scan notifications',
+    'Two-factor authentication (TOTP)',
+  ];
+
   if (locale === 'tr') {
-    return [
+    const features = [
       `${plan.maxQrCodes.toLocaleString('tr-TR')} dinamik QR kodu`,
       domains,
       `Toplu içe aktarma: ${plan.maxBulkRows} satıra kadar`,
-      plan.apiAccess ? 'REST API erişimi' : 'API erişimi yok',
+      plan.apiAccess ? 'REST API + OpenAPI dokümantasyonu' : 'API erişimi yok',
       plan.analyticsRetentionDays
         ? `${plan.analyticsRetentionDays} günlük analitik geçmişi`
         : 'Sınırsız analitik geçmişi',
       plan.codesActiveAfterCancel
         ? 'İptalde QR kodları aktif kalır'
         : 'Abonelik bitince kodlar duraklar',
-      'Akıllı yönlendirme (zaman, konum, cihaz)',
-      'GA4 ve Meta Pixel desteği',
-      'Tarama webhook\'ları ve lead yakalama',
-      'Marka stil şablonları',
-      'Klasörler, etiketler ve tarama bildirimleri',
-      ...(plan.whiteLabel ? ['Beyaz etiket açılış sayfaları (Powered by gizle)'] : []),
+      ...sharedTr,
     ];
+    if (plan.id === 'business' || plan.id === 'agency') {
+      features.push('Ekip SSO (Google, Microsoft, SAML)');
+      features.push('AI ile açılış sayfası metni');
+    } else if (plan.id === 'pro') {
+      features.push('AI ile açılış sayfası metni (isteğe bağlı)');
+    }
+    if (plan.whiteLabel) {
+      features.push('Beyaz etiket açılış sayfaları (Powered by gizle)');
+    }
+    return features;
   }
 
-  return [
+  const features = [
     `${plan.maxQrCodes.toLocaleString()} dynamic QR codes`,
     domains,
     `Bulk import up to ${plan.maxBulkRows} rows`,
-    plan.apiAccess ? 'REST API access' : 'No API access',
+    plan.apiAccess ? 'REST API + OpenAPI spec' : 'No API access',
     plan.analyticsRetentionDays
       ? `${plan.analyticsRetentionDays}-day analytics history`
       : 'Unlimited analytics history',
     plan.codesActiveAfterCancel
       ? 'QR codes stay active if you cancel'
       : 'Codes pause when subscription ends',
-    'Smart routing (schedule, geofence, device)',
-    'GA4 & Meta Pixel support',
-    'Scan webhooks & lead capture',
-    'Brand style templates',
-    'Folders, labels & scan notifications',
-    ...(plan.whiteLabel ? ['White-label landing pages (hide Powered by)'] : []),
+    ...sharedEn,
   ];
+  if (plan.id === 'business' || plan.id === 'agency') {
+    features.push('Team SSO (Google, Microsoft, SAML)');
+    features.push('AI-assisted landing page copy');
+  } else if (plan.id === 'pro') {
+    features.push('AI-assisted landing copy (optional)');
+  }
+  if (plan.whiteLabel) {
+    features.push('White-label landing pages (hide Powered by)');
+  }
+  return features;
 }
 
 export function getPricingPlans(locale: Locale, interval: BillingInterval = 'monthly') {
@@ -89,19 +116,22 @@ export function getComparisonRows(locale: Locale) {
     ['Codes active after cancel', 'Yes', 'Often no'],
     ['Geofence + schedule routing', 'Included', 'Paid tier'],
     ['Custom scan domain', 'Free plan', 'Paid tier'],
-    ['REST API', 'Free plan', 'Paid tier'],
+    ['REST API + OpenAPI', 'Free plan', 'Paid tier'],
     ['Bulk CSV import', 'Included', 'Paid tier'],
     ['Print banner export', 'Included', 'Rare'],
     ['GA4 + Meta Pixel on scan', 'Included', 'Partial'],
-    ['Scan webhooks (Zapier-ready)', 'Included', 'Paid tier'],
+    ['Scan webhooks + delivery logs', 'Included', 'Paid tier'],
+    ['Landing CTA click analytics', 'Included', 'Rare'],
     ['Lead capture on landing pages', 'Included', 'Paid tier'],
+    ['AI landing page copy', 'Pro+', 'Rare'],
     ['Analytics date range filter', 'Included', 'Paid tier'],
-    ['Brand style templates', 'Included', 'Rare'],
+    ['Brand & solution templates', 'Included', 'Rare'],
     ['A/B variant routing', 'Included', 'Paid tier'],
-    ['Team workspaces', 'Included', 'Paid tier'],
+    ['Team workspaces + SSO/SAML', 'Business+', 'Enterprise'],
+    ['Two-factor auth (TOTP)', 'Included', 'Rare'],
     ['NFC tag tracking', 'Included', 'Rare'],
     ['GPS scan heatmap', 'Included', 'Paid tier'],
-    ['SSO (Google / Microsoft)', 'Included', 'Enterprise'],
+    ['Turkish locale site (/tr)', 'Included', 'Rare'],
   ] as const;
 
   if (locale !== 'tr') {
@@ -113,28 +143,32 @@ export function getComparisonRows(locale: Locale) {
     'İptalde kodlar aktif',
     'Geofence + zaman yönlendirme',
     'Özel tarama alan adı',
-    'REST API',
+    'REST API + OpenAPI',
     'Toplu CSV içe aktarma',
     'Baskı banner dışa aktarma',
     'Taramada GA4 + Meta Pixel',
-    'Tarama webhook\'ları (Zapier)',
+    'Webhook + teslimat günlükleri',
+    'Açılış sayfası CTA analitiği',
     'Açılış sayfası lead yakalama',
+    'AI açılış sayfası metni',
     'Analitik tarih aralığı filtresi',
-    'Marka stil şablonları',
+    'Marka ve çözüm şablonları',
     'A/B varyant yönlendirme',
-    'Ekip çalışma alanları',
+    'Ekip çalışma alanı + SSO/SAML',
+    'İki faktörlü kimlik doğrulama',
     'NFC etiket takibi',
     'GPS tarama ısı haritası',
-    'SSO (Google / Microsoft)',
+    'Türkçe site (/tr)',
   ];
   const trQr = [
     'Dahil', 'Evet', 'Dahil', 'Ücretsiz plan', 'Ücretsiz plan', 'Dahil', 'Dahil', 'Dahil',
-    'Dahil', 'Dahil', 'Dahil', 'Dahil', 'Dahil', 'Dahil', 'Dahil', 'Dahil', 'Dahil',
+    'Dahil', 'Dahil', 'Dahil', 'Pro+', 'Dahil', 'Dahil', 'Dahil', 'Business+', 'Dahil', 'Dahil',
+    'Dahil', 'Dahil',
   ];
   const trTypical = [
     'Dahil', 'Genelde hayır', 'Ücretli plan', 'Ücretli plan', 'Ücretli plan', 'Ücretli plan',
-    'Nadir', 'Kısmi', 'Ücretli plan', 'Ücretli plan', 'Ücretli plan', 'Nadir', 'Ücretli plan',
-    'Ücretli plan', 'Nadir', 'Ücretli plan', 'Kurumsal',
+    'Nadir', 'Kısmi', 'Ücretli plan', 'Nadir', 'Ücretli plan', 'Nadir', 'Ücretli plan', 'Nadir',
+    'Ücretli plan', 'Kurumsal', 'Nadir', 'Nadir', 'Ücretli plan', 'Nadir',
   ];
 
   return trFeatures.map((feature, i) => ({

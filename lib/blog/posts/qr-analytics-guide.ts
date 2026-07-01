@@ -42,6 +42,15 @@ export const qrAnalyticsGuide: BlogPost = {
     },
     {
       type: 'h2',
+      content: 'Landing page CTA conversion',
+    },
+    {
+      type: 'p',
+      content:
+        'Scans tell you someone arrived; CTA clicks tell you they took the next step. QRbanner tracks button clicks on scan landing pages separately from raw scan counts so you can measure menu orders, coupon claims, or app installs. Compare CTA rate per QR code and pair with A/B variant routing to optimize copy without reprinting.',
+    },
+    {
+      type: 'h2',
       content: 'Act on the data',
     },
     {

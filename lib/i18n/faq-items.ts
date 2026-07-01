@@ -29,12 +29,12 @@ const FAQ_EN: FaqItem[] = [
   {
     question: 'What happens to my QR codes if I cancel?',
     answer:
-      'Unlike many competitors, QRbanner is designed so your dynamic codes can keep working on the Free plan after you downgrade or cancel, within plan limits.',
+      'QRbanner is designed so your dynamic codes can keep working on the Free plan after you downgrade or cancel, within plan limits — your printed codes are not held hostage.',
   },
   {
     question: 'Which analytics are included?',
     answer:
-      'Track total and unique scans, custom date ranges, country, city, device, browser and OS breakdowns, GPS heatmaps, A/B variant stats and NFC vs QR source. Export CSV reports from the dashboard.',
+      'Track total and unique scans, custom date ranges, country, city, device, browser and OS breakdowns, GPS heatmaps, A/B variant stats, NFC vs QR source, and landing page CTA click-through rates. Export CSV reports from the dashboard.',
   },
   {
     question: 'Can I bulk-create QR codes?',
@@ -69,7 +69,17 @@ const FAQ_EN: FaqItem[] = [
   {
     question: 'Do you support SSO?',
     answer:
-      'Yes. Sign in with Google or Microsoft Azure AD. Team workspaces can enforce SSO for members.',
+      'Yes. Sign in with Google or Microsoft Azure AD. Business workspaces can enforce SSO and configure SAML (Okta, Azure AD, etc.) with allowed email domains.',
+  },
+  {
+    question: 'Is two-factor authentication available?',
+    answer:
+      'Yes. Enable TOTP authenticator apps (Google Authenticator, 1Password, etc.) in Settings for an extra layer of account security.',
+  },
+  {
+    question: 'Can AI help write landing page copy?',
+    answer:
+      'Yes. In the landing page editor, use Generate with AI to draft titles, subtitles, CTA labels and SEO metadata. Requires an OpenAI API key on the server (optional).',
   },
   {
     question: 'Does QRbanner support NFC tags?',
@@ -107,12 +117,12 @@ const FAQ_TR: FaqItem[] = [
   {
     question: 'İptal edersem QR kodlarıma ne olur?',
     answer:
-      'Birçok rakipten farklı olarak QRbanner, plan limitleri dahilinde iptal veya düşürme sonrası dinamik kodlarınızın Ücretsiz planda çalışmaya devam etmesi için tasarlanmıştır.',
+      'QRbanner, plan limitleri dahilinde iptal veya düşürme sonrası dinamik kodlarınızın Ücretsiz planda çalışmaya devam etmesi için tasarlanmıştır — basılı kodlarınız rehin alınmaz.',
   },
   {
     question: 'Hangi analitikler dahil?',
     answer:
-      'Toplam ve benzersiz taramalar, özel tarih aralıkları, ülke, şehir, cihaz, tarayıcı ve işletim sistemi dağılımları, GPS ısı haritaları, A/B varyant istatistikleri ve NFC vs QR kaynağı. Panelden CSV raporları dışa aktarın.',
+      'Toplam ve benzersiz taramalar, özel tarih aralıkları, ülke, şehir, cihaz, tarayıcı ve işletim sistemi dağılımları, GPS ısı haritaları, A/B varyant istatistikleri, NFC vs QR kaynağı ve açılış sayfası CTA tıklama oranları. Panelden CSV raporları dışa aktarın.',
   },
   {
     question: 'Toplu QR kodu oluşturabilir miyim?',
@@ -147,7 +157,17 @@ const FAQ_TR: FaqItem[] = [
   {
     question: 'SSO destekleniyor mu?',
     answer:
-      'Evet. Google veya Microsoft Azure AD ile giriş yapın. Ekip çalışma alanları üyeler için SSO zorunluluğu uygulayabilir.',
+      'Evet. Google veya Microsoft Azure AD ile giriş yapın. Business çalışma alanları SSO zorunluluğu ve SAML (Okta, Azure AD vb.) ile izinli e-posta alan adları yapılandırabilir.',
+  },
+  {
+    question: 'İki faktörlü kimlik doğrulama var mı?',
+    answer:
+      'Evet. Ayarlar\'dan TOTP kimlik doğrulayıcı uygulamalarını (Google Authenticator, 1Password vb.) etkinleştirerek ekstra hesap güvenliği sağlayın.',
+  },
+  {
+    question: 'AI açılış sayfası metni yazabilir mi?',
+    answer:
+      'Evet. Açılış sayfası düzenleyicisinde AI ile oluştur ile başlık, alt başlık, CTA ve SEO metinleri üretin. Sunucuda OpenAI API anahtarı gerektirir (isteğe bağlı).',
   },
   {
     question: 'QRbanner NFC etiketlerini destekliyor mu?',

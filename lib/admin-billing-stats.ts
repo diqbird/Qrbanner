@@ -17,7 +17,7 @@ export function planCountsFromGroupBy(
   return counts;
 }
 
-/** Rough MRR from assigned plan tiers (includes manual admin upgrades). */
+/** MRR from active Stripe subscriptions only (excludes manual admin plan assignments). */
 export function estimatedMrr(planCounts: AdminPlanCounts): number {
   let mrr = 0;
   for (const id of ['pro', 'business', 'agency'] as PlanId[]) {
