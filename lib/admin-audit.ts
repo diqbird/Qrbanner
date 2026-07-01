@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server';
+import type { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/db';
 import { clientIp } from '@/lib/rate-limit-store';
 
@@ -31,7 +32,7 @@ export async function recordAdminAudit(input: {
         targetType: input.targetType ?? null,
         targetId: input.targetId ?? null,
         summary: input.summary ?? null,
-        metadata: input.metadata ?? undefined,
+        metadata: input.metadata ? (input.metadata as Prisma.InputJsonValue) : undefined,
         ipAddress: input.req ? clientIp(input.req) : null,
         userAgent: input.req?.headers.get('user-agent')?.slice(0, 240) ?? null,
       },
