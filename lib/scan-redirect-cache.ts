@@ -69,7 +69,7 @@ export async function invalidateScanQrCache(shortCode?: string | null): Promise<
 }
 
 export async function invalidateScanQrCaches(shortCodes: string[]): Promise<void> {
-  const unique = [...new Set(shortCodes.filter(Boolean))];
+  const unique = Array.from(new Set(shortCodes.filter(Boolean)));
   if (!unique.length) return;
 
   const redis = await getRedisClient();
