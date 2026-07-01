@@ -152,6 +152,7 @@ model QRCode {
   folder      QRFolder? @relation(fields: [folderId], references: [id], onDelete: SetNull)
   scans       QRScan[]
   leads       LeadSubmission[]
+  landingCtaClicks LandingCtaClick[]
 
   @@index([userId])
   @@index([workspaceId])
@@ -260,6 +261,26 @@ model LeadSubmission {
 
   @@index([qrCodeId])
   @@index([createdAt])
+}
+
+model LandingCtaClick {
+  id        String   @id @default(cuid())
+  qrCodeId  String
+  ctaType   String   @default("primary")
+  ctaLabel  String?
+  ip        String?
+  userAgent String?
+  country   String?
+  city      String?
+  device    String?
+  browser   String?
+  os        String?
+  clickedAt DateTime @default(now())
+  qrCode    QRCode   @relation(fields: [qrCodeId], references: [id], onDelete: Cascade)
+
+  @@index([qrCodeId])
+  @@index([clickedAt])
+  @@index([qrCodeId, clickedAt])
 }
 
 model QRStyleTemplate {

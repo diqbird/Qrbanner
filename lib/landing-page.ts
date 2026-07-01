@@ -3,6 +3,7 @@ import {
   renderCtaClickHandler,
   type PixelAnalyticsConfig,
 } from '@/lib/pixel-analytics';
+import { renderHubLinkBeacon } from '@/lib/landing-cta-analytics';
 import { renderGpsCaptureScript } from '@/lib/gps-heatmap';
 
 export type LandingTemplate = 'minimal' | 'restaurant' | 'hotel' | 'event' | 'business';
@@ -145,7 +146,7 @@ export function renderLandingPage(
               : /^https?:\/\//i.test(link.url.trim())
                 ? link.url.trim()
                 : `https://${link.url.trim()}`;
-            return `<a class="cta hub-link" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label.trim())}</a>`;
+            return `<a class="cta hub-link" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer" ${preview ? '' : renderHubLinkBeacon(shortCode, link.label.trim())}>${escapeHtml(link.label.trim())}</a>`;
           })
           .join('')}</div>`
       : '';

@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { parseUserAgent } from '@/lib/qr-utils';
 import { lookupGeo } from '@/lib/geoip';
+import { logLandingCtaClick } from '@/lib/landing-cta-analytics';
 
 export async function POST(req: NextRequest) {
   try {
@@ -56,6 +57,8 @@ export async function POST(req: NextRequest) {
         device,
       },
     });
+
+    logLandingCtaClick(qrCode, req, { ctaType: 'lead', ctaLabel: 'Lead form' });
 
     return NextResponse.json({ ok: true, redirect: `/s/${shortCode}?go=1` });
   } catch (error) {

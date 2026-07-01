@@ -14,6 +14,10 @@ import { subDays, format } from 'date-fns';
 import { buildOptimizationInsights } from '@/lib/optimization-insights';
 import { OptimizationInsightsPanel } from './optimization-insights-panel';
 import { LeadSubmissionsPanel } from './lead-submissions-panel';
+import {
+  LandingCtaAnalyticsPanel,
+  type LandingCtaAnalytics,
+} from './landing-cta-analytics-panel';
 import { useLanguage } from '@/components/i18n/language-provider';
 import type { PeriodComparison } from '@/lib/analytics-comparison';
 import { PeriodChangeBadge } from '@/components/analytics/period-change-badge';
@@ -47,6 +51,7 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
   const [retentionCutoff, setRetentionCutoff] = useState<string | null>(null);
   const [planName, setPlanName] = useState('Free');
   const [qrName, setQrName] = useState('');
+  const [landingCta, setLandingCta] = useState<LandingCtaAnalytics | null>(null);
   const [dateRange, setDateRange] = useState<DateRange>({
     from: subDays(new Date(), 30),
     to: new Date(),
@@ -69,6 +74,7 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
       setData(result?.analytics ?? null);
       setPeriodComparison(result?.periodComparison ?? null);
       setQrName(result?.qrName ?? '');
+      setLandingCta(result?.landingCta ?? null);
       setRetentionCutoff(result?.retentionCutoff ?? null);
     } catch {
       setFetchError(true);
@@ -216,6 +222,8 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
 
       {/* Charts */}
       {data && <AnalyticsCharts data={data} />}
+
+      {landingCta && <LandingCtaAnalyticsPanel data={landingCta} />}
 
       <LeadSubmissionsPanel qrId={qrId} />
 

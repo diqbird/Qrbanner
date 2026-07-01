@@ -83,6 +83,7 @@ export function AnalyticsPixelSettings({
           Events: <code className="text-[10px]">PageView</code> on scan,
           <code className="text-[10px]"> qr_scan</code> / <code className="text-[10px]">QRScan</code> on direct redirect,
           <code className="text-[10px]"> qr_cta_click</code> / <code className="text-[10px]">Lead</code> on landing CTA.
+          CTA clicks are also tracked in QRbanner analytics when a landing page is enabled.
         </p>
       </CardContent>
     </Card>

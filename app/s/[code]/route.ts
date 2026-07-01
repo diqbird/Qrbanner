@@ -28,6 +28,7 @@ import {
 import { parseBrandingSettings } from '@/lib/referral';
 import { isBlockedRedirectUrl, SCAN_PAGE_HEADERS } from '@/lib/url-safety';
 import { getQrForScan } from '@/lib/scan-redirect-cache';
+import { logLandingCtaClick } from '@/lib/landing-cta-analytics';
 
 function withScanHeaders(res: NextResponse): NextResponse {
   Object.entries(SCAN_PAGE_HEADERS).forEach(([k, v]) => res.headers.set(k, v));
@@ -381,6 +382,13 @@ async function handleScan(qrCode: NonNullable<QR>, req: NextRequest, skipLanding
   const isGoRedirect = req.nextUrl.searchParams.get('go') === '1';
 
   if (isGoRedirect || skipLanding) {
+    if (isGoRedirect && shouldShowLanding(qrCode)) {
+      const landing = parseLandingData(qrCode.landingPageData);
+      logLandingCtaClick(qrCode, req, {
+        ctaType: 'primary',
+        ctaLabel: landing.ctaLabel || 'Continue',
+      });
+    }
     return resolveRedirect(qrCode, req);
   }
 

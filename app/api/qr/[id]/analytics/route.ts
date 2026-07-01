@@ -13,6 +13,10 @@ import {
   getUserAnalyticsCutoff,
   parseAnalyticsRange,
 } from '@/lib/analytics-range';
+import {
+  buildLandingCtaAnalytics,
+  filterCtaClicksByRange,
+} from '@/lib/landing-cta-analytics';
 import { assertQrAccess } from '@/lib/workspace';
 
 export async function GET(
@@ -67,9 +71,39 @@ export async function GET(
       ? buildPeriodComparison(analytics, buildAnalytics(previousFiltered, 30, prevRange, locale))
       : null;
 
+    let landingCta = null;
+    if (qrCode.landingPageEnabled) {
+      const ctaClicks = await prisma.landingCtaClick.findMany({
+        where: {
+          qrCodeId: qrCode.id,
+          ...(fetchFrom || range.to
+            ? {
+                clickedAt: {
+                  ...(fetchFrom ? { gte: fetchFrom } : {}),
+                  ...(range.to ? { lte: range.to } : {}),
+                },
+              }
+            : cutoff
+              ? { clickedAt: { gte: cutoff } }
+              : {}),
+        },
+        orderBy: { clickedAt: 'desc' },
+        select: {
+          ctaType: true,
+          ctaLabel: true,
+          clickedAt: true,
+          device: true,
+          country: true,
+        },
+      });
+      const filteredClicks = filterCtaClicksByRange(ctaClicks, range);
+      landingCta = buildLandingCtaAnalytics(filteredClicks, filtered.length, range, locale);
+    }
+
     return NextResponse.json({
       analytics,
       periodComparison,
+      landingCta,
       qrName: qrCode.name,
       range: {
         from: range.from?.toISOString() ?? null,
