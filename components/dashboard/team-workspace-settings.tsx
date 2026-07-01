@@ -12,6 +12,7 @@ import {
 import { Users, Plus, Mail, Trash2, Shield } from 'lucide-react';
 import { toast } from 'sonner';
 import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 
@@ -33,6 +34,9 @@ export function TeamWorkspaceSettings() {
   const [inviteEmail, setInviteEmail] = useState('');
   const [newTeamName, setNewTeamName] = useState('');
   const [ssoProvider, setSsoProvider] = useState('google');
+  const [idpEntityId, setIdpEntityId] = useState('');
+  const [idpSsoUrl, setIdpSsoUrl] = useState('');
+  const [idpCertificate, setIdpCertificate] = useState('');
   const [allowedDomainsText, setAllowedDomainsText] = useState('');
   const [loading, setLoading] = useState(true);
   const [working, setWorking] = useState(false);
@@ -68,6 +72,9 @@ export function TeamWorkspaceSettings() {
   useEffect(() => {
     if (!workspace || workspace.isPersonal) return;
     setSsoProvider(workspace.ssoProvider ?? 'google');
+    setIdpEntityId(workspace.idpEntityId ?? '');
+    setIdpSsoUrl(workspace.idpSsoUrl ?? '');
+    setIdpCertificate(workspace.idpCertificate ?? '');
     const domains = Array.isArray(workspace.allowedDomains) ? workspace.allowedDomains : [];
     setAllowedDomainsText(domains.join(', '));
   }, [workspace]);
@@ -83,6 +90,9 @@ export function TeamWorkspaceSettings() {
           workspaceId: activeId,
           ssoEnabled: patch?.ssoEnabled ?? Boolean(workspace?.ssoEnabled),
           ssoProvider,
+          idpEntityId,
+          idpSsoUrl,
+          idpCertificate,
           allowedDomains: allowedDomainsText
             .split(/[,;\s]+/)
             .map((d) => d.trim())
@@ -284,9 +294,59 @@ export function TeamWorkspaceSettings() {
                 <SelectContent>
                   <SelectItem value="google">{t('settings.team.ssoProviderGoogle')}</SelectItem>
                   <SelectItem value="azure-ad">{t('settings.team.ssoProviderMicrosoft')}</SelectItem>
+                  <SelectItem value="saml">{t('settings.team.ssoProviderSaml')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
+            {ssoProvider === 'saml' && (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="idp-entity-id">{t('settings.team.idpEntityId')}</Label>
+                  <Input
+                    id="idp-entity-id"
+                    value={idpEntityId}
+                    onChange={(e) => setIdpEntityId(e.target.value)}
+                    placeholder="https://idp.example.com/metadata"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="idp-sso-url">{t('settings.team.idpSsoUrl')}</Label>
+                  <Input
+                    id="idp-sso-url"
+                    value={idpSsoUrl}
+                    onChange={(e) => setIdpSsoUrl(e.target.value)}
+                    placeholder="https://idp.example.com/sso/saml"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="idp-certificate">{t('settings.team.idpCertificate')}</Label>
+                  <Textarea
+                    id="idp-certificate"
+                    value={idpCertificate}
+                    onChange={(e) => setIdpCertificate(e.target.value)}
+                    placeholder={t('settings.team.idpCertificatePlaceholder')}
+                    rows={5}
+                    className="font-mono text-xs"
+                  />
+                </div>
+                {workspace?.slug && (
+                  <div className="space-y-2 rounded-md bg-muted/40 p-3 text-xs">
+                    <p className="font-medium">{t('settings.team.samlLoginUrl')}</p>
+                    <code className="block break-all">
+                      {typeof window !== 'undefined'
+                        ? `${window.location.origin}/api/auth/saml/login?workspace=${workspace.slug}`
+                        : `/api/auth/saml/login?workspace=${workspace.slug}`}
+                    </code>
+                    <p className="font-medium pt-2">{t('settings.team.samlMetadataUrl')}</p>
+                    <code className="block break-all">
+                      {typeof window !== 'undefined'
+                        ? `${window.location.origin}/api/auth/saml/metadata?workspace=${workspace.slug}`
+                        : `/api/auth/saml/metadata?workspace=${workspace.slug}`}
+                    </code>
+                  </div>
+                )}
+              </>
+            )}
             <div className="space-y-2">
               <Label htmlFor="allowed-domains">{t('settings.team.allowedDomains')}</Label>
               <Input

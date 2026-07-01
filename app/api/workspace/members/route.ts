@@ -49,6 +49,9 @@ export async function GET(req: NextRequest) {
       ssoEnabled: true,
       ssoProvider: true,
       allowedDomains: true,
+      idpEntityId: true,
+      idpSsoUrl: true,
+      idpCertificate: true,
     },
   });
 
@@ -133,12 +136,31 @@ export async function POST(req: NextRequest) {
         ? normalizeAllowedDomainsInput(body.allowedDomains).slice(0, 20)
         : parseAllowedDomains(workspace?.allowedDomains);
 
+    const ssoProvider = body.ssoProvider ? String(body.ssoProvider) : null;
+    const idpEntityId =
+      body.idpEntityId !== undefined ? String(body.idpEntityId ?? '').trim() || null : workspace?.idpEntityId ?? null;
+    const idpSsoUrl =
+      body.idpSsoUrl !== undefined ? String(body.idpSsoUrl ?? '').trim() || null : workspace?.idpSsoUrl ?? null;
+    const idpCertificate =
+      body.idpCertificate !== undefined
+        ? String(body.idpCertificate ?? '').trim() || null
+        : workspace?.idpCertificate ?? null;
+
+    if (Boolean(body.ssoEnabled) && ssoProvider === 'saml') {
+      if (!idpSsoUrl || !idpCertificate) {
+        return NextResponse.json({ error: 'saml_idp_incomplete' }, { status: 400 });
+      }
+    }
+
     const updated = await prisma.workspace.update({
       where: { id: workspaceId },
       data: {
         ssoEnabled: Boolean(body.ssoEnabled),
-        ssoProvider: body.ssoProvider ? String(body.ssoProvider) : null,
+        ssoProvider,
         allowedDomains,
+        idpEntityId,
+        idpSsoUrl,
+        idpCertificate,
       },
     });
     return NextResponse.json({ workspace: updated });

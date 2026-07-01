@@ -84,7 +84,13 @@ FILES = [
     "lib/storage.ts",
     "app/api/upload/route.ts",
     "lib/workspace-sso.ts",
+    "lib/saml-sp.ts",
+    "lib/saml-auth.ts",
     "lib/auth-options.ts",
+    "app/api/auth/saml/metadata/route.ts",
+    "app/api/auth/saml/login/route.ts",
+    "app/api/auth/saml/acs/route.ts",
+    "app/api/auth/saml/info/route.ts",
     "app/api/workspace/members/route.ts",
     "app/api/invite/[token]/route.ts",
     "components/dashboard/team-workspace-settings.tsx",
@@ -113,6 +119,8 @@ FILES = [
     "components/public-header.tsx",
     "components/public-footer.tsx",
     "app/layout.tsx",
+    "package.json",
+    "yarn.lock",
 ]
 
 if not PW:
@@ -142,6 +150,13 @@ for rel in FILES:
     sftp.put(local_path, remote_path)
     print("ok", rel)
 sftp.close()
+
+_, stdout_deps, _ = c.exec_command(
+    f"cd {REMOTE} && yarn install --frozen-lockfile 2>&1 | tail -5",
+    timeout=300,
+)
+deps_out = stdout_deps.read().decode("utf-8", errors="replace")
+print("yarn install:", (deps_out.strip() or "ok").encode("ascii", errors="replace").decode("ascii"))
 
 _, stdout_db, _ = c.exec_command(
     f"cd {REMOTE} && npx prisma generate && npx prisma db push --skip-generate 2>&1 | tail -10",

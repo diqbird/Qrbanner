@@ -50,6 +50,7 @@ export function isEmailDomainAllowed(email: string, allowedDomains: string[]): b
 }
 
 export function oauthProvidersForSso(ssoProvider: string | null | undefined): string[] {
+  if (ssoProvider === 'saml') return [];
   if (!ssoProvider || ssoProvider === 'any') return ['google', 'azure-ad'];
   if (ssoProvider === 'google') return ['google'];
   if (ssoProvider === 'microsoft' || ssoProvider === 'azure-ad' || ssoProvider === 'azure') {
@@ -62,8 +63,17 @@ export function isOAuthProviderAllowed(
   provider: string,
   ssoProvider: string | null | undefined
 ): boolean {
-  if (provider === 'credentials') return false;
+  if (provider === 'credentials' || provider === 'saml') return false;
   return oauthProvidersForSso(ssoProvider).includes(provider);
+}
+
+export function isSsoSignInProviderAllowed(
+  provider: string,
+  ssoProvider: string | null | undefined
+): boolean {
+  if (ssoProvider === 'saml') return provider === 'saml';
+  if (provider === 'saml') return false;
+  return isOAuthProviderAllowed(provider, ssoProvider);
 }
 
 export async function getActiveTeamSsoPoliciesForEmail(
@@ -145,7 +155,11 @@ export async function assertInviteAcceptAllowed(
     select: { provider: true },
   });
   const linkedProviders = accounts.map((account) => account.provider);
-  if (!linkedProviders.some((provider) => isOAuthProviderAllowed(provider, workspace.ssoProvider))) {
+  if (
+    !linkedProviders.some((provider) =>
+      isSsoSignInProviderAllowed(provider, workspace.ssoProvider)
+    )
+  ) {
     return { ok: false, code: 'sso_required' };
   }
 

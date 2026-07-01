@@ -26,6 +26,62 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [samlInfo, setSamlInfo] = useState<{ enabled: boolean; name?: string; loginUrl?: string } | null>(null);
+
+  const workspaceSlug = searchParams.get('workspace')?.trim() ?? '';
+
+  useEffect(() => {
+    const samlToken = searchParams.get('samlToken');
+    const samlEmail = searchParams.get('email');
+    if (!samlToken || !samlEmail) return;
+
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      try {
+        const result = await signIn('credentials', {
+          email: samlEmail,
+          verifyToken: samlToken,
+          redirect: false,
+          callbackUrl,
+        });
+        if (cancelled) return;
+        if (result?.error) {
+          toast.error(resolveApiError(t, result.error));
+          return;
+        }
+        if (result?.ok) {
+          toast.success(t('auth.signedInSuccess'));
+          window.location.href = callbackUrl;
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [searchParams, callbackUrl, t]);
+
+  useEffect(() => {
+    if (!workspaceSlug) {
+      setSamlInfo(null);
+      return;
+    }
+    let cancelled = false;
+    fetch(`/api/auth/saml/info?workspace=${encodeURIComponent(workspaceSlug)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled) setSamlInfo(data?.enabled ? data : { enabled: false });
+      })
+      .catch(() => {
+        if (!cancelled) setSamlInfo({ enabled: false });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [workspaceSlug]);
 
   useEffect(() => {
     const error = searchParams.get('error');
@@ -136,6 +192,22 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
         </form>
 
         <OAuthButtons providers={oauthProviders} callbackUrl={callbackUrl} />
+
+        {samlInfo?.enabled && samlInfo.loginUrl && (
+          <div className="mt-4">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={() => {
+                window.location.href = samlInfo.loginUrl!;
+              }}
+            >
+              {t('settings.team.signInWithSaml')}
+              {samlInfo.name ? ` (${samlInfo.name})` : ''}
+            </Button>
+          </div>
+        )}
 
         <p className="mt-4 text-center text-sm text-muted-foreground">
           {t('auth.noAccount')}{' '}

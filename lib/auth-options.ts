@@ -10,7 +10,8 @@ import { cookies } from 'next/headers';
 import { prisma } from '@/lib/db';
 import { ensurePersonalWorkspace } from '@/lib/workspace';
 import { resolveReferrerByCode, recordReferralSignup } from '@/lib/referral';
-import { assertOAuthSignInAllowed, assertPasswordLoginAllowed } from '@/lib/workspace-sso';
+import { assertOAuthSignInAllowed, assertPasswordLoginAllowed, isEmailDomainAllowed, parseAllowedDomains } from '@/lib/workspace-sso';
+import { verifySamlSignInToken } from '@/lib/saml-auth';
 
 const providers: NextAuthOptions['providers'] = [
   CredentialsProvider({
@@ -31,14 +32,54 @@ const providers: NextAuthOptions['providers'] = [
         const secret = process.env.NEXTAUTH_SECRET;
         if (!secret) throw new Error('server_misconfiguration');
 
-        let payload: { email?: string; purpose?: string };
+        let payload: {
+          email?: string;
+          purpose?: string;
+          userId?: string;
+          workspaceId?: string;
+        };
         try {
           payload = jwt.verify(credentials.verifyToken, secret) as {
             email?: string;
             purpose?: string;
+            userId?: string;
+            workspaceId?: string;
           };
         } catch {
           throw new Error('invalid_verify_session');
+        }
+
+        if (payload.purpose === 'saml-sso') {
+          const samlPayload = verifySamlSignInToken(credentials.verifyToken);
+          const samlUser = await prisma.user.findUnique({
+            where: { id: samlPayload.userId },
+          });
+          if (!samlUser || samlUser.email.toLowerCase() !== email) {
+            throw new Error('invalid_verify_session');
+          }
+
+          const workspace = await prisma.workspace.findUnique({
+            where: { id: samlPayload.workspaceId },
+            select: { ssoEnabled: true, ssoProvider: true, allowedDomains: true },
+          });
+          if (!workspace?.ssoEnabled || workspace.ssoProvider !== 'saml') {
+            throw new Error('sso_required');
+          }
+
+          const domains = parseAllowedDomains(workspace.allowedDomains);
+          if (domains.length && !isEmailDomainAllowed(samlUser.email, domains)) {
+            throw new Error('domain_not_allowed');
+          }
+
+          await ensurePersonalWorkspace(samlUser.id);
+
+          return {
+            id: samlUser.id,
+            email: samlUser.email,
+            name: samlUser.name,
+            role: samlUser.role,
+            image: samlUser.image,
+          };
         }
 
         if (payload.purpose !== 'email-verified' || payload.email?.toLowerCase() !== email) {
