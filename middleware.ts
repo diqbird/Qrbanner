@@ -29,6 +29,11 @@ function applyLocaleCookie(res: NextResponse, locale: 'en' | 'tr') {
   res.headers.set(LOCALE_HEADER, locale);
 }
 
+function withSecurityHeaders<T extends NextResponse>(res: T): T {
+  applySecurityHeaders(res);
+  return res;
+}
+
 function handleLocaleRouting(req: NextRequest): NextResponse | null {
   const { locale, pathname } = parseLocalePath(req.nextUrl.pathname);
   if (!locale) return null;
@@ -36,7 +41,7 @@ function handleLocaleRouting(req: NextRequest): NextResponse | null {
   if (pathname.startsWith('/s/')) {
     const redirect = req.nextUrl.clone();
     redirect.pathname = pathname;
-    return applySecurityHeaders(NextResponse.redirect(redirect));
+    return withSecurityHeaders(NextResponse.redirect(redirect));
   }
 
   if (locale === 'en') {
@@ -44,14 +49,14 @@ function handleLocaleRouting(req: NextRequest): NextResponse | null {
     redirect.pathname = pathname;
     const res = NextResponse.redirect(redirect);
     applyLocaleCookie(res, 'en');
-    return applySecurityHeaders(res);
+    return withSecurityHeaders(res);
   }
 
   const rewriteUrl = req.nextUrl.clone();
   rewriteUrl.pathname = pathname;
   const res = NextResponse.rewrite(rewriteUrl);
   applyLocaleCookie(res, 'tr');
-  return applySecurityHeaders(res);
+  return withSecurityHeaders(res);
 }
 
 export async function middleware(req: NextRequest) {
@@ -59,7 +64,7 @@ export async function middleware(req: NextRequest) {
   if (!isAppHost(host)) {
     const path = req.nextUrl.pathname;
     if (path.startsWith('/s/')) {
-      return applySecurityHeaders(NextResponse.next());
+      return withSecurityHeaders(NextResponse.next());
     }
     return NextResponse.redirect('https://qrbanner.com');
   }
@@ -78,11 +83,11 @@ export async function middleware(req: NextRequest) {
     if (!token) {
       const login = new URL('/login', req.url);
       login.searchParams.set('callbackUrl', path + req.nextUrl.search);
-      return applySecurityHeaders(NextResponse.redirect(login));
+      return withSecurityHeaders(NextResponse.redirect(login));
     }
   }
 
-  return applySecurityHeaders(NextResponse.next());
+  return withSecurityHeaders(NextResponse.next());
 }
 
 export const config = {
