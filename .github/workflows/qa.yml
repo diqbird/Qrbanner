@@ -35,6 +35,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --ignore-engines
       - name: Install Playwright Chromium
         run: npx playwright install chromium --with-deps
       - name: Run Lighthouse
@@ -42,5 +45,7 @@ jobs:
           PLAYWRIGHT_BASE_URL: https://qrbanner.com
           CI: true
         run: |
-          export CHROME_PATH=$(find $HOME/.cache/ms-playwright -type f \( -name chrome -o -name chrome-headless-shell \) | head -1)
+          export CHROME_PATH=$(find "$HOME/.cache/ms-playwright" -path '*/chrome-linux/chrome' -type f 2>/dev/null | head -1)
+          echo "CHROME_PATH=$CHROME_PATH"
+          test -n "$CHROME_PATH"
           node scripts/lighthouse-audit.mjs

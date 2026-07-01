@@ -38,17 +38,16 @@ function runLighthouse(url) {
     const args = [
       url,
       '--quiet',
-      '--chrome-flags=--headless --no-sandbox --disable-gpu',
+      '--chrome-flags=--headless --no-sandbox --disable-gpu --disable-dev-shm-usage',
       '--only-categories=performance,accessibility,best-practices,seo',
       '--output=json',
       `--output-path=${out}`,
     ];
-    const env = { ...process.env };
-    if (chromePath) env.CHROME_PATH = chromePath;
+    if (chromePath) args.splice(1, 0, `--chrome-path=${chromePath}`);
     const child = spawn('npx', ['lighthouse', ...args], {
       stdio: ['ignore', 'pipe', 'pipe'],
       shell: true,
-      env,
+      env: process.env,
     });
     let stderr = '';
     child.stderr.on('data', (d) => {
