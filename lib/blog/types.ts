@@ -1,8 +1,10 @@
 export interface BlogSection {
-  type: 'h2' | 'h3' | 'p' | 'ul' | 'faq';
+  type: 'h2' | 'h3' | 'p' | 'ul' | 'faq' | 'img';
   content?: string;
   items?: string[];
   faq?: { question: string; answer: string }[];
+  src?: string;
+  alt?: string;
 }
 
 export interface BlogPost {

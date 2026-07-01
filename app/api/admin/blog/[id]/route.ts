@@ -6,6 +6,26 @@ import { requireAdminUserId } from '@/lib/admin-auth';
 import type { Prisma } from '@prisma/client';
 import { getAdminActorContext, recordAdminAudit } from '@/lib/admin-audit';
 
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const adminId = await requireAdminUserId();
+    if (!adminId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    const post = await prisma.blogPost.findUnique({ where: { id: params.id } });
+    if (!post) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    }
+    return NextResponse.json({ post });
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : 'Failed to load post';
+    return NextResponse.json({ error: msg }, { status: 500 });
+  }
+}
+
 export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -19,7 +39,21 @@ export async function PATCH(
     const data: Prisma.BlogPostUpdateInput = {};
 
     if (body.title !== undefined) data.title = String(body.title).trim();
+    if (body.slug !== undefined) {
+      data.slug = String(body.slug).trim().toLowerCase().replace(/[^a-z0-9-]/g, '-');
+    }
     if (body.description !== undefined) data.description = String(body.description).trim();
+    if (body.category !== undefined) data.category = String(body.category).trim();
+    if (body.author !== undefined) data.author = String(body.author).trim();
+    if (body.readingMinutes !== undefined) data.readingMinutes = Number(body.readingMinutes) || 8;
+    if (body.keywords !== undefined) {
+      data.keywords = Array.isArray(body.keywords)
+        ? body.keywords.map(String)
+        : String(body.keywords)
+            .split(',')
+            .map((k) => k.trim())
+            .filter(Boolean);
+    }
     if (body.published !== undefined) {
       data.published = Boolean(body.published);
       if (body.published) data.publishedAt = new Date();

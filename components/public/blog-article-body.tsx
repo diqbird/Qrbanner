@@ -52,6 +52,23 @@ export function BlogArticleBody({ sections }: { sections: BlogSection[] }) {
             </div>
           );
         }
+        if (section.type === 'img' && section.src) {
+          return (
+            <figure key={i} className="mt-8">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={section.src}
+                alt={section.alt ?? ''}
+                className="w-full rounded-xl border border-border/50"
+                loading="lazy"
+                decoding="async"
+              />
+              {section.alt ? (
+                <figcaption className="mt-2 text-center text-xs text-muted-foreground">{section.alt}</figcaption>
+              ) : null}
+            </figure>
+          );
+        }
         return null;
       })}
     </article>

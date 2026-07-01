@@ -59,6 +59,9 @@ import { bakeryPastryQr } from './posts/bakery-pastry-qr';
 import { carWashDetailingQr } from './posts/car-wash-detailing-qr';
 import { foodTrucksQr } from './posts/food-trucks-qr';
 import { landscapingLawnCareQr } from './posts/landscaping-lawn-care-qr';
+import { totpTwoFactorGuide } from './posts/totp-two-factor-guide';
+import { landingCtaAnalyticsGuide } from './posts/landing-cta-analytics-guide';
+import { aiLandingCopyGuide } from './posts/ai-landing-copy-guide';
 import type { BlogPost, BlogSection } from './types';
 
 const STATIC_POSTS: BlogPost[] = [
@@ -122,6 +125,9 @@ const STATIC_POSTS: BlogPost[] = [
   carWashDetailingQr,
   foodTrucksQr,
   landscapingLawnCareQr,
+  totpTwoFactorGuide,
+  landingCtaAnalyticsGuide,
+  aiLandingCopyGuide,
 ];
 
 function dbRowToPost(row: {

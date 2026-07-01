@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ImageIcon, Upload, Copy } from 'lucide-react';
+import { ImageIcon, Upload, Copy, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 
@@ -72,6 +72,21 @@ export function MediaLibraryCard() {
     navigator.clipboard.writeText(full).then(() => toast.success(t('settings.mediaLibrary.urlCopied')));
   };
 
+  const deleteAsset = async (id: string) => {
+    if (!window.confirm(t('settings.mediaLibrary.deleteConfirm'))) return;
+    try {
+      const res = await fetch(`/api/media/${id}`, { method: 'DELETE' });
+      if (!res.ok) {
+        toast.error(t('settings.mediaLibrary.deleteFailed'));
+        return;
+      }
+      toast.success(t('settings.mediaLibrary.deleted'));
+      fetchAssets();
+    } catch {
+      toast.error(t('settings.mediaLibrary.deleteFailed'));
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -120,14 +135,24 @@ export function MediaLibraryCard() {
                 />
                 <p className="mt-2 truncate text-xs font-medium">{a.filename}</p>
                 <p className="text-[10px] text-muted-foreground">{formatBytes(a.sizeBytes)}</p>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="mt-1 h-7 gap-1 text-xs"
-                  onClick={() => copyUrl(a.url)}
-                >
-                  <Copy className="h-3 w-3" /> {t('settings.mediaLibrary.copyUrl')}
-                </Button>
+                <div className="mt-1 flex gap-1">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 gap-1 text-xs"
+                    onClick={() => copyUrl(a.url)}
+                  >
+                    <Copy className="h-3 w-3" /> {t('settings.mediaLibrary.copyUrl')}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 gap-1 text-xs text-destructive hover:text-destructive"
+                    onClick={() => deleteAsset(a.id)}
+                  >
+                    <Trash2 className="h-3 w-3" /> {t('settings.mediaLibrary.delete')}
+                  </Button>
+                </div>
               </div>
             ))}
           </div>
