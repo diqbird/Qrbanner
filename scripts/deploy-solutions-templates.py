@@ -125,7 +125,7 @@ _, stdout_db, _ = c.exec_command(
     timeout=180,
 )
 db_out = stdout_db.read().decode("utf-8", errors="replace")
-print("db push:", db_out.strip() or "ok")
+print("db push:", (db_out.strip() or "ok").encode("ascii", errors="replace").decode("ascii"))
 
 _, stdout, _ = c.exec_command(
     f"cd {REMOTE} && yarn build > /tmp/qrb-solutions-templates.log 2>&1; echo EXIT:$?; tail -12 /tmp/qrb-solutions-templates.log",
