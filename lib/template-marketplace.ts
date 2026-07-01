@@ -14,7 +14,7 @@ export function listMarketplaceTemplates(): IndustryTemplate[] {
 }
 
 export function marketplaceCategories(templates: IndustryTemplate[] = INDUSTRY_TEMPLATES): string[] {
-  return [...new Set(templates.map((t) => t.category))].sort();
+  return Array.from(new Set(templates.map((t) => t.category))).sort();
 }
 
 export function filterMarketplaceTemplates(
