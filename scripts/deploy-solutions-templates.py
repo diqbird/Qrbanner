@@ -35,6 +35,7 @@ FILES = [
     "components/qr/landing-page-preview.tsx",
     "lib/landing-page.ts",
     "lib/landing-cta-analytics.ts",
+    "lib/landing-cta-beacon.ts",
     "app/api/landing-cta/route.ts",
     "app/api/leads/route.ts",
     "lib/rate-limit-store.ts",

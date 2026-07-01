@@ -61,16 +61,6 @@ export function logLandingCtaClick(
     .catch((err) => console.error('[landing-cta] log', err));
 }
 
-function escapeJsString(str: string): string {
-  return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/</g, '\\u003c');
-}
-
-export function renderHubLinkBeacon(shortCode: string, label: string): string {
-  const sc = escapeJsString(shortCode);
-  const lb = escapeJsString(label);
-  return `onclick="try{var p=JSON.stringify({shortCode:'${sc}',ctaType:'hub',ctaLabel:'${lb}'});navigator.sendBeacon&&navigator.sendBeacon('/api/landing-cta',new Blob([p],{type:'application/json'}))}catch(e){}"`;
-}
-
 export function buildLandingCtaAnalytics(
   clicks: LandingCtaClickRecord[],
   landingViews: number,

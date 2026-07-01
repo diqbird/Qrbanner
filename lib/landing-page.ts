@@ -3,7 +3,7 @@ import {
   renderCtaClickHandler,
   type PixelAnalyticsConfig,
 } from '@/lib/pixel-analytics';
-import { renderHubLinkBeacon } from '@/lib/landing-cta-analytics';
+import { renderHubLinkBeacon } from '@/lib/landing-cta-beacon';
 import { renderGpsCaptureScript } from '@/lib/gps-heatmap';
 
 export type LandingTemplate = 'minimal' | 'restaurant' | 'hotel' | 'event' | 'business';
