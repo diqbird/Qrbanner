@@ -38,7 +38,9 @@ function runLighthouse(url) {
     const args = [
       url,
       '--quiet',
-      '--chrome-flags=--headless --no-sandbox --disable-gpu --disable-dev-shm-usage',
+      '--preset=desktop',
+      '--max-wait-for-load=120000',
+      '--chrome-flags=--headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --window-size=1350,940',
       '--only-categories=performance,accessibility,best-practices,seo',
       '--output=json',
       `--output-path=${out}`,
