@@ -8,6 +8,7 @@ import {
 import { TrendingUp, Smartphone, Globe, Monitor, MapPin, Split, Nfc, Clock, Cpu } from 'lucide-react';
 import { GpsHeatmapChart } from './gps-heatmap';
 import type { HeatmapPoint } from '@/lib/gps-heatmap';
+import { useLanguage } from '@/components/i18n/language-provider';
 
 const COLORS = ['#60B5FF', '#FF9149', '#FF9898', '#FF90BB', '#FF6363', '#80D8C3', '#A19AD3', '#72BF78'];
 
@@ -28,6 +29,7 @@ interface AnalyticsChartsProps {
 }
 
 export default function AnalyticsCharts({ data }: AnalyticsChartsProps) {
+  const { t } = useLanguage();
   const scansByDay = data?.scansByDay ?? [];
   const scansByDevice = data?.scansByDevice ?? [];
   const scansByBrowser = data?.scansByBrowser ?? [];
@@ -48,20 +50,20 @@ export default function AnalyticsCharts({ data }: AnalyticsChartsProps) {
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle className="font-display text-base flex items-center gap-2">
-              <Clock className="h-4 w-4 text-primary" /> Peak Activity
+              <Clock className="h-4 w-4 text-primary" /> {t('analytics.charts.peakActivity')}
             </CardTitle>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-6">
             {peakInsights?.peakDay && (
               <div>
-                <p className="text-xs text-muted-foreground">Most active day</p>
-                <p className="text-lg font-semibold">{peakInsights.peakDay.name} <span className="text-sm text-muted-foreground">({peakInsights.peakDay.count} scans)</span></p>
+                <p className="text-xs text-muted-foreground">{t('analytics.charts.mostActiveDay')}</p>
+                <p className="text-lg font-semibold">{peakInsights.peakDay.name} <span className="text-sm text-muted-foreground">({t('analytics.charts.scanCount', { n: peakInsights.peakDay.count })})</span></p>
               </div>
             )}
             {peakInsights?.peakHour && (
               <div>
-                <p className="text-xs text-muted-foreground">Most active hour</p>
-                <p className="text-lg font-semibold">{peakInsights.peakHour.name} <span className="text-sm text-muted-foreground">({peakInsights.peakHour.count} scans)</span></p>
+                <p className="text-xs text-muted-foreground">{t('analytics.charts.mostActiveHour')}</p>
+                <p className="text-lg font-semibold">{peakInsights.peakHour.name} <span className="text-sm text-muted-foreground">({t('analytics.charts.scanCount', { n: peakInsights.peakHour.count })})</span></p>
               </div>
             )}
           </CardContent>
@@ -72,7 +74,7 @@ export default function AnalyticsCharts({ data }: AnalyticsChartsProps) {
       <Card className="lg:col-span-2">
         <CardHeader>
           <CardTitle className="font-display text-base flex items-center gap-2">
-            <TrendingUp className="h-4 w-4 text-primary" /> Scans Over Time
+            <TrendingUp className="h-4 w-4 text-primary" /> {t('analytics.charts.scansOverTime')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -102,7 +104,7 @@ export default function AnalyticsCharts({ data }: AnalyticsChartsProps) {
                   stroke="#60B5FF"
                   strokeWidth={2}
                   fill="url(#colorScans)"
-                  name="Scans"
+                  name={t('analytics.charts.scans')}
                 />
               </AreaChart>
             </ResponsiveContainer>
@@ -114,7 +116,7 @@ export default function AnalyticsCharts({ data }: AnalyticsChartsProps) {
       <Card>
         <CardHeader>
           <CardTitle className="font-display text-base flex items-center gap-2">
-            <Smartphone className="h-4 w-4 text-primary" /> Devices
+            <Smartphone className="h-4 w-4 text-primary" /> {t('analytics.charts.devices')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -153,7 +155,7 @@ export default function AnalyticsCharts({ data }: AnalyticsChartsProps) {
       <Card>
         <CardHeader>
           <CardTitle className="font-display text-base flex items-center gap-2">
-            <Monitor className="h-4 w-4 text-primary" /> Browsers
+            <Monitor className="h-4 w-4 text-primary" /> {t('analytics.charts.browsers')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -192,7 +194,7 @@ export default function AnalyticsCharts({ data }: AnalyticsChartsProps) {
         <Card>
           <CardHeader>
             <CardTitle className="font-display text-base flex items-center gap-2">
-              <Cpu className="h-4 w-4 text-primary" /> Operating Systems
+              <Cpu className="h-4 w-4 text-primary" /> {t('analytics.charts.operatingSystems')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -216,7 +218,7 @@ export default function AnalyticsCharts({ data }: AnalyticsChartsProps) {
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle className="font-display text-base flex items-center gap-2">
-              <Clock className="h-4 w-4 text-primary" /> Scans by Hour
+              <Clock className="h-4 w-4 text-primary" /> {t('analytics.charts.scansByHour')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -226,7 +228,7 @@ export default function AnalyticsCharts({ data }: AnalyticsChartsProps) {
                   <XAxis dataKey="name" tick={{ fontSize: 9 }} interval={2} />
                   <YAxis tick={{ fontSize: 10 }} allowDecimals={false} />
                   <Tooltip contentStyle={{ fontSize: 11 }} />
-                  <Bar dataKey="value" fill="#A19AD3" radius={[4, 4, 0, 0]} name="Scans" />
+                  <Bar dataKey="value" fill="#A19AD3" radius={[4, 4, 0, 0]} name={t('analytics.charts.scans')} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -238,13 +240,13 @@ export default function AnalyticsCharts({ data }: AnalyticsChartsProps) {
       <Card className="lg:col-span-2">
         <CardHeader>
           <CardTitle className="font-display text-base flex items-center gap-2">
-            <Globe className="h-4 w-4 text-primary" /> Top Countries
+            <Globe className="h-4 w-4 text-primary" /> {t('analytics.charts.topCountries')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           {scansByCountry.length === 0 ? (
             <p className="py-8 text-center text-sm text-muted-foreground">
-              No country data for this period. New scans will show location after geo lookup.
+              {t('analytics.charts.noCountryData')}
             </p>
           ) : (
           <div className="h-[250px] w-full">
@@ -261,7 +263,7 @@ export default function AnalyticsCharts({ data }: AnalyticsChartsProps) {
                 />
                 <YAxis tickLine={false} tick={{ fontSize: 10 }} />
                 <Tooltip contentStyle={{ fontSize: 11 }} />
-                <Bar dataKey="value" fill="#60B5FF" radius={[4, 4, 0, 0]} name="Scans" />
+                <Bar dataKey="value" fill="#60B5FF" radius={[4, 4, 0, 0]} name={t('analytics.charts.scans')} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -274,7 +276,7 @@ export default function AnalyticsCharts({ data }: AnalyticsChartsProps) {
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle className="font-display text-base flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-primary" /> Top Cities
+              <MapPin className="h-4 w-4 text-primary" /> {t('analytics.charts.topCities')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -284,7 +286,7 @@ export default function AnalyticsCharts({ data }: AnalyticsChartsProps) {
                   <XAxis dataKey="name" tickLine={false} tick={{ fontSize: 10 }} interval={0} angle={-30} textAnchor="end" height={50} />
                   <YAxis tickLine={false} tick={{ fontSize: 10 }} allowDecimals={false} />
                   <Tooltip contentStyle={{ fontSize: 11 }} />
-                  <Bar dataKey="value" fill="#80D8C3" radius={[4, 4, 0, 0]} name="Scans" />
+                  <Bar dataKey="value" fill="#80D8C3" radius={[4, 4, 0, 0]} name={t('analytics.charts.scans')} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -296,7 +298,7 @@ export default function AnalyticsCharts({ data }: AnalyticsChartsProps) {
         <Card>
           <CardHeader>
             <CardTitle className="font-display text-base flex items-center gap-2">
-              <Nfc className="h-4 w-4 text-primary" /> Scan Source
+              <Nfc className="h-4 w-4 text-primary" /> {t('analytics.charts.scanSource')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -316,7 +318,7 @@ export default function AnalyticsCharts({ data }: AnalyticsChartsProps) {
         <Card>
           <CardHeader>
             <CardTitle className="font-display text-base flex items-center gap-2">
-              <Split className="h-4 w-4 text-primary" /> A/B Variants
+              <Split className="h-4 w-4 text-primary" /> {t('analytics.charts.abVariants')}
             </CardTitle>
           </CardHeader>
           <CardContent>

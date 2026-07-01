@@ -50,6 +50,12 @@ FILES = [
     "lib/i18n/visual-preset-copy.ts",
     "lib/i18n/resolve-visual-preset-copy.ts",
     "components/solutions/solution-detail-shell.tsx",
+    "components/dashboard/dashboard-analytics.tsx",
+    "components/qr/analytics-charts.tsx",
+    "components/qr/qr-analytics-view.tsx",
+    "lib/analytics-utils.ts",
+    "app/api/dashboard/analytics/route.ts",
+    "app/api/qr/[id]/analytics/route.ts",
 ]
 
 if not PW:

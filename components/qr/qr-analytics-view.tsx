@@ -37,7 +37,7 @@ interface AnalyticsData {
 }
 
 export function QRAnalyticsView({ qrId }: { qrId: string }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
@@ -55,6 +55,7 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
       const params = new URLSearchParams();
       if (dateRange.from) params.set('from', dateRange.from.toISOString().slice(0, 10));
       if (dateRange.to) params.set('to', dateRange.to.toISOString().slice(0, 10));
+      params.set('locale', locale === 'tr' ? 'tr' : 'en');
       const qs = params.toString();
       const res = await fetch(`/api/qr/${qrId}/analytics${qs ? `?${qs}` : ''}`);
       if (!res.ok) {
@@ -70,7 +71,7 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
     } finally {
       setLoading(false);
     }
-  }, [qrId, dateRange]);
+  }, [qrId, dateRange, locale]);
 
   useEffect(() => {
     fetch('/api/account/usage')

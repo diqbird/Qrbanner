@@ -53,7 +53,9 @@ export async function GET(
     });
 
     const filtered = filterScansByRange(scans, range);
-    const analytics = buildAnalytics(filtered, 30, range);
+    const localeParam = req.nextUrl.searchParams.get('locale');
+    const locale = localeParam === 'tr' ? 'tr' : 'en';
+    const analytics = buildAnalytics(filtered, 30, range, locale);
 
     return NextResponse.json({
       analytics,

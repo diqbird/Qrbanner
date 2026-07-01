@@ -5,10 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import {
-  ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip,
-} from 'recharts';
-import {
-  TrendingUp, Globe, Smartphone, Users, Clock, MapPin, Radio, Download, AlertCircle, BarChart3,
+  TrendingUp, Globe, Smartphone, Users, Clock, Radio, Download, AlertCircle, BarChart3,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { downloadAnalyticsCsv } from '@/lib/analytics-export';
@@ -17,6 +14,10 @@ import { DateRange } from 'react-day-picker';
 import { subDays, format } from 'date-fns';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/components/i18n/language-provider';
+import dynamic from 'next/dynamic';
+import type { HeatmapPoint } from '@/lib/gps-heatmap';
+
+const AnalyticsCharts = dynamic(() => import('@/components/qr/analytics-charts'), { ssr: false });
 
 interface DashboardAnalytics {
   totalScans: number;
@@ -24,8 +25,19 @@ interface DashboardAnalytics {
   todayScans: number;
   last7Days: number;
   scansByDay: { date: string; count: number }[];
+  scansByDevice: { name: string; value: number }[];
+  scansByBrowser: { name: string; value: number }[];
+  scansByOS: { name: string; value: number }[];
+  scansByHour?: { name: string; hour: number; value: number }[];
+  peakInsights?: {
+    peakDay: { name: string; count: number } | null;
+    peakHour: { name: string; count: number } | null;
+  };
   scansByCountry: { name: string; value: number }[];
   scansByCity: { name: string; value: number }[];
+  scansBySource?: { name: string; value: number }[];
+  scansByAbVariant?: { name: string; value: number }[];
+  heatmapPoints?: HeatmapPoint[];
   recentScans: {
     country: string;
     city: string | null;
@@ -44,18 +56,26 @@ interface TopQR {
   isActive: boolean;
 }
 
-function timeAgo(dateStr: string) {
+function formatTimeAgo(t: (key: string, vars?: Record<string, string | number>) => string, dateStr: string) {
   const diff = Date.now() - new Date(dateStr).getTime();
   const mins = Math.floor(diff / 60000);
-  if (mins < 1) return 'just now';
-  if (mins < 60) return `${mins}m ago`;
+  if (mins < 1) return t('analytics.timeJustNow');
+  if (mins < 60) return t('analytics.timeMinutesAgo', { n: mins });
   const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `${hrs}h ago`;
-  return `${Math.floor(hrs / 24)}d ago`;
+  if (hrs < 24) return t('analytics.timeHoursAgo', { n: hrs });
+  return t('analytics.timeDaysAgo', { n: Math.floor(hrs / 24) });
 }
 
+const RANGE_PRESETS = [7, 30, 90] as const;
+
+const RANGE_PRESET_LABELS = {
+  7: 'analytics.preset7d',
+  30: 'analytics.preset30d',
+  90: 'analytics.preset90d',
+} as const;
+
 export function DashboardAnalyticsPanel() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [data, setData] = useState<DashboardAnalytics | null>(null);
   const [topQRCodes, setTopQRCodes] = useState<TopQR[]>([]);
   const [retentionCutoff, setRetentionCutoff] = useState<string | null>(null);
@@ -73,6 +93,7 @@ export function DashboardAnalyticsPanel() {
       const params = new URLSearchParams();
       if (dateRange.from) params.set('from', dateRange.from.toISOString().slice(0, 10));
       if (dateRange.to) params.set('to', dateRange.to.toISOString().slice(0, 10));
+      params.set('locale', locale === 'tr' ? 'tr' : 'en');
       const qs = params.toString();
       const res = await fetch(`/api/dashboard/analytics${qs ? `?${qs}` : ''}`);
       if (!res.ok) {
@@ -88,7 +109,7 @@ export function DashboardAnalyticsPanel() {
     } finally {
       setLoading(false);
     }
-  }, [dateRange]);
+  }, [dateRange, locale]);
 
   useEffect(() => {
     fetch('/api/account/usage')
@@ -105,6 +126,10 @@ export function DashboardAnalyticsPanel() {
     const interval = setInterval(fetchAnalytics, 30000);
     return () => clearInterval(interval);
   }, [fetchAnalytics]);
+
+  const applyPreset = (days: number) => {
+    setDateRange({ from: subDays(new Date(), days - 1), to: new Date() });
+  };
 
   if (loading) {
     return (
@@ -148,9 +173,6 @@ export function DashboardAnalyticsPanel() {
     );
   }
 
-  const topCountries = (data.scansByCountry ?? []).filter((c) => c.name !== 'Unknown').slice(0, 5);
-  const topCities = (data.scansByCity ?? []).filter((c) => c.name !== 'Unknown').slice(0, 5);
-
   return (
     <div className="space-y-6">
       {retentionCutoff && (
@@ -168,7 +190,21 @@ export function DashboardAnalyticsPanel() {
       )}
 
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <DateRangePicker value={dateRange} onChange={(v) => setDateRange(v ?? {})} />
+        <div className="flex flex-wrap items-center gap-2">
+          {RANGE_PRESETS.map((days) => (
+            <Button
+              key={days}
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-8 text-xs"
+              onClick={() => applyPreset(days)}
+            >
+              {t(RANGE_PRESET_LABELS[days])}
+            </Button>
+          ))}
+          <DateRangePicker value={dateRange} onChange={(v) => setDateRange(v ?? {})} />
+        </div>
         <Button
           variant="outline"
           size="sm"
@@ -184,7 +220,7 @@ export function DashboardAnalyticsPanel() {
           { label: t('analytics.today'), value: data.todayScans, icon: Clock, color: 'text-orange-500' },
           { label: t('analytics.last7Days'), value: data.last7Days, icon: TrendingUp, color: 'text-green-500' },
           { label: t('analytics.uniqueVisitors'), value: data.uniqueScans, icon: Users, color: 'text-violet-500' },
-          { label: t('analytics.countries'), value: topCountries.length, icon: Globe, color: 'text-blue-500' },
+          { label: t('analytics.totalScans'), value: data.totalScans, icon: BarChart3, color: 'text-blue-500' },
         ].map((stat, i) => (
           <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>
             <Card>
@@ -202,65 +238,7 @@ export function DashboardAnalyticsPanel() {
         ))}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
-          <CardHeader className="pb-2">
-            <CardTitle className="font-display text-base">{t('analytics.scanActivity')}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-[200px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={data.scansByDay} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="dashScans" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.2} />
-                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <XAxis dataKey="date" tickLine={false} tick={{ fontSize: 10 }} interval="preserveStartEnd" />
-                  <YAxis tickLine={false} tick={{ fontSize: 10 }} allowDecimals={false} />
-                  <Tooltip contentStyle={{ fontSize: 12, borderRadius: 8 }} />
-                  <Area type="monotone" dataKey="count" stroke="hsl(var(--primary))" strokeWidth={2} fill="url(#dashScans)" name="Scans" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="font-display text-base flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-primary" /> {t('analytics.topLocations')}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {topCountries.length === 0 ? (
-              <p className="text-sm text-muted-foreground">{t('analytics.noLocation')}</p>
-            ) : (
-              <div className="space-y-2">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{t('analytics.countries')}</p>
-                {topCountries.map((c) => (
-                  <div key={c.name} className="flex items-center justify-between text-sm">
-                    <span>{c.name}</span>
-                    <Badge variant="secondary" className="font-mono text-xs">{c.value}</Badge>
-                  </div>
-                ))}
-              </div>
-            )}
-            {topCities.length > 0 && (
-              <div className="space-y-2 border-t border-border/50 pt-3">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{t('analytics.cities')}</p>
-                {topCities.map((c) => (
-                  <div key={c.name} className="flex items-center justify-between text-sm">
-                    <span>{c.name}</span>
-                    <Badge variant="outline" className="font-mono text-xs">{c.value}</Badge>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+      <AnalyticsCharts data={data} />
 
       {topQRCodes.length > 0 && (
         <Card>
@@ -319,7 +297,7 @@ export function DashboardAnalyticsPanel() {
                   )}
                 </div>
                 <span className="shrink-0 font-mono text-xs text-muted-foreground">
-                  {scan.scannedAt ? timeAgo(scan.scannedAt) : ''}
+                  {scan.scannedAt ? formatTimeAgo(t, scan.scannedAt) : ''}
                 </span>
               </div>
             ))}

@@ -109,12 +109,13 @@ export function buildScansByHour(scans: ScanRecord[]) {
   return hours;
 }
 
-export function findPeakDayHour(scans: ScanRecord[]) {
+export function findPeakDayHour(scans: ScanRecord[], locale: 'en' | 'tr' = 'en') {
+  const localeTag = locale === 'tr' ? 'tr-TR' : 'en-US';
   const dayMap: Record<string, number> = {};
   const hourMap: Record<number, number> = {};
   scans.forEach((s) => {
     const d = new Date(s?.scannedAt ?? 0);
-    const dayKey = d.toLocaleDateString('en-US', { weekday: 'long' });
+    const dayKey = d.toLocaleDateString(localeTag, { weekday: 'long' });
     dayMap[dayKey] = (dayMap[dayKey] ?? 0) + 1;
     const h = d.getHours();
     hourMap[h] = (hourMap[h] ?? 0) + 1;
@@ -127,7 +128,12 @@ export function findPeakDayHour(scans: ScanRecord[]) {
   };
 }
 
-export function buildAnalytics(scans: ScanRecord[], days = 30, range?: AnalyticsRange) {
+export function buildAnalytics(
+  scans: ScanRecord[],
+  days = 30,
+  range?: AnalyticsRange,
+  locale: 'en' | 'tr' = 'en',
+) {
   const now = new Date();
   const last7 = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
   const last30 = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
@@ -145,7 +151,7 @@ export function buildAnalytics(scans: ScanRecord[], days = 30, range?: Analytics
     scansByBrowser: groupByField(scans, 'browser'),
     scansByOS: groupByField(scans, 'os'),
     scansByHour: buildScansByHour(scans),
-    peakInsights: findPeakDayHour(scans),
+    peakInsights: findPeakDayHour(scans, locale),
     scansByCountry: groupByField(scans, 'country'),
     scansByCity: groupByField(scans, 'city'),
     scansBySource: groupByField(scans, 'scanSource'),

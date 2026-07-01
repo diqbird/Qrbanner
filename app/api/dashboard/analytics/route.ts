@@ -62,7 +62,10 @@ export async function GET(req: NextRequest) {
       range
     );
 
-    const analytics = buildAnalytics(enriched, 30, range);
+    const localeParam = req.nextUrl.searchParams.get('locale');
+    const locale = localeParam === 'tr' ? 'tr' : 'en';
+
+    const analytics = buildAnalytics(enriched, 30, range, locale);
 
     const topQRCodes = [...qrCodes]
       .sort((a, b) => b.totalScans - a.totalScans)
