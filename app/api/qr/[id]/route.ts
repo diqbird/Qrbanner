@@ -13,6 +13,7 @@ import { normalizeGa4Id, normalizeMetaPixelId } from '@/lib/pixel-analytics';
 import { sanitizeAbTestData, parseAbTestData } from '@/lib/ab-routing';
 import { assertQrAccess } from '@/lib/workspace';
 import { assertQrUrlsAllowed } from '@/lib/validate-qr-urls';
+import { invalidateScanQrCache } from '@/lib/scan-redirect-cache';
 import { QR_MUTATION_LIMIT, rateLimitRequest } from '@/lib/authenticated-rate-limit';
 
 async function limitQrMutation(req: NextRequest, userId: string) {
@@ -164,6 +165,8 @@ export async function PUT(
       data: updateData,
     });
 
+    await invalidateScanQrCache(existing.shortCode);
+
     return NextResponse.json({ qrCode: updated });
   } catch (error: any) {
     console.error('QR update error:', error);
@@ -194,6 +197,7 @@ export async function DELETE(
       return NextResponse.json({ error: access.error }, { status: 404 });
     }
 
+    await invalidateScanQrCache(access.qr.shortCode);
     await prisma.qRCode.delete({ where: { id: params.id } });
 
     return NextResponse.json({ message: 'QR code deleted' });

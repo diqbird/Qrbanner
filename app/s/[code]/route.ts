@@ -27,6 +27,7 @@ import {
 } from '@/lib/scan-redirect-page';
 import { parseBrandingSettings } from '@/lib/referral';
 import { isBlockedRedirectUrl, SCAN_PAGE_HEADERS } from '@/lib/url-safety';
+import { getQrForScan } from '@/lib/scan-redirect-cache';
 
 function withScanHeaders(res: NextResponse): NextResponse {
   Object.entries(SCAN_PAGE_HEADERS).forEach(([k, v]) => res.headers.set(k, v));
@@ -399,7 +400,7 @@ export async function GET(req: NextRequest, { params }: { params: { code: string
     const shortCode = params?.code ?? '';
     if (!shortCode) return NextResponse.redirect(new URL('/', req.url));
 
-    const qrCode = await prisma.qRCode.findUnique({ where: { shortCode } });
+    const qrCode = await getQrForScan(shortCode);
     const guard = runGuards(qrCode);
     if (guard) return guard;
 
@@ -422,7 +423,7 @@ export async function POST(req: NextRequest, { params }: { params: { code: strin
     const shortCode = params?.code ?? '';
     if (!shortCode) return NextResponse.redirect(new URL('/', req.url));
 
-    const qrCode = await prisma.qRCode.findUnique({ where: { shortCode } });
+    const qrCode = await getQrForScan(shortCode);
     const guard = runGuards(qrCode);
     if (guard) return guard;
 

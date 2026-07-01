@@ -5,6 +5,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { getActiveWorkspaceId, assertWorkspaceRole } from '@/lib/workspace';
+import { invalidateScanQrCaches } from '@/lib/scan-redirect-cache';
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,21 +26,25 @@ export async function POST(req: NextRequest) {
     if (!owned.length) return NextResponse.json({ error: 'No matching QR codes' }, { status: 404 });
 
     const ownedIds = owned.map((q) => q.id);
+    const ownedShortCodes = owned.map((q) => q.shortCode);
 
     if (action === 'delete') {
       const canEdit = await assertWorkspaceRole(userId, workspaceId, 'editor');
       if (!canEdit.ok) return NextResponse.json({ error: 'Editor role required' }, { status: 403 });
       await prisma.qRCode.deleteMany({ where: { id: { in: ownedIds } } });
+      await invalidateScanQrCaches(ownedShortCodes);
       return NextResponse.json({ ok: true, count: ownedIds.length });
     }
 
     if (action === 'archive') {
       await prisma.qRCode.updateMany({ where: { id: { in: ownedIds } }, data: { isArchived: true, isActive: false } });
+      await invalidateScanQrCaches(ownedShortCodes);
       return NextResponse.json({ ok: true, count: ownedIds.length });
     }
 
     if (action === 'unarchive') {
       await prisma.qRCode.updateMany({ where: { id: { in: ownedIds } }, data: { isArchived: false, isActive: true } });
+      await invalidateScanQrCaches(ownedShortCodes);
       return NextResponse.json({ ok: true, count: ownedIds.length });
     }
 

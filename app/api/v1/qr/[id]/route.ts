@@ -8,6 +8,7 @@ import { serializeQRForUser, parseApiBody } from '@/lib/api-serialize';
 import { buildQRPayload } from '@/lib/qr-utils';
 import { stripMetaFields } from '@/lib/industry-templates';
 import { normalizeLabels } from '@/lib/organize-utils';
+import { invalidateScanQrCache } from '@/lib/scan-redirect-cache';
 
 export async function GET(
   req: NextRequest,
@@ -84,6 +85,8 @@ export async function PATCH(
       include: { folder: { select: { id: true, name: true, color: true } } },
     });
 
+    await invalidateScanQrCache(existing.shortCode);
+
     return apiSuccess({ data: await serializeQRForUser({ ...updated, userId: auth.userId }) });
   } catch (error) {
     console.error('API v1 QR update error:', error);
@@ -104,6 +107,7 @@ export async function DELETE(
     });
     if (!existing) return apiError('QR code not found', 404);
 
+    await invalidateScanQrCache(existing.shortCode);
     await prisma.qRCode.delete({ where: { id: params.id } });
     return apiSuccess({ message: 'QR code deleted' });
   } catch (error) {

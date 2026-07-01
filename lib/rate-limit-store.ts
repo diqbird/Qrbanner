@@ -3,36 +3,9 @@
  * Use checkRateLimit() in API routes for consistent behaviour across instances.
  */
 
+import { getRedisClient } from '@/lib/redis-client';
+
 const buckets = new Map<string, { count: number; resetAt: number }>();
-
-type RedisClient = {
-  incr(key: string): Promise<number>;
-  pexpire(key: string, ms: number): Promise<number>;
-  pttl(key: string): Promise<number>;
-};
-
-let redisClient: RedisClient | null = null;
-let redisInitFailed = false;
-
-async function getRedis(): Promise<RedisClient | null> {
-  const url = process.env.REDIS_URL?.trim();
-  if (!url || redisInitFailed) return null;
-  if (redisClient) return redisClient;
-
-  try {
-    const { default: Redis } = await import('ioredis');
-    const client = new Redis(url, {
-      maxRetriesPerRequest: 1,
-      enableOfflineQueue: false,
-    });
-    redisClient = client as unknown as RedisClient;
-    return redisClient;
-  } catch (err) {
-    redisInitFailed = true;
-    console.warn('[rate-limit] Redis unavailable, using in-memory fallback:', err);
-    return null;
-  }
-}
 
 function memoryRateLimit(
   key: string,
@@ -58,7 +31,7 @@ export async function checkRateLimit(
   limit: number,
   windowMs: number
 ): Promise<{ ok: boolean; remaining: number; resetAt: number }> {
-  const redis = await getRedis();
+  const redis = await getRedisClient();
   if (!redis) {
     return memoryRateLimit(key, limit, windowMs);
   }
