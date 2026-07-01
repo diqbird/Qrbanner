@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { Pencil } from 'lucide-react';
+import { useEffect, useRef, useState, type MouseEvent } from 'react';
+import { Pencil, X } from 'lucide-react';
 import { useShowQrDescription } from '@/components/site-settings-provider';
 import {
+  clearFrameLabel,
   frameLabelVisible,
   getFrameLabelRect,
   patchFrameText,
@@ -38,6 +39,10 @@ export function EditableFrameLabel({
 
   const commit = () => {
     setEditing(false);
+    if (!draft.trim()) {
+      onChange(clearFrameLabel());
+      return;
+    }
     onChange(patchFrameText(style, draft));
   };
 
@@ -51,6 +56,13 @@ export function EditableFrameLabel({
       onChange({ frameStyle: 'scan-me', frameText: draft.trim() || style.frameText || 'Scan me' });
     }
     setEditing(true);
+  };
+
+  const removeLabel = (e: MouseEvent) => {
+    e.stopPropagation();
+    setEditing(false);
+    setDraft('');
+    onChange(clearFrameLabel());
   };
 
   const visible = frameLabelVisible(style, { showQrDescription });
@@ -127,6 +139,15 @@ export function EditableFrameLabel({
         >
           <span className="truncate">{displayText}</span>
           <Pencil className="h-3 w-3 shrink-0 opacity-60 group-hover:opacity-100" aria-hidden />
+          <button
+            type="button"
+            onClick={removeLabel}
+            className="ml-0.5 shrink-0 rounded p-0.5 opacity-60 hover:bg-black/10 hover:opacity-100 dark:hover:bg-white/10"
+            aria-label={t('style.frameLabelRemove')}
+            title={t('style.frameLabelRemove')}
+          >
+            <X className="h-3 w-3" />
+          </button>
         </span>
       )}
     </div>

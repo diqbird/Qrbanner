@@ -17,9 +17,16 @@ import {
   downloadCanvasAsPdf,
   downloadCanvasAsPng,
 } from '@/lib/print-banner';
+import {
+  resolveIndustryPrintHeadline,
+  resolveIndustryPrintNotes,
+  resolveIndustryPrintSubtitle,
+  resolvePrintTemplateDescription,
+  resolvePrintTemplateName,
+} from '@/lib/i18n/resolve-print-copy';
+
 import type { IndustryPrintLayout } from '@/lib/industry-print-layouts';
 import { useLanguage } from '@/components/i18n/language-provider';
-
 import type { QRStyleConfig } from '@/lib/qr-style';
 
 interface PrintBannerExportProps {
@@ -29,6 +36,7 @@ interface PrintBannerExportProps {
   logoPreview?: string | null;
   accentColor?: string;
   printLayout?: IndustryPrintLayout;
+  industryTemplateId?: string;
 }
 
 export function PrintBannerExport({
@@ -38,6 +46,7 @@ export function PrintBannerExport({
   logoPreview,
   accentColor = '#0071e3',
   printLayout,
+  industryTemplateId,
 }: PrintBannerExportProps) {
   const { t } = useLanguage();
   const [templateId, setTemplateId] = useState<PrintTemplateId>(
@@ -53,9 +62,21 @@ export function PrintBannerExport({
   useEffect(() => {
     if (!printLayout) return;
     setTemplateId(printLayout.recommended);
-    if (printLayout.headline && !qrName) setTitle(printLayout.headline);
-    if (printLayout.subtitle) setSubtitle(printLayout.subtitle);
-  }, [printLayout, qrName]);
+    if (printLayout.headline && !qrName) {
+      setTitle(
+        industryTemplateId
+          ? resolveIndustryPrintHeadline(t, industryTemplateId, printLayout.headline)
+          : printLayout.headline,
+      );
+    }
+    if (printLayout.subtitle) {
+      setSubtitle(
+        industryTemplateId
+          ? resolveIndustryPrintSubtitle(t, industryTemplateId, printLayout.subtitle)
+          : printLayout.subtitle,
+      );
+    }
+  }, [printLayout, qrName, industryTemplateId, t]);
 
   const orderedTemplates = useMemo(() => {
     if (!printLayout) return PRINT_TEMPLATES.map((tpl) => ({ tpl, recommended: false }));
@@ -123,7 +144,11 @@ export function PrintBannerExport({
         <div className="space-y-2">
           <Label>{t('printBanner.template')}</Label>
           {printLayout ? (
-            <p className="text-xs text-muted-foreground">{printLayout.notes}</p>
+            <p className="text-xs text-muted-foreground">
+              {industryTemplateId
+                ? resolveIndustryPrintNotes(t, industryTemplateId, printLayout.notes)
+                : printLayout.notes}
+            </p>
           ) : null}
           <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {orderedTemplates.map(({ tpl, recommended }) => (
@@ -142,8 +167,10 @@ export function PrintBannerExport({
                     {t('printBanner.recommended')}
                   </Badge>
                 ) : null}
-                <p className="text-sm font-medium pr-16">{tpl.name}</p>
-                <p className="text-xs text-muted-foreground">{tpl.description}</p>
+                <p className="text-sm font-medium pr-16">{resolvePrintTemplateName(t, tpl.id, tpl.name)}</p>
+                <p className="text-xs text-muted-foreground">
+                  {resolvePrintTemplateDescription(t, tpl.id, tpl.description)}
+                </p>
                 {tpl.physicalSize ? (
                   <p className="text-[10px] text-muted-foreground mt-1">{tpl.physicalSize}</p>
                 ) : null}

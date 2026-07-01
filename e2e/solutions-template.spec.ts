@@ -93,5 +93,8 @@ test.describe('Template field i18n', () => {
     await page.getByRole('button', { name: /İpuçlarını göster/i }).click();
     await expect(page.getByText('En uygun kullanım')).toBeVisible();
     await expect(page.getByText('Masa tent kartı')).toBeVisible();
+    await expect(page.getByText('Menüyü Gör')).toBeVisible();
+    await expect(page.getByText('Sipariş Ver')).toBeVisible();
+    await expect(page.getByText('Masa tent kartlarında')).toBeVisible();
   });
 });

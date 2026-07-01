@@ -1,0 +1,202 @@
+{
+  "layouts": {
+    "restaurant-menu": {
+      "headline": "Menüyü Tara",
+      "subtitle": "Dijital menümüzü telefonunuzdan görüntüleyin",
+      "notes": "Masa tent kartlarında en az 3×3 cm QR kullanın. Katlanır desk stand formatı idealdir."
+    },
+    "business-card": {
+      "headline": "İletişimi Kaydet",
+      "subtitle": "Tara — telefonunuza ekleyin",
+      "notes": "Kartvizit düzeni — QR arka yüz veya köşede. QR en az 2 cm olmalı."
+    },
+    "wedding": {
+      "headline": "Davetlisiniz",
+      "subtitle": "Detaylar ve RSVP için tarayın",
+      "notes": "Davetiye için A5 ek; resepsiyon oturma planı için masa kartları."
+    },
+    "event-registration": {
+      "headline": "Hemen Kayıt Ol",
+      "subtitle": "Tara ve kaydol — kontenjan sınırlı",
+      "notes": "Mekan girişleri için roll-up; fuaye için A4 poster."
+    },
+    "instagram-bio": {
+      "headline": "Bizi Takip Edin",
+      "subtitle": "Instagram profili için tarayın",
+      "notes": "Ambalaj ve vitrin için sticker; sosyal medya için story formatı."
+    },
+    "youtube-channel": {
+      "headline": "Abone Ol",
+      "subtitle": "İzlemek ve abone olmak için tarayın",
+      "notes": "Video outro ve merch ekleri için dikey story düzeni."
+    },
+    "portfolio": {
+      "headline": "Portfolyoyu Gör",
+      "subtitle": "Seçili işler ve vaka çalışmaları",
+      "notes": "Networking için kartvizit; fuar el ilanları için A5."
+    },
+    "cv-resume": {
+      "headline": "Özgeçmişim",
+      "subtitle": "PDF özgeçmişi indirmek için tarayın",
+      "notes": "İş fuarlarında A5 el ilanı; özgeçmiş başlığında QR."
+    },
+    "crypto-donate": {
+      "headline": "Bağış Yap",
+      "subtitle": "Cüzdan adresi — yazım hatası yok",
+      "notes": "Bahşiş kavanozları ve etkinlik standları için yüksek kontrastlı sticker."
+    },
+    "real-estate": {
+      "headline": "İlanı Gör",
+      "subtitle": "Fotoğraflar, plan ve açık ev",
+      "notes": "Bahçe tabelaları: sürüş mesafesi için A4 yatay/dikey, 4+ cm QR."
+    },
+    "wifi-guest": {
+      "headline": "Misafir Wi‑Fi",
+      "subtitle": "Otomatik bağlanmak için tarayın",
+      "notes": "Lobi sticker veya küçük masa kartı — statik Wi‑Fi QR, çerçeve gerekmez."
+    },
+    "retail-stores": {
+      "headline": "Alışverişe Başla",
+      "subtitle": "Ürün bilgisi ve kampanyalar",
+      "notes": "Raf etiketleri 2 cm'den; ambalaj için sticker formatı."
+    },
+    "hotels-hospitality": {
+      "headline": "Misafir Bilgisi",
+      "subtitle": "Wi‑Fi, menü ve yerel rehber",
+      "notes": "Oda tent kartları ve lobi desk stand — kesik çizgiden katlayın."
+    },
+    "healthcare-clinics": {
+      "headline": "Hasta Portalı",
+      "subtitle": "Formlar, randevu ve bakım talimatları",
+      "notes": "Bekleme odası desk stand; kayıt talimatları için A5."
+    },
+    "museums-venues": {
+      "headline": "Sergi Rehberi",
+      "subtitle": "Ses, video ve ek içerik",
+      "notes": "Sergi etiketleri: kol mesafesinde 2,5 cm+ sticker."
+    },
+    "fitness-gyms": {
+      "headline": "Ders Programı",
+      "subtitle": "Bir sonraki seansınızı ayırtın",
+      "notes": "Haftalık program güncellemeleri için lobi desk stand."
+    },
+    "salon-spa": {
+      "headline": "Randevu Al",
+      "subtitle": "Hizmetler, stilistler ve fırsatlar",
+      "notes": "Ayna yapışkanı boyutu — resepsiyonda kompakt masa kartı."
+    },
+    "nonprofit-fundraising": {
+      "headline": "Misyonumuza Destek",
+      "subtitle": "Her bağış fark yaratır",
+      "notes": "Gala masa tentleri ve etkinlik posterleri; giriş için roll-up."
+    },
+    "dental-clinics": {
+      "headline": "Hasta Bakımı",
+      "subtitle": "Kayıt, randevu ve sonrası bakım",
+      "notes": "Koltuk yanı ve resepsiyon tezgahı kartları."
+    },
+    "home-services": {
+      "headline": "Hizmet Talep Et",
+      "subtitle": "Hızlı teklif ve sezonluk kampanyalar",
+      "notes": "Bahçe tabelaları ve araç çıkartmaları — yatay A4, 4+ cm QR."
+    },
+    "coffee-shops-cafes": {
+      "headline": "Günün Menüsü",
+      "subtitle": "Mevsimsel içecekler ve sadakat",
+      "notes": "Tezgah tent ve masa kartları; bardak kılıfı için sticker."
+    },
+    "tourist-attractions": {
+      "headline": "Ziyaretinizi Planlayın",
+      "subtitle": "Biletler, haritalar ve sesli rehber",
+      "notes": "Giriş tabelaları — açık alan trafiği için büyük QR."
+    },
+    "campus-institution": {
+      "headline": "Kampüs Hizmetleri",
+      "subtitle": "Haritalar, yemek ve öğrenci kaynakları",
+      "notes": "Bina plaketleri ve lobi posterleri; oda başına toplu CSV."
+    },
+    "professional-services": {
+      "headline": "Müşteri Portalı",
+      "subtitle": "Kayıt formları ve güvenli belgeler",
+      "notes": "Lobi tabelaları ve profesyonel posta materyalleri."
+    },
+    "retail-grocery": {
+      "headline": "Mağaza Fırsatları",
+      "subtitle": "Haftalık indirimler ve sadakat",
+      "notes": "Raf konuşmacıları ve giriş tabelaları."
+    },
+    "entertainment-venue": {
+      "headline": "Bilet Al",
+      "subtitle": "Seans saatleri, ürünler ve etkinlikler",
+      "notes": "Lobi posterleri ve etkinlik standları."
+    },
+    "automotive-marine": {
+      "headline": "Detayları Gör",
+      "subtitle": "Envanter, servis ve marina bilgisi",
+      "notes": "Vitrin çıkartmaları ve iskele tabelaları."
+    },
+    "property-facilities": {
+      "headline": "Bina Portalı",
+      "subtitle": "Kiracı ve üye hizmetleri",
+      "notes": "Lobi desk stand ve depo etiketleri."
+    },
+    "specialty-healthcare": {
+      "headline": "Hasta Bakımı",
+      "subtitle": "Kayıt ve randevu",
+      "notes": "Resepsiyon tezgahı kartları."
+    },
+    "family-community": {
+      "headline": "Hoş Geldiniz",
+      "subtitle": "Kayıt ve topluluk güncellemeleri",
+      "notes": "Lobi tabelaları ve pano ekleri."
+    },
+    "mobile-vendor": {
+      "headline": "Günün Menüsü",
+      "subtitle": "Telefonunuzdan sipariş verin",
+      "notes": "Food truck cam sticker — konumu açılış sayfasında güncelleyin."
+    },
+    "local-services-hub": {
+      "headline": "Randevu Al",
+      "subtitle": "Randevular ve hizmet talepleri",
+      "notes": "Vitrin ve araç çıkartmaları."
+    }
+  },
+  "formats": {
+    "a4-portrait": {
+      "name": "A4 Poster",
+      "description": "210 × 297 mm — duvar ve vitrin"
+    },
+    "a4-landscape": {
+      "name": "A4 Yatay",
+      "description": "297 × 210 mm — bahçe tabelası ve yatay kullanım"
+    },
+    "a5-flyer": {
+      "name": "A5 El İlanı",
+      "description": "148 × 210 mm — dağıtım ve ekler"
+    },
+    "desk-stand": {
+      "name": "Desk Stand",
+      "description": "Masa tent — katla ve dik"
+    },
+    "rollup": {
+      "name": "Roll-up Önizleme",
+      "description": "85 × 200 cm ölçekli önizleme"
+    },
+    "story": {
+      "name": "Story / Dikey",
+      "description": "1080 × 1920 — sosyal medya ve ekranlar"
+    },
+    "business-card": {
+      "name": "Kartvizit",
+      "description": "85 × 55 mm — iletişim ve networking"
+    },
+    "sticker": {
+      "name": "Sticker / Etiket",
+      "description": "76 × 76 mm — ambalaj ve raf"
+    },
+    "table-card": {
+      "name": "Masa Kartı",
+      "description": "100 × 150 mm — tezgah ve resepsiyon"
+    }
+  }
+}

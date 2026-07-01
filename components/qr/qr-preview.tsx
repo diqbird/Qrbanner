@@ -41,6 +41,7 @@ interface QRPreviewProps {
   showScanTest?: boolean;
   showPrintBanner?: boolean;
   printLayout?: IndustryPrintLayout;
+  industryTemplateId?: string;
   onStyleChange?: (style: QRStyleConfig) => void;
 }
 
@@ -56,6 +57,7 @@ export function QRPreview({
   showExtras,
   showScanTest,
   printLayout,
+  industryTemplateId,
   onStyleChange,
 }: QRPreviewProps) {
   const { t } = useLanguage();
@@ -382,6 +384,7 @@ export function QRPreview({
           logoPreview={logoPreview}
           accentColor={accentColor}
           printLayout={printLayout}
+          industryTemplateId={industryTemplateId}
         />
       )}
     </div>

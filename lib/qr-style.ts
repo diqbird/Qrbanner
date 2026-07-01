@@ -215,11 +215,19 @@ export function patchFrameText(
   text: string
 ): Partial<QRStyleConfig> {
   const frameText = text.slice(0, 32);
+  if (!frameText.trim()) {
+    return clearFrameLabel();
+  }
   const patch: Partial<QRStyleConfig> = { frameText };
-  if (frameText.trim() && style.frameStyle === 'none') {
+  if (style.frameStyle === 'none') {
     patch.frameStyle = 'scan-me';
   }
   return patch;
+}
+
+/** Remove caption bar and text — for text-free QR exports. */
+export function clearFrameLabel(): Partial<QRStyleConfig> {
+  return { frameText: '', frameStyle: 'none' };
 }
 
 export function buildQRStylingOptions(style: Partial<QRStyleConfig>, content: string, size: number, logoUrl?: string | null) {

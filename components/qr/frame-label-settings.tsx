@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 
 import { useShowQrDescription } from '@/components/site-settings-provider';
-import { FRAME_STYLES, FRAME_TEXT_PRESETS, patchFrameText, type QRStyleConfig } from '@/lib/qr-style';
+import { FRAME_STYLES, FRAME_TEXT_PRESETS, clearFrameLabel, patchFrameText, type QRStyleConfig } from '@/lib/qr-style';
 
 import { useLanguage } from '@/components/i18n/language-provider';
 
@@ -67,7 +67,18 @@ export function FrameLabelSettings({
 
       {inlineEdit ? (
 
-        <p className="text-xs text-muted-foreground">{t('style.frameLabelEditHint')}</p>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className="text-xs text-muted-foreground">{t('style.frameLabelEditHint')}</p>
+          {hasFrame && (
+            <button
+              type="button"
+              onClick={() => onChange(clearFrameLabel())}
+              className="text-xs font-medium text-muted-foreground hover:text-destructive transition-colors shrink-0"
+            >
+              {t('style.frameLabelRemove')}
+            </button>
+          )}
+        </div>
 
       ) : (
 
@@ -83,13 +94,28 @@ export function FrameLabelSettings({
 
             onChange={(e) => setLabel(e.target.value)}
 
+            onBlur={(e) => {
+              if (!e.target.value.trim()) onChange(clearFrameLabel());
+            }}
+
             placeholder={t('style.frameLabelPlaceholder')}
 
             maxLength={32}
 
           />
 
-          <p className="text-xs text-muted-foreground">{t('style.frameLabelHint')}</p>
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="text-xs text-muted-foreground flex-1 min-w-[12rem]">{t('style.frameLabelHint')}</p>
+            {hasFrame && (
+              <button
+                type="button"
+                onClick={() => onChange(clearFrameLabel())}
+                className="text-xs font-medium text-muted-foreground hover:text-destructive transition-colors"
+              >
+                {t('style.frameLabelRemove')}
+              </button>
+            )}
+          </div>
 
         </div>
 

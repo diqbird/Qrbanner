@@ -1,7 +1,10 @@
 import type { TranslationTree } from './types';
 import { fieldsTr } from './fields';
 import { industryTemplateCopyTr } from './industry-template-copy';
+import { templateCtaTr } from './template-cta-copy';
 import { templateMetaTr } from './template-meta-copy';
+import { templatePrintCopyTr } from './template-print-copy';
+import { printTemplateCopyTr } from './print-template-copy';
 import { visualPresetCopyTr } from './visual-preset-copy';
 
 export const tr: TranslationTree = {
@@ -555,6 +558,9 @@ export const tr: TranslationTree = {
   templates: {
     ...industryTemplateCopyTr,
     meta: templateMetaTr,
+    ctaSuggestions: templateCtaTr,
+    printLayouts: templatePrintCopyTr,
+    printFormats: printTemplateCopyTr,
     visualPresets: {
       ...(industryTemplateCopyTr.visualPresets as Record<string, unknown>),
       presets: visualPresetCopyTr.presets,
@@ -721,6 +727,7 @@ export const tr: TranslationTree = {
     frameLabelEditHint: 'QR kodunun altındaki yazıya tıklayarak doğrudan düzenleyin.',
     frameLabelClickEdit: 'QR altı yazısını düzenle',
     frameLabelClickToAdd: 'QR altına yazı eklemek için tıklayın',
+    frameLabelRemove: 'Alt yazıyı kaldır',
     frameStyle: 'Çerçeve stili',
     frameQuickLabels: 'Hızlı etiketler',
     frameNoneHint: 'Etiketin görünmesi için yukarıdan bir çerçeve stili seçin.',

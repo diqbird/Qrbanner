@@ -110,3 +110,15 @@ export function resolveTemplateTips(
     resolved(t, `templates.meta.${templateId}.tips.${i}`, fb),
   );
 }
+
+export function resolveTemplateCtaSuggestions(
+  t: TranslateFn,
+  templateId: string,
+  fallbacks: string[],
+): string[] {
+  return fallbacks.map((fb, i) => {
+    const specific = resolved(t, `templates.ctaSuggestions.${templateId}.${i}`, fb);
+    if (specific !== fb) return specific;
+    return resolved(t, `templates.ctaSuggestions._default.${i}`, fb);
+  });
+}

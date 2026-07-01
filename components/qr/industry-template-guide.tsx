@@ -6,17 +6,22 @@ import { Button } from '@/components/ui/button';
 import { Lightbulb, Target, X, ChevronDown, ChevronUp, ScanLine, Palette, Printer } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import {
+  resolveTemplateCtaSuggestions,
   resolveTemplateName,
   resolveTemplateTagline,
   resolveTemplateTips,
   resolveTemplateUseCases,
 } from '@/lib/i18n/resolve-template-copy';
-import { resolveVisualPresetName } from '@/lib/i18n/resolve-visual-preset-copy';
+import { resolveVisualDesignStyle, resolveVisualPresetName } from '@/lib/i18n/resolve-visual-preset-copy';
 import type { IndustryTemplate } from '@/lib/industry-templates';
 import { categoryShortName } from '@/lib/qr-utils';
 import { computeScannability } from '@/lib/scannability';
 import { getVisualPresetById } from '@/lib/visual-qr-presets';
 import { PRINT_TEMPLATES } from '@/lib/print-banner';
+import {
+  resolveIndustryPrintNotes,
+  resolvePrintTemplateName,
+} from '@/lib/i18n/resolve-print-copy';
 
 export function IndustryTemplateGuide({
   template,
@@ -34,6 +39,12 @@ export function IndustryTemplateGuide({
   const tagline = resolveTemplateTagline(t, template.id, template.tagline);
   const useCases = resolveTemplateUseCases(t, template.id, template.useCases);
   const tips = resolveTemplateTips(t, template.id, template.tips);
+  const ctaSuggestions = profile
+    ? resolveTemplateCtaSuggestions(t, template.id, profile.ctaSuggestions)
+    : [];
+  const recommendedPrint = template.printLayout
+    ? PRINT_TEMPLATES.find((p) => p.id === template.printLayout?.recommended)
+    : undefined;
 
   return (
     <div className="rounded-lg border border-primary/30 bg-primary/5 p-3" data-testid="industry-template-guide">
@@ -45,8 +56,8 @@ export function IndustryTemplateGuide({
               {categoryShortName(template.category)}
             </Badge>
             {profile ? (
-              <Badge variant="outline" className="text-[10px] capitalize">
-                {profile.designStyle}
+              <Badge variant="outline" className="text-[10px]">
+                {resolveVisualDesignStyle(t, profile.designStyle)}
               </Badge>
             ) : null}
             {visualPreset ? (
@@ -95,7 +106,7 @@ export function IndustryTemplateGuide({
                 <Palette className="h-3.5 w-3.5" /> {t('templates.guide.suggestedCtas')}
               </p>
               <div className="flex flex-wrap gap-1">
-                {profile.ctaSuggestions.map((cta) => (
+                {ctaSuggestions.map((cta) => (
                   <Badge key={cta} variant="outline" className="text-[10px] font-normal">
                     {cta}
                   </Badge>
@@ -110,14 +121,17 @@ export function IndustryTemplateGuide({
               </p>
               <div className="flex flex-wrap gap-1 mb-1">
                 <Badge variant="secondary" className="text-[10px] font-normal">
-                  {PRINT_TEMPLATES.find((p) => p.id === template.printLayout?.recommended)?.name ??
-                    template.printLayout.recommended}
+                  {recommendedPrint
+                    ? resolvePrintTemplateName(t, recommendedPrint.id, recommendedPrint.name)
+                    : template.printLayout.recommended}
                 </Badge>
                 <span className="text-[10px] text-muted-foreground self-center">
-                  min {template.printLayout.minPrintCm} cm QR
+                  {t('templates.guide.minPrintQr', { cm: template.printLayout.minPrintCm })}
                 </span>
               </div>
-              <p className="text-[11px] text-muted-foreground">{template.printLayout.notes}</p>
+              <p className="text-[11px] text-muted-foreground">
+                {resolveIndustryPrintNotes(t, template.id, template.printLayout.notes)}
+              </p>
             </div>
           ) : null}
           <div>

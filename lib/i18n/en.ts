@@ -1,7 +1,10 @@
 import type { TranslationTree } from './types';
 import { fieldsEn } from './fields';
 import { industryTemplateCopyEn } from './industry-template-copy';
+import { templateCtaEn } from './template-cta-copy';
 import { templateMetaEn } from './template-meta-copy';
+import { templatePrintCopyEn } from './template-print-copy';
+import { printTemplateCopyEn } from './print-template-copy';
 import { visualPresetCopyEn } from './visual-preset-copy';
 
 export const en: TranslationTree = {
@@ -555,6 +558,9 @@ export const en: TranslationTree = {
   templates: {
     ...industryTemplateCopyEn,
     meta: templateMetaEn,
+    ctaSuggestions: templateCtaEn,
+    printLayouts: templatePrintCopyEn,
+    printFormats: printTemplateCopyEn,
     visualPresets: {
       ...(industryTemplateCopyEn.visualPresets as Record<string, unknown>),
       presets: visualPresetCopyEn.presets,
@@ -721,6 +727,7 @@ export const en: TranslationTree = {
     frameLabelEditHint: 'Click the text below the QR code to edit it directly.',
     frameLabelClickEdit: 'Edit label below QR',
     frameLabelClickToAdd: 'Click to add label below QR',
+    frameLabelRemove: 'Remove caption',
     frameStyle: 'Frame style',
     frameQuickLabels: 'Quick labels',
     frameNoneHint: 'Choose a frame style above to show the label on your QR image.',

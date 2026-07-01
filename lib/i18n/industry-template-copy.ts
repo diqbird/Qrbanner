@@ -331,6 +331,7 @@ export const industryTemplateCopyEn: TranslationTree = {
     recommendedPrint: 'Recommended print',
     bestFor: 'Best for',
     helpfulTips: 'Helpful tips',
+    minPrintQr: 'min {{cm}} cm QR',
     dismissAria: 'Dismiss template guide',
   },
   visualPresets: {
@@ -366,6 +367,7 @@ export const industryTemplateCopyTr: TranslationTree = {
     recommendedPrint: 'Önerilen baskı',
     bestFor: 'En uygun kullanım',
     helpfulTips: 'Faydalı ipuçları',
+    minPrintQr: 'min {{cm}} cm QR',
     dismissAria: 'Şablon rehberini kapat',
   },
   visualPresets: {

@@ -235,8 +235,15 @@ export function QRCreateWizard() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    saveGuestDraft();
-  }, [step, saveGuestDraft]);
+  }, [step]);
+
+  useEffect(() => {
+    if (!isGuest || !category) return;
+    const timer = window.setTimeout(() => {
+      saveQrCreateDraft(buildCurrentDraft());
+    }, 400);
+    return () => window.clearTimeout(timer);
+  }, [isGuest, category, buildCurrentDraft]);
 
   const goToStep = (next: number) => {
     setStep(next);
@@ -612,6 +619,7 @@ export function QRCreateWizard() {
                   style={style}
                   logoPreview={logoPreview}
                   printLayout={activeTemplate?.printLayout}
+                  industryTemplateId={activeTemplate?.id}
                   accentColor={landingPage.accentColor}
                 />
               </div>
@@ -699,6 +707,7 @@ export function QRCreateWizard() {
                   logoPreview={logoPreview}
                   showScanTest
                   printLayout={activeTemplate?.printLayout}
+                  industryTemplateId={activeTemplate?.id}
                   accentColor={landingPage.accentColor}
                   onStyleChange={(next) => setStyle(normalizeQRStyle(next))}
                 />
@@ -756,6 +765,7 @@ export function QRCreateWizard() {
                   logoPreview={logoPreview}
                   showExtras
                   printLayout={activeTemplate?.printLayout}
+                  industryTemplateId={activeTemplate?.id}
                   accentColor={landingPage.accentColor}
                 />
               </div>
