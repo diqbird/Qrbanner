@@ -9,6 +9,11 @@ import {
   generateInviteToken,
   getActiveWorkspaceId,
 } from '@/lib/workspace';
+import {
+  assertInviteEmailAllowed,
+  normalizeAllowedDomainsInput,
+  parseAllowedDomains,
+} from '@/lib/workspace-sso';
 
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -70,6 +75,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid role' }, { status: 400 });
     }
 
+    const workspace = await prisma.workspace.findUnique({
+      where: { id: workspaceId },
+      select: { ssoEnabled: true, allowedDomains: true },
+    });
+    if (!workspace) return NextResponse.json({ error: 'Workspace not found' }, { status: 404 });
+
+    const inviteCheck = assertInviteEmailAllowed(workspace, email);
+    if (!inviteCheck.ok) {
+      return NextResponse.json({ error: inviteCheck.code }, { status: 400 });
+    }
+
     const token = generateInviteToken();
     const member = await prisma.workspaceMember.upsert({
       where: { workspaceId_email: { workspaceId, email } },
@@ -112,12 +128,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'SSO is for team workspaces only' }, { status: 400 });
     }
 
+    const allowedDomains =
+      body.allowedDomains !== undefined
+        ? normalizeAllowedDomainsInput(body.allowedDomains).slice(0, 20)
+        : parseAllowedDomains(workspace?.allowedDomains);
+
     const updated = await prisma.workspace.update({
       where: { id: workspaceId },
       data: {
         ssoEnabled: Boolean(body.ssoEnabled),
         ssoProvider: body.ssoProvider ? String(body.ssoProvider) : null,
-        allowedDomains: Array.isArray(body.allowedDomains) ? body.allowedDomains : null,
+        allowedDomains,
       },
     });
     return NextResponse.json({ workspace: updated });

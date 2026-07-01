@@ -32,6 +32,8 @@ export function TeamWorkspaceSettings() {
   const [role, setRole] = useState('viewer');
   const [inviteEmail, setInviteEmail] = useState('');
   const [newTeamName, setNewTeamName] = useState('');
+  const [ssoProvider, setSsoProvider] = useState('google');
+  const [allowedDomainsText, setAllowedDomainsText] = useState('');
   const [loading, setLoading] = useState(true);
   const [working, setWorking] = useState(false);
 
@@ -62,6 +64,49 @@ export function TeamWorkspaceSettings() {
   useEffect(() => {
     if (activeId) fetchMembers(activeId);
   }, [activeId, fetchMembers]);
+
+  useEffect(() => {
+    if (!workspace || workspace.isPersonal) return;
+    setSsoProvider(workspace.ssoProvider ?? 'google');
+    const domains = Array.isArray(workspace.allowedDomains) ? workspace.allowedDomains : [];
+    setAllowedDomainsText(domains.join(', '));
+  }, [workspace]);
+
+  const saveSsoSettings = async (patch?: { ssoEnabled?: boolean }) => {
+    setWorking(true);
+    try {
+      const res = await fetch('/api/workspace/members', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'update_sso',
+          workspaceId: activeId,
+          ssoEnabled: patch?.ssoEnabled ?? Boolean(workspace?.ssoEnabled),
+          ssoProvider,
+          allowedDomains: allowedDomainsText
+            .split(/[,;\s]+/)
+            .map((d) => d.trim())
+            .filter(Boolean),
+        }),
+      });
+      if (res.ok) {
+        if (patch?.ssoEnabled === undefined) {
+          toast.success(t('settings.team.ssoSaved'));
+        }
+        fetchMembers(activeId);
+      } else {
+        const data = await res.json();
+        toast.error(resolveApiError(t, data.error, 'settings.team.ssoUpdateFailed'));
+      }
+    } finally {
+      setWorking(false);
+    }
+  };
+
+  const toggleSso = async (enabled: boolean) => {
+    await saveSsoSettings({ ssoEnabled: enabled });
+    toast.success(enabled ? t('settings.team.ssoEnabled') : t('settings.team.ssoDisabled'));
+  };
 
   const switchWorkspace = async (id: string) => {
     const res = await fetch('/api/workspace', {
@@ -133,26 +178,6 @@ export function TeamWorkspaceSettings() {
     if (res.ok) {
       toast.success(t('settings.team.memberRemoved'));
       fetchMembers(activeId);
-    }
-  };
-
-  const toggleSso = async (enabled: boolean) => {
-    const res = await fetch('/api/workspace/members', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        action: 'update_sso',
-        workspaceId: activeId,
-        ssoEnabled: enabled,
-        ssoProvider: 'google',
-        allowedDomains: [],
-      }),
-    });
-    if (res.ok) {
-      toast.success(enabled ? t('settings.team.ssoEnabled') : t('settings.team.ssoDisabled'));
-      fetchMembers(activeId);
-    } else {
-      toast.error(t('settings.team.ssoUpdateFailed'));
     }
   };
 
@@ -250,6 +275,31 @@ export function TeamWorkspaceSettings() {
                 onCheckedChange={toggleSso}
               />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="sso-provider">{t('settings.team.ssoProvider')}</Label>
+              <Select value={ssoProvider} onValueChange={setSsoProvider}>
+                <SelectTrigger id="sso-provider">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="google">{t('settings.team.ssoProviderGoogle')}</SelectItem>
+                  <SelectItem value="azure-ad">{t('settings.team.ssoProviderMicrosoft')}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="allowed-domains">{t('settings.team.allowedDomains')}</Label>
+              <Input
+                id="allowed-domains"
+                placeholder={t('settings.team.allowedDomainsPlaceholder')}
+                value={allowedDomainsText}
+                onChange={(e) => setAllowedDomainsText(e.target.value)}
+              />
+              <p className="text-xs text-muted-foreground">{t('settings.team.allowedDomainsHint')}</p>
+            </div>
+            <Button type="button" variant="outline" loading={working} onClick={() => saveSsoSettings()}>
+              {t('settings.team.saveSso')}
+            </Button>
           </div>
         )}
       </CardContent>

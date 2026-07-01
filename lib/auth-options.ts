@@ -10,6 +10,7 @@ import { cookies } from 'next/headers';
 import { prisma } from '@/lib/db';
 import { ensurePersonalWorkspace } from '@/lib/workspace';
 import { resolveReferrerByCode, recordReferralSignup } from '@/lib/referral';
+import { assertOAuthSignInAllowed, assertPasswordLoginAllowed } from '@/lib/workspace-sso';
 
 const providers: NextAuthOptions['providers'] = [
   CredentialsProvider({
@@ -68,6 +69,11 @@ const providers: NextAuthOptions['providers'] = [
 
       if (!user) {
         throw new Error('invalid_credentials');
+      }
+
+      const ssoCheck = await assertPasswordLoginAllowed(email);
+      if (!ssoCheck.ok) {
+        throw new Error(ssoCheck.code);
       }
 
       if (!user.password) {
@@ -133,6 +139,12 @@ export const authOptions: NextAuthOptions = {
       if (account?.provider && account.provider !== 'credentials') {
         const email = user.email?.toLowerCase();
         if (!email) return false;
+
+        const oauthCheck = await assertOAuthSignInAllowed(email, account.provider);
+        if (!oauthCheck.ok) {
+          return `/login?error=${oauthCheck.code}`;
+        }
+
         await prisma.user.updateMany({
           where: { email, emailVerified: null },
           data: { emailVerified: new Date() },

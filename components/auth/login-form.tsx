@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -26,6 +26,13 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const error = searchParams.get('error');
+    if (!error || error === 'Callback') return;
+    const code = error === 'AccessDenied' ? 'sso_required' : error;
+    toast.error(resolveApiError(t, code));
+  }, [searchParams, t]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
