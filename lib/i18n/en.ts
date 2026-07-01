@@ -1176,6 +1176,28 @@ export const en: TranslationTree = {
     fieldPhone: 'Phone',
     fieldMessage: 'Message',
     requireEmail: 'Require email',
+    templates: {
+      minimal: {
+        name: 'Clean & Simple',
+        description: 'Minimal layout — works for any link or promo',
+      },
+      restaurant: {
+        name: 'Restaurant',
+        description: 'Warm colors — perfect for menus and dining',
+      },
+      hotel: {
+        name: 'Hotel & Hospitality',
+        description: 'Elegant look for hotels, spas and venues',
+      },
+      event: {
+        name: 'Event & Conference',
+        description: 'Bold design for registrations and RSVPs',
+      },
+      business: {
+        name: 'Business',
+        description: 'Professional style for corporate campaigns',
+      },
+    },
   },
   customers: {
     metaTitle: 'Customers & Use Cases',

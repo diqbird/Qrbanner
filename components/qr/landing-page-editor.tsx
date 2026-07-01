@@ -10,6 +10,10 @@ import { Layout, ImageIcon, Sparkles } from 'lucide-react';
 import { generateLandingPageCopy } from '@/lib/landing-ai';
 import { useLanguage } from '@/components/i18n/language-provider';
 import {
+  resolveLandingTemplateDescription,
+  resolveLandingTemplateName,
+} from '@/lib/i18n/resolve-landing-copy';
+import {
   LandingPageData,
   emptyLandingPage,
   LANDING_TEMPLATES,
@@ -81,8 +85,10 @@ export function LandingPageEditor({
                       : 'border-border/50 hover:border-border'
                   }`}
                 >
-                  <p className="text-sm font-medium">{tpl.name}</p>
-                  <p className="text-xs text-muted-foreground">{tpl.description}</p>
+                  <p className="text-sm font-medium">{resolveLandingTemplateName(t, tpl.id, tpl.name)}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {resolveLandingTemplateDescription(t, tpl.id, tpl.description)}
+                  </p>
                 </button>
               ))}
             </div>
