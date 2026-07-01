@@ -12,6 +12,7 @@ import { ensurePersonalWorkspace } from '@/lib/workspace';
 import { resolveReferrerByCode, recordReferralSignup } from '@/lib/referral';
 import { assertOAuthSignInAllowed, assertPasswordLoginAllowed, isEmailDomainAllowed, parseAllowedDomains } from '@/lib/workspace-sso';
 import { verifySamlSignInToken } from '@/lib/saml-auth';
+import { decryptTotpSecret, verifyTotpCode } from '@/lib/totp';
 
 const providers: NextAuthOptions['providers'] = [
   CredentialsProvider({
@@ -20,6 +21,7 @@ const providers: NextAuthOptions['providers'] = [
       email: { label: 'Email', type: 'email' },
       password: { label: 'Password', type: 'password' },
       verifyToken: { label: 'Verify Token', type: 'text' },
+      totpCode: { label: 'TOTP Code', type: 'text' },
     },
     async authorize(credentials) {
       if (!credentials?.email) {
@@ -79,6 +81,7 @@ const providers: NextAuthOptions['providers'] = [
             name: samlUser.name,
             role: samlUser.role,
             image: samlUser.image,
+            mfaVerified: true,
           };
         }
 
@@ -97,6 +100,7 @@ const providers: NextAuthOptions['providers'] = [
           name: verifiedUser.name,
           role: verifiedUser.role,
           image: verifiedUser.image,
+          mfaVerified: true,
         };
       }
 
@@ -106,6 +110,17 @@ const providers: NextAuthOptions['providers'] = [
 
       const user = await prisma.user.findUnique({
         where: { email },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          role: true,
+          image: true,
+          password: true,
+          emailVerified: true,
+          totpEnabled: true,
+          totpSecret: true,
+        },
       });
 
       if (!user) {
@@ -130,12 +145,24 @@ const providers: NextAuthOptions['providers'] = [
         throw new Error('EMAIL_NOT_VERIFIED');
       }
 
+      if (user.totpEnabled) {
+        const totpCode = credentials.totpCode?.replace(/\s/g, '') ?? '';
+        if (!totpCode) {
+          throw new Error('mfa_required');
+        }
+        const secret = decryptTotpSecret(user.totpSecret);
+        if (!secret || !verifyTotpCode(secret, totpCode)) {
+          throw new Error('invalid_mfa_code');
+        }
+      }
+
       return {
         id: user.id,
         email: user.email,
         name: user.name,
         role: user.role,
         image: user.image,
+        mfaVerified: true,
       };
     },
   }),
@@ -193,12 +220,26 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger, session }) {
+      if (trigger === 'update' && session && typeof session === 'object' && 'mfaVerified' in session) {
+        token.mfaVerified = Boolean((session as { mfaVerified?: boolean }).mfaVerified);
+      }
+
       if (user) {
         token.id = user.id;
         token.role = (user as { role?: string })?.role ?? 'user';
-        if (account?.provider && account.provider !== 'credentials') {
+        const explicitMfa = (user as { mfaVerified?: boolean }).mfaVerified;
+        if (explicitMfa === true) {
+          token.mfaVerified = true;
+        } else if (account?.provider && account.provider !== 'credentials') {
+          const dbUser = await prisma.user.findUnique({
+            where: { id: user.id },
+            select: { totpEnabled: true },
+          });
+          token.mfaVerified = !dbUser?.totpEnabled;
           await ensurePersonalWorkspace(user.id);
+        } else {
+          token.mfaVerified = explicitMfa ?? true;
         }
       }
       return token;
@@ -207,6 +248,7 @@ export const authOptions: NextAuthOptions = {
       if (session?.user) {
         (session.user as { id?: string }).id = token.id as string;
         (session.user as { role?: string }).role = token.role as string;
+        (session as { mfaVerified?: boolean }).mfaVerified = token.mfaVerified !== false;
       }
       return session;
     },

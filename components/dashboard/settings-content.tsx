@@ -21,6 +21,7 @@ import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { LanguageSwitcher } from '@/components/i18n/language-switcher';
 import { ReferralSettings } from '@/components/dashboard/referral-settings';
+import { MfaSettings } from '@/components/dashboard/mfa-settings';
 
 export function SettingsContent() {
   const { t } = useLanguage();
@@ -138,6 +139,8 @@ export function SettingsContent() {
       <CustomDomainSettings />
 
       <ReferralSettings />
+
+      <MfaSettings />
 
       <Card>
         <CardHeader>

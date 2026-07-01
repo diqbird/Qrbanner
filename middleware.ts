@@ -85,6 +85,27 @@ export async function middleware(req: NextRequest) {
       login.searchParams.set('callbackUrl', path + req.nextUrl.search);
       return withSecurityHeaders(NextResponse.redirect(login));
     }
+
+    if (token.mfaVerified === false && path !== '/mfa-verify') {
+      const verify = new URL('/mfa-verify', req.url);
+      verify.searchParams.set('callbackUrl', path + req.nextUrl.search);
+      return withSecurityHeaders(NextResponse.redirect(verify));
+    }
+  }
+
+  if (path === '/mfa-verify') {
+    const token = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+    if (!token) {
+      const login = new URL('/login', req.url);
+      return withSecurityHeaders(NextResponse.redirect(login));
+    }
+    if (token.mfaVerified !== false) {
+      const dest = req.nextUrl.searchParams.get('callbackUrl') || '/dashboard';
+      return withSecurityHeaders(NextResponse.redirect(new URL(dest, req.url)));
+    }
   }
 
   return withSecurityHeaders(NextResponse.next());

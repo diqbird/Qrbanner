@@ -26,6 +26,8 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [mfaStep, setMfaStep] = useState(false);
+  const [totpCode, setTotpCode] = useState('');
   const [samlInfo, setSamlInfo] = useState<{ enabled: boolean; name?: string; loginUrl?: string } | null>(null);
 
   const workspaceSlug = searchParams.get('workspace')?.trim() ?? '';
@@ -98,6 +100,7 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
       const result = await signIn('credentials', {
         email,
         password,
+        totpCode: mfaStep ? totpCode : undefined,
         redirect: false,
         callbackUrl,
       });
@@ -108,6 +111,11 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
           const verifyQs = new URLSearchParams({ email });
           if (callbackUrl !== '/dashboard') verifyQs.set('callbackUrl', callbackUrl);
           window.location.href = `/verify?${verifyQs.toString()}`;
+          return;
+        }
+        if (result.error === 'mfa_required') {
+          setMfaStep(true);
+          toast.message(t('settings.mfa.enterCodePrompt'));
           return;
         }
         toast.error(resolveApiError(t, result.error));
@@ -186,8 +194,24 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
               </button>
             </div>
           </div>
+          {mfaStep && (
+            <div className="space-y-2">
+              <Label htmlFor="totp-code">{t('settings.mfa.codeLabel')}</Label>
+              <Input
+                id="totp-code"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                placeholder="000000"
+                value={totpCode}
+                onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                className="text-center font-mono tracking-widest"
+                maxLength={6}
+                required
+              />
+            </div>
+          )}
           <Button type="submit" className="w-full" loading={loading}>
-            {t('common.signIn')}
+            {mfaStep ? t('settings.mfa.verify') : t('common.signIn')}
           </Button>
         </form>
 

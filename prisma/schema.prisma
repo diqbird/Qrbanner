@@ -32,6 +32,9 @@ model User {
   referredByUserId   String?
   referralSignupCount Int      @default(0)
   brandingSettings   Json?
+  totpEnabled        Boolean   @default(false)
+  totpSecret         String?   @db.Text
+  totpPendingSecret  String?   @db.Text
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
