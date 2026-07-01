@@ -25,6 +25,7 @@ import { toast } from 'sonner';
 import { PLANS } from '@/lib/plans';
 import { AdminBlogPanel } from '@/components/admin/admin-blog-panel';
 import { AdminBillingPanel } from '@/components/admin/admin-billing-panel';
+import { AdminAuditPanel } from '@/components/admin/admin-audit-panel';
 import { AdminSiteSettings } from '@/components/admin/admin-site-settings';
 import { MediaLibraryCard } from '@/components/dashboard/media-library-card';
 import { useLanguage } from '@/components/i18n/language-provider';
@@ -306,6 +307,7 @@ export function AdminContent() {
       </Card>
 
       <AdminSiteSettings />
+      <AdminAuditPanel />
       <AdminBlogPanel />
       <MediaLibraryCard />
     </div>

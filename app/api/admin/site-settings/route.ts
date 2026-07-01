@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminUserId } from '@/lib/admin-auth';
 import { getSiteSettings, writeSiteSettings } from '@/lib/site-settings-server';
+import { getAdminActorContext, recordAdminAudit } from '@/lib/admin-audit';
 
 export async function GET() {
   const adminId = await requireAdminUserId();
@@ -40,5 +41,13 @@ export async function PATCH(req: NextRequest) {
   }
 
   const settings = writeSiteSettings(patch);
+  const actor = await getAdminActorContext(adminId, req);
+  await recordAdminAudit({
+    ...actor,
+    action: 'site_settings.update',
+    targetType: 'site_settings',
+    summary: Object.keys(patch).join(', '),
+    metadata: patch,
+  });
   return NextResponse.json(settings);
 }

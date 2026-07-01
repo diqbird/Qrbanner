@@ -5,6 +5,7 @@ import { prisma } from '@/lib/db';
 import { requireAdminUserId } from '@/lib/admin-auth';
 import { normalizePlanId, type PlanId } from '@/lib/plans';
 import { billingStatusForUser } from '@/lib/admin-billing-stats';
+import { getAdminActorContext, recordAdminAudit } from '@/lib/admin-audit';
 
 export async function GET(req: NextRequest) {
   const adminId = await requireAdminUserId();
@@ -93,11 +94,41 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ error: 'Nothing to update' }, { status: 400 });
   }
 
+  const existing = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { email: true, plan: true, role: true },
+  });
+  if (!existing) {
+    return NextResponse.json({ error: 'User not found' }, { status: 404 });
+  }
+
   const updated = await prisma.user.update({
     where: { id: userId },
     data,
     select: { id: true, email: true, plan: true, role: true },
   });
+
+  const actor = await getAdminActorContext(adminId, req);
+  if (data.plan) {
+    await recordAdminAudit({
+      ...actor,
+      action: 'user.plan_update',
+      targetType: 'user',
+      targetId: userId,
+      summary: `${existing.email}: ${existing.plan} → ${updated.plan}`,
+      metadata: { from: existing.plan, to: updated.plan, email: existing.email },
+    });
+  }
+  if (data.role) {
+    await recordAdminAudit({
+      ...actor,
+      action: 'user.role_update',
+      targetType: 'user',
+      targetId: userId,
+      summary: `${existing.email}: ${existing.role} → ${updated.role}`,
+      metadata: { from: existing.role, to: updated.role, email: existing.email },
+    });
+  }
 
   return NextResponse.json({ user: updated });
 }

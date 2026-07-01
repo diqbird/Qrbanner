@@ -339,3 +339,21 @@ model MediaAsset {
 
   @@index([userId, createdAt])
 }
+
+model AdminAuditLog {
+  id          String   @id @default(cuid())
+  actorId     String
+  actorEmail  String?
+  action      String
+  targetType  String?
+  targetId    String?
+  summary     String?
+  metadata    Json?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt(sort: Desc)])
+  @@index([action])
+  @@index([actorId])
+}

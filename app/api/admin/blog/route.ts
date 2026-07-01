@@ -5,6 +5,7 @@ import { prisma } from '@/lib/db';
 import { requireAdminUserId } from '@/lib/admin-auth';
 import type { Prisma } from '@prisma/client';
 import type { BlogSection } from '@/lib/blog/types';
+import { getAdminActorContext, recordAdminAudit } from '@/lib/admin-audit';
 
 export async function GET() {
   try {
@@ -61,6 +62,16 @@ export async function POST(req: NextRequest) {
         published: Boolean(body.published),
         publishedAt: body.published ? new Date() : null,
       },
+    });
+
+    const actor = await getAdminActorContext(adminId, req);
+    await recordAdminAudit({
+      ...actor,
+      action: 'blog.create',
+      targetType: 'blog_post',
+      targetId: post.id,
+      summary: post.slug,
+      metadata: { slug: post.slug, title: post.title, published: post.published },
     });
 
     return NextResponse.json({ post }, { status: 201 });

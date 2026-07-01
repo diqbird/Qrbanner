@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { requireAdminUserId } from '@/lib/admin-auth';
 import type { Prisma } from '@prisma/client';
+import { getAdminActorContext, recordAdminAudit } from '@/lib/admin-audit';
 
 export async function PATCH(
   req: NextRequest,
@@ -15,7 +16,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     const body = await req.json();
-    const data: Record<string, unknown> = {};
+    const data: Prisma.BlogPostUpdateInput = {};
 
     if (body.title !== undefined) data.title = String(body.title).trim();
     if (body.description !== undefined) data.description = String(body.description).trim();
@@ -32,6 +33,16 @@ export async function PATCH(
       data,
     });
 
+    const actor = await getAdminActorContext(adminId, req);
+    await recordAdminAudit({
+      ...actor,
+      action: 'blog.update',
+      targetType: 'blog_post',
+      targetId: post.id,
+      summary: post.slug,
+      metadata: { slug: post.slug, title: post.title, published: post.published },
+    });
+
     return NextResponse.json({ post });
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : 'Update failed';
@@ -40,7 +51,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -48,7 +59,23 @@ export async function DELETE(
     if (!adminId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+    const existing = await prisma.blogPost.findUnique({
+      where: { id: params.id },
+      select: { id: true, slug: true, title: true },
+    });
+    if (!existing) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    }
     await prisma.blogPost.delete({ where: { id: params.id } });
+    const actor = await getAdminActorContext(adminId, req);
+    await recordAdminAudit({
+      ...actor,
+      action: 'blog.delete',
+      targetType: 'blog_post',
+      targetId: existing.id,
+      summary: existing.slug,
+      metadata: { slug: existing.slug, title: existing.title },
+    });
     return NextResponse.json({ ok: true });
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : 'Delete failed';
