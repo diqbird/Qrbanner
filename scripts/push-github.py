@@ -23,9 +23,10 @@ def auth_ok() -> bool:
 
 def main() -> int:
     if not auth_ok():
-        print("GitHub oturumu yok. Once device login tamamlayin:")
+        print("GitHub oturumu yok. Once su komutu calistirin (gh PATH'te olmayabilir):")
+        print(f'  & "{GH}" auth login')
         print("  https://github.com/login/device")
-        print("Kod scripts/gh-auth-pending.txt dosyasinda.")
+        print("Sonra: python scripts/push-github.py")
         return 1
 
     user = subprocess.check_output([GH, "api", "user", "-q", ".login"], cwd=ROOT, text=True).strip()

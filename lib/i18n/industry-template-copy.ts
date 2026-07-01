@@ -329,6 +329,8 @@ export const industryTemplateCopyEn: TranslationTree = {
     hideTips: 'Hide tips',
     suggestedCtas: 'Suggested CTAs',
     recommendedPrint: 'Recommended print',
+    bestFor: 'Best for',
+    helpfulTips: 'Helpful tips',
     dismissAria: 'Dismiss template guide',
   },
   visualPresets: {
@@ -362,6 +364,8 @@ export const industryTemplateCopyTr: TranslationTree = {
     hideTips: 'İpuçlarını gizle',
     suggestedCtas: 'Önerilen CTA\'lar',
     recommendedPrint: 'Önerilen baskı',
+    bestFor: 'En uygun kullanım',
+    helpfulTips: 'Faydalı ipuçları',
     dismissAria: 'Şablon rehberini kapat',
   },
   visualPresets: {

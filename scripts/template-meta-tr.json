@@ -1,0 +1,281 @@
+{
+  "restaurant-menu": {
+    "tagline": "Masada dijital menü — fiyat değişince yeniden baskı yok",
+    "useCases": ["Masa tent kartı", "Vitrin etiketi", "Paket servis ambalajı", "Oda servisi kartı"],
+    "tips": [
+      "Masa tentlerinde en az 3×3 cm baskı yapın.",
+      "Öğle/akşam menüleri için zaman bazlı yönlendirme açın.",
+      "Rezervasyon talepleri için landing'de lead formu kullanın.",
+      "UTM: source=qr_menu, medium=print."
+    ]
+  },
+  "business-card": {
+    "tagline": "Tek tarama ile tüm iletişim bilgileri telefona kaydedilir",
+    "useCases": ["Konferans rozeti", "E-posta imzası", "Ofis kapısı", "LinkedIn banner"],
+    "tips": [
+      "vCard statiktir — telefon veya ünvan değişince yeniden basın.",
+      "Ortada logo için H hata düzeltme kullanın.",
+      "Arka yüze güncel portfolyo için dinamik URL QR ekleyin."
+    ]
+  },
+  "wedding": {
+    "tagline": "Davetiye, RSVP ve detaylar — dinamik link, yeniden baskı yok",
+    "useCases": ["Basılı davetiye", "Masa kartı", "Save-the-date", "Teşekkür kartı"],
+    "tips": [
+      "Dinamik QR — hediye listesi veya galeri linkini yeniden basmadan güncelleyin.",
+      "Landing + lead formu RSVP toplar (ad, e-posta, misafir sayısı).",
+      "Landing alt başlığı için yukarıdaki tarih/saat alanlarını doldurun.",
+      "Baskı kontrastını tarama skoru ile test edin."
+    ]
+  },
+  "event-registration": {
+    "tagline": "Kayıt için tarayın — poster, rozet ve slaytlar",
+    "useCases": ["Roll-up banner", "Rozet askısı", "E-posta kampanyası", "Son slayt"],
+    "tips": [
+      "İki kayıt sayfasında A/B testi yapın.",
+      "Duyuru gününde QR'ın yayına girmesini zamanlayın.",
+      "Poster→kayıt takibi için GA4 pikseli açın."
+    ]
+  },
+  "instagram-bio": {
+    "tagline": "Çevrimdışından profile — ambalaj, mağaza, etkinlik",
+    "useCases": ["Ürün kutusu", "Vitrin", "El ilanı", "Fotoğraf duvarı"],
+    "tips": [
+      "Dinamik kısa link → sonra belirli gönderiye yönlendirin.",
+      "NFC etiketler: kaynak analitiği için ?src=nfc ekleyin.",
+      "Gradient'i Instagram marka renklerine uydurun."
+    ]
+  },
+  "youtube-channel": {
+    "tagline": "Baskı ve ambalaj → abone",
+    "useCases": ["Video outro", "Merch kutusu", "Kurs el notu", "Slayt sunumu"],
+    "tips": [
+      "Yeni izleyiciler için onboarding oynatma listesine bağlayın.",
+      "Yeniden basmadan en son videoya yönlendirmeyi güncelleyin.",
+      "Kırmızı-beyaz en iyi taranır — koyu zeminlerde test edin."
+    ]
+  },
+  "portfolio": {
+    "tagline": "İşleri gösterin, proje talebi toplayın",
+    "useCases": ["Sergi plaketi", "Freelance sunum", "Behance eki", "Yaratıcı CV"],
+    "tips": [
+      "Lead formu: ad, e-posta, proje türü.",
+      "Gizli müşteri işlerini şifreyle koruyun.",
+      "Koyu sergi duvarlarında şeffaf PNG kullanın."
+    ]
+  },
+  "cv-resume": {
+    "tagline": "İşverenler tek taramada güncel CV'nizi açar",
+    "useCases": ["İş fuarı", "CV başlığı", "Networking", "LinkedIn öne çıkan"],
+    "tips": [
+      "QR'ı \"CV 2026\" adlandırın, eski sürümleri arşivleyin.",
+      "Mülakat öncesi tarama artışı = dosyanızı açtılar.",
+      "Networking kartlarında vCard QR ile eşleştirin."
+    ]
+  },
+  "crypto-donate": {
+    "tagline": "BTC veya ETH alım adresi — yazım hatası yok",
+    "useCases": ["Yayıncı bahşişi", "Hayır kurumu posteri", "Sanatçı kavanozu", "Etkinlik sponsorluğu"],
+    "tips": [
+      "Statik QR — yeni adres için yeni baskı gerekir.",
+      "H hata düzeltme + koyu zeminde yüksek kontrast.",
+      "Önce küçük bir transferle test edin."
+    ]
+  },
+  "real-estate": {
+    "tagline": "Bahçe tabelası → ilan → görüntüleme talebi",
+    "useCases": ["Satılık tabela", "Açık ev el ilanı", "Emlakçı kartı", "Kiralık ilan"],
+    "tips": [
+      "Lead formu: ad, telefon, tercih edilen görüntüleme saati.",
+      "TR ve yabancı alıcılar için geofence.",
+      "Fiyat düşünce URL güncelleyin — aynı tabela QR'ı.",
+      "Yüksek niyetli alıcılar için NFC broşür."
+    ]
+  },
+  "wifi-guest": {
+    "tagline": "Lobi ve oda kartları — şifre yazmadan bağlanın",
+    "useCases": ["Otel oda klasörü", "Kafe tezgah tenti", "Co-working lobisi", "Airbnb karşılama kartı"],
+    "tips": [
+      "İş ağınızdan ayrı misafir VLAN kullanın.",
+      "Yoğun mekanlarda şifreleri aylık yenileyin.",
+      "Lobi standları için en az 3×3 cm baskı."
+    ]
+  },
+  "retail-stores": {
+    "tagline": "Raf etiketleri ve ambalaj → ürün sayfaları ve promosyonlar",
+    "useCases": ["Raf etiketi", "Ürün askı etiketi", "Vitrin", "Sadakat kaydı"],
+    "tips": [
+      "UTM etiketleri: source=qr_shelf, medium=print.",
+      "Yüzlerce SKU için toplu CSV içe aktarma.",
+      "Promosyon URL'lerini tarihe göre zamanlayın."
+    ]
+  },
+  "hotels-hospitality": {
+    "tagline": "Tek tarama — Wi‑Fi, menüler, spa ve yerel rehber",
+    "useCases": ["Oda tent kartı", "Lobi rehberi", "Havuz tabelası", "Spa menü standı"],
+    "tips": [
+      "Mevsimlik spa ve restoran linklerini yeniden basmadan güncelleyin.",
+      "Uluslararası misafirler için dil yönlendirmesi ekleyin.",
+      "Zarif marka için otel landing şablonu kullanın."
+    ]
+  },
+  "healthcare-clinics": {
+    "tagline": "Hasta kaydı ve eğitim — kağıt yığını yok",
+    "useCases": ["Bekleme odası posteri", "Kayıt masası", "Muayene odası el ilanı", "Ziyaret sonrası bakım"],
+    "tips": [
+      "QR URL'sine PHI koymayın — uyumlu portala bağlayın.",
+      "Yalnızca personele özel akışları şifreleyin.",
+      "Protokol değişince formları güncelleyin — aynı basılı QR."
+    ]
+  },
+  "museums-venues": {
+    "tagline": "Sergi etiketleri → ses, bilet ve bağış",
+    "useCases": ["Sergi plaketi", "Galeri bölge tabelası", "Bağış standı", "Zamanlı giriş kapısı"],
+    "tips": [
+      "Ziyaretçi ülkesine göre çok dilli yönlendirme.",
+      "Popüler sergileri tarama hacmiyle izleyin.",
+      "Kol mesafesinde görüntüleme için minimum 2×2 cm."
+    ]
+  },
+  "fitness-gyms": {
+    "tagline": "Ders programları ve üyelik lobiden",
+    "useCases": ["Lobi program panosu", "Ekipman bölgesi", "Antrenör posteri", "Deneme üyelik promosu"],
+    "tips": [
+      "Haftalık ders değişikliklerini yeni poster olmadan güncelleyin.",
+      "Ekipman bölgesi QR → her makine için nasıl yapılır videosu.",
+      "Çok şubeli zincirler için geofence yönlendirme."
+    ]
+  },
+  "salon-spa": {
+    "tagline": "Ayna etiketlerinden randevu ve hizmet menüleri",
+    "useCases": ["Ayna etiketi", "Resepsiyon", "Stilist kartı", "Perakende rafı"],
+    "tips": [
+      "Mevsimlik promosyonları etiketleri yeniden basmadan değiştirin.",
+      "Gelin ve etkinlik paketleri için lead formu.",
+      "Komisyon takibi için stilist bazlı URL'ler."
+    ]
+  },
+  "nonprofit-fundraising": {
+    "tagline": "Basılı materyallerden bağış, gönüllülük ve kayıt",
+    "useCases": ["Gala masa tenti", "Direkt posta eki", "Etkinlik posteri", "Gönüllü standı"],
+    "tips": [
+      "Kampanyalar arası bağış URL'lerini değiştirin — aynı poster QR'ı.",
+      "Masa tentleri vs posterleri parti etiketiyle izleyin.",
+      "Landing'de bağış sayfası metninde A/B testi."
+    ]
+  },
+  "dental-clinics": {
+    "tagline": "Koltuk başından kayıt, randevu ve sonrası bakım",
+    "useCases": ["Resepsiyon posteri", "Randevu hatırlatma kartı", "Koltuk başı bakım", "Beyazlatma promosu"],
+    "tips": [
+      "HIPAA uyumlu portala bağlayın — QR'da PHI olmasın.",
+      "Hastaların fotoğraflara kaydedebileceği bakım PDF'i.",
+      "Mevsimlik kartlarda hijyen kampanyaları."
+    ]
+  },
+  "home-services": {
+    "tagline": "Kamyon etiketi ve bahçe tabelası → randevu ve yorumlar",
+    "useCases": ["Kamyon etiketi", "Bahçe tabelası", "Kapı askısı", "İş sahası tabelası"],
+    "tips": [
+      "Bölge takibi için teknisyen bazlı QR.",
+      "Aynı kamyon etiketinde mevsimlik promosyon değişimi.",
+      "Lead formu gönderiminde CRM webhook."
+    ]
+  },
+  "coffee-shops-cafes": {
+    "tagline": "Tezgâhtan sadakat, menü ve sipariş",
+    "useCases": ["Tezgah tenti", "Masa kartı", "Paket bardak kılıfı", "Sadakat posteri"],
+    "tips": [
+      "Misafir ağı için ayrı Wi‑Fi QR ile eşleştirin.",
+      "Mevsimlik içecekleri tentleri yeniden basmadan güncelleyin.",
+      "UTM: source=qr_counter atıf için."
+    ]
+  },
+  "tourist-attractions": {
+    "tagline": "Giriş taraması → bilet, ses rehberi ve haritalar",
+    "useCases": ["Giriş kapısı", "Patika işareti", "Bilet gişesi", "Ses rehberi direği"],
+    "tips": [
+      "Uluslararası turistler için çok dilli yönlendirme.",
+      "Kalabalık akışı analitiği için giriş bazlı QR.",
+      "Saat ve sergileri tabelaları yeniden basmadan güncelleyin."
+    ]
+  },
+  "campus-institution": {
+    "tagline": "Haritalar, hizmetler ve kamu bilgisi — konum başına tek tarama",
+    "useCases": ["Bina plaketi", "Oryantasyon", "Vatandaş hizmetleri", "Bölüm lobisi"],
+    "tips": [
+      "Yüzlerce oda plaketi için toplu CSV.",
+      "Uluslararası kullanıcılar için çok dilli yönlendirme."
+    ]
+  },
+  "professional-services": {
+    "tagline": "Müvekkil kaydı ve güvenli portallar — hukuk, sigorta, muhasebe",
+    "useCases": ["Ofis lobisi", "Kartvizit", "Posta eki", "Konferans standı"],
+    "tips": [
+      "Hassas belge linklerini şifreyle koruyun.",
+      "QR URL'sine asla PII koymayın."
+    ]
+  },
+  "retail-grocery": {
+    "tagline": "Raf promosyonları, sadakat ve haftalık fırsatlar",
+    "useCases": ["Raf etiketi", "Giriş tabelası", "Ürün etiketi", "Sadakat posteri"],
+    "tips": [
+      "Pazartesi promosyonlarını yeniden basmadan güncelleyin.",
+      "Mağaza konumu başına UTM."
+    ]
+  },
+  "entertainment-venue": {
+    "tagline": "Tek posterden bilet, seans saatleri ve merch",
+    "useCases": ["Lobi posteri", "Musluk başlığı", "Etkinlik bilekliği", "Masa tenti"],
+    "tips": [
+      "Etkinlikler arası gösteri URL'lerini değiştirin — aynı poster QR'ı."
+    ]
+  },
+  "automotive-marine": {
+    "tagline": "Envanter, servis şeridi ve marina bağlama yerleri",
+    "useCases": ["Vitrin etiketi", "Servis şeridi", "Marina iskelesi", "Detay bayı"],
+    "tips": [
+      "Her otopark konumu için geofence.",
+      "Envanter değişince VDP linklerini güncelleyin."
+    ]
+  },
+  "property-facilities": {
+    "tagline": "Kiracı portalları, coworking ve depo operasyonları",
+    "useCases": ["Bina lobisi", "Yükleme kapısı", "Üye masası", "Daire postası"],
+    "tips": [
+      "Panelde bina bazlı klasörler.",
+      "Bakım talebi için webhook."
+    ]
+  },
+  "specialty-healthcare": {
+    "tagline": "Veteriner, optik ve uzman klinik kaydı",
+    "useCases": ["Resepsiyon posteri", "Randevu kartı", "Bekleme odası"],
+    "tips": [
+      "Uyumlu portala bağlayın — QR URL'sinde PHI olmasın."
+    ]
+  },
+  "family-community": {
+    "tagline": "Kayıt, aile portalları ve inanç topluluğu",
+    "useCases": ["Lobi tabelası", "Bülten eki", "Aile postası", "Etkinlik posteri"],
+    "tips": [
+      "Yalnızca aileye özel içeriği şifreyle koruyun.",
+      "Etkinlik takvimlerini yeniden basmadan güncelleyin."
+    ]
+  },
+  "mobile-vendor": {
+    "tagline": "Food truck ve pop-up — hareket halinde menü ve sipariş",
+    "useCases": ["Kamyon camı", "Festival standı", "Sosyal bio"],
+    "tips": [
+      "Günlük konumu landing sayfasında güncelleyin.",
+      "Tüm sezon aynı kamyon QR'ı."
+    ]
+  },
+  "local-services-hub": {
+    "tagline": "Mahalle işletmeleri için randevu, kayıt ve promosyon",
+    "useCases": ["Vitrin", "Araç etiketi", "Tezgah kartı", "Bahçe tabelası"],
+    "tips": [
+      "Aynı kamyon etiketinde mevsimlik promosyon değişimi.",
+      "Landing sayfasında lead formu."
+    ]
+  }
+}

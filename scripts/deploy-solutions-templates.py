@@ -24,6 +24,7 @@ FILES = [
     "lib/i18n/tr.ts",
     "lib/i18n/industry-template-copy.ts",
     "lib/i18n/core-template-copy-extra.ts",
+    "lib/i18n/template-meta-copy.ts",
     "lib/i18n/resolve-template-copy.ts",
     "components/qr/qr-create-wizard.tsx",
     "components/qr/qr-preview.tsx",
@@ -33,6 +34,8 @@ FILES = [
     "components/qr/template-section-fields.tsx",
     "components/qr/industry-template-guide.tsx",
     "components/qr/industry-template-picker.tsx",
+    "lib/i18n/visual-preset-copy.ts",
+    "lib/i18n/resolve-visual-preset-copy.ts",
     "components/solutions/solution-detail-shell.tsx",
 ]
 

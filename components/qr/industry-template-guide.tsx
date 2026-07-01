@@ -5,7 +5,13 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Lightbulb, Target, X, ChevronDown, ChevronUp, ScanLine, Palette, Printer } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { resolveTemplateName } from '@/lib/i18n/resolve-template-copy';
+import {
+  resolveTemplateName,
+  resolveTemplateTagline,
+  resolveTemplateTips,
+  resolveTemplateUseCases,
+} from '@/lib/i18n/resolve-template-copy';
+import { resolveVisualPresetName } from '@/lib/i18n/resolve-visual-preset-copy';
 import type { IndustryTemplate } from '@/lib/industry-templates';
 import { categoryShortName } from '@/lib/qr-utils';
 import { computeScannability } from '@/lib/scannability';
@@ -25,6 +31,9 @@ export function IndustryTemplateGuide({
   const scan = computeScannability(template.style);
   const visualPreset = template.visualPresetId ? getVisualPresetById(template.visualPresetId) : undefined;
   const displayName = resolveTemplateName(t, template.id, template.name);
+  const tagline = resolveTemplateTagline(t, template.id, template.tagline);
+  const useCases = resolveTemplateUseCases(t, template.id, template.useCases);
+  const tips = resolveTemplateTips(t, template.id, template.tips);
 
   return (
     <div className="rounded-lg border border-primary/30 bg-primary/5 p-3" data-testid="industry-template-guide">
@@ -42,7 +51,7 @@ export function IndustryTemplateGuide({
             ) : null}
             {visualPreset ? (
               <Badge variant="outline" className="text-[10px]">
-                {visualPreset.name}
+                {resolveVisualPresetName(t, visualPreset)}
               </Badge>
             ) : null}
             <Badge
@@ -53,7 +62,7 @@ export function IndustryTemplateGuide({
               {scan.grade} · {scan.score}
             </Badge>
           </div>
-          <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">{template.tagline}</p>
+          <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">{tagline}</p>
         </div>
         <Button
           type="button"
@@ -113,10 +122,10 @@ export function IndustryTemplateGuide({
           ) : null}
           <div>
             <p className="mb-1.5 flex items-center gap-1 text-xs font-medium text-muted-foreground">
-              <Target className="h-3.5 w-3.5" /> Best for
+              <Target className="h-3.5 w-3.5" /> {t('templates.guide.bestFor')}
             </p>
             <div className="flex flex-wrap gap-1">
-              {template.useCases.map((u) => (
+              {useCases.map((u) => (
                 <Badge key={u} variant="outline" className="text-[10px] font-normal">
                   {u}
                 </Badge>
@@ -125,10 +134,10 @@ export function IndustryTemplateGuide({
           </div>
           <div>
             <p className="mb-1.5 flex items-center gap-1 text-xs font-medium text-muted-foreground">
-              <Lightbulb className="h-3.5 w-3.5" /> Helpful tips
+              <Lightbulb className="h-3.5 w-3.5" /> {t('templates.guide.helpfulTips')}
             </p>
             <ul className="space-y-1 text-xs text-muted-foreground">
-              {template.tips.map((tip) => (
+              {tips.map((tip) => (
                 <li key={tip} className="flex gap-2">
                   <span className="shrink-0 text-primary">•</span>
                   <span>{tip}</span>

@@ -36,6 +36,19 @@ test.describe('Solution → create with industry template', () => {
     await expect(page.getByTestId('industry-template-picker')).toBeVisible();
     await expect(page.getByTestId('industry-template-restaurant-menu')).toBeVisible();
   });
+
+  test('picker section preview uses locale for restaurant template', async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('qrb-locale', 'tr');
+      document.cookie = 'qrb-locale=tr;path=/;max-age=31536000;SameSite=Lax';
+    });
+    await page.goto('/qr/create');
+    const card = page.getByTestId('industry-template-restaurant-menu');
+    await expect(card).toBeVisible();
+    await card.getByRole('button', { name: /bölüm/i }).click();
+    await expect(card.getByText('Mekan ve marka')).toBeVisible();
+    await expect(card.getByText('Menü linki')).toBeVisible();
+  });
 });
 
 test.describe('Visual preset picker', () => {
@@ -52,6 +65,18 @@ test.describe('Visual preset picker', () => {
     await page.getByTestId('visual-preset-category-business').click();
     await expect(page.getByTestId('visual-preset-modern-business')).toBeVisible();
   });
+
+  test('Turkish locale shows translated visual preset names', async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('qrb-locale', 'tr');
+      document.cookie = 'qrb-locale=tr;path=/;max-age=31536000;SameSite=Lax';
+    });
+    await page.goto('/qr/create?template=restaurant-menu');
+    await expect(page.getByTestId('template-section-fields')).toBeVisible({ timeout: 15_000 });
+    await page.getByRole('button', { name: /İleri/i }).click();
+    await expect(page.getByTestId('visual-preset-picker')).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByTestId('visual-preset-restaurant-elegant')).toContainText('Zarif Restoran');
+  });
 });
 
 test.describe('Template field i18n', () => {
@@ -64,5 +89,9 @@ test.describe('Template field i18n', () => {
     await expect(page.getByTestId('template-section-fields')).toBeVisible({ timeout: 15_000 });
     await expect(page.getByText('Menü hedefi')).toBeVisible({ timeout: 15_000 });
     await expect(page.getByLabel('Menü linki')).toBeVisible();
+    await expect(page.getByTestId('industry-template-guide')).toContainText('Masada dijital menü');
+    await page.getByRole('button', { name: /İpuçlarını göster/i }).click();
+    await expect(page.getByText('En uygun kullanım')).toBeVisible();
+    await expect(page.getByText('Masa tent kartı')).toBeVisible();
   });
 });

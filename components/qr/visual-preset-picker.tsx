@@ -5,6 +5,11 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { useLanguage } from '@/components/i18n/language-provider';
 import {
+  resolveVisualDesignStyle,
+  resolveVisualPresetDescription,
+  resolveVisualPresetName,
+} from '@/lib/i18n/resolve-visual-preset-copy';
+import {
   VISUAL_QR_PRESETS,
   VISUAL_PRESET_CATEGORIES,
   type VisualQRPreset,
@@ -34,7 +39,11 @@ function PresetCard({
   active: boolean;
   onSelect: () => void;
 }) {
+  const { t } = useLanguage();
   const grade = computeScannability(preset.style).grade;
+  const name = resolveVisualPresetName(t, preset);
+  const description = resolveVisualPresetDescription(t, preset);
+  const designStyle = resolveVisualDesignStyle(t, preset.designStyle);
   return (
     <button
       type="button"
@@ -46,12 +55,12 @@ function PresetCard({
     >
       <PresetSwatch preset={preset} />
       <div className="min-w-0">
-        <p className="text-xs font-medium truncate">{preset.name}</p>
-        <p className="text-[10px] text-muted-foreground line-clamp-2 leading-snug">{preset.description}</p>
+        <p className="text-xs font-medium truncate">{name}</p>
+        <p className="text-[10px] text-muted-foreground line-clamp-2 leading-snug">{description}</p>
       </div>
       <div className="flex items-center gap-1">
         <Badge variant="outline" className="text-[9px] px-1 py-0 capitalize">
-          {preset.designStyle}
+          {designStyle}
         </Badge>
         <Badge variant="secondary" className="text-[9px] px-1 py-0">
           {grade}

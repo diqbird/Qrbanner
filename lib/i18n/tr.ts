@@ -1,6 +1,8 @@
 import type { TranslationTree } from './types';
 import { fieldsTr } from './fields';
 import { industryTemplateCopyTr } from './industry-template-copy';
+import { templateMetaTr } from './template-meta-copy';
+import { visualPresetCopyTr } from './visual-preset-copy';
 
 export const tr: TranslationTree = {
   common: {
@@ -550,7 +552,15 @@ export const tr: TranslationTree = {
     signUpToSave: 'Kaydetmek ve taramaları izlemek için ücretsiz kayıt olun',
   },
   fields: fieldsTr,
-  templates: industryTemplateCopyTr,
+  templates: {
+    ...industryTemplateCopyTr,
+    meta: templateMetaTr,
+    visualPresets: {
+      ...(industryTemplateCopyTr.visualPresets as Record<string, unknown>),
+      presets: visualPresetCopyTr.presets,
+      designStyles: visualPresetCopyTr.designStyles,
+    },
+  },
   linkHub: {
     title: 'Link Hub',
     subtitle: 'Tek QR — birden fazla buton (Linktree tarzı)',

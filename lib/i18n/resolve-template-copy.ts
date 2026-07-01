@@ -86,3 +86,27 @@ export function resolveTemplateFieldHint(
   const key = `templates.fields.${templateId}.${field.key}.hint`;
   return resolved(t, key, field.hint);
 }
+
+export function resolveTemplateTagline(t: TranslateFn, templateId: string, fallback: string): string {
+  return resolved(t, `templates.meta.${templateId}.tagline`, fallback);
+}
+
+export function resolveTemplateUseCases(
+  t: TranslateFn,
+  templateId: string,
+  fallbacks: string[],
+): string[] {
+  return fallbacks.map((fb, i) =>
+    resolved(t, `templates.meta.${templateId}.useCases.${i}`, fb),
+  );
+}
+
+export function resolveTemplateTips(
+  t: TranslateFn,
+  templateId: string,
+  fallbacks: string[],
+): string[] {
+  return fallbacks.map((fb, i) =>
+    resolved(t, `templates.meta.${templateId}.tips.${i}`, fb),
+  );
+}

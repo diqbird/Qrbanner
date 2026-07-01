@@ -1,6 +1,8 @@
 import type { TranslationTree } from './types';
 import { fieldsEn } from './fields';
 import { industryTemplateCopyEn } from './industry-template-copy';
+import { templateMetaEn } from './template-meta-copy';
+import { visualPresetCopyEn } from './visual-preset-copy';
 
 export const en: TranslationTree = {
   common: {
@@ -550,7 +552,15 @@ export const en: TranslationTree = {
     signUpToSave: 'Sign up free to save & track scans',
   },
   fields: fieldsEn,
-  templates: industryTemplateCopyEn,
+  templates: {
+    ...industryTemplateCopyEn,
+    meta: templateMetaEn,
+    visualPresets: {
+      ...(industryTemplateCopyEn.visualPresets as Record<string, unknown>),
+      presets: visualPresetCopyEn.presets,
+      designStyles: visualPresetCopyEn.designStyles,
+    },
+  },
   linkHub: {
     title: 'Link Hub',
     subtitle: 'One QR code — multiple buttons (Linktree style)',

@@ -4,7 +4,13 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { resolveTemplateName } from '@/lib/i18n/resolve-template-copy';
+import {
+  resolveTemplateFieldLabel,
+  resolveTemplateName,
+  resolveTemplateSectionDescription,
+  resolveTemplateSectionTitle,
+  resolveTemplateTagline,
+} from '@/lib/i18n/resolve-template-copy';
 import { INDUSTRY_TEMPLATES, getTemplateById, type IndustryTemplate } from '@/lib/industry-templates';
 import { categoryShortName } from '@/lib/qr-utils';
 import { LayoutTemplate, ChevronDown, ChevronUp } from 'lucide-react';
@@ -19,6 +25,7 @@ function TemplateCard({
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const displayName = resolveTemplateName(t, template.id, template.name);
+  const tagline = resolveTemplateTagline(t, template.id, template.tagline);
 
   return (
     <div className="rounded-lg border overflow-hidden" data-testid={`industry-template-${template.id}`}>
@@ -30,7 +37,7 @@ function TemplateCard({
         <div className="flex items-start justify-between gap-2">
           <div>
             <p className="text-sm font-medium">{displayName}</p>
-            <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{template.tagline}</p>
+            <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{tagline}</p>
           </div>
           <Badge variant="outline" className="text-[10px] shrink-0">
             {categoryShortName(template.category)}
@@ -49,10 +56,14 @@ function TemplateCard({
         <div className="border-t bg-muted/30 px-3 py-2 space-y-2">
           {template.sections.map((s) => (
             <div key={s.id}>
-              <p className="text-xs font-medium">{s.title}</p>
-              <p className="text-[10px] text-muted-foreground">{s.description}</p>
+              <p className="text-xs font-medium">
+                {resolveTemplateSectionTitle(t, template.id, s)}
+              </p>
+              <p className="text-[10px] text-muted-foreground">
+                {resolveTemplateSectionDescription(t, template.id, s)}
+              </p>
               <p className="text-[10px] text-muted-foreground mt-0.5">
-                {s.fields.map((f) => f.label).join(' · ')}
+                {s.fields.map((f) => resolveTemplateFieldLabel(t, template.id, f)).join(' · ')}
               </p>
             </div>
           ))}

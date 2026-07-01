@@ -1,0 +1,130 @@
+{
+  "presets": {
+    "modern-business": {
+      "name": "Modern İş",
+      "description": "Kartvizit, ofis ve B2B materyaller için sade kurumsal görünüm."
+    },
+    "luxury-black": {
+      "name": "Lüks Siyah",
+      "description": "Üst segment markalar ve galalar için premium koyu palet."
+    },
+    "restaurant-elegant": {
+      "name": "Zarif Restoran",
+      "description": "Menüler ve masa tentleri için sıcak kehribar tonları."
+    },
+    "cafe-warm": {
+      "name": "Sıcak Kafe",
+      "description": "Tezgah ve sadakat kartları için kavrulmuş kahve paleti."
+    },
+    "hotel-hospitality": {
+      "name": "Premium Otel",
+      "description": "Misafir merkezleri ve oda materyalleri için zarif mavi."
+    },
+    "event-ticket": {
+      "name": "Etkinlik Bileti",
+      "description": "Kayıt, konferans ve festivaller için cesur indigo."
+    },
+    "wedding-gold": {
+      "name": "Düğün Altını",
+      "description": "Davetiye ve masa kartları için romantik gül ve pudra."
+    },
+    "real-estate-premium": {
+      "name": "Premium Emlak",
+      "description": "İlanlar ve bahçe tabelaları için güven veren yeşil."
+    },
+    "instagram-growth": {
+      "name": "Instagram Büyüme",
+      "description": "Ambalaj ve perakende için canlı magenta gradient."
+    },
+    "youtube-red": {
+      "name": "YouTube Kanalı",
+      "description": "Video ve merch için klasik kırmızı abone CTA'sı."
+    },
+    "whatsapp-contact": {
+      "name": "WhatsApp İletişim",
+      "description": "Sohbet ve destek akışları için tanınır yeşil."
+    },
+    "product-label": {
+      "name": "Ürün Etiketi",
+      "description": "Ambalaj ve promosyonlar için raf hazır mor."
+    },
+    "menu-premium": {
+      "name": "Premium Menü",
+      "description": "Loş yemek salonları için yüksek kontrastlı menü stili."
+    },
+    "healthcare-clean": {
+      "name": "Sağlık Temiz",
+      "description": "Klinikler ve hasta eğitimi için sakin teal."
+    },
+    "dental-fresh": {
+      "name": "Diş Taze",
+      "description": "Diş klinikleri ve koltuk başı kartlar için ferah cyan."
+    },
+    "museum-classic": {
+      "name": "Müze Klasik",
+      "description": "Sergiler ve galeri etiketleri için toprak bronz."
+    },
+    "fitness-energy": {
+      "name": "Fitness Enerji",
+      "description": "Spor salonları ve stüdyolar için yüksek enerjili kırmızı-turuncu."
+    },
+    "salon-rose": {
+      "name": "Salon Gül",
+      "description": "Salon, spa ve güzellik perakendesi için yumuşak pembe."
+    },
+    "nonprofit-heart": {
+      "name": "STK Kalp",
+      "description": "Bağış ve gönüllü kampanyaları için sıcak kırmızı."
+    },
+    "home-services-bold": {
+      "name": "Ev Hizmetleri",
+      "description": "Kamyon, bahçe tabelası ve müteahhitler için cesur turuncu."
+    },
+    "tourist-green": {
+      "name": "Turist Rehberi",
+      "description": "Turistik yerler, parklar ve simge yapılar için doğa yeşili."
+    },
+    "corporate-navy": {
+      "name": "Kurumsal Lacivert",
+      "description": "Kurumsal ve finans için güvenilir lacivert."
+    },
+    "startup-indigo": {
+      "name": "Startup İndigo",
+      "description": "SaaS ve ürün lansmanları için teknoloji odaklı indigo."
+    },
+    "minimal-mono": {
+      "name": "Minimal Mono",
+      "description": "Maksimum tarama güvenilirliği için ultra sade siyah-beyaz."
+    },
+    "wifi-blue": {
+      "name": "Wi‑Fi Bağlantı",
+      "description": "Misafir ağı tabelaları için net mavi."
+    },
+    "crypto-gold": {
+      "name": "Kripto Bağış",
+      "description": "Bahşiş ve kripto bağışları için koyu zemin üzerinde altın."
+    },
+    "cv-professional": {
+      "name": "Profesyonel CV",
+      "description": "Özgeçmiş ve iş fuarları için profesyonel mavi."
+    }
+  },
+  "designStylesEn": {
+    "modern": "Modern",
+    "luxury": "Luxury",
+    "minimal": "Minimal",
+    "corporate": "Corporate",
+    "organic": "Organic",
+    "tech": "Tech",
+    "premium": "Premium"
+  },
+  "designStylesTr": {
+    "modern": "Modern",
+    "luxury": "Lüks",
+    "minimal": "Minimal",
+    "corporate": "Kurumsal",
+    "organic": "Organik",
+    "tech": "Teknoloji",
+    "premium": "Premium"
+  }
+}
