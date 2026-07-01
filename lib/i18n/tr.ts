@@ -44,6 +44,7 @@ export const tr: TranslationTree = {
   nav: {
     features: 'Özellikler',
     solutions: 'Çözümler',
+    templates: 'Şablonlar',
     pricing: 'Fiyatlandırma',
     api: 'API',
     faq: 'SSS',
@@ -1133,6 +1134,22 @@ export const tr: TranslationTree = {
     subtitle: 'Dikeyinizi seçin, hazır şablonu kullanın ve dakikalar içinde taramaları izlemeye başlayın.',
     learnMore: 'Daha fazla',
     cta: 'Ücretsiz QR oluştur',
+  },
+  templateMarketplace: {
+    metaTitle: 'Profesyonel QR Kod Şablonları',
+    metaDescription:
+      'Restoran, otel, etkinlik, perakende ve daha fazlası için 32+ sektör hazır QR şablonu. Tek tıkla marka, açılış sayfası ve baskı düzeni.',
+    title: 'Şablon marketi',
+    subtitle: 'Sektöre hazır QR kurulumları — oluşturma sihirbazında renk, metin ve hedefi özelleştirin.',
+    featuredTitle: 'Öne çıkan şablonlar',
+    allTitle: 'Tüm şablonlar',
+    searchPlaceholder: 'Şablon ara…',
+    categoryAll: 'Tüm kategoriler',
+    resultsCount: '{{n}} şablon',
+    noResults: 'Aramanızla eşleşen şablon yok.',
+    useTemplate: 'Bu şablonu kullan',
+    browseSolutions: 'Çözümlere göz at',
+    cta: 'Sıfırdan başla',
   },
   vsIndex: {
     metaTitle: 'QRbanner Karşılaştırmaları — QR TIGER, Flowcode, Uniqode ve Daha Fazlası',

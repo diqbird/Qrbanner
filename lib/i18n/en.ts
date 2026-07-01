@@ -44,6 +44,7 @@ export const en: TranslationTree = {
   nav: {
     features: 'Features',
     solutions: 'Solutions',
+    templates: 'Templates',
     pricing: 'Pricing',
     api: 'API',
     faq: 'FAQ',
@@ -1133,6 +1134,22 @@ export const en: TranslationTree = {
     subtitle: 'Pick a vertical, use a ready-made template and start tracking scans in minutes.',
     learnMore: 'Learn more',
     cta: 'Create free QR',
+  },
+  templateMarketplace: {
+    metaTitle: 'Professional QR Code Templates',
+    metaDescription:
+      'Browse 32+ industry-ready QR templates for restaurants, hotels, events, retail and more. One-click apply with branding, landing pages and print layouts.',
+    title: 'Template marketplace',
+    subtitle: 'Industry-ready QR setups — customize colors, copy and destination in the create wizard.',
+    featuredTitle: 'Featured templates',
+    allTitle: 'All templates',
+    searchPlaceholder: 'Search templates…',
+    categoryAll: 'All categories',
+    resultsCount: '{{n}} templates',
+    noResults: 'No templates match your search.',
+    useTemplate: 'Use this template',
+    browseSolutions: 'Browse solutions',
+    cta: 'Start from scratch',
   },
   vsIndex: {
     metaTitle: 'QRbanner Comparisons — vs QR TIGER, Flowcode, Uniqode & More',

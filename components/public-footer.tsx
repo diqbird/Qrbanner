@@ -15,6 +15,7 @@ export function PublicFooter() {
       links: [
         { href: '/features', label: t('nav.features') },
         { href: '/solutions', label: t('nav.solutions') },
+        { href: '/templates', label: t('nav.templates') },
         { href: '/qr-types', label: t('nav.qrTypes') },
         { href: '/vs', label: t('nav.comparisons') },
         { href: '/integrations', label: t('nav.integrations') },

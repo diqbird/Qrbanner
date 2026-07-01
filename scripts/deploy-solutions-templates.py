@@ -64,6 +64,12 @@ FILES = [
     "app/api/admin/users/route.ts",
     "components/admin/admin-content.tsx",
     "components/admin/admin-billing-panel.tsx",
+    "lib/template-marketplace.ts",
+    "components/templates/template-marketplace-grid.tsx",
+    "app/(public)/templates/page.tsx",
+    "components/public-header.tsx",
+    "components/public-footer.tsx",
+    "app/sitemap.ts",
 ]
 
 if not PW:

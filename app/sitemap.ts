@@ -17,6 +17,7 @@ const PUBLIC_PATHS = [
   { path: '/qr/create', priority: 0.95, changeFrequency: 'weekly' as const },
   { path: '/features', priority: 0.9, changeFrequency: 'weekly' as const },
   { path: '/solutions', priority: 0.9, changeFrequency: 'weekly' as const },
+  { path: '/templates', priority: 0.9, changeFrequency: 'weekly' as const },
   { path: '/qr-types', priority: 0.9, changeFrequency: 'weekly' as const },
   { path: '/vs', priority: 0.85, changeFrequency: 'monthly' as const },
   { path: '/integrations', priority: 0.8, changeFrequency: 'monthly' as const },
