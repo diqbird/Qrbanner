@@ -17,6 +17,7 @@ import { useLanguage } from '@/components/i18n/language-provider';
 
 interface AuditEntry {
   id: string;
+  actorId: string;
   actorEmail: string | null;
   action: string;
   targetType: string | null;
