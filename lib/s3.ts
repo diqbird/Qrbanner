@@ -123,3 +123,43 @@ export async function deleteFile(cloud_storage_path: string) {
 
   return s3.send(command);
 }
+
+function sanitizeS3FileName(name: string): string {
+  const base = name.replace(/[^a-zA-Z0-9._-]/g, '_').slice(-80);
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${base}`;
+}
+
+export function parseS3ObjectKeyFromUrl(fileUrl: string): string | null {
+  try {
+    const url = new URL(fileUrl);
+    if (!url.hostname.includes('amazonaws.com')) return null;
+    return decodeURIComponent(url.pathname.replace(/^\//, ''));
+  } catch {
+    return null;
+  }
+}
+
+/** Server-side upload for small public assets (logos, QR images). */
+export async function uploadPublicBuffer(
+  buffer: Buffer,
+  originalName: string,
+  contentType: string
+): Promise<string> {
+  const s3 = createS3Client();
+  const { bucketName, folderPrefix } = getBucketConfig();
+  const fileName = sanitizeS3FileName(originalName || 'file');
+  const cloud_storage_path = `${folderPrefix}public/uploads/${fileName}`;
+
+  await s3.send(
+    new PutObjectCommand({
+      Bucket: bucketName,
+      Key: cloud_storage_path,
+      Body: buffer,
+      ContentType: contentType,
+      CacheControl: 'public, max-age=31536000, immutable',
+    })
+  );
+
+  const region = process.env.AWS_REGION ?? 'us-east-1';
+  return `https://${bucketName}.s3.${region}.amazonaws.com/${cloud_storage_path}`;
+}

@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
-    const { path: filePath } = await saveUploadedFile(buffer, file.name);
+    const { path: filePath } = await saveUploadedFile(buffer, file.name, file.type);
     const userId = (session.user as { id?: string })?.id;
 
     if (userId) {
