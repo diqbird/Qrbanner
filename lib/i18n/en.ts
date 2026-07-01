@@ -1298,6 +1298,9 @@ export const en: TranslationTree = {
   },
   landingEditor: {
     aiGenerate: 'Generate with AI',
+    aiGenerated: 'Landing copy generated',
+    aiFailed: 'Could not generate copy. Try again.',
+    aiTemplateFallback: 'Template copy applied (LLM unavailable).',
     title: 'Scan Landing Page',
     desc: 'Show a branded welcome page before sending visitors to your link — great for promos and events.',
     template: 'Template',

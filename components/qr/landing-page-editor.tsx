@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -7,8 +8,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { Layout, ImageIcon, Sparkles } from 'lucide-react';
-import { generateLandingPageCopy } from '@/lib/landing-ai';
+import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import {
   resolveLandingTemplateDescription,
   resolveLandingTemplateName,
@@ -37,6 +39,7 @@ export function LandingPageEditor({
   onChange,
   qrName,
   category = 'url',
+  targetUrl,
 }: {
   enabled: boolean;
   onEnabledChange: (v: boolean) => void;
@@ -44,13 +47,41 @@ export function LandingPageEditor({
   onChange: (v: LandingPageData) => void;
   qrName?: string;
   category?: string;
+  targetUrl?: string;
 }) {
   const { t, locale } = useLanguage();
+  const [aiLoading, setAiLoading] = useState(false);
   const set = (patch: Partial<LandingPageData>) => onChange({ ...data, ...patch });
 
-  const handleAiGenerate = () => {
-    const copy = generateLandingPageCopy(category ?? 'url', qrName, locale === 'tr' ? 'tr' : 'en');
-    onChange({ ...data, ...copy });
+  const handleAiGenerate = async () => {
+    setAiLoading(true);
+    try {
+      const res = await fetch('/api/landing-page/generate-copy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          category: category ?? 'url',
+          qrName,
+          targetUrl,
+          locale: locale === 'tr' ? 'tr' : 'en',
+        }),
+      });
+      const payload = await res.json();
+      if (!res.ok) {
+        toast.error(resolveApiError(t, payload.error, 'landingEditor.aiFailed'));
+        return;
+      }
+      onChange({ ...data, ...(payload.copy ?? {}) });
+      if (payload.source === 'llm') {
+        toast.success(t('landingEditor.aiGenerated'));
+      } else {
+        toast.message(t('landingEditor.aiTemplateFallback'));
+      }
+    } catch {
+      toast.error(t('landingEditor.aiFailed'));
+    } finally {
+      setAiLoading(false);
+    }
   };
 
   return (
@@ -68,7 +99,14 @@ export function LandingPageEditor({
         <CardContent className="space-y-5">
           <LandingPagePreview data={data} qrName={qrName} />
           <div className="flex justify-end">
-            <Button type="button" variant="outline" size="sm" className="gap-2" onClick={handleAiGenerate}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="gap-2"
+              loading={aiLoading}
+              onClick={handleAiGenerate}
+            >
               <Sparkles className="h-4 w-4" />
               {t('landingEditor.aiGenerate')}
             </Button>

@@ -668,6 +668,7 @@ export function QRCreateWizard() {
                       onChange={setLandingPage}
                       qrName={name}
                       category={category}
+                      targetUrl={typeof qrData.url === 'string' ? qrData.url : ''}
                     />
                     <ScheduleSettings
                       enabled={scheduleEnabled}

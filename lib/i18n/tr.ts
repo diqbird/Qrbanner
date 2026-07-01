@@ -1298,6 +1298,9 @@ export const tr: TranslationTree = {
   },
   landingEditor: {
     aiGenerate: 'AI ile oluştur',
+    aiGenerated: 'Açılış sayfası metni oluşturuldu',
+    aiFailed: 'Metin oluşturulamadı. Tekrar deneyin.',
+    aiTemplateFallback: 'Şablon metni uygulandı (LLM kullanılamıyor).',
     title: 'Tarama açılış sayfası',
     desc: 'Ziyaretçileri bağlantınıza yönlendirmeden önce markalı bir karşılama sayfası gösterin — promosyonlar ve etkinlikler için ideal.',
     template: 'Şablon',

@@ -427,6 +427,7 @@ export function QREditView({ qrId }: { qrId: string }) {
                 onChange={setLandingPage}
                 qrName={name}
                 category={qr?.category ?? 'url'}
+                targetUrl={targetUrl}
               />
               <ScheduleSettings
                 enabled={scheduleEnabled}
