@@ -32,6 +32,8 @@ FILES = [
     "lib/i18n/resolve-landing-copy.ts",
     "lib/i18n/resolve-template-copy.ts",
     "components/qr/landing-page-editor.tsx",
+    "components/qr/landing-page-preview.tsx",
+    "lib/landing-page.ts",
     "components/qr/qr-preview.tsx",
     "components/qr/print-banner-export.tsx",
     "components/qr/qr-create-wizard.tsx",

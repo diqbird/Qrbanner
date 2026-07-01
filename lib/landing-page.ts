@@ -86,26 +86,41 @@ function escapeHtml(str: string): string {
     .replace(/'/g, '&#39;');
 }
 
+export interface RenderLandingPageOptions {
+  pixels?: PixelAnalyticsConfig;
+  qrName?: string;
+  gpsHeatmapEnabled?: boolean;
+  hidePoweredBy?: boolean;
+  /** Static iframe preview in the editor — disables tracking and navigation */
+  preview?: boolean;
+  locale?: 'en' | 'tr';
+}
+
 export function renderLandingPage(
   shortCode: string,
   data: LandingPageData,
   redirectUrl: string,
-  pixels?: PixelAnalyticsConfig,
-  qrName?: string,
-  gpsHeatmapEnabled?: boolean,
-  hidePoweredBy?: boolean
+  options: RenderLandingPageOptions = {},
 ): string {
+  const {
+    pixels,
+    qrName,
+    gpsHeatmapEnabled,
+    hidePoweredBy,
+    preview = false,
+    locale = 'en',
+  } = options;
   const tpl = TEMPLATE_STYLES[data.template] ?? TEMPLATE_STYLES.minimal;
   const accent = data.accentColor || '#0071e3';
   const title = escapeHtml(data.title || 'Welcome');
   const subtitle = escapeHtml(data.subtitle || '');
   const cta = escapeHtml(data.ctaLabel || 'Continue');
   const banner = data.bannerImage ? escapeHtml(data.bannerImage) : '';
-  const goUrl = `/s/${escapeHtml(shortCode)}?go=1`;
+  const goUrl = preview ? '#' : `/s/${escapeHtml(shortCode)}?go=1`;
   const emoji = tpl.emoji;
-  const pixelHead = pixels ? renderPixelHeadScripts(pixels) : '';
-  const gpsScript = renderGpsCaptureScript(shortCode, Boolean(gpsHeatmapEnabled));
-  const ctaClick = pixels ? renderCtaClickHandler(qrName || data.title || 'QR') : '';
+  const pixelHead = preview || !pixels ? '' : renderPixelHeadScripts(pixels);
+  const gpsScript = preview ? '' : renderGpsCaptureScript(shortCode, Boolean(gpsHeatmapEnabled));
+  const ctaClick = preview || !pixels ? '' : renderCtaClickHandler(qrName || data.title || 'QR');
   const leadForm = data.leadForm ?? defaultLeadForm;
   const showLeadForm = Boolean(data.leadFormEnabled);
 
@@ -125,9 +140,11 @@ export function renderLandingPage(
     hubLinks.length > 0
       ? `<div class="hub-links">${hubLinks
           .map((link) => {
-            const href = /^https?:\/\//i.test(link.url.trim())
-              ? link.url.trim()
-              : `https://${link.url.trim()}`;
+            const href = preview
+              ? '#'
+              : /^https?:\/\//i.test(link.url.trim())
+                ? link.url.trim()
+                : `https://${link.url.trim()}`;
             return `<a class="cta hub-link" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label.trim())}</a>`;
           })
           .join('')}</div>`
@@ -135,7 +152,7 @@ export function renderLandingPage(
 
   const leadFields = showLeadForm
     ? `
-    <form id="lead-form" class="lead-form">
+    <form id="lead-form" class="lead-form"${preview ? ' onsubmit="event.preventDefault();return false"' : ''}>
       ${leadForm.collectName ? `<input type="text" name="name" placeholder="Your name" ${leadForm.requiredEmail ? '' : ''}/>` : ''}
       ${leadForm.collectEmail ? `<input type="email" name="email" placeholder="Email address" ${leadForm.requiredEmail ? 'required' : ''}/>` : ''}
       ${leadForm.collectPhone ? `<input type="tel" name="phone" placeholder="Phone number"/>` : ''}
@@ -168,7 +185,7 @@ export function renderLandingPage(
     : '<div class="footer">Powered by <a href="https://qrbanner.com">QRbanner</a></div>';
 
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${locale}">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>

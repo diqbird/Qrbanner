@@ -238,15 +238,12 @@ async function landingPageResponse(qrCode: NonNullable<QR>, req: NextRequest): P
     Boolean(branding.hidePoweredBy) &&
     (owner?.plan === 'agency' || owner?.plan === 'business');
 
-  const html = renderLandingPage(
-    qrCode.shortCode,
-    data,
-    redirectUrl,
+  const html = renderLandingPage(qrCode.shortCode, data, redirectUrl, {
     pixels,
-    qrCode.name,
-    qrCode.gpsHeatmapEnabled,
-    hidePoweredBy
-  );
+    qrName: qrCode.name,
+    gpsHeatmapEnabled: qrCode.gpsHeatmapEnabled,
+    hidePoweredBy,
+  });
   return withScanHeaders(
     attachAbCookie(
       new NextResponse(html, {

@@ -1176,6 +1176,9 @@ export const en: TranslationTree = {
     fieldPhone: 'Phone',
     fieldMessage: 'Message',
     requireEmail: 'Require email',
+    livePreview: 'Live preview',
+    previewFrameTitle: 'Landing page preview',
+    previewHint: 'Preview only — buttons do not navigate.',
     templates: {
       minimal: {
         name: 'Clean & Simple',

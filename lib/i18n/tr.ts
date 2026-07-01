@@ -1176,6 +1176,9 @@ export const tr: TranslationTree = {
     fieldPhone: 'Telefon',
     fieldMessage: 'Mesaj',
     requireEmail: 'E-posta zorunlu',
+    livePreview: 'Canlı önizleme',
+    previewFrameTitle: 'Açılış sayfası önizlemesi',
+    previewHint: 'Yalnızca önizleme — düğmeler yönlendirmez.',
     templates: {
       minimal: {
         name: 'Sade ve Basit',

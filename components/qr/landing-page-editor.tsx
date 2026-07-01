@@ -13,6 +13,7 @@ import {
   resolveLandingTemplateDescription,
   resolveLandingTemplateName,
 } from '@/lib/i18n/resolve-landing-copy';
+import { LandingPagePreview } from './landing-page-preview';
 import {
   LandingPageData,
   emptyLandingPage,
@@ -65,6 +66,7 @@ export function LandingPageEditor({
       </CardHeader>
       {enabled && (
         <CardContent className="space-y-5">
+          <LandingPagePreview data={data} qrName={qrName} />
           <div className="flex justify-end">
             <Button type="button" variant="outline" size="sm" className="gap-2" onClick={handleAiGenerate}>
               <Sparkles className="h-4 w-4" />
