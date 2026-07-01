@@ -5,8 +5,11 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { buildAnalytics } from '@/lib/analytics-utils';
+import { buildPeriodComparison } from '@/lib/analytics-comparison';
 import {
+  earliestAnalyticsFetchDate,
   filterScansByRange,
+  getPreviousPeriodRange,
   getUserAnalyticsCutoff,
   parseAnalyticsRange,
 } from '@/lib/analytics-range';
@@ -36,12 +39,15 @@ export async function GET(
     const cutoff = await getUserAnalyticsCutoff(userId);
     const range = parseAnalyticsRange(req.nextUrl.searchParams, cutoff);
 
+    const prevRange = getPreviousPeriodRange(range);
+    const fetchFrom = earliestAnalyticsFetchDate(range, cutoff);
+
     const where: { qrCodeId: string; scannedAt?: { gte?: Date; lte?: Date } } = {
       qrCodeId: qrCode.id,
     };
-    if (range.from || range.to) {
+    if (fetchFrom || range.to) {
       where.scannedAt = {};
-      if (range.from) where.scannedAt.gte = range.from;
+      if (fetchFrom) where.scannedAt.gte = fetchFrom;
       if (range.to) where.scannedAt.lte = range.to;
     } else if (cutoff) {
       where.scannedAt = { gte: cutoff };
@@ -53,12 +59,17 @@ export async function GET(
     });
 
     const filtered = filterScansByRange(scans, range);
+    const previousFiltered = prevRange ? filterScansByRange(scans, prevRange) : [];
     const localeParam = req.nextUrl.searchParams.get('locale');
     const locale = localeParam === 'tr' ? 'tr' : 'en';
     const analytics = buildAnalytics(filtered, 30, range, locale);
+    const periodComparison = prevRange
+      ? buildPeriodComparison(analytics, buildAnalytics(previousFiltered, 30, prevRange, locale))
+      : null;
 
     return NextResponse.json({
       analytics,
+      periodComparison,
       qrName: qrCode.name,
       range: {
         from: range.from?.toISOString() ?? null,

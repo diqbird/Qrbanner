@@ -42,6 +42,37 @@ export function parseAnalyticsRange(
   return { from, to };
 }
 
+/** Same-length range immediately before `range` (for period-over-period comparison). */
+export function getPreviousPeriodRange(range: AnalyticsRange): AnalyticsRange | null {
+  if (!range.from || !range.to) return null;
+
+  const from = new Date(range.from);
+  const to = new Date(range.to);
+  from.setUTCHours(0, 0, 0, 0);
+
+  const dayMs = 24 * 60 * 60 * 1000;
+  const days = Math.max(1, Math.ceil((to.getTime() - from.getTime()) / dayMs) + 1);
+
+  const prevTo = new Date(from.getTime() - 1);
+  prevTo.setUTCHours(23, 59, 59, 999);
+
+  const prevFrom = new Date(prevTo.getTime() - (days - 1) * dayMs);
+  prevFrom.setUTCHours(0, 0, 0, 0);
+
+  return { from: prevFrom, to: prevTo };
+}
+
+export function earliestAnalyticsFetchDate(
+  range: AnalyticsRange,
+  cutoff: Date | null,
+): Date | null {
+  const prev = getPreviousPeriodRange(range);
+  let earliest = range.from ?? prev?.from ?? cutoff;
+  if (prev?.from && (!earliest || prev.from < earliest)) earliest = prev.from;
+  if (cutoff && earliest && earliest < cutoff) earliest = cutoff;
+  return earliest;
+}
+
 export function filterScansByRange<T extends { scannedAt?: Date | string | null }>(
   scans: T[],
   range: AnalyticsRange

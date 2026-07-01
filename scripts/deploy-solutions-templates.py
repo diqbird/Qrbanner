@@ -54,6 +54,9 @@ FILES = [
     "components/qr/analytics-charts.tsx",
     "components/qr/qr-analytics-view.tsx",
     "lib/analytics-utils.ts",
+    "lib/analytics-range.ts",
+    "lib/analytics-comparison.ts",
+    "components/analytics/period-change-badge.tsx",
     "app/api/dashboard/analytics/route.ts",
     "app/api/qr/[id]/analytics/route.ts",
 ]

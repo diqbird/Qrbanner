@@ -5,9 +5,12 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { buildAnalytics } from '@/lib/analytics-utils';
+import { buildPeriodComparison } from '@/lib/analytics-comparison';
 import { getActiveWorkspaceId } from '@/lib/workspace';
 import {
+  earliestAnalyticsFetchDate,
   filterScansByRange,
+  getPreviousPeriodRange,
   getUserAnalyticsCutoff,
   parseAnalyticsRange,
 } from '@/lib/analytics-range';
@@ -37,12 +40,15 @@ export async function GET(req: NextRequest) {
     const qrIds = qrCodes.map((q) => q.id);
     const nameMap = Object.fromEntries(qrCodes.map((q) => [q.id, q.name]));
 
+    const prevRange = getPreviousPeriodRange(range);
+    const fetchFrom = earliestAnalyticsFetchDate(range, cutoff);
+
     const scanWhere: { qrCodeId: { in: string[] }; scannedAt?: { gte?: Date; lte?: Date } } = {
       qrCodeId: { in: qrIds },
     };
-    if (range.from || range.to) {
+    if (fetchFrom || range.to) {
       scanWhere.scannedAt = {};
-      if (range.from) scanWhere.scannedAt.gte = range.from;
+      if (fetchFrom) scanWhere.scannedAt.gte = fetchFrom;
       if (range.to) scanWhere.scannedAt.lte = range.to;
     } else if (cutoff) {
       scanWhere.scannedAt = { gte: cutoff };
@@ -54,18 +60,25 @@ export async function GET(req: NextRequest) {
       take: 10000,
     });
 
-    const enriched = filterScansByRange(
-      scans.map((s) => ({
-        ...s,
-        qrName: nameMap[s.qrCodeId] ?? null,
-      })),
-      range
-    );
+    const allEnriched = scans.map((s) => ({
+      ...s,
+      qrName: nameMap[s.qrCodeId] ?? null,
+    }));
+
+    const enriched = filterScansByRange(allEnriched, range);
+    const previousEnriched = prevRange ? filterScansByRange(allEnriched, prevRange) : [];
 
     const localeParam = req.nextUrl.searchParams.get('locale');
     const locale = localeParam === 'tr' ? 'tr' : 'en';
 
     const analytics = buildAnalytics(enriched, 30, range, locale);
+    const periodComparison =
+      prevRange
+        ? buildPeriodComparison(
+            analytics,
+            buildAnalytics(previousEnriched, 30, prevRange, locale),
+          )
+        : null;
 
     const topQRCodes = [...qrCodes]
       .sort((a, b) => b.totalScans - a.totalScans)
@@ -80,6 +93,7 @@ export async function GET(req: NextRequest) {
         totalScans: qrCodes.reduce((sum, q) => sum + q.totalScans, 0),
       },
       topQRCodes,
+      periodComparison,
       range: {
         from: range.from?.toISOString() ?? null,
         to: range.to?.toISOString() ?? null,

@@ -903,6 +903,9 @@ export const tr: TranslationTree = {
     timeMinutesAgo: '{{n}} dk önce',
     timeHoursAgo: '{{n}} sa önce',
     timeDaysAgo: '{{n}} gün önce',
+    vsPreviousPeriod: 'Aynı uzunluktaki önceki döneme göre',
+    changeUp: '+{{n}}%',
+    changeDown: '{{n}}%',
     charts: {
       peakActivity: 'Yoğun Aktivite',
       mostActiveDay: 'En aktif gün',

@@ -903,6 +903,9 @@ export const en: TranslationTree = {
     timeMinutesAgo: '{{n}}m ago',
     timeHoursAgo: '{{n}}h ago',
     timeDaysAgo: '{{n}}d ago',
+    vsPreviousPeriod: 'Compared to the previous period of equal length',
+    changeUp: '+{{n}}%',
+    changeDown: '{{n}}%',
     charts: {
       peakActivity: 'Peak Activity',
       mostActiveDay: 'Most active day',

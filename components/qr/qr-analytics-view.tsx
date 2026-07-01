@@ -15,6 +15,8 @@ import { buildOptimizationInsights } from '@/lib/optimization-insights';
 import { OptimizationInsightsPanel } from './optimization-insights-panel';
 import { LeadSubmissionsPanel } from './lead-submissions-panel';
 import { useLanguage } from '@/components/i18n/language-provider';
+import type { PeriodComparison } from '@/lib/analytics-comparison';
+import { PeriodChangeBadge } from '@/components/analytics/period-change-badge';
 import dynamic from 'next/dynamic';
 
 const AnalyticsCharts = dynamic(() => import('./analytics-charts'), { ssr: false });
@@ -39,6 +41,7 @@ interface AnalyticsData {
 export function QRAnalyticsView({ qrId }: { qrId: string }) {
   const { t, locale } = useLanguage();
   const [data, setData] = useState<AnalyticsData | null>(null);
+  const [periodComparison, setPeriodComparison] = useState<PeriodComparison | null>(null);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
   const [retentionCutoff, setRetentionCutoff] = useState<string | null>(null);
@@ -64,6 +67,7 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
       }
       const result = await res.json();
       setData(result?.analytics ?? null);
+      setPeriodComparison(result?.periodComparison ?? null);
       setQrName(result?.qrName ?? '');
       setRetentionCutoff(result?.retentionCutoff ?? null);
     } catch {
@@ -156,22 +160,40 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
       )}
 
       {/* Stats Cards */}
+      {periodComparison?.totalScans.changePct !== null && periodComparison?.totalScans.changePct !== undefined ? (
+        <p className="text-xs text-muted-foreground">{t('analytics.vsPreviousPeriod')}</p>
+      ) : null}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          { label: t('analytics.totalScans'), value: data?.totalScans ?? 0, icon: TrendingUp, color: 'text-primary' },
-          { label: t('analytics.uniqueVisitors'), value: data?.uniqueScans ?? 0, icon: Users, color: 'text-violet-500' },
+          {
+            label: t('analytics.totalScans'),
+            value: data?.totalScans ?? 0,
+            icon: TrendingUp,
+            color: 'text-primary',
+            changePct: periodComparison?.totalScans.changePct,
+          },
+          {
+            label: t('analytics.uniqueVisitors'),
+            value: data?.uniqueScans ?? 0,
+            icon: Users,
+            color: 'text-violet-500',
+            changePct: periodComparison?.uniqueScans.changePct,
+          },
           { label: t('analytics.today'), value: data?.todayScans ?? 0, icon: Clock, color: 'text-orange-500' },
           { label: t('analytics.last7Days'), value: data?.last7Days ?? 0, icon: BarChart3, color: 'text-green-500' },
-        ].map((stat: any, i: number) => (
+        ].map((stat, i) => (
           <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
             <Card>
               <CardContent className="flex items-center gap-4 p-6">
                 <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-muted ${stat.color}`}>
                   <stat.icon className="h-6 w-6" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-sm text-muted-foreground">{stat.label}</p>
-                  <p className="font-display text-2xl font-bold">{stat.value}</p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="font-display text-2xl font-bold">{stat.value}</p>
+                    {'changePct' in stat ? <PeriodChangeBadge changePct={stat.changePct} /> : null}
+                  </div>
                 </div>
               </CardContent>
             </Card>
