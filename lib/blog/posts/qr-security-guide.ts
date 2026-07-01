@@ -41,6 +41,18 @@ export const qrSecurityGuide: BlogPost = {
     },
     {
       type: 'h2',
+      content: 'Protect team accounts',
+    },
+    {
+      type: 'ul',
+      items: [
+        'Enable TOTP two-factor authentication in Settings for every admin user.',
+        'Business workspaces can enforce SSO and configure SAML with allowed email domains.',
+        'Review webhook delivery logs if scan data leaves QRbanner to external systems.',
+      ],
+    },
+    {
+      type: 'h2',
       content: 'Customer education',
     },
     {

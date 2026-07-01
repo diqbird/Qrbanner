@@ -46,7 +46,16 @@ export const developersApiGettingStarted: BlogPost = {
     {
       type: 'p',
       content:
-        'Add an HTTPS endpoint under Settings → Scan Webhooks. Each scan POSTs JSON with event, qr_code_id and scan metadata. Verify X-QRbanner-Signature with HMAC-SHA256 using your webhook secret.',
+        'Add an HTTPS endpoint under Settings → Scan Webhooks. Each scan POSTs JSON with event, qr_code_id and scan metadata. Verify X-QRbanner-Signature with HMAC-SHA256 using your webhook secret. Inspect delivery history in the same panel.',
+    },
+    {
+      type: 'h2',
+      content: 'OpenAPI specification',
+    },
+    {
+      type: 'p',
+      content:
+        'Download openapi.json from /developers or /api/openapi.json to import REST API v1 into Postman, Insomnia or your API gateway — includes QR, folder and webhook schemas.',
     },
   ],
 };

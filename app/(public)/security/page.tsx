@@ -15,11 +15,17 @@ const SECTIONS = [
   },
   {
     title: 'securityPage.dataTitle',
-    items: ['securityPage.data1', 'securityPage.data2', 'securityPage.data3'],
+    items: ['securityPage.data1', 'securityPage.data2', 'securityPage.data3', 'securityPage.data4'],
   },
   {
     title: 'securityPage.accountTitle',
-    items: ['securityPage.account1', 'securityPage.account2', 'securityPage.account3'],
+    items: [
+      'securityPage.account1',
+      'securityPage.account2',
+      'securityPage.account3',
+      'securityPage.account4',
+      'securityPage.account5',
+    ],
   },
 ] as const;
 

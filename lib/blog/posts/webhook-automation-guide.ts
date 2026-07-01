@@ -40,6 +40,15 @@ export const webhookAutomationGuide: BlogPost = {
     },
     {
       type: 'h2',
+      content: 'Delivery logs and debugging',
+    },
+    {
+      type: 'p',
+      content:
+        'Settings → Scan Webhooks shows recent delivery attempts with HTTP status codes. Use this to debug Zapier or custom endpoints without guessing whether scans reached your stack.',
+    },
+    {
+      type: 'h2',
       content: 'Reliability tips',
     },
     {

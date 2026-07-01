@@ -79,7 +79,11 @@ export function getPublicComparisonView(page: CompetitorPage, locale: Locale) {
     summary: sanitizeCompetitorBrands(page.summary),
     qrbannerWins: page.qrbannerWins.map(sanitizeCompetitorBrands),
     competitorWeaknesses: page.competitorWeaknesses.map(sanitizeCompetitorBrands),
-    comparisonRows: page.comparisonRows,
+    comparisonRows: page.comparisonRows.map((row) => ({
+      feature: sanitizeCompetitorBrands(row.feature),
+      qrbanner: sanitizeCompetitorBrands(row.qrbanner),
+      competitor: sanitizeCompetitorBrands(row.competitor),
+    })),
     typicalLabel,
     considerationsTitle,
     meta: getPublicComparisonMeta(page, locale),
