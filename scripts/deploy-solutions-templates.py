@@ -152,7 +152,7 @@ for rel in FILES:
 sftp.close()
 
 _, stdout_deps, _ = c.exec_command(
-    f"cd {REMOTE} && yarn install --frozen-lockfile 2>&1 | tail -5",
+    f"cd {REMOTE} && yarn install --frozen-lockfile --ignore-engines 2>&1 | tail -8",
     timeout=300,
 )
 deps_out = stdout_deps.read().decode("utf-8", errors="replace")
