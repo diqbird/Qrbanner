@@ -11,7 +11,17 @@ export function buildOpenApiSpec() {
       title: 'QRbanner REST API',
       version: '1.0.0',
       description:
-        'Programmatic access to QR codes and folders. Authenticate with an API key from Dashboard → Settings.',
+        'Programmatic access to QR codes and folders. Authenticate with an API key from Dashboard → Settings.\n\n' +
+        '## Rate limits\n' +
+        'Requests are limited per plan on two axes: a per-minute burst limit and a monthly quota.\n\n' +
+        '| Plan | Per minute | Monthly quota |\n' +
+        '| --- | --- | --- |\n' +
+        '| Free | 60 | 1,000 |\n' +
+        '| Pro | 120 | 10,000 |\n' +
+        '| Business | 300 | 100,000 |\n' +
+        '| Agency | 600 | 500,000 |\n\n' +
+        'Every response includes `X-RateLimit-*` headers (limit, remaining, reset) and `X-RateLimit-Quota-*` for the monthly quota. ' +
+        'Exceeding a limit returns HTTP 429 with a `Retry-After` header.',
       contact: { name: 'QRbanner Support', url: `${SITE_URL}/contact` },
     },
     servers: [{ url: SITE_URL }],

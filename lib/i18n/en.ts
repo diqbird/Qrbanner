@@ -1563,6 +1563,13 @@ export const en: TranslationTree = {
     webhooksBody:
       'Add HTTPS endpoints in Settings → Scan Webhooks. Each scan sends a JSON POST with X-QRbanner-Signature (HMAC-SHA256). Works with Zapier, Make, n8n and custom backends.',
     baseUrlTitle: 'Base URL',
+    rateLimitsTitle: 'Rate limits',
+    rateLimitsBody:
+      'Two limits per plan: a per-minute burst limit plus a monthly quota. Every response carries X-RateLimit-* headers; exceeding a limit returns 429 with Retry-After.',
+    rateLimitsFree: 'Free — 60/min · 1,000/mo',
+    rateLimitsPro: 'Pro — 120/min · 10,000/mo',
+    rateLimitsBusiness: 'Business — 300/min · 100,000/mo',
+    rateLimitsAgency: 'Agency — 600/min · 500,000/mo',
     cta: 'Get API access',
     exampleTitle: 'Example request',
     integrationsLink: 'View integrations',

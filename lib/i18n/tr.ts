@@ -1563,6 +1563,13 @@ export const tr: TranslationTree = {
     webhooksBody:
       'Ayarlar → Tarama Webhook\'ları\'nda HTTPS uç noktaları ekleyin. Her tarama X-QRbanner-Signature (HMAC-SHA256) ile JSON POST gönderir. Zapier, Make, n8n ve özel backend\'lerle çalışır.',
     baseUrlTitle: 'Temel URL',
+    rateLimitsTitle: 'Hız limitleri',
+    rateLimitsBody:
+      'Plan başına iki limit: dakikalık ani istek limiti ve aylık kota. Her yanıt X-RateLimit-* başlıkları taşır; limit aşılırsa Retry-After ile 429 döner.',
+    rateLimitsFree: 'Free — 60/dk · 1.000/ay',
+    rateLimitsPro: 'Pro — 120/dk · 10.000/ay',
+    rateLimitsBusiness: 'Business — 300/dk · 100.000/ay',
+    rateLimitsAgency: 'Agency — 600/dk · 500.000/ay',
     cta: 'API erişimi al',
     exampleTitle: 'Örnek istek',
     integrationsLink: 'Entegrasyonları gör',

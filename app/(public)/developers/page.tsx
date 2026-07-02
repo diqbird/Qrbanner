@@ -7,7 +7,7 @@ import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
-import { ArrowRight, Code2, FileJson, Key, Webhook } from 'lucide-react';
+import { ArrowRight, Code2, FileJson, Key, Webhook, Gauge } from 'lucide-react';
 
 export const revalidate = 3600;
 
@@ -139,6 +139,20 @@ X-API-Key: qb_live_...`}
                 >
                   {t('developersPage.openapiLink')} →
                 </Link>
+              </div>
+              <div className="rounded-xl border border-border/50 bg-card/80 p-6 backdrop-blur-sm">
+                <h2 className="font-display font-semibold flex items-center gap-2">
+                  <Gauge className="h-4 w-4 text-primary" /> {t('developersPage.rateLimitsTitle')}
+                </h2>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                  {t('developersPage.rateLimitsBody')}
+                </p>
+                <ul className="mt-3 space-y-1 text-sm text-muted-foreground">
+                  <li>{t('developersPage.rateLimitsFree')}</li>
+                  <li>{t('developersPage.rateLimitsPro')}</li>
+                  <li>{t('developersPage.rateLimitsBusiness')}</li>
+                  <li>{t('developersPage.rateLimitsAgency')}</li>
+                </ul>
               </div>
               <div className="rounded-xl border border-border/50 bg-card/80 p-6 backdrop-blur-sm">
                 <h2 className="font-display font-semibold">{t('developersPage.baseUrlTitle')}</h2>

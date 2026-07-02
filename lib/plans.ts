@@ -9,6 +9,10 @@ export interface PlanLimits {
   maxWebhooks: number;
   maxStyleTemplates: number;
   apiAccess: boolean;
+  /** Short-term burst limit: max API requests per minute (abuse/DDoS protection). */
+  apiRateLimitPerMin: number;
+  /** Monthly API request quota (resets on the 1st). */
+  apiMonthlyQuota: number;
   analyticsRetentionDays: number | null;
   codesActiveAfterCancel: boolean;
   whiteLabel?: boolean;
@@ -32,6 +36,8 @@ export const PLANS: Record<PlanId, PlanLimits> = {
     maxWebhooks: 2,
     maxStyleTemplates: 3,
     apiAccess: true,
+    apiRateLimitPerMin: 60,
+    apiMonthlyQuota: 1_000,
     analyticsRetentionDays: 90,
     codesActiveAfterCancel: true,
   },
@@ -46,6 +52,8 @@ export const PLANS: Record<PlanId, PlanLimits> = {
     maxWebhooks: 10,
     maxStyleTemplates: 20,
     apiAccess: true,
+    apiRateLimitPerMin: 120,
+    apiMonthlyQuota: 10_000,
     analyticsRetentionDays: 365,
     codesActiveAfterCancel: true,
     highlighted: true,
@@ -61,6 +69,8 @@ export const PLANS: Record<PlanId, PlanLimits> = {
     maxWebhooks: 50,
     maxStyleTemplates: 999,
     apiAccess: true,
+    apiRateLimitPerMin: 300,
+    apiMonthlyQuota: 100_000,
     analyticsRetentionDays: null,
     codesActiveAfterCancel: true,
     whiteLabel: true,
@@ -76,6 +86,8 @@ export const PLANS: Record<PlanId, PlanLimits> = {
     maxWebhooks: 100,
     maxStyleTemplates: 999,
     apiAccess: true,
+    apiRateLimitPerMin: 600,
+    apiMonthlyQuota: 500_000,
     analyticsRetentionDays: null,
     codesActiveAfterCancel: true,
     whiteLabel: true,
