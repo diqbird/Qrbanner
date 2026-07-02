@@ -7,6 +7,7 @@ import { sendVerificationEmail, isEmailConfigured } from '@/lib/email';
 import { validatePassword } from '@/lib/password';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { resolveReferrerByCode, recordReferralSignup } from '@/lib/referral';
+import { assertPasswordLoginAllowed } from '@/lib/workspace-sso';
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,6 +22,11 @@ export async function POST(req: NextRequest) {
 
     if (!email || !password) {
       return NextResponse.json({ error: 'missing_fields' }, { status: 400 });
+    }
+
+    const ssoCheck = await assertPasswordLoginAllowed(email.toLowerCase());
+    if (!ssoCheck.ok) {
+      return NextResponse.json({ error: ssoCheck.code }, { status: 403 });
     }
 
     const pwCheck = validatePassword(password);

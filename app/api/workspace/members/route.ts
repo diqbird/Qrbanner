@@ -13,6 +13,7 @@ import {
   assertInviteEmailAllowed,
   normalizeAllowedDomainsInput,
   parseAllowedDomains,
+  workspaceOwnerHasSsoPlan,
 } from '@/lib/workspace-sso';
 
 export async function GET(req: NextRequest) {
@@ -126,9 +127,16 @@ export async function POST(req: NextRequest) {
     const access = await assertWorkspaceRole(userId, workspaceId, 'owner');
     if (!access.ok) return NextResponse.json({ error: access.error }, { status: 403 });
 
-    const workspace = await prisma.workspace.findUnique({ where: { id: workspaceId } });
+    const workspace = await prisma.workspace.findUnique({
+      where: { id: workspaceId },
+      include: { owner: { select: { plan: true } } },
+    });
     if (workspace?.isPersonal) {
       return NextResponse.json({ error: 'SSO is for team workspaces only' }, { status: 400 });
+    }
+
+    if (Boolean(body.ssoEnabled) && !workspaceOwnerHasSsoPlan(workspace?.owner.plan)) {
+      return NextResponse.json({ error: 'sso_plan_required' }, { status: 403 });
     }
 
     const allowedDomains =

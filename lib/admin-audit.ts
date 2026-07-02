@@ -65,17 +65,23 @@ export async function getAdminActorContext(adminId: string, req?: NextRequest) {
   };
 }
 
-export async function listAdminAuditLogs(options?: { limit?: number; offset?: number }) {
+export async function listAdminAuditLogs(options?: {
+  limit?: number;
+  offset?: number;
+  action?: string;
+}) {
   const limit = Math.min(options?.limit ?? 50, 100);
   const offset = options?.offset ?? 0;
+  const where = options?.action ? { action: options.action } : undefined;
 
   const [entries, total] = await Promise.all([
     prisma.adminAuditLog.findMany({
+      where,
       orderBy: { createdAt: 'desc' },
       take: limit,
       skip: offset,
     }),
-    prisma.adminAuditLog.count(),
+    prisma.adminAuditLog.count({ where }),
   ]);
 
   return {
@@ -89,6 +95,7 @@ export async function listAdminAuditLogs(options?: { limit?: number; offset?: nu
       summary: entry.summary,
       metadata: entry.metadata,
       ipAddress: entry.ipAddress,
+      userAgent: entry.userAgent,
       createdAt: entry.createdAt.toISOString(),
     })),
     total,

@@ -12,7 +12,8 @@ export async function GET(req: NextRequest) {
 
   const limit = parseInt(req.nextUrl.searchParams.get('limit') ?? '50', 10) || 50;
   const offset = parseInt(req.nextUrl.searchParams.get('offset') ?? '0', 10) || 0;
+  const action = req.nextUrl.searchParams.get('action')?.trim() || undefined;
 
-  const result = await listAdminAuditLogs({ limit, offset });
+  const result = await listAdminAuditLogs({ limit, offset, action });
   return NextResponse.json(result);
 }

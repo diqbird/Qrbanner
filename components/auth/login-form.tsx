@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -18,6 +18,13 @@ import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { LanguageSwitcher } from '@/components/i18n/language-switcher';
 import { ReferralCookieSync } from './referral-cookie-sync';
 
+type SsoPolicy = {
+  required: boolean;
+  passwordAllowed: boolean;
+  oauthProviders: string[];
+  samlWorkspaces: { slug: string; name: string; loginUrl: string }[];
+};
+
 export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProviderId[] }) {
   const { t } = useLanguage();
   const searchParams = useSearchParams();
@@ -29,8 +36,16 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
   const [mfaStep, setMfaStep] = useState(false);
   const [totpCode, setTotpCode] = useState('');
   const [samlInfo, setSamlInfo] = useState<{ enabled: boolean; name?: string; loginUrl?: string } | null>(null);
+  const [ssoPolicy, setSsoPolicy] = useState<SsoPolicy | null>(null);
 
   const workspaceSlug = searchParams.get('workspace')?.trim() ?? '';
+
+  const visibleOAuthProviders = (oauthProviders as OAuthProviderId[]).filter((provider) => {
+    if (!ssoPolicy?.required) return true;
+    return ssoPolicy.oauthProviders.includes(provider);
+  });
+
+  const passwordAllowed = ssoPolicy ? ssoPolicy.passwordAllowed : true;
 
   useEffect(() => {
     const samlToken = searchParams.get('samlToken');
@@ -84,6 +99,23 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
       cancelled = true;
     };
   }, [workspaceSlug]);
+
+  const checkSsoPolicy = useCallback(async (value: string) => {
+    const trimmed = value.trim().toLowerCase();
+    if (!trimmed || !trimmed.includes('@')) {
+      setSsoPolicy(null);
+      return;
+    }
+    try {
+      const res = await fetch(`/api/auth/sso-policy?email=${encodeURIComponent(trimmed)}`);
+      if (res.ok) {
+        const data = (await res.json()) as SsoPolicy;
+        setSsoPolicy(data);
+      }
+    } catch {
+      setSsoPolicy(null);
+    }
+  }, []);
 
   useEffect(() => {
     const error = searchParams.get('error');
@@ -150,23 +182,32 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
       </CardHeader>
       <CardContent>
         <ReferralCookieSync />
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">{t('common.email')}</Label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                id="email"
-                type="email"
-                placeholder={t('common.emailPlaceholder')}
-                value={email}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
-                required
-                className="pl-10"
-                autoComplete="email"
-              />
-            </div>
+        {ssoPolicy?.required && (
+          <p className="mb-3 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-800 dark:text-amber-200">
+            {t('auth.errors.sso_required')}
+          </p>
+        )}
+
+        <div className="space-y-2 mb-4">
+          <Label htmlFor="email">{t('common.email')}</Label>
+          <div className="relative">
+            <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              id="email"
+              type="email"
+              placeholder={t('common.emailPlaceholder')}
+              value={email}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+              onBlur={(e) => checkSsoPolicy(e.target.value)}
+              required
+              className="pl-10"
+              autoComplete="email"
+            />
           </div>
+        </div>
+
+        {passwordAllowed ? (
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="password">{t('common.password')}</Label>
@@ -214,8 +255,9 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
             {mfaStep ? t('settings.mfa.verify') : t('common.signIn')}
           </Button>
         </form>
+        ) : null}
 
-        <OAuthButtons providers={oauthProviders} callbackUrl={callbackUrl} />
+        <OAuthButtons providers={visibleOAuthProviders} callbackUrl={callbackUrl} />
 
         {samlInfo?.enabled && samlInfo.loginUrl && (
           <div className="mt-4">
@@ -232,6 +274,22 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
             </Button>
           </div>
         )}
+
+        {ssoPolicy?.samlWorkspaces.map((ws) => (
+          <div key={ws.slug} className="mt-2">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={() => {
+                window.location.href = ws.loginUrl;
+              }}
+            >
+              {t('settings.team.signInWithSaml')}
+              {ws.name ? ` (${ws.name})` : ''}
+            </Button>
+          </div>
+        ))}
 
         <p className="mt-4 text-center text-sm text-muted-foreground">
           {t('auth.noAccount')}{' '}

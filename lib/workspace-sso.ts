@@ -165,3 +165,83 @@ export async function assertInviteAcceptAllowed(
 
   return { ok: true };
 }
+
+export type SsoLoginPolicy = {
+  required: boolean;
+  passwordAllowed: boolean;
+  oauthProviders: string[];
+  samlWorkspaces: { slug: string; name: string; loginUrl: string }[];
+};
+
+export async function lookupSsoLoginPolicy(email: string): Promise<SsoLoginPolicy> {
+  const normalized = email.toLowerCase().trim();
+  const defaultPolicy: SsoLoginPolicy = {
+    required: false,
+    passwordAllowed: true,
+    oauthProviders: ['google', 'azure-ad'],
+    samlWorkspaces: [],
+  };
+  if (!normalized) return defaultPolicy;
+
+  const members = await prisma.workspaceMember.findMany({
+    where: {
+      email: normalized,
+      status: 'active',
+      workspace: { isPersonal: false, ssoEnabled: true },
+    },
+    include: {
+      workspace: {
+        select: {
+          ssoProvider: true,
+          allowedDomains: true,
+          slug: true,
+          name: true,
+        },
+      },
+    },
+  });
+
+  if (!members.length) return defaultPolicy;
+
+  const policies = members
+    .map((member) => ({
+      ssoProvider: member.workspace.ssoProvider,
+      allowedDomains: parseAllowedDomains(member.workspace.allowedDomains),
+      slug: member.workspace.slug,
+      name: member.workspace.name,
+    }))
+    .filter((policy) => {
+      if (!policy.allowedDomains.length) return true;
+      return isEmailDomainAllowed(normalized, policy.allowedDomains);
+    });
+
+  if (!policies.length) return defaultPolicy;
+
+  let oauthProviders = ['google', 'azure-ad'];
+  const samlWorkspaces: SsoLoginPolicy['samlWorkspaces'] = [];
+
+  for (const policy of policies) {
+    if (policy.ssoProvider === 'saml') {
+      oauthProviders = [];
+      samlWorkspaces.push({
+        slug: policy.slug,
+        name: policy.name,
+        loginUrl: `/api/auth/saml/login?workspace=${encodeURIComponent(policy.slug)}`,
+      });
+    } else {
+      const allowed = oauthProvidersForSso(policy.ssoProvider);
+      oauthProviders = oauthProviders.filter((p) => allowed.includes(p));
+    }
+  }
+
+  return {
+    required: true,
+    passwordAllowed: false,
+    oauthProviders,
+    samlWorkspaces,
+  };
+}
+
+export function workspaceOwnerHasSsoPlan(plan: string | null | undefined): boolean {
+  return plan === 'business' || plan === 'agency';
+}

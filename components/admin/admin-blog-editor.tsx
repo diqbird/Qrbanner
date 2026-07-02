@@ -17,6 +17,7 @@ import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import type { BlogSection } from '@/lib/blog/types';
 import { MediaPickerDialog } from '@/components/admin/media-picker-dialog';
+import { SeoPreviewCard } from '@/components/seo/seo-preview-card';
 
 interface BlogPostRecord {
   id: string;
@@ -227,6 +228,14 @@ export function AdminBlogEditor({ postId, onClose, onSaved }: AdminBlogEditorPro
               })
             }
             placeholder={t('admin.blog.keywordsPlaceholder')}
+          />
+        </div>
+        <div className="space-y-2 sm:col-span-2">
+          <Label>{t('admin.blog.seoPreview')}</Label>
+          <SeoPreviewCard
+            title={post.title}
+            description={post.description}
+            url={`/blog/${post.slug || 'slug'}`}
           />
         </div>
       </div>
