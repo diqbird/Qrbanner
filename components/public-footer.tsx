@@ -19,6 +19,7 @@ export function PublicFooter() {
         { href: '/solutions', label: t('nav.solutions') },
         { href: '/templates', label: t('nav.templates') },
         { href: '/qr-types', label: t('nav.qrTypes') },
+        { href: '/use-cases', label: t('nav.useCases') },
         { href: '/vs', label: t('nav.comparisons') },
         { href: '/integrations', label: t('nav.integrations') },
         { href: '/integrations/zapier', label: t('nav.zapier') },

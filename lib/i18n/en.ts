@@ -52,6 +52,7 @@ export const en: TranslationTree = {
     blog: 'Blog',
     createQr: 'Create QR',
     qrTypes: 'QR Types',
+    useCases: 'Use Cases',
     comparisons: 'Comparisons',
     zapier: 'Zapier',
     integrations: 'Integrations',
@@ -1706,6 +1707,25 @@ export const en: TranslationTree = {
     subtitle: 'Pick the right QR format for your campaign — each type has a dedicated generator with branding and analytics.',
     dynamic: 'Dynamic',
     create: 'Create',
+    alsoSee: 'Browse by scenario:',
+  },
+  useCasesIndex: {
+    metaTitle: 'QR Code Use Cases — Marketing, Retail, Events & More',
+    metaDescription:
+      'Explore QR code use cases: product packaging, trade shows, print ads, hotels, healthcare, nonprofits and more. Free generator with analytics.',
+    title: 'QR code use cases',
+    subtitle:
+      'Scenario-first guides for marketers and operators — each page links to the right QR type, templates and industry solutions.',
+    learnMore: 'View guide',
+    alsoSee: 'Also browse',
+  },
+  useCaseDetail: {
+    benefitsTitle: 'Key benefits',
+    stepsTitle: 'How to launch',
+    createLabel: 'Create QR code',
+    ctaTitle: 'Start free — 25 dynamic codes',
+    ctaBody: 'Branding, analytics, webhooks and API access on every plan.',
+    relatedSolution: 'See the full industry solution',
   },
   enterprise: {
     metaTitle: 'Enterprise & High-Volume QR',

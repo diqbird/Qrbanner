@@ -52,6 +52,7 @@ export const tr: TranslationTree = {
     blog: 'Blog',
     createQr: 'QR Oluştur',
     qrTypes: 'QR Tipleri',
+    useCases: 'Kullanım Senaryoları',
     comparisons: 'Karşılaştırmalar',
     zapier: 'Zapier',
     integrations: 'Entegrasyonlar',
@@ -1706,6 +1707,25 @@ export const tr: TranslationTree = {
     subtitle: 'Kampanyanız için doğru QR formatını seçin — her türde markalama ve analitikli oluşturucu.',
     dynamic: 'Dinamik',
     create: 'Oluştur',
+    alsoSee: 'Senaryoya göre inceleyin:',
+  },
+  useCasesIndex: {
+    metaTitle: 'QR Kod Kullanım Senaryoları — Pazarlama, Perakende, Etkinlik',
+    metaDescription:
+      'QR kod kullanım senaryoları: ürün ambalajı, fuarlar, basılı reklam, oteller, sağlık, STK ve daha fazlası. Analitikli ücretsiz oluşturucu.',
+    title: 'QR kod kullanım senaryoları',
+    subtitle:
+      'Pazarlamacılar ve operasyon ekipleri için senaryo odaklı rehberler — her sayfa doğru QR türüne, şablonlara ve sektör çözümlerine bağlanır.',
+    learnMore: 'Rehberi gör',
+    alsoSee: 'Ayrıca inceleyin',
+  },
+  useCaseDetail: {
+    benefitsTitle: 'Temel faydalar',
+    stepsTitle: 'Nasıl başlanır',
+    createLabel: 'QR kod oluştur',
+    ctaTitle: 'Ücretsiz başlayın — 25 dinamik kod',
+    ctaBody: 'Her planda markalama, analitik, webhook ve API erişimi.',
+    relatedSolution: 'Tam sektör çözümünü görün',
   },
   enterprise: {
     metaTitle: 'Kurumsal ve Yüksek Hacimli QR',

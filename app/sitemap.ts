@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { SOLUTION_PAGES } from '@/lib/solutions';
+import { USE_CASE_PAGES } from '@/lib/use-case-pages';
 import { buildQrTypePages } from '@/lib/qr-type-pages';
 import { COMPETITOR_PAGES } from '@/lib/competitor-pages';
 import { STATIC_POSTS } from '@/lib/blog/posts-service';
@@ -21,6 +22,7 @@ const PUBLIC_PATHS = [
   { path: '/solutions', priority: 0.9, changeFrequency: 'weekly' as const },
   { path: '/templates', priority: 0.9, changeFrequency: 'weekly' as const },
   { path: '/qr-types', priority: 0.9, changeFrequency: 'weekly' as const },
+  { path: '/use-cases', priority: 0.9, changeFrequency: 'weekly' as const },
   { path: '/vs', priority: 0.85, changeFrequency: 'monthly' as const },
   { path: '/integrations', priority: 0.8, changeFrequency: 'monthly' as const },
   { path: '/integrations/zapier', priority: 0.75, changeFrequency: 'monthly' as const },
@@ -88,6 +90,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  const useCaseEntries = USE_CASE_PAGES.map((p) => ({
+    url: `${SITE_URL}/use-cases/${p.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.82,
+  }));
+
   const vsEntries = COMPETITOR_PAGES.map((p) => ({
     url: `${SITE_URL}/vs/${p.slug}`,
     lastModified: now,
@@ -141,6 +150,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.75,
   }));
 
+  const trUseCaseEntries = USE_CASE_PAGES.map((p) => ({
+    url: trUrl(`/use-cases/${p.slug}`),
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.77,
+  }));
+
   const trVsEntries = COMPETITOR_PAGES.map((p) => ({
     url: trUrl(`/vs/${p.slug}`),
     lastModified: now,
@@ -178,6 +194,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     ...solutionEntries,
     ...qrTypeEntries,
+    ...useCaseEntries,
     ...vsEntries,
     ...blogEntries,
     ...caseStudyEntries,
@@ -185,6 +202,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...trPublicEntries,
     ...trSolutionEntries,
     ...trQrTypeEntries,
+    ...trUseCaseEntries,
     ...trVsEntries,
     ...trBlogEntries,
     ...trCaseStudyEntries,
