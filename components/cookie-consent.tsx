@@ -33,9 +33,10 @@ export function CookieConsent() {
     <div
       role="dialog"
       aria-live="polite"
+      aria-labelledby="cookie-consent-message"
       className="fixed left-0 right-0 top-16 z-[90] border-b border-border/60 bg-card/95 p-3 shadow-lg backdrop-blur-sm sm:top-auto sm:bottom-4 sm:left-4 sm:right-auto sm:max-w-md sm:rounded-xl sm:border sm:p-4"
     >
-      <p className="text-sm text-muted-foreground">{t('cookie.message')}</p>
+      <p id="cookie-consent-message" className="text-sm text-muted-foreground">{t('cookie.message')}</p>
       <div className="mt-3 flex flex-wrap gap-2">
         <Button size="sm" onClick={() => setChoice('accepted')}>
           {t('cookie.accept')}

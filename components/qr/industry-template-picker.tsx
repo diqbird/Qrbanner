@@ -83,7 +83,7 @@ export function IndustryTemplatePicker({
   return (
     <Card data-testid="industry-template-picker">
       <CardHeader className="pb-2">
-        <CardTitle className="font-display text-base flex items-center gap-2">
+        <CardTitle as="h2" className="font-display text-base flex items-center gap-2">
           <LayoutTemplate className="h-4 w-4 text-primary" /> {t('templates.picker.title')}
         </CardTitle>
         <p className="text-xs text-muted-foreground">{t('templates.picker.subtitle')}</p>

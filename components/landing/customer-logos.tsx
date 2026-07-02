@@ -40,7 +40,7 @@ export async function LandingCustomerLogos() {
         </div>
         <p className="mt-3 text-center text-[11px] text-muted-foreground">
           {t('customerLogos.disclaimer')}{' '}
-          <Link href="/brand/logos" className="text-primary hover:underline">
+          <Link href="/brand/logos" className="text-primary underline underline-offset-2 hover:no-underline">
             {t('customerLogos.swapGuide')}
           </Link>
         </p>

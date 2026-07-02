@@ -84,7 +84,7 @@ export async function LandingHeroStatic() {
                 className="rounded-2xl border border-border/40 bg-card/80 p-5 shadow-sm backdrop-blur-sm"
               >
                 <Icon className="mb-2 h-6 w-6 text-primary" aria-hidden />
-                <h3 className="font-display text-sm font-semibold">{t(item.label)}</h3>
+                <h2 className="font-display text-sm font-semibold">{t(item.label)}</h2>
                 <p className="mt-1 text-xs text-muted-foreground">{t(item.desc)}</p>
               </div>
             );

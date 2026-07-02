@@ -49,7 +49,7 @@ export default async function QrTypesIndexPage() {
             <p className="mt-4 text-lg text-muted-foreground">{t('qrTypesIndex.subtitle')}</p>
             <p className="mt-3 text-sm text-muted-foreground">
               {t('qrTypesIndex.alsoSee')}{' '}
-              <Link href="/use-cases" className="text-primary hover:underline">
+              <Link href="/use-cases" className="text-primary underline underline-offset-2 hover:no-underline">
                 {t('nav.useCases')}
               </Link>
             </p>

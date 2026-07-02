@@ -53,11 +53,11 @@ export default async function UseCasesIndexPage() {
             <p className="mt-4 text-lg text-muted-foreground">{t('useCasesIndex.subtitle')}</p>
             <p className="mt-3 text-sm text-muted-foreground">
               {t('useCasesIndex.alsoSee')}{' '}
-              <Link href="/qr-types" className="text-primary hover:underline">
+              <Link href="/qr-types" className="text-primary underline underline-offset-2 hover:no-underline">
                 {t('nav.qrTypes')}
               </Link>{' '}
               ·{' '}
-              <Link href="/solutions" className="text-primary hover:underline">
+              <Link href="/solutions" className="text-primary underline underline-offset-2 hover:no-underline">
                 {t('nav.solutions')}
               </Link>
             </p>

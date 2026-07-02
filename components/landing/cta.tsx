@@ -25,12 +25,16 @@ export function LandingCTA() {
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link href="/signup">
-            <Button size="lg" variant="secondary" className="gap-2 px-8 text-base">
+            <Button size="lg" variant="secondary" className="gap-2 bg-white px-8 text-base font-semibold text-primary hover:bg-white/90">
               {t('landing.ctaCreate')} <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>
           <Link href="/pricing">
-            <Button size="lg" variant="outline" className="border-primary-foreground/30 bg-transparent px-8 text-primary-foreground hover:bg-primary-foreground/10">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-2 border-white bg-transparent px-8 text-base font-semibold !text-white hover:bg-white hover:!text-primary"
+            >
               {t('landing.ctaPricing')}
             </Button>
           </Link>

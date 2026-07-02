@@ -22,18 +22,16 @@ export async function LandingLogoWall() {
         <div className="mt-5 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
           {INTEGRATIONS.map((item) => {
             const inner = (
-              <span className="font-display text-lg font-semibold tracking-tight text-muted-foreground/80 transition-colors hover:text-foreground">
+              <span className="font-display text-lg font-semibold tracking-tight text-muted-foreground transition-colors hover:text-foreground">
                 {item.name}
               </span>
             );
             return item.href ? (
-              <Link key={item.name} href={item.href} className="opacity-80 hover:opacity-100">
+              <Link key={item.name} href={item.href}>
                 {inner}
               </Link>
             ) : (
-              <span key={item.name} className="opacity-70">
-                {inner}
-              </span>
+              <span key={item.name}>{inner}</span>
             );
           })}
         </div>

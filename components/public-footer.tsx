@@ -121,7 +121,7 @@ export function PublicFooter() {
                           href={link.href}
                           target={link.href.startsWith('http') ? '_blank' : undefined}
                           rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                          className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1.5 break-words"
+                          className="py-1 text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1.5 break-words"
                         >
                           <Mail className="h-3.5 w-3.5 shrink-0" />
                           {link.label}
@@ -129,7 +129,7 @@ export function PublicFooter() {
                       ) : (
                         <Link
                           href={localePath(link.href)}
-                          className="text-sm text-muted-foreground hover:text-foreground transition-colors break-words"
+                          className="inline-block py-1 text-sm text-muted-foreground hover:text-foreground transition-colors break-words"
                         >
                           {link.label}
                         </Link>
@@ -143,7 +143,7 @@ export function PublicFooter() {
         </div>
         <p className="mt-8 border-t border-border/40 pt-6 text-xs text-muted-foreground">
           © {new Date().getFullYear()} QRbanner. {t('footer.rights')} · {t('footer.questions')}{' '}
-          <a href={supportMailto()} className="text-primary hover:underline">
+          <a href={supportMailto()} className="text-primary underline underline-offset-2 hover:no-underline">
             {SUPPORT_EMAIL}
           </a>
         </p>

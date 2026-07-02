@@ -11,7 +11,7 @@ export function HeroProductPreview() {
       </div>
       <div className="grid gap-3 p-4 sm:grid-cols-2">
         <div className="rounded-xl bg-primary/10 p-4">
-          <p className="text-xs font-medium text-muted-foreground">Scans today</p>
+          <p className="text-xs font-medium text-foreground/70">Scans today</p>
           <p className="font-display text-2xl font-bold text-primary">1,248</p>
         </div>
         <div className="rounded-xl bg-muted/50 p-4">
