@@ -77,6 +77,7 @@ export const en: TranslationTree = {
     tagline:
       'QR codes for menus, business cards, Wi‑Fi and marketing — with scan analytics, editable links and print-ready designs. Free to start.',
     product: 'Product',
+    guides: 'Guides',
     company: 'Company',
     about: 'About',
     contact: 'Contact',
@@ -1606,6 +1607,19 @@ export const en: TranslationTree = {
     subtitle: 'Pre-built workflows for restaurants, retail, automotive, fitness, logistics and more.',
     learnMore: 'Learn more',
     viewAll: 'View all solutions →',
+  },
+  useCasesTeaser: {
+    title: 'Popular QR use cases',
+    subtitle: 'Scenario guides for packaging, events, hospitality, retail and more — with the right QR type and templates.',
+    learnMore: 'Read guide',
+    viewAll: 'All use cases →',
+    alsoBrowse: 'Browse by format:',
+  },
+  internalLinks: {
+    title: 'Explore QR guides',
+    subtitle: 'Jump to use cases, QR types, industry solutions and templates.',
+    relatedUseCases: 'Related use cases',
+    relatedQrType: 'Best QR type for this scenario',
   },
   customerLogos: {
     sectionLabel: 'Customer industries',

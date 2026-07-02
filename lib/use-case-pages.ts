@@ -512,3 +512,38 @@ export const USE_CASE_PAGES: UseCasePage[] = [
 export function getUseCaseBySlug(slug: string): UseCasePage | undefined {
   return USE_CASE_PAGES.find((p) => p.slug === slug);
 }
+
+/** Homepage and blog sidebar featured guides */
+export const FEATURED_USE_CASE_SLUGS = [
+  'product-packaging',
+  'trade-show-leads',
+  'restaurant-table-tents',
+  'hotel-guest-experience',
+  'event-check-in',
+  'social-media-growth',
+] as const;
+
+/** Footer deep links — high-intent SEO pages */
+export const FOOTER_USE_CASE_SLUGS = [
+  'product-packaging',
+  'restaurant-table-tents',
+  'real-estate-listings',
+  'healthcare-patient-info',
+  'whatsapp-support',
+] as const;
+
+/** Map QR category → related use-case slugs for cross-linking */
+export const USE_CASES_BY_QR_CATEGORY: Record<string, string[]> = {
+  url: ['product-packaging', 'print-advertising', 'feedback-surveys'],
+  menu: ['restaurant-table-tents'],
+  vcard: ['email-signature', 'trade-show-leads'],
+  wifi: ['hotel-guest-experience'],
+  event: ['event-check-in'],
+  instagram: ['social-media-growth'],
+  youtube: ['video-marketing'],
+  whatsapp: ['whatsapp-support'],
+  app: ['app-download-campaign'],
+  pdf: ['healthcare-patient-info', 'employee-onboarding'],
+  location: ['education-campus'],
+  sms: ['retail-loyalty'],
+};

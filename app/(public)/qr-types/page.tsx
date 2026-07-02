@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight } from 'lucide-react';
 import { buildQrTypePages } from '@/lib/qr-type-pages';
+import { localizeQrTypePage } from '@/lib/i18n/resolve-programmatic-copy';
 import { QR_CATEGORIES, QR_CATEGORY_GROUPS } from '@/lib/qr-utils';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
@@ -26,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function QrTypesIndexPage() {
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
-  const pages = buildQrTypePages();
+  const pages = buildQrTypePages().map((p) => localizeQrTypePage(p, locale));
   const pageBySlug = Object.fromEntries(pages.map((p) => [p.slug, p]));
 
   return (

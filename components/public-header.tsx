@@ -18,6 +18,7 @@ import { cn } from '@/lib/utils';
 const NAV_LINKS = [
   { href: '/features', key: 'nav.features' },
   { href: '/solutions', key: 'nav.solutions' },
+  { href: '/use-cases', key: 'nav.useCases' },
   { href: '/templates', key: 'nav.templates' },
   { href: '/integrations', key: 'nav.integrations' },
   { href: '/pricing', key: 'nav.pricing' },

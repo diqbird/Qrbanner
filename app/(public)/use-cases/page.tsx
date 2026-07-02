@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { USE_CASE_PAGES } from '@/lib/use-case-pages';
+import { localizeUseCasePage } from '@/lib/i18n/resolve-programmatic-copy';
 import { solutionIcon } from '@/lib/solution-icons';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
@@ -31,6 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function UseCasesIndexPage() {
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
+  const pages = USE_CASE_PAGES.map((p) => localizeUseCasePage(p, locale));
 
   return (
     <>

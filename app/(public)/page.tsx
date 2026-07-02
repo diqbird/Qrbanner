@@ -7,6 +7,7 @@ import { LandingReviewsStrip } from '@/components/landing/reviews-strip';
 import { LandingSocialProof } from '@/components/landing/social-proof';
 import { LandingCaseStudiesTeaser } from '@/components/landing/case-studies-teaser';
 import { LandingIndustriesSection } from '@/components/landing/industries-section';
+import { LandingUseCasesSection } from '@/components/landing/use-cases-teaser';
 import { LandingIntegrationsTeaser } from '@/components/landing/integrations-teaser';
 import { SectionSkeleton } from '@/components/landing/section-skeleton';
 import { JsonLd } from '@/components/seo/json-ld';
@@ -69,6 +70,9 @@ export default function HomePage() {
       </div>
       <div className="min-h-[360px]">
         <LandingIndustriesSection />
+      </div>
+      <div className="min-h-[360px]">
+        <LandingUseCasesSection />
       </div>
       <div className="min-h-[280px]">
         <LandingIntegrationsTeaser />

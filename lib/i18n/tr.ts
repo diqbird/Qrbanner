@@ -77,6 +77,7 @@ export const tr: TranslationTree = {
     tagline:
       'Menü, kartvizit, Wi‑Fi ve pazarlama için QR kodlar — tarama analitiği, düzenlenebilir linkler ve baskıya hazır tasarımlar. Ücretsiz başlayın.',
     product: 'Ürün',
+    guides: 'Rehberler',
     company: 'Şirket',
     about: 'Hakkımızda',
     contact: 'İletişim',
@@ -1606,6 +1607,19 @@ export const tr: TranslationTree = {
     subtitle: 'Restoran, perakende, otomotiv, fitness, lojistik ve daha fazlası için hazır iş akışları.',
     learnMore: 'Daha fazla',
     viewAll: 'Tüm çözümler →',
+  },
+  useCasesTeaser: {
+    title: 'Popüler QR kullanım senaryoları',
+    subtitle: 'Ambalaj, etkinlik, konaklama, perakende ve daha fazlası için senaryo rehberleri — doğru QR türü ve şablonlarla.',
+    learnMore: 'Rehberi oku',
+    viewAll: 'Tüm senaryolar →',
+    alsoBrowse: 'Formata göre inceleyin:',
+  },
+  internalLinks: {
+    title: 'QR rehberlerini keşfedin',
+    subtitle: 'Kullanım senaryoları, QR türleri, sektör çözümleri ve şablonlara geçin.',
+    relatedUseCases: 'İlgili kullanım senaryoları',
+    relatedQrType: 'Bu senaryo için en uygun QR türü',
   },
   customerLogos: {
     sectionLabel: 'Müşteri sektörleri',

@@ -14,6 +14,8 @@ URLS = [
     ("https://qrbanner.com", "/"),
     ("https://qrbanner.com/qr/create", "/qr/create"),
     ("https://qrbanner.com/pricing", "/pricing"),
+    ("https://qrbanner.com/use-cases", "/use-cases"),
+    ("https://qrbanner.com/qr-types", "/qr-types"),
 ]
 
 if not PW:
@@ -39,7 +41,7 @@ done
 python3 - <<'PY'
 import json, glob
 paths = sorted(glob.glob("/tmp/lh-*.json"))
-labels = ["/", "/qr/create", "/pricing"]
+labels = ["/", "/qr/create", "/pricing", "/use-cases", "/qr-types"]
 for path, label in zip(paths, labels):
     with open(path) as f:
         r = json.load(f)

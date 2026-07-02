@@ -4,12 +4,21 @@ import Link from 'next/link';
 import { SiteLogo } from '@/components/brand/site-logo';
 import { Mail } from 'lucide-react';
 import { SUPPORT_EMAIL, supportMailto, whatsappUrl } from '@/lib/site-contact';
+import { FOOTER_USE_CASE_SLUGS, getUseCaseBySlug } from '@/lib/use-case-pages';
+import { localizeUseCasePage } from '@/lib/i18n/resolve-programmatic-copy';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { useLocalePath } from '@/components/i18n/use-locale-path';
 
 export function PublicFooter() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const localePath = useLocalePath();
+
+  const guideLinks = FOOTER_USE_CASE_SLUGS.map((slug) => {
+    const page = getUseCaseBySlug(slug);
+    if (!page) return null;
+    const localized = localizeUseCasePage(page, locale);
+    return { href: `/use-cases/${localized.slug}`, label: localized.title };
+  }).filter(Boolean) as { href: string; label: string }[];
 
   const sections = [
     {
@@ -29,6 +38,14 @@ export function PublicFooter() {
         { href: '/blog', label: t('nav.blog') },
         { href: '/qr/create?quick=1', label: t('nav.createQr') },
         { href: '/developers', label: t('footer.apiWebhooks') },
+      ],
+    },
+    {
+      title: t('footer.guides'),
+      links: [
+        { href: '/use-cases', label: t('nav.useCases') },
+        { href: '/qr-types', label: t('nav.qrTypes') },
+        ...guideLinks,
       ],
     },
     {
@@ -92,7 +109,7 @@ export function PublicFooter() {
               {SUPPORT_EMAIL}
             </a>
           </div>
-          <div className="grid min-w-0 flex-1 gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+          <div className="grid min-w-0 flex-1 gap-8 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
             {sections.map((section) => (
               <nav key={section.title} aria-label={section.title} className="min-w-0">
                 <p className="text-sm font-semibold text-foreground">{section.title}</p>

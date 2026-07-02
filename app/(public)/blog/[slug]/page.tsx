@@ -5,6 +5,7 @@ import { absoluteUrl, pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
 import { BlogArticleBody } from '@/components/public/blog-article-body';
+import { ProgrammaticInternalLinks } from '@/components/seo/programmatic-internal-links';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Clock, ArrowLeft } from 'lucide-react';
@@ -114,6 +115,8 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="mt-10">
             <BlogArticleBody sections={post.sections} />
           </div>
+
+          <ProgrammaticInternalLinks variant="blog" />
 
           <div className="mt-14 rounded-2xl border border-primary/20 bg-primary/5 p-8 text-center">
             <h2 className="font-display text-xl font-bold">{t('blogPost.ctaTitle')}</h2>
