@@ -265,7 +265,9 @@ export function buildQRStylingOptions(style: Partial<QRStyleConfig>, content: st
     image: logoUrl || undefined,
     imageOptions: logoUrl
       ? {
-          crossOrigin: 'anonymous' as const,
+          // crossOrigin is only meaningful (and only safe) for remote URLs.
+          // Setting it on data: URLs can block the logo from drawing.
+          ...(logoUrl.startsWith('http') ? { crossOrigin: 'anonymous' as const } : {}),
           margin: 6,
           imageSize: s.logoSize ?? 0.22,
         }

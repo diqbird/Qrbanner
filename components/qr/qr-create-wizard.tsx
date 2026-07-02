@@ -22,6 +22,7 @@ import { QRPreview } from './qr-preview';
 import { QRStyleEditor, DEFAULT_QR_STYLE } from './qr-style-editor';
 import type { QRStyleConfig } from '@/lib/qr-style';
 import { normalizeQRStyle } from '@/lib/qr-style';
+import { downscaleLogo } from '@/lib/image-downscale';
 import { QR_CATEGORIES, QR_CATEGORY_GROUPS, isDynamicCategory, buildQRPayload, categoryDisplayName } from '@/lib/qr-utils';
 import { CategoryFields } from './category-fields';
 import { IndustryTemplatePicker } from './industry-template-picker';
@@ -251,15 +252,18 @@ export function QRCreateWizard() {
 
   const payloadData = () => stripMetaFields(qrData);
 
-  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target?.files?.[0];
-    if (file) {
-      setLogoFile(file);
+    if (!file) return;
+    try {
+      const { dataUrl, file: optimized } = await downscaleLogo(file);
+      setLogoFile(optimized);
+      setLogoPreview(dataUrl);
+    } catch {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setLogoPreview(reader.result as string);
-      };
+      reader.onloadend = () => setLogoPreview(reader.result as string);
       reader.readAsDataURL(file);
+      setLogoFile(file);
     }
   };
 

@@ -18,6 +18,7 @@ const nextConfig = {
   output: process.env.NEXT_OUTPUT_MODE,
   productionBrowserSourceMaps: false,
   serverExternalPackages: ['geoip-lite'],
+  transpilePackages: ['react-globe.gl', 'globe.gl', 'three-globe'],
   poweredByHeader: false,
   compress: true,
   images: {
