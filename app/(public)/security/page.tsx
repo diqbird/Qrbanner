@@ -8,6 +8,8 @@ import { translate } from '@/lib/i18n';
 import { SUPPORT_EMAIL, supportMailto } from '@/lib/site-contact';
 import { Shield } from 'lucide-react';
 
+export const revalidate = 3600;
+
 const SECTIONS = [
   {
     title: 'securityPage.infraTitle',

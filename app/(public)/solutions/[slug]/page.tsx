@@ -3,6 +3,8 @@ import { SOLUTION_PAGES, getSolutionBySlug } from '@/lib/solutions';
 import { pageMetadata } from '@/lib/seo';
 import { SolutionDetailShell } from '@/components/solutions/solution-detail-shell';
 
+export const revalidate = 3600;
+
 export function generateStaticParams() {
   return SOLUTION_PAGES.map((s) => ({ slug: s.slug }));
 }

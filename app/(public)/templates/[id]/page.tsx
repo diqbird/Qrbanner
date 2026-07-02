@@ -5,6 +5,8 @@ import { pageMetadata } from '@/lib/seo';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 
+export const revalidate = 3600;
+
 export function generateStaticParams() {
   return INDUSTRY_TEMPLATES.map((tpl) => ({ id: tpl.id }));
 }

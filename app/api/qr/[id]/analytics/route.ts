@@ -4,19 +4,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
-import { buildAnalytics } from '@/lib/analytics-utils';
+import { fetchAggregatedAnalytics } from '@/lib/analytics-aggregation';
 import { buildPeriodComparison } from '@/lib/analytics-comparison';
 import {
   earliestAnalyticsFetchDate,
-  filterScansByRange,
   getPreviousPeriodRange,
   getUserAnalyticsCutoff,
   parseAnalyticsRange,
 } from '@/lib/analytics-range';
-import {
-  buildLandingCtaAnalytics,
-  filterCtaClicksByRange,
-} from '@/lib/landing-cta-analytics';
+import { buildLandingCtaAnalytics, filterCtaClicksByRange } from '@/lib/landing-cta-analytics';
 import { assertQrAccess } from '@/lib/workspace';
 
 export async function GET(
@@ -45,30 +41,24 @@ export async function GET(
 
     const prevRange = getPreviousPeriodRange(range);
     const fetchFrom = earliestAnalyticsFetchDate(range, cutoff);
-
-    const where: { qrCodeId: string; scannedAt?: { gte?: Date; lte?: Date } } = {
-      qrCodeId: qrCode.id,
-    };
-    if (fetchFrom || range.to) {
-      where.scannedAt = {};
-      if (fetchFrom) where.scannedAt.gte = fetchFrom;
-      if (range.to) where.scannedAt.lte = range.to;
-    } else if (cutoff) {
-      where.scannedAt = { gte: cutoff };
-    }
-
-    const scans = await prisma.qRScan.findMany({
-      where,
-      orderBy: { scannedAt: 'desc' },
-    });
-
-    const filtered = filterScansByRange(scans, range);
-    const previousFiltered = prevRange ? filterScansByRange(scans, prevRange) : [];
     const localeParam = req.nextUrl.searchParams.get('locale');
     const locale = localeParam === 'tr' ? 'tr' : 'en';
-    const analytics = buildAnalytics(filtered, 30, range, locale);
+
+    const analytics = await fetchAggregatedAnalytics({
+      qrCodeIds: [qrCode.id],
+      range,
+      locale,
+    });
+
     const periodComparison = prevRange
-      ? buildPeriodComparison(analytics, buildAnalytics(previousFiltered, 30, prevRange, locale))
+      ? buildPeriodComparison(
+          analytics,
+          await fetchAggregatedAnalytics({
+            qrCodeIds: [qrCode.id],
+            range: prevRange,
+            locale,
+          }),
+        )
       : null;
 
     let landingCta = null;
@@ -88,6 +78,7 @@ export async function GET(
               : {}),
         },
         orderBy: { clickedAt: 'desc' },
+        take: 500,
         select: {
           ctaType: true,
           ctaLabel: true,
@@ -97,7 +88,7 @@ export async function GET(
         },
       });
       const filteredClicks = filterCtaClicksByRange(ctaClicks, range);
-      landingCta = buildLandingCtaAnalytics(filteredClicks, filtered.length, range, locale);
+      landingCta = buildLandingCtaAnalytics(filteredClicks, analytics.totalScans, range, locale);
     }
 
     return NextResponse.json({

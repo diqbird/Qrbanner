@@ -9,6 +9,8 @@ import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 
+export const revalidate = 3600;
+
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);

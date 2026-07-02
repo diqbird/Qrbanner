@@ -8,6 +8,8 @@ import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 
+export const revalidate = 3600;
+
 export function generateStaticParams() {
   return CASE_STUDIES.map((c) => ({ slug: c.slug }));
 }

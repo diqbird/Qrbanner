@@ -5,6 +5,8 @@ import { ProgrammaticPageShell } from '@/components/seo/programmatic-page-shell'
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 
+export const revalidate = 3600;
+
 export function generateStaticParams() {
   return buildQrTypePages().map((p) => ({ slug: p.slug }));
 }

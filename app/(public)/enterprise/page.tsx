@@ -10,6 +10,8 @@ import { translate } from '@/lib/i18n';
 import { SalesInquiryForm } from '@/components/marketing/sales-inquiry-form';
 import { demoBookingUrl } from '@/lib/site-contact';
 
+export const revalidate = 3600;
+
 const FEATURE_KEYS = [
   'enterprise.feature1',
   'enterprise.feature2',
