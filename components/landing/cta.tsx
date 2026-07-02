@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { ArrowRight, QrCode } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
 import { useLanguage } from '@/components/i18n/language-provider';
@@ -24,19 +23,17 @@ export function LandingCTA() {
           {getLaunchBanner(locale)}
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link href="/signup">
-            <Button size="lg" variant="secondary" className="gap-2 bg-white px-8 text-base font-semibold text-primary hover:bg-white/90">
-              {t('landing.ctaCreate')} <ArrowRight className="h-4 w-4" />
-            </Button>
+          <Link
+            href="/signup"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-white px-8 text-base font-semibold text-primary transition-colors hover:bg-white/90"
+          >
+            {t('landing.ctaCreate')} <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
-          <Link href="/pricing">
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-2 border-white bg-transparent px-8 text-base font-semibold !text-white hover:bg-white hover:!text-primary"
-            >
-              {t('landing.ctaPricing')}
-            </Button>
+          <Link
+            href="/pricing"
+            className="inline-flex h-11 items-center justify-center rounded-lg border-2 border-white px-8 text-base font-semibold text-white transition-colors hover:bg-white hover:text-primary"
+          >
+            {t('landing.ctaPricing')}
           </Link>
         </div>
       </div>

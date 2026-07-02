@@ -195,6 +195,7 @@ FILES = [
     "components/ui/card.tsx",
     "components/landing/hero-static.tsx",
     "components/landing/cta.tsx",
+    "components/landing/faq-section.tsx",
     "components/landing/hero-product-preview.tsx",
     "components/landing/customer-logos.tsx",
     "components/landing/logo-wall.tsx",

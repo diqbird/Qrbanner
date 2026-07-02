@@ -50,8 +50,8 @@ export function LandingFAQ() {
             </Button>
           </Link>
           <a href={supportMailto()}>
-            <Button variant="ghost" className="gap-2 text-muted-foreground">
-              <Mail className="h-4 w-4" />
+            <Button variant="outline" className="gap-2">
+              <Mail className="h-4 w-4" aria-hidden />
               {SUPPORT_EMAIL}
             </Button>
           </a>
