@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
@@ -14,6 +14,8 @@ import { QRPreview } from './qr-preview';
 import { DEFAULT_QR_STYLE } from './qr-style-editor';
 import { normalizeQRStyle } from '@/lib/qr-style';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { OnboardingProgress } from '@/components/onboarding/onboarding-progress';
+import { onboardingQrUrl } from '@/lib/onboarding';
 
 function normalizeUrlInput(raw: string): string {
   const t = raw.trim();
@@ -24,8 +26,10 @@ function normalizeUrlInput(raw: string): string {
 
 export function QRQuickCreate({
   onAdvanced,
+  onboarding = false,
 }: {
   onAdvanced: (data: { url: string; name: string; style: ReturnType<typeof normalizeQRStyle> }) => void;
+  onboarding?: boolean;
 }) {
   const { t } = useLanguage();
   const router = useRouter();
@@ -37,6 +41,11 @@ export function QRQuickCreate({
 
   const normalizedUrl = normalizeUrlInput(url);
   const isValid = normalizedUrl.length > 10 && normalizedUrl.includes('.');
+
+  useEffect(() => {
+    if (!onboarding) return;
+    document.getElementById('quick-url')?.focus();
+  }, [onboarding]);
 
   const handleSave = async () => {
     if (!isValid) {
@@ -65,7 +74,7 @@ export function QRQuickCreate({
         return;
       }
       toast.success(t('quick.saved'));
-      router.push(`/qr/${data.qrCode.id}`);
+      router.push(onboarding ? onboardingQrUrl(data.qrCode.id) : `/qr/${data.qrCode.id}`);
     } catch {
       toast.error(t('auth.somethingWrong'));
     } finally {
@@ -75,13 +84,18 @@ export function QRQuickCreate({
 
   return (
     <div className="space-y-6">
+      {onboarding && <OnboardingProgress step={saving ? 2 : 1} />}
       <div className="text-center sm:text-left">
         <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
           <Zap className="h-3.5 w-3.5" />
           {t('hero.createQrHint')}
         </div>
-        <h1 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">{t('quick.title')}</h1>
-        <p className="mt-2 text-muted-foreground">{t('quick.subtitle')}</p>
+        <h1 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
+          {onboarding ? t('onboarding.quickTitle') : t('quick.title')}
+        </h1>
+        <p className="mt-2 text-muted-foreground">
+          {onboarding ? t('onboarding.quickSubtitle') : t('quick.subtitle')}
+        </p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">

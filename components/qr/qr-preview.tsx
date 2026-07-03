@@ -335,7 +335,7 @@ export function QRPreview({
             </Select>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-2">
+          <div id="qr-download-section" className="flex flex-wrap justify-center gap-2">
             <Button variant="outline" size="sm" onClick={() => handleDownload('png')} className="gap-2 min-h-9" disabled={loading || !!error}>
               <Download className="h-3.5 w-3.5" /> PNG
             </Button>

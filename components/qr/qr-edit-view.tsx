@@ -44,6 +44,7 @@ import { EditQrTips } from './edit-qr-tips';
 import { getPixelConfig } from '@/lib/pixel-analytics';
 import { normalizeLabels } from '@/lib/organize-utils';
 import { useScanBaseUrl, buildScanLink } from '@/lib/use-scan-base-url';
+import { OnboardingSuccessCard } from '@/components/onboarding/onboarding-success-card';
 
 const QRPreview = dynamic(
   () => import('./qr-preview').then((m) => ({ default: m.QRPreview })),
@@ -343,6 +344,8 @@ export function QREditView({ qrId }: { qrId: string }) {
           </Button>
         </div>
       </div>
+
+      <OnboardingSuccessCard qrId={qrId} qrName={qr.name} />
 
       <EditQrTips />
 

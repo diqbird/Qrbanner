@@ -46,6 +46,7 @@ import {
 import { useLanguage } from '@/components/i18n/language-provider';
 import { LinkHubEditor, hubLinksValid, firstHubUrl } from './link-hub-editor';
 import { QRQuickCreate } from './qr-quick-create';
+import { isOnboardingQuery } from '@/lib/onboarding';
 import { CreateStepTip } from './create-step-tip';
 import {
   clearQrCreateDraft,
@@ -111,6 +112,7 @@ export function QRCreateWizard() {
   const [templateGuideDismissed, setTemplateGuideDismissed] = useState(false);
   const [saving, setSaving] = useState(false);
   const searchParams = useSearchParams();
+  const onboarding = isOnboardingQuery(searchParams?.get('onboarding'));
   const [mode, setMode] = useState<'quick' | 'wizard'>(() =>
     searchParams?.get('quick') === '1' ? 'quick' : 'wizard'
   );
@@ -409,6 +411,7 @@ export function QRCreateWizard() {
   if (mode === 'quick') {
     return (
       <QRQuickCreate
+        onboarding={onboarding}
         onAdvanced={(data) => {
           if (data.url) {
             setCategory('url');

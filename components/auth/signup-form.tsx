@@ -12,6 +12,7 @@ import { QrCode, Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 import type { OAuthProviderId } from '@/lib/auth-providers';
 import { resolveCallbackUrl } from '@/lib/auth-providers';
+import { ONBOARDING_CREATE_URL } from '@/lib/onboarding';
 import { OAuthButtons } from './oauth-buttons';
 import { validatePassword } from '@/lib/password';
 import { PasswordStrengthMeter } from './password-strength-meter';
@@ -26,7 +27,8 @@ export function SignupForm({ oauthProviders = [] }: { oauthProviders?: OAuthProv
   const { t } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = resolveCallbackUrl(searchParams.get('callbackUrl'));
+  const rawCallback = searchParams.get('callbackUrl');
+  const callbackUrl = rawCallback ? resolveCallbackUrl(rawCallback) : ONBOARDING_CREATE_URL;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

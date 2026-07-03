@@ -7,14 +7,15 @@ import { Card, CardContent } from '@/components/ui/card';
 import { X, PlusCircle, LayoutTemplate, BarChart3, Sparkles, Calendar, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { demoBookingUrl } from '@/lib/site-contact';
+import { ONBOARDING_CREATE_URL } from '@/lib/onboarding';
 
 const STORAGE_KEY = 'qrb_onboarding_dismissed';
 
 const STEP_ICONS = [LayoutTemplate, Sparkles, PlusCircle, BarChart3];
 const STEP_KEYS = [
-  { title: 'onboarding.step1Title', desc: 'onboarding.step1Desc', href: '/qr/create?quick=1' },
-  { title: 'onboarding.step2Title', desc: 'onboarding.step2Desc', href: '/qr/create?quick=1' },
-  { title: 'onboarding.step3Title', desc: 'onboarding.step3Desc', href: '/qr/create?quick=1' },
+  { title: 'onboarding.step1Title', desc: 'onboarding.step1Desc', href: ONBOARDING_CREATE_URL },
+  { title: 'onboarding.step2Title', desc: 'onboarding.step2Desc', href: ONBOARDING_CREATE_URL },
+  { title: 'onboarding.step3Title', desc: 'onboarding.step3Desc', href: ONBOARDING_CREATE_URL },
   { title: 'onboarding.step4Title', desc: 'onboarding.step4Desc', href: '/dashboard' },
 ] as const;
 
