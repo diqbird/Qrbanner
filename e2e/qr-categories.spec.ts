@@ -29,6 +29,13 @@ const QR_CATEGORY_IDS = [
   'file',
   'app',
   'crypto',
+  'google_review',
+  'paypal',
+  'upi',
+  'signal',
+  'apple_music',
+  'google_drive',
+  'dropbox',
 ] as const;
 
 async function selectCategory(page: import('@playwright/test').Page, id: string) {
@@ -44,7 +51,7 @@ test.describe('QR create wizard', () => {
     for (const id of QR_CATEGORY_IDS) {
       await expect(page.getByTestId(`qr-category-${id}`)).toBeAttached();
     }
-    expect(QR_CATEGORY_IDS.length).toBeGreaterThanOrEqual(22);
+    expect(QR_CATEGORY_IDS.length).toBeGreaterThanOrEqual(34);
   });
 
   test('each category opens step 2 fields', async ({ page }) => {

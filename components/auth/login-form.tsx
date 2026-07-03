@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { QrCode, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
@@ -17,6 +18,7 @@ import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { LanguageSwitcher } from '@/components/i18n/language-switcher';
 import { ReferralCookieSync } from './referral-cookie-sync';
+import { TurnstileField, isTurnstileEnabledClient } from '@/components/security/turnstile-field';
 
 type SsoPolicy = {
   required: boolean;
@@ -37,6 +39,9 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
   const [totpCode, setTotpCode] = useState('');
   const [samlInfo, setSamlInfo] = useState<{ enabled: boolean; name?: string; loginUrl?: string } | null>(null);
   const [ssoPolicy, setSsoPolicy] = useState<SsoPolicy | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [rememberMe, setRememberMe] = useState(true);
+  const turnstileRequired = isTurnstileEnabledClient();
 
   const workspaceSlug = searchParams.get('workspace')?.trim() ?? '';
 
@@ -126,12 +131,20 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (turnstileRequired && !turnstileToken) {
+      toast.error(t('auth.captchaRequired'));
+      return;
+    }
+
     setLoading(true);
 
     try {
       const result = await signIn('credentials', {
         email,
         password,
+        turnstileToken: turnstileToken ?? undefined,
+        rememberMe: rememberMe ? 'true' : 'false',
         totpCode: mfaStep ? totpCode : undefined,
         redirect: false,
         callbackUrl,
@@ -235,6 +248,18 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
               </button>
             </div>
           </div>
+          {!mfaStep && (
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="remember-me"
+                checked={rememberMe}
+                onCheckedChange={(checked) => setRememberMe(checked === true)}
+              />
+              <Label htmlFor="remember-me" className="cursor-pointer text-sm font-normal">
+                {t('auth.rememberMe')}
+              </Label>
+            </div>
+          )}
           {mfaStep && (
             <div className="space-y-2">
               <Label htmlFor="totp-code">{t('settings.mfa.codeLabel')}</Label>
@@ -250,6 +275,9 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
                 required
               />
             </div>
+          )}
+          {turnstileRequired && !mfaStep && (
+            <TurnstileField onToken={setTurnstileToken} className="flex justify-center py-1" />
           )}
           <Button type="submit" className="w-full" loading={loading}>
             {mfaStep ? t('settings.mfa.verify') : t('common.signIn')}

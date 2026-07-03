@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { saveUploadedFile } from '@/lib/storage';
+import { verifyImageMagicBytes } from '@/lib/file-magic';
 import { prisma } from '@/lib/db';
 
 const MAX_SIZE = 5 * 1024 * 1024; // 5MB for logos
@@ -33,6 +34,14 @@ export async function POST(req: NextRequest) {
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
+
+    if (!verifyImageMagicBytes(buffer, file.type)) {
+      return NextResponse.json(
+        { error: 'File content does not match its type. Upload a valid image.' },
+        { status: 400 }
+      );
+    }
+
     const { path: filePath } = await saveUploadedFile(buffer, file.name, file.type);
     const userId = (session.user as { id?: string })?.id;
 

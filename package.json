@@ -7,7 +7,10 @@
     "start": "next start",
     "lint": "next lint",
     "test:e2e": "playwright test",
-    "test:lighthouse": "node scripts/lighthouse-audit.mjs"
+    "test:lighthouse": "node scripts/lighthouse-audit.mjs",
+    "cap:sync": "npx cap sync",
+    "cap:android": "npx cap open android",
+    "cap:ios": "npx cap open ios"
   },
   "prisma": {
     "seed": "tsx --require dotenv/config scripts/safe-seed.ts"

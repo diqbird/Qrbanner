@@ -2,6 +2,7 @@ import type { Locale } from './types';
 
 export const DEFAULT_LOCALE: Locale = 'en';
 export const LOCALE_HEADER = 'x-qrb-locale';
+export const PATHNAME_HEADER = 'x-qrb-pathname';
 
 const LOCALE_SEGMENT = /^\/(tr|en)(?=\/|$)/;
 

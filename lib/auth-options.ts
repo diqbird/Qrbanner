@@ -13,6 +13,16 @@ import { resolveReferrerByCode, recordReferralSignup } from '@/lib/referral';
 import { assertOAuthSignInAllowed, assertPasswordLoginAllowed, isEmailDomainAllowed, parseAllowedDomains } from '@/lib/workspace-sso';
 import { verifySamlSignInToken } from '@/lib/saml-auth';
 import { decryptTotpSecret, verifyTotpCode } from '@/lib/totp';
+import { verifyTurnstileToken } from '@/lib/turnstile';
+
+/** 30 days when "Remember me" is checked. */
+const SESSION_REMEMBER_MAX_AGE = 30 * 24 * 60 * 60;
+/** 24 hours when "Remember me" is unchecked. */
+const SESSION_DEFAULT_MAX_AGE = 24 * 60 * 60;
+
+function parseRememberMe(value: string | undefined): boolean {
+  return value !== 'false' && value !== '0';
+}
 
 const providers: NextAuthOptions['providers'] = [
   CredentialsProvider({
@@ -20,6 +30,8 @@ const providers: NextAuthOptions['providers'] = [
     credentials: {
       email: { label: 'Email', type: 'email' },
       password: { label: 'Password', type: 'password' },
+      turnstileToken: { label: 'Turnstile', type: 'text' },
+      rememberMe: { label: 'Remember me', type: 'text' },
       verifyToken: { label: 'Verify Token', type: 'text' },
       totpCode: { label: 'TOTP Code', type: 'text' },
     },
@@ -108,6 +120,11 @@ const providers: NextAuthOptions['providers'] = [
         throw new Error('missing_fields');
       }
 
+      const turnstileOk = await verifyTurnstileToken(credentials.turnstileToken);
+      if (!turnstileOk) {
+        throw new Error('captcha_failed');
+      }
+
       const user = await prisma.user.findUnique({
         where: { email },
         select: {
@@ -163,6 +180,7 @@ const providers: NextAuthOptions['providers'] = [
         role: user.role,
         image: user.image,
         mfaVerified: true,
+        rememberMe: parseRememberMe(credentials.rememberMe),
       };
     },
   }),
@@ -201,6 +219,13 @@ export const authOptions: NextAuthOptions = {
   providers,
   session: {
     strategy: 'jwt',
+    // Explicit session lifetime: sessions expire after 30 days of inactivity
+    // and the JWT is refreshed at most once per day.
+    maxAge: 30 * 24 * 60 * 60,
+    updateAge: 24 * 60 * 60,
+  },
+  jwt: {
+    maxAge: 30 * 24 * 60 * 60,
   },
   callbacks: {
     async signIn({ user, account }) {
@@ -228,6 +253,10 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.role = (user as { role?: string })?.role ?? 'user';
+        const rememberMe = (user as { rememberMe?: boolean }).rememberMe !== false;
+        const maxAge = rememberMe ? SESSION_REMEMBER_MAX_AGE : SESSION_DEFAULT_MAX_AGE;
+        token.rememberMe = rememberMe;
+        token.exp = Math.floor(Date.now() / 1000) + maxAge;
         const explicitMfa = (user as { mfaVerified?: boolean }).mfaVerified;
         if (explicitMfa === true) {
           token.mfaVerified = true;

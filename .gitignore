@@ -9,6 +9,10 @@ out/
 dist/
 build/
 
+# Capacitor native projects (generated via `npx cap add`)
+android/
+ios/
+
 # env / secrets
 .env
 .env.*

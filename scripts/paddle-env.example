@@ -1,0 +1,26 @@
+# Paddle Billing — add to VPS /var/www/qrbanner/.env
+# Get keys from https://vendors.paddle.com (Developer tools → Authentication)
+
+PADDLE_API_KEY=pdl_live_apikey_xxxxxxxx
+PADDLE_WEBHOOK_SECRET=pdl_ntfset_xxxxxxxx
+PADDLE_ENVIRONMENT=production
+# Use sandbox for testing:
+# PADDLE_ENVIRONMENT=sandbox
+# PADDLE_API_KEY=pdl_sdbx_apikey_xxxxxxxx
+
+# Price IDs from Paddle → Catalog → Products (monthly recurring)
+PADDLE_PRICE_PRO=pri_xxxxxxxx
+PADDLE_PRICE_BUSINESS=pri_xxxxxxxx
+PADDLE_PRICE_AGENCY=pri_xxxxxxxx
+
+# Optional annual prices
+# PADDLE_PRICE_PRO_ANNUAL=pri_xxxxxxxx
+# PADDLE_PRICE_BUSINESS_ANNUAL=pri_xxxxxxxx
+# PADDLE_PRICE_AGENCY_ANNUAL=pri_xxxxxxxx
+
+# Webhook URL (Paddle dashboard → Developer tools → Notifications):
+#   https://qrbanner.com/api/billing/webhook
+# Subscribe to: subscription.created, subscription.updated, subscription.canceled
+
+# When Paddle env vars are set, checkout uses Paddle instead of Stripe.
+# Remove or comment STRIPE_* keys if you are fully migrating to Paddle.

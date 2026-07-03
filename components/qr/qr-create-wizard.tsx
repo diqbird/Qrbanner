@@ -22,6 +22,7 @@ import { DEFAULT_QR_STYLE } from './qr-style-editor';
 import { QRPreviewSkeleton } from './qr-preview-skeleton';
 import type { QRStyleConfig } from '@/lib/qr-style';
 import { normalizeQRStyle } from '@/lib/qr-style';
+import { useQRStyleHistory } from '@/hooks/use-qr-style-history';
 import { downscaleLogo } from '@/lib/image-downscale';
 import { QR_CATEGORIES, QR_CATEGORY_GROUPS, buildQRPayload, categoryDisplayName } from '@/lib/qr-utils';
 import { CategoryFields } from './category-fields';
@@ -82,7 +83,15 @@ export function QRCreateWizard() {
   const [category, setCategory] = useState('');
   const [name, setName] = useState('');
   const [qrData, setQrData] = useState<Record<string, string>>({});
-  const [style, setStyle] = useState<QRStyleConfig>(DEFAULT_QR_STYLE);
+  const {
+    style,
+    setStyle,
+    undo: undoStyle,
+    redo: redoStyle,
+    resetHistory: resetStyleHistory,
+    canUndo: canUndoStyle,
+    canRedo: canRedoStyle,
+  } = useQRStyleHistory(DEFAULT_QR_STYLE);
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [advanced, setAdvanced] = useState<AdvancedValues>(emptyAdvanced);
@@ -143,7 +152,7 @@ export function QRCreateWizard() {
     setCategory(draft.category);
     setName(draft.name);
     setQrData(draft.qrData);
-    setStyle(normalizeQRStyle(draft.style));
+    resetStyleHistory(normalizeQRStyle(draft.style));
     setLogoPreview(draft.logoPreview);
     setAdvanced(draft.advanced);
     setLandingEnabled(draft.landingEnabled);
@@ -180,7 +189,7 @@ export function QRCreateWizard() {
     setTemplateGuideDismissed(false);
     setCategory(template.category);
     setQrData({ ...template.qrData });
-    setStyle(normalizeQRStyle({ ...DEFAULT_QR_STYLE, ...template.style }));
+    resetStyleHistory(normalizeQRStyle({ ...DEFAULT_QR_STYLE, ...template.style }));
     setName(template.suggestedQrName);
     const built = buildLandingFromTemplate(template, template.qrData);
     const hubLinks = template.landingPage?.hubLinks;
@@ -405,7 +414,7 @@ export function QRCreateWizard() {
             setCategory('url');
             setQrData({ url: data.url });
             setName(data.name || '');
-            setStyle(data.style);
+            resetStyleHistory(data.style);
             setStep(1);
           }
           setMode('wizard');
@@ -652,6 +661,10 @@ export function QRCreateWizard() {
               pixels={pixels}
               contentLength={buildQRPayload(category, payloadData()).length}
               onStyleChange={setStyle}
+              canUndoStyle={canUndoStyle}
+              canRedoStyle={canRedoStyle}
+              onUndoStyle={undoStyle}
+              onRedoStyle={redoStyle}
               onLogoChange={handleLogoChange}
               onAdvancedChange={setAdvanced}
               onLandingEnabledChange={setLandingEnabled}

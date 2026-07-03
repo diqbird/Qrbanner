@@ -24,6 +24,8 @@ model User {
   passwordResetExpiry DateTime?
   stripeCustomerId String?
   stripeSubscriptionId String?
+  paddleCustomerId String?
+  paddleSubscriptionId String?
   // REST API access
   apiKeyHash       String?   @unique
   apiKeyPrefix     String?

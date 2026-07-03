@@ -15,6 +15,7 @@ import { Download, Printer, Share2, Eye, Loader2 } from 'lucide-react';
 import { PrintBannerExport } from './print-banner-export';
 import { toast } from 'sonner';
 import { renderStyledQR, renderStyledQRSvg } from '@/lib/qr-render';
+import { renderStyledQREps } from '@/lib/qr-eps';
 import { normalizeQRStyle, type QRStyleConfig } from '@/lib/qr-style';
 import { EditableFrameLabel } from './editable-frame-label';
 import { MockupPreview } from './mockup-preview';
@@ -143,7 +144,7 @@ export function QRPreview({
     a.click();
   };
 
-  const handleDownload = async (format: 'png' | 'jpg' | 'webp' | 'svg' | 'pdf') => {
+  const handleDownload = async (format: 'png' | 'jpg' | 'webp' | 'svg' | 'eps' | 'pdf') => {
     try {
       if (format === 'svg') {
         const svg = await renderStyledQRSvg(previewContent, normalized, {
@@ -154,6 +155,14 @@ export function QRPreview({
         const blob = new Blob([svg], { type: 'image/svg+xml' });
         const url = URL.createObjectURL(blob);
         triggerDownload(url, 'qr-code.svg');
+        URL.revokeObjectURL(url);
+      } else if (format === 'eps') {
+        const eps = await renderStyledQREps(previewContent, normalized, {
+          size: exportSize,
+        });
+        const blob = new Blob([eps], { type: 'application/postscript' });
+        const url = URL.createObjectURL(blob);
+        triggerDownload(url, 'qr-code.eps');
         URL.revokeObjectURL(url);
       } else if (format === 'pdf') {
         const canvas = await renderExportCanvas();
@@ -338,6 +347,9 @@ export function QRPreview({
             </Button>
             <Button variant="outline" size="sm" onClick={() => handleDownload('svg')} className="gap-2 min-h-9" disabled={loading || !!error}>
               <Download className="h-3.5 w-3.5" /> SVG
+            </Button>
+            <Button variant="outline" size="sm" onClick={() => handleDownload('eps')} className="gap-2 min-h-9" disabled={loading || !!error}>
+              <Download className="h-3.5 w-3.5" /> EPS
             </Button>
             <Button variant="outline" size="sm" onClick={() => handleDownload('pdf')} className="gap-2 min-h-9" disabled={loading || !!error}>
               <Download className="h-3.5 w-3.5" /> {t('preview.pdf')}

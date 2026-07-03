@@ -5,11 +5,13 @@ import { pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
 import { Badge } from '@/components/ui/badge';
-import { Clock, ArrowRight } from 'lucide-react';
+import { Clock, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 
 export const revalidate = 3600;
+
+const POSTS_PER_PAGE = 12;
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
@@ -23,11 +25,25 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-export default async function BlogIndexPage() {
+export default async function BlogIndexPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
   const locale = await getServerLocale();
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
-  const posts = await getAllPosts();
+  const allPosts = await getAllPosts();
   const dateLocale = locale === 'tr' ? 'tr-TR' : 'en-US';
+
+  const { page: pageParam } = await searchParams;
+  const totalPages = Math.max(1, Math.ceil(allPosts.length / POSTS_PER_PAGE));
+  const currentPage = Math.min(
+    totalPages,
+    Math.max(1, Number.parseInt(pageParam ?? '1', 10) || 1)
+  );
+  const start = (currentPage - 1) * POSTS_PER_PAGE;
+  const posts = allPosts.slice(start, start + POSTS_PER_PAGE);
+  const pageHref = (p: number) => (p <= 1 ? '/blog' : `/blog?page=${p}`);
 
   return (
     <>
@@ -86,6 +102,41 @@ export default async function BlogIndexPage() {
               </article>
             ))}
           </div>
+
+          {totalPages > 1 && (
+            <nav
+              className="mt-12 flex items-center justify-between gap-4"
+              aria-label="Blog pagination"
+            >
+              {currentPage > 1 ? (
+                <Link
+                  href={pageHref(currentPage - 1)}
+                  rel="prev"
+                  className="inline-flex items-center gap-1 rounded-lg border border-border/60 px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
+                >
+                  <ChevronLeft className="h-4 w-4" aria-hidden /> {t('blogIndex.prev')}
+                </Link>
+              ) : (
+                <span aria-hidden />
+              )}
+
+              <span className="text-sm text-muted-foreground">
+                {t('blogIndex.pageInfo', { page: currentPage, total: totalPages })}
+              </span>
+
+              {currentPage < totalPages ? (
+                <Link
+                  href={pageHref(currentPage + 1)}
+                  rel="next"
+                  className="inline-flex items-center gap-1 rounded-lg border border-border/60 px-4 py-2 text-sm font-medium transition-colors hover:bg-muted"
+                >
+                  {t('blogIndex.next')} <ChevronRight className="h-4 w-4" aria-hidden />
+                </Link>
+              ) : (
+                <span aria-hidden />
+              )}
+            </nav>
+          )}
         </div>
       </div>
     </>

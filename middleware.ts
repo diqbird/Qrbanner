@@ -6,7 +6,7 @@ import { getToken } from 'next-auth/jwt';
 
 import { isAppHost } from '@/lib/custom-domain';
 import { applySecurityHeaders } from '@/lib/security-headers';
-import { LOCALE_HEADER, parseLocalePath } from '@/lib/i18n/locale-path';
+import { LOCALE_HEADER, PATHNAME_HEADER, parseLocalePath } from '@/lib/i18n/locale-path';
 import { LOCALE_STORAGE_KEY } from '@/lib/i18n/types';
 
 const PROTECTED_PREFIXES = ['/dashboard', '/settings', '/qr/bulk', '/admin'];
@@ -34,6 +34,11 @@ function withSecurityHeaders<T extends NextResponse>(res: T): T {
   return res;
 }
 
+function finish(req: NextRequest, res: NextResponse): NextResponse {
+  res.headers.set(PATHNAME_HEADER, req.nextUrl.pathname);
+  return withSecurityHeaders(res);
+}
+
 function handleLocaleRouting(req: NextRequest): NextResponse | null {
   const { locale, pathname } = parseLocalePath(req.nextUrl.pathname);
   if (!locale) return null;
@@ -41,7 +46,7 @@ function handleLocaleRouting(req: NextRequest): NextResponse | null {
   if (pathname.startsWith('/s/')) {
     const redirect = req.nextUrl.clone();
     redirect.pathname = pathname;
-    return withSecurityHeaders(NextResponse.redirect(redirect));
+    return finish(req, NextResponse.redirect(redirect));
   }
 
   if (locale === 'en') {
@@ -49,14 +54,14 @@ function handleLocaleRouting(req: NextRequest): NextResponse | null {
     redirect.pathname = pathname;
     const res = NextResponse.redirect(redirect);
     applyLocaleCookie(res, 'en');
-    return withSecurityHeaders(res);
+    return finish(req, res);
   }
 
   const rewriteUrl = req.nextUrl.clone();
   rewriteUrl.pathname = pathname;
   const res = NextResponse.rewrite(rewriteUrl);
   applyLocaleCookie(res, 'tr');
-  return withSecurityHeaders(res);
+  return finish(req, res);
 }
 
 export async function middleware(req: NextRequest) {
@@ -64,7 +69,7 @@ export async function middleware(req: NextRequest) {
   if (!isAppHost(host)) {
     const path = req.nextUrl.pathname;
     if (path.startsWith('/s/')) {
-      return withSecurityHeaders(NextResponse.next());
+      return finish(req, NextResponse.next());
     }
     return NextResponse.redirect('https://qrbanner.com');
   }
@@ -83,13 +88,13 @@ export async function middleware(req: NextRequest) {
     if (!token) {
       const login = new URL('/login', req.url);
       login.searchParams.set('callbackUrl', path + req.nextUrl.search);
-      return withSecurityHeaders(NextResponse.redirect(login));
+      return finish(req, NextResponse.redirect(login));
     }
 
     if (token.mfaVerified === false && path !== '/mfa-verify') {
       const verify = new URL('/mfa-verify', req.url);
       verify.searchParams.set('callbackUrl', path + req.nextUrl.search);
-      return withSecurityHeaders(NextResponse.redirect(verify));
+      return finish(req, NextResponse.redirect(verify));
     }
   }
 
@@ -100,15 +105,15 @@ export async function middleware(req: NextRequest) {
     });
     if (!token) {
       const login = new URL('/login', req.url);
-      return withSecurityHeaders(NextResponse.redirect(login));
+      return finish(req, NextResponse.redirect(login));
     }
     if (token.mfaVerified !== false) {
       const dest = req.nextUrl.searchParams.get('callbackUrl') || '/dashboard';
-      return withSecurityHeaders(NextResponse.redirect(new URL(dest, req.url)));
+      return finish(req, NextResponse.redirect(new URL(dest, req.url)));
     }
   }
 
-  return withSecurityHeaders(NextResponse.next());
+  return finish(req, NextResponse.next());
 }
 
 export const config = {

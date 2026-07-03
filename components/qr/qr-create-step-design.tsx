@@ -24,6 +24,7 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import { normalizeQRStyle, type QRStyleConfig } from '@/lib/qr-style';
+import { StyleHistoryToolbar } from './style-history-toolbar';
 import { isDynamicCategory } from '@/lib/qr-utils';
 import type { IndustryTemplate } from '@/lib/industry-templates';
 
@@ -48,6 +49,10 @@ export type QrCreateStepDesignProps = {
   pixels: PixelAnalyticsConfig;
   contentLength: number;
   onStyleChange: (style: QRStyleConfig) => void;
+  canUndoStyle?: boolean;
+  canRedoStyle?: boolean;
+  onUndoStyle?: () => void;
+  onRedoStyle?: () => void;
   onLogoChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onAdvancedChange: (values: AdvancedValues) => void;
   onLandingEnabledChange: (enabled: boolean) => void;
@@ -84,6 +89,10 @@ export function QrCreateStepDesign({
   pixels,
   contentLength,
   onStyleChange,
+  canUndoStyle,
+  canRedoStyle,
+  onUndoStyle,
+  onRedoStyle,
   onLogoChange,
   onAdvancedChange,
   onLandingEnabledChange,
@@ -110,6 +119,14 @@ export function QrCreateStepDesign({
           onApplyStyle={(patch) => onStyleChange(normalizeQRStyle({ ...style, ...patch }))}
           onLogoSize={(size) => onStyleChange(normalizeQRStyle({ ...style, logoSize: size }))}
         />
+        {(onUndoStyle || onRedoStyle) && (
+          <StyleHistoryToolbar
+            canUndo={!!canUndoStyle}
+            canRedo={!!canRedoStyle}
+            onUndo={onUndoStyle ?? (() => {})}
+            onRedo={onRedoStyle ?? (() => {})}
+          />
+        )}
         <QRStyleEditor
           style={style}
           highlightVisualPresetId={activeTemplate?.visualPresetId}

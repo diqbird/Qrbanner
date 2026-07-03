@@ -70,6 +70,7 @@ export function PublicFooter() {
       links: [
         { href: '/privacy', label: t('footer.privacy') },
         { href: '/terms', label: t('footer.terms') },
+        { href: '/refund', label: t('footer.refund') },
         { href: '/cookies', label: t('footer.cookies') },
       ],
     },

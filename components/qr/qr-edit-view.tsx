@@ -15,6 +15,8 @@ import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { QRPreviewSkeleton } from './qr-preview-skeleton';
 import { QRStyleEditor, DEFAULT_QR_STYLE, normalizeQRStyle } from './qr-style-editor';
+import { StyleHistoryToolbar } from './style-history-toolbar';
+import { useQRStyleHistory } from '@/hooks/use-qr-style-history';
 import { AiDesignAssistant } from './ai-design-assistant';
 import type { QRStyleConfig } from '@/lib/qr-style';
 import { downscaleLogo } from '@/lib/image-downscale';
@@ -109,7 +111,15 @@ export function QREditView({ qrId }: { qrId: string }) {
   const [name, setName] = useState('');
   const [targetUrl, setTargetUrl] = useState('');
   const [qrData, setQrData] = useState<Record<string, string>>({});
-  const [style, setStyle] = useState<QRStyleConfig>(DEFAULT_QR_STYLE);
+  const {
+    style,
+    setStyle,
+    undo: undoStyle,
+    redo: redoStyle,
+    resetHistory: resetStyleHistory,
+    canUndo: canUndoStyle,
+    canRedo: canRedoStyle,
+  } = useQRStyleHistory(DEFAULT_QR_STYLE);
   const [isActive, setIsActive] = useState(true);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [logoFile, setLogoFile] = useState<File | null>(null);
@@ -188,7 +198,7 @@ export function QREditView({ qrId }: { qrId: string }) {
           everyScan: Boolean(qrCode?.scanNotifyEvery),
         });
         if (qrCode?.style && typeof qrCode.style === 'object') {
-          setStyle(normalizeQRStyle(qrCode.style as Partial<QRStyleConfig>));
+          resetStyleHistory(normalizeQRStyle(qrCode.style as Partial<QRStyleConfig>));
         }
         setFolderId(qrCode?.folderId ?? null);
         setLabels(normalizeLabels(qrCode?.labels ?? []));
@@ -418,6 +428,13 @@ export function QREditView({ qrId }: { qrId: string }) {
             style={style}
             onApplyStyle={(patch) => setStyle(normalizeQRStyle({ ...style, ...patch }))}
             onLogoSize={(size) => setStyle(normalizeQRStyle({ ...style, logoSize: size }))}
+          />
+
+          <StyleHistoryToolbar
+            canUndo={canUndoStyle}
+            canRedo={canRedoStyle}
+            onUndo={undoStyle}
+            onRedo={redoStyle}
           />
 
           <QRStyleEditor

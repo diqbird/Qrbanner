@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, Menu, X, Calendar } from 'lucide-react';
+import { LayoutDashboard, Menu, X, Calendar, Search } from 'lucide-react';
 import { SiteLogo } from '@/components/brand/site-logo';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { LanguageSwitcher } from '@/components/i18n/language-switcher';
@@ -12,8 +12,9 @@ import { useLanguage } from '@/components/i18n/language-provider';
 import { useLocalePath } from '@/components/i18n/use-locale-path';
 import { pathsMatchLocalized } from '@/lib/i18n/locale-path';
 import { demoBookingUrl } from '@/lib/site-contact';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
+import { SiteSearchDialog, useSiteSearchShortcut } from '@/components/search/site-search-dialog';
 
 const NAV_LINKS = [
   { href: '/features', key: 'nav.features' },
@@ -33,7 +34,11 @@ export function PublicHeader() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const demoUrl = demoBookingUrl();
+
+  const openSearch = useCallback(() => setSearchOpen(true), []);
+  useSiteSearchShortcut(openSearch);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -89,6 +94,20 @@ export function PublicHeader() {
         </nav>
 
         <div className="hidden items-center gap-1 lg:flex">
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="h-8 gap-1.5 rounded-full px-3 text-[13px] text-muted-foreground"
+            onClick={openSearch}
+            aria-label={t('siteSearch.open')}
+          >
+            <Search className="h-3.5 w-3.5" aria-hidden />
+            <span className="hidden xl:inline">{t('siteSearch.open')}</span>
+            <kbd className="pointer-events-none hidden rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:inline">
+              ⌘K
+            </kbd>
+          </Button>
           <LanguageSwitcher />
           <ThemeToggle />
           {!session && (
@@ -193,6 +212,7 @@ export function PublicHeader() {
           </nav>
         </>
       )}
+      <SiteSearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
     </header>
   );
 }

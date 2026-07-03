@@ -2,12 +2,14 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
-import { getStripe, isStripeConfigured, siteBaseUrl, stripePriceIdForPlan } from '@/lib/stripe';
+import { activeBillingProvider, isBillingConfigured, siteBaseUrl } from '@/lib/billing-provider';
+import { createPaddleCheckout } from '@/lib/paddle';
+import { getStripe, stripePriceIdForPlan } from '@/lib/stripe';
 import type { PlanId } from '@/lib/plans';
 import { normalizePlanId, type BillingInterval } from '@/lib/plans';
 import { referralClaimedBranding, referralCouponForCheckout } from '@/lib/referral-checkout';
 
-async function upgradeExistingSubscription(
+async function upgradeExistingStripeSubscription(
   stripe: NonNullable<ReturnType<typeof getStripe>>,
   subscriptionId: string,
   priceId: string,
@@ -34,7 +36,7 @@ async function upgradeExistingSubscription(
     });
     return true;
   } catch (error) {
-    console.error('[billing/checkout] subscription update failed', error);
+    console.error('[billing/checkout] Stripe subscription update failed', error);
     return false;
   }
 }
@@ -49,7 +51,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Free plan does not require checkout' }, { status: 400 });
     }
 
-    if (!isStripeConfigured()) {
+    if (!isBillingConfigured()) {
       return NextResponse.json({ fallback: 'launch_free' });
     }
 
@@ -67,6 +69,8 @@ export async function POST(req: Request) {
         plan: true,
         stripeCustomerId: true,
         stripeSubscriptionId: true,
+        paddleCustomerId: true,
+        paddleSubscriptionId: true,
         referralSignupCount: true,
         brandingSettings: true,
       },
@@ -82,6 +86,36 @@ export async function POST(req: Request) {
       );
     }
 
+    const successUrl = `${siteBaseUrl()}/settings?billing=success`;
+    const provider = activeBillingProvider();
+
+    if (provider === 'paddle') {
+      const result = await createPaddleCheckout({
+        userId: user.id,
+        email: user.email,
+        name: user.name,
+        plan,
+        interval,
+        paddleCustomerId: user.paddleCustomerId,
+        paddleSubscriptionId: user.paddleSubscriptionId,
+        successUrl,
+      });
+
+      if ('upgraded' in result) {
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { plan, paddleSubscriptionId: user.paddleSubscriptionId },
+        });
+        return NextResponse.json({ url: successUrl });
+      }
+
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { paddleCustomerId: result.customerId },
+      });
+      return NextResponse.json({ url: result.url });
+    }
+
     const stripe = getStripe();
     let priceId = stripePriceIdForPlan(plan, interval);
     if (!priceId && interval === 'annual') {
@@ -91,10 +125,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ fallback: 'launch_free' });
     }
 
-    const successUrl = `${siteBaseUrl()}/settings?billing=success`;
-
     if (user.stripeSubscriptionId) {
-      const upgraded = await upgradeExistingSubscription(
+      const upgraded = await upgradeExistingStripeSubscription(
         stripe,
         user.stripeSubscriptionId,
         priceId,
@@ -125,7 +157,7 @@ export async function POST(req: Request) {
         limit: 1,
       });
       if (activeSubs.data[0]) {
-        const upgraded = await upgradeExistingSubscription(
+        const upgraded = await upgradeExistingStripeSubscription(
           stripe,
           activeSubs.data[0].id,
           priceId,
@@ -145,10 +177,20 @@ export async function POST(req: Request) {
       interval
     );
 
+    const taxEnabled = process.env.STRIPE_AUTOMATIC_TAX === 'true';
+
     const checkout = await stripe.checkout.sessions.create({
       mode: 'subscription',
       customer: customerId,
       line_items: [{ price: priceId, quantity: 1 }],
+      ...(taxEnabled
+        ? {
+            automatic_tax: { enabled: true },
+            customer_update: { address: 'auto', name: 'auto' },
+            billing_address_collection: 'auto',
+            tax_id_collection: { enabled: true },
+          }
+        : {}),
       ...(referralCoupon ? { discounts: [{ coupon: referralCoupon }] } : {}),
       success_url: referralCoupon
         ? `${siteBaseUrl()}/settings?billing=referral_reward`

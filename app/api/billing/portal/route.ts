@@ -2,11 +2,13 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
-import { getStripe, isStripeConfigured, siteBaseUrl } from '@/lib/stripe';
+import { activeBillingProvider, isBillingConfigured, siteBaseUrl } from '@/lib/billing-provider';
+import { createPaddlePortalSession, ensurePaddleCustomer } from '@/lib/paddle';
+import { getStripe } from '@/lib/stripe';
 
 export async function POST() {
   try {
-    if (!isStripeConfigured()) {
+    if (!isBillingConfigured()) {
       return NextResponse.json({ error: 'Billing not configured' }, { status: 503 });
     }
 
@@ -17,10 +19,37 @@ export async function POST() {
 
     const user = await prisma.user.findUnique({
       where: { email: session.user.email },
-      select: { id: true, email: true, name: true, stripeCustomerId: true },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        stripeCustomerId: true,
+        paddleCustomerId: true,
+      },
     });
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    }
+
+    const provider = activeBillingProvider();
+
+    if (provider === 'paddle') {
+      let customerId = user.paddleCustomerId;
+      if (!customerId) {
+        customerId = await ensurePaddleCustomer({
+          userId: user.id,
+          email: user.email,
+          name: user.name,
+          existingCustomerId: null,
+        });
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { paddleCustomerId: customerId },
+        });
+      }
+
+      const url = await createPaddlePortalSession(customerId);
+      return NextResponse.json({ url });
     }
 
     const stripe = getStripe();
