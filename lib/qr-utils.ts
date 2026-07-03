@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { buildGs1DigitalLink } from './gs1';
 
 export function generateShortCode(length: number = 8): string {
   return crypto.randomBytes(length).toString('base64url').slice(0, length);
@@ -39,6 +40,7 @@ export const QR_CATEGORIES = [
   { id: 'apple_music', name: 'Apple Music', shortName: 'Apple Music', group: 'social', description: 'Share a song, album or artist from Apple Music' },
   { id: 'google_drive', name: 'Google Drive', shortName: 'Drive', group: 'files', description: 'Share a Drive file or folder with one scan' },
   { id: 'dropbox', name: 'Dropbox Link', shortName: 'Dropbox', group: 'files', description: 'Let people open or download from your Dropbox share link' },
+  { id: 'gs1', name: 'GS1 Digital Link', shortName: 'GS1', group: 'products', description: 'Product QR with GTIN, batch and expiry — ready for EU Digital Product Passport' },
 ] as const;
 
 export type QRCategory = (typeof QR_CATEGORIES)[number]['id'];
@@ -49,6 +51,7 @@ export const QR_CATEGORY_GROUPS = [
   { id: 'meetings', label: 'Video Calls', subtitle: 'One scan to join your meeting' },
   { id: 'files', label: 'Menus & Files', subtitle: 'Menus, PDFs, apps and payments' },
   { id: 'payments', label: 'Payments & Reviews', subtitle: 'PayPal, UPI, tips and Google reviews' },
+  { id: 'products', label: 'Products & Retail', subtitle: 'GS1 product codes and digital passports' },
 ] as const;
 
 /** Categories that use dynamic short links (editable without reprinting). */
@@ -223,6 +226,14 @@ export function buildQRPayload(category: string, data: Record<string, any>): str
     case 'google_drive':
     case 'dropbox':
       return normalizeUrl(data?.url ?? '');
+    case 'gs1':
+      return buildGs1DigitalLink({
+        gtin: data?.gtin ?? '',
+        domain: data?.domain ?? '',
+        lot: data?.lot ?? '',
+        serial: data?.serial ?? '',
+        expiry: data?.expiry ?? '',
+      });
     default:
       return data?.url ?? data?.text ?? '';
   }

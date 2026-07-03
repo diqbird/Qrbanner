@@ -111,6 +111,15 @@ export const fieldsEn: TranslationTree = {
   appleMusicUrlPlaceholder: 'https://music.apple.com/...',
   driveUrlPlaceholder: 'https://drive.google.com/...',
   dropboxUrlPlaceholder: 'https://www.dropbox.com/s/...',
+  gs1Gtin: 'GTIN (product barcode number)',
+  gs1GtinPlaceholder: '09506000134352',
+  gs1GtinHint: '8, 12, 13 or 14 digits — the number under your product barcode',
+  gs1Domain: 'Resolver domain (optional)',
+  gs1DomainPlaceholder: 'id.gs1.org',
+  gs1DomainHint: 'Where the code resolves. Leave blank to use the GS1 registry.',
+  gs1Lot: 'Batch / lot number (optional)',
+  gs1Serial: 'Serial number (optional)',
+  gs1Expiry: 'Expiry date (optional)',
 };
 
 export const fieldsTr: TranslationTree = {
@@ -224,4 +233,13 @@ export const fieldsTr: TranslationTree = {
   appleMusicUrlPlaceholder: 'https://music.apple.com/...',
   driveUrlPlaceholder: 'https://drive.google.com/...',
   dropboxUrlPlaceholder: 'https://www.dropbox.com/s/...',
+  gs1Gtin: 'GTIN (ürün barkod numarası)',
+  gs1GtinPlaceholder: '09506000134352',
+  gs1GtinHint: '8, 12, 13 veya 14 hane — ürün barkodunun altındaki numara',
+  gs1Domain: 'Çözümleyici alan adı (isteğe bağlı)',
+  gs1DomainPlaceholder: 'id.gs1.org',
+  gs1DomainHint: 'Kodun çözümleneceği adres. Boş bırakırsanız GS1 kayıt sistemi kullanılır.',
+  gs1Lot: 'Parti / lot numarası (isteğe bağlı)',
+  gs1Serial: 'Seri numarası (isteğe bağlı)',
+  gs1Expiry: 'Son kullanma tarihi (isteğe bağlı)',
 };

@@ -24,6 +24,7 @@ function useCasesFor(categoryId: string, name: string): string[] {
     link_hub: ['Bio links', 'Event programs', 'Restaurant link menus'],
     pdf: ['Brochures', 'Catalogs', 'Menus as PDF'],
     event: ['Invitations', 'Conference badges', 'Wedding programs'],
+    gs1: ['Product packaging & labels', 'EU Digital Product Passport', 'Retail POS & traceability'],
   };
   return map[categoryId] ?? [`Print on marketing materials`, `Share ${name} digitally`, `Track scans in analytics`];
 }

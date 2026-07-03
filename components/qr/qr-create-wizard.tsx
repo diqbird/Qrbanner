@@ -15,7 +15,7 @@ import {
   Globe, Contact, Wifi, Mail, MessageSquare, Phone,
   Calendar, FileText, Share2, Download, ArrowLeft, ArrowRight,
   CheckCircle2, MapPin, Bitcoin, Type, Video,
-  Music, MessageCircle, Instagram, Youtube, Linkedin, Facebook, Link2,
+  Music, MessageCircle, Instagram, Youtube, Linkedin, Facebook, Link2, Package,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { DEFAULT_QR_STYLE } from './qr-style-editor';
@@ -59,7 +59,7 @@ const CATEGORY_ICONS: Record<string, ComponentType<{ className?: string }>> = {
   location: MapPin, event: Calendar, menu: FileText, social: Share2, app: Download, pdf: FileText, file: FileText,
   whatsapp: MessageCircle, telegram: MessageCircle, discord: MessageCircle, instagram: Instagram,
   facebook: Facebook, tiktok: Share2, linkedin: Linkedin, youtube: Youtube, spotify: Music,
-  zoom: Video, google_meet: Video, crypto: Bitcoin, link_hub: Link2,
+  zoom: Video, google_meet: Video, crypto: Bitcoin, link_hub: Link2, gs1: Package,
 };
 
 const STEP_KEYS = ['create.steps.start', 'create.steps.content', 'create.steps.design', 'create.steps.review'] as const;

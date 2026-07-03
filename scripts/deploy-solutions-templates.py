@@ -19,6 +19,8 @@ FILES = [
     "lib/visual-qr-presets.ts",
     "lib/qr-style.ts",
     "lib/qr-utils.ts",
+    "lib/gs1.ts",
+    "lib/qr-type-pages.ts",
     "lib/qr-ai.ts",
     "lib/qr-style-llm.ts",
     "app/api/qr/ai-restyle/route.ts",
