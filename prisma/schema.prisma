@@ -43,7 +43,10 @@ model User {
   folders       QRFolder[]
   customDomains CustomDomain[]
   webhooks      WebhookEndpoint[]
+  automationFlows AutomationFlow[]
   styleTemplates QRStyleTemplate[]
+  marketplaceSeller MarketplaceSeller?
+  marketplacePurchases MarketplacePurchase[]
   ownedWorkspaces Workspace[] @relation("WorkspaceOwner")
   workspaceMembers WorkspaceMember[]
 
@@ -111,6 +114,9 @@ model QRCode {
   utmSource    String?
   utmMedium    String?
   utmCampaign  String?
+  // Manual ROI inputs for analytics estimates (optional)
+  analyticsCampaignCost    Float?
+  analyticsValuePerLead    Float?
   // GA4 + Meta Pixel (client-side on scan / landing)
   ga4Enabled         Boolean @default(false)
   ga4MeasurementId   String?
@@ -205,6 +211,9 @@ model QRScan {
   os        String?
   scanSource String?  @default("qr") // qr | nfc | link
   abVariantId String?
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
   latitude  Float?
   longitude Float?
   scannedAt DateTime @default(now())
@@ -243,6 +252,38 @@ model WebhookDelivery {
   endpoint   WebhookEndpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
 
   @@index([endpointId, createdAt])
+  @@index([userId, createdAt])
+}
+
+model AutomationFlow {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  enabled     Boolean  @default(true)
+  trigger     String   @default("scan")
+  qrCodeId    String?
+  conditions  Json     @default("[]")
+  actions     Json     @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  logs        AutomationLog[]
+
+  @@index([userId])
+  @@index([userId, enabled])
+}
+
+model AutomationLog {
+  id        String   @id @default(cuid())
+  flowId    String
+  userId    String
+  trigger   String
+  success   Boolean  @default(false)
+  error     String?
+  createdAt DateTime @default(now())
+  flow      AutomationFlow @relation(fields: [flowId], references: [id], onDelete: Cascade)
+
+  @@index([flowId, createdAt])
   @@index([userId, createdAt])
 }
 
@@ -298,24 +339,53 @@ model QRStyleTemplate {
 }
 
 model Workspace {
-  id             String   @id @default(cuid())
-  name           String
-  slug           String   @unique
-  ownerId        String
-  isPersonal     Boolean  @default(false)
-  ssoEnabled     Boolean  @default(false)
-  ssoProvider    String?
-  allowedDomains Json?
-  idpEntityId    String?
-  idpSsoUrl      String?
-  idpCertificate String?  @db.Text
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  owner          User     @relation("WorkspaceOwner", fields: [ownerId], references: [id], onDelete: Cascade)
-  members        WorkspaceMember[]
-  qrCodes        QRCode[]
+  id               String   @id @default(cuid())
+  name             String
+  slug             String   @unique
+  ownerId          String
+  isPersonal       Boolean  @default(false)
+  ssoEnabled       Boolean  @default(false)
+  ssoProvider      String?
+  allowedDomains   Json?
+  idpEntityId      String?
+  idpSsoUrl        String?
+  idpCertificate   String?  @db.Text
+  smtpEnabled      Boolean  @default(false)
+  smtpHost         String?
+  smtpPort         Int?
+  smtpUser         String?
+  smtpPasswordEnc  String?
+  smtpFrom         String?
+  scimEnabled      Boolean  @default(false)
+  scimTokenHash    String?  @unique
+  scimTokenPrefix  String?
+  resellerEnabled  Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  owner            User     @relation("WorkspaceOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  members          WorkspaceMember[]
+  qrCodes          QRCode[]
+  clients          WorkspaceClient[]
 
   @@index([ownerId])
+}
+
+model WorkspaceClient {
+  id              String   @id @default(cuid())
+  workspaceId     String
+  name            String
+  email           String?
+  plan            String   @default("free")
+  monthlyFeeCents Int      @default(0)
+  status          String   @default("active")
+  notes           String?  @db.Text
+  externalRef     String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  workspace       Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId])
+  @@index([workspaceId, email])
 }
 
 model WorkspaceMember {
@@ -383,4 +453,60 @@ model AdminAuditLog {
   @@index([createdAt(sort: Desc)])
   @@index([action])
   @@index([actorId])
+}
+
+model MarketplaceSeller {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+  displayName           String
+  bio                   String?
+  stripeConnectId       String?
+  connectOnboardingDone Boolean  @default(false)
+  payoutsEnabled        Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listings              MarketplaceListing[]
+
+  @@index([userId])
+}
+
+model MarketplaceListing {
+  id          String   @id @default(cuid())
+  sellerId    String
+  title       String
+  description String
+  priceCents  Int      @default(0)
+  currency    String   @default("usd")
+  templateId  String?
+  category    String?
+  previewUrl  String?
+  status      String   @default("draft")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  seller      MarketplaceSeller @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  purchases   MarketplacePurchase[]
+
+  @@index([sellerId])
+  @@index([status, createdAt])
+  @@index([templateId])
+}
+
+model MarketplacePurchase {
+  id               String   @id @default(cuid())
+  listingId        String
+  buyerId          String
+  amountCents      Int
+  platformFeeCents Int
+  sellerNetCents   Int
+  currency         String   @default("usd")
+  stripePaymentId  String?
+  status           String   @default("pending")
+  createdAt        DateTime @default(now())
+  listing          MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  buyer            User     @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+
+  @@index([listingId])
+  @@index([buyerId, createdAt])
+  @@index([status])
 }

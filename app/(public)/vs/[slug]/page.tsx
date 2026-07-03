@@ -21,6 +21,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const locale = await getServerLocale();
   const meta = getPublicComparisonMeta(page, locale);
   return pageMetadata({
+    locale,
     title: meta.title,
     description: meta.description,
     path: `/vs/${page.slug}`,

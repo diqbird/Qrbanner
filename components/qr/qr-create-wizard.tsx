@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback, type ComponentType } from 'react';
+import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
@@ -13,17 +14,16 @@ import { Badge } from '@/components/ui/badge';
 import {
   Globe, Contact, Wifi, Mail, MessageSquare, Phone,
   Calendar, FileText, Share2, Download, ArrowLeft, ArrowRight,
-  CheckCircle2, Palette, Eye, MapPin, Bitcoin, Type, Video,
-  Music, MessageCircle, Instagram, Youtube, Linkedin, Facebook, ChevronDown, Link2,
+  CheckCircle2, MapPin, Bitcoin, Type, Video,
+  Music, MessageCircle, Instagram, Youtube, Linkedin, Facebook, Link2,
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { motion, AnimatePresence } from 'framer-motion';
-import { QRPreview } from './qr-preview';
-import { QRStyleEditor, DEFAULT_QR_STYLE } from './qr-style-editor';
+import { DEFAULT_QR_STYLE } from './qr-style-editor';
+import { QRPreviewSkeleton } from './qr-preview-skeleton';
 import type { QRStyleConfig } from '@/lib/qr-style';
 import { normalizeQRStyle } from '@/lib/qr-style';
 import { downscaleLogo } from '@/lib/image-downscale';
-import { QR_CATEGORIES, QR_CATEGORY_GROUPS, isDynamicCategory, buildQRPayload, categoryDisplayName } from '@/lib/qr-utils';
+import { QR_CATEGORIES, QR_CATEGORY_GROUPS, buildQRPayload, categoryDisplayName } from '@/lib/qr-utils';
 import { CategoryFields } from './category-fields';
 import { IndustryTemplatePicker } from './industry-template-picker';
 import { IndustryTemplateGuide } from './industry-template-guide';
@@ -31,27 +31,18 @@ import { TemplateSectionFields } from './template-section-fields';
 import type { IndustryTemplate } from '@/lib/industry-templates';
 import { stripMetaFields, buildLandingFromTemplate, getTemplateById, validateTemplateRequiredFields } from '@/lib/industry-templates';
 import { defaultLeadForm } from '@/lib/landing-page';
-import { AiDesignAssistant } from './ai-design-assistant';
-import { ScannabilityPanel } from './scannability-panel';
-import { AdvancedSettings, AdvancedValues, emptyAdvanced } from './advanced-settings';
-import { LandingPageEditor, emptyLandingPage, LandingPageData } from './landing-page-editor';
-import { ScheduleSettings, emptyScheduleData, ScheduleData } from './schedule-settings';
-import { GeofenceSettings, emptyGeofenceData, GeofenceData } from './geofence-settings';
-import { AbTestSettings, emptyAbTestData } from './ab-test-settings';
+import { AdvancedValues, emptyAdvanced } from './advanced-settings';
+import { emptyLandingPage, type LandingPageData } from './landing-page-editor';
+import { emptyScheduleData, type ScheduleData } from './schedule-settings';
+import { emptyGeofenceData, type GeofenceData } from './geofence-settings';
+import { emptyAbTestData } from './ab-test-settings';
 import type { AbTestData } from '@/lib/ab-routing';
-import { GpsHeatmapSettings } from './gps-heatmap';
-import { ScanNotifySettings, emptyScanNotify, ScanNotifyValues } from './scan-notify-settings';
+import { emptyScanNotify, type ScanNotifyValues } from './scan-notify-settings';
 import {
-  AnalyticsPixelSettings,
   emptyPixelAnalytics,
   type PixelAnalyticsConfig,
 } from './analytics-pixel-settings';
 import { useLanguage } from '@/components/i18n/language-provider';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
 import { LinkHubEditor, hubLinksValid, firstHubUrl } from './link-hub-editor';
 import { QRQuickCreate } from './qr-quick-create';
 import { CreateStepTip } from './create-step-tip';
@@ -71,6 +62,16 @@ const CATEGORY_ICONS: Record<string, ComponentType<{ className?: string }>> = {
 };
 
 const STEP_KEYS = ['create.steps.start', 'create.steps.content', 'create.steps.design', 'create.steps.review'] as const;
+
+const QRPreview = dynamic(
+  () => import('./qr-preview').then((m) => ({ default: m.QRPreview })),
+  { loading: () => <QRPreviewSkeleton /> },
+);
+
+const QrCreateStepDesign = dynamic(
+  () => import('./qr-create-step-design').then((m) => ({ default: m.QrCreateStepDesign })),
+  { loading: () => <QRPreviewSkeleton /> },
+);
 
 export function QRCreateWizard() {
   const { t } = useLanguage();
@@ -236,6 +237,12 @@ export function QRCreateWizard() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [step]);
+
+  useEffect(() => {
+    if (step < 1) return;
+    void import('./qr-preview');
+    void import('./qr-create-step-design');
   }, [step]);
 
   useEffect(() => {
@@ -463,14 +470,7 @@ export function QRCreateWizard() {
 
       <CreateStepTip step={step} />
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={step}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.2 }}
-        >
+      <div key={step} className="animate-in fade-in slide-in-from-right-2 duration-200">
           {step === 0 && (
             <div className="space-y-6">
               <IndustryTemplatePicker
@@ -631,94 +631,41 @@ export function QRCreateWizard() {
           )}
 
           {step === 2 && (
-            <div className="grid gap-6 lg:grid-cols-2">
-              <div className="order-2 space-y-6 lg:order-1">
-                <AiDesignAssistant
-                  category={category}
-                  qrName={name}
-                  style={style}
-                  onApplyStyle={(patch) => setStyle(normalizeQRStyle({ ...style, ...patch }))}
-                  onLogoSize={(size) => setStyle(normalizeQRStyle({ ...style, logoSize: size }))}
-                />
-                <QRStyleEditor
-                  style={style}
-                  highlightVisualPresetId={activeTemplate?.visualPresetId}
-                  onStyleChange={(next) => setStyle(normalizeQRStyle(next))}
-                  onLogoChange={handleLogoChange}
-                  logoPreview={logoPreview}
-                />
-                <Collapsible>
-                  <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg border border-border/60 bg-muted/30 px-4 py-3 text-left text-sm font-medium hover:bg-muted/50 [&[data-state=open]>svg]:rotate-180">
-                    <span>
-                      {t('create.advancedOptions')}
-                      <span className="mt-0.5 block text-xs font-normal text-muted-foreground">
-                        {t('create.advancedOptionsDesc')}
-                      </span>
-                    </span>
-                    <ChevronDown className="h-4 w-4 shrink-0 transition-transform" />
-                  </CollapsibleTrigger>
-                  <CollapsibleContent className="mt-4 space-y-6">
-                <AdvancedSettings
-                  category={category}
-                  values={advanced}
-                  onChange={setAdvanced}
-                />
-                {isDynamicCategory(category) && (
-                  <>
-                    <LandingPageEditor
-                      enabled={landingEnabled}
-                      onEnabledChange={setLandingEnabled}
-                      data={landingPage}
-                      onChange={setLandingPage}
-                      qrName={name}
-                      category={category}
-                      targetUrl={typeof qrData.url === 'string' ? qrData.url : ''}
-                    />
-                    <ScheduleSettings
-                      enabled={scheduleEnabled}
-                      onEnabledChange={setScheduleEnabled}
-                      data={scheduleData}
-                      onChange={setScheduleData}
-                    />
-                    <GeofenceSettings
-                      enabled={geofenceEnabled}
-                      onEnabledChange={setGeofenceEnabled}
-                      data={geofenceData}
-                      onChange={setGeofenceData}
-                    />
-                    <AbTestSettings
-                      enabled={abTestEnabled}
-                      onEnabledChange={setAbTestEnabled}
-                      data={abTestData}
-                      onChange={setAbTestData}
-                      defaultUrl={qrData.url || ''}
-                    />
-                    <GpsHeatmapSettings
-                      enabled={gpsHeatmapEnabled}
-                      onEnabledChange={setGpsHeatmapEnabled}
-                    />
-                  </>
-                )}
-                <ScanNotifySettings values={scanNotify} onChange={setScanNotify} />
-                <AnalyticsPixelSettings values={pixels} onChange={setPixels} />
-                  </CollapsibleContent>
-                </Collapsible>
-              </div>
-              <div className="order-1 h-fit space-y-4 lg:order-2 lg:sticky lg:top-24">
-                <QRPreview
-                  category={category}
-                  qrData={qrData}
-                  style={style}
-                  logoPreview={logoPreview}
-                  showScanTest
-                  printLayout={activeTemplate?.printLayout}
-                  industryTemplateId={activeTemplate?.id}
-                  accentColor={landingPage.accentColor}
-                  onStyleChange={(next) => setStyle(normalizeQRStyle(next))}
-                />
-                <ScannabilityPanel style={style} hasLogo={!!logoPreview} contentLength={buildQRPayload(category, payloadData()).length} />
-              </div>
-            </div>
+            <QrCreateStepDesign
+              category={category}
+              name={name}
+              qrData={qrData}
+              style={style}
+              logoPreview={logoPreview}
+              activeTemplate={activeTemplate}
+              landingPage={landingPage}
+              advanced={advanced}
+              landingEnabled={landingEnabled}
+              scheduleEnabled={scheduleEnabled}
+              scheduleData={scheduleData}
+              geofenceEnabled={geofenceEnabled}
+              geofenceData={geofenceData}
+              abTestEnabled={abTestEnabled}
+              abTestData={abTestData}
+              gpsHeatmapEnabled={gpsHeatmapEnabled}
+              scanNotify={scanNotify}
+              pixels={pixels}
+              contentLength={buildQRPayload(category, payloadData()).length}
+              onStyleChange={setStyle}
+              onLogoChange={handleLogoChange}
+              onAdvancedChange={setAdvanced}
+              onLandingEnabledChange={setLandingEnabled}
+              onLandingPageChange={setLandingPage}
+              onScheduleEnabledChange={setScheduleEnabled}
+              onScheduleDataChange={setScheduleData}
+              onGeofenceEnabledChange={setGeofenceEnabled}
+              onGeofenceDataChange={setGeofenceData}
+              onAbTestEnabledChange={setAbTestEnabled}
+              onAbTestDataChange={setAbTestData}
+              onGpsHeatmapEnabledChange={setGpsHeatmapEnabled}
+              onScanNotifyChange={setScanNotify}
+              onPixelsChange={setPixels}
+            />
           )}
 
           {step === 3 && (
@@ -776,8 +723,7 @@ export function QRCreateWizard() {
               </div>
             </div>
           )}
-        </motion.div>
-      </AnimatePresence>
+        </div>
 
       {/* Navigation — sticky so Next/Create stays visible */}
       <div className="sticky bottom-0 z-40 -mx-4 mt-6 border-t border-border/60 bg-background/95 px-4 py-3 backdrop-blur-sm supports-[backdrop-filter]:bg-background/80 lg:-mx-0 lg:rounded-xl lg:border lg:shadow-sm">

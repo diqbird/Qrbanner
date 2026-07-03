@@ -17,6 +17,12 @@ interface UsageResponse {
     customDomains: number;
     domainLimit: number;
     bulkRowLimit: number;
+    webhooks: number;
+    webhookLimit: number;
+    automations: number;
+    automationLimit: number;
+    styleTemplates: number;
+    styleTemplateLimit: number;
   };
 }
 
@@ -123,6 +129,9 @@ export function PlanUsageCard({ refreshKey = 0 }: { refreshKey?: number }) {
         </div>
         <UsageMeter label={t('planUsage.qrCodes')} used={data.usage.qrCodes} limit={data.usage.qrLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
         <UsageMeter label={t('planUsage.customDomains')} used={data.usage.customDomains} limit={data.usage.domainLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
+        <UsageMeter label={t('planUsage.webhooks')} used={data.usage.webhooks} limit={data.usage.webhookLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
+        <UsageMeter label={t('planUsage.automations')} used={data.usage.automations} limit={data.usage.automationLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
+        <UsageMeter label={t('planUsage.styleTemplates')} used={data.usage.styleTemplates} limit={data.usage.styleTemplateLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
         <p className="text-xs text-muted-foreground">
           {t('planUsage.bulkHint', { limit: data.usage.bulkRowLimit })}
         </p>

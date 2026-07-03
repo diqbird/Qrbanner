@@ -8,6 +8,16 @@ export function getLaunchBanner(locale: Locale): string {
   return 'Free plan forever. Upgrade to Pro from $9.99/mo when you need more. Your QR codes stay active if you downgrade or cancel.';
 }
 
+function apiLimitFeature(plan: PlanLimits, locale: Locale): string | null {
+  if (!plan.apiAccess) return null;
+  const perMin = plan.apiRateLimitPerMin.toLocaleString(locale === 'tr' ? 'tr-TR' : 'en-US');
+  const monthly = plan.apiMonthlyQuota.toLocaleString(locale === 'tr' ? 'tr-TR' : 'en-US');
+  if (locale === 'tr') {
+    return `API: ${perMin}/dk, ${monthly}/ay kota`;
+  }
+  return `API: ${perMin}/min, ${monthly}/mo quota`;
+}
+
 function planFeatures(plan: PlanLimits, locale: Locale): string[] {
   const domains =
     locale === 'tr'
@@ -37,6 +47,7 @@ function planFeatures(plan: PlanLimits, locale: Locale): string[] {
       domains,
       `Toplu içe aktarma: ${plan.maxBulkRows} satıra kadar`,
       plan.apiAccess ? 'REST API + OpenAPI dokümantasyonu' : 'API erişimi yok',
+      ...(apiLimitFeature(plan, locale) ? [apiLimitFeature(plan, locale)!] : []),
       plan.analyticsRetentionDays
         ? `${plan.analyticsRetentionDays} günlük analitik geçmişi`
         : 'Sınırsız analitik geçmişi',
@@ -62,6 +73,7 @@ function planFeatures(plan: PlanLimits, locale: Locale): string[] {
     domains,
     `Bulk import up to ${plan.maxBulkRows} rows`,
     plan.apiAccess ? 'REST API + OpenAPI spec' : 'No API access',
+    ...(apiLimitFeature(plan, locale) ? [apiLimitFeature(plan, locale)!] : []),
     plan.analyticsRetentionDays
       ? `${plan.analyticsRetentionDays}-day analytics history`
       : 'Unlimited analytics history',
@@ -117,6 +129,7 @@ export function getComparisonRows(locale: Locale) {
     ['Geofence + schedule routing', 'Included', 'Paid tier'],
     ['Custom scan domain', 'Free plan', 'Paid tier'],
     ['REST API + OpenAPI', 'Free plan', 'Paid tier'],
+    ['API rate limits (per min / month)', '60 / 1K → 600 / 500K', 'Often lower free tier'],
     ['Bulk CSV import', 'Included', 'Paid tier'],
     ['Print banner export', 'Included', 'Rare'],
     ['GA4 + Meta Pixel on scan', 'Included', 'Partial'],
@@ -144,6 +157,7 @@ export function getComparisonRows(locale: Locale) {
     'Geofence + zaman yönlendirme',
     'Özel tarama alan adı',
     'REST API + OpenAPI',
+    'API hız limiti (dk / ay)',
     'Toplu CSV içe aktarma',
     'Baskı banner dışa aktarma',
     'Taramada GA4 + Meta Pixel',
@@ -161,13 +175,13 @@ export function getComparisonRows(locale: Locale) {
     'Türkçe site (/tr)',
   ];
   const trQr = [
-    'Dahil', 'Evet', 'Dahil', 'Ücretsiz plan', 'Ücretsiz plan', 'Dahil', 'Dahil', 'Dahil',
+    'Dahil', 'Evet', 'Dahil', 'Ücretsiz plan', 'Ücretsiz plan', '60 / 1K → 600 / 500K', 'Dahil', 'Dahil', 'Dahil',
     'Dahil', 'Dahil', 'Dahil', 'Pro+', 'Dahil', 'Dahil', 'Dahil', 'Business+', 'Dahil', 'Dahil',
     'Dahil', 'Dahil',
   ];
   const trTypical = [
-    'Dahil', 'Genelde hayır', 'Ücretli plan', 'Ücretli plan', 'Ücretli plan', 'Ücretli plan',
-    'Nadir', 'Kısmi', 'Ücretli plan', 'Nadir', 'Ücretli plan', 'Nadir', 'Ücretli plan', 'Nadir',
+    'Dahil', 'Genelde hayır', 'Ücretli plan', 'Ücretli plan', 'Ücretli plan', 'Genelde düşük ücretsiz',
+    'Ücretli plan', 'Nadir', 'Kısmi', 'Ücretli plan', 'Nadir', 'Ücretli plan', 'Nadir', 'Ücretli plan', 'Nadir',
     'Ücretli plan', 'Kurumsal', 'Nadir', 'Nadir', 'Ücretli plan', 'Nadir',
   ];
 

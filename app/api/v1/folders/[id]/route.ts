@@ -18,8 +18,8 @@ export async function GET(
       where: { id: params.id, userId: auth.userId },
       include: { _count: { select: { qrCodes: true } } },
     });
-    if (!folder) return apiError('Folder not found', 404);
-    return apiSuccess({ data: serializeFolder(folder) });
+    if (!folder) return apiError('Folder not found', 404, auth.rateLimitHeaders);
+    return apiSuccess({ data: serializeFolder(folder) }, 200, auth.rateLimitHeaders);
   } catch (error) {
     console.error('API v1 folder get error:', error);
     return apiError('Internal server error', 500);
@@ -62,7 +62,7 @@ export async function PATCH(
       include: { _count: { select: { qrCodes: true } } },
     });
 
-    return apiSuccess({ data: serializeFolder(updated) });
+    return apiSuccess({ data: serializeFolder(updated) }, 200, auth.rateLimitHeaders);
   } catch (error) {
     console.error('API v1 folder update error:', error);
     return apiError('Internal server error', 500);
@@ -83,7 +83,7 @@ export async function DELETE(
     if (!folder) return apiError('Folder not found', 404);
 
     await prisma.qRFolder.delete({ where: { id: params.id } });
-    return apiSuccess({ message: 'Folder deleted' });
+    return apiSuccess({ message: 'Folder deleted' }, 200, auth.rateLimitHeaders);
   } catch (error) {
     console.error('API v1 folder delete error:', error);
     return apiError('Internal server error', 500);

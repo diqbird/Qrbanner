@@ -8,6 +8,7 @@ import { validatePassword } from '@/lib/password';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { resolveReferrerByCode, recordReferralSignup } from '@/lib/referral';
 import { assertPasswordLoginAllowed } from '@/lib/workspace-sso';
+import { guardPublicPost } from '@/lib/guard-public-post';
 
 export async function POST(req: NextRequest) {
   try {
@@ -18,6 +19,9 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
+    const blocked = await guardPublicPost(req, body, ip);
+    if (blocked) return blocked;
+
     const { email, password, name, referralCode, ref } = body;
 
     if (!email || !password) {

@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { sendTenantMail } from '@/lib/tenant-email';
 
 /**
  * SMTP email sending for QRbanner.
@@ -141,9 +142,11 @@ export interface ScanNotificationPayload {
   os?: string;
 }
 
-export async function sendScanNotificationEmail(to: string, payload: ScanNotificationPayload) {
-  const transporter = getTransporter();
-  const from = process.env.SMTP_FROM || process.env.SMTP_USER || 'no-reply@qrbanner.com';
+export async function sendScanNotificationEmail(
+  to: string,
+  payload: ScanNotificationPayload,
+  workspaceId?: string | null
+) {
   const greeting = payload.userName ? `Hi ${payload.userName},` : 'Hi,';
 
   const titles: Record<string, string> = {
@@ -187,18 +190,30 @@ export async function sendScanNotificationEmail(to: string, payload: ScanNotific
       ? `${payload.milestone} scans: ${payload.qrName}`
       : `New scan: ${payload.qrName}`;
 
-  if (!transporter) {
-    console.log(`[email] Scan notification for ${to}: ${subject} (SMTP not configured)`);
-    return { sent: false, fallback: true };
-  }
-
-  await transporter.sendMail({
-    from: `QRbanner <${from}>`,
+  const result = await sendTenantMail({
+    workspaceId,
     to,
     subject,
     text: `${headline}\n\nQR: ${payload.qrName}\nTotal scans: ${payload.totalScans}\nLocation: ${location}\nDevice: ${deviceInfo}\n\nAnalytics: ${payload.analyticsUrl}`,
     html,
+    fromName: 'QRbanner',
   });
+  return { sent: result.sent, fallback: result.fallback };
+}
 
-  return { sent: true, fallback: false };
+export async function sendAutomationNotification(
+  to: string,
+  subject: string,
+  text: string,
+  workspaceId?: string | null
+): Promise<{ sent: boolean; fallback?: boolean }> {
+  const result = await sendTenantMail({
+    workspaceId,
+    to,
+    subject,
+    text,
+    html: `<div style="font-family:Arial,sans-serif;white-space:pre-wrap">${text.replace(/</g, '&lt;')}</div>`,
+    fromName: 'QRbanner',
+  });
+  return { sent: result.sent, fallback: result.fallback };
 }

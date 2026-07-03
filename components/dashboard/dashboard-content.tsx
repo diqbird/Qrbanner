@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import {
   QrCode, PlusCircle, BarChart3, Eye, Trash2, Copy,
   ExternalLink, MoreHorizontal, Pencil, TrendingUp, Search, FolderOpen, Tag,
-  Star, Archive, Download,
+  Star, Archive, Download, Sparkles,
 } from 'lucide-react';
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger,
@@ -25,6 +25,7 @@ import { categoryShortName } from '@/lib/qr-utils';
 import { OnboardingBanner } from './onboarding-banner';
 import { OnboardingChecklist } from './onboarding-checklist';
 import { PlanUpgradeBanner } from './plan-upgrade-banner';
+import { PwaInstallBanner } from '@/components/pwa/pwa-install-banner';
 import { TopQrWidget } from './top-qr-widget';
 import { CampaignsPanel } from './campaigns-panel';
 import { useLanguage } from '@/components/i18n/language-provider';
@@ -268,6 +269,8 @@ export function DashboardContent() {
 
       <PlanUpgradeBanner />
 
+      <PwaInstallBanner />
+
       <div className="grid gap-4 sm:grid-cols-3">
         {[
           { label: t('dashboard.totalQrCodes'), value: stats.total, icon: QrCode, color: 'text-primary' },
@@ -305,6 +308,12 @@ export function DashboardContent() {
           <div className="flex flex-row items-center justify-between gap-4">
             <CardTitle className="font-display text-lg">{t('dashboard.yourQrCodes')}</CardTitle>
             <div className="flex gap-2">
+              <Link href="/qr/campaign">
+                <Button size="sm" variant="outline" className="gap-1.5">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  {t('campaign.badge')}
+                </Button>
+              </Link>
               <Link href="/qr/bulk">
                 <Button size="sm" variant="outline">{t('dashboard.bulkImport')}</Button>
               </Link>

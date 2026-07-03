@@ -18,6 +18,9 @@ import dynamic from 'next/dynamic';
 import type { HeatmapPoint } from '@/lib/gps-heatmap';
 import type { PeriodComparison } from '@/lib/analytics-comparison';
 import { PeriodChangeBadge } from '@/components/analytics/period-change-badge';
+import { AnalyticsFunnelPanel } from '@/components/analytics/analytics-funnel-panel';
+import { AnalyticsUtmCharts } from '@/components/analytics/analytics-utm-charts';
+import type { FunnelMetrics } from '@/lib/analytics-funnel';
 
 const AnalyticsCharts = dynamic(() => import('@/components/qr/analytics-charts'), { ssr: false });
 
@@ -39,6 +42,9 @@ interface DashboardAnalytics {
   scansByCity: { name: string; value: number }[];
   scansBySource?: { name: string; value: number }[];
   scansByAbVariant?: { name: string; value: number }[];
+  scansByUtmSource?: { name: string; value: number }[];
+  scansByUtmMedium?: { name: string; value: number }[];
+  scansByUtmCampaign?: { name: string; value: number }[];
   heatmapPoints?: HeatmapPoint[];
   recentScans: {
     country: string;
@@ -81,6 +87,7 @@ export function DashboardAnalyticsPanel() {
   const [data, setData] = useState<DashboardAnalytics | null>(null);
   const [periodComparison, setPeriodComparison] = useState<PeriodComparison | null>(null);
   const [topQRCodes, setTopQRCodes] = useState<TopQR[]>([]);
+  const [funnel, setFunnel] = useState<FunnelMetrics | null>(null);
   const [retentionCutoff, setRetentionCutoff] = useState<string | null>(null);
   const [planName, setPlanName] = useState('Free');
   const [loading, setLoading] = useState(true);
@@ -107,6 +114,7 @@ export function DashboardAnalyticsPanel() {
       setData(result?.analytics ?? null);
       setPeriodComparison(result?.periodComparison ?? null);
       setTopQRCodes(result?.topQRCodes ?? []);
+      setFunnel(result?.funnel ?? null);
       setRetentionCutoff(result?.retentionCutoff ?? null);
     } catch {
       setFetchError(true);
@@ -262,6 +270,14 @@ export function DashboardAnalyticsPanel() {
       </div>
 
       <AnalyticsCharts data={data} />
+
+      <AnalyticsUtmCharts
+        scansByUtmSource={data.scansByUtmSource}
+        scansByUtmMedium={data.scansByUtmMedium}
+        scansByUtmCampaign={data.scansByUtmCampaign}
+      />
+
+      {funnel && <AnalyticsFunnelPanel data={funnel} />}
 
       {topQRCodes.length > 0 && (
         <Card>

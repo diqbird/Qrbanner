@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { sendSalesInquiryEmail } from '@/lib/sales-inquiry-email';
+import { guardPublicPost } from '@/lib/guard-public-post';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -22,6 +23,9 @@ export async function POST(req: NextRequest) {
     }
 
     const record = body && typeof body === 'object' ? (body as Record<string, unknown>) : {};
+    const blocked = await guardPublicPost(req, record, ip);
+    if (blocked) return blocked;
+
     const type = record.type === 'enterprise' || record.type === 'demo' ? record.type : 'general';
     const name = String(record.name ?? '').trim();
     const email = String(record.email ?? '').trim().toLowerCase();

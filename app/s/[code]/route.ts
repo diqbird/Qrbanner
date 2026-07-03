@@ -6,12 +6,13 @@ import { prisma } from '@/lib/db';
 import { parseUserAgent } from '@/lib/qr-utils';
 import { lookupGeo, countryName } from '@/lib/geoip';
 import { isDynamicCategory } from '@/lib/qr-utils';
-import { applyUtmToUrl } from '@/lib/utm-utils';
+import { applyUtmToUrl, buildUtmForQR } from '@/lib/utm-utils';
 import { resolveScheduledUrl } from '@/lib/schedule-utils';
 import { getScanGeoFromRequest, resolveGeofenceUrl } from '@/lib/geofence-utils';
 import { renderLandingPage, LandingPageData } from '@/lib/landing-page';
 import { processScanNotifications } from '@/lib/scan-notify';
 import { dispatchScanWebhooks } from '@/lib/webhooks';
+import { dispatchAutomations, buildScanAutomationContext } from '@/lib/automation-engine';
 import { parseAbTestData, resolveAbVariant, abCookieName } from '@/lib/ab-routing';
 import { renderGpsCaptureScript } from '@/lib/gps-heatmap';
 import { getVerifiedDomainByHost, isAppHost } from '@/lib/custom-domain';
@@ -87,6 +88,7 @@ function logScan(
   const city = geo.city;
   const { device, browser, os } = parseUserAgent(userAgent);
   const scanSource = detectScanSource(req);
+  const utm = qrCode.utmEnabled ? buildUtmForQR(qrCode) : null;
 
   prisma.qRScan
     .create({
@@ -102,6 +104,9 @@ function logScan(
         city,
         scanSource,
         abVariantId: meta?.abVariantId ?? null,
+        utmSource: utm?.utm_source ?? null,
+        utmMedium: utm?.utm_medium ?? null,
+        utmCampaign: utm?.utm_campaign ?? null,
         latitude: geo.latitude,
         longitude: geo.longitude,
       },
@@ -124,6 +129,16 @@ function logScan(
         short_code: qrCode.shortCode,
         scan: { country, city, device, browser, os, scanned_at: scannedAt },
       }).catch((e) => console.error('Webhook dispatch error:', e));
+      dispatchAutomations(
+        buildScanAutomationContext(qrCode, {
+          country,
+          city,
+          device,
+          browser,
+          os,
+          scanned_at: scannedAt,
+        })
+      ).catch((e) => console.error('Automation dispatch error:', e));
     })
     .catch((e: unknown) => console.error('Scan logging error:', e));
 }

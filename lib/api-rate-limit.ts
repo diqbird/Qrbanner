@@ -8,7 +8,7 @@
  * Backed by checkRateLimit() (Redis when REDIS_URL is set, in-memory fallback).
  */
 
-import { checkRateLimit } from '@/lib/rate-limit-store';
+import { checkRateLimit, peekRateLimit } from '@/lib/rate-limit-store';
 import type { PlanLimits } from '@/lib/plans';
 
 export interface ApiRateLimitResult {
@@ -26,6 +26,32 @@ function monthKey(now: Date): string {
 function msUntilMonthEnd(now: Date): number {
   const nextMonth = Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1, 0, 0, 0, 0);
   return Math.max(1000, nextMonth - now.getTime());
+}
+
+export interface ApiUsage {
+  perMinuteLimit: number;
+  monthlyQuota: number;
+  monthlyUsed: number;
+  monthlyRemaining: number;
+  /** Unix seconds when the monthly quota resets. */
+  monthlyResetAt: number;
+}
+
+/** Read current monthly API usage without consuming quota. */
+export async function getApiUsage(userId: string, plan: PlanLimits): Promise<ApiUsage> {
+  const now = new Date();
+  const month = await peekRateLimit(
+    `apimonth:${userId}:${monthKey(now)}`,
+    plan.apiMonthlyQuota,
+    msUntilMonthEnd(now)
+  );
+  return {
+    perMinuteLimit: plan.apiRateLimitPerMin,
+    monthlyQuota: plan.apiMonthlyQuota,
+    monthlyUsed: month.count,
+    monthlyRemaining: month.remaining,
+    monthlyResetAt: Math.ceil(month.resetAt / 1000),
+  };
 }
 
 export async function enforceApiRateLimit(

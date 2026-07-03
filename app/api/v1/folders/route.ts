@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
       include: { _count: { select: { qrCodes: true } } },
     });
 
-    return apiSuccess({ data: folders.map(serializeFolder) });
+    return apiSuccess({ data: folders.map(serializeFolder) }, 200, auth.rateLimitHeaders);
   } catch (error) {
     console.error('API v1 folders list error:', error);
     return apiError('Internal server error', 500);
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
       include: { _count: { select: { qrCodes: true } } },
     });
 
-    return apiSuccess({ data: serializeFolder(folder) }, 201);
+    return apiSuccess({ data: serializeFolder(folder) }, 201, auth.rateLimitHeaders);
   } catch (error) {
     console.error('API v1 folder create error:', error);
     return apiError('Internal server error', 500);

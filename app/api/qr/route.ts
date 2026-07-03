@@ -11,6 +11,7 @@ import { normalizeLabels } from '@/lib/organize-utils';
 import { sanitizeGeofenceData } from '@/lib/geofence-shared';
 import { assertCanCreateQr } from '@/lib/plan-usage';
 import { assertQrUrlsAllowed } from '@/lib/validate-qr-urls';
+import { sanitizeStoredLandingPage } from '@/lib/landing-blocks';
 import { normalizeGa4Id, normalizeMetaPixelId } from '@/lib/pixel-analytics';
 import { sanitizeAbTestData, parseAbTestData } from '@/lib/ab-routing';
 import {
@@ -181,6 +182,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: urlCheck.error }, { status: 400 });
     }
 
+    const cleanLandingPage = landingPageData ? sanitizeStoredLandingPage(landingPageData) : null;
+
     const workspaceId = await getActiveWorkspaceId(userId);
     const wsAccess = await assertWorkspaceRole(userId, workspaceId, 'editor');
     if (!wsAccess.ok) {
@@ -229,7 +232,7 @@ export async function POST(req: NextRequest) {
         utmMedium: utmMedium || null,
         utmCampaign: utmCampaign || null,
         landingPageEnabled: Boolean(landingPageEnabled),
-        landingPageData: landingPageData ?? null,
+        landingPageData: cleanLandingPage,
         scheduleEnabled: Boolean(scheduleEnabled),
         scheduleData: scheduleData ?? null,
         geofenceEnabled: Boolean(geofenceEnabled),

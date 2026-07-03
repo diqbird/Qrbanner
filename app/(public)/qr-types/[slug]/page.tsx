@@ -24,6 +24,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   if (!page) return {};
   const localized = localizeQrTypePage(page, locale);
   return pageMetadata({
+    locale,
     title: localized.title,
     description: localized.metaDescription,
     path: `/qr-types/${localized.slug}`,

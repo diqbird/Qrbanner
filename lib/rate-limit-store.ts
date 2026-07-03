@@ -53,6 +53,45 @@ export async function checkRateLimit(
   }
 }
 
+function memoryPeek(
+  key: string,
+  limit: number,
+  windowMs: number
+): { count: number; remaining: number; resetAt: number } {
+  const now = Date.now();
+  const entry = buckets.get(key);
+  if (!entry || now > entry.resetAt) {
+    return { count: 0, remaining: limit, resetAt: now + windowMs };
+  }
+  return { count: entry.count, remaining: Math.max(0, limit - entry.count), resetAt: entry.resetAt };
+}
+
+/**
+ * Read the current usage for a key WITHOUT incrementing it.
+ * Use for dashboards / usage meters where a read must not consume quota.
+ */
+export async function peekRateLimit(
+  key: string,
+  limit: number,
+  windowMs: number
+): Promise<{ count: number; remaining: number; resetAt: number }> {
+  const redis = await getRedisClient();
+  if (!redis) {
+    return memoryPeek(key, limit, windowMs);
+  }
+
+  const redisKey = `rl:${key}`;
+  try {
+    const raw = await redis.get(redisKey);
+    const count = raw ? Number(raw) : 0;
+    const ttl = await redis.pttl(redisKey);
+    const resetAt = Date.now() + (ttl > 0 ? ttl : windowMs);
+    return { count, remaining: Math.max(0, limit - count), resetAt };
+  } catch {
+    return memoryPeek(key, limit, windowMs);
+  }
+}
+
 export function clientIp(req: { headers: { get(name: string): string | null } }): string {
   return (
     req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??

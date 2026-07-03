@@ -304,6 +304,65 @@ export function CategoryFields({
           </div>
         </div>
       );
+    case 'google_review':
+      return (
+        <div className="space-y-3">
+          <div className="space-y-2">
+            <Label>{t('fields.googlePlaceId')}</Label>
+            <Input
+              placeholder={t('fields.googlePlaceIdPlaceholder')}
+              value={data?.placeId ?? ''}
+              onChange={(e) => updateField('placeId', e.target.value)}
+            />
+            <p className="text-xs text-muted-foreground">{t('fields.googlePlaceIdHint')}</p>
+          </div>
+          <p className="text-xs text-muted-foreground">{t('fields.orFullUrl')}</p>
+          {urlField(t('fields.googleReviewUrlPlaceholder'), t('fields.urlLabel.googleReview'))}
+        </div>
+      );
+    case 'paypal':
+      return (
+        <div className="space-y-3">
+          {usernameField(t('fields.paypalUsername'), t('fields.paypalUsernamePlaceholder'), t('fields.paypalHint'))}
+          <p className="text-xs text-muted-foreground">{t('fields.orFullUrl')}</p>
+          {urlField(t('fields.paypalUrlPlaceholder'), t('fields.urlLabel.paypal'))}
+        </div>
+      );
+    case 'upi':
+      return (
+        <div className="space-y-3">
+          <div className="space-y-2">
+            <Label>{t('fields.upiId')}</Label>
+            <Input placeholder={t('fields.upiIdPlaceholder')} value={data?.vpa ?? ''} onChange={(e) => updateField('vpa', e.target.value)} />
+          </div>
+          <div className="space-y-2">
+            <Label>{t('fields.upiPayeeName')}</Label>
+            <Input value={data?.payeeName ?? ''} onChange={(e) => updateField('payeeName', e.target.value)} />
+          </div>
+          <div className="space-y-2">
+            <Label>{t('fields.upiAmount')}</Label>
+            <Input placeholder={t('fields.upiAmountPlaceholder')} value={data?.amount ?? ''} onChange={(e) => updateField('amount', e.target.value)} />
+          </div>
+        </div>
+      );
+    case 'signal':
+      return (
+        <div className="space-y-3">
+          <div className="space-y-2">
+            <Label>{t('fields.signalPhone')}</Label>
+            <Input placeholder={t('fields.phonePlaceholder')} value={data?.phone ?? ''} onChange={(e) => updateField('phone', e.target.value)} />
+            <p className="text-xs text-muted-foreground">{t('fields.signalPhoneHint')}</p>
+          </div>
+          <p className="text-xs text-muted-foreground">{t('fields.orFullUrl')}</p>
+          {urlField(t('fields.signalUrlPlaceholder'), t('fields.urlLabel.signal'))}
+        </div>
+      );
+    case 'apple_music':
+      return urlField(t('fields.appleMusicUrlPlaceholder'), t('fields.urlLabel.appleMusic'));
+    case 'google_drive':
+      return urlField(t('fields.driveUrlPlaceholder'), t('fields.urlLabel.googleDrive'));
+    case 'dropbox':
+      return urlField(t('fields.dropboxUrlPlaceholder'), t('fields.urlLabel.dropbox'));
     default:
       return urlField();
   }

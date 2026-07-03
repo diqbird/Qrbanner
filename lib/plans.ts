@@ -7,7 +7,10 @@ export interface PlanLimits {
   maxCustomDomains: number;
   maxBulkRows: number;
   maxWebhooks: number;
+  maxAutomations: number;
   maxStyleTemplates: number;
+  maxMarketplaceListings: number;
+  maxResellerClients: number;
   apiAccess: boolean;
   /** Short-term burst limit: max API requests per minute (abuse/DDoS protection). */
   apiRateLimitPerMin: number;
@@ -34,7 +37,10 @@ export const PLANS: Record<PlanId, PlanLimits> = {
     maxCustomDomains: 1,
     maxBulkRows: 100,
     maxWebhooks: 2,
+    maxAutomations: 3,
     maxStyleTemplates: 3,
+    maxMarketplaceListings: 0,
+    maxResellerClients: 0,
     apiAccess: true,
     apiRateLimitPerMin: 60,
     apiMonthlyQuota: 1_000,
@@ -50,7 +56,10 @@ export const PLANS: Record<PlanId, PlanLimits> = {
     maxCustomDomains: 5,
     maxBulkRows: 500,
     maxWebhooks: 10,
+    maxAutomations: 10,
     maxStyleTemplates: 20,
+    maxMarketplaceListings: 5,
+    maxResellerClients: 0,
     apiAccess: true,
     apiRateLimitPerMin: 120,
     apiMonthlyQuota: 10_000,
@@ -67,7 +76,10 @@ export const PLANS: Record<PlanId, PlanLimits> = {
     maxCustomDomains: 20,
     maxBulkRows: 2000,
     maxWebhooks: 50,
+    maxAutomations: 25,
     maxStyleTemplates: 999,
+    maxMarketplaceListings: 25,
+    maxResellerClients: 0,
     apiAccess: true,
     apiRateLimitPerMin: 300,
     apiMonthlyQuota: 100_000,
@@ -84,7 +96,10 @@ export const PLANS: Record<PlanId, PlanLimits> = {
     maxCustomDomains: 50,
     maxBulkRows: 5000,
     maxWebhooks: 100,
+    maxAutomations: 50,
     maxStyleTemplates: 999,
+    maxMarketplaceListings: 100,
+    maxResellerClients: 100,
     apiAccess: true,
     apiRateLimitPerMin: 600,
     apiMonthlyQuota: 500_000,

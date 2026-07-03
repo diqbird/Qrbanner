@@ -23,8 +23,8 @@ export async function GET(
       include: { folder: { select: { id: true, name: true, color: true } } },
     });
 
-    if (!qrCode) return apiError('QR code not found', 404);
-    return apiSuccess({ data: await serializeQRForUser({ ...qrCode, userId: auth.userId }) });
+    if (!qrCode) return apiError('QR code not found', 404, auth.rateLimitHeaders);
+    return apiSuccess({ data: await serializeQRForUser({ ...qrCode, userId: auth.userId }) }, 200, auth.rateLimitHeaders);
   } catch (error) {
     console.error('API v1 QR get error:', error);
     return apiError('Internal server error', 500);
@@ -87,7 +87,7 @@ export async function PATCH(
 
     await invalidateScanQrCache(existing.shortCode);
 
-    return apiSuccess({ data: await serializeQRForUser({ ...updated, userId: auth.userId }) });
+    return apiSuccess({ data: await serializeQRForUser({ ...updated, userId: auth.userId }) }, 200, auth.rateLimitHeaders);
   } catch (error) {
     console.error('API v1 QR update error:', error);
     return apiError('Internal server error', 500);
@@ -109,7 +109,7 @@ export async function DELETE(
 
     await invalidateScanQrCache(existing.shortCode);
     await prisma.qRCode.delete({ where: { id: params.id } });
-    return apiSuccess({ message: 'QR code deleted' });
+    return apiSuccess({ message: 'QR code deleted' }, 200, auth.rateLimitHeaders);
   } catch (error) {
     console.error('API v1 QR delete error:', error);
     return apiError('Internal server error', 500);

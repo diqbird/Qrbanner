@@ -10,6 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
   return pageMetadata({
+    locale,
     title: t('roi.metaTitle'),
     description: t('roi.metaDescription'),
     path: '/roi-calculator',

@@ -1,20 +1,9 @@
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
-import { QRCreateWizard } from '@/components/qr/qr-create-wizard';
 import { pageMetadata } from '@/lib/seo';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
-
-export async function generateMetadata(): Promise<Metadata> {
-  const locale = await getServerLocale();
-  const t = (key: string) => translate(locale, key);
-  return pageMetadata({
-    title: t('qrCreatePage.metaTitle'),
-    description: t('qrCreatePage.metaDescription'),
-    path: '/qr/create',
-    noIndex: true,
-  });
-}
 
 function CreateWizardFallback() {
   return (
@@ -22,6 +11,23 @@ function CreateWizardFallback() {
       <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
     </div>
   );
+}
+
+const QRCreateWizard = dynamic(
+  () => import('@/components/qr/qr-create-wizard').then((m) => ({ default: m.QRCreateWizard })),
+  { loading: () => <CreateWizardFallback /> },
+);
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  const t = (key: string) => translate(locale, key);
+  return pageMetadata({
+    locale,
+    title: t('qrCreatePage.metaTitle'),
+    description: t('qrCreatePage.metaDescription'),
+    path: '/qr/create',
+    noIndex: true,
+  });
 }
 
 export default function CreateQRPage() {

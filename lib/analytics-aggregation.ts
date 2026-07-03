@@ -26,6 +26,7 @@ function mapGroupBy(rows: { _count: { _all: number }; [key: string]: unknown }[]
       name: String(r[field] ?? 'Unknown') || 'Unknown',
       value: r._count._all,
     }))
+    .filter((r) => r.name !== 'Unknown' && r.name !== 'null')
     .sort((a, b) => b.value - a.value);
 }
 
@@ -158,6 +159,9 @@ export async function fetchAggregatedAnalytics(opts: {
       scansByCity: [],
       scansBySource: [],
       scansByAbVariant: [],
+      scansByUtmSource: [],
+      scansByUtmMedium: [],
+      scansByUtmCampaign: [],
       heatmapPoints: [],
       recentScans: [],
     };
@@ -178,6 +182,9 @@ export async function fetchAggregatedAnalytics(opts: {
     byOs,
     bySource,
     byAb,
+    byUtmSource,
+    byUtmMedium,
+    byUtmCampaign,
     recentRows,
     heatmapRows,
     scansByDay,
@@ -194,6 +201,9 @@ export async function fetchAggregatedAnalytics(opts: {
     prisma.qRScan.groupBy({ by: ['os'], where, _count: { _all: true } }),
     prisma.qRScan.groupBy({ by: ['scanSource'], where, _count: { _all: true } }),
     prisma.qRScan.groupBy({ by: ['abVariantId'], where, _count: { _all: true } }),
+    prisma.qRScan.groupBy({ by: ['utmSource'], where, _count: { _all: true } }),
+    prisma.qRScan.groupBy({ by: ['utmMedium'], where, _count: { _all: true } }),
+    prisma.qRScan.groupBy({ by: ['utmCampaign'], where, _count: { _all: true } }),
     prisma.qRScan.findMany({
       where,
       orderBy: { scannedAt: 'desc' },
@@ -244,6 +254,9 @@ export async function fetchAggregatedAnalytics(opts: {
     scansByCity: mapGroupBy(byCity, 'city'),
     scansBySource: mapGroupBy(bySource, 'scanSource'),
     scansByAbVariant: mapGroupBy(byAb, 'abVariantId'),
+    scansByUtmSource: mapGroupBy(byUtmSource, 'utmSource'),
+    scansByUtmMedium: mapGroupBy(byUtmMedium, 'utmMedium'),
+    scansByUtmCampaign: mapGroupBy(byUtmCampaign, 'utmCampaign'),
     heatmapPoints: buildHeatmapPoints(heatmapScans),
     recentScans: recentRows.map((s) => ({
       country: s.country ?? 'Unknown',

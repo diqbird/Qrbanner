@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { TurnstileField, isTurnstileEnabledClient } from '@/components/security/turnstile-field';
 
 export function SalesInquiryForm({
   type = 'general',
@@ -22,15 +23,21 @@ export function SalesInquiryForm({
   const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRequired = isTurnstileEnabledClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (turnstileRequired && !turnstileToken) {
+      toast.error(t('auth.captchaRequired'));
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetch('/api/contact/inquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type, name, email, company, phone, message }),
+        body: JSON.stringify({ type, name, email, company, phone, message, turnstileToken }),
       });
       let data: { error?: string; ok?: boolean } = {};
       try {
@@ -95,6 +102,7 @@ export function SalesInquiryForm({
           placeholder={t(`salesForm.placeholder.${type}`)}
         />
       </div>
+      <TurnstileField onToken={setTurnstileToken} className="flex justify-center py-1" />
       <Button type="submit" loading={loading} className="w-full sm:w-auto">
         {t(`salesForm.submit.${type}`)}
       </Button>

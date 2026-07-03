@@ -5,6 +5,7 @@ import {
 } from '@/lib/pixel-analytics';
 import { renderHubLinkBeacon } from '@/lib/landing-cta-beacon';
 import { renderGpsCaptureScript } from '@/lib/gps-heatmap';
+import { renderLandingBlocks } from '@/lib/landing-blocks';
 
 export type LandingTemplate = 'minimal' | 'restaurant' | 'hotel' | 'event' | 'business';
 
@@ -30,6 +31,104 @@ export interface HubLink {
   url: string;
 }
 
+export type LandingBlockType =
+  | 'heading'
+  | 'text'
+  | 'image'
+  | 'button'
+  | 'hubLinks'
+  | 'leadForm'
+  | 'divider'
+  | 'spacer'
+  | 'social'
+  | 'video';
+
+export type BlockAlign = 'left' | 'center' | 'right';
+
+export interface LandingBlockBase {
+  id: string;
+  type: LandingBlockType;
+}
+
+export interface HeadingBlock extends LandingBlockBase {
+  type: 'heading';
+  text: string;
+  level?: 1 | 2 | 3;
+  align?: BlockAlign;
+}
+
+export interface TextBlock extends LandingBlockBase {
+  type: 'text';
+  text: string;
+  align?: BlockAlign;
+}
+
+export interface ImageBlock extends LandingBlockBase {
+  type: 'image';
+  url: string;
+  alt?: string;
+  rounded?: boolean;
+}
+
+export interface ButtonBlock extends LandingBlockBase {
+  type: 'button';
+  label: string;
+  url: string;
+  variant?: 'solid' | 'outline';
+}
+
+export interface HubLinksBlock extends LandingBlockBase {
+  type: 'hubLinks';
+  links: HubLink[];
+}
+
+export interface LeadFormBlock extends LandingBlockBase {
+  type: 'leadForm';
+  config: LeadFormConfig;
+  submitLabel?: string;
+}
+
+export interface DividerBlock extends LandingBlockBase {
+  type: 'divider';
+}
+
+export interface SpacerBlock extends LandingBlockBase {
+  type: 'spacer';
+  size?: 'sm' | 'md' | 'lg';
+}
+
+export type SocialPlatform =
+  | 'instagram'
+  | 'facebook'
+  | 'twitter'
+  | 'tiktok'
+  | 'linkedin'
+  | 'youtube'
+  | 'whatsapp'
+  | 'website';
+
+export interface SocialBlock extends LandingBlockBase {
+  type: 'social';
+  links: { platform: SocialPlatform; url: string }[];
+}
+
+export interface VideoBlock extends LandingBlockBase {
+  type: 'video';
+  url: string;
+}
+
+export type LandingBlock =
+  | HeadingBlock
+  | TextBlock
+  | ImageBlock
+  | ButtonBlock
+  | HubLinksBlock
+  | LeadFormBlock
+  | DividerBlock
+  | SpacerBlock
+  | SocialBlock
+  | VideoBlock;
+
 export interface LandingPageData {
   template: LandingTemplate;
   title: string;
@@ -43,6 +142,11 @@ export interface LandingPageData {
   /** Linktree-style multiple buttons on scan landing */
   hubLinks?: HubLink[];
   hubMode?: boolean;
+  /** Drag-and-drop block builder content. When builderMode is on, blocks
+   *  replace the classic title/subtitle/CTA body. Fully backward compatible:
+   *  legacy pages without blocks keep rendering the classic layout. */
+  builderMode?: boolean;
+  blocks?: LandingBlock[];
 }
 
 export const defaultLeadForm: LeadFormConfig = {
@@ -124,6 +228,11 @@ export function renderLandingPage(
   const ctaClick = preview || !pixels ? '' : renderCtaClickHandler(qrName || data.title || 'QR');
   const leadForm = data.leadForm ?? defaultLeadForm;
   const showLeadForm = Boolean(data.leadFormEnabled);
+
+  const useBuilder = Boolean(data.builderMode && data.blocks && data.blocks.length > 0);
+  const builder = useBuilder
+    ? renderLandingBlocks(data.blocks!, { shortCode, accent, preview, goUrl })
+    : null;
 
   const seo = data.seo ?? {};
   const metaTitle = escapeHtml(seo.metaTitle || data.title || 'Welcome');
@@ -235,17 +344,41 @@ export function renderLandingPage(
     .lead-err{color:#ff3b30;font-size:.875rem;text-align:center;margin-top:.25rem}
     .footer{margin-top:auto;padding:1.25rem;text-align:center;font-size:.75rem;color:#86868b}
     .footer a{color:#86868b;text-decoration:none}
+    .blocks{width:100%;max-width:360px;display:flex;flex-direction:column;align-items:stretch;gap:1rem}
+    .blk-heading{font-weight:700;letter-spacing:-.02em;line-height:1.2}
+    .blk-h1{font-size:1.75rem}.blk-h2{font-size:1.375rem}.blk-h3{font-size:1.125rem}
+    .blk-text{font-size:1rem;color:#3a3a3c;line-height:1.55}
+    .blk-img{width:100%;height:auto;display:block}
+    .blk-img.rounded{border-radius:16px}
+    .al-left{text-align:left}.al-center{text-align:center}.al-right{text-align:right}
+    .blk-btn{display:block;width:100%;padding:1rem 1.5rem;border-radius:980px;font-size:1.0625rem;font-weight:600;text-align:center;text-decoration:none;transition:opacity .2s,transform .15s;cursor:pointer}
+    .blk-btn.solid{background:${accent};color:#fff;border:none;box-shadow:0 4px 14px ${accent}40}
+    .blk-btn.outline{background:transparent;color:${accent};border:2px solid ${accent}}
+    .blk-btn:active{transform:scale(.98);opacity:.9}
+    .blk-divider{border:none;border-top:1px solid #e5e5ea;margin:.25rem 0}
+    .blk-spacer-sm{height:.5rem}.blk-spacer-md{height:1.5rem}.blk-spacer-lg{height:3rem}
+    .blk-social{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem}
+    .blk-social a{display:inline-flex;width:44px;height:44px;align-items:center;justify-content:center;border-radius:50%;background:${accent};color:#fff;transition:transform .15s}
+    .blk-social a:active{transform:scale(.92)}
+    .blk-social svg{width:22px;height:22px}
+    .blk-video{position:relative;width:100%;padding-top:56.25%;border-radius:16px;overflow:hidden;background:#000}
+    .blk-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
   </style>
 </head>
 <body>
   ${banner ? `<img class="banner" src="${banner}" alt="${bannerAlt}" loading="lazy" decoding="async"/>` : ''}
   <div class="wrap">
-    ${!banner && emoji ? `<div class="emoji">${emoji}</div>` : ''}
+    ${
+      useBuilder
+        ? builder!.html
+        : `${!banner && emoji ? `<div class="emoji">${emoji}</div>` : ''}
     <h1>${title}</h1>
     ${subtitle ? `<p class="sub">${subtitle}</p>` : ''}
-    ${leadFields}
+    ${leadFields}`
+    }
   </div>
   ${footer}
+  ${useBuilder && builder!.script ? builder!.script : ''}
   ${gpsScript}
 </body>
 </html>`;

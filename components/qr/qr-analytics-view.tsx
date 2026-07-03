@@ -18,6 +18,11 @@ import {
   LandingCtaAnalyticsPanel,
   type LandingCtaAnalytics,
 } from './landing-cta-analytics-panel';
+import { AnalyticsFunnelPanel } from '@/components/analytics/analytics-funnel-panel';
+import { AnalyticsUtmCharts } from '@/components/analytics/analytics-utm-charts';
+import { AnalyticsRoiCard } from '@/components/analytics/analytics-roi-card';
+import type { FunnelMetrics } from '@/lib/analytics-funnel';
+import type { RoiMetrics } from '@/lib/analytics-roi';
 import { useLanguage } from '@/components/i18n/language-provider';
 import type { PeriodComparison } from '@/lib/analytics-comparison';
 import { PeriodChangeBadge } from '@/components/analytics/period-change-badge';
@@ -39,6 +44,9 @@ interface AnalyticsData {
   peakInsights?: { peakDay: { name: string; count: number } | null; peakHour: { name: string; count: number } | null };
   scansByCountry: { name: string; value: number }[];
   scansByCity?: { name: string; value: number }[];
+  scansByUtmSource?: { name: string; value: number }[];
+  scansByUtmMedium?: { name: string; value: number }[];
+  scansByUtmCampaign?: { name: string; value: number }[];
   recentScans: any[];
 }
 
@@ -52,6 +60,8 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
   const [planName, setPlanName] = useState('Free');
   const [qrName, setQrName] = useState('');
   const [landingCta, setLandingCta] = useState<LandingCtaAnalytics | null>(null);
+  const [funnel, setFunnel] = useState<FunnelMetrics | null>(null);
+  const [roi, setRoi] = useState<RoiMetrics | null>(null);
   const [dateRange, setDateRange] = useState<DateRange>({
     from: subDays(new Date(), 30),
     to: new Date(),
@@ -75,6 +85,8 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
       setPeriodComparison(result?.periodComparison ?? null);
       setQrName(result?.qrName ?? '');
       setLandingCta(result?.landingCta ?? null);
+      setFunnel(result?.funnel ?? null);
+      setRoi(result?.roi ?? null);
       setRetentionCutoff(result?.retentionCutoff ?? null);
     } catch {
       setFetchError(true);
@@ -222,6 +234,20 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
 
       {/* Charts */}
       {data && <AnalyticsCharts data={data} />}
+
+      {data && (
+        <AnalyticsUtmCharts
+          scansByUtmSource={data.scansByUtmSource}
+          scansByUtmMedium={data.scansByUtmMedium}
+          scansByUtmCampaign={data.scansByUtmCampaign}
+        />
+      )}
+
+      {funnel && <AnalyticsFunnelPanel data={funnel} />}
+
+      {roi && (
+        <AnalyticsRoiCard qrId={qrId} data={roi} onSaved={() => { setLoading(true); fetchAnalytics(); }} />
+      )}
 
       {landingCta && <LandingCtaAnalyticsPanel data={landingCta} />}
 

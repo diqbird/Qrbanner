@@ -11,7 +11,9 @@ import { User, Mail, Lock, LogOut, Save, Palette, LifeBuoy } from 'lucide-react'
 import { ThemeModeSwitch } from '@/components/theme-mode-switch';
 import { ApiKeySettings } from '@/components/dashboard/api-key-settings';
 import { TeamWorkspaceSettings } from '@/components/dashboard/team-workspace-settings';
+import { EnterpriseWorkspaceSettings } from '@/components/dashboard/enterprise-workspace-settings';
 import { WebhookSettings } from '@/components/dashboard/webhook-settings';
+import { AutomationBuilder } from '@/components/dashboard/automation-builder';
 import { CustomDomainSettings } from '@/components/dashboard/custom-domain-settings';
 import { PlanUsageCard } from '@/components/dashboard/plan-usage-card';
 import { MediaLibraryCard } from '@/components/dashboard/media-library-card';
@@ -22,6 +24,7 @@ import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { LanguageSwitcher } from '@/components/i18n/language-switcher';
 import { ReferralSettings } from '@/components/dashboard/referral-settings';
 import { MfaSettings } from '@/components/dashboard/mfa-settings';
+import { MarketplaceSellerPanel } from '@/components/dashboard/marketplace-seller-panel';
 
 export function SettingsContent() {
   const { t } = useLanguage();
@@ -132,13 +135,19 @@ export function SettingsContent() {
 
       <TeamWorkspaceSettings />
 
+      <EnterpriseWorkspaceSettings />
+
       <ApiKeySettings />
 
       <WebhookSettings />
 
+      <AutomationBuilder />
+
       <CustomDomainSettings />
 
       <ReferralSettings />
+
+      <MarketplaceSellerPanel />
 
       <MfaSettings />
 

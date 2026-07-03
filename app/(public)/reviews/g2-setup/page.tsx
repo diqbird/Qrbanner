@@ -14,6 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
   return pageMetadata({
+    locale,
     title: t('g2Setup.metaTitle'),
     description: t('g2Setup.metaDescription'),
     path: '/reviews/g2-setup',

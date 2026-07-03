@@ -24,7 +24,18 @@ export async function processScanNotifications(
 ): Promise<void> {
   const qr = await prisma.qRCode.findUnique({
     where: { id: qrCodeId },
-    include: { user: { select: { email: true, name: true } } },
+    select: {
+      id: true,
+      name: true,
+      shortCode: true,
+      workspaceId: true,
+      scanNotifyEnabled: true,
+      scanNotifyEvery: true,
+      scanNotifyFirst: true,
+      scanNotifyMilestones: true,
+      scanNotifiedMilestones: true,
+      user: { select: { email: true, name: true } },
+    },
   });
 
   if (!qr?.scanNotifyEnabled || !qr.user?.email) return;
@@ -49,20 +60,24 @@ export async function processScanNotifications(
 
   const baseUrl = process.env.NEXTAUTH_URL || 'https://qrbanner.com';
 
-  await sendScanNotificationEmail(qr.user.email, {
-    userName: qr.user.name,
-    qrName: qr.name,
-    shortCode: qr.shortCode,
-    qrId: qr.id,
-    totalScans: newTotal,
-    reason,
-    milestone,
-    analyticsUrl: `${baseUrl}/qr/${qr.id}/analytics`,
-    country: scan.country ?? undefined,
-    city: scan.city ?? undefined,
-    device: scan.device ?? undefined,
-    os: scan.os ?? undefined,
-  });
+  await sendScanNotificationEmail(
+    qr.user.email,
+    {
+      userName: qr.user.name,
+      qrName: qr.name,
+      shortCode: qr.shortCode,
+      qrId: qr.id,
+      totalScans: newTotal,
+      reason,
+      milestone,
+      analyticsUrl: `${baseUrl}/qr/${qr.id}/analytics`,
+      country: scan.country ?? undefined,
+      city: scan.city ?? undefined,
+      device: scan.device ?? undefined,
+      os: scan.os ?? undefined,
+    },
+    qr.workspaceId
+  );
 
   if (milestone) {
     await prisma.qRCode.update({

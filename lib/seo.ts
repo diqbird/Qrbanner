@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { PLANS } from '@/lib/plans';
 import { getFaqItems } from '@/lib/i18n/faq-items';
 import { SUPPORT_EMAIL } from '@/lib/site-contact';
+import { localizePath, shouldLocalizePath } from '@/lib/i18n/locale-path';
+import type { Locale } from '@/lib/i18n/types';
 
 export const SITE_NAME = 'QRbanner';
 export const SITE_URL = (
@@ -48,15 +50,54 @@ export function absoluteUrl(path = '/'): string {
   return `${SITE_URL}${p}`;
 }
 
-/** hreflang alternates for public pages (en + tr share same URL; locale via cookie/UI) */
+/** hreflang alternates — English at canonical path, Turkish at /tr/... */
 export function hreflangAlternates(path = '/'): Metadata['alternates'] {
-  const url = absoluteUrl(path);
+  const normalized = path.startsWith('/') ? path : `/${path}`;
+  const enUrl = absoluteUrl(normalized);
+  const localized = shouldLocalizePath(normalized);
+
+  if (!localized) {
+    return {
+      canonical: enUrl,
+      languages: {
+        en: enUrl,
+        'x-default': enUrl,
+      },
+    };
+  }
+
+  const trUrl = absoluteUrl(localizePath(normalized, 'tr'));
   return {
-    canonical: url,
+    canonical: enUrl,
     languages: {
-      en: url,
-      tr: url,
-      'x-default': url,
+      en: enUrl,
+      tr: trUrl,
+      'x-default': enUrl,
+    },
+  };
+}
+
+/** Canonical + hreflang for a specific locale (use in generateMetadata). */
+export function hreflangAlternatesForLocale(
+  path = '/',
+  locale: Locale = 'en'
+): Metadata['alternates'] {
+  const normalized = path.startsWith('/') ? path : `/${path}`;
+  const localized = shouldLocalizePath(normalized);
+  const enUrl = absoluteUrl(normalized);
+  const trUrl = absoluteUrl(localizePath(normalized, 'tr'));
+
+  if (!localized) {
+    return { canonical: enUrl, languages: { en: enUrl, 'x-default': enUrl } };
+  }
+
+  const canonical = locale === 'tr' ? trUrl : enUrl;
+  return {
+    canonical,
+    languages: {
+      en: enUrl,
+      tr: trUrl,
+      'x-default': enUrl,
     },
   };
 }
@@ -73,36 +114,41 @@ export function pageMetadata({
   path = '/',
   keywords = DEFAULT_KEYWORDS,
   noIndex = false,
+  locale = 'en',
 }: {
   title: string;
   description?: string;
   path?: string;
   keywords?: string[];
   noIndex?: boolean;
+  locale?: Locale;
 }): Metadata {
-  const url = absoluteUrl(path);
-  const fullTitle = path === '/' ? title : title;
+  const normalized = path.startsWith('/') ? path : `/${path}`;
+  const alternates = hreflangAlternatesForLocale(normalized, locale);
+  const canonical = alternates?.canonical;
+  const url = typeof canonical === 'string' ? canonical : absoluteUrl(normalized);
+  const fullTitle = normalized === '/' ? title : title;
 
   return {
     title: fullTitle,
     description,
     keywords,
-    alternates: hreflangAlternates(path),
+    alternates,
     robots: noIndex
       ? { index: false, follow: false }
       : { index: true, follow: true, googleBot: { index: true, follow: true } },
     openGraph: {
       type: 'website',
-      locale: 'en_US',
+      locale: locale === 'tr' ? 'tr_TR' : 'en_US',
       url,
       siteName: SITE_NAME,
-      title: path === '/' ? `${SITE_NAME} — ${title}` : title,
+      title: normalized === '/' ? `${SITE_NAME} — ${title}` : title,
       description,
       images: [OG_IMAGE],
     },
     twitter: {
       card: 'summary_large_image',
-      title: path === '/' ? `${SITE_NAME} — ${title}` : title,
+      title: normalized === '/' ? `${SITE_NAME} — ${title}` : title,
       description,
       images: [OG_IMAGE.url],
     },

@@ -14,7 +14,7 @@ const PROTECTED_PREFIXES = ['/dashboard', '/settings', '/qr/bulk', '/admin'];
 const LOCALE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
 function isProtectedPath(path: string): boolean {
-  if (path === '/qr/create') return false;
+  if (path === '/qr/create' || path === '/qr/campaign') return false;
   if (PROTECTED_PREFIXES.some((p) => path.startsWith(p))) return true;
   if (/^\/qr\/[^/]+/.test(path)) return true;
   return false;

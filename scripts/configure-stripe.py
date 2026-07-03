@@ -8,9 +8,17 @@ import urllib.request
 import urllib.parse
 import paramiko
 
-HOST, USER, PW = "31.97.113.170", "root", "112358Onrks.."
-REMOTE = "/var/www/qrbanner"
-SITE_URL = "https://qrbanner.com"
+HOST = os.environ.get("DEPLOY_HOST", "31.97.113.170")
+USER = os.environ.get("DEPLOY_USER", "root")
+PW = os.environ.get("DEPLOY_PASSWORD")
+REMOTE = os.environ.get("DEPLOY_REMOTE", "/var/www/qrbanner")
+SITE_URL = os.environ.get("NEXT_PUBLIC_SITE_URL", "https://qrbanner.com").rstrip("/")
+
+PRICES = [
+    ("QRbanner Pro", 999, "pro", "STRIPE_PRICE_PRO"),
+    ("QRbanner Business", 2999, "business", "STRIPE_PRICE_BUSINESS"),
+    ("QRbanner Agency", 7999, "agency", "STRIPE_PRICE_AGENCY"),
+]
 
 def parse_args():
     out = {}
@@ -110,16 +118,17 @@ def set_env_var(content: str, key: str, value: str) -> str:
         content += "\n"
     return content + line + "\n"
 
+def read_env_key(content: str, key: str) -> str:
+    m = re.search(rf'^{re.escape(key)}="?([^"\n]+)"?', content, re.MULTILINE)
+    return m.group(1).strip() if m else ""
+
 def main():
-    args = parse_args()
-    secret = args.get("STRIPE_SECRET_KEY")
-    if not secret:
-        print("Usage: python configure-stripe.py STRIPE_SECRET_KEY=sk_test_...")
+    if not PW:
+        print("Set DEPLOY_PASSWORD (or scripts/.env.deploy) before running.")
         raise SystemExit(1)
 
-    price_pro = args.get("STRIPE_PRICE_PRO") or find_or_create_price(secret, "QRbanner Pro", 999, "pro")
-    price_business = args.get("STRIPE_PRICE_BUSINESS") or find_or_create_price(secret, "QRbanner Business", 2999, "business")
-    webhook_secret = args.get("STRIPE_WEBHOOK_SECRET") or find_or_create_webhook(secret)
+    args = parse_args()
+    secret = args.get("STRIPE_SECRET_KEY")
 
     c = paramiko.SSHClient()
     c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -128,12 +137,38 @@ def main():
     with sftp.open(f"{REMOTE}/.env", "r") as f:
         env_content = f.read().decode("utf-8", errors="replace")
 
-    for key, val in {
+    if not secret:
+        secret = read_env_key(env_content, "STRIPE_SECRET_KEY")
+
+    if not secret or not secret.startswith("sk_"):
+        print("Usage: DEPLOY_PASSWORD=... python configure-stripe.py STRIPE_SECRET_KEY=sk_test_...")
+        print("Or add STRIPE_SECRET_KEY to VPS .env first, then re-run without args.")
+        sftp.close()
+        c.close()
+        raise SystemExit(1)
+
+    price_map: dict[str, str] = {}
+    for product_name, cents, meta_plan, env_key in PRICES:
+        existing = args.get(env_key) or read_env_key(env_content, env_key)
+        if existing and existing.startswith("price_"):
+            print("keep price", product_name, existing)
+            price_map[env_key] = existing
+        else:
+            price_map[env_key] = find_or_create_price(secret, product_name, cents, meta_plan)
+
+    webhook_secret = args.get("STRIPE_WEBHOOK_SECRET") or read_env_key(env_content, "STRIPE_WEBHOOK_SECRET")
+    if not webhook_secret:
+        webhook_secret = find_or_create_webhook(secret)
+
+    updates = {
         "STRIPE_SECRET_KEY": secret,
-        "STRIPE_PRICE_PRO": price_pro,
-        "STRIPE_PRICE_BUSINESS": price_business,
+        "STRIPE_PRICE_PRO": price_map["STRIPE_PRICE_PRO"],
+        "STRIPE_PRICE_BUSINESS": price_map["STRIPE_PRICE_BUSINESS"],
+        "STRIPE_PRICE_AGENCY": price_map["STRIPE_PRICE_AGENCY"],
         "STRIPE_WEBHOOK_SECRET": webhook_secret,
-    }.items():
+    }
+
+    for key, val in updates.items():
         if val:
             env_content = set_env_var(env_content, key, val)
 
@@ -142,9 +177,11 @@ def main():
     sftp.close()
     c.exec_command("pm2 restart qrbanner", timeout=60)
     c.close()
-    print("Stripe configured on VPS. Test mode keys active.")
-    print("PRO price:", price_pro)
-    print("BUSINESS price:", price_business)
+    print("Stripe configured on VPS.")
+    for key in ("STRIPE_PRICE_PRO", "STRIPE_PRICE_BUSINESS", "STRIPE_PRICE_AGENCY"):
+        print(f"{key}: {price_map[key]}")
+    if webhook_secret:
+        print("STRIPE_WEBHOOK_SECRET: set")
 
 if __name__ == "__main__":
     main()

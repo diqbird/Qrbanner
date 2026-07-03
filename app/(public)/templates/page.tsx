@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { TemplateMarketplaceGrid } from '@/components/templates/template-marketplace-grid';
+import { CommunityMarketplaceSection } from '@/components/templates/community-marketplace-section';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
@@ -15,6 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
   return pageMetadata({
+    locale,
     title: t('templateMarketplace.metaTitle'),
     description: t('templateMarketplace.metaDescription'),
     path: '/templates',
@@ -51,6 +53,7 @@ export default async function TemplatesMarketplacePage() {
           </header>
           <div className="mt-12">
             <TemplateMarketplaceGrid />
+            <CommunityMarketplaceSection />
           </div>
           <div className="mt-12 text-center">
             <Link href="/solutions">

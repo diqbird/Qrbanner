@@ -13,7 +13,24 @@ import {
   parseAnalyticsRange,
 } from '@/lib/analytics-range';
 import { buildLandingCtaAnalytics, filterCtaClicksByRange } from '@/lib/landing-cta-analytics';
+import { buildFunnelMetrics } from '@/lib/analytics-funnel';
+import { buildRoiMetrics } from '@/lib/analytics-roi';
 import { assertQrAccess } from '@/lib/workspace';
+
+function eventDateWhere(
+  fetchFrom: Date | null,
+  range: { from: Date | null; to: Date | null },
+  cutoff: Date | null
+) {
+  if (fetchFrom || range.to) {
+    return {
+      ...(fetchFrom ? { gte: fetchFrom } : {}),
+      ...(range.to ? { lte: range.to } : {}),
+    };
+  }
+  if (cutoff) return { gte: cutoff };
+  return undefined;
+}
 
 export async function GET(
   req: NextRequest,
@@ -91,10 +108,43 @@ export async function GET(
       landingCta = buildLandingCtaAnalytics(filteredClicks, analytics.totalScans, range, locale);
     }
 
+    const dateFilter = eventDateWhere(fetchFrom, range, cutoff);
+    const leadsCount = await prisma.leadSubmission.count({
+      where: {
+        qrCodeId: qrCode.id,
+        ...(dateFilter ? { createdAt: dateFilter } : {}),
+      },
+    });
+
+    const ctaClicks =
+      landingCta?.totalClicks ??
+      (await prisma.landingCtaClick.count({
+        where: {
+          qrCodeId: qrCode.id,
+          ...(dateFilter ? { clickedAt: dateFilter } : {}),
+        },
+      }));
+
+    const funnel = buildFunnelMetrics({
+      scans: analytics.totalScans,
+      ctaClicks,
+      leads: leadsCount,
+      landingEnabled: Boolean(qrCode.landingPageEnabled),
+      locale,
+    });
+
+    const roi = buildRoiMetrics({
+      leadsCount,
+      campaignCost: qrCode.analyticsCampaignCost ?? null,
+      valuePerLead: qrCode.analyticsValuePerLead ?? null,
+    });
+
     return NextResponse.json({
       analytics,
       periodComparison,
       landingCta,
+      funnel,
+      roi,
       qrName: qrCode.name,
       range: {
         from: range.from?.toISOString() ?? null,

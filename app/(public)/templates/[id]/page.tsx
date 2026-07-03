@@ -24,6 +24,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   const tagline = taglineRaw === taglineKey ? template.tagline : taglineRaw;
 
   return pageMetadata({
+    locale,
     title: translate(locale, 'templateDetail.metaTitle', { name }),
     description: tagline,
     path: `/templates/${template.id}`,

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -12,8 +13,9 @@ import { Switch } from '@/components/ui/switch';
 import { ArrowLeft, Save, BarChart3, Trash2, Copy, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { QRPreview } from './qr-preview';
+import { QRPreviewSkeleton } from './qr-preview-skeleton';
 import { QRStyleEditor, DEFAULT_QR_STYLE, normalizeQRStyle } from './qr-style-editor';
+import { AiDesignAssistant } from './ai-design-assistant';
 import type { QRStyleConfig } from '@/lib/qr-style';
 import { downscaleLogo } from '@/lib/image-downscale';
 import { CategoryFields } from './category-fields';
@@ -40,6 +42,11 @@ import { EditQrTips } from './edit-qr-tips';
 import { getPixelConfig } from '@/lib/pixel-analytics';
 import { normalizeLabels } from '@/lib/organize-utils';
 import { useScanBaseUrl, buildScanLink } from '@/lib/use-scan-base-url';
+
+const QRPreview = dynamic(
+  () => import('./qr-preview').then((m) => ({ default: m.QRPreview })),
+  { loading: () => <QRPreviewSkeleton /> },
+);
 
 interface QRCodeData {
   id: string;
@@ -403,6 +410,14 @@ export function QREditView({ qrId }: { qrId: string }) {
             labels={labels}
             onFolderChange={setFolderId}
             onLabelsChange={setLabels}
+          />
+
+          <AiDesignAssistant
+            category={qr?.category ?? 'url'}
+            qrName={name}
+            style={style}
+            onApplyStyle={(patch) => setStyle(normalizeQRStyle({ ...style, ...patch }))}
+            onLogoSize={(size) => setStyle(normalizeQRStyle({ ...style, logoSize: size }))}
           />
 
           <QRStyleEditor

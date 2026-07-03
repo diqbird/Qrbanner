@@ -32,6 +32,13 @@ export const QR_CATEGORIES = [
   { id: 'file', name: 'File Download', shortName: 'File', group: 'files', description: 'Link to any file visitors can download' },
   { id: 'app', name: 'App Download', shortName: 'App', group: 'files', description: 'Send iOS and Android users to the right app store' },
   { id: 'crypto', name: 'Crypto Payment', shortName: 'Crypto', group: 'files', description: 'Bitcoin or Ethereum wallet — no copy-paste errors' },
+  { id: 'google_review', name: 'Google Review', shortName: 'Review', group: 'payments', description: 'Send happy customers straight to your Google review page', popular: true },
+  { id: 'paypal', name: 'PayPal Payment', shortName: 'PayPal', group: 'payments', description: 'Accept tips and payments via your PayPal.me link' },
+  { id: 'upi', name: 'UPI Payment (India)', shortName: 'UPI', group: 'payments', description: 'Instant bank payments via UPI — scan to pay in rupees' },
+  { id: 'signal', name: 'Signal Messenger', shortName: 'Signal', group: 'social', description: 'Start a private Signal chat from a poster or card' },
+  { id: 'apple_music', name: 'Apple Music', shortName: 'Apple Music', group: 'social', description: 'Share a song, album or artist from Apple Music' },
+  { id: 'google_drive', name: 'Google Drive', shortName: 'Drive', group: 'files', description: 'Share a Drive file or folder with one scan' },
+  { id: 'dropbox', name: 'Dropbox Link', shortName: 'Dropbox', group: 'files', description: 'Let people open or download from your Dropbox share link' },
 ] as const;
 
 export type QRCategory = (typeof QR_CATEGORIES)[number]['id'];
@@ -41,6 +48,7 @@ export const QR_CATEGORY_GROUPS = [
   { id: 'social', label: 'Social & Chat', subtitle: 'Grow followers and start conversations' },
   { id: 'meetings', label: 'Video Calls', subtitle: 'One scan to join your meeting' },
   { id: 'files', label: 'Menus & Files', subtitle: 'Menus, PDFs, apps and payments' },
+  { id: 'payments', label: 'Payments & Reviews', subtitle: 'PayPal, UPI, tips and Google reviews' },
 ] as const;
 
 /** Categories that use dynamic short links (editable without reprinting). */
@@ -48,6 +56,7 @@ export const DYNAMIC_QR_CATEGORIES = new Set<string>([
   'url', 'text', 'menu', 'social', 'app', 'pdf', 'file', 'link_hub',
   'whatsapp', 'telegram', 'discord', 'instagram', 'facebook', 'tiktok',
   'linkedin', 'youtube', 'spotify', 'zoom', 'google_meet',
+  'google_review', 'paypal', 'apple_music', 'google_drive', 'dropbox', 'signal',
 ]);
 
 export function isDynamicCategory(category: string): boolean {
@@ -182,6 +191,38 @@ export function buildQRPayload(category: string, data: Record<string, any>): str
       if (type === 'eth' || type === 'ethereum') return `ethereum:${address}${amount}`;
       return `bitcoin:${address}${amount}`;
     }
+    case 'google_review': {
+      const url = (data?.url ?? '').trim();
+      if (url) return normalizeUrl(url);
+      const placeId = (data?.placeId ?? '').trim();
+      return placeId
+        ? `https://search.google.com/local/writereview?placeid=${encodeURIComponent(placeId)}`
+        : '';
+    }
+    case 'paypal': {
+      const raw = (data?.username ?? data?.url ?? '').trim();
+      if (!raw) return '';
+      const slug = raw.replace(/^https?:\/\/(www\.)?paypal\.me\//i, '').replace(/^@/, '').split('/')[0];
+      return slug ? `https://paypal.me/${slug}` : normalizeUrl(raw);
+    }
+    case 'upi': {
+      const vpa = (data?.vpa ?? data?.upiId ?? '').trim();
+      if (!vpa) return '';
+      const parts = [`pa=${encodeURIComponent(vpa)}`];
+      if (data?.payeeName?.trim()) parts.push(`pn=${encodeURIComponent(data.payeeName.trim())}`);
+      if (data?.amount?.trim()) parts.push(`am=${encodeURIComponent(data.amount.trim())}`);
+      parts.push('cu=INR');
+      return `upi://pay?${parts.join('&')}`;
+    }
+    case 'signal': {
+      const phone = (data?.phone ?? '').replace(/\D/g, '');
+      if (phone) return `https://signal.me/#p/+${phone}`;
+      return normalizeUrl(data?.url ?? '');
+    }
+    case 'apple_music':
+    case 'google_drive':
+    case 'dropbox':
+      return normalizeUrl(data?.url ?? '');
     default:
       return data?.url ?? data?.text ?? '';
   }

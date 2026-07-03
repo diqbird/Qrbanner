@@ -20,6 +20,7 @@ import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { LanguageSwitcher } from '@/components/i18n/language-switcher';
 import { ReferralSignupBanner } from './referral-signup-banner';
 import { ReferralCookieSync } from './referral-cookie-sync';
+import { TurnstileField, isTurnstileEnabledClient } from '@/components/security/turnstile-field';
 
 export function SignupForm({ oauthProviders = [] }: { oauthProviders?: OAuthProviderId[] }) {
   const { t } = useLanguage();
@@ -33,6 +34,8 @@ export function SignupForm({ oauthProviders = [] }: { oauthProviders?: OAuthProv
   const [showPassword, setShowPassword] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRequired = isTurnstileEnabledClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,13 +56,24 @@ export function SignupForm({ oauthProviders = [] }: { oauthProviders?: OAuthProv
       return;
     }
 
+    if (turnstileRequired && !turnstileToken) {
+      toast.error(t('auth.captchaRequired'));
+      return;
+    }
+
     setLoading(true);
 
     try {
       const res = await fetch('/api/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, name, referralCode: searchParams.get('ref') }),
+        body: JSON.stringify({
+          email,
+          password,
+          name,
+          referralCode: searchParams.get('ref'),
+          turnstileToken,
+        }),
       });
 
       const data = await res.json();
@@ -177,6 +191,7 @@ export function SignupForm({ oauthProviders = [] }: { oauthProviders?: OAuthProv
               </Link>
             </Label>
           </div>
+          <TurnstileField onToken={setTurnstileToken} className="flex justify-center py-1" />
           <Button type="submit" className="w-full" loading={loading}>
             {t('auth.createAccountBtn')}
           </Button>

@@ -49,6 +49,13 @@ export function suggestStyleForCategory(category: string, brandName?: string): P
     crypto: { fgColor: '#f59e0b', bgColor: '#0f172a', dotStyle: 'square', cornerStyle: 'square' },
     vcard: { fgColor: palette.primary, bgColor: '#ffffff', dotStyle: 'classy', frameStyle: 'rounded' },
     wifi: { fgColor: '#0369a1', bgColor: '#f0f9ff', dotStyle: 'rounded' },
+    google_review: { fgColor: '#4285f4', bgColor: '#ffffff', dotStyle: 'rounded', frameStyle: 'badge', frameText: 'REVIEW US', gradientEnabled: true, gradientColor2: '#34a853' },
+    paypal: { fgColor: '#003087', bgColor: '#ffffff', dotStyle: 'classy', frameStyle: 'badge', frameText: 'PAY NOW', gradientEnabled: true, gradientColor2: '#009cde' },
+    upi: { fgColor: '#097969', bgColor: '#f0fdf4', dotStyle: 'rounded', frameStyle: 'scan-me', frameText: 'SCAN & PAY' },
+    signal: { fgColor: '#3a76f0', bgColor: '#ffffff', dotStyle: 'dots', frameStyle: 'rounded' },
+    apple_music: { fgColor: '#fa243c', bgColor: '#1c1c1e', dotStyle: 'rounded', frameStyle: 'badge', frameText: 'LISTEN', frameTextColor: '#ffffff' },
+    google_drive: { fgColor: '#4285f4', bgColor: '#ffffff', dotStyle: 'square', frameStyle: 'rounded' },
+    dropbox: { fgColor: '#0061ff', bgColor: '#f0f7ff', dotStyle: 'rounded', frameStyle: 'badge', frameText: 'OPEN FILE' },
   };
   return presets[category] ?? {
     fgColor: palette.primary,
@@ -92,7 +99,7 @@ export function getSmartQrSuggestions(category: string, name?: string): AiSugges
     });
   }
 
-  if (['instagram', 'youtube', 'tiktok', 'linkedin'].includes(category)) {
+  if (['instagram', 'youtube', 'tiktok', 'linkedin', 'apple_music'].includes(category)) {
     suggestions.push({
       id: 'social-frame',
       title: 'Social CTA Frame',

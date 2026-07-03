@@ -8,18 +8,28 @@ import { Badge } from '@/components/ui/badge';
 import {
   Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
 } from '@/components/ui/dialog';
-import { Key, Copy, RefreshCw, Trash2, BookOpen, Terminal } from 'lucide-react';
+import { Key, Copy, RefreshCw, Trash2, BookOpen, Terminal, Gauge } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 
 const API_BASE = typeof window !== 'undefined' ? window.location.origin : 'https://qrbanner.com';
 
+interface ApiUsageState {
+  perMinuteLimit: number;
+  monthlyQuota: number;
+  monthlyUsed: number;
+  monthlyRemaining: number;
+  monthlyResetAt: number;
+}
+
 export function ApiKeySettings() {
   const { t } = useLanguage();
   const [hasKey, setHasKey] = useState(false);
   const [prefix, setPrefix] = useState<string | null>(null);
   const [createdAt, setCreatedAt] = useState<string | null>(null);
+  const [planName, setPlanName] = useState<string | null>(null);
+  const [usage, setUsage] = useState<ApiUsageState | null>(null);
   const [loading, setLoading] = useState(true);
   const [newKey, setNewKey] = useState<string | null>(null);
   const [showKeyDialog, setShowKeyDialog] = useState(false);
@@ -33,6 +43,16 @@ export function ApiKeySettings() {
         setHasKey(Boolean(data.has_key));
         setPrefix(data.prefix ?? null);
         setCreatedAt(data.created_at ?? null);
+        setPlanName(data.plan_name ?? null);
+        if (data.usage) {
+          setUsage({
+            perMinuteLimit: data.usage.per_minute_limit,
+            monthlyQuota: data.usage.monthly_quota,
+            monthlyUsed: data.usage.monthly_used,
+            monthlyRemaining: data.usage.monthly_remaining,
+            monthlyResetAt: data.usage.monthly_reset_at,
+          });
+        }
       }
     } catch {
       /* ignore */
@@ -138,6 +158,55 @@ export function ApiKeySettings() {
                   </Button>
                 )}
               </div>
+
+              {usage && (
+                <div className="rounded-lg border bg-muted/30 p-4 space-y-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-sm font-medium flex items-center gap-2">
+                      <Gauge className="h-4 w-4 text-primary" /> {t('settings.apiKey.usageTitle')}
+                    </p>
+                    {planName && <Badge variant="outline">{planName}</Badge>}
+                  </div>
+                  {(() => {
+                    const pct = usage.monthlyQuota > 0
+                      ? Math.min(100, Math.round((usage.monthlyUsed / usage.monthlyQuota) * 100))
+                      : 0;
+                    const near = pct >= 80;
+                    return (
+                      <>
+                        <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+                          <div
+                            className={`h-full rounded-full transition-all ${near ? 'bg-destructive' : 'bg-primary'}`}
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                          <span>
+                            {t('settings.apiKey.usageMonthly', {
+                              used: usage.monthlyUsed.toLocaleString(),
+                              quota: usage.monthlyQuota.toLocaleString(),
+                            })}
+                          </span>
+                          <span>
+                            {t('settings.apiKey.usageRemaining', {
+                              remaining: usage.monthlyRemaining.toLocaleString(),
+                            })}
+                          </span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          {t('settings.apiKey.usagePerMinute', {
+                            limit: usage.perMinuteLimit.toLocaleString(),
+                          })}
+                          {' · '}
+                          {t('settings.apiKey.usageResets', {
+                            date: new Date(usage.monthlyResetAt * 1000).toLocaleDateString(),
+                          })}
+                        </p>
+                      </>
+                    );
+                  })()}
+                </div>
+              )}
 
               <div className="rounded-lg border bg-muted/30 p-4 space-y-3">
                 <p className="text-sm font-medium flex items-center gap-2">

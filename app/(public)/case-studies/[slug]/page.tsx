@@ -14,10 +14,12 @@ export function generateStaticParams() {
   return CASE_STUDIES.map((c) => ({ slug: c.slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: { params: { slug: string } }) {
   const study = getCaseStudy(params.slug);
   if (!study) return {};
+  const locale = await getServerLocale();
   return pageMetadata({
+    locale,
     title: study.title,
     description: study.metaDescription,
     path: `/case-studies/${study.slug}`,

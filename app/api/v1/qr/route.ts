@@ -58,7 +58,7 @@ export async function GET(req: NextRequest) {
     return apiSuccess({
       data: await Promise.all(items.map((qr) => serializeQRForUser({ ...qr, userId: auth.userId }, scanBase))),
       pagination: { total, limit, offset, count: items.length },
-    });
+    }, 200, auth.rateLimitHeaders);
   } catch (error) {
     console.error('API v1 QR list error:', error);
     return apiError('Internal server error', 500);
@@ -120,7 +120,7 @@ export async function POST(req: NextRequest) {
       include: { folder: { select: { id: true, name: true, color: true } } },
     });
 
-    return apiSuccess({ data: await serializeQRForUser({ ...qrCode, userId: auth.userId }) }, 201);
+    return apiSuccess({ data: await serializeQRForUser({ ...qrCode, userId: auth.userId }) }, 201, auth.rateLimitHeaders);
   } catch (error) {
     console.error('API v1 QR create error:', error);
     return apiError('Internal server error', 500);

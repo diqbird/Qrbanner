@@ -13,6 +13,8 @@ import { normalizeGa4Id, normalizeMetaPixelId } from '@/lib/pixel-analytics';
 import { sanitizeAbTestData, parseAbTestData } from '@/lib/ab-routing';
 import { assertQrAccess } from '@/lib/workspace';
 import { assertQrUrlsAllowed } from '@/lib/validate-qr-urls';
+import { sanitizeStoredLandingPage } from '@/lib/landing-blocks';
+import { parseAnalyticsMoney } from '@/lib/analytics-roi';
 import { invalidateScanQrCache } from '@/lib/scan-redirect-cache';
 import { QR_MUTATION_LIMIT, rateLimitRequest } from '@/lib/authenticated-rate-limit';
 
@@ -76,6 +78,7 @@ export async function PUT(
     const { name, qrData, style, isActive, logoPath, logoIsPublic,
             password, expiresAt, scanLimit, iosUrl, androidUrl,
             utmEnabled, utmSource, utmMedium, utmCampaign,
+            analyticsCampaignCost, analyticsValuePerLead,
             landingPageEnabled, landingPageData,
             scheduleEnabled, scheduleData,
             geofenceEnabled, geofenceData,
@@ -104,8 +107,16 @@ export async function PUT(
     if (utmSource !== undefined) updateData.utmSource = utmSource || null;
     if (utmMedium !== undefined) updateData.utmMedium = utmMedium || null;
     if (utmCampaign !== undefined) updateData.utmCampaign = utmCampaign || null;
+    if (analyticsCampaignCost !== undefined) {
+      updateData.analyticsCampaignCost = parseAnalyticsMoney(analyticsCampaignCost);
+    }
+    if (analyticsValuePerLead !== undefined) {
+      updateData.analyticsValuePerLead = parseAnalyticsMoney(analyticsValuePerLead);
+    }
     if (landingPageEnabled !== undefined) updateData.landingPageEnabled = Boolean(landingPageEnabled);
-    if (landingPageData !== undefined) updateData.landingPageData = landingPageData ?? null;
+    if (landingPageData !== undefined) {
+      updateData.landingPageData = landingPageData ? sanitizeStoredLandingPage(landingPageData) : null;
+    }
     if (scheduleEnabled !== undefined) updateData.scheduleEnabled = Boolean(scheduleEnabled);
     if (scheduleData !== undefined) updateData.scheduleData = scheduleData ?? null;
     if (geofenceEnabled !== undefined) updateData.geofenceEnabled = Boolean(geofenceEnabled);

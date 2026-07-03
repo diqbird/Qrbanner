@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { Layout, ImageIcon, Sparkles } from 'lucide-react';
+import { Layout, ImageIcon, Sparkles, LayoutTemplate, Blocks } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
@@ -16,6 +16,8 @@ import {
   resolveLandingTemplateName,
 } from '@/lib/i18n/resolve-landing-copy';
 import { LandingPagePreview } from './landing-page-preview';
+import { LandingBlockBuilder } from './landing-block-builder';
+import { newBlockId } from '@/lib/landing-blocks';
 import {
   LandingPageData,
   emptyLandingPage,
@@ -23,6 +25,7 @@ import {
   LandingTemplate,
   defaultLeadForm,
   type LeadFormConfig,
+  type LandingBlock,
 } from '@/lib/landing-page';
 
 const LEAD_FIELD_KEYS = [
@@ -52,6 +55,27 @@ export function LandingPageEditor({
   const { t, locale } = useLanguage();
   const [aiLoading, setAiLoading] = useState(false);
   const set = (patch: Partial<LandingPageData>) => onChange({ ...data, ...patch });
+
+  const builderMode = Boolean(data.builderMode);
+
+  const enableBuilder = () => {
+    if (data.blocks && data.blocks.length > 0) {
+      set({ builderMode: true });
+      return;
+    }
+    // Seed the builder from existing classic content so nothing is lost.
+    const seeded: LandingBlock[] = [];
+    if (data.title?.trim()) {
+      seeded.push({ id: newBlockId(), type: 'heading', text: data.title, level: 1, align: 'center' });
+    }
+    if (data.subtitle?.trim()) {
+      seeded.push({ id: newBlockId(), type: 'text', text: data.subtitle, align: 'center' });
+    }
+    if (data.ctaLabel?.trim()) {
+      seeded.push({ id: newBlockId(), type: 'button', label: data.ctaLabel, url: '', variant: 'solid' });
+    }
+    set({ builderMode: true, blocks: seeded });
+  };
 
   const handleAiGenerate = async () => {
     setAiLoading(true);
@@ -98,19 +122,54 @@ export function LandingPageEditor({
       {enabled && (
         <CardContent className="space-y-5">
           <LandingPagePreview data={data} qrName={qrName} />
-          <div className="flex justify-end">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="gap-2"
-              loading={aiLoading}
-              onClick={handleAiGenerate}
-            >
-              <Sparkles className="h-4 w-4" />
-              {t('landingEditor.aiGenerate')}
-            </Button>
+
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="inline-flex rounded-lg border border-border/60 p-0.5">
+              <button
+                type="button"
+                onClick={() => set({ builderMode: false })}
+                className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                  !builderMode ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                <LayoutTemplate className="h-4 w-4" />
+                {t('landingBuilder.modeSimple')}
+              </button>
+              <button
+                type="button"
+                onClick={enableBuilder}
+                className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                  builderMode ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                <Blocks className="h-4 w-4" />
+                {t('landingBuilder.modeBuilder')}
+              </button>
+            </div>
+            {!builderMode && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="gap-2"
+                loading={aiLoading}
+                onClick={handleAiGenerate}
+              >
+                <Sparkles className="h-4 w-4" />
+                {t('landingEditor.aiGenerate')}
+              </Button>
+            )}
           </div>
+
+          {builderMode && (
+            <div className="space-y-2">
+              <p className="text-xs text-muted-foreground">{t('landingBuilder.desc')}</p>
+              <LandingBlockBuilder
+                blocks={data.blocks ?? []}
+                onChange={(blocks) => set({ blocks })}
+              />
+            </div>
+          )}
           <div className="space-y-2">
             <Label>{t('landingEditor.template')}</Label>
             <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -134,24 +193,28 @@ export function LandingPageEditor({
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label>{t('landingEditor.pageTitle')}</Label>
-            <Input
-              placeholder={qrName || t('landingEditor.titlePlaceholder')}
-              value={data.title}
-              onChange={(e) => set({ title: e.target.value })}
-            />
-          </div>
+          {!builderMode && (
+            <>
+              <div className="space-y-2">
+                <Label>{t('landingEditor.pageTitle')}</Label>
+                <Input
+                  placeholder={qrName || t('landingEditor.titlePlaceholder')}
+                  value={data.title}
+                  onChange={(e) => set({ title: e.target.value })}
+                />
+              </div>
 
-          <div className="space-y-2">
-            <Label>{t('landingEditor.pageSubtitle')}</Label>
-            <Textarea
-              placeholder={t('landingEditor.subtitlePlaceholder')}
-              value={data.subtitle}
-              onChange={(e) => set({ subtitle: e.target.value })}
-              rows={2}
-            />
-          </div>
+              <div className="space-y-2">
+                <Label>{t('landingEditor.pageSubtitle')}</Label>
+                <Textarea
+                  placeholder={t('landingEditor.subtitlePlaceholder')}
+                  value={data.subtitle}
+                  onChange={(e) => set({ subtitle: e.target.value })}
+                  rows={2}
+                />
+              </div>
+            </>
+          )}
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
@@ -183,14 +246,16 @@ export function LandingPageEditor({
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label>{t('landingEditor.buttonLabel')}</Label>
-            <Input
-              placeholder={t('landingEditor.ctaPlaceholder')}
-              value={data.ctaLabel}
-              onChange={(e) => set({ ctaLabel: e.target.value })}
-            />
-          </div>
+          {!builderMode && (
+            <div className="space-y-2">
+              <Label>{t('landingEditor.buttonLabel')}</Label>
+              <Input
+                placeholder={t('landingEditor.ctaPlaceholder')}
+                value={data.ctaLabel}
+                onChange={(e) => set({ ctaLabel: e.target.value })}
+              />
+            </div>
+          )}
 
           <div className="rounded-lg border border-dashed border-border/60 p-4 space-y-4">
             <p className="text-sm font-medium">{t('landingEditor.seoSection')}</p>
@@ -254,6 +319,7 @@ export function LandingPageEditor({
             </label>
           </div>
 
+          {!builderMode && (
           <div className="rounded-lg border border-border/50 p-4 space-y-4">
             <div className="flex items-center justify-between">
               <div>
@@ -305,6 +371,7 @@ export function LandingPageEditor({
               </div>
             )}
           </div>
+          )}
         </CardContent>
       )}
     </Card>

@@ -33,8 +33,14 @@ export const QR_MUTATION_LIMIT = { limit: 120, windowMs: 15 * 60 * 1000 };
 /** Bulk import — 20 requests per hour per user */
 export const BULK_LIMIT = { limit: 20, windowMs: 60 * 60 * 1000 };
 
+/** AI campaign batch create — 10 per hour per user */
+export const CAMPAIGN_CREATE_LIMIT = { limit: 10, windowMs: 60 * 60 * 1000 };
+
 /** Webhook CRUD — 60 requests per 15 minutes per user */
 export const WEBHOOK_LIMIT = { limit: 60, windowMs: 15 * 60 * 1000 };
+
+/** Automation flow CRUD — 60 requests per 15 minutes per user */
+export const AUTOMATION_LIMIT = { limit: 60, windowMs: 15 * 60 * 1000 };
 
 /** Public stats — 30 requests per minute per IP */
 export const PUBLIC_STATS_LIMIT = { limit: 30, windowMs: 60 * 1000 };

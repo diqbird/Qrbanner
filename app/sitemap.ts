@@ -8,6 +8,7 @@ import { CASE_STUDIES } from '@/lib/case-studies';
 import { INDUSTRY_TEMPLATES } from '@/lib/industry-templates';
 import { localizePath, shouldLocalizePath } from '@/lib/i18n/locale-path';
 import type { BlogPost } from '@/lib/blog/types';
+import { listGeoComboParams } from '@/lib/geo-seo-pages';
 
 const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ??
@@ -23,6 +24,7 @@ const PUBLIC_PATHS = [
   { path: '/templates', priority: 0.9, changeFrequency: 'weekly' as const },
   { path: '/qr-types', priority: 0.9, changeFrequency: 'weekly' as const },
   { path: '/use-cases', priority: 0.9, changeFrequency: 'weekly' as const },
+  { path: '/geo', priority: 0.85, changeFrequency: 'weekly' as const },
   { path: '/vs', priority: 0.85, changeFrequency: 'monthly' as const },
   { path: '/integrations', priority: 0.8, changeFrequency: 'monthly' as const },
   { path: '/integrations/zapier', priority: 0.75, changeFrequency: 'monthly' as const },
@@ -185,6 +187,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.75,
   }));
 
+  const geoEntries = listGeoComboParams().map(({ city, sector }) => ({
+    url: `${SITE_URL}/geo/${city}/${sector}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.72,
+  }));
+
+  const trGeoEntries = listGeoComboParams().map(({ city, sector }) => ({
+    url: trUrl(`/geo/${city}/${sector}`),
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.68,
+  }));
+
+  const geoCityEntries = Array.from(new Set(listGeoComboParams().map((p) => p.city))).map((city) => ({
+    url: `${SITE_URL}/geo/${city}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.78,
+  }));
+
+  const trGeoCityEntries = Array.from(new Set(listGeoComboParams().map((p) => p.city))).map((city) => ({
+    url: trUrl(`/geo/${city}`),
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.74,
+  }));
+
   return [
     ...PUBLIC_PATHS.map(({ path, priority, changeFrequency }) => ({
       url: `${SITE_URL}${path}`,
@@ -207,5 +237,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...trBlogEntries,
     ...trCaseStudyEntries,
     ...trTemplateDetailEntries,
+    ...geoEntries,
+    ...geoCityEntries,
+    ...trGeoEntries,
+    ...trGeoCityEntries,
   ];
 }

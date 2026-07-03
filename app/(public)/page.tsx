@@ -10,6 +10,7 @@ import { LandingIndustriesSection } from '@/components/landing/industries-sectio
 import { LandingUseCasesSection } from '@/components/landing/use-cases-teaser';
 import { LandingIntegrationsTeaser } from '@/components/landing/integrations-teaser';
 import { SectionSkeleton } from '@/components/landing/section-skeleton';
+import { DeferredSection } from '@/components/landing/deferred-section';
 import { JsonLd } from '@/components/seo/json-ld';
 import { faqJsonLd, getHomepageFaqItems, pageMetadata } from '@/lib/seo';
 import { getServerLocale } from '@/lib/i18n/server';
@@ -42,6 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
   return pageMetadata({
+    locale,
     title: t('homePage.metaTitle'),
     description: t('homePage.metaDescription'),
     path: '/',
@@ -53,45 +55,45 @@ export default function HomePage() {
     <>
       <JsonLd data={faqJsonLd(getHomepageFaqItems())} />
       <LandingHeroStatic />
-      <div className="min-h-[140px]">
+      <DeferredSection intrinsicHeight="140px">
         <LandingCustomerLogos />
-      </div>
-      <div className="min-h-[200px]">
+      </DeferredSection>
+      <DeferredSection intrinsicHeight="200px">
         <LandingLogoWall />
-      </div>
-      <div className="min-h-[120px]">
+      </DeferredSection>
+      <DeferredSection intrinsicHeight="120px">
         <LandingReviewsStrip />
-      </div>
-      <div className="min-h-[280px]">
+      </DeferredSection>
+      <DeferredSection intrinsicHeight="280px">
         <LandingSocialProof />
-      </div>
-      <div className="min-h-[320px]">
+      </DeferredSection>
+      <DeferredSection intrinsicHeight="320px">
         <LandingCaseStudiesTeaser />
-      </div>
-      <div className="min-h-[360px]">
+      </DeferredSection>
+      <DeferredSection intrinsicHeight="360px">
         <LandingIndustriesSection />
-      </div>
-      <div className="min-h-[360px]">
+      </DeferredSection>
+      <DeferredSection intrinsicHeight="360px">
         <LandingUseCasesSection />
-      </div>
-      <div className="min-h-[280px]">
+      </DeferredSection>
+      <DeferredSection intrinsicHeight="280px">
         <LandingIntegrationsTeaser />
-      </div>
-      <div className="cv-auto min-h-[920px]">
+      </DeferredSection>
+      <DeferredSection intrinsicHeight="920px">
         <LandingFeatures />
-      </div>
-      <div className="cv-auto min-h-[640px]">
+      </DeferredSection>
+      <DeferredSection intrinsicHeight="640px">
         <LandingHowItWorks />
-      </div>
-      <div className="cv-auto min-h-[720px]">
+      </DeferredSection>
+      <DeferredSection intrinsicHeight="720px">
         <LandingPricing />
-      </div>
-      <div className="cv-auto min-h-[560px]">
+      </DeferredSection>
+      <DeferredSection intrinsicHeight="560px">
         <LandingFAQ />
-      </div>
-      <div className="min-h-[200px]">
+      </DeferredSection>
+      <DeferredSection intrinsicHeight="200px">
         <LandingCTA />
-      </div>
+      </DeferredSection>
     </>
   );
 }

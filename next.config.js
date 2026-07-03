@@ -73,4 +73,20 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+let exportedConfig = nextConfig;
+
+if (process.env.SENTRY_DSN) {
+  try {
+    const { withSentryConfig } = require('@sentry/nextjs');
+    exportedConfig = withSentryConfig(nextConfig, {
+      silent: true,
+      disableLogger: true,
+      hideSourceMaps: true,
+      widenClientFileUpload: true,
+    });
+  } catch {
+    exportedConfig = nextConfig;
+  }
+}
+
+module.exports = exportedConfig;

@@ -11,21 +11,28 @@ import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { LanguageSwitcher } from '@/components/i18n/language-switcher';
+import { TurnstileField, isTurnstileEnabledClient } from '@/components/security/turnstile-field';
 
 export function ForgotPasswordForm() {
   const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRequired = isTurnstileEnabledClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (turnstileRequired && !turnstileToken) {
+      toast.error(t('auth.captchaRequired'));
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetch('/api/auth/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, turnstileToken }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -82,6 +89,7 @@ export function ForgotPasswordForm() {
                 />
               </div>
             </div>
+            <TurnstileField onToken={setTurnstileToken} className="flex justify-center py-1" />
             <Button type="submit" className="w-full" loading={loading}>
               {t('auth.sendResetLink')}
             </Button>

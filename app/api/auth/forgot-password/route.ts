@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { sendPasswordResetEmail } from '@/lib/email';
 import { rateLimit, clientIp } from '@/lib/rate-limit';
+import { guardPublicPost } from '@/lib/guard-public-post';
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,7 +15,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
     }
 
-    const { email } = await req.json();
+    const body = await req.json();
+    const blocked = await guardPublicPost(req, body, ip);
+    if (blocked) return blocked;
+
+    const { email } = body;
     if (!email || typeof email !== 'string') {
       return NextResponse.json({ error: 'email_required' }, { status: 400 });
     }
