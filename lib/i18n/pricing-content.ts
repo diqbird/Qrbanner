@@ -3,9 +3,9 @@ import type { Locale } from './types';
 
 export function getLaunchBanner(locale: Locale): string {
   if (locale === 'tr') {
-    return 'Ücretsiz plan sonsuza kadar. Daha fazlası için Pro $9.99/ay. Düşürme veya iptalde QR kodlarınız aktif kalır.';
+    return 'Ücretsiz plan sonsuza kadar — 50 dinamik QR kodu dahil. Daha fazlası için Pro $9.99/ay. Düşürme veya iptalde QR kodlarınız aktif kalır.';
   }
-  return 'Free plan forever. Upgrade to Pro from $9.99/mo when you need more. Your QR codes stay active if you downgrade or cancel.';
+  return 'Free plan forever — 50 dynamic QR codes included. Upgrade to Pro from $9.99/mo when you need more. Your QR codes stay active if you downgrade or cancel.';
 }
 
 function apiLimitFeature(plan: PlanLimits, locale: Locale): string | null {

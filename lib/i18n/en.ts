@@ -216,7 +216,7 @@ export const en: TranslationTree = {
     signupFailed: 'Signup failed',
     accountCreated: 'Account created! Check your email for the verification code.',
     referralInvitedBy: 'You were invited by {{name}}. Create your free account — referral rewards apply after you verify email.',
-    referralInvitedGeneric: 'You were invited to QRbanner. Create your free account with 25 dynamic QR codes and API access.',
+    referralInvitedGeneric: 'You were invited to QRbanner. Create your free account with 50 dynamic QR codes and API access.',
     resetFailed: 'Reset failed',
     passwordUpdated: 'Password updated! Sign in with your new password.',
     requestFailed: 'Request failed',
@@ -784,7 +784,7 @@ export const en: TranslationTree = {
   pricing: {
     metaTitle: 'Pricing',
     metaDescription:
-      'QRbanner pricing — Free plan with 25 dynamic QR codes. Pro from $9.99/mo and Business plans with secure Paddle billing. Codes stay active after cancel.',
+      'QRbanner pricing — Free plan with 50 dynamic QR codes. Pro from $9.99/mo and Business plans with secure Paddle billing. Codes stay active after cancel.',
     launchBadge: 'Launch pricing',
     title: 'Plans that grow with you',
     mostPopular: 'Most popular',
@@ -812,6 +812,13 @@ export const en: TranslationTree = {
       'Enterprise and Agency plans include custom scan domains, white-label, API at scale and optional SLA — or talk to sales for volume pricing.',
     enterpriseBandCta: 'View Enterprise',
     referralRewardBanner: 'Referral reward unlocked — your Pro checkout will include the referral discount automatically.',
+    billingSoonTitle: 'Paid plans launching soon',
+    billingSoonDesc:
+      'Start free today with 50 dynamic QR codes. Pro and Business checkout opens once Paddle billing is live — contact us to get early access.',
+    billingSoonCta: 'Request early access',
+    billingSoonCtaShort: 'Coming soon',
+    billingSoonToast: 'Paid checkout is not live yet — use the free plan or contact us for early access.',
+    checkoutUnavailable: 'Checkout is temporarily unavailable. Try again or contact support.',
   },
   demo: {
     metaTitle: 'Product Demo',
@@ -893,7 +900,7 @@ export const en: TranslationTree = {
       'Static QR generators lock you into one URL forever. QRbanner keeps the same printed code while you change menus, promos, routing rules and landing pages from the dashboard or API.',
     compareCompetitors: 'Compare alternatives',
     bottomCtaTitle: 'Built for teams that ship at scale',
-    bottomCtaDesc: 'Explore industry playbooks, API docs and pricing — or start free with 25 dynamic codes.',
+    bottomCtaDesc: 'Explore industry playbooks, API docs and pricing — or start free with 50 dynamic codes.',
     highlight: {
       dynamicTitle: 'Dynamic codes',
       dynamicDesc: 'Same QR, new destination anytime',
@@ -1809,7 +1816,7 @@ export const en: TranslationTree = {
     whyUse: 'Why use this QR type',
     popularUseCases: 'Popular use cases',
     createLabel: 'Create {{type}}',
-    ctaTitle: 'Free plan — 25 dynamic QR codes',
+    ctaTitle: 'Free plan — 50 dynamic QR codes',
     ctaDynamic: 'Edit destinations anytime and track scans in real time.',
     ctaStatic: 'Download a print-ready code in seconds. Sign up to save and manage codes.',
     viewPricing: 'View pricing',
@@ -2074,7 +2081,7 @@ export const en: TranslationTree = {
     benefitsTitle: 'Key benefits',
     stepsTitle: 'How to launch',
     createLabel: 'Create QR code',
-    ctaTitle: 'Start free — 25 dynamic codes',
+    ctaTitle: 'Start free — 50 dynamic codes',
     ctaBody: 'Branding, analytics, webhooks and API access on every plan.',
     relatedSolution: 'See the full industry solution',
   },

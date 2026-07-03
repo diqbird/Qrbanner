@@ -47,6 +47,7 @@ const OG_IMAGE = {
 
 export function absoluteUrl(path = '/'): string {
   const p = path.startsWith('/') ? path : `/${path}`;
+  if (p === '/') return SITE_URL;
   return `${SITE_URL}${p}`;
 }
 

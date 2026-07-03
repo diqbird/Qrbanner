@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic';
 
+import crypto from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/db';
@@ -51,7 +52,7 @@ export async function POST(req: NextRequest) {
     const refCode = String(referralCode ?? ref ?? '').trim();
     const referredByUserId = refCode ? await resolveReferrerByCode(refCode) : null;
 
-    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const verificationCode = crypto.randomInt(100000, 1000000).toString();
     const verificationExpiry = new Date(Date.now() + 30 * 60 * 1000);
 
     const user = await prisma.user.create({
@@ -72,7 +73,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       message: 'signup_success',
-      userId: user.id,
       requiresVerification: true,
       emailConfigured: isEmailConfigured(),
     });

@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Check, ArrowRight, Loader2 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { BillingComingSoonBanner } from '@/components/billing/billing-coming-soon-banner';
+import { useBillingStatus } from '@/hooks/use-billing-status';
 import {
   getComparisonRows,
   getLaunchBanner,
@@ -29,6 +31,7 @@ export function PricingPageContent() {
   const [loadingPlan, setLoadingPlan] = useState<PlanId | null>(null);
   const [interval, setInterval] = useState<BillingInterval>('monthly');
   const plans = getPricingPlans(locale, interval);
+  const { configured: billingConfigured, loading: billingLoading } = useBillingStatus();
 
   const comparison = getComparisonRows(locale);
 
@@ -42,6 +45,11 @@ export function PricingPageContent() {
   const handlePlanClick = async (planId: PlanId, priceMonthly: number | null) => {
     if (priceMonthly === 0 || priceMonthly === null) {
       window.location.href = session ? '/dashboard' : '/signup';
+      return;
+    }
+    if (!billingConfigured) {
+      toast.message(t('pricing.billingSoonToast'));
+      window.location.href = '/contact';
       return;
     }
     setLoadingPlan(planId);
@@ -60,9 +68,8 @@ export function PricingPageContent() {
         window.location.href = data.url;
         return;
       }
-      if (data?.fallback === 'launch_free') {
-        toast.message(t('pricing.launchFree'));
-        window.location.href = session ? '/dashboard' : '/signup';
+      if (res.status === 503 || data?.error === 'billing_not_configured') {
+        toast.message(t('pricing.billingSoonToast'));
         return;
       }
       if (!res.ok) {
@@ -93,6 +100,8 @@ export function PricingPageContent() {
           {t('pricing.title')}
         </h1>
         <p className="mt-4 text-lg text-muted-foreground">{getLaunchBanner(locale)}</p>
+
+        {!billingLoading && !billingConfigured && <BillingComingSoonBanner />}
 
         <div className="mt-6 inline-flex rounded-full border border-border/60 bg-muted/40 p-1">
           <button
@@ -155,10 +164,12 @@ export function PricingPageContent() {
               className="mt-8 w-full"
               variant={plan.highlighted ? 'default' : 'outline'}
               onClick={() => handlePlanClick(plan.id, plan.priceMonthly)}
-              disabled={loadingPlan === plan.id}
+              disabled={loadingPlan === plan.id || (plan.priceMonthly !== null && plan.priceMonthly > 0 && !billingConfigured && !billingLoading)}
             >
               {loadingPlan === plan.id ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
+              ) : plan.priceMonthly !== null && plan.priceMonthly > 0 && !billingConfigured && !billingLoading ? (
+                t('pricing.billingSoonCtaShort')
               ) : (
                 planCtaLabel(plan.id, plan.priceMonthly, t)
               )}

@@ -52,7 +52,10 @@ export async function POST(req: Request) {
     }
 
     if (!isBillingConfigured()) {
-      return NextResponse.json({ fallback: 'launch_free' });
+      return NextResponse.json(
+        { error: 'billing_not_configured', message: 'Paid plans are not available yet.' },
+        { status: 503 }
+      );
     }
 
     const session = await getServerSession(authOptions);
@@ -122,7 +125,10 @@ export async function POST(req: Request) {
       priceId = stripePriceIdForPlan(plan, 'monthly');
     }
     if (!stripe || !priceId) {
-      return NextResponse.json({ fallback: 'launch_free' });
+      return NextResponse.json(
+        { error: 'billing_not_configured', message: 'Stripe price IDs are not configured.' },
+        { status: 503 }
+      );
     }
 
     if (user.stripeSubscriptionId) {

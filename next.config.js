@@ -21,6 +21,9 @@ const nextConfig = {
   transpilePackages: ['react-globe.gl', 'globe.gl', 'three-globe'],
   poweredByHeader: false,
   compress: true,
+  async rewrites() {
+    return [{ source: '/favicon.ico', destination: '/icon' }];
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 86400,

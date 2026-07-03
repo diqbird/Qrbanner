@@ -2,7 +2,6 @@ import { DM_Sans, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
 import { DeferredSiteAnalytics } from '@/components/analytics/deferred-site-analytics';
-import { LocaleHeadLinks } from '@/components/seo/locale-head-links';
 import { getServerLocale } from '@/lib/i18n/server';
 import {
   DEFAULT_DESCRIPTION,
@@ -60,6 +59,11 @@ export const metadata = {
     googleBot: { index: true, follow: true, 'max-image-preview': 'large' as const },
   },
   manifest: '/manifest.webmanifest',
+  icons: {
+    icon: [{ url: '/icon', type: 'image/png' }],
+    shortcut: '/icon',
+    apple: '/icon',
+  },
   verification: {
     google:
       process.env.GOOGLE_SITE_VERIFICATION ??
@@ -72,14 +76,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <head>
-        <LocaleHeadLinks />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var p=location.pathname;if(/^\\/tr(\\/|$)/.test(p)){document.documentElement.lang='tr';return;}var l=localStorage.getItem('qrb-locale');if(l==='tr'||l==='en')document.documentElement.lang=l;}catch(e){}})();`,
-          }}
-        />
-      </head>
       <body className={`${dmSans.variable} ${jakartaSans.variable} font-sans antialiased`}>
         <Providers>{children}</Providers>
         <DeferredSiteAnalytics />

@@ -33,7 +33,7 @@ export const PLANS: Record<PlanId, PlanLimits> = {
     name: 'Free',
     priceMonthly: 0,
     priceLabel: '$0',
-    maxQrCodes: 25,
+    maxQrCodes: 50,
     maxCustomDomains: 1,
     maxBulkRows: 100,
     maxWebhooks: 2,
@@ -128,4 +128,4 @@ export function getPlanLimits(planId: string | null | undefined): PlanLimits {
 }
 
 export const LAUNCH_BANNER =
-  'Free plan forever. Upgrade to Pro from $9.99/mo when you need more. Your QR codes stay active if you downgrade or cancel.';
+  'Free plan forever — 50 dynamic QR codes included. Upgrade to Pro from $9.99/mo when you need more. Your QR codes stay active if you downgrade or cancel.';

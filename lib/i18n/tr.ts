@@ -784,7 +784,7 @@ export const tr: TranslationTree = {
   pricing: {
     metaTitle: 'Fiyatlandırma',
     metaDescription:
-      'QRbanner fiyatlandırması — 25 dinamik QR kodlu ücretsiz plan. Pro $9.99/ay\'dan, güvenli Paddle faturalandırmalı Business planları. İptal sonrası kodlar aktif kalır.',
+      'QRbanner fiyatlandırması — 50 dinamik QR kodlu ücretsiz plan. Pro $9.99/ay\'dan, güvenli Paddle faturalandırmalı Business planları. İptal sonrası kodlar aktif kalır.',
     launchBadge: 'Lansman fiyatları',
     title: 'Sizinle büyüyen planlar',
     mostPopular: 'En popüler',
@@ -812,6 +812,13 @@ export const tr: TranslationTree = {
       'Kurumsal ve Agency planlarında özel tarama alanları, beyaz etiket, ölçeklenebilir API ve isteğe bağlı SLA — veya hacim fiyatı için satışla konuşun.',
     enterpriseBandCta: 'Kurumsal sayfası',
     referralRewardBanner: 'Referans ödülünüz açıldı — Pro ödemenize referans indirimi otomatik uygulanır.',
+    billingSoonTitle: 'Ücretli planlar yakında',
+    billingSoonDesc:
+      'Bugün 50 dinamik QR koduyla ücretsiz başlayın. Pro ve Business ödemesi Paddle canlıya geçince açılacak — erken erişim için bize yazın.',
+    billingSoonCta: 'Erken erişim iste',
+    billingSoonCtaShort: 'Yakında',
+    billingSoonToast: 'Ücretli ödeme henüz aktif değil — ücretsiz planı kullanın veya erken erişim için iletişime geçin.',
+    checkoutUnavailable: 'Ödeme geçici olarak kullanılamıyor. Tekrar deneyin veya destekle iletişime geçin.',
   },
   demo: {
     metaTitle: 'Ürün Demosu',
@@ -893,7 +900,7 @@ export const tr: TranslationTree = {
       'Statik QR araçları sizi tek bir URL\'ye kilitler. QRbanner aynı basılı kodu korur; menü, promosyon, yönlendirme ve açılış sayfalarını panel veya API ile değiştirirsiniz.',
     compareCompetitors: 'Alternatifleri karşılaştır',
     bottomCtaTitle: 'Ölçekte çalışan ekipler için',
-    bottomCtaDesc: 'Sektör rehberleri, API dokümantasyonu ve fiyatlandırmayı keşfedin — veya 25 dinamik kodla ücretsiz başlayın.',
+    bottomCtaDesc: 'Sektör rehberleri, API dokümantasyonu ve fiyatlandırmayı keşfedin — veya 50 dinamik kodla ücretsiz başlayın.',
     highlight: {
       dynamicTitle: 'Dinamik kodlar',
       dynamicDesc: 'Aynı QR, istediğiniz zaman yeni hedef',
@@ -1809,7 +1816,7 @@ export const tr: TranslationTree = {
     whyUse: 'Bu QR türünü neden kullanmalı',
     popularUseCases: 'Popüler kullanım alanları',
     createLabel: '{{type}} oluştur',
-    ctaTitle: 'Ücretsiz plan — 25 dinamik QR kodu',
+    ctaTitle: 'Ücretsiz plan — 50 dinamik QR kodu',
     ctaDynamic: 'Hedefleri istediğiniz zaman düzenleyin ve taramaları gerçek zamanlı izleyin.',
     ctaStatic: 'Saniyeler içinde baskıya hazır kod indirin. Kaydetmek ve yönetmek için kaydolun.',
     viewPricing: 'Fiyatlandırmayı gör',
@@ -2074,7 +2081,7 @@ export const tr: TranslationTree = {
     benefitsTitle: 'Temel faydalar',
     stepsTitle: 'Nasıl başlanır',
     createLabel: 'QR kod oluştur',
-    ctaTitle: 'Ücretsiz başlayın — 25 dinamik kod',
+    ctaTitle: 'Ücretsiz başlayın — 50 dinamik kod',
     ctaBody: 'Her planda markalama, analitik, webhook ve API erişimi.',
     relatedSolution: 'Tam sektör çözümünü görün',
   },

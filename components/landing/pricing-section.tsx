@@ -28,6 +28,10 @@ import { useState } from 'react';
 
 import { PricingReferralBanner } from '@/components/marketing/pricing-referral-banner';
 
+import { BillingComingSoonBanner } from '@/components/billing/billing-coming-soon-banner';
+
+import { useBillingStatus } from '@/hooks/use-billing-status';
+
 export function LandingPricing() {
 
   const { t, locale } = useLanguage();
@@ -44,6 +48,8 @@ export function LandingPricing() {
 
   const [loadingPlan, setLoadingPlan] = useState<PlanId | null>(null);
 
+  const { configured: billingConfigured, loading: billingLoading } = useBillingStatus();
+
 
 
   const handlePlanClick = async (planId: PlanId, priceMonthly: number | null) => {
@@ -51,6 +57,16 @@ export function LandingPricing() {
     if (priceMonthly === 0 || priceMonthly === null) {
 
       window.location.href = session ? '/dashboard' : '/signup';
+
+      return;
+
+    }
+
+    if (!billingConfigured) {
+
+      toast.message(t('pricing.billingSoonToast'));
+
+      window.location.href = '/contact';
 
       return;
 
@@ -88,6 +104,14 @@ export function LandingPricing() {
 
       }
 
+      if (res.status === 503 || data?.error === 'billing_not_configured') {
+
+        toast.message(t('pricing.billingSoonToast'));
+
+        return;
+
+      }
+
       toast.error(data?.error ?? t('pricing.checkoutUnavailable'));
     } catch {
       toast.error(t('auth.somethingWrong'));
@@ -119,6 +143,8 @@ export function LandingPricing() {
           <p className="mt-4 text-muted-foreground">{getLaunchBanner(locale)}</p>
 
           <PricingReferralBanner />
+
+          {!billingLoading && !billingConfigured && <BillingComingSoonBanner />}
 
           <div className="mt-6 inline-flex rounded-full border border-border/60 bg-muted/40 p-1">
 
@@ -232,7 +258,13 @@ export function LandingPricing() {
 
                 variant={plan.highlighted ? 'default' : 'outline'}
 
-                disabled={loadingPlan === plan.id}
+                disabled={
+                  loadingPlan === plan.id ||
+                  (plan.priceMonthly !== null &&
+                    plan.priceMonthly > 0 &&
+                    !billingConfigured &&
+                    !billingLoading)
+                }
 
                 onClick={() => handlePlanClick(plan.id, plan.priceMonthly)}
 
@@ -241,6 +273,13 @@ export function LandingPricing() {
                 {loadingPlan === plan.id ? (
 
                   <Loader2 className="h-4 w-4 animate-spin" />
+
+                ) : plan.priceMonthly !== null &&
+                  plan.priceMonthly > 0 &&
+                  !billingConfigured &&
+                  !billingLoading ? (
+
+                  t('pricing.billingSoonCtaShort')
 
                 ) : (
 
