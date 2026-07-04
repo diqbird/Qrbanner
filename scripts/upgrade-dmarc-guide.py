@@ -45,12 +45,21 @@ def main() -> int:
     print(f"\nRecommended TXT for _dmarc.{DOMAIN}:")
     print(f"  {recommended}")
 
-    print("\nSteps (Hostinger):")
+    print("\nSteps (Hostinger DNS):")
     print("  1. hPanel → Domains → qrbanner.com → DNS / DNS Zone")
     print("  2. Edit TXT record: Host = _dmarc")
     print("  3. Paste the recommended value above")
     print("  4. TTL 3600, save")
     print("  5. Wait 15–60 min, then run: npm run verify:dmarc")
+
+    print("\nSteps (Hostinger mailbox for rua reports):")
+    print(f"  1. hPanel → Emails → Create email: dmarc@{DOMAIN}")
+    print("  2. Set a strong password; forward to support@ if preferred")
+    print("  3. DMARC aggregate XML reports arrive at this inbox weekly")
+
+    print("\nTimeline after quarantine:")
+    print("  Week 0–2: monitor rua reports for failures")
+    print("  Week 2–4: if clean, upgrade to p=reject")
 
     if f"p={POLICY}" in current:
         print(f"\n=== Result: PASS — already p={POLICY} ===")
