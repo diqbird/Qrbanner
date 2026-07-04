@@ -17,7 +17,6 @@ let geoip: typeof import('geoip-lite') | null = null;
 function ensureGeoDataDir() {
   if (process.env.GEODATADIR) return;
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const pkgJson = require.resolve('geoip-lite/package.json');
     process.env.GEODATADIR = path.join(path.dirname(pkgJson), 'data');
   } catch {
@@ -29,7 +28,6 @@ function loadGeoip() {
   if (!geoip) {
     try {
       ensureGeoDataDir();
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
       geoip = require('geoip-lite');
     } catch {
       geoip = null;
