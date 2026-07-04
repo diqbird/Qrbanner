@@ -28,12 +28,12 @@ export function LandingFeatures() {
             <div
               key={feature.title}
               className={`group rounded-xl bg-card p-6 shadow-sm transition-all hover:shadow-md ${
-                inView ? 'animate-fade-up' : 'opacity-0'
+                inView ? 'animate-fade-up' : ''
               }`}
               style={{ animationDelay: `${i * 50}ms` }}
             >
               <div className="mb-3 flex items-center gap-2">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg icon-well-primary-hover">
                   <feature.icon className="h-5 w-5" />
                 </div>
                 {feature.tag && (

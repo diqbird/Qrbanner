@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { authenticateMobileRequest, isMobileAuthError } from '@/lib/mobile-auth';
 import { mobileScanUrl, serializeMobileQr } from '@/lib/mobile-serialize';
+import { assertQrAccess } from '@/lib/workspace';
 
 type RouteParams = { params: Promise<{ id: string }> };
 
@@ -12,8 +13,11 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
   if (isMobileAuthError(auth)) return auth;
 
   const { id } = await params;
+  const access = await assertQrAccess(auth.userId, id, 'viewer');
+  if (!access.ok) return NextResponse.json({ error: 'not_found' }, { status: 404 });
+
   const qr = await prisma.qRCode.findFirst({
-    where: { id, userId: auth.userId },
+    where: { id },
     include: { folder: { select: { name: true } } },
   });
   if (!qr) return NextResponse.json({ error: 'not_found' }, { status: 404 });

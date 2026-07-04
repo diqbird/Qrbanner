@@ -20,9 +20,8 @@ import { normalizeQRStyle, type QRStyleConfig } from '@/lib/qr-style';
 import { EditableFrameLabel } from './editable-frame-label';
 import { MockupPreview } from './mockup-preview';
 import { ScanSimulation } from './scan-simulation';
-import { buildQRPayload } from '@/lib/qr-utils';
-import { stripMetaFields } from '@/lib/industry-templates';
-import { useScanBaseUrl, buildScanLink } from '@/lib/use-scan-base-url';
+import { useScanBaseUrl } from '@/lib/use-scan-base-url';
+import { isPendingDynamicQr, resolveQrEncodeContent } from '@/lib/qr-preview-content';
 import { useShowQrDescription } from '@/components/site-settings-provider';
 import { useLanguage } from '@/components/i18n/language-provider';
 
@@ -75,13 +74,18 @@ export function QRPreview({
   const styleKey = useMemo(() => JSON.stringify(normalized), [normalized]);
   const qrDataKey = useMemo(() => JSON.stringify(qrData ?? {}), [qrData]);
 
-  const previewContent = useMemo(() => {
-    if (shortCode) {
-      return buildScanLink(shortCode, scanBaseUrl);
-    }
-    const payload = buildQRPayload(category, stripMetaFields(qrData ?? {}));
-    return payload || 'https://qrbanner.com';
-  }, [category, qrDataKey, shortCode, scanBaseUrl]);
+  const pendingDynamic = isPendingDynamicQr(category, shortCode);
+
+  const previewContent = useMemo(
+    () =>
+      resolveQrEncodeContent({
+        category,
+        qrData,
+        shortCode,
+        scanBaseUrl,
+      }).content,
+    [category, qrDataKey, shortCode, scanBaseUrl]
+  );
 
   useEffect(() => {
     const renderId = ++renderIdRef.current;
@@ -145,6 +149,10 @@ export function QRPreview({
   };
 
   const handleDownload = async (format: 'png' | 'jpg' | 'webp' | 'svg' | 'eps' | 'pdf') => {
+    if (pendingDynamic) {
+      toast.message(t('preview.saveBeforeExport'));
+      return;
+    }
     try {
       if (format === 'svg') {
         const svg = await renderStyledQRSvg(previewContent, normalized, {
@@ -192,6 +200,10 @@ export function QRPreview({
   };
 
   const handlePrint = async () => {
+    if (pendingDynamic) {
+      toast.message(t('preview.saveBeforeExport'));
+      return;
+    }
     try {
       const canvas = await renderStyledQR(previewContent, normalized, {
         size: 600,
@@ -216,6 +228,10 @@ export function QRPreview({
   };
 
   const handleShare = async () => {
+    if (pendingDynamic) {
+      toast.message(t('preview.saveBeforeExport'));
+      return;
+    }
     if (!qrDataUrl) {
       toast.error(t('preview.downloadFailed'));
       return;
@@ -236,7 +252,12 @@ export function QRPreview({
       }
 
       if (shortCode) {
-        const link = buildScanLink(shortCode, scanBaseUrl);
+        const link = resolveQrEncodeContent({
+          category,
+          qrData,
+          shortCode,
+          scanBaseUrl,
+        }).content;
         const urlShare = {
           url: link,
           title: qrName || 'QR Code from QRbanner',
@@ -335,29 +356,35 @@ export function QRPreview({
             </Select>
           </div>
 
+          {pendingDynamic && (
+            <p className="w-full rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-center text-xs text-amber-800 dark:text-amber-200">
+              {t('preview.pendingDynamicHint')}
+            </p>
+          )}
+
           <div id="qr-download-section" className="flex flex-wrap justify-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => handleDownload('png')} className="gap-2 min-h-9" disabled={loading || !!error}>
+            <Button variant="outline" size="sm" onClick={() => handleDownload('png')} className="gap-2 min-h-9" disabled={loading || !!error || pendingDynamic}>
               <Download className="h-3.5 w-3.5" /> PNG
             </Button>
-            <Button variant="outline" size="sm" onClick={() => handleDownload('jpg')} className="gap-2 min-h-9" disabled={loading || !!error}>
+            <Button variant="outline" size="sm" onClick={() => handleDownload('jpg')} className="gap-2 min-h-9" disabled={loading || !!error || pendingDynamic}>
               <Download className="h-3.5 w-3.5" /> JPG
             </Button>
-            <Button variant="outline" size="sm" onClick={() => handleDownload('webp')} className="gap-2 min-h-9" disabled={loading || !!error}>
+            <Button variant="outline" size="sm" onClick={() => handleDownload('webp')} className="gap-2 min-h-9" disabled={loading || !!error || pendingDynamic}>
               <Download className="h-3.5 w-3.5" /> WEBP
             </Button>
-            <Button variant="outline" size="sm" onClick={() => handleDownload('svg')} className="gap-2 min-h-9" disabled={loading || !!error}>
+            <Button variant="outline" size="sm" onClick={() => handleDownload('svg')} className="gap-2 min-h-9" disabled={loading || !!error || pendingDynamic}>
               <Download className="h-3.5 w-3.5" /> SVG
             </Button>
-            <Button variant="outline" size="sm" onClick={() => handleDownload('eps')} className="gap-2 min-h-9" disabled={loading || !!error}>
+            <Button variant="outline" size="sm" onClick={() => handleDownload('eps')} className="gap-2 min-h-9" disabled={loading || !!error || pendingDynamic}>
               <Download className="h-3.5 w-3.5" /> EPS
             </Button>
-            <Button variant="outline" size="sm" onClick={() => handleDownload('pdf')} className="gap-2 min-h-9" disabled={loading || !!error}>
+            <Button variant="outline" size="sm" onClick={() => handleDownload('pdf')} className="gap-2 min-h-9" disabled={loading || !!error || pendingDynamic}>
               <Download className="h-3.5 w-3.5" /> {t('preview.pdf')}
             </Button>
-            <Button variant="outline" size="sm" onClick={handlePrint} className="gap-2 min-h-9" disabled={loading || !!error}>
+            <Button variant="outline" size="sm" onClick={handlePrint} className="gap-2 min-h-9" disabled={loading || !!error || pendingDynamic}>
               <Printer className="h-3.5 w-3.5" /> {t('preview.print')}
             </Button>
-            <Button variant="outline" size="sm" onClick={handleShare} className="gap-2 min-h-9" disabled={loading || !!error}>
+            <Button variant="outline" size="sm" onClick={handleShare} className="gap-2 min-h-9" disabled={loading || !!error || pendingDynamic}>
               <Share2 className="h-3.5 w-3.5" /> {t('preview.share')}
             </Button>
           </div>
@@ -375,7 +402,7 @@ export function QRPreview({
             </p>
           )}
           {showExtras && <MockupPreview qrDataUrl={qrDataUrl} />}
-          {(showScanTest || showExtras) && (
+          {(showScanTest || showExtras) && !pendingDynamic && (
             <ScanSimulation
               qrDataUrl={qrDataUrl}
               expectedContent={previewContent}

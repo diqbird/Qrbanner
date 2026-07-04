@@ -1,6 +1,6 @@
 import type { buildAnalytics } from '@/lib/analytics-utils';
 
-type AnalyticsPayload = Partial<ReturnType<typeof buildAnalytics>> & {
+export type AnalyticsPayload = Partial<ReturnType<typeof buildAnalytics>> & {
   totalScans: number;
   last7Days: number;
   scansByDay: { date: string; count: number }[];

@@ -27,7 +27,7 @@ export function LandingFAQ() {
           {faqItems.slice(0, 6).map((item, i) => (
             <div
               key={item.question}
-              className={inView ? 'animate-fade-up' : 'opacity-0'}
+              className={inView ? 'animate-fade-up' : ''}
               style={{ animationDelay: `${i * 50}ms` }}
             >
               <details className="group px-6 py-4">

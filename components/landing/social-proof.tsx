@@ -1,7 +1,8 @@
 import { getPublicPlatformStats, shouldDisplayPublicStats } from '@/lib/public-stats';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
-import { Star, Shield, Zap, CheckCircle2 } from 'lucide-react';
+import { freePlanQrLimit } from '@/lib/plans';
+import { Shield, Zap, CheckCircle2 } from 'lucide-react';
 
 const INDUSTRY_KEYS = [
   'socialProof.industryRestaurant',
@@ -9,12 +10,6 @@ const INDUSTRY_KEYS = [
   'socialProof.industryRetail',
   'socialProof.industryMarketing',
   'socialProof.industryHospitality',
-] as const;
-
-const TESTIMONIAL_KEYS = [
-  { quote: 'socialProof.testimonial1', role: 'socialProof.testimonial1Role' },
-  { quote: 'socialProof.testimonial2', role: 'socialProof.testimonial2Role' },
-  { quote: 'socialProof.testimonial3', role: 'socialProof.testimonial3Role' },
 ] as const;
 
 const TRUST_PILLAR_KEYS = [
@@ -28,6 +23,7 @@ export async function LandingSocialProof() {
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
   const stats = await getPublicPlatformStats();
   const showStats = shouldDisplayPublicStats(stats);
+  const freeQrCount = freePlanQrLimit();
 
   return (
     <section className="border-y border-border/40 bg-muted/20 py-12 sm:py-16" aria-label={t('socialProof.sectionLabel')}>
@@ -43,7 +39,7 @@ export async function LandingSocialProof() {
                 key={item.label}
                 className="rounded-xl border border-border/50 bg-card/80 px-6 py-5 text-center shadow-sm"
               >
-                <p className="font-display text-3xl font-bold tracking-tight text-primary">
+                <p className="font-display text-3xl font-bold tracking-tight text-foreground">
                   {item.value.toLocaleString(locale === 'tr' ? 'tr-TR' : 'en-US')}+
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">{item.label}</p>
@@ -57,8 +53,8 @@ export async function LandingSocialProof() {
                 key={key}
                 className="flex items-center gap-3 rounded-xl border border-border/50 bg-card/80 px-5 py-4 shadow-sm"
               >
-                <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" aria-hidden />
-                <p className="text-sm font-medium text-foreground">{t(key)}</p>
+                <CheckCircle2 className="h-5 w-5 shrink-0 text-foreground" aria-hidden />
+                <p className="text-sm font-medium text-foreground">{t(key, key === 'socialProof.trustPillar1' ? { count: freeQrCount } : undefined)}</p>
               </div>
             ))}
           </div>
@@ -78,30 +74,13 @@ export async function LandingSocialProof() {
           ))}
         </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
-          {TESTIMONIAL_KEYS.map((item) => (
-            <figure
-              key={item.quote}
-              className="rounded-2xl border border-border/50 bg-card p-5 shadow-sm"
-            >
-              <div className="mb-3 flex gap-0.5 text-amber-500" aria-hidden>
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-3.5 w-3.5 fill-current" />
-                ))}
-              </div>
-              <blockquote className="text-sm leading-relaxed text-foreground">&ldquo;{t(item.quote)}&rdquo;</blockquote>
-              <figcaption className="mt-3 text-xs text-muted-foreground">{t(item.role)}</figcaption>
-            </figure>
-          ))}
-        </div>
-
         <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
           <span className="inline-flex items-center gap-2">
-            <Shield className="h-4 w-4 text-primary" aria-hidden />
+            <Shield className="h-4 w-4 text-foreground" aria-hidden />
             {t('landing.trust4')}
           </span>
           <span className="inline-flex items-center gap-2">
-            <Zap className="h-4 w-4 text-primary" aria-hidden />
+            <Zap className="h-4 w-4 text-foreground" aria-hidden />
             {t('landing.trust2')}
           </span>
         </div>

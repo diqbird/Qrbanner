@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BarChart3, TrendingUp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,17 +11,28 @@ import { categoryShortName } from '@/lib/qr-utils';
 interface TopQrItem {
   id: string;
   name: string;
-  shortCode: string;
-  category: string;
   totalScans: number;
+  category?: string;
+  shortCode?: string;
+  isActive?: boolean;
 }
 
-export function TopQrWidget({ items }: { items: TopQrItem[] }) {
+export function TopQrWidget() {
   const { t } = useLanguage();
-  const top = [...items]
-    .filter((qr) => !qr.name.startsWith('__'))
-    .sort((a, b) => b.totalScans - a.totalScans)
-    .slice(0, 5);
+  const [top, setTop] = useState<TopQrItem[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/dashboard/analytics')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (!cancelled) setTop(data?.topQRCodes ?? []);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   if (top.length === 0 || top.every((q) => q.totalScans === 0)) return null;
 
@@ -46,12 +58,16 @@ export function TopQrWidget({ items }: { items: TopQrItem[] }) {
             </span>
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-medium group-hover:text-primary">{qr.name}</p>
-              <div className="mt-1 flex items-center gap-2">
-                <Badge variant="secondary" className="text-[10px]">
-                  {categoryShortName(qr.category)}
-                </Badge>
-                <span className="text-xs text-muted-foreground font-mono">/{qr.shortCode}</span>
-              </div>
+              {qr.category && (
+                <div className="mt-1 flex items-center gap-2">
+                  <Badge variant="secondary" className="text-[10px]">
+                    {categoryShortName(qr.category)}
+                  </Badge>
+                  {qr.shortCode && (
+                    <span className="text-xs text-muted-foreground font-mono">/{qr.shortCode}</span>
+                  )}
+                </div>
+              )}
               <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted">
                 <div
                   className="h-full rounded-full bg-primary transition-all"

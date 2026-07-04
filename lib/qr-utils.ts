@@ -77,6 +77,26 @@ function normalizeUrl(url: string): string {
   return `https://${t}`;
 }
 
+/** Escape special characters in vCard / iCal text values. */
+function escapeStructuredText(value: unknown): string {
+  return String(value ?? '')
+    .replace(/\\/g, '\\\\')
+    .replace(/;/g, '\\;')
+    .replace(/,/g, '\\,')
+    .replace(/\r\n/g, '\\n')
+    .replace(/\n/g, '\\n')
+    .replace(/\r/g, '\\n');
+}
+
+/** Escape SSID/password fields in the WIFI: QR payload format. */
+function escapeWifiField(value: unknown): string {
+  return String(value ?? '')
+    .replace(/\\/g, '\\\\')
+    .replace(/;/g, '\\;')
+    .replace(/:/g, '\\:')
+    .replace(/"/g, '\\"');
+}
+
 export function buildQRPayload(category: string, data: Record<string, any>): string {
   switch (category) {
     case 'url':
@@ -90,23 +110,25 @@ export function buildQRPayload(category: string, data: Record<string, any>): str
     case 'text':
       return (data?.text ?? '').trim();
     case 'vcard': {
+      const firstName = escapeStructuredText(data?.firstName);
+      const lastName = escapeStructuredText(data?.lastName);
       const lines = [
         'BEGIN:VCARD',
         'VERSION:3.0',
-        `N:${data?.lastName ?? ''};${data?.firstName ?? ''}`,
-        `FN:${data?.firstName ?? ''} ${data?.lastName ?? ''}`,
-        data?.org ? `ORG:${data.org}` : '',
-        data?.title ? `TITLE:${data.title}` : '',
-        data?.phone ? `TEL:${data.phone}` : '',
-        data?.email ? `EMAIL:${data.email}` : '',
-        data?.website ? `URL:${data.website}` : '',
-        data?.address ? `ADR:;;${data.address}` : '',
+        `N:${lastName};${firstName}`,
+        `FN:${escapeStructuredText(`${data?.firstName ?? ''} ${data?.lastName ?? ''}`.trim())}`,
+        data?.org ? `ORG:${escapeStructuredText(data.org)}` : '',
+        data?.title ? `TITLE:${escapeStructuredText(data.title)}` : '',
+        data?.phone ? `TEL:${escapeStructuredText(data.phone)}` : '',
+        data?.email ? `EMAIL:${escapeStructuredText(data.email)}` : '',
+        data?.website ? `URL:${normalizeUrl(data.website)}` : '',
+        data?.address ? `ADR:;;${escapeStructuredText(data.address)}` : '',
         'END:VCARD',
       ].filter(Boolean);
       return lines.join('\n');
     }
     case 'wifi':
-      return `WIFI:T:${data?.encryption ?? 'WPA'};S:${data?.ssid ?? ''};P:${data?.password ?? ''};H:${data?.hidden ? 'true' : 'false'};;`;
+      return `WIFI:T:${escapeWifiField(data?.encryption ?? 'WPA')};S:${escapeWifiField(data?.ssid ?? '')};P:${escapeWifiField(data?.password ?? '')};H:${data?.hidden ? 'true' : 'false'};;`;
     case 'email':
       return `mailto:${data?.email ?? ''}?subject=${encodeURIComponent(data?.subject ?? '')}&body=${encodeURIComponent(data?.body ?? '')}`;
     case 'sms':
@@ -124,9 +146,9 @@ export function buildQRPayload(category: string, data: Record<string, any>): str
       const lines = [
         'BEGIN:VCALENDAR',
         'BEGIN:VEVENT',
-        `SUMMARY:${data?.title ?? ''}`,
-        `LOCATION:${data?.location ?? ''}`,
-        `DESCRIPTION:${data?.description ?? ''}`,
+        `SUMMARY:${escapeStructuredText(data?.title)}`,
+        `LOCATION:${escapeStructuredText(data?.location)}`,
+        `DESCRIPTION:${escapeStructuredText(data?.description)}`,
         data?.startDate ? `DTSTART:${data.startDate.replace(/[-:]/g, '').replace('T', 'T')}` : '',
         data?.endDate ? `DTEND:${data.endDate.replace(/[-:]/g, '').replace('T', 'T')}` : '',
         'END:VEVENT',

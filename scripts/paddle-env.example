@@ -2,6 +2,7 @@
 # Get keys from https://vendors.paddle.com (Developer tools → Authentication)
 
 PADDLE_API_KEY=pdl_live_apikey_xxxxxxxx
+PADDLE_CLIENT_TOKEN=live_xxxxxxxx
 PADDLE_WEBHOOK_SECRET=pdl_ntfset_xxxxxxxx
 PADDLE_ENVIRONMENT=production
 # Use sandbox for testing:

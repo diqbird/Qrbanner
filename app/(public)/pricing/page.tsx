@@ -6,16 +6,18 @@ import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { PricingPageContent } from '@/components/public/pricing-page-content';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { freePlanQrLimit } from '@/lib/plans';
 
 export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
-  const t = (key: string) => translate(locale, key);
+  const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
+  const freeQrCount = freePlanQrLimit();
   return pageMetadata({
     locale,
     title: t('pricing.metaTitle'),
-    description: t('pricing.metaDescription'),
+    description: t('pricing.metaDescription', { count: freeQrCount }),
     path: '/pricing',
     keywords: ['QR code pricing', 'free dynamic QR', 'QR SaaS plans', 'QR code subscription'],
   });
@@ -23,9 +25,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function PricingPage() {
   const locale = await getServerLocale();
-  const t = (key: string) => translate(locale, key);
+  const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
+  const freeQrCount = freePlanQrLimit();
   const pageTitle = t('pricing.metaTitle');
-  const pageDesc = t('pricing.metaDescription');
+  const pageDesc = t('pricing.metaDescription', { count: freeQrCount });
 
   return (
     <>

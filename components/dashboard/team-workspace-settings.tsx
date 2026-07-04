@@ -15,6 +15,7 @@ import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
+import { SettingsCardSkeleton } from '@/components/dashboard/settings-card-skeleton';
 
 interface MemberRow {
   id: string;
@@ -191,7 +192,7 @@ export function TeamWorkspaceSettings() {
     }
   };
 
-  if (loading) return null;
+  if (loading) return <SettingsCardSkeleton />;
 
   const canManage = ['owner', 'admin'].includes(role);
   const isTeam = workspace && !workspace.isPersonal;

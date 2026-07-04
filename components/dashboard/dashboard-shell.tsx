@@ -3,11 +3,11 @@
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   QrCode, LayoutDashboard, PlusCircle, Settings, LogOut,
-  Menu, X, BarChart3, ChevronDown, FileSpreadsheet, Shield
+  Menu, X, BarChart3, ChevronDown, FileSpreadsheet, Shield, Search,
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -19,6 +19,10 @@ import { SkipToMain } from '@/components/skip-to-main';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { LanguageSwitcher } from '@/components/i18n/language-switcher';
 import { useLanguage } from '@/components/i18n/language-provider';
+import {
+  DashboardCommandPalette,
+  useDashboardCommandShortcut,
+} from '@/components/dashboard/dashboard-command-palette';
 
 const navItemKeys = [
   { href: '/dashboard', key: 'dashboard.title', icon: LayoutDashboard },
@@ -33,6 +37,14 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [commandOpen, setCommandOpen] = useState(false);
+
+  const openCommand = useCallback(() => setCommandOpen(true), []);
+  useDashboardCommandShortcut(openCommand);
+
+  const focusDashboardSearch = useCallback(() => {
+    window.dispatchEvent(new Event('dashboard:focus-search'));
+  }, []);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -63,6 +75,11 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen bg-muted/20">
       <SkipToMain />
+      <DashboardCommandPalette
+        open={commandOpen}
+        onOpenChange={setCommandOpen}
+        onFocusSearch={focusDashboardSearch}
+      />
       {/* Sidebar - Desktop */}
       <aside className="hidden w-64 flex-col border-r border-border/40 bg-card lg:flex">
         <div className="flex h-16 items-center gap-2 border-b border-border/40 px-6">
@@ -183,6 +200,16 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             <Menu className="h-5 w-5" />
           </button>
           <div className="flex-1" />
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="hidden gap-2 text-muted-foreground sm:flex"
+            onClick={() => setCommandOpen(true)}
+          >
+            <Search className="h-3.5 w-3.5" />
+            <span className="text-xs">{t('commandPalette.shortcutHint')}</span>
+          </Button>
           <LanguageSwitcher />
           <ThemeToggle />
           <Link href="/qr/create?quick=1">

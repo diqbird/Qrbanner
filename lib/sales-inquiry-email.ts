@@ -1,18 +1,8 @@
-import nodemailer from 'nodemailer';
+import { createSmtpTransport, smtpFromAddress } from '@/lib/smtp-transport';
 import { SUPPORT_EMAIL } from '@/lib/site-contact';
 
 function getTransporter() {
-  const host = process.env.SMTP_HOST;
-  const port = parseInt(process.env.SMTP_PORT || '465', 10);
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASSWORD;
-  if (!host || !user || !pass) return null;
-  return nodemailer.createTransport({
-    host,
-    port,
-    secure: port === 465,
-    auth: { user, pass },
-  });
+  return createSmtpTransport();
 }
 
 export interface SalesInquiryPayload {
@@ -33,7 +23,7 @@ export async function sendSalesInquiryEmail(
   payload: SalesInquiryPayload
 ): Promise<SalesInquirySendResult> {
   const transporter = getTransporter();
-  const from = process.env.SMTP_FROM || process.env.SMTP_USER || 'no-reply@qrbanner.com';
+  const from = smtpFromAddress();
   const to = process.env.SALES_INBOX || SUPPORT_EMAIL;
 
   const typeLabel =

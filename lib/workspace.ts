@@ -149,6 +149,102 @@ export async function assertQrAccess(
   return { ok: true as const, qr, role: 'owner' as WorkspaceRole };
 }
 
+export async function resolveApiWorkspaceId(
+  userId: string,
+  workspaceIdParam?: string | null,
+  minRole: WorkspaceRole = 'viewer'
+): Promise<{ ok: true; workspaceId: string } | { ok: false; error: string }> {
+  const workspaceId = workspaceIdParam?.trim() || (await getActiveWorkspaceId(userId));
+  const access = await assertWorkspaceRole(userId, workspaceId, minRole);
+  if (!access.ok) return { ok: false, error: access.error };
+  return { ok: true, workspaceId };
+}
+
+async function folderScopeForWorkspace(userId: string, workspaceId: string) {
+  const workspace = await prisma.workspace.findUnique({
+    where: { id: workspaceId },
+    select: { isPersonal: true },
+  });
+  if (workspace?.isPersonal) {
+    return {
+      OR: [{ workspaceId }, { workspaceId: null, userId }],
+    };
+  }
+  return { workspaceId };
+}
+
+/** List folders visible in the active workspace (team-shared or personal legacy). */
+export async function listWorkspaceFolders(userId: string, workspaceId: string) {
+  const access = await assertWorkspaceRole(userId, workspaceId, 'viewer');
+  if (!access.ok) throw new Error(access.error);
+
+  const scope = await folderScopeForWorkspace(userId, workspaceId);
+  return prisma.qRFolder.findMany({
+    where: scope,
+    orderBy: { name: 'asc' },
+    include: { _count: { select: { qrCodes: true } } },
+  });
+}
+
+export async function assertFolderInWorkspace(
+  userId: string,
+  folderId: string,
+  workspaceId: string,
+  minRole: WorkspaceRole = 'editor'
+): Promise<{ ok: true; folder: { id: string; name: string } } | { ok: false; error: string }> {
+  const access = await assertWorkspaceRole(userId, workspaceId, minRole);
+  if (!access.ok) return { ok: false, error: access.error };
+
+  const scope = await folderScopeForWorkspace(userId, workspaceId);
+  const folder = await prisma.qRFolder.findFirst({
+    where: { id: folderId, ...scope },
+    select: { id: true, name: true },
+  });
+  if (!folder) return { ok: false, error: 'Folder not found' };
+  return { ok: true, folder };
+}
+
+/** SSO metadata safe for workspace members list — certificate only for owners. */
+export function workspaceSummaryForRole(
+  workspace: {
+    id: string;
+    name: string;
+    slug: string;
+    isPersonal: boolean;
+    ssoEnabled: boolean;
+    ssoProvider: string | null;
+    allowedDomains: unknown;
+    idpEntityId?: string | null;
+    idpSsoUrl?: string | null;
+    idpCertificate?: string | null;
+  },
+  role: WorkspaceRole
+) {
+  const base = {
+    id: workspace.id,
+    name: workspace.name,
+    slug: workspace.slug,
+    isPersonal: workspace.isPersonal,
+    ssoEnabled: workspace.ssoEnabled,
+    ssoProvider: workspace.ssoProvider,
+    allowedDomains: workspace.allowedDomains,
+  };
+  if (role === 'viewer' || role === 'editor') return base;
+  if (role === 'admin') {
+    return {
+      ...base,
+      idpEntityId: workspace.idpEntityId ?? null,
+      idpSsoUrl: workspace.idpSsoUrl ?? null,
+    };
+  }
+  return {
+    ...base,
+    idpEntityId: workspace.idpEntityId ?? null,
+    idpSsoUrl: workspace.idpSsoUrl ?? null,
+    idpCertificate: workspace.idpCertificate ?? null,
+  };
+}
+
 export function generateInviteToken(): string {
   return crypto.randomBytes(24).toString('hex');
 }

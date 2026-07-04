@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
+import { assertQrAccess } from '@/lib/workspace';
 
 export async function GET(
   req: NextRequest,
@@ -13,10 +14,10 @@ export async function GET(
   const userId = (session?.user as { id?: string })?.id;
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const qrCode = await prisma.qRCode.findFirst({
-    where: { id: params.id, userId },
-  });
-  if (!qrCode) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  const access = await assertQrAccess(userId, params.id, 'viewer');
+  if (!access.ok) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+
+  const qrCode = access.qr;
 
   const take = Math.min(Number(req.nextUrl.searchParams.get('limit') ?? 50), 200);
 

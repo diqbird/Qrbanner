@@ -6,6 +6,8 @@ import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import bcrypt from 'bcryptjs';
 import { validatePassword } from '@/lib/password';
+import { enforceRateLimit } from '@/lib/authenticated-rate-limit';
+import { AUTH_CHANGE_PASSWORD } from '@/lib/rate-limit-policies';
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,6 +17,17 @@ export async function POST(req: NextRequest) {
     }
 
     const userId = (session.user as { id?: string })?.id;
+    if (!userId) {
+      return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+    }
+
+    const limited = await enforceRateLimit(
+      AUTH_CHANGE_PASSWORD.key(userId),
+      AUTH_CHANGE_PASSWORD.limit,
+      AUTH_CHANGE_PASSWORD.windowMs
+    );
+    if (limited) return limited;
+
     const { currentPassword, newPassword } = await req.json();
 
     if (!currentPassword || !newPassword) {
@@ -43,7 +56,7 @@ export async function POST(req: NextRequest) {
     const hashedPassword = await bcrypt.hash(newPassword, 12);
     await prisma.user.update({
       where: { id: userId },
-      data: { password: hashedPassword },
+      data: { password: hashedPassword, sessionVersion: { increment: 1 } },
     });
 
     return NextResponse.json({ message: 'password_changed' });

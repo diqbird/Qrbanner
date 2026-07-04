@@ -43,7 +43,13 @@ export default function InvitePage() {
         body: JSON.stringify({ userId }),
       });
       const data = await res.json();
-      if (!res.ok) return toast.error(resolveApiError(t, data.error, 'invite.joinFailed'));
+      if (!res.ok) {
+        if (data.error === 'mfa_required') {
+          router.push(`/mfa-verify?callbackUrl=${encodeURIComponent(`/invite/${token}`)}`);
+          return;
+        }
+        return toast.error(resolveApiError(t, data.error, 'invite.joinFailed'));
+      }
       toast.success(t('invite.joinSuccess'));
       router.replace('/dashboard');
     } finally {
@@ -89,9 +95,20 @@ export default function InvitePage() {
             {t('invite.invitedAs', { email: invite.email })}
           </p>
           {status === 'authenticated' ? (
-            <Button className="w-full" loading={joining} onClick={acceptInvite}>
-              {t('invite.accept')}
-            </Button>
+            (session as { mfaVerified?: boolean }).mfaVerified === false ? (
+              <Button
+                className="w-full"
+                onClick={() =>
+                  router.push(`/mfa-verify?callbackUrl=${encodeURIComponent(`/invite/${token}`)}`)
+                }
+              >
+                {t('settings.mfa.verify')}
+              </Button>
+            ) : (
+              <Button className="w-full" loading={joining} onClick={acceptInvite}>
+                {t('invite.accept')}
+              </Button>
+            )
           ) : (
             <Button className="w-full" onClick={() => signIn(undefined, { callbackUrl: `/invite/${token}` })}>
               {t('invite.signInToAccept')}

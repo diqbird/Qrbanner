@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import type { Prisma } from '@prisma/client';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import bcrypt from 'bcryptjs';
@@ -17,8 +18,10 @@ import { sanitizeAbTestData, parseAbTestData } from '@/lib/ab-routing';
 import {
   getActiveWorkspaceId,
   assertWorkspaceRole,
+  assertFolderInWorkspace,
 } from '@/lib/workspace';
 import { QR_MUTATION_LIMIT, rateLimitRequest } from '@/lib/authenticated-rate-limit';
+import { parseQrListPagination } from '@/lib/qr-list-pagination';
 
 const qrListSelect = {
   id: true,
@@ -55,7 +58,7 @@ export async function GET(req: NextRequest) {
     }
 
     const workspaceId = await getActiveWorkspaceId(userId);
-    const where: Record<string, unknown> = { workspaceId };
+    const where: Prisma.QRCodeWhereInput = { workspaceId };
 
     const { searchParams } = new URL(req.url);
     const folderId = searchParams.get('folderId');
@@ -91,18 +94,36 @@ export async function GET(req: NextRequest) {
       ];
     }
 
-    let qrCodes = await prisma.qRCode.findMany({
-      where: where as any,
-      orderBy: { createdAt: 'desc' },
-      select: qrListSelect,
-    });
-
     if (label?.trim()) {
-      const needle = label.trim().toLowerCase();
-      qrCodes = qrCodes.filter((qr) =>
-        parseLabelsField(qr.labels).some((l) => l.toLowerCase() === needle)
-      );
+      const needle = label.trim().replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+      where.labels = { string_contains: `"${needle}"` };
     }
+
+    const { page, limit, skip } = parseQrListPagination(searchParams);
+
+    const [total, qrCodes, activeCount, scanSum, accountTotal, accountActive, accountScanSum] = await Promise.all([
+      prisma.qRCode.count({ where }),
+      prisma.qRCode.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        select: qrListSelect,
+        skip,
+        take: limit,
+      }),
+      prisma.qRCode.count({
+        where: { ...where, isActive: true },
+      }),
+      prisma.qRCode.aggregate({
+        where,
+        _sum: { totalScans: true },
+      }),
+      prisma.qRCode.count({ where: { workspaceId, isArchived: false } }),
+      prisma.qRCode.count({ where: { workspaceId, isArchived: false, isActive: true } }),
+      prisma.qRCode.aggregate({
+        where: { workspaceId, isArchived: false },
+        _sum: { totalScans: true },
+      }),
+    ]);
 
     const allForMeta = await prisma.qRCode.findMany({
       where: { workspaceId },
@@ -123,6 +144,20 @@ export async function GET(req: NextRequest) {
         ...qr,
         labels: parseLabelsField(qr.labels),
       })),
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.max(1, Math.ceil(total / limit)),
+      },
+      totals: {
+        accountQrCount: accountTotal,
+        accountActiveCount: accountActive,
+        accountTotalScans: accountScanSum._sum.totalScans ?? 0,
+        filteredTotal: total,
+        filteredScans: scanSum._sum.totalScans ?? 0,
+        filteredActive: activeCount,
+      },
       meta: {
         labels: Array.from(labelSet).sort((a, b) => a.localeCompare(b)),
         batches: Array.from(batchMap.entries()).map(([id, name]) => ({ id, name })),
@@ -196,8 +231,8 @@ export async function POST(req: NextRequest) {
     }
 
     if (folderId) {
-      const folder = await prisma.qRFolder.findFirst({ where: { id: folderId, userId } });
-      if (!folder) return NextResponse.json({ error: 'Folder not found' }, { status: 400 });
+      const folderCheck = await assertFolderInWorkspace(userId, folderId, workspaceId, 'editor');
+      if (!folderCheck.ok) return NextResponse.json({ error: 'Folder not found' }, { status: 400 });
     }
 
     let shortCode = generateShortCode();
@@ -208,6 +243,9 @@ export async function POST(req: NextRequest) {
     }
 
     const targetUrl = buildQRPayload(category, cleanQrData);
+    if (!targetUrl?.trim()) {
+      return NextResponse.json({ error: 'invalid_payload' }, { status: 400 });
+    }
     const hashedPassword = password ? await bcrypt.hash(String(password), 10) : null;
 
     const qrCode = await prisma.qRCode.create({

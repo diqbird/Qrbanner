@@ -6,11 +6,19 @@ import { getToken } from 'next-auth/jwt';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { decryptTotpSecret, verifyTotpCode } from '@/lib/totp';
+import { createMfaProofToken } from '@/lib/mfa-step-up';
+import { checkRateLimit, clientIp } from '@/lib/rate-limit-store';
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   const userId = (session?.user as { id?: string })?.id;
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+  const ip = clientIp(req);
+  const rl = await checkRateLimit(`mfa-verify:${userId}:${ip}`, 10, 15 * 60 * 1000);
+  if (!rl.ok) {
+    return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
+  }
 
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   if (token?.mfaVerified !== false) {
@@ -32,5 +40,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'invalid_mfa_code' }, { status: 400 });
   }
 
-  return NextResponse.json({ ok: true, mfaVerified: true });
+  const mfaProofToken = createMfaProofToken(userId);
+  return NextResponse.json({ ok: true, mfaVerified: true, mfaProofToken });
 }

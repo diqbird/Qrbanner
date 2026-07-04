@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -15,9 +16,9 @@ import { TurnstileField, isTurnstileEnabledClient } from '@/components/security/
 
 export function ForgotPasswordForm() {
   const { t } = useLanguage();
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [sent, setSent] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const turnstileRequired = isTurnstileEnabledClient();
 
@@ -39,8 +40,8 @@ export function ForgotPasswordForm() {
         toast.error(resolveApiError(t, data?.error, 'auth.requestFailed'));
         return;
       }
-      setSent(true);
-      toast.success(t('auth.resetEmailSent'));
+      toast.success(t('auth.resetCodeSent'));
+      router.push(`/reset-password?email=${encodeURIComponent(email.trim())}`);
     } catch {
       toast.error(t('auth.somethingWrong'));
     } finally {
@@ -61,44 +62,32 @@ export function ForgotPasswordForm() {
         <CardDescription>{t('auth.forgotSubtitle')}</CardDescription>
       </CardHeader>
       <CardContent>
-        {sent ? (
-          <div className="space-y-4 text-center text-sm text-muted-foreground">
-            <p>{t('auth.resetSentTitle', { email })}</p>
-            <p>{t('auth.resetSentHint')}</p>
-            <Link href="/login">
-              <Button variant="outline" className="w-full gap-2">
-                <ArrowLeft className="h-4 w-4" /> {t('auth.backToSignIn')}
-              </Button>
-            </Link>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">{t('common.email')}</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder={t('common.emailPlaceholder')}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="pl-10"
-                  autoComplete="email"
-                />
-              </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="email">{t('common.email')}</Label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                id="email"
+                type="email"
+                placeholder={t('common.emailPlaceholder')}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="pl-10"
+                autoComplete="email"
+              />
             </div>
-            <TurnstileField onToken={setTurnstileToken} className="flex justify-center py-1" />
-            <Button type="submit" className="w-full" loading={loading}>
-              {t('auth.sendResetLink')}
-            </Button>
-            <Link href="/login" className="block text-center text-sm text-muted-foreground hover:text-primary">
-              <ArrowLeft className="inline h-3.5 w-3.5 mr-1" />
-              {t('auth.backToSignIn')}
-            </Link>
-          </form>
-        )}
+          </div>
+          <TurnstileField onToken={setTurnstileToken} className="flex justify-center py-1" />
+          <Button type="submit" className="w-full" loading={loading}>
+            {t('auth.sendResetCode')}
+          </Button>
+          <Link href="/login" className="block text-center text-sm text-muted-foreground hover:text-primary">
+            <ArrowLeft className="inline h-3.5 w-3.5 mr-1" />
+            {t('auth.backToSignIn')}
+          </Link>
+        </form>
       </CardContent>
     </Card>
   );

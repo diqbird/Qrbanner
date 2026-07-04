@@ -26,4 +26,5 @@ export {
   parseLocalePath,
   pathsMatchLocalized,
   shouldLocalizePath,
+  isEnglishOnlyPublicPath,
 } from './locale-path';

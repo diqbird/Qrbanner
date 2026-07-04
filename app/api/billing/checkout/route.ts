@@ -7,7 +7,7 @@ import { createPaddleCheckout } from '@/lib/paddle';
 import { getStripe, stripePriceIdForPlan } from '@/lib/stripe';
 import type { PlanId } from '@/lib/plans';
 import { normalizePlanId, type BillingInterval } from '@/lib/plans';
-import { referralClaimedBranding, referralCouponForCheckout } from '@/lib/referral-checkout';
+import { referralCouponForCheckout } from '@/lib/referral-checkout';
 
 async function upgradeExistingStripeSubscription(
   stripe: NonNullable<ReturnType<typeof getStripe>>,
@@ -30,10 +30,6 @@ async function upgradeExistingStripeSubscription(
       metadata: { userId, plan },
     });
 
-    await prisma.user.update({
-      where: { id: userId },
-      data: { plan, stripeSubscriptionId: subscriptionId },
-    });
     return true;
   } catch (error) {
     console.error('[billing/checkout] Stripe subscription update failed', error);
@@ -105,28 +101,27 @@ export async function POST(req: Request) {
       });
 
       if ('upgraded' in result) {
-        await prisma.user.update({
-          where: { id: user.id },
-          data: { plan, paddleSubscriptionId: user.paddleSubscriptionId },
-        });
-        return NextResponse.json({ url: successUrl });
+        return NextResponse.json({ url: successUrl, pendingPlanSync: true });
       }
 
       await prisma.user.update({
         where: { id: user.id },
         data: { paddleCustomerId: result.customerId },
       });
-      return NextResponse.json({ url: result.url });
+      return NextResponse.json({ url: result.url, transactionId: result.transactionId });
     }
 
     const stripe = getStripe();
-    let priceId = stripePriceIdForPlan(plan, interval);
-    if (!priceId && interval === 'annual') {
-      priceId = stripePriceIdForPlan(plan, 'monthly');
-    }
+    const priceId = stripePriceIdForPlan(plan, interval);
     if (!stripe || !priceId) {
       return NextResponse.json(
-        { error: 'billing_not_configured', message: 'Stripe price IDs are not configured.' },
+        {
+          error: 'billing_not_configured',
+          message:
+            interval === 'annual'
+              ? 'Annual billing is not configured for this plan.'
+              : 'Stripe price IDs are not configured.',
+        },
         { status: 503 }
       );
     }
@@ -140,7 +135,7 @@ export async function POST(req: Request) {
         plan
       );
       if (upgraded) {
-        return NextResponse.json({ url: successUrl });
+        return NextResponse.json({ url: successUrl, pendingPlanSync: true });
       }
     }
 
@@ -215,13 +210,6 @@ export async function POST(req: Request) {
         },
       },
     });
-
-    if (referralCoupon) {
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { brandingSettings: referralClaimedBranding(user.brandingSettings) },
-      });
-    }
 
     return NextResponse.json({
       url: checkout.url,

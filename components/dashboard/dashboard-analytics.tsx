@@ -9,9 +9,11 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { downloadAnalyticsCsv } from '@/lib/analytics-export';
+import { buildAnalyticsPdfLabels, downloadAnalyticsPdf } from '@/lib/analytics-pdf-export';
+import { toast } from 'sonner';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
 import { DateRange } from 'react-day-picker';
-import { subDays, format } from 'date-fns';
+import { format } from 'date-fns';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/components/i18n/language-provider';
 import dynamic from 'next/dynamic';
@@ -21,6 +23,13 @@ import { PeriodChangeBadge } from '@/components/analytics/period-change-badge';
 import { AnalyticsFunnelPanel } from '@/components/analytics/analytics-funnel-panel';
 import { AnalyticsUtmCharts } from '@/components/analytics/analytics-utm-charts';
 import type { FunnelMetrics } from '@/lib/analytics-funnel';
+import {
+  ANALYTICS_RANGE_PRESETS,
+  ANALYTICS_RANGE_PRESET_LABELS,
+  analyticsPresetRange,
+  formatScanTimeAgo,
+  recentScanRowKey,
+} from '@/lib/analytics-view-utils';
 
 const AnalyticsCharts = dynamic(() => import('@/components/qr/analytics-charts'), { ssr: false });
 
@@ -64,24 +73,6 @@ interface TopQR {
   isActive: boolean;
 }
 
-function formatTimeAgo(t: (key: string, vars?: Record<string, string | number>) => string, dateStr: string) {
-  const diff = Date.now() - new Date(dateStr).getTime();
-  const mins = Math.floor(diff / 60000);
-  if (mins < 1) return t('analytics.timeJustNow');
-  if (mins < 60) return t('analytics.timeMinutesAgo', { n: mins });
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return t('analytics.timeHoursAgo', { n: hrs });
-  return t('analytics.timeDaysAgo', { n: Math.floor(hrs / 24) });
-}
-
-const RANGE_PRESETS = [7, 30, 90] as const;
-
-const RANGE_PRESET_LABELS = {
-  7: 'analytics.preset7d',
-  30: 'analytics.preset30d',
-  90: 'analytics.preset90d',
-} as const;
-
 export function DashboardAnalyticsPanel() {
   const { t, locale } = useLanguage();
   const [data, setData] = useState<DashboardAnalytics | null>(null);
@@ -92,10 +83,7 @@ export function DashboardAnalyticsPanel() {
   const [planName, setPlanName] = useState('Free');
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
-  const [dateRange, setDateRange] = useState<DateRange>({
-    from: subDays(new Date(), 30),
-    to: new Date(),
-  });
+  const [dateRange, setDateRange] = useState<DateRange>(() => analyticsPresetRange(30));
 
   const fetchAnalytics = useCallback(async () => {
     try {
@@ -140,7 +128,7 @@ export function DashboardAnalyticsPanel() {
   }, [fetchAnalytics]);
 
   const applyPreset = (days: number) => {
-    setDateRange({ from: subDays(new Date(), days - 1), to: new Date() });
+    setDateRange(analyticsPresetRange(days));
   };
 
   if (loading) {
@@ -203,7 +191,7 @@ export function DashboardAnalyticsPanel() {
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
-          {RANGE_PRESETS.map((days) => (
+          {ANALYTICS_RANGE_PRESETS.map((days) => (
             <Button
               key={days}
               type="button"
@@ -212,19 +200,45 @@ export function DashboardAnalyticsPanel() {
               className="h-8 text-xs"
               onClick={() => applyPreset(days)}
             >
-              {t(RANGE_PRESET_LABELS[days])}
+              {t(ANALYTICS_RANGE_PRESET_LABELS[days])}
             </Button>
           ))}
           <DateRangePicker value={dateRange} onChange={(v) => setDateRange(v ?? {})} />
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          className="gap-2"
-          onClick={() => downloadAnalyticsCsv(data, 'dashboard-analytics')}
-        >
-          <Download className="h-4 w-4" /> {t('analytics.exportCsv')}
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            onClick={() => downloadAnalyticsCsv(data, 'dashboard-analytics')}
+          >
+            <Download className="h-4 w-4" /> {t('analytics.exportCsv')}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            onClick={async () => {
+              try {
+                const periodLabel =
+                  dateRange.from && dateRange.to
+                    ? `${format(dateRange.from, 'yyyy-MM-dd')} – ${format(dateRange.to, 'yyyy-MM-dd')}`
+                    : undefined;
+                await downloadAnalyticsPdf(data, {
+                  filename: 'dashboard-analytics',
+                  subtitle: t('dashboard.analyticsOverview'),
+                  periodLabel,
+                  labels: buildAnalyticsPdfLabels(t),
+                });
+                toast.success(t('analytics.pdfDownloaded'));
+              } catch {
+                toast.error(t('analytics.loadError'));
+              }
+            }}
+          >
+            <Download className="h-4 w-4" /> {t('analytics.exportPdf')}
+          </Button>
+        </div>
       </div>
 
       {periodComparison?.totalScans.changePct !== null && periodComparison?.totalScans.changePct !== undefined ? (
@@ -317,7 +331,7 @@ export function DashboardAnalyticsPanel() {
           <div className="space-y-1">
             {(data.recentScans ?? []).slice(0, 8).map((scan, i) => (
               <div
-                key={i}
+                key={recentScanRowKey(scan, i)}
                 className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors hover:bg-muted/40"
               >
                 <div className="flex items-center gap-3 min-w-0">
@@ -336,7 +350,7 @@ export function DashboardAnalyticsPanel() {
                   )}
                 </div>
                 <span className="shrink-0 font-mono text-xs text-muted-foreground">
-                  {scan.scannedAt ? formatTimeAgo(t, scan.scannedAt) : ''}
+                  {scan.scannedAt ? formatScanTimeAgo(t, scan.scannedAt) : ''}
                 </span>
               </div>
             ))}

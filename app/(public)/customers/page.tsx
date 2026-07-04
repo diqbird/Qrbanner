@@ -123,23 +123,17 @@ export default async function CustomersPage() {
 
 
           <section className="mt-12" aria-label={t('customerLogos.sectionLabel')}>
-
             <p className="text-center text-xs font-medium uppercase tracking-wider text-muted-foreground">
-
               {t('customers.logosTitle')}
-
             </p>
-
+            <p className="mx-auto mt-2 max-w-xl text-center text-[11px] text-muted-foreground">
+              {t('customerLogos.disclaimer')}
+            </p>
             <div className="mt-5 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-
               {CUSTOMER_LOGOS.map((logo) => (
-
                 <div
-
                   key={logo.id}
-
-                  className="flex h-11 min-w-[7.5rem] items-center justify-center rounded-lg border border-border/50 bg-muted/30 px-4"
-
+                  className="flex h-11 min-w-[7.5rem] items-center justify-center rounded-lg border border-dashed border-border/60 bg-muted/20 px-4"
                 >
 
                   {logo.imageSrc ? (

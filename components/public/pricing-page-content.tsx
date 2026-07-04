@@ -6,16 +6,17 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Check, ArrowRight, Loader2 } from 'lucide-react';
+import { Check, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { BillingComingSoonBanner } from '@/components/billing/billing-coming-soon-banner';
-import { useBillingStatus } from '@/hooks/use-billing-status';
+import { PricingPlanCardButton } from '@/components/billing/pricing-plan-card-button';
+import { usePlanCheckout } from '@/hooks/use-plan-checkout';
+import { isPaidCheckoutClosed, planCardPriceLabel } from '@/lib/pricing-display';
 import {
   getComparisonRows,
   getLaunchBanner,
   getPricingPlans,
   planName,
-  planCtaLabel,
 } from '@/lib/i18n/pricing-content';
 import type { BillingInterval, PlanId } from '@/lib/plans';
 import { ANNUAL_DISCOUNT_PERCENT } from '@/lib/plans';
@@ -28,10 +29,9 @@ export function PricingPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session } = useSession() || {};
-  const [loadingPlan, setLoadingPlan] = useState<PlanId | null>(null);
   const [interval, setInterval] = useState<BillingInterval>('monthly');
   const plans = getPricingPlans(locale, interval);
-  const { configured: billingConfigured, loading: billingLoading } = useBillingStatus();
+  const { checkoutPlan, loadingPlan, billingConfigured, annualAvailable, billingLoading } = usePlanCheckout();
 
   const comparison = getComparisonRows(locale);
 
@@ -43,52 +43,12 @@ export function PricingPageContent() {
   }, [searchParams, router, t]);
 
   const handlePlanClick = async (planId: PlanId, priceMonthly: number | null) => {
-    if (priceMonthly === 0 || priceMonthly === null) {
-      window.location.href = session ? '/dashboard' : '/signup';
-      return;
-    }
-    if (!billingConfigured) {
-      toast.message(t('pricing.billingSoonToast'));
-      window.location.href = '/contact';
-      return;
-    }
-    setLoadingPlan(planId);
-    try {
-      const res = await fetch('/api/billing/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan: planId, interval }),
-      });
-      if (res.status === 401) {
-        window.location.href = `/signup?callbackUrl=${encodeURIComponent('/pricing')}`;
-        return;
-      }
-      const data = await res.json();
-      if (data?.url) {
-        window.location.href = data.url;
-        return;
-      }
-      if (res.status === 503 || data?.error === 'billing_not_configured') {
-        toast.message(t('pricing.billingSoonToast'));
-        return;
-      }
-      if (!res.ok) {
-        if (data?.manageBilling) {
-          toast.message(t('billing.alreadyOnPlan'));
-          const portal = await fetch('/api/billing/portal', { method: 'POST' });
-          const portalData = await portal.json();
-          if (portalData?.url) {
-            window.location.href = portalData.url;
-            return;
-          }
-        }
-        toast.error(data?.error ?? t('auth.somethingWrong'));
-        return;
-      }
-    } catch {
-      toast.error(t('auth.somethingWrong'));
-    } finally {
-      setLoadingPlan(null);
+    const result = await checkoutPlan(planId, priceMonthly, interval, {
+      signInCallbackUrl: '/pricing',
+      isSignedIn: Boolean(session),
+    });
+    if (result.redirected && result.href) {
+      window.location.href = result.href;
     }
   };
 
@@ -99,10 +59,13 @@ export function PricingPageContent() {
         <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
           {t('pricing.title')}
         </h1>
-        <p className="mt-4 text-lg text-muted-foreground">{getLaunchBanner(locale)}</p>
+        <p className="mt-4 text-lg text-muted-foreground">
+          {getLaunchBanner(locale, { billingLive: billingConfigured })}
+        </p>
 
         {!billingLoading && !billingConfigured && <BillingComingSoonBanner />}
 
+        {annualAvailable && (
         <div className="mt-6 inline-flex rounded-full border border-border/60 bg-muted/40 p-1">
           <button
             type="button"
@@ -124,6 +87,7 @@ export function PricingPageContent() {
             <span className="text-primary">({t('pricing.savePercent', { percent: ANNUAL_DISCOUNT_PERCENT })})</span>
           </button>
         </div>
+        )}
       </div>
 
       <PricingReferralBanner />
@@ -141,15 +105,20 @@ export function PricingPageContent() {
             )}
             <h2 className="font-display text-xl font-bold">{planName(plan.id, locale)}</h2>
             <p className="mt-3">
-              <span className="font-display text-4xl font-bold">{plan.priceLabel}</span>
-              {plan.priceMonthly !== null && plan.priceMonthly > 0 && (
+              <span className="font-display text-4xl font-bold">
+                {planCardPriceLabel(plan.priceLabel, plan.priceMonthly, billingConfigured, billingLoading, t)}
+              </span>
+              {plan.priceMonthly !== null && plan.priceMonthly > 0 && billingConfigured && (
                 <span className="text-muted-foreground"> {t('pricing.perMonth')}</span>
               )}
             </p>
-            {'billedNote' in plan && plan.billedNote && (
+            {'billedNote' in plan && plan.billedNote && billingConfigured && (
               <p className="mt-1 text-xs text-muted-foreground">{plan.billedNote}</p>
             )}
-            {plan.priceMonthly !== null && plan.priceMonthly > 0 && !plan.billedNote && (
+            {isPaidCheckoutClosed(plan.priceMonthly, billingConfigured, billingLoading) && (
+              <p className="mt-1 text-xs text-muted-foreground">{t('pricing.paidCheckoutClosedNote')}</p>
+            )}
+            {plan.priceMonthly !== null && plan.priceMonthly > 0 && billingConfigured && !plan.billedNote && (
               <p className="mt-1 text-xs text-muted-foreground">{t('pricing.stripeNote')}</p>
             )}
             <ul className="mt-8 flex-1 space-y-3">
@@ -160,20 +129,16 @@ export function PricingPageContent() {
                 </li>
               ))}
             </ul>
-            <Button
-              className="mt-8 w-full"
-              variant={plan.highlighted ? 'default' : 'outline'}
-              onClick={() => handlePlanClick(plan.id, plan.priceMonthly)}
-              disabled={loadingPlan === plan.id || (plan.priceMonthly !== null && plan.priceMonthly > 0 && !billingConfigured && !billingLoading)}
-            >
-              {loadingPlan === plan.id ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : plan.priceMonthly !== null && plan.priceMonthly > 0 && !billingConfigured && !billingLoading ? (
-                t('pricing.billingSoonCtaShort')
-              ) : (
-                planCtaLabel(plan.id, plan.priceMonthly, t)
-              )}
-            </Button>
+            <PricingPlanCardButton
+              planId={plan.id}
+              priceMonthly={plan.priceMonthly}
+              highlighted={Boolean(plan.highlighted)}
+              billingConfigured={billingConfigured}
+              billingLoading={billingLoading}
+              loadingPlan={loadingPlan}
+              t={t}
+              onCheckout={() => handlePlanClick(plan.id, plan.priceMonthly)}
+            />
           </div>
         ))}
       </div>

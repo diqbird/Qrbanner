@@ -1,56 +1,54 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import {
-  QrCode, PlusCircle, BarChart3, Eye, Trash2, Copy,
-  ExternalLink, MoreHorizontal, Pencil, TrendingUp, Search, FolderOpen, Tag,
-  Star, Archive, Download, Sparkles,
+  QrCode, PlusCircle, TrendingUp, Eye, Search, Sparkles, ChevronLeft, ChevronRight,
+  Star, Archive, Download, Loader2,
 } from 'lucide-react';
-import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger,
-  DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger,
-} from '@/components/ui/dropdown-menu';
 import { toast } from 'sonner';
-import { motion } from 'framer-motion';
 import { DashboardAnalyticsPanel } from './dashboard-analytics';
-import { FolderManager, MoveToFolderMenu } from './folder-manager';
+import { FolderManager } from './folder-manager';
 import type { QRFolderOption } from '@/components/qr/qr-organize-settings';
-import { categoryShortName } from '@/lib/qr-utils';
 import { OnboardingBanner } from './onboarding-banner';
 import { OnboardingChecklist } from './onboarding-checklist';
 import { PlanUpgradeBanner } from './plan-upgrade-banner';
 import { PwaInstallBanner } from '@/components/pwa/pwa-install-banner';
 import { TopQrWidget } from './top-qr-widget';
 import { CampaignsPanel } from './campaigns-panel';
+import { QrListRow, type QRCodeItem } from './qr-list-row';
+import { VirtualizedQrList } from './virtualized-qr-list';
+import { DashboardPageSkeleton } from './dashboard-page-skeleton';
 import { useLanguage } from '@/components/i18n/language-provider';
-
-interface QRCodeItem {
-  id: string;
-  name: string;
-  shortCode: string;
-  category: string;
-  targetUrl: string;
-  isActive: boolean;
-  isFavorite?: boolean;
-  isArchived?: boolean;
-  totalScans: number;
-  batchId?: string | null;
-  batchLabel?: string | null;
-  folderId?: string | null;
-  labels?: string[];
-  folder?: { id: string; name: string; color: string } | null;
-  createdAt: string;
-}
+import { useDebouncedValue } from '@/hooks/use-debounced-value';
+import { QR_LIST_MAX_LIMIT } from '@/lib/qr-list-pagination';
+import { useScanBaseUrl } from '@/lib/use-scan-base-url';
+import { downloadBulkQrImagesZip, BULK_ZIP_MAX } from '@/lib/bulk-qr-zip-export';
+import { Tag } from 'lucide-react';
 
 interface ListMeta {
   labels: string[];
   batches: { id: string; name: string }[];
+}
+
+interface ListTotals {
+  accountQrCount: number;
+  accountActiveCount: number;
+  accountTotalScans: number;
+  filteredTotal: number;
+  filteredScans: number;
+  filteredActive: number;
+}
+
+interface ListPagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
 }
 
 export function DashboardContent() {
@@ -60,17 +58,35 @@ export function DashboardContent() {
   const [folders, setFolders] = useState<QRFolderOption[]>([]);
   const [meta, setMeta] = useState<ListMeta>({ labels: [], batches: [] });
   const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState({ total: 0, totalScans: 0, active: 0 });
-  const [accountQrTotal, setAccountQrTotal] = useState<number | null>(null);
+  const [totals, setTotals] = useState<ListTotals>({
+    accountQrCount: 0,
+    accountActiveCount: 0,
+    accountTotalScans: 0,
+    filteredTotal: 0,
+    filteredScans: 0,
+    filteredActive: 0,
+  });
+  const [pagination, setPagination] = useState<ListPagination>({
+    page: 1,
+    limit: QR_LIST_MAX_LIMIT,
+    total: 0,
+    totalPages: 1,
+  });
 
   const [folderFilter, setFolderFilter] = useState<string | null>(null);
   const [unfiledFilter, setUnfiledFilter] = useState(false);
   const [labelFilter, setLabelFilter] = useState<string | null>(null);
   const [batchFilter, setBatchFilter] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const debouncedSearch = useDebouncedValue(searchQuery, 450);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const isSearchPending = searchQuery.trim() !== debouncedSearch.trim();
   const [favoritesFilter, setFavoritesFilter] = useState(false);
   const [archivedFilter, setArchivedFilter] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [page, setPage] = useState(1);
+  const [zipExporting, setZipExporting] = useState(false);
+  const scanBaseUrl = useScanBaseUrl();
 
   const fetchFolders = useCallback(async () => {
     try {
@@ -91,38 +107,32 @@ export function DashboardContent() {
       else if (folderFilter) params.set('folderId', folderFilter);
       if (labelFilter) params.set('label', labelFilter);
       if (batchFilter) params.set('batchId', batchFilter);
-      if (searchQuery.trim()) params.set('q', searchQuery.trim());
+      if (debouncedSearch.trim()) params.set('q', debouncedSearch.trim());
       if (favoritesFilter) params.set('favorites', '1');
       if (archivedFilter) params.set('archived', '1');
+      params.set('page', String(page));
+      params.set('limit', String(QR_LIST_MAX_LIMIT));
 
       const qs = params.toString();
-      const res = await fetch(`/api/qr${qs ? `?${qs}` : ''}`);
+      const res = await fetch(`/api/qr?${qs}`);
       if (res.ok) {
         const data = await res.json();
         const list: QRCodeItem[] = data?.qrCodes ?? [];
         setQrCodes(list);
         setMeta(data?.meta ?? { labels: [], batches: [] });
-        setStats({
-          total: list.length,
-          totalScans: list.reduce((sum, qr) => sum + (qr?.totalScans ?? 0), 0),
-          active: list.filter((qr) => qr?.isActive).length,
-        });
+        if (data?.totals) setTotals(data.totals);
+        if (data?.pagination) setPagination(data.pagination);
       }
     } catch {
       console.error('Failed to fetch QR codes');
     } finally {
       setLoading(false);
     }
-  }, [folderFilter, unfiledFilter, labelFilter, batchFilter, searchQuery, favoritesFilter, archivedFilter]);
+  }, [folderFilter, unfiledFilter, labelFilter, batchFilter, debouncedSearch, favoritesFilter, archivedFilter, page]);
 
   useEffect(() => {
-    fetch('/api/account/usage')
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        if (data?.usage?.qrCodes != null) setAccountQrTotal(data.usage.qrCodes);
-      })
-      .catch(() => undefined);
-  }, []);
+    setPage(1);
+  }, [folderFilter, unfiledFilter, labelFilter, batchFilter, debouncedSearch, favoritesFilter, archivedFilter]);
 
   useEffect(() => {
     const batchFromUrl = searchParams.get('batchId');
@@ -132,6 +142,12 @@ export function DashboardContent() {
   useEffect(() => {
     fetchFolders();
   }, [fetchFolders]);
+
+  useEffect(() => {
+    const focusSearch = () => searchInputRef.current?.focus();
+    window.addEventListener('dashboard:focus-search', focusSearch);
+    return () => window.removeEventListener('dashboard:focus-search', focusSearch);
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -226,6 +242,33 @@ export function DashboardContent() {
     }
   };
 
+  const runBulkZip = async () => {
+    if (!selectedIds.length) return;
+    if (selectedIds.length > BULK_ZIP_MAX) {
+      toast.error(t('dashboard.bulkZipTooMany', { max: BULK_ZIP_MAX }));
+      return;
+    }
+    setZipExporting(true);
+    try {
+      const res = await fetch('/api/qr/bulk-actions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'exportImagesMeta', ids: selectedIds }),
+      });
+      if (!res.ok) {
+        toast.error(t('dashboard.bulkZipFailed'));
+        return;
+      }
+      const { items } = await res.json();
+      const count = await downloadBulkQrImagesZip(items ?? [], scanBaseUrl);
+      toast.success(t('dashboard.bulkZipDownloaded', { count }));
+    } catch {
+      toast.error(t('dashboard.bulkZipFailed'));
+    } finally {
+      setZipExporting(false);
+    }
+  };
+
   const toggleFavorite = async (id: string, current: boolean) => {
     const res = await fetch('/api/qr/bulk-actions', {
       method: 'POST',
@@ -246,14 +289,30 @@ export function DashboardContent() {
     setArchivedFilter(false);
   };
 
-  const hasFilters = folderFilter || unfiledFilter || labelFilter || batchFilter || searchQuery.trim() || favoritesFilter || archivedFilter;
+  const hasFilters = folderFilter || unfiledFilter || labelFilter || batchFilter || debouncedSearch.trim() || favoritesFilter || archivedFilter;
+
+  const stats = hasFilters
+    ? {
+        total: totals.filteredTotal,
+        totalScans: totals.filteredScans,
+        active: totals.filteredActive,
+      }
+    : {
+        total: totals.accountQrCount,
+        totalScans: totals.accountTotalScans,
+        active: totals.accountActiveCount,
+      };
+
+  const refreshFoldersAndList = () => {
+    fetchQRCodes();
+    fetchFolders();
+  };
+
+  const rangeFrom = pagination.total === 0 ? 0 : (pagination.page - 1) * pagination.limit + 1;
+  const rangeTo = Math.min(pagination.page * pagination.limit, pagination.total);
 
   if (loading && qrCodes.length === 0) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-      </div>
-    );
+    return <DashboardPageSkeleton />;
   }
 
   return (
@@ -263,9 +322,9 @@ export function DashboardContent() {
         <p className="mt-1 text-muted-foreground">{t('dashboard.subtitle')}</p>
       </div>
 
-      <OnboardingBanner show={!loading && (accountQrTotal ?? stats.total) === 0} />
+      <OnboardingBanner show={!loading && totals.accountQrCount === 0} />
 
-      <OnboardingChecklist qrCount={accountQrTotal ?? stats.total} />
+      <OnboardingChecklist qrCount={totals.accountQrCount} />
 
       <PlanUpgradeBanner />
 
@@ -276,25 +335,23 @@ export function DashboardContent() {
           { label: t('dashboard.totalQrCodes'), value: stats.total, icon: QrCode, color: 'text-primary' },
           { label: t('dashboard.totalScans'), value: stats.totalScans, icon: TrendingUp, color: 'text-green-500' },
           { label: t('dashboard.activeCodes'), value: stats.active, icon: Eye, color: 'text-blue-500' },
-        ].map((stat, i) => (
-          <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
-            <Card>
-              <CardContent className="flex items-center gap-4 p-6">
-                <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-muted ${stat.color}`}>
-                  <stat.icon className="h-6 w-6" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
-                  <p className="font-display text-2xl font-bold">{stat.value}</p>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+        ].map((stat) => (
+          <Card key={stat.label}>
+            <CardContent className="flex items-center gap-4 p-6">
+              <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-muted ${stat.color}`}>
+                <stat.icon className="h-6 w-6" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">{stat.label}</p>
+                <p className="font-display text-2xl font-bold">{stat.value}</p>
+              </div>
+            </CardContent>
+          </Card>
         ))}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <TopQrWidget items={qrCodes} />
+        <TopQrWidget />
         <CampaignsPanel />
       </div>
 
@@ -337,11 +394,16 @@ export function DashboardContent() {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
+                ref={searchInputRef}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t('dashboard.searchPlaceholder')}
-                className="pl-9"
+                className="pl-9 pr-9"
+                aria-busy={isSearchPending || (loading && Boolean(searchQuery.trim()))}
               />
+              {(isSearchPending || (loading && Boolean(debouncedSearch.trim()))) && (
+                <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-muted-foreground" aria-hidden />
+              )}
             </div>
             {hasFilters && (
               <Button variant="ghost" size="sm" onClick={clearFilters}>
@@ -360,6 +422,7 @@ export function DashboardContent() {
             <div className="flex flex-wrap items-center gap-2 rounded-lg border bg-muted/40 p-3">
               <span className="text-sm font-medium">{t('dashboard.selectedCount', { count: selectedIds.length })}</span>
               <Button size="sm" variant="outline" onClick={() => runBulk('export')} className="gap-1"><Download className="h-3.5 w-3.5" /> {t('dashboard.bulkExport')}</Button>
+              <Button size="sm" variant="outline" onClick={runBulkZip} loading={zipExporting} className="gap-1"><Download className="h-3.5 w-3.5" /> {t('dashboard.bulkExportZip')}</Button>
               <Button size="sm" variant="outline" onClick={() => runBulk('favorite')}>{t('dashboard.bulkFavorite')}</Button>
               <Button size="sm" variant="outline" onClick={() => runBulk('archive')}>{t('dashboard.bulkArchive')}</Button>
               {archivedFilter && (
@@ -427,7 +490,7 @@ export function DashboardContent() {
                 {hasFilters ? t('dashboard.tryAdjustFilters') : t('dashboard.noQrHint')}
               </p>
               {hasFilters ? (
-                <Button className="mt-4" variant="outline" onClick={clearFilters}>Clear filters</Button>
+                <Button className="mt-4" variant="outline" onClick={clearFilters}>{t('dashboard.clearFilters')}</Button>
               ) : (
                 <Link href="/qr/create?quick=1" className="mt-4">
                   <Button className="gap-2">
@@ -438,122 +501,58 @@ export function DashboardContent() {
             </div>
           ) : (
             <div className="space-y-3">
-              {qrCodes.map((qr, i) => (
-                <motion.div
-                  key={qr.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.03 }}
-                  className="flex items-center justify-between rounded-lg border border-border/50 bg-card p-4 transition-colors hover:bg-muted/30"
-                >
-                  <div className="flex items-center gap-4 min-w-0">
-                    <input
-                      type="checkbox"
-                      checked={selectedIds.includes(qr.id)}
-                      onChange={() => toggleSelect(qr.id)}
-                      className="h-4 w-4 rounded border-border"
-                      aria-label={`Select ${qr.name}`}
-                    />
-                    <button type="button" onClick={() => toggleFavorite(qr.id, !!qr.isFavorite)} className="shrink-0 text-muted-foreground hover:text-amber-500">
-                      <Star className={`h-4 w-4 ${qr.isFavorite ? 'fill-amber-400 text-amber-500' : ''}`} />
-                    </button>
-                    <div
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
-                      style={{ backgroundColor: qr.folder ? `${qr.folder.color}20` : undefined }}
-                    >
-                      <QrCode className="h-5 w-5" style={{ color: qr.folder?.color ?? undefined }} />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <h4 className="font-medium">{qr.name}</h4>
-                        <Badge variant={qr.isActive ? 'default' : 'secondary'} className="text-xs">
-                          {qr.isArchived ? t('dashboard.statusArchived') : qr.isActive ? t('dashboard.statusActive') : t('dashboard.statusInactive')}
-                        </Badge>
-                        <Badge variant="outline" className="text-xs">{categoryShortName(qr.category)}</Badge>
-                        {qr.folder && (
-                          <Badge
-                            variant="secondary"
-                            className="text-xs gap-1"
-                            style={{ borderColor: qr.folder.color }}
-                          >
-                            <FolderOpen className="h-3 w-3" style={{ color: qr.folder.color }} />
-                            {qr.folder.name}
-                          </Badge>
-                        )}
-                        {qr.batchLabel && (
-                          <Badge variant="secondary" className="text-xs">{qr.batchLabel}</Badge>
-                        )}
-                        {(qr.labels ?? []).map((label) => (
-                          <Badge key={label} variant="outline" className="text-xs">{label}</Badge>
-                        ))}
-                      </div>
-                      <p className="mt-0.5 truncate text-xs text-muted-foreground max-w-[320px]">
-                        {qr.targetUrl}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <div className="hidden text-right sm:block">
-                      <p className="font-mono text-sm font-semibold">{qr.totalScans}</p>
-                      <p className="text-xs text-muted-foreground">scans</p>
-                    </div>
-                    <MoveToFolderMenu
-                      qrId={qr.id}
+              <VirtualizedQrList
+                count={qrCodes.length}
+                renderRow={(index) => {
+                  const qr = qrCodes[index];
+                  return (
+                    <QrListRow
+                      qr={qr}
+                      selected={selectedIds.includes(qr.id)}
                       folders={folders}
-                      currentFolderId={qr.folderId}
-                      onMoved={() => { fetchQRCodes(); fetchFolders(); }}
+                      onToggleSelect={toggleSelect}
+                      onToggleFavorite={toggleFavorite}
+                      onMoveToFolder={moveToFolder}
+                      onDuplicate={handleDuplicate}
+                      onDelete={handleDelete}
+                      onFoldersRefresh={refreshFoldersAndList}
                     />
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon-sm">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => window.open(`/s/${qr.shortCode}`, '_blank')}>
-                          <ExternalLink className="mr-2 h-4 w-4" /> Open Link
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                          <Link href={`/qr/${qr.id}`}>
-                            <Pencil className="mr-2 h-4 w-4" /> Edit
-                          </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                          <Link href={`/qr/${qr.id}/analytics`}>
-                            <BarChart3 className="mr-2 h-4 w-4" /> Analytics
-                          </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuSub>
-                          <DropdownMenuSubTrigger>
-                            <FolderOpen className="mr-2 h-4 w-4" /> Move to folder
-                          </DropdownMenuSubTrigger>
-                          <DropdownMenuSubContent>
-                            <DropdownMenuItem onClick={() => moveToFolder(qr.id, null)} disabled={!qr.folderId}>
-                              Remove from folder
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            {folders.map((f) => (
-                              <DropdownMenuItem
-                                key={f.id}
-                                onClick={() => moveToFolder(qr.id, f.id)}
-                                disabled={qr.folderId === f.id}
-                              >
-                                {f.name}
-                              </DropdownMenuItem>
-                            ))}
-                          </DropdownMenuSubContent>
-                        </DropdownMenuSub>
-                        <DropdownMenuItem onClick={() => handleDuplicate(qr.id)}>
-                          <Copy className="mr-2 h-4 w-4" /> Duplicate
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDelete(qr.id)} className="text-destructive">
-                          <Trash2 className="mr-2 h-4 w-4" /> Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                  );
+                }}
+              />
+
+              {pagination.totalPages > 1 && (
+                <div className="flex flex-col items-center justify-between gap-3 border-t border-border/50 pt-4 sm:flex-row">
+                  <p className="text-sm text-muted-foreground">
+                    {t('dashboard.showingRange', { from: rangeFrom, to: rangeTo, total: pagination.total })}
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={pagination.page <= 1 || loading}
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
+                      className="gap-1"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                      {t('dashboard.prevPage')}
+                    </Button>
+                    <span className="text-sm text-muted-foreground px-2">
+                      {t('dashboard.pageInfo', { page: pagination.page, totalPages: pagination.totalPages })}
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={pagination.page >= pagination.totalPages || loading}
+                      onClick={() => setPage((p) => p + 1)}
+                      className="gap-1"
+                    >
+                      {t('dashboard.nextPage')}
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
                   </div>
-                </motion.div>
-              ))}
+                </div>
+              )}
             </div>
           )}
         </CardContent>

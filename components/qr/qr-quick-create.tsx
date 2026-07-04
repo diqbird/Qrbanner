@@ -16,6 +16,7 @@ import { normalizeQRStyle } from '@/lib/qr-style';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { OnboardingProgress } from '@/components/onboarding/onboarding-progress';
 import { onboardingQrUrl } from '@/lib/onboarding';
+import { freePlanQrLimit } from '@/lib/plans';
 
 function normalizeUrlInput(raw: string): string {
   const t = raw.trim();
@@ -88,7 +89,7 @@ export function QRQuickCreate({
       <div className="text-center sm:text-left">
         <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
           <Zap className="h-3.5 w-3.5" />
-          {t('hero.createQrHint')}
+          {t('hero.createQrHint', { count: freePlanQrLimit() })}
         </div>
         <h1 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
           {onboarding ? t('onboarding.quickTitle') : t('quick.title')}

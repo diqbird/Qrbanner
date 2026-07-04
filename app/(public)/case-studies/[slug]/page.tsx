@@ -17,9 +17,8 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const study = getCaseStudy(params.slug);
   if (!study) return {};
-  const locale = await getServerLocale();
   return pageMetadata({
-    locale,
+    locale: 'en',
     title: study.title,
     description: study.metaDescription,
     path: `/case-studies/${study.slug}`,
@@ -44,7 +43,10 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
       <article className="py-10 sm:py-16">
         <div className="mx-auto max-w-3xl px-4 sm:px-6">
           <p className="text-xs font-medium uppercase tracking-wider text-primary">{study.industry}</p>
-          <h1 className="mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl">{study.headline}</h1>
+          <p className="mt-3 inline-block rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs text-amber-800 dark:text-amber-200">
+            {t('caseStudyPage.scenarioBadge')}
+          </p>
+          <h1 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">{study.headline}</h1>
           <p className="mt-2 text-muted-foreground">{study.companyType}</p>
 
           <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">

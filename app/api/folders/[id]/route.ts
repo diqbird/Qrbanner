@@ -5,6 +5,10 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { FOLDER_COLORS, normalizeFolderName } from '@/lib/organize-utils';
+import {
+  assertFolderInWorkspace,
+  getActiveWorkspaceId,
+} from '@/lib/workspace';
 
 async function getUserId() {
   const session = await getServerSession(authOptions);
@@ -21,10 +25,11 @@ export async function PATCH(
     const userId = await getUserId();
     if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const folder = await prisma.qRFolder.findFirst({
-      where: { id: params.id, userId },
-    });
-    if (!folder) return NextResponse.json({ error: 'Folder not found' }, { status: 404 });
+    const workspaceId = await getActiveWorkspaceId(userId);
+    const folderAccess = await assertFolderInWorkspace(userId, params.id, workspaceId, 'editor');
+    if (!folderAccess.ok) {
+      return NextResponse.json({ error: folderAccess.error }, { status: 404 });
+    }
 
     const body = await req.json();
     const data: { name?: string; color?: string } = {};
@@ -33,7 +38,7 @@ export async function PATCH(
       const name = normalizeFolderName(body.name);
       if (!name) return NextResponse.json({ error: 'Folder name is required' }, { status: 400 });
       const dup = await prisma.qRFolder.findFirst({
-        where: { userId, name, NOT: { id: params.id } },
+        where: { userId, workspaceId, name, NOT: { id: params.id } },
       });
       if (dup) return NextResponse.json({ error: 'A folder with this name already exists' }, { status: 409 });
       data.name = name;
@@ -71,10 +76,11 @@ export async function DELETE(
     const userId = await getUserId();
     if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const folder = await prisma.qRFolder.findFirst({
-      where: { id: params.id, userId },
-    });
-    if (!folder) return NextResponse.json({ error: 'Folder not found' }, { status: 404 });
+    const workspaceId = await getActiveWorkspaceId(userId);
+    const folderAccess = await assertFolderInWorkspace(userId, params.id, workspaceId, 'editor');
+    if (!folderAccess.ok) {
+      return NextResponse.json({ error: folderAccess.error }, { status: 404 });
+    }
 
     await prisma.qRFolder.delete({ where: { id: params.id } });
 

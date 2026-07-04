@@ -5,21 +5,23 @@ import type {
   AutomationTrigger,
 } from '@/lib/automation-types';
 import {
+  assertSafeIntegrationWebhookUrl,
+  assertSafeOutboundUrl,
+} from '@/lib/outbound-url';
+import {
   AUTOMATION_TRIGGERS,
   MAX_AUTOMATION_ACTIONS,
   MAX_AUTOMATION_CONDITIONS,
 } from '@/lib/automation-types';
 
-function safeUrl(raw: string | undefined): string {
-  const value = String(raw ?? '').trim();
-  if (!value) return '';
-  try {
-    const u = new URL(/^https?:\/\//i.test(value) ? value : `https://${value}`);
-    if (u.protocol !== 'http:' && u.protocol !== 'https:') return '';
-    return u.toString();
-  } catch {
-    return '';
-  }
+function safeOutboundUrl(raw: string | undefined): string {
+  const check = assertSafeOutboundUrl(String(raw ?? ''));
+  return check.ok ? check.url : '';
+}
+
+function safeIntegrationUrl(type: 'slack' | 'discord', raw: string | undefined): string {
+  const check = assertSafeIntegrationWebhookUrl(type, String(raw ?? ''));
+  return check.ok ? check.url : '';
 }
 
 function clip(value: string, max: number): string {
@@ -49,7 +51,7 @@ function sanitizeAction(raw: unknown): AutomationAction | null {
   switch (type) {
     case 'slack':
     case 'discord': {
-      const webhookUrl = safeUrl(a.webhookUrl as string);
+      const webhookUrl = safeIntegrationUrl(type as 'slack' | 'discord', a.webhookUrl as string);
       const message = clip(String(a.message ?? ''), 2000);
       if (!webhookUrl || !message) return null;
       return { type, webhookUrl, message } as AutomationAction;
@@ -62,7 +64,7 @@ function sanitizeAction(raw: unknown): AutomationAction | null {
       return { type: 'email', to, subject, body };
     }
     case 'webhook': {
-      const url = safeUrl(a.url as string);
+      const url = safeOutboundUrl(a.url as string);
       if (!url) return null;
       const body = a.body ? clip(String(a.body), 4000) : undefined;
       return { type: 'webhook', url, body };

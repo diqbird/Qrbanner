@@ -8,10 +8,13 @@ import { Toaster } from '@/components/ui/sonner';
 import { ChunkLoadErrorHandler } from '@/components/chunk-load-error-handler';
 import { CookieConsent } from '@/components/cookie-consent';
 
+import { HtmlLangSync } from '@/components/i18n/html-lang-sync';
+
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider refetchOnWindowFocus={false} refetchInterval={0}>
       <LanguageProvider>
+        <HtmlLangSync />
         <SiteSettingsProvider>
         <ThemeProvider
         attribute="class"

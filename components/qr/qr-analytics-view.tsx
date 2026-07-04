@@ -5,12 +5,14 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, BarChart3, Smartphone, Globe, Clock, TrendingUp, Download, Users, AlertCircle } from 'lucide-react';
+import { ArrowLeft, BarChart3, Smartphone, Globe, Clock, TrendingUp, Download, Users, AlertCircle, Radio } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { downloadAnalyticsCsv } from '@/lib/analytics-export';
+import { buildAnalyticsPdfLabels, downloadAnalyticsPdf } from '@/lib/analytics-pdf-export';
+import { toast } from 'sonner';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
 import { DateRange } from 'react-day-picker';
-import { subDays, format } from 'date-fns';
+import { format } from 'date-fns';
 import { buildOptimizationInsights } from '@/lib/optimization-insights';
 import { OptimizationInsightsPanel } from './optimization-insights-panel';
 import { LeadSubmissionsPanel } from './lead-submissions-panel';
@@ -27,6 +29,13 @@ import { useLanguage } from '@/components/i18n/language-provider';
 import type { PeriodComparison } from '@/lib/analytics-comparison';
 import { PeriodChangeBadge } from '@/components/analytics/period-change-badge';
 import dynamic from 'next/dynamic';
+import {
+  ANALYTICS_RANGE_PRESETS,
+  ANALYTICS_RANGE_PRESET_LABELS,
+  analyticsPresetRange,
+  formatScanTimeAgo,
+  recentScanRowKey,
+} from '@/lib/analytics-view-utils';
 
 const AnalyticsCharts = dynamic(() => import('./analytics-charts'), { ssr: false });
 
@@ -62,10 +71,7 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
   const [landingCta, setLandingCta] = useState<LandingCtaAnalytics | null>(null);
   const [funnel, setFunnel] = useState<FunnelMetrics | null>(null);
   const [roi, setRoi] = useState<RoiMetrics | null>(null);
-  const [dateRange, setDateRange] = useState<DateRange>({
-    from: subDays(new Date(), 30),
-    to: new Date(),
-  });
+  const [dateRange, setDateRange] = useState<DateRange>(() => analyticsPresetRange(30));
 
   const fetchAnalytics = useCallback(async () => {
     try {
@@ -107,11 +113,36 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
   useEffect(() => {
     setLoading(true);
     fetchAnalytics();
+    const interval = window.setInterval(fetchAnalytics, 30000);
+    return () => window.clearInterval(interval);
   }, [fetchAnalytics]);
+
+  const applyPreset = (days: number) => {
+    setDateRange(analyticsPresetRange(days));
+  };
 
   const handleExport = () => {
     if (!data) return;
     downloadAnalyticsCsv(data, `qr-analytics-${qrId}`);
+  };
+
+  const handleExportPdf = async () => {
+    if (!data) return;
+    try {
+      const periodLabel =
+        dateRange.from && dateRange.to
+          ? `${format(dateRange.from, 'yyyy-MM-dd')} – ${format(dateRange.to, 'yyyy-MM-dd')}`
+          : undefined;
+      await downloadAnalyticsPdf(data, {
+        filename: `qr-analytics-${qrId}`,
+        subtitle: qrName || undefined,
+        periodLabel,
+        labels: buildAnalyticsPdfLabels(t),
+      });
+      toast.success(t('analytics.pdfDownloaded'));
+    } catch {
+      toast.error(t('analytics.loadError'));
+    }
   };
 
   if (loading) {
@@ -143,6 +174,52 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
     );
   }
 
+  if (data && data.totalScans === 0) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center gap-3">
+          <Link href={`/qr/${qrId}`}>
+            <Button variant="ghost" size="icon-sm"><ArrowLeft className="h-4 w-4" /></Button>
+          </Link>
+          <div>
+            <h1 className="font-display text-2xl font-bold tracking-tight">{t('analytics.analyticsTitle')}</h1>
+            <p className="mt-0.5 text-sm text-muted-foreground">{qrName}</p>
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          {ANALYTICS_RANGE_PRESETS.map((days) => (
+            <Button
+              key={days}
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-8 text-xs"
+              onClick={() => applyPreset(days)}
+            >
+              {t(ANALYTICS_RANGE_PRESET_LABELS[days])}
+            </Button>
+          ))}
+          <DateRangePicker value={dateRange} onChange={(v) => setDateRange(v ?? {})} />
+        </div>
+        <Card className="border-dashed">
+          <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+            <Radio className="mb-3 h-10 w-10 text-muted-foreground/40" />
+            <p className="font-medium text-muted-foreground">{t('analytics.noScans')}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{t('analytics.noScansQrHint')}</p>
+            <ul className="mt-4 max-w-sm space-y-2 text-left text-sm text-muted-foreground">
+              <li>• {t('analytics.emptyTip1')}</li>
+              <li>• {t('analytics.emptyTip2')}</li>
+              <li>• {t('analytics.emptyTip3')}</li>
+            </ul>
+            <Link href={`/qr/${qrId}`} className="mt-6">
+              <Button size="sm">{t('analytics.emptyEditQr')}</Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -156,9 +233,24 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
+          {ANALYTICS_RANGE_PRESETS.map((days) => (
+            <Button
+              key={days}
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-8 text-xs"
+              onClick={() => applyPreset(days)}
+            >
+              {t(ANALYTICS_RANGE_PRESET_LABELS[days])}
+            </Button>
+          ))}
           <DateRangePicker value={dateRange} onChange={(v) => setDateRange(v ?? {})} />
           <Button variant="outline" size="sm" onClick={handleExport} className="gap-2">
             <Download className="h-4 w-4" /> {t('analytics.exportCsv')}
+          </Button>
+          <Button variant="outline" size="sm" onClick={handleExportPdf} className="gap-2">
+            <Download className="h-4 w-4" /> {t('analytics.exportPdf')}
           </Button>
         </div>
       </div>
@@ -199,8 +291,8 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
           },
           { label: t('analytics.today'), value: data?.todayScans ?? 0, icon: Clock, color: 'text-orange-500' },
           { label: t('analytics.last7Days'), value: data?.last7Days ?? 0, icon: BarChart3, color: 'text-green-500' },
-        ].map((stat, i) => (
-          <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
+        ].map((stat) => (
+          <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>
             <Card>
               <CardContent className="flex items-center gap-4 p-6">
                 <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-muted ${stat.color}`}>
@@ -253,10 +345,10 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
 
       <LeadSubmissionsPanel qrId={qrId} />
 
-      {/* Recent Scans */}
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="font-display text-base">{t('analytics.recentScans')}</CardTitle>
+          <span className="text-xs text-muted-foreground">{t('analytics.updatesEvery')}</span>
         </CardHeader>
         <CardContent>
           {(data?.recentScans?.length ?? 0) === 0 ? (
@@ -264,19 +356,21 @@ export function QRAnalyticsView({ qrId }: { qrId: string }) {
           ) : (
             <div className="space-y-2">
               {(data?.recentScans ?? []).slice(0, 20).map((scan: any, i: number) => (
-                <div key={i} className="flex items-center justify-between rounded-lg bg-muted/30 px-4 py-3 text-sm">
-                  <div className="flex items-center gap-4">
+                <div key={recentScanRowKey(scan, i)} className="flex items-center justify-between rounded-lg bg-muted/30 px-4 py-3 text-sm">
+                  <div className="flex items-center gap-4 min-w-0">
                     <div className="flex items-center gap-1.5 text-muted-foreground">
-                      <Globe className="h-3.5 w-3.5" />
-                      <span>{scan?.country ?? 'Unknown'}{scan?.city ? `, ${scan.city}` : ''}</span>
+                      <Globe className="h-3.5 w-3.5 shrink-0" />
+                      <span>{scan?.country ?? '—'}{scan?.city ? `, ${scan.city}` : ''}</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-muted-foreground">
-                      <Smartphone className="h-3.5 w-3.5" />
-                      <span>{scan?.device ?? 'Unknown'} · {scan?.browser ?? 'Unknown'}</span>
+                    <div className="hidden sm:flex items-center gap-1.5 text-muted-foreground">
+                      <Smartphone className="h-3.5 w-3.5 shrink-0" />
+                      <span>{scan?.device ?? '—'} · {scan?.browser ?? '—'}</span>
                     </div>
                   </div>
-                  <span className="font-mono text-xs text-muted-foreground">
-                    {scan?.scannedAt ? new Date(scan.scannedAt).toLocaleString('en-US', { timeZone: 'UTC' }) : ''}
+                  <span className="shrink-0 font-mono text-xs text-muted-foreground">
+                    {scan?.scannedAt
+                      ? formatScanTimeAgo(t, scan.scannedAt)
+                      : ''}
                   </span>
                 </div>
               ))}

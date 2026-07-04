@@ -5,6 +5,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { normalizeLabels } from '@/lib/organize-utils';
+import { getActiveWorkspaceId, assertWorkspaceRole, assertFolderInWorkspace } from '@/lib/workspace';
 
 export async function POST(req: NextRequest) {
   try {
@@ -32,8 +33,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Maximum 100 QR codes per operation' }, { status: 400 });
     }
 
+    const workspaceId = await getActiveWorkspaceId(userId);
+    const canEdit = await assertWorkspaceRole(userId, workspaceId, 'editor');
+    if (!canEdit.ok) {
+      return NextResponse.json({ error: canEdit.error }, { status: 403 });
+    }
+
     const owned = await prisma.qRCode.findMany({
-      where: { userId, id: { in: qrIds } },
+      where: { workspaceId, id: { in: qrIds } },
       select: { id: true, labels: true },
     });
 
@@ -42,8 +49,8 @@ export async function POST(req: NextRequest) {
     }
 
     if (folderId) {
-      const folder = await prisma.qRFolder.findFirst({ where: { id: folderId, userId } });
-      if (!folder) return NextResponse.json({ error: 'Folder not found' }, { status: 404 });
+      const folderCheck = await assertFolderInWorkspace(userId, folderId, workspaceId, 'editor');
+      if (!folderCheck.ok) return NextResponse.json({ error: 'Folder not found' }, { status: 404 });
     }
 
     const labelMode = mode ?? 'set';

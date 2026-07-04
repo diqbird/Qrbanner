@@ -5,6 +5,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { WEBHOOK_LIMIT, rateLimitRequest } from '@/lib/authenticated-rate-limit';
+import { assertSafeOutboundUrl } from '@/lib/outbound-url';
 
 export async function PATCH(
   req: NextRequest,
@@ -25,11 +26,11 @@ export async function PATCH(
   const body = await req.json();
   const data: { url?: string; label?: string | null; enabled?: boolean } = {};
   if (body.url != null) {
-    const url = String(body.url).trim();
-    if (!/^https?:\/\//i.test(url)) {
-      return NextResponse.json({ error: 'Invalid URL' }, { status: 400 });
+    const urlCheck = assertSafeOutboundUrl(String(body.url).trim());
+    if (!urlCheck.ok) {
+      return NextResponse.json({ error: urlCheck.error }, { status: 400 });
     }
-    data.url = url;
+    data.url = urlCheck.url;
   }
   if (body.label !== undefined) data.label = body.label ? String(body.label).trim() : null;
   if (typeof body.enabled === 'boolean') data.enabled = body.enabled;

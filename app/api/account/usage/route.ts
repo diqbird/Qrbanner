@@ -5,7 +5,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { getUserPlanUsage } from '@/lib/plan-usage';
-import { LAUNCH_BANNER } from '@/lib/plans';
+import { getPlanLimits } from '@/lib/plans';
+import { getLaunchBanner } from '@/lib/i18n/pricing-content';
 
 export async function GET() {
   try {
@@ -42,7 +43,7 @@ export async function GET() {
         styleTemplates,
         styleTemplateLimit: usage.plan.maxStyleTemplates,
       },
-      launchBanner: LAUNCH_BANNER,
+      launchBanner: getLaunchBanner('en'),
     });
   } catch (error) {
     console.error('Account usage error:', error);

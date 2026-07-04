@@ -10,6 +10,7 @@ import { Shield, Copy } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
+import { SettingsCardSkeleton } from '@/components/dashboard/settings-card-skeleton';
 
 export function MfaSettings() {
   const { t } = useLanguage();
@@ -119,7 +120,7 @@ export function MfaSettings() {
     toast.success(t('settings.mfa.secretCopied'));
   };
 
-  if (loading) return null;
+  if (loading) return <SettingsCardSkeleton />;
 
   return (
     <Card>

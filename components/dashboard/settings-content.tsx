@@ -23,8 +23,20 @@ import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { LanguageSwitcher } from '@/components/i18n/language-switcher';
 import { ReferralSettings } from '@/components/dashboard/referral-settings';
+import { BrandingSettings } from '@/components/dashboard/branding-settings';
+import { BrandKitHub } from '@/components/dashboard/brand-kit-hub';
 import { MfaSettings } from '@/components/dashboard/mfa-settings';
 import { MarketplaceSellerPanel } from '@/components/dashboard/marketplace-seller-panel';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+function SettingsSection({ title, description }: { title: string; description?: string }) {
+  return (
+    <div className="border-t border-border/50 pt-6 first:border-0 first:pt-0">
+      <h2 className="font-display text-lg font-semibold tracking-tight">{title}</h2>
+      {description ? <p className="mt-1 text-sm text-muted-foreground">{description}</p> : null}
+    </div>
+  );
+}
 
 export function SettingsContent() {
   const { t } = useLanguage();
@@ -36,12 +48,19 @@ export function SettingsContent() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [saving, setSaving] = useState(false);
+  const settingsTab = searchParams.get('tab') ?? 'account';
+
+  useEffect(() => {
+    const sessionName = session?.user?.name;
+    if (sessionName != null) setName(sessionName);
+  }, [session?.user?.name]);
 
   useEffect(() => {
     if (searchParams.get('billing') !== 'success') return;
+    if (searchParams.get('_ptxn')) return;
     toast.success(t('pricing.billingSuccess'));
     setPlanRefresh((k) => k + 1);
-    router.replace('/settings');
+    router.replace('/settings?tab=plan');
     let attempts = 0;
     const poll = window.setInterval(() => {
       attempts += 1;
@@ -101,55 +120,46 @@ export function SettingsContent() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div>
         <h1 className="font-display text-2xl font-bold tracking-tight">{t('dashboard.settings')}</h1>
         <p className="mt-1 text-muted-foreground">{t('settings.subtitle')}</p>
       </div>
 
+      <Tabs
+        value={settingsTab}
+        onValueChange={(value) => router.replace(`/settings?tab=${value}`, { scroll: false })}
+        className="space-y-6"
+      >
+        <TabsList className="flex h-auto w-full flex-wrap justify-start gap-1">
+          <TabsTrigger value="account">{t('settings.tabAccount')}</TabsTrigger>
+          <TabsTrigger value="plan">{t('settings.tabPlan')}</TabsTrigger>
+          <TabsTrigger value="team">{t('settings.tabTeam')}</TabsTrigger>
+          <TabsTrigger value="integrations">{t('settings.tabIntegrations')}</TabsTrigger>
+          <TabsTrigger value="brand">{t('settings.tabBrand')}</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="account" className="space-y-6 mt-0">
       <Card>
         <CardHeader>
-          <CardTitle className="font-display">{t('dashboard.language')}</CardTitle>
-          <CardDescription>{t('dashboard.languageDesc')}</CardDescription>
+          <CardTitle className="font-display">{t('settings.preferences')}</CardTitle>
+          <CardDescription>{t('settings.preferencesDesc')}</CardDescription>
         </CardHeader>
-        <CardContent>
-          <LanguageSwitcher />
+        <CardContent className="space-y-6">
+          <div className="space-y-2">
+            <Label>{t('dashboard.language')}</Label>
+            <p className="text-xs text-muted-foreground">{t('dashboard.languageDesc')}</p>
+            <LanguageSwitcher />
+          </div>
+          <div className="space-y-2 border-t border-border/50 pt-6">
+            <Label className="flex items-center gap-2">
+              <Palette className="h-4 w-4 text-primary" /> {t('settings.appearance')}
+            </Label>
+            <p className="text-xs text-muted-foreground">{t('settings.appearanceDesc')}</p>
+            <ThemeModeSwitch />
+          </div>
         </CardContent>
       </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="font-display flex items-center gap-2">
-            <Palette className="h-5 w-5 text-primary" /> {t('settings.appearance')}
-          </CardTitle>
-          <CardDescription>{t('settings.appearanceDesc')}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ThemeModeSwitch />
-        </CardContent>
-      </Card>
-
-      <PlanUsageCard refreshKey={planRefresh} />
-
-      <MediaLibraryCard />
-
-      <TeamWorkspaceSettings />
-
-      <EnterpriseWorkspaceSettings />
-
-      <ApiKeySettings />
-
-      <WebhookSettings />
-
-      <AutomationBuilder />
-
-      <CustomDomainSettings />
-
-      <ReferralSettings />
-
-      <MarketplaceSellerPanel />
-
-      <MfaSettings />
 
       <Card>
         <CardHeader>
@@ -217,6 +227,8 @@ export function SettingsContent() {
         </CardContent>
       </Card>
 
+      <MfaSettings />
+
       <Card>
         <CardContent className="flex items-center justify-between p-6">
           <div>
@@ -246,6 +258,37 @@ export function SettingsContent() {
           </Button>
         </CardContent>
       </Card>
+        </TabsContent>
+
+        <TabsContent value="plan" className="space-y-6 mt-0">
+      <PlanUsageCard refreshKey={planRefresh} />
+        </TabsContent>
+
+        <TabsContent value="team" className="space-y-6 mt-0">
+      <TeamWorkspaceSettings />
+      <EnterpriseWorkspaceSettings />
+        </TabsContent>
+
+        <TabsContent value="integrations" className="space-y-6 mt-0">
+      <SettingsSection title={t('settings.sectionApi')} description={t('settings.sectionApiDesc')} />
+      <ApiKeySettings />
+      <WebhookSettings />
+      <SettingsSection title={t('settings.sectionAutomation')} description={t('settings.sectionAutomationDesc')} />
+      <AutomationBuilder />
+      <SettingsSection title={t('settings.sectionDomain')} description={t('settings.sectionDomainDesc')} />
+      <CustomDomainSettings />
+        </TabsContent>
+
+        <TabsContent value="brand" className="space-y-6 mt-0">
+      <SettingsSection title={t('settings.sectionBrandKit')} description={t('settings.sectionBrandKitDesc')} />
+      <BrandKitHub />
+      <BrandingSettings />
+      <MediaLibraryCard />
+      <SettingsSection title={t('settings.sectionGrowth')} description={t('settings.sectionGrowthDesc')} />
+      <ReferralSettings />
+      <MarketplaceSellerPanel />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

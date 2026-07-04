@@ -11,7 +11,7 @@ import { normalizeLabels } from '@/lib/organize-utils';
 import { sanitizeGeofenceData } from '@/lib/geofence-shared';
 import { normalizeGa4Id, normalizeMetaPixelId } from '@/lib/pixel-analytics';
 import { sanitizeAbTestData, parseAbTestData } from '@/lib/ab-routing';
-import { assertQrAccess } from '@/lib/workspace';
+import { assertQrAccess, assertFolderInWorkspace, getActiveWorkspaceId, assertWorkspaceRole } from '@/lib/workspace';
 import { assertQrUrlsAllowed } from '@/lib/validate-qr-urls';
 import { sanitizeStoredLandingPage } from '@/lib/landing-blocks';
 import { parseAnalyticsMoney } from '@/lib/analytics-roi';
@@ -92,8 +92,12 @@ export async function PUT(
     if (name !== undefined) updateData.name = name;
     if (qrData !== undefined) {
       const clean = stripMetaFields(qrData as Record<string, string>);
+      const targetUrl = buildQRPayload(existing.category, clean);
+      if (!targetUrl?.trim()) {
+        return NextResponse.json({ error: 'invalid_payload' }, { status: 400 });
+      }
       updateData.qrData = clean;
-      updateData.targetUrl = buildQRPayload(existing.category, clean);
+      updateData.targetUrl = targetUrl;
     }
     if (style !== undefined) updateData.style = style;
     if (isActive !== undefined) updateData.isActive = isActive;
@@ -147,8 +151,9 @@ export async function PUT(
     }
     if (folderId !== undefined) {
       if (folderId) {
-        const folder = await prisma.qRFolder.findFirst({ where: { id: folderId, userId } });
-        if (!folder) return NextResponse.json({ error: 'Folder not found' }, { status: 400 });
+        const wsId = existing.workspaceId ?? (await getActiveWorkspaceId(userId));
+        const folderCheck = await assertFolderInWorkspace(userId, folderId, wsId, 'editor');
+        if (!folderCheck.ok) return NextResponse.json({ error: 'Folder not found' }, { status: 400 });
       }
       updateData.folderId = folderId || null;
     }

@@ -28,7 +28,7 @@ export function LandingHowItWorks() {
             return (
               <div
                 key={item.step}
-                className={`relative text-center ${inView ? 'animate-fade-up' : 'opacity-0'}`}
+                className={`relative text-center ${inView ? 'animate-fade-up' : ''}`}
                 style={{ animationDelay: `${i * 100}ms` }}
               >
                 <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">

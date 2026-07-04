@@ -54,6 +54,8 @@ export type QrCreateStepDesignProps = {
   onUndoStyle?: () => void;
   onRedoStyle?: () => void;
   onLogoChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  logoPath?: string | null;
+  onTemplateLogoApply?: (path: string | null) => void;
   onAdvancedChange: (values: AdvancedValues) => void;
   onLandingEnabledChange: (enabled: boolean) => void;
   onLandingPageChange: (data: LandingPageData) => void;
@@ -94,6 +96,8 @@ export function QrCreateStepDesign({
   onUndoStyle,
   onRedoStyle,
   onLogoChange,
+  logoPath,
+  onTemplateLogoApply,
   onAdvancedChange,
   onLandingEnabledChange,
   onLandingPageChange,
@@ -133,6 +137,8 @@ export function QrCreateStepDesign({
           onStyleChange={(next) => onStyleChange(normalizeQRStyle(next))}
           onLogoChange={onLogoChange}
           logoPreview={logoPreview}
+          logoPath={logoPath ?? null}
+          onTemplateLogoApply={onTemplateLogoApply}
         />
         <Collapsible>
           <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg border border-border/60 bg-muted/30 px-4 py-3 text-left text-sm font-medium hover:bg-muted/50 [&[data-state=open]>svg]:rotate-180">

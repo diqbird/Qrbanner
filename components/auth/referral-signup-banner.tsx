@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Gift } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { freePlanQrLimit } from '@/lib/plans';
 
 export function ReferralSignupBanner() {
   const { t } = useLanguage();
@@ -48,7 +49,7 @@ export function ReferralSignupBanner() {
       <p className="text-muted-foreground leading-relaxed">
         {displayName
           ? t('auth.referralInvitedBy', { name: displayName })
-          : t('auth.referralInvitedGeneric')}
+          : t('auth.referralInvitedGeneric', { count: freePlanQrLimit() })}
       </p>
     </div>
   );

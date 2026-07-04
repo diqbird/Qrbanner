@@ -100,11 +100,21 @@ export function clientIp(req: { headers: { get(name: string): string | null } })
   );
 }
 
-/** @deprecated Use checkRateLimit for new code */
+/** Resolve client IP from Next.js `headers()` in server actions / auth callbacks. */
+export async function clientIpFromHeaders(): Promise<string> {
+  const { headers } = await import('next/headers');
+  const h = await headers();
+  return clientIp({ headers: { get: (name) => h.get(name) } });
+}
+
+/** @deprecated Use checkRateLimit — sync in-memory only, not Redis-safe */
 export function rateLimit(
   key: string,
   limit: number,
   windowMs: number
 ): { ok: boolean; remaining: number; resetAt: number } {
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn('[rate-limit] sync rateLimit() is deprecated — use await checkRateLimit()');
+  }
   return memoryRateLimit(key, limit, windowMs);
 }

@@ -23,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
   return pageMetadata({
-    locale,
+    locale: 'en',
     title: t('caseStudiesIndex.metaTitle'),
     description: t('caseStudiesIndex.metaDescription'),
     path: '/case-studies',
@@ -72,6 +72,9 @@ export default async function CaseStudiesIndexPage() {
 
             <p className="mt-4 text-lg text-muted-foreground">{t('caseStudiesIndex.subtitle')}</p>
 
+            <p className="mx-auto mt-4 max-w-2xl rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-900 dark:text-amber-100">
+              {t('caseStudyPage.scenarioBadge')}
+            </p>
           </header>
 
           <div className="mt-12 space-y-6">

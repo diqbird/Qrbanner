@@ -12,6 +12,7 @@ REMOTE = os.environ.get("DEPLOY_REMOTE", "/var/www/qrbanner")
 
 PADDLE_KEYS = [
     "PADDLE_API_KEY",
+    "PADDLE_CLIENT_TOKEN",
     "PADDLE_WEBHOOK_SECRET",
     "PADDLE_ENVIRONMENT",
     "PADDLE_PRICE_PRO",
@@ -114,12 +115,16 @@ def main():
     if not webhook_secret:
         webhook_secret = read_env_key(env_content, "PADDLE_WEBHOOK_SECRET")
 
+    client_token = args.get("PADDLE_CLIENT_TOKEN") or read_env_key(env_content, "PADDLE_CLIENT_TOKEN")
+
     updates = {
         "PADDLE_API_KEY": api_key,
         "PADDLE_ENVIRONMENT": args.get("PADDLE_ENVIRONMENT", "production"),
         "PADDLE_PRICE_PRO": price_pro,
         "PADDLE_PRICE_BUSINESS": price_business,
     }
+    if client_token:
+        updates["PADDLE_CLIENT_TOKEN"] = client_token
     if webhook_secret:
         updates["PADDLE_WEBHOOK_SECRET"] = webhook_secret
     for optional in (
@@ -146,6 +151,9 @@ def main():
     c.close()
 
     print("Paddle configured on VPS (Stripe keys commented out).")
+    if not client_token:
+        print("WARNING: PADDLE_CLIENT_TOKEN not set — checkout overlay will not open.")
+        print("         Paddle -> Developer tools -> Authentication -> Client-side tokens")
     if not webhook_secret:
         print("WARNING: PADDLE_WEBHOOK_SECRET not set — checkout works but plan will")
         print("         NOT auto-upgrade after payment until the webhook secret is added.")

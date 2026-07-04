@@ -8,6 +8,7 @@ import {
   assertWorkspaceRole,
   generateInviteToken,
   getActiveWorkspaceId,
+  workspaceSummaryForRole,
 } from '@/lib/workspace';
 import {
   assertInviteEmailAllowed,
@@ -56,7 +57,11 @@ export async function GET(req: NextRequest) {
     },
   });
 
-  return NextResponse.json({ workspace, members, role: access.role });
+  return NextResponse.json({
+    workspace: workspace ? workspaceSummaryForRole(workspace, access.role) : null,
+    members,
+    role: access.role,
+  });
 }
 
 export async function POST(req: NextRequest) {

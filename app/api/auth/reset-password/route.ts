@@ -1,41 +1,64 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/db';
 import { validatePassword } from '@/lib/password';
-import { rateLimit, clientIp } from '@/lib/rate-limit';
+import { hashPasswordResetCode, hashUserPassword } from '@/lib/password-reset';
+import { clientIp } from '@/lib/rate-limit';
+import { enforceRateLimit } from '@/lib/authenticated-rate-limit';
+import {
+  AUTH_RESET_PASSWORD_EMAIL,
+  AUTH_RESET_PASSWORD_IP,
+} from '@/lib/rate-limit-policies';
 
 export async function POST(req: NextRequest) {
   try {
     const ip = clientIp(req);
-    const rl = rateLimit(`reset:${ip}`, 10, 15 * 60 * 1000);
-    if (!rl.ok) {
-      return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
-    }
+    const ipLimited = await enforceRateLimit(
+      AUTH_RESET_PASSWORD_IP.key(ip),
+      AUTH_RESET_PASSWORD_IP.limit,
+      AUTH_RESET_PASSWORD_IP.windowMs
+    );
+    if (ipLimited) return ipLimited;
 
-    const { token, password } = await req.json();
-    if (!token || !password) {
+    const { email, code, password } = await req.json();
+    if (!email || !code || !password) {
       return NextResponse.json({ error: 'missing_fields' }, { status: 400 });
     }
+
+    const normalizedEmail = String(email).toLowerCase().trim();
+    const normalizedCode = String(code).replace(/\D/g, '').trim();
+    if (normalizedCode.length !== 6) {
+      return NextResponse.json({ error: 'invalid_reset_code' }, { status: 400 });
+    }
+
+    const emailLimited = await enforceRateLimit(
+      AUTH_RESET_PASSWORD_EMAIL.key(normalizedEmail),
+      AUTH_RESET_PASSWORD_EMAIL.limit,
+      AUTH_RESET_PASSWORD_EMAIL.windowMs
+    );
+    if (emailLimited) return emailLimited;
 
     const check = validatePassword(password);
     if (!check.ok) {
       return NextResponse.json({ error: check.code }, { status: 400 });
     }
 
+    const codeHash = hashPasswordResetCode(normalizedEmail, normalizedCode);
+
     const user = await prisma.user.findFirst({
       where: {
-        passwordResetToken: String(token).trim(),
+        email: normalizedEmail,
+        passwordResetToken: codeHash,
         passwordResetExpiry: { gt: new Date() },
       },
     });
 
     if (!user) {
-      return NextResponse.json({ error: 'invalid_reset_token' }, { status: 400 });
+      return NextResponse.json({ error: 'invalid_reset_code' }, { status: 400 });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12);
+    const hashedPassword = await hashUserPassword(password);
 
     await prisma.user.update({
       where: { id: user.id },
@@ -43,6 +66,7 @@ export async function POST(req: NextRequest) {
         password: hashedPassword,
         passwordResetToken: null,
         passwordResetExpiry: null,
+        sessionVersion: { increment: 1 },
       },
     });
 

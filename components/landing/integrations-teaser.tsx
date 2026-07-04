@@ -31,8 +31,8 @@ export async function LandingIntegrationsTeaser() {
                 href={href}
                 className="rounded-xl border border-border/40 bg-card/80 p-5 text-center transition-colors hover:border-primary/30"
               >
-                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                  <Icon className="h-5 w-5 text-primary" aria-hidden />
+                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg icon-well-primary">
+                  <Icon className="h-5 w-5" aria-hidden />
                 </div>
                 <p className="font-display text-sm font-semibold">{t(`integrationsTeaser.${key}Title`)}</p>
                 <p className="mt-1 text-xs text-muted-foreground">{t(`integrationsTeaser.${key}Desc`)}</p>

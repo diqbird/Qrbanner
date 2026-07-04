@@ -2,6 +2,7 @@ import { DM_Sans, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
 import { DeferredSiteAnalytics } from '@/components/analytics/deferred-site-analytics';
+import { LocaleHeadLinks } from '@/components/seo/locale-head-links';
 import { getServerLocale } from '@/lib/i18n/server';
 import {
   DEFAULT_DESCRIPTION,
@@ -76,6 +77,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        <LocaleHeadLinks />
+      </head>
       <body className={`${dmSans.variable} ${jakartaSans.variable} font-sans antialiased`}>
         <Providers>{children}</Providers>
         <DeferredSiteAnalytics />

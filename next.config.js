@@ -17,7 +17,9 @@ const nextConfig = {
   distDir: process.env.NEXT_DIST_DIR || '.next',
   output: process.env.NEXT_OUTPUT_MODE,
   productionBrowserSourceMaps: false,
-  serverExternalPackages: ['geoip-lite'],
+  experimental: {
+    serverComponentsExternalPackages: ['geoip-lite'],
+  },
   transpilePackages: ['react-globe.gl', 'globe.gl', 'three-globe'],
   poweredByHeader: false,
   compress: true,
@@ -52,6 +54,14 @@ const nextConfig = {
       {
         source: '/logos/:path*',
         headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+      {
+        source: '/',
+        headers: [{ key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' }],
+      },
+      {
+        source: '/(features|pricing|solutions|faq|blog|developers|about|contact|templates|qr-types|use-cases)',
+        headers: [{ key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' }],
       },
     ];
   },

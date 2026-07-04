@@ -187,8 +187,8 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
         <div className="flex justify-end mb-2">
           <LanguageSwitcher />
         </div>
-        <Link href="/" className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary">
-          <QrCode className="h-7 w-7 text-primary-foreground" />
+        <Link href="/" className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary" aria-label={t('common.homeAria')}>
+          <QrCode className="h-7 w-7 text-primary-foreground" aria-hidden />
         </Link>
         <CardTitle className="font-display text-2xl tracking-tight">{t('auth.welcomeBack')}</CardTitle>
         <CardDescription>{t('auth.signInSubtitle')}</CardDescription>
@@ -243,8 +243,9 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                aria-label={showPassword ? t('auth.hidePassword') : t('auth.showPassword')}
               >
-                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                {showPassword ? <EyeOff className="h-4 w-4" aria-hidden /> : <Eye className="h-4 w-4" aria-hidden />}
               </button>
             </div>
           </div>

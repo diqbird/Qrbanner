@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Star, ExternalLink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
@@ -26,6 +26,7 @@ export default async function ReviewsPage() {
   const t = (key: string) => translate(locale, key);
   const hasG2 = Boolean(G2_REVIEW_URL);
   const hasCapterra = Boolean(CAPTERRA_REVIEW_URL);
+  const hasReviewPlatforms = hasG2 || hasCapterra;
 
   return (
     <>
@@ -39,12 +40,7 @@ export default async function ReviewsPage() {
       <PublicBreadcrumbs items={[{ label: t('reviews.pageTitle'), href: '/reviews' }]} />
       <div className="py-10 sm:py-16">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
-          <div className="flex justify-center gap-1 text-amber-500" aria-hidden>
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star key={i} className="h-6 w-6 fill-current" />
-            ))}
-          </div>
-          <h1 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl">
+          <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
             {t('reviews.pageTitle')}
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">{t('reviews.pageSubtitle')}</p>
@@ -71,25 +67,29 @@ export default async function ReviewsPage() {
             </a>
           </div>
 
-          {!hasG2 && !hasCapterra && (
+          {!hasReviewPlatforms && (
             <p className="mt-8 rounded-xl border border-border/50 bg-muted/30 p-4 text-sm text-muted-foreground">
               {t('reviews.noProfilesYet')}
             </p>
           )}
 
-          <section className="mt-16 text-left">
-            <h2 className="font-display text-xl font-semibold text-center">{t('reviews.highlightsTitle')}</h2>
-            <ul className="mt-6 space-y-4">
-              {(['reviews.highlight1', 'reviews.highlight2', 'reviews.highlight3'] as const).map((key) => (
-                <li
-                  key={key}
-                  className="rounded-xl border border-border/50 bg-card p-5 text-sm text-muted-foreground leading-relaxed"
-                >
-                  {t(key)}
-                </li>
-              ))}
-            </ul>
-          </section>
+          {hasReviewPlatforms ? (
+            <section className="mt-16 text-left">
+              <h2 className="font-display text-xl font-semibold text-center">{t('reviews.highlightsTitle')}</h2>
+              <ul className="mt-6 space-y-4">
+                {(['reviews.highlight1', 'reviews.highlight2', 'reviews.highlight3'] as const).map((key) => (
+                  <li
+                    key={key}
+                    className="rounded-xl border border-border/50 bg-card p-5 text-sm text-muted-foreground leading-relaxed"
+                  >
+                    {t(key)}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : (
+            <p className="mt-16 text-sm text-muted-foreground">{t('reviews.highlightsOnlyWhenLive')}</p>
+          )}
 
           <section className="mt-16 text-left">
             <h2 className="font-display text-xl font-semibold text-center">{t('reviews.stepsTitle')}</h2>
@@ -107,10 +107,6 @@ export default async function ReviewsPage() {
               ))}
             </ol>
             <p className="mt-6 text-center">
-              <Link href="/reviews/prompts" className="text-sm font-medium text-primary hover:underline">
-                {t('reviewPrompts.title')} →
-              </Link>
-              <span className="mx-2 text-muted-foreground">·</span>
               <Link href="/reviews/g2-setup" className="text-sm font-medium text-primary hover:underline">
                 {t('g2Setup.title')} →
               </Link>

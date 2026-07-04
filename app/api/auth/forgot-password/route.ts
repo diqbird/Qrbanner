@@ -1,21 +1,31 @@
 export const dynamic = 'force-dynamic';
 
-import crypto from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { sendPasswordResetEmail } from '@/lib/email';
-import { rateLimit, clientIp } from '@/lib/rate-limit';
+import { createPasswordResetCode } from '@/lib/password-reset';
+import { clientIp } from '@/lib/rate-limit';
+import { enforceRateLimit } from '@/lib/authenticated-rate-limit';
+import { AUTH_FORGOT_PASSWORD } from '@/lib/rate-limit-policies';
 import { guardPublicPost } from '@/lib/guard-public-post';
 
 export async function POST(req: NextRequest) {
   try {
     const ip = clientIp(req);
-    const rl = rateLimit(`forgot:${ip}`, 5, 15 * 60 * 1000);
-    if (!rl.ok) {
-      return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
+    const limited = await enforceRateLimit(
+      AUTH_FORGOT_PASSWORD.key(ip),
+      AUTH_FORGOT_PASSWORD.limit,
+      AUTH_FORGOT_PASSWORD.windowMs
+    );
+    if (limited) return limited;
+
+    let body: { email?: string; turnstileToken?: string; captchaToken?: string };
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ error: 'invalid_json' }, { status: 400 });
     }
 
-    const body = await req.json();
     const blocked = await guardPublicPost(req, body, ip);
     if (blocked) return blocked;
 
@@ -25,18 +35,24 @@ export async function POST(req: NextRequest) {
     }
 
     const normalized = email.toLowerCase().trim();
-    const user = await prisma.user.findUnique({ where: { email: normalized } });
+    const user = await prisma.user.findUnique({
+      where: { email: normalized },
+    });
 
-    if (user?.password) {
-      const token = crypto.randomBytes(32).toString('base64url');
-      const passwordResetExpiry = new Date(Date.now() + 60 * 60 * 1000);
+    if (!user) {
+      return NextResponse.json({ message: 'reset_email_sent' });
+    }
 
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { passwordResetToken: token, passwordResetExpiry },
-      });
+    const { code, codeHash, expiry } = createPasswordResetCode(user.email);
 
-      await sendPasswordResetEmail(user.email, token, user.name);
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { passwordResetToken: codeHash, passwordResetExpiry: expiry },
+    });
+
+    const result = await sendPasswordResetEmail(user.email, code, user.name);
+    if (!result.sent && result.fallback) {
+      console.log(`[forgot-password] SMTP fallback — code for ${user.email}: ${code}`);
     }
 
     return NextResponse.json({ message: 'reset_email_sent' });

@@ -28,32 +28,46 @@ export async function POST(req: NextRequest) {
     const ownedIds = owned.map((q) => q.id);
     const ownedShortCodes = owned.map((q) => q.shortCode);
 
-    if (action === 'delete') {
+    const requireEditor = async () => {
       const canEdit = await assertWorkspaceRole(userId, workspaceId, 'editor');
       if (!canEdit.ok) return NextResponse.json({ error: 'Editor role required' }, { status: 403 });
+      return null;
+    };
+
+    if (action === 'delete') {
+      const denied = await requireEditor();
+      if (denied) return denied;
       await prisma.qRCode.deleteMany({ where: { id: { in: ownedIds } } });
       await invalidateScanQrCaches(ownedShortCodes);
       return NextResponse.json({ ok: true, count: ownedIds.length });
     }
 
     if (action === 'archive') {
+      const denied = await requireEditor();
+      if (denied) return denied;
       await prisma.qRCode.updateMany({ where: { id: { in: ownedIds } }, data: { isArchived: true, isActive: false } });
       await invalidateScanQrCaches(ownedShortCodes);
       return NextResponse.json({ ok: true, count: ownedIds.length });
     }
 
     if (action === 'unarchive') {
+      const denied = await requireEditor();
+      if (denied) return denied;
       await prisma.qRCode.updateMany({ where: { id: { in: ownedIds } }, data: { isArchived: false, isActive: true } });
       await invalidateScanQrCaches(ownedShortCodes);
       return NextResponse.json({ ok: true, count: ownedIds.length });
     }
 
     if (action === 'favorite') {
+      const denied = await requireEditor();
+      if (denied) return denied;
       await prisma.qRCode.updateMany({ where: { id: { in: ownedIds } }, data: { isFavorite: true } });
       return NextResponse.json({ ok: true, count: ownedIds.length });
     }
 
     if (action === 'unfavorite') {
+      const denied = await requireEditor();
+      if (denied) return denied;
       await prisma.qRCode.updateMany({ where: { id: { in: ownedIds } }, data: { isFavorite: false } });
       return NextResponse.json({ ok: true, count: ownedIds.length });
     }
@@ -71,6 +85,27 @@ export async function POST(req: NextRequest) {
           'Content-Disposition': 'attachment; filename="qr-export.csv"',
         },
       });
+    }
+
+    if (action === 'exportImagesMeta') {
+      if (ownedIds.length > 50) {
+        return NextResponse.json({ error: 'Maximum 50 QR codes per ZIP export' }, { status: 400 });
+      }
+      const items = await prisma.qRCode.findMany({
+        where: { id: { in: ownedIds } },
+        select: {
+          id: true,
+          name: true,
+          shortCode: true,
+          category: true,
+          targetUrl: true,
+          qrData: true,
+          style: true,
+          logoPath: true,
+        },
+        orderBy: { name: 'asc' },
+      });
+      return NextResponse.json({ items });
     }
 
     return NextResponse.json({ error: 'Unknown action' }, { status: 400 });

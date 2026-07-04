@@ -80,9 +80,6 @@ export default async function G2SetupPage() {
                 {t('reviews.readOnG2')} →
               </Link>
             ) : null}
-            <Link href="/reviews/prompts" className="text-primary hover:underline">
-              {t('reviewPrompts.title')} →
-            </Link>
             <Link href="/reviews" className="text-muted-foreground hover:text-primary">
               {t('g2Setup.backToReviews')} →
             </Link>

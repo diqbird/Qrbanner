@@ -12,17 +12,15 @@ import { Button } from '@/components/ui/button';
 
 import { Badge } from '@/components/ui/badge';
 
-import { Check, Loader2, ArrowRight, Building2 } from 'lucide-react';
+import { Check, ArrowRight, Building2 } from 'lucide-react';
 
 import { useLanguage } from '@/components/i18n/language-provider';
 
-import { getComparisonRows, getLaunchBanner, getPricingPlans, planName, planCtaLabel } from '@/lib/i18n/pricing-content';
+import { getComparisonRows, getLaunchBanner, getPricingPlans, planName } from '@/lib/i18n/pricing-content';
 
 import type { BillingInterval, PlanId } from '@/lib/plans';
 
 import { ANNUAL_DISCOUNT_PERCENT } from '@/lib/plans';
-
-import { toast } from 'sonner';
 
 import { useState } from 'react';
 
@@ -30,7 +28,11 @@ import { PricingReferralBanner } from '@/components/marketing/pricing-referral-b
 
 import { BillingComingSoonBanner } from '@/components/billing/billing-coming-soon-banner';
 
-import { useBillingStatus } from '@/hooks/use-billing-status';
+import { PricingPlanCardButton } from '@/components/billing/pricing-plan-card-button';
+
+import { usePlanCheckout } from '@/hooks/use-plan-checkout';
+
+import { isPaidCheckoutClosed, planCardPriceLabel } from '@/lib/pricing-display';
 
 export function LandingPricing() {
 
@@ -46,82 +48,16 @@ export function LandingPricing() {
 
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
-  const [loadingPlan, setLoadingPlan] = useState<PlanId | null>(null);
-
-  const { configured: billingConfigured, loading: billingLoading } = useBillingStatus();
-
-
+  const { checkoutPlan, loadingPlan, billingConfigured, annualAvailable, billingLoading } = usePlanCheckout();
 
   const handlePlanClick = async (planId: PlanId, priceMonthly: number | null) => {
-
-    if (priceMonthly === 0 || priceMonthly === null) {
-
-      window.location.href = session ? '/dashboard' : '/signup';
-
-      return;
-
+    const result = await checkoutPlan(planId, priceMonthly, interval, {
+      signInCallbackUrl: '/pricing',
+      isSignedIn: Boolean(session),
+    });
+    if (result.redirected && result.href) {
+      window.location.href = result.href;
     }
-
-    if (!billingConfigured) {
-
-      toast.message(t('pricing.billingSoonToast'));
-
-      window.location.href = '/contact';
-
-      return;
-
-    }
-
-    setLoadingPlan(planId);
-
-    try {
-
-      const res = await fetch('/api/billing/checkout', {
-
-        method: 'POST',
-
-        headers: { 'Content-Type': 'application/json' },
-
-        body: JSON.stringify({ plan: planId, interval }),
-
-      });
-
-      if (res.status === 401) {
-
-        window.location.href = `/signup?callbackUrl=${encodeURIComponent('/pricing')}`;
-
-        return;
-
-      }
-
-      const data = await res.json();
-
-      if (data?.url) {
-
-        window.location.href = data.url;
-
-        return;
-
-      }
-
-      if (res.status === 503 || data?.error === 'billing_not_configured') {
-
-        toast.message(t('pricing.billingSoonToast'));
-
-        return;
-
-      }
-
-      toast.error(data?.error ?? t('pricing.checkoutUnavailable'));
-    } catch {
-      toast.error(t('auth.somethingWrong'));
-
-    } finally {
-
-      setLoadingPlan(null);
-
-    }
-
   };
 
 
@@ -140,12 +76,15 @@ export function LandingPricing() {
 
           </h2>
 
-          <p className="mt-4 text-muted-foreground">{getLaunchBanner(locale)}</p>
+          <p className="mt-4 text-muted-foreground">
+            {getLaunchBanner(locale, { billingLive: billingConfigured })}
+          </p>
 
           <PricingReferralBanner />
 
           {!billingLoading && !billingConfigured && <BillingComingSoonBanner />}
 
+          {annualAvailable && (
           <div className="mt-6 inline-flex rounded-full border border-border/60 bg-muted/40 p-1">
 
             <button
@@ -182,11 +121,12 @@ export function LandingPricing() {
 
               {t('pricing.billingAnnual')}{' '}
 
-              <span className="text-primary">({t('pricing.savePercent', { percent: ANNUAL_DISCOUNT_PERCENT })})</span>
+              <span className="font-medium text-foreground">({t('pricing.savePercent', { percent: ANNUAL_DISCOUNT_PERCENT })})</span>
 
             </button>
 
           </div>
+          )}
 
         </div>
 
@@ -204,7 +144,7 @@ export function LandingPricing() {
 
                 plan.highlighted ? 'border-primary shadow-md ring-1 ring-primary/20' : 'border-border/50'
 
-              } ${inView ? 'animate-fade-up' : 'opacity-0'}`}
+              } ${inView ? 'animate-fade-up' : ''}`}
 
               style={{ animationDelay: `${i * 80}ms` }}
 
@@ -220,9 +160,11 @@ export function LandingPricing() {
 
               <p className="mt-2">
 
-                <span className="font-display text-3xl font-bold">{plan.priceLabel}</span>
+                <span className="font-display text-3xl font-bold">
+                  {planCardPriceLabel(plan.priceLabel, plan.priceMonthly, billingConfigured, billingLoading, t)}
+                </span>
 
-                {plan.priceMonthly !== null && plan.priceMonthly > 0 && (
+                {plan.priceMonthly !== null && plan.priceMonthly > 0 && billingConfigured && (
 
                   <span className="text-sm text-muted-foreground"> {t('pricing.perMonth')}</span>
 
@@ -230,10 +172,14 @@ export function LandingPricing() {
 
               </p>
 
-              {'billedNote' in plan && plan.billedNote && (
+              {'billedNote' in plan && plan.billedNote && billingConfigured && (
 
                 <p className="mt-1 text-xs text-muted-foreground">{plan.billedNote}</p>
 
+              )}
+
+              {isPaidCheckoutClosed(plan.priceMonthly, billingConfigured, billingLoading) && (
+                <p className="mt-1 text-xs text-muted-foreground">{t('pricing.paidCheckoutClosedNote')}</p>
               )}
 
               <ul className="mt-6 space-y-2.5">
@@ -242,7 +188,7 @@ export function LandingPricing() {
 
                   <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
 
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-foreground" aria-hidden />
 
                     <span>{f}</span>
 
@@ -252,42 +198,16 @@ export function LandingPricing() {
 
               </ul>
 
-              <Button
-
-                className="mt-8 w-full"
-
-                variant={plan.highlighted ? 'default' : 'outline'}
-
-                disabled={
-                  loadingPlan === plan.id ||
-                  (plan.priceMonthly !== null &&
-                    plan.priceMonthly > 0 &&
-                    !billingConfigured &&
-                    !billingLoading)
-                }
-
-                onClick={() => handlePlanClick(plan.id, plan.priceMonthly)}
-
-              >
-
-                {loadingPlan === plan.id ? (
-
-                  <Loader2 className="h-4 w-4 animate-spin" />
-
-                ) : plan.priceMonthly !== null &&
-                  plan.priceMonthly > 0 &&
-                  !billingConfigured &&
-                  !billingLoading ? (
-
-                  t('pricing.billingSoonCtaShort')
-
-                ) : (
-
-                  planCtaLabel(plan.id, plan.priceMonthly, t)
-
-                )}
-
-              </Button>
+              <PricingPlanCardButton
+                planId={plan.id}
+                priceMonthly={plan.priceMonthly}
+                highlighted={Boolean(plan.highlighted)}
+                billingConfigured={billingConfigured}
+                billingLoading={billingLoading}
+                loadingPlan={loadingPlan}
+                t={t}
+                onCheckout={() => handlePlanClick(plan.id, plan.priceMonthly)}
+              />
 
             </div>
 

@@ -6,10 +6,12 @@ import { authOptions } from '@/lib/auth-options';
 import {
   assignQrsToCampaign,
   deleteCampaign,
-  listCampaignsForUser,
+  listCampaignsForWorkspace,
   renameCampaign,
+  assertCampaignInWorkspace,
 } from '@/lib/campaigns';
 import { prisma } from '@/lib/db';
+import { getActiveWorkspaceId, assertWorkspaceRole } from '@/lib/workspace';
 import { QR_MUTATION_LIMIT, rateLimitRequest } from '@/lib/authenticated-rate-limit';
 
 export async function GET(
@@ -21,13 +23,17 @@ export async function GET(
     const userId = (session?.user as { id?: string })?.id;
     if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
+    const workspaceId = await getActiveWorkspaceId(userId);
+    const access = await assertWorkspaceRole(userId, workspaceId, 'viewer');
+    if (!access.ok) return NextResponse.json({ error: access.error }, { status: 403 });
+
     const campaignId = params.id;
-    const campaigns = await listCampaignsForUser(userId);
+    const campaigns = await listCampaignsForWorkspace(workspaceId);
     const campaign = campaigns.find((c) => c.id === campaignId);
     if (!campaign) return NextResponse.json({ error: 'Campaign not found' }, { status: 404 });
 
     const qrCodes = await prisma.qRCode.findMany({
-      where: { userId, batchId: campaignId, isArchived: false },
+      where: { workspaceId, batchId: campaignId, isArchived: false },
       select: {
         id: true,
         name: true,
@@ -58,22 +64,29 @@ export async function PATCH(
     const limited = await rateLimitRequest(req, 'campaign-mutation', QR_MUTATION_LIMIT.limit, QR_MUTATION_LIMIT.windowMs, userId);
     if (limited) return limited;
 
+    const workspaceId = await getActiveWorkspaceId(userId);
+    const access = await assertWorkspaceRole(userId, workspaceId, 'editor');
+    if (!access.ok) return NextResponse.json({ error: access.error }, { status: 403 });
+
     const body = await req.json();
     const campaignId = params.id;
 
+    const exists = await assertCampaignInWorkspace(workspaceId, campaignId);
+    if (!exists) return NextResponse.json({ error: 'Campaign not found' }, { status: 404 });
+
     if (body?.name) {
-      await renameCampaign(userId, campaignId, String(body.name));
+      await renameCampaign(workspaceId, campaignId, String(body.name));
     }
 
     if (Array.isArray(body?.qrIds) && body.qrIds.length > 0) {
       const name =
         String(body?.name ?? '').trim() ||
-        (await listCampaignsForUser(userId)).find((c) => c.id === campaignId)?.name ||
+        (await listCampaignsForWorkspace(workspaceId)).find((c) => c.id === campaignId)?.name ||
         'Campaign';
-      await assignQrsToCampaign(userId, campaignId, name, body.qrIds as string[]);
+      await assignQrsToCampaign(workspaceId, campaignId, name, body.qrIds as string[]);
     }
 
-    const campaigns = await listCampaignsForUser(userId);
+    const campaigns = await listCampaignsForWorkspace(workspaceId);
     const campaign = campaigns.find((c) => c.id === campaignId);
     return NextResponse.json({ campaign });
   } catch (error) {
@@ -94,7 +107,11 @@ export async function DELETE(
     const limited = await rateLimitRequest(req, 'campaign-mutation', QR_MUTATION_LIMIT.limit, QR_MUTATION_LIMIT.windowMs, userId);
     if (limited) return limited;
 
-    const count = await deleteCampaign(userId, params.id);
+    const workspaceId = await getActiveWorkspaceId(userId);
+    const access = await assertWorkspaceRole(userId, workspaceId, 'editor');
+    if (!access.ok) return NextResponse.json({ error: access.error }, { status: 403 });
+
+    const count = await deleteCampaign(workspaceId, params.id);
     return NextResponse.json({ ok: true, unassigned: count });
   } catch (error) {
     console.error('[campaigns DELETE]', error);

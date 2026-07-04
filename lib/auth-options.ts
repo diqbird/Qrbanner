@@ -14,6 +14,9 @@ import { assertOAuthSignInAllowed, assertPasswordLoginAllowed, isEmailDomainAllo
 import { verifySamlSignInToken } from '@/lib/saml-auth';
 import { decryptTotpSecret, verifyTotpCode } from '@/lib/totp';
 import { verifyTurnstileToken } from '@/lib/turnstile';
+import { verifyMfaProofToken } from '@/lib/mfa-step-up';
+import { checkRateLimit, clientIpFromHeaders } from '@/lib/rate-limit-store';
+import { AUTH_LOGIN_EMAIL, AUTH_LOGIN_IP } from '@/lib/rate-limit-policies';
 
 /** 30 days when "Remember me" is checked. */
 const SESSION_REMEMBER_MAX_AGE = 30 * 24 * 60 * 60;
@@ -23,6 +26,26 @@ const SESSION_DEFAULT_MAX_AGE = 24 * 60 * 60;
 function parseRememberMe(value: string | undefined): boolean {
   return value !== 'false' && value !== '0';
 }
+
+async function assertLoginNotRateLimited(email: string): Promise<void> {
+  const ip = await clientIpFromHeaders();
+  const ipResult = await checkRateLimit(
+    AUTH_LOGIN_IP.key(ip),
+    AUTH_LOGIN_IP.limit,
+    AUTH_LOGIN_IP.windowMs
+  );
+  if (!ipResult.ok) throw new Error('rate_limited');
+
+  const emailResult = await checkRateLimit(
+    AUTH_LOGIN_EMAIL.key(email),
+    AUTH_LOGIN_EMAIL.limit,
+    AUTH_LOGIN_EMAIL.windowMs
+  );
+  if (!emailResult.ok) throw new Error('rate_limited');
+}
+
+/** Incomplete MFA step-up window — OAuth users must verify within this TTL. */
+const MFA_PENDING_MAX_AGE = 15 * 60;
 
 const providers: NextAuthOptions['providers'] = [
   CredentialsProvider({
@@ -119,6 +142,8 @@ const providers: NextAuthOptions['providers'] = [
       if (!credentials.password) {
         throw new Error('missing_fields');
       }
+
+      await assertLoginNotRateLimited(email);
 
       const turnstileOk = await verifyTurnstileToken(credentials.turnstileToken);
       if (!turnstileOk) {
@@ -246,8 +271,15 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async jwt({ token, user, account, trigger, session }) {
-      if (trigger === 'update' && session && typeof session === 'object' && 'mfaVerified' in session) {
-        token.mfaVerified = Boolean((session as { mfaVerified?: boolean }).mfaVerified);
+      if (trigger === 'update' && session && typeof session === 'object') {
+        const proof = (session as { mfaProofToken?: string }).mfaProofToken;
+        const userId = token.id as string | undefined;
+        if (proof && userId && verifyMfaProofToken(proof, userId)) {
+          token.mfaVerified = true;
+          const rememberMe = token.rememberMe !== false;
+          const maxAge = rememberMe ? SESSION_REMEMBER_MAX_AGE : SESSION_DEFAULT_MAX_AGE;
+          token.exp = Math.floor(Date.now() / 1000) + maxAge;
+        }
       }
 
       if (user) {
@@ -263,17 +295,42 @@ export const authOptions: NextAuthOptions = {
         } else if (account?.provider && account.provider !== 'credentials') {
           const dbUser = await prisma.user.findUnique({
             where: { id: user.id },
-            select: { totpEnabled: true },
+            select: { totpEnabled: true, sessionVersion: true },
           });
-          token.mfaVerified = !dbUser?.totpEnabled;
+          if (dbUser?.totpEnabled) {
+            token.mfaVerified = false;
+            token.exp = Math.floor(Date.now() / 1000) + MFA_PENDING_MAX_AGE;
+          } else {
+            token.mfaVerified = true;
+          }
+          token.sessionVersion = dbUser?.sessionVersion ?? 0;
           await ensurePersonalWorkspace(user.id);
         } else {
           token.mfaVerified = explicitMfa ?? true;
+          const dbUser = await prisma.user.findUnique({
+            where: { id: user.id },
+            select: { sessionVersion: true },
+          });
+          token.sessionVersion = dbUser?.sessionVersion ?? 0;
+        }
+      } else if (token.id) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: { role: true, sessionVersion: true },
+        });
+        if (!dbUser || (token.sessionVersion ?? 0) !== dbUser.sessionVersion) {
+          token.sessionInvalid = true;
+        } else {
+          token.role = dbUser.role;
+          token.sessionVersion = dbUser.sessionVersion;
         }
       }
       return token;
     },
     async session({ session, token }) {
+      if (token.sessionInvalid) {
+        return { ...session, user: undefined, expires: '0' };
+      }
       if (session?.user) {
         (session.user as { id?: string }).id = token.id as string;
         (session.user as { role?: string }).role = token.role as string;

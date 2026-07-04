@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Zap, QrCode, Route, BarChart3 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { freePlanQrLimit } from '@/lib/plans';
 
 const HIGHLIGHT_ICONS = [QrCode, Route, BarChart3];
 const HIGHLIGHT_KEYS = [
@@ -45,14 +46,15 @@ export function LandingHero() {
                 {t('hero.createQr')} <ArrowRight className="h-4 w-4" aria-hidden />
               </Button>
             </Link>
-            <Link href="/signup">
-              <Button variant="outline" size="lg" className="rounded-full px-8">
-                {t('common.getStartedFree')}
-              </Button>
+            <Link
+              href="/signup"
+              className="text-sm font-medium text-primary hover:underline underline-offset-4"
+            >
+              {t('common.getStartedFree')} →
             </Link>
           </div>
           <p className="animate-fade-up mt-3 text-center text-xs text-muted-foreground [animation-delay:280ms]">
-            {t('hero.createQrHint')}
+            {t('hero.createQrHint', { count: freePlanQrLimit() })}
           </p>
 
           <div className="animate-fade-up mt-16 grid grid-cols-1 gap-4 sm:grid-cols-3 [animation-delay:320ms]">
@@ -60,7 +62,7 @@ export function LandingHero() {
               const Icon = HIGHLIGHT_ICONS[i];
               return (
                 <div key={item.label} className="rounded-2xl border border-border/40 bg-card/80 p-5 shadow-sm backdrop-blur-sm">
-                  <Icon className="mb-2 h-6 w-6 text-primary" aria-hidden />
+                  <Icon className="mb-2 h-6 w-6 text-foreground" aria-hidden />
                   <h3 className="font-display text-sm font-semibold">{t(item.label)}</h3>
                   <p className="mt-1 text-xs text-muted-foreground">{t(item.desc)}</p>
                 </div>

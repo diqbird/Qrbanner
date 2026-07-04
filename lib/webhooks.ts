@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import { recordWebhookDelivery } from '@/lib/webhook-deliveries';
+import { assertSafeOutboundUrl } from '@/lib/outbound-url';
 
 export interface ScanWebhookPayload {
   event: 'scan';
@@ -41,8 +42,24 @@ export async function dispatchScanWebhooks(
       let error: string | null = null;
 
       try {
+        const urlCheck = assertSafeOutboundUrl(ep.url);
+        if (!urlCheck.ok) {
+          error = urlCheck.error;
+          console.warn(`Webhook ${ep.id} blocked: ${error}`);
+          await recordWebhookDelivery({
+            endpointId: ep.id,
+            userId,
+            event: 'scan',
+            statusCode: null,
+            success: false,
+            error,
+            durationMs: Date.now() - started,
+          });
+          return;
+        }
+
         const signature = signWebhookPayload(ep.secret, body);
-        const res = await fetch(ep.url, {
+        const res = await fetch(urlCheck.url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

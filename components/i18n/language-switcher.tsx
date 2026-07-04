@@ -28,6 +28,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
               : 'text-muted-foreground hover:text-foreground'
           )}
           aria-pressed={locale === item.id}
+          aria-label={item.label}
         >
           {item.label}
         </button>

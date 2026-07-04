@@ -15,6 +15,7 @@ import { Building2, Mail, KeyRound, Users, Trash2, Plus, Copy } from 'lucide-rea
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
+import { SettingsCardSkeleton } from '@/components/dashboard/settings-card-skeleton';
 
 interface EnterpriseState {
   workspace: {
@@ -235,7 +236,7 @@ export function EnterpriseWorkspaceSettings() {
     toast.success(t('enterpriseWorkspace.copied').replace('{{label}}', label));
   };
 
-  if (loading) return null;
+  if (loading) return <SettingsCardSkeleton />;
   if (!state || state.workspace.isPersonal) return null;
 
   const { workspace, features, scimBaseUrl } = state;

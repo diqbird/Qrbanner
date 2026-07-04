@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
   return pageMetadata({
-    locale,
+    locale: 'en',
     title: t('blogIndex.metaTitle'),
     description: t('blogIndex.metaDescription'),
     path: '/blog',
@@ -53,6 +53,7 @@ export default async function BlogIndexPage({
           '@type': 'Blog',
           name: t('blogIndex.jsonLdName'),
           url: 'https://qrbanner.com/blog',
+          inLanguage: 'en-US',
           publisher: { '@type': 'Organization', name: 'QRbanner' },
         }}
       />

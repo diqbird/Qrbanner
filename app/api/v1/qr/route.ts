@@ -9,6 +9,7 @@ import { generateShortCode, buildQRPayload } from '@/lib/qr-utils';
 import { stripMetaFields } from '@/lib/industry-templates';
 import { normalizeLabels } from '@/lib/organize-utils';
 import { getPrimaryScanBaseUrl } from '@/lib/custom-domain';
+import { resolveApiWorkspaceId } from '@/lib/workspace';
 import { assertCanCreateQr } from '@/lib/plan-usage';
 import { assertQrUrlsAllowed } from '@/lib/validate-qr-urls';
 
@@ -29,10 +30,14 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const folderId = searchParams.get('folder_id') ?? searchParams.get('folderId');
     const label = searchParams.get('label');
+    const workspaceParam = searchParams.get('workspace_id') ?? searchParams.get('workspaceId');
     const limit = Math.min(parseInt(searchParams.get('limit') ?? '50', 10) || 50, 100);
     const offset = parseInt(searchParams.get('offset') ?? '0', 10) || 0;
 
-    const where: Record<string, unknown> = { userId: auth.userId };
+    const ws = await resolveApiWorkspaceId(auth.userId, workspaceParam, 'viewer');
+    if (!ws.ok) return apiError(ws.error, 403);
+
+    const where: Record<string, unknown> = { workspaceId: ws.workspaceId };
     if (folderId) where.folderId = folderId;
     if (searchParams.get('unfiled') === '1') where.folderId = null;
 
@@ -76,6 +81,11 @@ export async function POST(req: NextRequest) {
     if (!parsed.name?.trim()) return apiError('name is required', 400);
     if (!parsed.category?.trim()) return apiError('category is required', 400);
 
+    const workspaceParam =
+      (body.workspace_id as string | undefined) ?? (body.workspaceId as string | undefined);
+    const ws = await resolveApiWorkspaceId(auth.userId, workspaceParam, 'editor');
+    if (!ws.ok) return apiError(ws.error, 403);
+
     const qrData = stripMetaFields({ ...(parsed.qrData ?? {}) } as Record<string, string>);
     if (parsed.url && parsed.category === 'url') {
       qrData.url = parsed.url;
@@ -106,6 +116,7 @@ export async function POST(req: NextRequest) {
     const qrCode = await prisma.qRCode.create({
       data: {
         userId: auth.userId,
+        workspaceId: ws.workspaceId,
         name: parsed.name.trim(),
         shortCode,
         category: parsed.category,

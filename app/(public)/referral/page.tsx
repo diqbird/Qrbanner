@@ -7,6 +7,7 @@ import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { Gift, Link2, Users, ArrowRight } from 'lucide-react';
+import { freePlanQrLimit } from '@/lib/plans';
 
 const STEP_ICONS = [Link2, Users, Gift];
 const STEP_KEYS = ['referralLanding.step1', 'referralLanding.step2', 'referralLanding.step3'] as const;
@@ -33,7 +34,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ReferralLandingPage() {
   const locale = await getServerLocale();
-  const t = (key: string) => translate(locale, key);
+  const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
+  const freeQrCount = freePlanQrLimit();
 
   return (
     <>
@@ -112,7 +114,12 @@ export default async function ReferralLandingPage() {
               {[0, 1, 2].map((i) => (
                 <div key={i}>
                   <dt className="font-medium">{t(FAQ_KEYS[i * 2])}</dt>
-                  <dd className="mt-1 text-sm text-muted-foreground leading-relaxed">{t(FAQ_KEYS[i * 2 + 1])}</dd>
+                  <dd className="mt-1 text-sm text-muted-foreground leading-relaxed">
+                    {t(
+                      FAQ_KEYS[i * 2 + 1],
+                      FAQ_KEYS[i * 2 + 1] === 'referralLanding.faq2a' ? { count: freeQrCount } : undefined
+                    )}
+                  </dd>
                 </div>
               ))}
             </dl>

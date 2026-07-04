@@ -37,7 +37,7 @@ export function MfaVerifyForm() {
         toast.error(resolveApiError(t, data.error, 'auth.mfaVerifyFailed'));
         return;
       }
-      await update({ mfaVerified: true });
+      await update({ mfaProofToken: data.mfaProofToken });
       toast.success(t('auth.signedInSuccess'));
       window.location.href = callbackUrl;
     } catch {

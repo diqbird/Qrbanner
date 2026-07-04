@@ -4,28 +4,35 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { authenticateMobileRequest, isMobileAuthError } from '@/lib/mobile-auth';
 import { getUserPlanUsage } from '@/lib/plan-usage';
+import { getActiveWorkspaceId, assertWorkspaceRole } from '@/lib/workspace';
 
 export async function GET(req: NextRequest) {
   const auth = await authenticateMobileRequest(req);
   if (isMobileAuthError(auth)) return auth;
 
+  const workspaceId = await getActiveWorkspaceId(auth.userId);
+  const access = await assertWorkspaceRole(auth.userId, workspaceId, 'viewer');
+  if (!access.ok) {
+    return NextResponse.json({ error: access.error }, { status: 403, headers: auth.rateLimitHeaders });
+  }
+
   const usage = await getUserPlanUsage(auth.userId);
 
   const since24h = new Date(Date.now() - 24 * 60 * 60 * 1000);
   const [activeQr, scans24h, totalScansAgg, recentScans] = await Promise.all([
-    prisma.qRCode.count({ where: { userId: auth.userId, isActive: true } }),
+    prisma.qRCode.count({ where: { workspaceId, isActive: true } }),
     prisma.qRScan.count({
       where: {
-        qrCode: { userId: auth.userId },
+        qrCode: { workspaceId },
         scannedAt: { gte: since24h },
       },
     }),
     prisma.qRCode.aggregate({
-      where: { userId: auth.userId },
+      where: { workspaceId },
       _sum: { totalScans: true },
     }),
     prisma.qRScan.findMany({
-      where: { qrCode: { userId: auth.userId } },
+      where: { qrCode: { workspaceId } },
       orderBy: { scannedAt: 'desc' },
       take: 5,
       select: {

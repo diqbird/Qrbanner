@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -25,26 +25,23 @@ import { LinkHubEditor, firstHubUrl } from './link-hub-editor';
 import { categoryDisplayName } from '@/lib/qr-utils';
 import { stripMetaFields } from '@/lib/industry-templates';
 import { buildQRPayload, isDynamicCategory } from '@/lib/qr-utils';
-import { AdvancedSettings, AdvancedValues, emptyAdvanced } from './advanced-settings';
-import { LandingPageEditor, emptyLandingPage, LandingPageData } from './landing-page-editor';
-import { ScheduleSettings, emptyScheduleData, ScheduleData } from './schedule-settings';
-import { GeofenceSettings, emptyGeofenceData, GeofenceData } from './geofence-settings';
-import { AbTestSettings, emptyAbTestData } from './ab-test-settings';
-import { parseAbTestData, type AbTestData } from '@/lib/ab-routing';
+import { AdvancedSettings, AdvancedValues } from './advanced-settings';
+import { LandingPageEditor, type LandingPageData } from './landing-page-editor';
+import { ScheduleSettings, type ScheduleData } from './schedule-settings';
+import { GeofenceSettings, type GeofenceData } from './geofence-settings';
+import { AbTestSettings } from './ab-test-settings';
+import type { AbTestData } from '@/lib/ab-routing';
 import { GpsHeatmapSettings } from './gps-heatmap';
 import { NfcExportPanel } from './nfc-export-panel';
-import { ScanNotifySettings, emptyScanNotify, ScanNotifyValues } from './scan-notify-settings';
-import {
-  AnalyticsPixelSettings,
-  emptyPixelAnalytics,
-  type PixelAnalyticsConfig,
-} from './analytics-pixel-settings';
+import { ScanNotifySettings, type ScanNotifyValues } from './scan-notify-settings';
+import { AnalyticsPixelSettings, type PixelAnalyticsConfig } from './analytics-pixel-settings';
+import { buildQrFeaturePayload, useQrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import { QROrganizeSettings } from './qr-organize-settings';
 import { EditQrTips } from './edit-qr-tips';
-import { getPixelConfig } from '@/lib/pixel-analytics';
 import { normalizeLabels } from '@/lib/organize-utils';
 import { useScanBaseUrl, buildScanLink } from '@/lib/use-scan-base-url';
 import { OnboardingSuccessCard } from '@/components/onboarding/onboarding-success-card';
+import { useUnsavedChangesGuard } from '@/hooks/use-unsaved-changes-guard';
 
 const QRPreview = dynamic(
   () => import('./qr-preview').then((m) => ({ default: m.QRPreview })),
@@ -95,12 +92,30 @@ interface QRCodeData {
   labels?: string[];
 }
 
-function toLocalInput(iso?: string | null): string {
-  if (!iso) return '';
-  const d = new Date(iso);
-  if (isNaN(d.getTime())) return '';
-  const tzOffset = d.getTimezoneOffset() * 60000;
-  return new Date(d.getTime() - tzOffset).toISOString().slice(0, 16);
+function editFormSnapshot(input: {
+  name: string;
+  qrData: Record<string, string>;
+  style: QRStyleConfig;
+  isActive: boolean;
+  storedLogoPath: string | null;
+  advanced: AdvancedValues;
+  landingEnabled: boolean;
+  landingPage: LandingPageData;
+  scheduleEnabled: boolean;
+  scheduleData: ScheduleData;
+  geofenceEnabled: boolean;
+  geofenceData: GeofenceData;
+  abTestEnabled: boolean;
+  abTestData: AbTestData;
+  gpsHeatmapEnabled: boolean;
+  nfcEnabled: boolean;
+  scanNotify: ScanNotifyValues;
+  folderId: string | null;
+  labels: string[];
+  pixels: PixelAnalyticsConfig;
+  removePassword: boolean;
+}) {
+  return JSON.stringify(input);
 }
 
 export function QREditView({ qrId }: { qrId: string }) {
@@ -125,24 +140,107 @@ export function QREditView({ qrId }: { qrId: string }) {
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [storedLogoPath, setStoredLogoPath] = useState<string | null>(null);
-  const [advanced, setAdvanced] = useState<AdvancedValues>(emptyAdvanced);
-  const [landingEnabled, setLandingEnabled] = useState(false);
-  const [landingPage, setLandingPage] = useState<LandingPageData>(emptyLandingPage);
-  const [scheduleEnabled, setScheduleEnabled] = useState(false);
-  const [scheduleData, setScheduleData] = useState<ScheduleData>(emptyScheduleData);
-  const [geofenceEnabled, setGeofenceEnabled] = useState(false);
-  const [geofenceData, setGeofenceData] = useState<GeofenceData>(emptyGeofenceData);
-  const [abTestEnabled, setAbTestEnabled] = useState(false);
-  const [abTestData, setAbTestData] = useState<AbTestData>(emptyAbTestData);
-  const [gpsHeatmapEnabled, setGpsHeatmapEnabled] = useState(false);
-  const [nfcEnabled, setNfcEnabled] = useState(false);
-  const [scanNotify, setScanNotify] = useState<ScanNotifyValues>(emptyScanNotify);
+  const featureFields = useQrFeatureFields();
+  const {
+    advanced,
+    setAdvanced,
+    landingEnabled,
+    setLandingEnabled,
+    landingPage,
+    setLandingPage,
+    scheduleEnabled,
+    setScheduleEnabled,
+    scheduleData,
+    setScheduleData,
+    geofenceEnabled,
+    setGeofenceEnabled,
+    geofenceData,
+    setGeofenceData,
+    abTestEnabled,
+    setAbTestEnabled,
+    abTestData,
+    setAbTestData,
+    gpsHeatmapEnabled,
+    setGpsHeatmapEnabled,
+    nfcEnabled,
+    setNfcEnabled,
+    scanNotify,
+    setScanNotify,
+    pixels,
+    setPixels,
+    applyFeatureFieldsFromRecord,
+  } = featureFields;
   const [hasExistingPassword, setHasExistingPassword] = useState(false);
   const [removePassword, setRemovePassword] = useState(false);
   const [folderId, setFolderId] = useState<string | null>(null);
   const [labels, setLabels] = useState<string[]>([]);
-  const [pixels, setPixels] = useState<PixelAnalyticsConfig>(emptyPixelAnalytics);
   const scanBaseUrl = useScanBaseUrl();
+  const [baseline, setBaseline] = useState<string | null>(null);
+  const [baselineTick, setBaselineTick] = useState(0);
+
+  const formSnapshot = useMemo(
+    () =>
+      editFormSnapshot({
+        name,
+        qrData,
+        style,
+        isActive,
+        storedLogoPath,
+        advanced,
+        landingEnabled,
+        landingPage,
+        scheduleEnabled,
+        scheduleData,
+        geofenceEnabled,
+        geofenceData,
+        abTestEnabled,
+        abTestData,
+        gpsHeatmapEnabled,
+        nfcEnabled,
+        scanNotify,
+        folderId,
+        labels,
+        pixels,
+        removePassword,
+      }),
+    [
+      name,
+      qrData,
+      style,
+      isActive,
+      storedLogoPath,
+      advanced,
+      landingEnabled,
+      landingPage,
+      scheduleEnabled,
+      scheduleData,
+      geofenceEnabled,
+      geofenceData,
+      abTestEnabled,
+      abTestData,
+      gpsHeatmapEnabled,
+      nfcEnabled,
+      scanNotify,
+      folderId,
+      labels,
+      pixels,
+      removePassword,
+    ],
+  );
+
+  const isDirty = Boolean(logoFile) || (baseline !== null && formSnapshot !== baseline);
+  useUnsavedChangesGuard(isDirty);
+
+  const formSnapshotRef = useRef(formSnapshot);
+  formSnapshotRef.current = formSnapshot;
+
+  useEffect(() => {
+    if (loading || !qr) {
+      setBaseline(null);
+      return;
+    }
+    setBaseline(formSnapshotRef.current);
+  }, [loading, qr?.id, baselineTick]);
 
   const fetchQR = useCallback(async () => {
     try {
@@ -156,54 +254,12 @@ export function QREditView({ qrId }: { qrId: string }) {
         setQrData(qrCode?.qrData ?? {});
         setIsActive(qrCode?.isActive ?? true);
         setHasExistingPassword(Boolean(qrCode?.hasPassword));
-        setAdvanced({
-          password: '',
-          expiresAt: toLocalInput(qrCode?.expiresAt),
-          scanLimit: qrCode?.scanLimit != null ? String(qrCode.scanLimit) : '',
-          iosUrl: qrCode?.iosUrl ?? '',
-          androidUrl: qrCode?.androidUrl ?? '',
-          utmEnabled: Boolean(qrCode?.utmEnabled),
-          utmSource: qrCode?.utmSource ?? 'qrbanner',
-          utmMedium: qrCode?.utmMedium ?? 'qr',
-          utmCampaign: qrCode?.utmCampaign ?? '',
-        });
-        setLandingEnabled(Boolean(qrCode?.landingPageEnabled));
-        setLandingPage({
-          ...emptyLandingPage,
-          ...(qrCode?.landingPageData && typeof qrCode.landingPageData === 'object'
-            ? qrCode.landingPageData
-            : {}),
-        });
-        setScheduleEnabled(Boolean(qrCode?.scheduleEnabled));
-        setScheduleData({
-          ...emptyScheduleData,
-          ...(qrCode?.scheduleData && typeof qrCode.scheduleData === 'object'
-            ? qrCode.scheduleData
-            : {}),
-        });
-        setGeofenceEnabled(Boolean(qrCode?.geofenceEnabled));
-        setGeofenceData({
-          ...emptyGeofenceData,
-          ...(qrCode?.geofenceData && typeof qrCode.geofenceData === 'object'
-            ? qrCode.geofenceData
-            : {}),
-        });
-        setAbTestEnabled(Boolean(qrCode?.abTestEnabled));
-        setAbTestData(parseAbTestData(qrCode?.abTestData));
-        setGpsHeatmapEnabled(Boolean(qrCode?.gpsHeatmapEnabled));
-        setNfcEnabled(Boolean(qrCode?.nfcEnabled));
-        setScanNotify({
-          enabled: Boolean(qrCode?.scanNotifyEnabled),
-          firstScan: qrCode?.scanNotifyFirst !== false,
-          milestones: qrCode?.scanNotifyMilestones !== false,
-          everyScan: Boolean(qrCode?.scanNotifyEvery),
-        });
+        applyFeatureFieldsFromRecord(qrCode);
         if (qrCode?.style && typeof qrCode.style === 'object') {
           resetStyleHistory(normalizeQRStyle(qrCode.style as Partial<QRStyleConfig>));
         }
         setFolderId(qrCode?.folderId ?? null);
         setLabels(normalizeLabels(qrCode?.labels ?? []));
-        setPixels(getPixelConfig(qrCode ?? {}));
         setStoredLogoPath(qrCode?.logoPath ?? null);
         if (qrCode?.logoPath) setLogoPreview(qrCode.logoPath);
       }
@@ -212,7 +268,7 @@ export function QREditView({ qrId }: { qrId: string }) {
     } finally {
       setLoading(false);
     }
-  }, [qrId]);
+  }, [qrId, applyFeatureFieldsFromRecord, resetStyleHistory]);
 
   useEffect(() => {
     fetchQR();
@@ -238,41 +294,23 @@ export function QREditView({ qrId }: { qrId: string }) {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name, qrData: stripMetaFields(qrData), style, isActive, logoPath, logoIsPublic: true,
+          name,
+          qrData: stripMetaFields(qrData),
+          style,
+          isActive,
+          logoPath,
+          logoIsPublic: true,
           password: advanced.password ? advanced.password : (removePassword ? '' : undefined),
-          expiresAt: advanced.expiresAt || null,
-          scanLimit: advanced.scanLimit !== '' ? advanced.scanLimit : null,
-          iosUrl: advanced.iosUrl,
-          androidUrl: advanced.androidUrl,
-          utmEnabled: advanced.utmEnabled,
-          utmSource: advanced.utmSource,
-          utmMedium: advanced.utmMedium,
-          utmCampaign: advanced.utmCampaign || name,
-          landingPageEnabled: landingEnabled,
-          landingPageData: landingEnabled ? landingPage : null,
-          scheduleEnabled: scheduleEnabled,
-          scheduleData: scheduleEnabled ? scheduleData : null,
-          geofenceEnabled: geofenceEnabled,
-          geofenceData: geofenceEnabled ? geofenceData : null,
-          abTestEnabled,
-          abTestData: abTestEnabled ? abTestData : null,
-          gpsHeatmapEnabled,
-          nfcEnabled,
-          scanNotifyEnabled: scanNotify.enabled,
-          scanNotifyFirst: scanNotify.firstScan,
-          scanNotifyMilestones: scanNotify.milestones,
-          scanNotifyEvery: scanNotify.everyScan,
           folderId,
           labels,
-          ga4Enabled: pixels.ga4Enabled,
-          ga4MeasurementId: pixels.ga4MeasurementId,
-          metaPixelId: pixels.metaPixelId,
-          metaPixelEnabled: pixels.metaPixelEnabled,
+          ...buildQrFeaturePayload({ name, mode: 'update', fields: featureFields }),
         }),
       });
 
       if (res.ok) {
         toast.success(t('editQr.updated'));
+        setLogoFile(null);
+        setBaselineTick((n) => n + 1);
         fetchQR();
       } else {
         toast.error(t('editQr.updateFailed'));
@@ -386,7 +424,7 @@ export function QREditView({ qrId }: { qrId: string }) {
               <div className="flex items-center justify-between">
                 <div>
                   <Label>{t('editQr.activeStatus')}</Label>
-                  <p className="text-xs text-muted-foreground">Disabled QR codes will show an error page.</p>
+                  <p className="text-xs text-muted-foreground">{t('editQr.inactiveHint')}</p>
                 </div>
                 <Switch checked={isActive} onCheckedChange={setIsActive} />
               </div>
@@ -395,7 +433,7 @@ export function QREditView({ qrId }: { qrId: string }) {
 
           <Card>
             <CardHeader>
-              <CardTitle className="font-display text-base">QR Content</CardTitle>
+              <CardTitle className="font-display text-base">{t('editQr.qrContent')}</CardTitle>
             </CardHeader>
             <CardContent>
               {qr?.category === 'link_hub' ? (
@@ -513,7 +551,7 @@ export function QREditView({ qrId }: { qrId: string }) {
             <div className="flex items-center justify-between rounded-lg border border-dashed p-4">
               <div>
                 <Label>{t('editQr.removePassword')}</Label>
-                <p className="text-xs text-muted-foreground">Turn off the password requirement for this QR code.</p>
+                <p className="text-xs text-muted-foreground">{t('editQr.removePasswordHint')}</p>
               </div>
               <Switch checked={removePassword} onCheckedChange={setRemovePassword} />
             </div>

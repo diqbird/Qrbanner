@@ -10,9 +10,9 @@ export interface CampaignSummary {
   createdAt: string;
 }
 
-export async function listCampaignsForUser(userId: string): Promise<CampaignSummary[]> {
+export async function listCampaignsForWorkspace(workspaceId: string): Promise<CampaignSummary[]> {
   const rows = await prisma.qRCode.findMany({
-    where: { userId, isArchived: false, batchId: { not: null } },
+    where: { workspaceId, isArchived: false, batchId: { not: null } },
     select: {
       batchId: true,
       batchLabel: true,
@@ -55,11 +55,18 @@ export async function listCampaignsForUser(userId: string): Promise<CampaignSumm
     .sort((a, b) => b.totalScans - a.totalScans);
 }
 
+/** @deprecated Use listCampaignsForWorkspace */
+export async function listCampaignsForUser(userId: string): Promise<CampaignSummary[]> {
+  const { getActiveWorkspaceId } = await import('@/lib/workspace');
+  const workspaceId = await getActiveWorkspaceId(userId);
+  return listCampaignsForWorkspace(workspaceId);
+}
+
 export function newCampaignId(): string {
   return crypto.randomBytes(8).toString('hex');
 }
 
-export async function createCampaign(userId: string, name: string): Promise<CampaignSummary> {
+export async function createCampaign(_workspaceId: string, name: string): Promise<CampaignSummary> {
   const id = newCampaignId();
   const label = name.trim() || 'New campaign';
   return {
@@ -72,31 +79,46 @@ export async function createCampaign(userId: string, name: string): Promise<Camp
   };
 }
 
-export async function renameCampaign(userId: string, campaignId: string, name: string): Promise<number> {
+export async function renameCampaign(
+  workspaceId: string,
+  campaignId: string,
+  name: string
+): Promise<number> {
   const result = await prisma.qRCode.updateMany({
-    where: { userId, batchId: campaignId },
+    where: { workspaceId, batchId: campaignId },
     data: { batchLabel: name.trim() },
   });
   return result.count;
 }
 
 export async function assignQrsToCampaign(
-  userId: string,
+  workspaceId: string,
   campaignId: string,
   campaignName: string,
   qrIds: string[]
 ): Promise<number> {
   const result = await prisma.qRCode.updateMany({
-    where: { userId, id: { in: qrIds } },
+    where: { workspaceId, id: { in: qrIds } },
     data: { batchId: campaignId, batchLabel: campaignName.trim() },
   });
   return result.count;
 }
 
-export async function deleteCampaign(userId: string, campaignId: string): Promise<number> {
+export async function deleteCampaign(workspaceId: string, campaignId: string): Promise<number> {
   const result = await prisma.qRCode.updateMany({
-    where: { userId, batchId: campaignId },
+    where: { workspaceId, batchId: campaignId },
     data: { batchId: null, batchLabel: null },
   });
   return result.count;
+}
+
+export async function assertCampaignInWorkspace(
+  workspaceId: string,
+  campaignId: string
+): Promise<boolean> {
+  const row = await prisma.qRCode.findFirst({
+    where: { workspaceId, batchId: campaignId, isArchived: false },
+    select: { id: true },
+  });
+  return Boolean(row);
 }

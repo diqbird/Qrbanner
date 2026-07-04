@@ -17,7 +17,7 @@ export function SiteLogo({ layout = 'stacked', className, nameClassName }: SiteL
         </span>
         <span
           className={cn(
-            'font-display text-[17px] font-semibold tracking-tight text-primary',
+            'font-display text-[17px] font-semibold tracking-tight text-foreground',
             nameClassName
           )}
         >
@@ -34,7 +34,7 @@ export function SiteLogo({ layout = 'stacked', className, nameClassName }: SiteL
       </span>
       <span
         className={cn(
-          'font-display text-[15px] font-bold leading-none tracking-tight text-primary sm:text-[17px]',
+          'font-display text-[15px] font-bold leading-none tracking-tight text-foreground sm:text-[17px]',
           nameClassName
         )}
       >

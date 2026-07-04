@@ -31,7 +31,7 @@ export async function LandingIndustriesSection() {
                 href={`/solutions/${solution.slug}`}
                 className="group flex flex-col rounded-2xl border border-border/50 bg-card p-6 shadow-sm transition-all hover:border-primary/30 hover:shadow-md"
               >
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl icon-well-primary-hover">
                   <Icon className="h-5 w-5" aria-hidden />
                 </div>
                 <h3 className="font-display font-semibold">{solution.title}</h3>

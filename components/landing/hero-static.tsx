@@ -6,6 +6,7 @@ import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { demoBookingUrl } from '@/lib/site-contact';
 import { HeroMedia } from '@/components/landing/hero-media';
+import { freePlanQrLimit } from '@/lib/plans';
 
 const HIGHLIGHT_ICONS = [QrCode, Route, BarChart3];
 const HIGHLIGHT_KEYS = [
@@ -18,8 +19,9 @@ const TRUST_KEYS = ['hero.trustTypes', 'hero.trustApi', 'hero.trustCancel'] as c
 
 export async function LandingHeroStatic() {
   const locale = await getServerLocale();
-  const t = (key: string) => translate(locale, key);
+  const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
   const demoUrl = demoBookingUrl();
+  const freeQrCount = freePlanQrLimit();
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-primary/5 via-background to-background py-16 sm:py-24 lg:py-28">
@@ -41,25 +43,32 @@ export async function LandingHeroStatic() {
 
             <p className="mt-6 text-lg text-muted-foreground lg:max-w-xl">{t('hero.subtitle')}</p>
 
-            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row lg:justify-start">
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap lg:justify-start">
               <Link href="/qr/create?quick=1" prefetch={false}>
                 <Button size="lg" className="gap-2 rounded-full px-8">
                   {t('hero.createQr')} <ArrowRight className="h-4 w-4" aria-hidden />
                 </Button>
               </Link>
-              <Link href={demoUrl} prefetch={false}>
-                <Button variant="outline" size="lg" className="gap-2 rounded-full px-8">
-                  <Calendar className="h-4 w-4" aria-hidden />
-                  {t('hero.bookDemo')}
-                </Button>
+              <Link
+                href="/signup"
+                className="text-sm font-semibold text-foreground hover:underline underline-offset-4"
+              >
+                {t('common.getStartedFree')} →
+              </Link>
+              <Link
+                href={demoUrl}
+                prefetch={false}
+                className="text-sm text-muted-foreground hover:text-foreground hover:underline underline-offset-4"
+              >
+                {t('hero.bookDemo')}
               </Link>
             </div>
-            <p className="mt-3 text-xs text-muted-foreground lg:text-left">{t('hero.createQrHint')}</p>
+            <p className="mt-3 text-xs text-muted-foreground lg:text-left">{t('hero.createQrHint', { count: freeQrCount })}</p>
 
             <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground lg:justify-start">
               {TRUST_KEYS.map((key) => (
                 <li key={key} className="inline-flex items-center gap-1.5">
-                  <CheckCircle2 className="h-4 w-4 text-primary" aria-hidden />
+                  <CheckCircle2 className="h-4 w-4 text-foreground" aria-hidden />
                   {t(key)}
                 </li>
               ))}
@@ -83,7 +92,7 @@ export async function LandingHeroStatic() {
                 key={item.label}
                 className="rounded-2xl border border-border/40 bg-card/80 p-5 shadow-sm backdrop-blur-sm"
               >
-                <Icon className="mb-2 h-6 w-6 text-primary" aria-hidden />
+                <Icon className="mb-2 h-6 w-6 text-foreground" aria-hidden />
                 <h2 className="font-display text-sm font-semibold">{t(item.label)}</h2>
                 <p className="mt-1 text-xs text-muted-foreground">{t(item.desc)}</p>
               </div>

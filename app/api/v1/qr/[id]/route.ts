@@ -9,6 +9,7 @@ import { buildQRPayload } from '@/lib/qr-utils';
 import { stripMetaFields } from '@/lib/industry-templates';
 import { normalizeLabels } from '@/lib/organize-utils';
 import { invalidateScanQrCache } from '@/lib/scan-redirect-cache';
+import { assertQrAccess } from '@/lib/workspace';
 
 export async function GET(
   req: NextRequest,
@@ -18,11 +19,13 @@ export async function GET(
   if (isAuthError(auth)) return auth;
 
   try {
+    const access = await assertQrAccess(auth.userId, params.id, 'viewer');
+    if (!access.ok) return apiError('QR code not found', 404, auth.rateLimitHeaders);
+
     const qrCode = await prisma.qRCode.findFirst({
-      where: { id: params.id, userId: auth.userId },
+      where: { id: params.id },
       include: { folder: { select: { id: true, name: true, color: true } } },
     });
-
     if (!qrCode) return apiError('QR code not found', 404, auth.rateLimitHeaders);
     return apiSuccess({ data: await serializeQRForUser({ ...qrCode, userId: auth.userId }) }, 200, auth.rateLimitHeaders);
   } catch (error) {
@@ -39,10 +42,10 @@ export async function PATCH(
   if (isAuthError(auth)) return auth;
 
   try {
-    const existing = await prisma.qRCode.findFirst({
-      where: { id: params.id, userId: auth.userId },
-    });
-    if (!existing) return apiError('QR code not found', 404);
+    const access = await assertQrAccess(auth.userId, params.id, 'editor');
+    if (!access.ok) return apiError('QR code not found', 404);
+
+    const existing = access.qr;
 
     const body = await req.json();
     const parsed = parseApiBody(body);
@@ -102,10 +105,10 @@ export async function DELETE(
   if (isAuthError(auth)) return auth;
 
   try {
-    const existing = await prisma.qRCode.findFirst({
-      where: { id: params.id, userId: auth.userId },
-    });
-    if (!existing) return apiError('QR code not found', 404);
+    const access = await assertQrAccess(auth.userId, params.id, 'editor');
+    if (!access.ok) return apiError('QR code not found', 404);
+
+    const existing = access.qr;
 
     await invalidateScanQrCache(existing.shortCode);
     await prisma.qRCode.delete({ where: { id: params.id } });

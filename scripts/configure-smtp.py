@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Configure SMTP env vars on production VPS (.env). Usage:
   python configure-smtp.py SMTP_PASSWORD=your-mailbox-password
-  python configure-smtp.py SMTP_HOST=smtp.hostinger.com SMTP_PORT=465 SMTP_USER=no-reply@qrbanner.com SMTP_PASSWORD=secret
+  python configure-smtp.py SMTP_HOST=smtp.hostinger.com SMTP_PORT=465 SMTP_USER=noreply@qrbanner.com SMTP_PASSWORD=secret
 """
 import os
 import re
@@ -13,9 +13,10 @@ REMOTE = "/var/www/qrbanner"
 
 DEFAULTS = {
     "SMTP_HOST": "smtp.hostinger.com",
-    "SMTP_PORT": "465",
-    "SMTP_USER": "no-reply@qrbanner.com",
-    "SMTP_FROM": "no-reply@qrbanner.com",
+    "SMTP_PORT": "587",
+    "SMTP_SECURE": "false",
+    "SMTP_USER": "noreply@qrbanner.com",
+    "SMTP_FROM": "noreply@qrbanner.com",
 }
 
 def parse_args():
@@ -54,7 +55,7 @@ def main():
     except FileNotFoundError:
         env_content = ""
 
-    for key in ["SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASSWORD", "SMTP_FROM"]:
+    for key in ["SMTP_HOST", "SMTP_PORT", "SMTP_SECURE", "SMTP_USER", "SMTP_PASSWORD", "SMTP_FROM"]:
         if key in values and values[key]:
             env_content = set_env_var(env_content, key, values[key])
 

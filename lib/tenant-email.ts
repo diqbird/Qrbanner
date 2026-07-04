@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import type { Transporter } from 'nodemailer';
+import { createSmtpTransport, smtpFromAddress } from '@/lib/smtp-transport';
 import { prisma } from '@/lib/db';
 import { decryptSecret } from '@/lib/secret-crypto';
 import { ENTERPRISE_SMTP_SCOPE } from '@/lib/workspace-enterprise';
@@ -14,17 +15,7 @@ export type TenantMailOptions = {
 };
 
 function getGlobalTransporter(): Transporter | null {
-  const host = process.env.SMTP_HOST;
-  const port = parseInt(process.env.SMTP_PORT || '465', 10);
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASSWORD;
-  if (!host || !user || !pass) return null;
-  return nodemailer.createTransport({
-    host,
-    port,
-    secure: port === 465,
-    auth: { user, pass },
-  });
+  return createSmtpTransport();
 }
 
 async function getWorkspaceTransporter(workspaceId: string): Promise<{
@@ -63,7 +54,7 @@ export async function sendTenantMail(
 ): Promise<{ sent: boolean; fallback?: boolean; tenant?: boolean }> {
   const fromName = opts.fromName ?? 'QRbanner';
   let transporter: Transporter | null = null;
-  let from = process.env.SMTP_FROM || process.env.SMTP_USER || 'no-reply@qrbanner.com';
+  let from = smtpFromAddress();
   let usedTenant = false;
 
   if (opts.workspaceId) {

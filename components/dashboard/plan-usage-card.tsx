@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { CreditCard, ArrowRight, ExternalLink } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { useBillingStatus } from '@/hooks/use-billing-status';
 import { getLaunchBanner } from '@/lib/i18n/pricing-content';
 
 interface UsageResponse {
@@ -60,6 +61,7 @@ function UsageMeter({
 
 export function PlanUsageCard({ refreshKey = 0 }: { refreshKey?: number }) {
   const { t, locale } = useLanguage();
+  const { configured: billingConfigured } = useBillingStatus();
   const [data, setData] = useState<UsageResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [portalLoading, setPortalLoading] = useState(false);
@@ -108,7 +110,15 @@ export function PlanUsageCard({ refreshKey = 0 }: { refreshKey?: number }) {
     );
   }
 
-  if (!data) return null;
+  if (!data) {
+    return (
+      <Card>
+        <CardContent className="py-8 text-center text-sm text-muted-foreground">
+          {t('planUsage.loadFailed')}
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card>
@@ -117,7 +127,7 @@ export function PlanUsageCard({ refreshKey = 0 }: { refreshKey?: number }) {
           <CreditCard className="h-5 w-5 text-primary" />
           {t('planUsage.title')}
         </CardTitle>
-        <CardDescription>{getLaunchBanner(locale)}</CardDescription>
+        <CardDescription>{getLaunchBanner(locale, { billingLive: billingConfigured })}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-5">
         <div className="flex items-center justify-between">

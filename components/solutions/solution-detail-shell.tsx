@@ -8,6 +8,7 @@ import { solutionIcon } from '@/lib/solution-icons';
 import type { SolutionPage } from '@/lib/solutions';
 import { demoBookingUrl } from '@/lib/site-contact';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { freePlanQrLimit } from '@/lib/plans';
 
 export function SolutionDetailShell({ solution }: { solution: SolutionPage }) {
   const { t } = useLanguage();
@@ -109,7 +110,7 @@ export function SolutionDetailShell({ solution }: { solution: SolutionPage }) {
 
           <div className="mt-12 rounded-2xl border border-primary/20 bg-primary/5 p-8 text-center">
             <h2 className="font-display text-xl font-semibold">{t('solutionDetail.ctaTitle')}</h2>
-            <p className="mt-2 text-sm text-muted-foreground">{t('solutionDetail.ctaBody')}</p>
+            <p className="mt-2 text-sm text-muted-foreground">{t('solutionDetail.ctaBody', { count: freePlanQrLimit() })}</p>
             <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link href={createUrl}>
                 <Button className="gap-2 rounded-full">

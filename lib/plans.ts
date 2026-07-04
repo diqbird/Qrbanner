@@ -127,5 +127,7 @@ export function getPlanLimits(planId: string | null | undefined): PlanLimits {
   return PLANS[normalizePlanId(planId)];
 }
 
-export const LAUNCH_BANNER =
-  'Free plan forever — 50 dynamic QR codes included. Upgrade to Pro from $9.99/mo when you need more. Your QR codes stay active if you downgrade or cancel.';
+/** Marketing + i18n — never hardcode free tier QR limits elsewhere. */
+export function freePlanQrLimit(): number {
+  return PLANS.free.maxQrCodes;
+}

@@ -11,6 +11,7 @@ import { ProgrammaticPageShell } from '@/components/seo/programmatic-page-shell'
 import { ProgrammaticInternalLinks } from '@/components/seo/programmatic-internal-links';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { freePlanQrLimit } from '@/lib/plans';
 
 export const revalidate = 3600;
 
@@ -39,6 +40,7 @@ export default async function QrTypeDetailPage({ params }: { params: { slug: str
   const locale = await getServerLocale();
   const page = localizeQrTypePage(raw, locale);
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
+  const freeQrCount = freePlanQrLimit();
   const typeName = page.title.replace(' Generator', '');
   const createUrl = `/qr/create?category=${page.categoryId}`;
   const relatedUseCases = (USE_CASES_BY_QR_CATEGORY[page.categoryId] ?? [])
@@ -63,7 +65,7 @@ export default async function QrTypeDetailPage({ params }: { params: { slug: str
         { title: t('qrTypeDetail.whyUse'), items: page.benefits },
         { title: t('qrTypeDetail.popularUseCases'), items: page.useCases },
       ]}
-      ctaTitle={t('qrTypeDetail.ctaTitle')}
+      ctaTitle={t('qrTypeDetail.ctaTitle', { count: freeQrCount })}
       ctaBody={page.isDynamic ? t('qrTypeDetail.ctaDynamic') : t('qrTypeDetail.ctaStatic')}
       />
       {relatedUseCases.length > 0 && (

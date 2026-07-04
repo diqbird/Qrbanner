@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -142,6 +143,12 @@ export function StyleTemplateLibrary({
           </Button>
         </div>
       )}
+
+      <p className="text-xs text-muted-foreground">
+        <Link href="/settings?tab=brand" className="text-primary hover:underline">
+          {t('settings.templates.manageAll')}
+        </Link>
+      </p>
     </div>
   );
 }

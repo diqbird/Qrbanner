@@ -423,6 +423,16 @@ export async function GET(req: NextRequest, { params }: { params: { code: string
     const shortCode = params?.code ?? '';
     if (!shortCode) return NextResponse.redirect(new URL('/', req.url));
 
+    if (shortCode === 'draft-preview') {
+      return withScanHeaders(
+        htmlPage(
+          'Preview QR',
+          'This is a design preview only. Save your QR code in QRbanner to get a live trackable link before printing or sharing.',
+          200
+        )
+      );
+    }
+
     const qrCode = await getQrForScan(shortCode);
     const guard = runGuards(qrCode);
     if (guard) return guard;

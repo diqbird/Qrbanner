@@ -1,11 +1,20 @@
-import { PLANS, type PlanId, type PlanLimits, annualMonthlyEquivalent, annualTotalPrice, type BillingInterval } from '@/lib/plans';
+import { PLANS, type PlanId, type PlanLimits, annualMonthlyEquivalent, annualTotalPrice, type BillingInterval, freePlanQrLimit } from '@/lib/plans';
+import { isBillingConfigured } from '@/lib/billing-provider';
 import type { Locale } from './types';
 
-export function getLaunchBanner(locale: Locale): string {
+export function getLaunchBanner(locale: Locale, options?: { billingLive?: boolean }): string {
+  const n = freePlanQrLimit();
+  const billingLive = options?.billingLive ?? isBillingConfigured();
   if (locale === 'tr') {
-    return 'Ücretsiz plan sonsuza kadar — 50 dinamik QR kodu dahil. Daha fazlası için Pro $9.99/ay. Düşürme veya iptalde QR kodlarınız aktif kalır.';
+    if (!billingLive) {
+      return `Ücretsiz plan sonsuza kadar — ${n} dinamik QR kodu dahil. Ücretli planlar yakında; erken erişim için iletişime geçin.`;
+    }
+    return `Ücretsiz plan sonsuza kadar — ${n} dinamik QR kodu dahil. Daha fazlası için Pro $9.99/ay. Düşürme veya iptalde QR kodlarınız aktif kalır.`;
   }
-  return 'Free plan forever — 50 dynamic QR codes included. Upgrade to Pro from $9.99/mo when you need more. Your QR codes stay active if you downgrade or cancel.';
+  if (!billingLive) {
+    return `Free plan forever — ${n} dynamic QR codes included. Paid plans launch soon — contact us for early access.`;
+  }
+  return `Free plan forever — ${n} dynamic QR codes included. Upgrade to Pro from $9.99/mo when you need more. Your QR codes stay active if you downgrade or cancel.`;
 }
 
 function apiLimitFeature(plan: PlanLimits, locale: Locale): string | null {

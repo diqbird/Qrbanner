@@ -1,3 +1,7 @@
+import { PLANS } from './plans';
+
+const FREE_QR = PLANS.free.maxQrCodes;
+
 export interface CompetitorPage {
   slug: string;
   name: string;
@@ -21,7 +25,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QR TIGER is a popular all-round QR platform. QRbanner competes on generous free limits, API on free tier, and codes that stay active after cancel.',
     qrbannerWins: [
-      '25 free dynamic QR codes vs 3 on QR TIGER',
+      '${FREE_QR} free dynamic QR codes vs 3 on QR TIGER',
       'REST API included on free plan',
       'Codes stay active after downgrade or cancel',
       'Pro from $9.99/mo',
@@ -81,7 +85,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Uniqode targets enterprise with compliance and deep integrations. QRbanner delivers 70% of the feature set at a fraction of the cost for growth teams.',
     qrbannerWins: [
       'Pro $9.99/mo vs Uniqode Core ~$49/mo',
-      '25 free dynamic codes',
+      `${FREE_QR} free dynamic codes`,
       'Team workspaces on all plans',
       'Custom scan domains on free tier',
     ],
@@ -161,7 +165,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Scanova is a design-forward dynamic QR platform. QRbanner competes with a generous free tier, API on free plan and built-in print banner export.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Geofence + schedule routing included',
       'Print-ready banner export',
@@ -190,7 +194,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'ME-QR offers QR generation with branding options. QRbanner differentiates with routing rules, a generous free tier and API on the free plan.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'Geofence and schedule routing included',
       'REST API on free plan',
       'Print banner export',
@@ -275,7 +279,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Hovercode focuses on beautiful QR design and simple dynamic links. QRbanner adds routing rules, API on free tier and agency-scale tooling.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'Geofence and schedule routing',
       'REST API on free plan',
       'Campaign batches and folders',
@@ -331,7 +335,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QRFY offers QR pages and marketing templates. QRbanner competes with more free dynamic codes, routing rules, API on the free tier and codes that stay active after cancel.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'Geofence and schedule routing',
       'REST API on free plan',
       'Custom scan domain on free tier',
@@ -389,7 +393,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QR Stuff is a long-running QR generator with design tools. QRbanner focuses on dynamic operations — routing, analytics, API on the free tier and codes that stay active after cancel.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'Geofence and schedule routing',
       'REST API on free plan',
       'Custom scan domain on free tier',
@@ -447,7 +451,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Visualead emphasizes visual QR design and branded codes. QRbanner competes on operational scale — routing, analytics, API on the free tier and bulk multi-location tooling.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'Geofence and schedule routing',
       'REST API on free plan',
       'Bulk CSV and campaign batches',
@@ -478,7 +482,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     qrbannerWins: [
       'Dynamic QR — change destination after print',
       'Scan analytics and geo insights',
-      '25 free dynamic codes with API',
+      `${FREE_QR} free dynamic codes with API`,
       'Custom scan domains',
       'Print banner export',
     ],
@@ -506,7 +510,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Wix offers QR generation for site owners. QRbanner is built for teams running ongoing QR operations — dynamic destinations, analytics, routing rules and developer API across many codes.',
     qrbannerWins: [
       'Dynamic QR at scale with routing',
-      '25 free dynamic codes + API',
+      `${FREE_QR} free dynamic codes + API`,
       'Scan analytics and webhooks',
       'Bulk CSV and campaign batches',
       'Codes stay active after cancel',
@@ -534,7 +538,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Teams switch from Scanova to QRbanner for more free dynamic codes, API on the free tier, transparent pricing and print banner tooling built in.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Pro from $9.99/mo',
       'Print banner export',
@@ -563,7 +567,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QR Planet offers QR pages and templates. QRbanner adds deeper routing, generous free API access, bulk tooling and codes that stay active after cancel.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -679,7 +683,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Canva embeds QR in design workflows. QRbanner is built for dynamic QR operations — routing, webhooks, API, bulk import and codes that stay active after cancel.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Scan webhooks on all plans',
@@ -854,7 +858,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'TinyURL is a classic URL shortener. QRbanner is built for dynamic QR at scale — analytics, routing, webhooks, API and print-ready export for marketing teams.',
     qrbannerWins: [
       'Purpose-built dynamic QR platform',
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Print banner export',
@@ -911,7 +915,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Cutt.ly offers URL shortening with basic QR. QRbanner is built for dynamic QR operations — routing, webhooks, API, bulk import and analytics for marketing teams.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Print banner export',
@@ -970,7 +974,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Sniply adds CTAs to shared links. QRbanner is purpose-built for dynamic QR — analytics, routing, webhooks, API and print export for physical signage.',
     qrbannerWins: [
       'Purpose-built dynamic QR platform',
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Print banner export',
@@ -1027,7 +1031,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Segno offers design-forward QR pages. QRbanner competes with deeper operations tooling — routing, webhooks, API on the free tier and bulk import for multi-location teams.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -1085,7 +1089,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QR Zebra offers QR generation with basic analytics. QRbanner adds routing rules, webhooks, REST API on the free tier and bulk import for multi-location teams.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -1143,7 +1147,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'MyQRCode offers QR page creation with basic tracking. QRbanner adds routing rules, webhooks, REST API on the free tier and bulk import for growing teams.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -1201,7 +1205,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QRCodeKit offers branded QR pages with basic analytics. QRbanner adds routing rules, webhooks, REST API on the free tier and bulk import for multi-location teams.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -1259,7 +1263,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'ScanTrust focuses on product authentication and supply-chain traceability. QRbanner offers broader marketing QR tooling, generous free limits, API on the free tier and print banner export.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Print banner export built in',
@@ -1288,7 +1292,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'ScanQR offers quick QR generation for basic links. QRbanner adds deeper analytics, routing automation, API on the free tier and bulk import for multi-location operations.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -1346,7 +1350,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QRCode Online provides web-based QR generation. QRbanner adds routing rules, webhooks, REST API on the free tier and bulk tooling for growing operations.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -1375,7 +1379,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QR Code AI emphasizes AI-generated QR art and quick creation. QRbanner competes on routing depth, API on the free tier, bulk import and codes that stay active after cancel.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -1404,7 +1408,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QRCode Pro targets professionals with branded QR pages. QRbanner offers more free dynamic codes, API on the free tier, routing automation and print banner export.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Print banner export',
@@ -1433,7 +1437,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Generic dynamic QR code tools focus on editable destinations. QRbanner adds scan analytics, routing, webhooks, API on the free tier and bulk import for multi-location teams.',
     qrbannerWins: [
-      '25 free dynamic QR codes',
+      `${FREE_QR} free dynamic QR codes`,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',

@@ -33,21 +33,21 @@ import type { IndustryTemplate } from '@/lib/industry-templates';
 import { stripMetaFields, buildLandingFromTemplate, getTemplateById, validateTemplateRequiredFields } from '@/lib/industry-templates';
 import { defaultLeadForm } from '@/lib/landing-page';
 import { AdvancedValues, emptyAdvanced } from './advanced-settings';
-import { emptyLandingPage, type LandingPageData } from './landing-page-editor';
-import { emptyScheduleData, type ScheduleData } from './schedule-settings';
-import { emptyGeofenceData, type GeofenceData } from './geofence-settings';
-import { emptyAbTestData } from './ab-test-settings';
+import { type LandingPageData, emptyLandingPage } from './landing-page-editor';
+import { type ScheduleData } from './schedule-settings';
+import { type GeofenceData } from './geofence-settings';
 import type { AbTestData } from '@/lib/ab-routing';
-import { emptyScanNotify, type ScanNotifyValues } from './scan-notify-settings';
-import {
-  emptyPixelAnalytics,
-  type PixelAnalyticsConfig,
-} from './analytics-pixel-settings';
+import { type ScanNotifyValues } from './scan-notify-settings';
+import { type PixelAnalyticsConfig } from './analytics-pixel-settings';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { useUnsavedChangesGuard } from '@/hooks/use-unsaved-changes-guard';
+import { buildQrFeaturePayload, useQrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import { LinkHubEditor, hubLinksValid, firstHubUrl } from './link-hub-editor';
 import { QRQuickCreate } from './qr-quick-create';
 import { isOnboardingQuery } from '@/lib/onboarding';
 import { CreateStepTip } from './create-step-tip';
+import { useScanBaseUrl } from '@/lib/use-scan-base-url';
+import { resolveQrContentLength } from '@/lib/qr-preview-content';
 import {
   clearQrCreateDraft,
   loadQrCreateDraft,
@@ -78,6 +78,7 @@ const QrCreateStepDesign = dynamic(
 export function QRCreateWizard() {
   const { t } = useLanguage();
   const router = useRouter();
+  const scanBaseUrl = useScanBaseUrl();
   const { data: session, status: authStatus } = useSession() || {};
   const isGuest = authStatus === 'unauthenticated';
   const [step, setStep] = useState(0);
@@ -95,19 +96,36 @@ export function QRCreateWizard() {
   } = useQRStyleHistory(DEFAULT_QR_STYLE);
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
-  const [advanced, setAdvanced] = useState<AdvancedValues>(emptyAdvanced);
-  const [landingEnabled, setLandingEnabled] = useState(false);
-  const [landingPage, setLandingPage] = useState<LandingPageData>(emptyLandingPage);
-  const [scheduleEnabled, setScheduleEnabled] = useState(false);
-  const [scheduleData, setScheduleData] = useState<ScheduleData>(emptyScheduleData);
-  const [geofenceEnabled, setGeofenceEnabled] = useState(false);
-  const [geofenceData, setGeofenceData] = useState<GeofenceData>(emptyGeofenceData);
-  const [abTestEnabled, setAbTestEnabled] = useState(false);
-  const [abTestData, setAbTestData] = useState<AbTestData>(emptyAbTestData);
-  const [gpsHeatmapEnabled, setGpsHeatmapEnabled] = useState(false);
-  const [nfcEnabled, setNfcEnabled] = useState(false);
-  const [scanNotify, setScanNotify] = useState<ScanNotifyValues>(emptyScanNotify);
-  const [pixels, setPixels] = useState<PixelAnalyticsConfig>(emptyPixelAnalytics);
+  const [storedLogoPath, setStoredLogoPath] = useState<string | null>(null);
+  const featureFields = useQrFeatureFields();
+  const {
+    advanced,
+    setAdvanced,
+    landingEnabled,
+    setLandingEnabled,
+    landingPage,
+    setLandingPage,
+    scheduleEnabled,
+    setScheduleEnabled,
+    scheduleData,
+    setScheduleData,
+    geofenceEnabled,
+    setGeofenceEnabled,
+    geofenceData,
+    setGeofenceData,
+    abTestEnabled,
+    setAbTestEnabled,
+    abTestData,
+    setAbTestData,
+    gpsHeatmapEnabled,
+    setGpsHeatmapEnabled,
+    nfcEnabled,
+    setNfcEnabled,
+    scanNotify,
+    setScanNotify,
+    pixels,
+    setPixels,
+  } = featureFields;
   const [activeTemplate, setActiveTemplate] = useState<IndustryTemplate | null>(null);
   const [templateGuideDismissed, setTemplateGuideDismissed] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -118,6 +136,15 @@ export function QRCreateWizard() {
   );
   const urlParamsApplied = useRef(false);
   const draftRestored = useRef(false);
+
+  const hasWizardProgress =
+    step > 0 ||
+    Boolean(category) ||
+    Boolean(name.trim()) ||
+    Object.values(qrData).some((v) => String(v ?? '').trim() !== '') ||
+    Boolean(logoFile) ||
+    Boolean(logoPreview);
+  useUnsavedChangesGuard(mode === 'wizard' && hasWizardProgress && !saving);
 
   const buildCurrentDraft = useCallback((): QrCreateDraft => ({
     version: 1,
@@ -186,6 +213,23 @@ export function QRCreateWizard() {
     saveQrCreateDraft(buildCurrentDraft());
   }, [isGuest, category, buildCurrentDraft]);
 
+  const applyStyleTemplate = useCallback(
+    (tpl: { style: Record<string, unknown>; logoPath: string | null; name?: string }) => {
+      resetStyleHistory(normalizeQRStyle(tpl.style));
+      if (tpl.logoPath) {
+        setStoredLogoPath(tpl.logoPath);
+        setLogoPreview(tpl.logoPath);
+        setLogoFile(null);
+      }
+      if (!category) {
+        setCategory('url');
+        setQrData({ url: 'https://' });
+      }
+      setStep((s) => Math.max(s, 1));
+    },
+    [resetStyleHistory, category]
+  );
+
   const applyTemplate = useCallback((template: IndustryTemplate) => {
     setActiveTemplate(template);
     setTemplateGuideDismissed(false);
@@ -221,6 +265,7 @@ export function QRCreateWizard() {
     if (urlParamsApplied.current) return;
     const templateId = searchParams.get('template');
     const categoryId = searchParams.get('category');
+    const styleTemplateId = searchParams.get('styleTemplate');
     if (templateId) {
       const template = getTemplateById(templateId);
       if (template) {
@@ -232,8 +277,24 @@ export function QRCreateWizard() {
       setActiveTemplate(null);
       setCategory(categoryId);
       setStep(1);
+    } else if (styleTemplateId) {
+      urlParamsApplied.current = true;
+      fetch('/api/templates')
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          const tpl = (data?.templates ?? []).find(
+            (row: { id: string }) => row.id === styleTemplateId
+          );
+          if (tpl) {
+            applyStyleTemplate(tpl);
+            toast.success(t('settings.brandKit.applied', { name: tpl.name }));
+          }
+        })
+        .catch(() => {
+          /* ignore */
+        });
     }
-  }, [searchParams, applyTemplate]);
+  }, [searchParams, applyTemplate, applyStyleTemplate, t]);
 
   useEffect(() => {
     if (draftRestored.current || authStatus !== 'authenticated') return;
@@ -273,6 +334,7 @@ export function QRCreateWizard() {
   const handleLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target?.files?.[0];
     if (!file) return;
+    setStoredLogoPath(null);
     try {
       const { dataUrl, file: optimized } = await downscaleLogo(file);
       setLogoFile(optimized);
@@ -322,7 +384,7 @@ export function QRCreateWizard() {
     setSaving(true);
 
     try {
-      let logoPath = null;
+      let logoPath = storedLogoPath;
       let fileToUpload: File | null = logoFile;
       if (!fileToUpload && logoPreview?.startsWith('data:')) {
         const blob = await fetch(logoPreview).then((r) => r.blob());
@@ -334,6 +396,8 @@ export function QRCreateWizard() {
         if (!logoPath) {
           toast.error(t('create.logoUploadFailed'));
         }
+      } else if (!logoPath && logoPreview && !logoPreview.startsWith('data:')) {
+        logoPath = logoPreview;
       }
 
       const res = await fetch('/api/qr', {
@@ -347,32 +411,7 @@ export function QRCreateWizard() {
           logoPath,
           logoIsPublic: true,
           password: advanced.password || undefined,
-          expiresAt: advanced.expiresAt || undefined,
-          scanLimit: advanced.scanLimit || undefined,
-          iosUrl: advanced.iosUrl || undefined,
-          androidUrl: advanced.androidUrl || undefined,
-          utmEnabled: advanced.utmEnabled,
-          utmSource: advanced.utmSource || undefined,
-          utmMedium: advanced.utmMedium || undefined,
-          utmCampaign: advanced.utmCampaign || name || undefined,
-          landingPageEnabled: landingEnabled,
-          landingPageData: landingEnabled ? { ...landingPage, title: landingPage.title || name } : undefined,
-          scheduleEnabled: scheduleEnabled,
-          scheduleData: scheduleEnabled ? scheduleData : undefined,
-          geofenceEnabled: geofenceEnabled,
-          geofenceData: geofenceEnabled ? geofenceData : undefined,
-          abTestEnabled: abTestEnabled,
-          abTestData: abTestEnabled ? abTestData : undefined,
-          gpsHeatmapEnabled,
-          nfcEnabled,
-          scanNotifyEnabled: scanNotify.enabled,
-          scanNotifyFirst: scanNotify.firstScan,
-          scanNotifyMilestones: scanNotify.milestones,
-          scanNotifyEvery: scanNotify.everyScan,
-          ga4Enabled: pixels.ga4Enabled,
-          ga4MeasurementId: pixels.ga4MeasurementId,
-          metaPixelEnabled: pixels.metaPixelEnabled,
-          metaPixelId: pixels.metaPixelId,
+          ...buildQrFeaturePayload({ name, mode: 'create', fields: featureFields }),
         }),
       });
 
@@ -662,13 +701,18 @@ export function QRCreateWizard() {
               gpsHeatmapEnabled={gpsHeatmapEnabled}
               scanNotify={scanNotify}
               pixels={pixels}
-              contentLength={buildQRPayload(category, payloadData()).length}
+              contentLength={resolveQrContentLength(category, payloadData(), undefined, scanBaseUrl)}
               onStyleChange={setStyle}
               canUndoStyle={canUndoStyle}
               canRedoStyle={canRedoStyle}
               onUndoStyle={undoStyle}
               onRedoStyle={redoStyle}
               onLogoChange={handleLogoChange}
+              logoPath={storedLogoPath}
+              onTemplateLogoApply={(path) => {
+                setStoredLogoPath(path);
+                if (path) setLogoPreview(path);
+              }}
               onAdvancedChange={setAdvanced}
               onLandingEnabledChange={setLandingEnabled}
               onLandingPageChange={setLandingPage}

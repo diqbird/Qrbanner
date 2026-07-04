@@ -6,8 +6,9 @@ import { getToken } from 'next-auth/jwt';
 
 import { isAppHost } from '@/lib/custom-domain';
 import { applySecurityHeaders } from '@/lib/security-headers';
-import { LOCALE_HEADER, PATHNAME_HEADER, parseLocalePath } from '@/lib/i18n/locale-path';
+import { LOCALE_HEADER, PATHNAME_HEADER, parseLocalePath, isEnglishOnlyPublicPath } from '@/lib/i18n/locale-path';
 import { LOCALE_STORAGE_KEY } from '@/lib/i18n/types';
+import { isMfaExemptApiPath } from '@/lib/api-mfa-exempt';
 
 const PROTECTED_PREFIXES = ['/dashboard', '/settings', '/qr/bulk', '/admin'];
 
@@ -34,8 +35,16 @@ function withSecurityHeaders<T extends NextResponse>(res: T): T {
   return res;
 }
 
+function resolveRequestLocale(req: NextRequest): 'en' | 'tr' {
+  const cookieLocale = req.cookies.get(LOCALE_STORAGE_KEY)?.value;
+  return cookieLocale === 'tr' ? 'tr' : 'en';
+}
+
 function finish(req: NextRequest, res: NextResponse): NextResponse {
   res.headers.set(PATHNAME_HEADER, req.nextUrl.pathname);
+  if (!res.headers.get(LOCALE_HEADER)) {
+    res.headers.set(LOCALE_HEADER, resolveRequestLocale(req));
+  }
   return withSecurityHeaders(res);
 }
 
@@ -47,6 +56,14 @@ function handleLocaleRouting(req: NextRequest): NextResponse | null {
     const redirect = req.nextUrl.clone();
     redirect.pathname = pathname;
     return finish(req, NextResponse.redirect(redirect));
+  }
+
+  if (isEnglishOnlyPublicPath(pathname)) {
+    const redirect = req.nextUrl.clone();
+    redirect.pathname = pathname;
+    const res = NextResponse.redirect(redirect, 308);
+    applyLocaleCookie(res, locale);
+    return finish(req, res);
   }
 
   if (locale === 'en') {
@@ -113,9 +130,25 @@ export async function middleware(req: NextRequest) {
     }
   }
 
+  if (path.startsWith('/api/') && !isMfaExemptApiPath(path)) {
+    const inviteLookup = req.method === 'GET' && /^\/api\/invite\/[^/]+$/.test(path);
+    const token = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+    if (token && token.mfaVerified === false && !inviteLookup) {
+      return finish(
+        req,
+        NextResponse.json({ error: 'mfa_required' }, { status: 403 })
+      );
+    }
+  }
+
   return finish(req, NextResponse.next());
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.webmanifest|icon|opengraph-image).*)'],
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.webmanifest|icon|opengraph-image).*)',
+  ],
 };

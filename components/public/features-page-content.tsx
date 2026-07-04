@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowRight, BarChart3, Code2, Layers, RefreshCw } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { getFeatureGroups } from '@/lib/i18n/feature-groups';
+import { freePlanQrLimit } from '@/lib/plans';
 
 const HIGHLIGHTS = [
   { icon: RefreshCw, key: 'dynamic' as const },
@@ -99,7 +100,7 @@ export function FeaturesPageContent() {
 
       <section className="mt-20 rounded-2xl border border-border/50 bg-card/60 p-8 text-center sm:p-12">
         <h2 className="font-display text-2xl font-bold">{t('features.bottomCtaTitle')}</h2>
-        <p className="mx-auto mt-3 max-w-xl text-muted-foreground">{t('features.bottomCtaDesc')}</p>
+        <p className="mx-auto mt-3 max-w-xl text-muted-foreground">{t('features.bottomCtaDesc', { count: freePlanQrLimit() })}</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link href="/solutions">
             <Button variant="outline">{t('nav.solutions')}</Button>

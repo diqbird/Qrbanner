@@ -45,6 +45,18 @@ export function isPaddleConfigured(): boolean {
   );
 }
 
+export function paddleClientToken(): string | null {
+  return process.env.PADDLE_CLIENT_TOKEN ?? null;
+}
+
+export function paddleEnvironment(): 'sandbox' | 'production' {
+  return process.env.PADDLE_ENVIRONMENT === 'sandbox' ? 'sandbox' : 'production';
+}
+
+export function paddleCheckoutPageUrl(): string {
+  return `${siteBaseUrl()}/pay`;
+}
+
 export function paddlePriceIdForPlan(plan: PlanId, interval: BillingInterval = 'monthly'): string | null {
   if (plan === 'pro') {
     if (interval === 'annual') return process.env.PADDLE_PRICE_PRO_ANNUAL ?? null;
@@ -174,14 +186,14 @@ export async function createPaddleCheckout(params: {
   paddleCustomerId: string | null;
   paddleSubscriptionId: string | null;
   successUrl?: string;
-}): Promise<{ url: string; customerId: string } | { upgraded: true }> {
+}): Promise<{ url: string; customerId: string; transactionId: string } | { upgraded: true }> {
   let priceId = paddlePriceIdForPlan(params.plan, params.interval);
-  if (!priceId && params.interval === 'annual') {
-    priceId = paddlePriceIdForPlan(params.plan, 'monthly');
+  if (!priceId) {
+    throw new Error(params.interval === 'annual' ? 'Paddle annual price not configured' : 'Paddle price not configured');
   }
-  if (!priceId) throw new Error('Paddle price not configured');
 
   const successUrl = params.successUrl ?? `${siteBaseUrl()}/settings?billing=success`;
+  const checkoutPageUrl = paddleCheckoutPageUrl();
 
   if (params.paddleSubscriptionId) {
     const upgraded = await upgradePaddleSubscription(
@@ -207,14 +219,17 @@ export async function createPaddleCheckout(params: {
       customer_id: customerId,
       custom_data: { userId: params.userId, plan: params.plan },
       collection_mode: 'automatic',
-      checkout: { url: successUrl },
+      checkout: {
+        url: checkoutPageUrl,
+        settings: { success_url: successUrl },
+      },
     }),
   });
 
   const url = transaction.checkout?.url;
   if (!url) throw new Error('Paddle checkout URL missing');
 
-  return { url, customerId };
+  return { url, customerId, transactionId: transaction.id };
 }
 
 export async function createPaddlePortalSession(customerId: string): Promise<string> {

@@ -34,7 +34,6 @@ const PUBLIC_PATHS = [
   { path: '/enterprise', priority: 0.85, changeFrequency: 'monthly' as const },
   { path: '/case-studies', priority: 0.8, changeFrequency: 'monthly' as const },
   { path: '/reviews', priority: 0.7, changeFrequency: 'monthly' as const },
-  { path: '/reviews/prompts', priority: 0.55, changeFrequency: 'monthly' as const },
   { path: '/reviews/g2-setup', priority: 0.5, changeFrequency: 'yearly' as const },
   { path: '/referral', priority: 0.75, changeFrequency: 'monthly' as const },
   { path: '/affiliates', priority: 0.75, changeFrequency: 'monthly' as const },
@@ -167,20 +166,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  const trBlogEntries = posts.map((post) => ({
-    url: trUrl(`/blog/${post.slug}`),
-    lastModified: safeDate(post.updatedAt),
-    changeFrequency: 'monthly' as const,
-    priority: 0.75,
-  }));
-
-  const trCaseStudyEntries = CASE_STUDIES.map((study) => ({
-    url: trUrl(`/case-studies/${study.slug}`),
-    lastModified: now,
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
-  }));
-
   const trTemplateDetailEntries = INDUSTRY_TEMPLATES.map((tpl) => ({
     url: trUrl(`/templates/${tpl.id}`),
     lastModified: now,
@@ -235,8 +220,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...trQrTypeEntries,
     ...trUseCaseEntries,
     ...trVsEntries,
-    ...trBlogEntries,
-    ...trCaseStudyEntries,
     ...trTemplateDetailEntries,
     ...geoEntries,
     ...geoCityEntries,

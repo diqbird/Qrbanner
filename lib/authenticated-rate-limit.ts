@@ -3,6 +3,35 @@ import { checkRateLimit, clientIp } from '@/lib/rate-limit-store';
 
 type ReqWithHeaders = { headers: { get(name: string): string | null } };
 
+function rateLimitHeaders(limit: number, remaining: number, resetAt: number, retryAfter: number) {
+  return {
+    'Retry-After': String(retryAfter),
+    'X-RateLimit-Limit': String(limit),
+    'X-RateLimit-Remaining': String(remaining),
+    'X-RateLimit-Reset': String(Math.ceil(resetAt / 1000)),
+  };
+}
+
+/** Returns 429 JSON when limited; null when allowed. Uses Redis when REDIS_URL is set. */
+export async function enforceRateLimit(
+  key: string,
+  limit: number,
+  windowMs: number,
+  error = 'rate_limited'
+): Promise<NextResponse | null> {
+  const result = await checkRateLimit(key, limit, windowMs);
+  if (result.ok) return null;
+
+  const retryAfter = Math.max(1, Math.ceil((result.resetAt - Date.now()) / 1000));
+  return NextResponse.json(
+    { error },
+    {
+      status: 429,
+      headers: rateLimitHeaders(limit, 0, result.resetAt, retryAfter),
+    }
+  );
+}
+
 export async function rateLimitRequest(
   req: ReqWithHeaders,
   scope: string,
@@ -11,20 +40,7 @@ export async function rateLimitRequest(
   userId?: string | null
 ): Promise<NextResponse | null> {
   const identity = userId?.trim() || clientIp(req);
-  const result = await checkRateLimit(`${scope}:${identity}`, limit, windowMs);
-  if (result.ok) return null;
-
-  const retryAfter = Math.max(1, Math.ceil((result.resetAt - Date.now()) / 1000));
-  return NextResponse.json(
-    { error: 'Too many requests. Please try again later.' },
-    {
-      status: 429,
-      headers: {
-        'Retry-After': String(retryAfter),
-        'X-RateLimit-Remaining': '0',
-      },
-    }
-  );
+  return enforceRateLimit(`${scope}:${identity}`, limit, windowMs, 'Too many requests. Please try again later.');
 }
 
 /** QR create/update/delete — 120 requests per 15 minutes per user */

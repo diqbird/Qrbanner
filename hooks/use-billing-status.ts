@@ -4,7 +4,12 @@ import { useEffect, useState } from 'react';
 
 interface BillingStatus {
   configured: boolean;
+  annualAvailable?: boolean;
   provider: 'paddle' | 'stripe' | null;
+  paddle?: {
+    clientToken: string | null;
+    environment: 'sandbox' | 'production';
+  } | null;
 }
 
 export function useBillingStatus() {
@@ -30,6 +35,7 @@ export function useBillingStatus() {
   return {
     loading,
     configured: status?.configured ?? false,
+    annualAvailable: status?.annualAvailable ?? false,
     provider: status?.provider ?? null,
   };
 }

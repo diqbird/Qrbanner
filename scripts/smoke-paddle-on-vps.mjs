@@ -91,7 +91,7 @@ try {
       customer_id: customerId,
       custom_data: { userId: user.id, plan: 'pro', smokeTest: 'true' },
       collection_mode: 'automatic',
-      checkout: { url: 'https://qrbanner.com/settings?billing=success' },
+      checkout: { url: 'https://qrbanner.com/pay' },
     }),
   });
 

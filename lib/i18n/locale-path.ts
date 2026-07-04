@@ -6,8 +6,12 @@ export const PATHNAME_HEADER = 'x-qrb-pathname';
 
 const LOCALE_SEGMENT = /^\/(tr|en)(?=\/|$)/;
 
+/** Routes that stay on unprefixed URLs and have no Turkish content alternate. */
+const ENGLISH_ONLY_PREFIXES = ['/blog', '/case-studies'];
+
 /** App/auth routes keep unprefixed URLs even when locale is Turkish. */
 const NON_LOCALIZED_PREFIXES = [
+  ...ENGLISH_ONLY_PREFIXES,
   '/dashboard',
   '/settings',
   '/login',
@@ -40,6 +44,13 @@ export function shouldLocalizePath(pathname: string): boolean {
   if (!pathname || pathname.startsWith('/s/')) return false;
   return !NON_LOCALIZED_PREFIXES.some(
     (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`) || pathname.startsWith(prefix)
+  );
+}
+
+/** English-only marketing content — strip /tr/ prefix so hreflang does not claim a TR alternate. */
+export function isEnglishOnlyPublicPath(pathname: string): boolean {
+  return ENGLISH_ONLY_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
   );
 }
 
