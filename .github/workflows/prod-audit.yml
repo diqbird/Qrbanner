@@ -1,0 +1,30 @@
+name: Prod audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1'
+
+jobs:
+  smoke:
+    name: Production smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Billing, security, DNS
+        run: |
+          python scripts/verify-billing-smoke.py
+          python scripts/security-smoke.py
+          python scripts/verify-email-dns.py
+          python scripts/verify-dmarc-policy.py
+          python scripts/verify-sitemap-health.py
+          python scripts/verify-marketing-claims.py
+      - name: WCAG pa11y (homepage)
+        run: npx --yes pa11y https://qrbanner.com --standard WCAG2AA --timeout 120000
+        continue-on-error: true
