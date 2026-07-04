@@ -5,6 +5,7 @@ import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { SUPPORT_EMAIL, supportMailto } from '@/lib/site-contact';
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
@@ -69,8 +70,8 @@ export default async function RefundPage() {
             <h2 className="font-display text-lg font-semibold text-foreground">{t('refundPage.howToTitle')}</h2>
             <p>
               {t('refundPage.howToBefore')}{' '}
-              <a href="mailto:support@qrbanner.com" className="text-primary hover:underline">
-                support@qrbanner.com
+              <a href={supportMailto('Refund request')} className="text-primary hover:underline">
+                {SUPPORT_EMAIL}
               </a>{' '}
               {t('refundPage.howToAfter')}
             </p>
@@ -95,8 +96,8 @@ export default async function RefundPage() {
           <section className="space-y-3">
             <h2 className="font-display text-lg font-semibold text-foreground">{t('refundPage.contactTitle')}</h2>
             <p>
-              <a href="mailto:support@qrbanner.com" className="text-primary hover:underline">
-                support@qrbanner.com
+              <a href={supportMailto()} className="text-primary hover:underline">
+                {SUPPORT_EMAIL}
               </a>
             </p>
           </section>

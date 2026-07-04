@@ -10,6 +10,7 @@ except Exception:
     pass
 
 DOMAIN = os.environ.get("MAIL_DOMAIN", "qrbanner.com")
+SUPPORT = os.environ.get("MAIL_SUPPORT", f"support@{DOMAIN}")
 
 
 def dns_txt(name: str) -> str:
@@ -38,13 +39,14 @@ def main() -> int:
     elif "p=none" in dmarc:
         print("  [OK] DMARC p=none (monitoring — acceptable for launch)")
         print("  [INFO] Upgrade to p=quarantine then p=reject after 2–4 weeks of clean reports")
+        print(f"  [INFO] Recommended rua: mailto:{SUPPORT}")
     else:
         print("  [WARN] DMARC policy tag unclear")
 
     if "rua=mailto:" in dmarc:
         print("  [OK] Aggregate reports (rua) configured")
     else:
-        print("  [INFO] Consider adding rua=mailto: for aggregate reports")
+        print(f"  [INFO] Add rua=mailto:{SUPPORT} to receive DMARC reports")
 
     print("\n=== Result: PASS (informational) ===")
     return 0

@@ -1,6 +1,15 @@
+/** Human inbox: support, legal, privacy, sales, DMARC aggregate reports */
 export const SUPPORT_EMAIL = 'support@qrbanner.com';
-export const LEGAL_EMAIL = 'legal@qrbanner.com';
-export const PRIVACY_EMAIL = 'privacy@qrbanner.com';
+
+/** Transactional SMTP sender (password reset, verification, notifications) */
+export const NOREPLY_EMAIL = 'noreply@qrbanner.com';
+
+/** Legal/privacy inquiries — routed to the support inbox */
+export const LEGAL_EMAIL = SUPPORT_EMAIL;
+export const PRIVACY_EMAIL = SUPPORT_EMAIL;
+
+/** DMARC aggregate report destination (rua=) */
+export const DMARC_REPORT_EMAIL = SUPPORT_EMAIL;
 
 /** Set NEXT_PUBLIC_DEMO_BOOKING_URL to your Calendly (or similar) link. */
 export const DEMO_BOOKING_URL =

@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
+import { LEGAL_EMAIL } from '@/lib/site-contact';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 
@@ -73,8 +74,8 @@ export default async function TermsPage() {
           <section className="space-y-3">
             <h2 className="font-display text-lg font-semibold text-foreground">{t('termsPage.contactTitle')}</h2>
             <p>
-              <a href="mailto:legal@qrbanner.com" className="text-primary hover:underline">
-                legal@qrbanner.com
+              <a href={`mailto:${LEGAL_EMAIL}`} className="text-primary hover:underline">
+                {LEGAL_EMAIL}
               </a>
             </p>
           </section>

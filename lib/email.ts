@@ -5,13 +5,17 @@ import { SUPPORT_EMAIL } from '@/lib/site-contact';
 /**
  * SMTP email sending for QRbanner.
  *
- * Configure these environment variables on your VPS (e.g. Hostinger email):
- *   SMTP_HOST      e.g. smtp.hostinger.com
- *   SMTP_PORT      e.g. 465 (SSL) or 587 (TLS)
- *   SMTP_USER      e.g. noreply@qrbanner.com
- *   SMTP_PASSWORD  the mailbox password
- *   SMTP_FROM      (optional) display From, defaults to SMTP_USER
- *   SMTP_SECURE    (optional) "true" / "false" — auto true on port 465
+ * Two mailboxes:
+ *   noreply@ — SMTP_USER / SMTP_FROM (transactional sends)
+ *   support@ — Reply-To on outbound mail; human inbox
+ *
+ * Configure on VPS (Hostinger):
+ *   SMTP_HOST      smtp.hostinger.com
+ *   SMTP_PORT      465 (SSL) or 587 (TLS)
+ *   SMTP_USER      noreply@qrbanner.com
+ *   SMTP_PASSWORD  mailbox password
+ *   SMTP_FROM      noreply@qrbanner.com (optional, defaults to SMTP_USER)
+ *   SMTP_SECURE    true on port 465
  */
 
 function getTransporter() {

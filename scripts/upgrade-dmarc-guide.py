@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-DMARC upgrade helper — prints recommended DNS TXT for p=quarantine.
-Apply manually in Hostinger DNS (or your registrar) for _dmarc.qrbanner.com
+DMARC upgrade helper — recommended DNS for p=quarantine.
+Mailboxes: support@ (human + DMARC rua), noreply@ (SMTP only).
 """
 import os
 import subprocess
@@ -13,8 +13,10 @@ except Exception:
     pass
 
 DOMAIN = os.environ.get("MAIL_DOMAIN", "qrbanner.com")
-REPORT_EMAIL = os.environ.get("DMARC_RUA", f"dmarc@{DOMAIN}")
-POLICY = os.environ.get("DMARC_POLICY", "quarantine")  # quarantine | reject
+SUPPORT = os.environ.get("MAIL_SUPPORT", f"support@{DOMAIN}")
+NOREPLY = os.environ.get("MAIL_NOREPLY", f"noreply@{DOMAIN}")
+REPORT_EMAIL = os.environ.get("DMARC_RUA", SUPPORT)
+POLICY = os.environ.get("DMARC_POLICY", "quarantine")
 
 
 def dns_txt(name: str) -> str:
@@ -30,9 +32,12 @@ def dns_txt(name: str) -> str:
 
 def main() -> int:
     print(f"=== DMARC upgrade guide ({DOMAIN}) ===\n")
+    print("Active mailboxes:")
+    print(f"  {SUPPORT}  — support, legal, privacy, sales, DMARC reports")
+    print(f"  {NOREPLY}  — transactional SMTP (password reset, verify)\n")
 
     current = dns_txt(f"_dmarc.{DOMAIN}")
-    print("Current record snippet:")
+    print("Current _dmarc record:")
     for line in current.splitlines():
         if "dmarc" in line or "v=" in line:
             print(f"  {line.strip()}")
@@ -52,13 +57,13 @@ def main() -> int:
     print("  4. TTL 3600, save")
     print("  5. Wait 15–60 min, then run: npm run verify:dmarc")
 
-    print("\nSteps (Hostinger mailbox for rua reports):")
-    print(f"  1. hPanel → Emails → Create email: dmarc@{DOMAIN}")
-    print("  2. Set a strong password; forward to support@ if preferred")
-    print("  3. DMARC aggregate XML reports arrive at this inbox weekly")
+    print("\nSMTP (.env on VPS — should already match):")
+    print(f"  SMTP_USER={NOREPLY}")
+    print(f"  SMTP_FROM={NOREPLY}")
+    print(f"  (Reply-To on outbound mail → {SUPPORT})")
 
     print("\nTimeline after quarantine:")
-    print("  Week 0–2: monitor rua reports for failures")
+    print("  Week 0–2: monitor DMARC XML reports in support@ inbox")
     print("  Week 2–4: if clean, upgrade to p=reject")
 
     if f"p={POLICY}" in current:
@@ -67,7 +72,6 @@ def main() -> int:
 
     if "p=none" in current:
         print("\n=== Result: ACTION REQUIRED — update DNS to p=quarantine ===")
-        print("  (Cannot auto-apply without DNS API credentials)")
         return 0
 
     print("\n=== Result: REVIEW — policy state unclear ===")

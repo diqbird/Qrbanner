@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
+import { PRIVACY_EMAIL } from '@/lib/site-contact';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 
@@ -69,8 +70,8 @@ export default async function CookiesPage() {
                 {t('cookiesPage.privacyLink')}
               </Link>{' '}
               {t('cookiesPage.moreAfter')}{' '}
-              <a href="mailto:privacy@qrbanner.com" className="text-primary hover:underline">
-                privacy@qrbanner.com
+              <a href={`mailto:${PRIVACY_EMAIL}`} className="text-primary hover:underline">
+                {PRIVACY_EMAIL}
               </a>
             </p>
           </section>

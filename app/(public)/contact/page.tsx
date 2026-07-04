@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
-import { SUPPORT_EMAIL, supportMailto, whatsappUrl, demoBookingUrl } from '@/lib/site-contact';
+import { SUPPORT_EMAIL, PRIVACY_EMAIL, supportMailto, whatsappUrl, demoBookingUrl } from '@/lib/site-contact';
 import { SalesInquiryForm } from '@/components/marketing/sales-inquiry-form';
 import Link from 'next/link';
 import { Mail, MessageCircle, Calendar } from 'lucide-react';
@@ -118,8 +118,8 @@ export default async function ContactPage({
             </Link>
             {' · '}
             {t('contactPage.privacyNote')}{' '}
-            <a href="mailto:privacy@qrbanner.com" className="text-primary hover:underline">
-              privacy@qrbanner.com
+            <a href={`mailto:${PRIVACY_EMAIL}`} className="text-primary hover:underline">
+              {PRIVACY_EMAIL}
             </a>
           </p>
         </div>
