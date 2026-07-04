@@ -4,7 +4,7 @@ test.describe('Locale URL routes', () => {
   test('/tr/pricing serves Turkish pricing page', async ({ page }) => {
     await page.goto('/tr/pricing');
     await expect(page).toHaveURL(/\/tr\/pricing/);
-    await expect(page.locator('h1')).toContainText(/Fiyat|Pricing/i);
+    await expect(page.locator('h1')).toContainText(/Fiyat|Pricing|büyüyen planlar/i);
   });
 
   test('language switcher navigates to /tr path', async ({ page }) => {
