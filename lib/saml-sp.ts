@@ -1,31 +1,13 @@
 import { SAML, type SamlConfig } from '@node-saml/node-saml';
-import { DEFAULT_SITE_URL } from '@/lib/custom-domain';
+import {
+  getSamlAcsUrl,
+  getSamlIssuer,
+  isWorkspaceSamlConfigured,
+  type WorkspaceSamlConfig,
+} from '@/lib/saml-setup-urls';
 
-function siteBase(): string {
-  return DEFAULT_SITE_URL.replace(/\/$/, '');
-}
-
-export function getSamlAcsUrl(): string {
-  return `${siteBase()}/api/auth/saml/acs`;
-}
-
-export function getSamlIssuer(workspaceSlug: string): string {
-  return `${siteBase()}/api/auth/saml/metadata?workspace=${encodeURIComponent(workspaceSlug)}`;
-}
-
-export type WorkspaceSamlConfig = {
-  slug: string;
-  idpEntityId: string | null;
-  idpSsoUrl: string | null;
-  idpCertificate: string | null;
-};
-
-export function isWorkspaceSamlConfigured(
-  workspace: WorkspaceSamlConfig
-): workspace is WorkspaceSamlConfig & { idpSsoUrl: string; idpCertificate: string } {
-  return Boolean(workspace.idpSsoUrl?.trim() && workspace.idpCertificate?.trim());
-}
-
+export { getSamlAcsUrl, getSamlIssuer, getWorkspaceSamlPublicUrls, isWorkspaceSamlConfigured, workspaceSamlReadyForLogin } from '@/lib/saml-setup-urls';
+export type { WorkspaceSamlConfig } from '@/lib/saml-setup-urls';
 export function buildSamlInstance(workspace: WorkspaceSamlConfig): SAML | null {
   if (!isWorkspaceSamlConfigured(workspace)) return null;
 

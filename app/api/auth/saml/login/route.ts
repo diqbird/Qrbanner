@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { buildSamlInstance } from '@/lib/saml-sp';
+import { buildSamlInstance, isWorkspaceSamlConfigured } from '@/lib/saml-sp';
 import { absoluteSitePath } from '@/lib/request-site-url';
 
 export async function GET(req: NextRequest) {
@@ -27,8 +27,8 @@ export async function GET(req: NextRequest) {
   if (
     !workspace ||
     workspace.isPersonal ||
-    !workspace.ssoEnabled ||
-    workspace.ssoProvider !== 'saml'
+    workspace.ssoProvider !== 'saml' ||
+    !isWorkspaceSamlConfigured(workspace)
   ) {
     return NextResponse.redirect(absoluteSitePath(req, '/login?error=saml_not_configured'));
   }

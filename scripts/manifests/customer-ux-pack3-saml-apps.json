@@ -1,0 +1,22 @@
+{
+  "upload": [
+    "lib/saml-setup-urls.ts",
+    "lib/saml-sp.ts",
+    "app/api/auth/saml/login/route.ts",
+    "app/api/auth/saml/metadata/route.ts",
+    "components/dashboard/team-saml-wizard.tsx",
+    "components/dashboard/team-sso-panel.tsx",
+    "components/dashboard/settings-content.tsx",
+    "components/public/mobile-apps-page-content.tsx",
+    "app/(public)/apps/page.tsx",
+    "app/(public)/enterprise/page.tsx",
+    "lib/i18n/help-content.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

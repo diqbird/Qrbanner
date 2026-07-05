@@ -86,6 +86,12 @@ export const HELP_SECTIONS: HelpSection[] = [
         descKey: 'help.topicSecurityDesc',
         href: '/security',
       },
+      {
+        id: 'saml',
+        titleKey: 'help.topicSamlTitle',
+        descKey: 'help.topicSamlDesc',
+        href: '/login?callbackUrl=%2Fsettings%3Ftab%3Dsaml',
+      },
     ],
   },
 ];

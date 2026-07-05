@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/select';
 import { Shield } from 'lucide-react';
 import type { TeamWorkspaceState } from '@/hooks/use-team-workspace';
-import { TeamSsoSamlFields } from './team-sso-saml-fields';
+import { TeamSamlWizard } from './team-saml-wizard';
 
 type TeamSsoPanelProps = {
   team: TeamWorkspaceState;
@@ -56,7 +56,7 @@ export function TeamSsoPanel({ team }: TeamSsoPanelProps) {
           </SelectContent>
         </Select>
       </div>
-      {ssoProvider === 'saml' && <TeamSsoSamlFields team={team} />}
+      {ssoProvider === 'saml' && <TeamSamlWizard team={team} />}
       <div className="space-y-2">
         <Label htmlFor="allowed-domains">{t('settings.team.allowedDomains')}</Label>
         <Input

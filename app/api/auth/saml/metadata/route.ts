@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { buildSamlInstance } from '@/lib/saml-sp';
+import { buildSamlInstance, isWorkspaceSamlConfigured } from '@/lib/saml-sp';
 
 export async function GET(req: NextRequest) {
   const workspaceSlug = req.nextUrl.searchParams.get('workspace')?.trim();
@@ -26,8 +26,8 @@ export async function GET(req: NextRequest) {
   if (
     !workspace ||
     workspace.isPersonal ||
-    !workspace.ssoEnabled ||
-    workspace.ssoProvider !== 'saml'
+    workspace.ssoProvider !== 'saml' ||
+    !isWorkspaceSamlConfigured(workspace)
   ) {
     return NextResponse.json({ error: 'saml_not_configured' }, { status: 404 });
   }

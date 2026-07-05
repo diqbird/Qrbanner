@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSettingsAccount } from '@/hooks/use-settings-account';
@@ -14,7 +15,16 @@ export function SettingsContent() {
   const router = useRouter();
   const account = useSettingsAccount();
   const { t, planRefresh } = account;
-  const settingsTab = searchParams.get('tab') ?? 'account';
+  const rawTab = searchParams.get('tab') ?? 'account';
+  const settingsTab = rawTab === 'saml' ? 'team' : rawTab;
+
+  useEffect(() => {
+    if (rawTab !== 'saml') return;
+    const timer = window.setTimeout(() => {
+      document.getElementById('saml-wizard')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
+    return () => window.clearTimeout(timer);
+  }, [rawTab]);
 
   return (
     <div className="space-y-6">
