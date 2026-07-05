@@ -1,0 +1,25 @@
+{
+  "upload": [
+    "lib/dashboard-analytics-types.ts",
+    "lib/brand-kit-types.ts",
+    "hooks/use-dashboard-analytics-fetch.ts",
+    "hooks/use-dashboard-analytics-export.ts",
+    "hooks/use-dashboard-analytics.ts",
+    "hooks/use-qr-list-bulk-actions.ts",
+    "hooks/use-qr-list-actions.ts",
+    "hooks/use-landing-pricing.ts",
+    "hooks/use-brand-kit-templates.ts",
+    "components/dashboard/settings-account-preferences-card.tsx",
+    "components/dashboard/settings-account-profile-card.tsx",
+    "components/dashboard/settings-account-footer-cards.tsx",
+    "components/dashboard/settings-account-tab.tsx",
+    "components/landing/landing-pricing-sections.tsx",
+    "components/landing/pricing-section.tsx",
+    "components/admin/admin-blog-section-row.tsx",
+    "components/admin/admin-blog-sections-editor.tsx",
+    "components/dashboard/brand-kit-template-card.tsx",
+    "components/dashboard/brand-kit-hub.tsx"
+  ],
+  "build": true,
+  "restart": true
+}
