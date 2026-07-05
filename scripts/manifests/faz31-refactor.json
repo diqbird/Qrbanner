@@ -1,0 +1,29 @@
+{
+  "upload": [
+    "hooks/use-qr-create-draft-state.ts",
+    "hooks/use-qr-create-wizard-guard.ts",
+    "hooks/use-qr-create-form.ts",
+    "lib/campaign-generate-api.ts",
+    "hooks/use-campaign-generate.ts",
+    "components/auth/reset-password-email-code-fields.tsx",
+    "components/auth/reset-password-credential-fields.tsx",
+    "components/auth/reset-password-form-fields.tsx",
+    "components/dashboard/enterprise-reseller-client-form.tsx",
+    "components/dashboard/enterprise-reseller-client-list.tsx",
+    "components/dashboard/enterprise-reseller-panel.tsx",
+    "components/dashboard/automation-flow-action-field-panels.tsx",
+    "components/dashboard/automation-flow-action-row.tsx",
+    "hooks/use-mfa-setup-enable-actions.ts",
+    "hooks/use-mfa-settings-actions.ts",
+    "hooks/use-print-banner-form-state.ts",
+    "hooks/use-print-banner-generate.ts",
+    "hooks/use-print-banner-export.ts",
+    "components/dashboard/dashboard-qr-list-search-bar.tsx",
+    "components/dashboard/dashboard-qr-list-bulk-bar.tsx",
+    "components/dashboard/dashboard-qr-list-meta-filters.tsx",
+    "components/dashboard/dashboard-qr-list-toolbar-sections.tsx",
+    "components/dashboard/dashboard-qr-list-toolbar.tsx"
+  ],
+  "build": true,
+  "restart": true
+}

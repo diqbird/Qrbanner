@@ -9,7 +9,6 @@ import { useQRStyleHistory } from '@/hooks/use-qr-style-history';
 import { stripMetaFields } from '@/lib/industry-templates';
 import type { IndustryTemplate } from '@/lib/industry-templates';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { useUnsavedChangesGuard } from '@/hooks/use-unsaved-changes-guard';
 import { useQrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import { useQrCreateDraftBridge } from '@/hooks/use-qr-create-draft-bridge';
 import { useQrCreateTemplateActions } from '@/hooks/use-qr-create-template-actions';
@@ -20,6 +19,8 @@ import {
   createCanProceedCreateStep,
   useQrCreateWizardEffects,
 } from '@/hooks/use-qr-create-wizard-effects';
+import { useQrCreateDraftState } from '@/hooks/use-qr-create-draft-state';
+import { useQrCreateWizardGuard } from '@/hooks/use-qr-create-wizard-guard';
 
 export function useQrCreateForm() {
   const { t } = useLanguage();
@@ -80,19 +81,12 @@ export function useQrCreateForm() {
     searchParams?.get('quick') === '1' ? 'quick' : 'wizard',
   );
 
-  const hasWizardProgress =
-    step > 0 ||
-    Boolean(category) ||
-    Boolean(name.trim()) ||
-    Object.values(qrData).some((v) => String(v ?? '').trim() !== '') ||
-    Boolean(logoFile) ||
-    Boolean(logoPreview);
-  useUnsavedChangesGuard(mode === 'wizard' && hasWizardProgress && !saving);
+  useQrCreateWizardGuard({ mode, saving, step, category, name, qrData, logoFile, logoPreview });
 
   const payloadData = useCallback(() => stripMetaFields(qrData), [qrData]);
 
-  const draftState = useMemo(
-    () => ({
+  const { draftState, draftSetters } = useQrCreateDraftState(
+    {
       step,
       category,
       name,
@@ -113,17 +107,8 @@ export function useQrCreateForm() {
       nfcEnabled,
       scanNotify,
       pixels,
-    }),
-    [
-      step, category, name, qrData, style, logoPreview, activeTemplate,
-      advanced, landingEnabled, landingPage, scheduleEnabled, scheduleData,
-      geofenceEnabled, geofenceData, abTestEnabled, abTestData,
-      gpsHeatmapEnabled, nfcEnabled, scanNotify, pixels,
-    ],
-  );
-
-  const draftSetters = useMemo(
-    () => ({
+    },
+    {
       setStep,
       setCategory,
       setName,
@@ -144,23 +129,7 @@ export function useQrCreateForm() {
       setNfcEnabled,
       setScanNotify,
       setPixels,
-    }),
-    [
-      resetStyleHistory,
-      setAdvanced,
-      setLandingEnabled,
-      setLandingPage,
-      setScheduleEnabled,
-      setScheduleData,
-      setGeofenceEnabled,
-      setGeofenceData,
-      setAbTestEnabled,
-      setAbTestData,
-      setGpsHeatmapEnabled,
-      setNfcEnabled,
-      setScanNotify,
-      setPixels,
-    ],
+    },
   );
 
   const { redirectGuestToSignup, saveGuestDraft } = useQrCreateDraftBridge({

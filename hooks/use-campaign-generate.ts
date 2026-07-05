@@ -5,6 +5,10 @@ import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.
 import { toast } from 'sonner';
 import type { CampaignPlan } from '@/lib/campaign-types';
 import type { CampaignWizardStep } from '@/lib/campaign-wizard-utils';
+import {
+  handleCampaignGenerateResponse,
+  postCampaignGenerate,
+} from '@/lib/campaign-generate-api';
 
 type Translate = (key: string) => string;
 
@@ -48,52 +52,17 @@ export function useCampaignGenerate({
 
     setLoading(true);
     try {
-      const res = await fetch('/api/campaign/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          prompt: prompt.trim(),
-          locale: loc,
-          businessName: businessName.trim() || undefined,
-          websiteUrl: websiteUrl.trim() || undefined,
-        }),
+      const { res, data, parseOk } = await postCampaignGenerate({
+        prompt: prompt.trim(),
+        locale: loc,
+        businessName: businessName.trim() || undefined,
+        websiteUrl: websiteUrl.trim() || undefined,
       });
-      let data: { plan?: CampaignPlan; llmConfigured?: boolean; error?: string };
-      try {
-        data = await res.json();
-      } catch {
+      if (!parseOk) {
         toast.error(t('campaign.generateFailed'));
         return;
       }
-      if (res.status === 401) {
-        router.push(`/signup?callbackUrl=${encodeURIComponent('/qr/campaign')}`);
-        return;
-      }
-      if (res.status === 429) {
-        toast.error(t('campaign.rateLimited'));
-        return;
-      }
-      if (res.status === 400) {
-        toast.error(
-          data.error === 'prompt_too_long'
-            ? t('campaign.promptTooLong')
-            : data.error === 'invalid_json'
-              ? t('campaign.generateFailed')
-              : t('campaign.promptTooShort'),
-        );
-        return;
-      }
-      if (res.status === 415) {
-        toast.error(t('campaign.generateFailed'));
-        return;
-      }
-      if (!res.ok || !data.plan) {
-        toast.error(t('campaign.generateFailed'));
-        return;
-      }
-      setPlan(data.plan);
-      setLlmConfigured(Boolean(data.llmConfigured));
-      setStep('review');
+      handleCampaignGenerateResponse({ res, data, router, setPlan, setLlmConfigured, setStep, t });
     } catch {
       toast.error(t('campaign.generateFailed'));
     } finally {
