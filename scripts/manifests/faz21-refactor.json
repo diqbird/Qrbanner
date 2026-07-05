@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "lib/qr-create-can-proceed.ts",
+    "lib/qr-edit-hydrate.ts",
+    "hooks/use-qr-create-url-params.ts",
+    "hooks/use-qr-create-save.ts",
+    "hooks/use-qr-create-form.ts",
+    "hooks/use-qr-edit-save.ts",
+    "hooks/use-qr-edit-form.ts",
+    "components/qr/category-field-layouts-structured.tsx",
+    "components/qr/category-field-layouts-meetings.tsx",
+    "components/qr/category-field-layouts-geo.tsx",
+    "components/qr/category-field-layouts-contact.tsx",
+    "components/qr/category-field-layouts-commerce.tsx",
+    "components/qr/category-field-layouts.tsx"
+  ],
+  "build": true,
+  "restart": true
+}

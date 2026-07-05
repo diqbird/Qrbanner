@@ -1,19 +1,17 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { toast } from 'sonner';
-import { DEFAULT_QR_STYLE, normalizeQRStyle } from '@/components/qr/qr-style-editor';
+import { DEFAULT_QR_STYLE } from '@/components/qr/qr-style-editor';
 import { useQRStyleHistory } from '@/hooks/use-qr-style-history';
-import type { QRStyleConfig } from '@/lib/qr-style';
-import { stripMetaFields } from '@/lib/industry-templates';
-import { buildQrFeaturePayload, useQrFeatureFields } from '@/hooks/use-qr-feature-fields';
-import { normalizeLabels } from '@/lib/organize-utils';
+import { useQrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import { useScanBaseUrl } from '@/lib/use-scan-base-url';
 import { useLanguage } from '@/components/i18n/language-provider';
 import type { QrEditRecord } from '@/lib/qr-edit-form-types';
 export type { QrEditRecord } from '@/lib/qr-edit-form-types';
+import { mapQrEditRecordToForm } from '@/lib/qr-edit-hydrate';
 import { useQrEditDirty } from '@/hooks/use-qr-edit-dirty';
 import { useQrEditLogo } from '@/hooks/use-qr-edit-logo';
+import { useQrEditSave } from '@/hooks/use-qr-edit-save';
 
 export function useQrEditForm(qrId: string) {
   const { t } = useLanguage();
@@ -136,19 +134,20 @@ export function useQrEditForm(qrId: string) {
         const data = await res.json();
         const qrCode = data?.qrCode as QrEditRecord | undefined;
         setQr(qrCode ?? null);
-        setName(qrCode?.name ?? '');
-        setTargetUrl(qrCode?.targetUrl ?? '');
-        setQrData(qrCode?.qrData ?? {});
-        setIsActive(qrCode?.isActive ?? true);
-        setHasExistingPassword(Boolean(qrCode?.hasPassword));
-        applyFeatureFieldsFromRecord(qrCode ?? {});
-        if (qrCode?.style && typeof qrCode.style === 'object') {
-          resetStyleHistory(normalizeQRStyle(qrCode.style as Partial<QRStyleConfig>));
+        if (qrCode) {
+          const mapped = mapQrEditRecordToForm(qrCode);
+          setName(mapped.name);
+          setTargetUrl(mapped.targetUrl);
+          setQrData(mapped.qrData);
+          setIsActive(mapped.isActive);
+          setHasExistingPassword(mapped.hasExistingPassword);
+          applyFeatureFieldsFromRecord(mapped.featureRecord);
+          if (mapped.style) resetStyleHistory(mapped.style);
+          setFolderId(mapped.folderId);
+          setLabels(mapped.labels);
+          setStoredLogoPath(mapped.storedLogoPath);
+          if (mapped.logoPreview) setLogoPreview(mapped.logoPreview);
         }
-        setFolderId(qrCode?.folderId ?? null);
-        setLabels(normalizeLabels(qrCode?.labels ?? []));
-        setStoredLogoPath(qrCode?.logoPath ?? null);
-        if (qrCode?.logoPath) setLogoPreview(qrCode.logoPath);
       }
     } catch (e: unknown) {
       console.error('Failed to fetch QR code:', e);
@@ -161,53 +160,26 @@ export function useQrEditForm(qrId: string) {
     fetchQR();
   }, [fetchQR]);
 
-  const handleSave = async () => {
-    setSaving(true);
-    try {
-      let logoPath = storedLogoPath ?? qr?.logoPath ?? null;
-      if (logoFile) {
-        const formData = new FormData();
-        formData.append('file', logoFile);
-        const uploadRes = await fetch('/api/upload', { method: 'POST', body: formData });
-        if (uploadRes.ok) {
-          const { path } = await uploadRes.json();
-          logoPath = path;
-        } else {
-          toast.error(t('editQr.logoUploadPartialFail'));
-        }
-      }
-
-      const res = await fetch(`/api/qr/${qrId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          qrData: stripMetaFields(qrData),
-          style,
-          isActive,
-          logoPath,
-          logoIsPublic: true,
-          password: advanced.password ? advanced.password : (removePassword ? '' : undefined),
-          folderId,
-          labels,
-          ...buildQrFeaturePayload({ name, mode: 'update', fields: featureFields }),
-        }),
-      });
-
-      if (res.ok) {
-        toast.success(t('editQr.updated'));
-        setLogoFile(null);
-        markSaved();
-        fetchQR();
-      } else {
-        toast.error(t('editQr.updateFailed'));
-      }
-    } catch {
-      toast.error(t('auth.somethingWrong'));
-    } finally {
-      setSaving(false);
-    }
-  };
+  const { handleSave } = useQrEditSave({
+    qrId,
+    qr,
+    name,
+    qrData,
+    style,
+    isActive,
+    logoFile,
+    storedLogoPath,
+    advanced,
+    removePassword,
+    folderId,
+    labels,
+    featureFields,
+    setLogoFile,
+    markSaved,
+    fetchQR,
+    t,
+    setSaving,
+  });
 
   return {
     qr,
