@@ -3,20 +3,13 @@
 import { useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import type { QRStyleConfig } from '@/lib/qr-style';
 import { stripMetaFields } from '@/lib/industry-templates';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { useQrCreateTemplateActions } from '@/hooks/use-qr-create-template-actions';
-import { useQrCreateLogo } from '@/hooks/use-qr-create-logo';
-import { useQrCreateUrlParams } from '@/hooks/use-qr-create-url-params';
-import { useQrCreateSave } from '@/hooks/use-qr-create-save';
-import {
-  createCanProceedCreateStep,
-  useQrCreateWizardEffects,
-} from '@/hooks/use-qr-create-wizard-effects';
 import { useQrCreateWizardGuard } from '@/hooks/use-qr-create-wizard-guard';
 import { useQrCreateCoreState } from '@/hooks/use-qr-create-core-state';
 import { useQrCreateFormDraft } from '@/hooks/use-qr-create-form-draft';
+import { useQrCreateFormActions } from '@/hooks/use-qr-create-form-actions';
+import { buildQrCreateDraftSetters, buildQrCreateDraftValues } from '@/lib/qr-create-draft-input';
 
 export function useQrCreateForm() {
   const { t } = useLanguage();
@@ -26,11 +19,10 @@ export function useQrCreateForm() {
   const isGuest = authStatus === 'unauthenticated';
 
   const core = useQrCreateCoreState();
+  const { featureFields, ...coreRest } = core;
   const {
     step,
-    setStep,
     category,
-    setCategory,
     name,
     setName,
     qrData,
@@ -39,104 +31,55 @@ export function useQrCreateForm() {
     setStyle,
     undo: undoStyle,
     redo: redoStyle,
-    resetHistory: resetStyleHistory,
     canUndo: canUndoStyle,
     canRedo: canRedoStyle,
     logoFile,
-    setLogoFile,
     logoPreview,
-    setLogoPreview,
     storedLogoPath,
-    setStoredLogoPath,
-    featureFields,
     activeTemplate,
-    setActiveTemplate,
     templateGuideDismissed,
     setTemplateGuideDismissed,
     saving,
-    setSaving,
     mode,
     setMode,
-  } = core;
+  } = coreRest;
 
-  const {
-    advanced,
-    setAdvanced,
-    landingEnabled,
-    setLandingEnabled,
-    landingPage,
-    setLandingPage,
-    scheduleEnabled,
-    setScheduleEnabled,
-    scheduleData,
-    setScheduleData,
-    geofenceEnabled,
-    setGeofenceEnabled,
-    geofenceData,
-    setGeofenceData,
-    abTestEnabled,
-    setAbTestEnabled,
-    abTestData,
-    setAbTestData,
-    gpsHeatmapEnabled,
-    setGpsHeatmapEnabled,
-    nfcEnabled,
-    setNfcEnabled,
-    scanNotify,
-    setScanNotify,
-    pixels,
-    setPixels,
-  } = featureFields;
+  const featureSlice = {
+    advanced: featureFields.advanced,
+    setAdvanced: featureFields.setAdvanced,
+    landingEnabled: featureFields.landingEnabled,
+    setLandingEnabled: featureFields.setLandingEnabled,
+    landingPage: featureFields.landingPage,
+    setLandingPage: featureFields.setLandingPage,
+    scheduleEnabled: featureFields.scheduleEnabled,
+    setScheduleEnabled: featureFields.setScheduleEnabled,
+    scheduleData: featureFields.scheduleData,
+    setScheduleData: featureFields.setScheduleData,
+    geofenceEnabled: featureFields.geofenceEnabled,
+    setGeofenceEnabled: featureFields.setGeofenceEnabled,
+    geofenceData: featureFields.geofenceData,
+    setGeofenceData: featureFields.setGeofenceData,
+    abTestEnabled: featureFields.abTestEnabled,
+    setAbTestEnabled: featureFields.setAbTestEnabled,
+    abTestData: featureFields.abTestData,
+    setAbTestData: featureFields.setAbTestData,
+    gpsHeatmapEnabled: featureFields.gpsHeatmapEnabled,
+    setGpsHeatmapEnabled: featureFields.setGpsHeatmapEnabled,
+    nfcEnabled: featureFields.nfcEnabled,
+    setNfcEnabled: featureFields.setNfcEnabled,
+    scanNotify: featureFields.scanNotify,
+    setScanNotify: featureFields.setScanNotify,
+    pixels: featureFields.pixels,
+    setPixels: featureFields.setPixels,
+  };
 
   useQrCreateWizardGuard({ mode, saving, step, category, name, qrData, logoFile, logoPreview });
 
   const payloadData = useCallback(() => stripMetaFields(qrData), [qrData]);
 
   const { redirectGuestToSignup, saveGuestDraft } = useQrCreateFormDraft({
-    draftValues: {
-      step,
-      category,
-      name,
-      qrData,
-      style,
-      logoPreview,
-      activeTemplate,
-      advanced,
-      landingEnabled,
-      landingPage,
-      scheduleEnabled,
-      scheduleData,
-      geofenceEnabled,
-      geofenceData,
-      abTestEnabled,
-      abTestData,
-      gpsHeatmapEnabled,
-      nfcEnabled,
-      scanNotify,
-      pixels,
-    },
-    draftSettersInput: {
-      setStep,
-      setCategory,
-      setName,
-      setQrData,
-      resetStyleHistory,
-      setLogoPreview,
-      setActiveTemplate,
-      setAdvanced,
-      setLandingEnabled,
-      setLandingPage,
-      setScheduleEnabled,
-      setScheduleData,
-      setGeofenceEnabled,
-      setGeofenceData,
-      setAbTestEnabled,
-      setAbTestData,
-      setGpsHeatmapEnabled,
-      setNfcEnabled,
-      setScanNotify,
-      setPixels,
-    },
+    draftValues: buildQrCreateDraftValues(coreRest, featureSlice),
+    draftSettersInput: buildQrCreateDraftSetters(core, featureFields),
     isGuest,
     category,
     authStatus,
@@ -145,83 +88,17 @@ export function useQrCreateForm() {
     t,
   });
 
-  const {
-    applyTemplate,
-    selectCategory,
-    enterWizardFromQuick: enterWizardFromQuickInner,
-    applyStyleTemplateFromApi,
-  } = useQrCreateTemplateActions({
-    category,
-    resetStyleHistory,
-    setCategory,
-    setQrData,
-    setName,
-    setStep,
-    setActiveTemplate,
-    setTemplateGuideDismissed,
-    setStoredLogoPath,
-    setLogoPreview,
-    setLogoFile,
-    setLandingEnabled,
-    setLandingPage,
-    t,
-  });
-
-  const { handleLogoChange, applyTemplateLogo, uploadLogo } = useQrCreateLogo({
-    logoFile,
-    setLogoFile,
-    setLogoPreview,
-    setStoredLogoPath,
-  });
-
-  useQrCreateUrlParams({
-    searchParams,
-    applyTemplate,
-    applyStyleTemplateFromApi,
-    setActiveTemplate,
-    setCategory,
-    setStep,
-  });
-
-  useQrCreateWizardEffects(step);
-
-  const goToStep = useCallback((next: number) => setStep(next), [setStep]);
-
-  const { handleSave } = useQrCreateSave({
-    name,
-    category,
-    session,
+  const actions = useQrCreateFormActions({
+    core,
     featureFields,
-    advanced,
+    advanced: featureSlice.advanced,
     payloadData,
-    style,
-    logoFile,
-    logoPreview,
-    storedLogoPath,
-    uploadLogo,
+    session,
     redirectGuestToSignup,
     router,
+    searchParams,
     t,
-    setSaving,
   });
-
-  const canProceed = createCanProceedCreateStep({
-    step,
-    category,
-    name,
-    qrData,
-    payloadData,
-    activeTemplate,
-    landingPage,
-  });
-
-  const enterWizardFromQuick = useCallback(
-    (data: { url?: string; name?: string; style?: Partial<QRStyleConfig> }) => {
-      enterWizardFromQuickInner(data);
-      setMode('wizard');
-    },
-    [enterWizardFromQuickInner, setMode],
-  );
 
   return {
     session,
@@ -229,7 +106,7 @@ export function useQrCreateForm() {
     mode,
     setMode,
     step,
-    goToStep,
+    goToStep: actions.goToStep,
     category,
     name,
     setName,
@@ -245,46 +122,21 @@ export function useQrCreateForm() {
     logoPreview,
     storedLogoPath,
     featureFields,
-    advanced,
-    setAdvanced,
-    landingEnabled,
-    setLandingEnabled,
-    landingPage,
-    setLandingPage,
-    scheduleEnabled,
-    setScheduleEnabled,
-    scheduleData,
-    setScheduleData,
-    geofenceEnabled,
-    setGeofenceEnabled,
-    geofenceData,
-    setGeofenceData,
-    abTestEnabled,
-    setAbTestEnabled,
-    abTestData,
-    setAbTestData,
-    gpsHeatmapEnabled,
-    setGpsHeatmapEnabled,
-    nfcEnabled,
-    setNfcEnabled,
-    scanNotify,
-    setScanNotify,
-    pixels,
-    setPixels,
+    ...featureSlice,
     activeTemplate,
     templateGuideDismissed,
     setTemplateGuideDismissed,
     saving,
     payloadData,
-    applyTemplate,
-    selectCategory,
-    handleLogoChange,
-    applyTemplateLogo,
-    handleSave,
-    canProceed,
+    applyTemplate: actions.applyTemplate,
+    selectCategory: actions.selectCategory,
+    handleLogoChange: actions.handleLogoChange,
+    applyTemplateLogo: actions.applyTemplateLogo,
+    handleSave: actions.handleSave,
+    canProceed: actions.canProceed,
     redirectGuestToSignup,
     saveGuestDraft,
-    enterWizardFromQuick,
+    enterWizardFromQuick: actions.enterWizardFromQuick,
   };
 }
 

@@ -1,10 +1,9 @@
 'use client';
 
-import { useCallback } from 'react';
 import { signIn } from 'next-auth/react';
 import { toast } from 'sonner';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
-import type { SsoPolicy } from '@/lib/login-form-types';
+import { useLoginSsoPolicy } from '@/hooks/use-login-sso-policy';
 
 type Translate = (key: string) => string;
 
@@ -33,22 +32,7 @@ export function useLoginFormSubmit({
   setLoading: (loading: boolean) => void;
   setMfaStep: (step: boolean) => void;
 }) {
-  const checkSsoPolicy = useCallback(async (value: string, setSsoPolicy: (policy: SsoPolicy | null) => void) => {
-    const trimmed = value.trim().toLowerCase();
-    if (!trimmed || !trimmed.includes('@')) {
-      setSsoPolicy(null);
-      return;
-    }
-    try {
-      const res = await fetch(`/api/auth/sso-policy?email=${encodeURIComponent(trimmed)}`);
-      if (res.ok) {
-        const data = (await res.json()) as SsoPolicy;
-        setSsoPolicy(data);
-      }
-    } catch {
-      setSsoPolicy(null);
-    }
-  }, []);
+  const { checkSsoPolicy } = useLoginSsoPolicy();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

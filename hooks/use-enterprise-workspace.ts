@@ -1,11 +1,12 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { useSettingsResource } from '@/hooks/use-settings-resource';
 import { useEnterpriseClients } from '@/hooks/use-enterprise-clients';
 import { useEnterpriseSmtp } from '@/hooks/use-enterprise-smtp';
 import { useEnterpriseWorkspacePatch } from '@/hooks/use-enterprise-workspace-patch';
+import { useEnterpriseWorkspaceDetails } from '@/hooks/use-enterprise-workspace-details';
 import { parseActiveWorkspace, type EnterpriseState } from '@/lib/enterprise-workspace-types';
 
 export function useEnterpriseWorkspace() {
@@ -37,23 +38,13 @@ export function useEnterpriseWorkspace() {
     setWorking,
   });
 
-  const loadEnterpriseDetails = useCallback(
-    async (workspaceId: string) => {
-      if (!workspaceId) return;
-      setDetailLoading(true);
-      try {
-        const ent = await patch.fetchEnterprise(workspaceId);
-        if (ent) {
-          setState(ent);
-          smtp.syncFromWorkspace(ent);
-        }
-        await clients.fetchClients(workspaceId);
-      } finally {
-        setDetailLoading(false);
-      }
-    },
-    [patch.fetchEnterprise, clients.fetchClients, smtp.syncFromWorkspace],
-  );
+  const loadEnterpriseDetails = useEnterpriseWorkspaceDetails({
+    patch,
+    clients,
+    smtp,
+    setState,
+    setDetailLoading,
+  });
 
   useEffect(() => {
     if (activeId) loadEnterpriseDetails(activeId);
