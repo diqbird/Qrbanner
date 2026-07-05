@@ -1,12 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { toast } from 'sonner';
 import { resolveCallbackUrl } from '@/lib/auth-providers';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { resolveApiError } from '@/lib/i18n/resolve-api-error';
+import { useVerifySubmit, useVerifyResend } from '@/hooks/use-verify-form-actions';
 
 export function useVerifyForm() {
   const { t } = useLanguage();
@@ -30,71 +28,8 @@ export function useVerifyForm() {
     return () => clearTimeout(timer);
   }, [cooldown]);
 
-  const handleVerify = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !code) {
-      toast.error(t('auth.verifyFieldsRequired'));
-      return;
-    }
-    setLoading(true);
-    try {
-      const res = await fetch('/api/verify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, code }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(resolveApiError(t, data?.error, 'auth.verifyFailed'));
-        return;
-      }
-
-      toast.success(t('auth.verifySuccess'));
-
-      if (data.loginToken) {
-        const result = await signIn('credentials', {
-          email,
-          verifyToken: data.loginToken,
-          redirect: false,
-        });
-        if (!result?.error) {
-          router.replace(callbackUrl);
-          return;
-        }
-      }
-      router.replace('/login');
-    } catch {
-      toast.error(t('auth.somethingWrong'));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleResend = async () => {
-    if (!email) {
-      toast.error(t('auth.emailRequired'));
-      return;
-    }
-    setResending(true);
-    try {
-      const res = await fetch('/api/verify/resend', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(resolveApiError(t, data?.error, 'auth.resendFailed'));
-        return;
-      }
-      toast.success(t('auth.resendSuccess'));
-      setCooldown(45);
-    } catch {
-      toast.error(t('auth.somethingWrong'));
-    } finally {
-      setResending(false);
-    }
-  };
+  const { handleVerify } = useVerifySubmit({ t, email, code, callbackUrl, router, setLoading });
+  const { handleResend } = useVerifyResend({ t, email, setResending, setCooldown });
 
   return {
     t,

@@ -1,11 +1,10 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
-import { decodeQrFromDataUrlRobust } from '@/lib/qr-scan-decode';
 import { computeScannability } from '@/lib/scannability';
-import { evaluateScanDecode } from '@/lib/scan-simulation-evaluate';
 import { useScanSimulationCamera } from '@/hooks/use-scan-simulation-camera';
+import { useScanSimulationDigital } from '@/hooks/use-scan-simulation-digital';
 import type { QRStyleConfig } from '@/lib/qr-style';
 import { useLanguage } from '@/components/i18n/language-provider';
 
@@ -27,7 +26,6 @@ export function useScanSimulation({
   defaultOpen?: boolean;
 }) {
   const { t } = useLanguage();
-  const autoRunRef = useRef<string | null>(null);
 
   const [open, setOpen] = useState(defaultOpen);
   const [digitalRunning, setDigitalRunning] = useState(false);
@@ -46,42 +44,15 @@ export function useScanSimulation({
     setResult,
   });
 
-  const evaluateDecode = useCallback(
-    (decoded: string | null, source: 'digital' | 'camera', confidence?: import('@/lib/qr-scan-decode').DecodeConfidence) =>
-      evaluateScanDecode({ decoded, source, confidence, expectedContent, scannability, t }),
-    [expectedContent, scannability, t],
-  );
-
-  const runDigitalTest = useCallback(
-    async (silent = false) => {
-      if (!qrDataUrl) return;
-      setDigitalRunning(true);
-      if (!silent) setResult(null);
-      try {
-        const { decoded, confidence } = await decodeQrFromDataUrlRobust(qrDataUrl);
-        setResult(evaluateDecode(decoded, 'digital', confidence));
-      } catch {
-        setResult({
-          status: 'fail',
-          title: t('scan.failError'),
-          detail: t('scan.failErrorDetail'),
-        });
-      } finally {
-        setDigitalRunning(false);
-      }
-    },
-    [qrDataUrl, evaluateDecode, t],
-  );
-
-  useEffect(() => {
-    if (!open || !qrDataUrl) return;
-    if (autoRunRef.current === qrDataUrl) return;
-    const timer = window.setTimeout(() => {
-      autoRunRef.current = qrDataUrl;
-      runDigitalTest(true);
-    }, 700);
-    return () => window.clearTimeout(timer);
-  }, [open, qrDataUrl, runDigitalTest]);
+  const { runDigitalTest } = useScanSimulationDigital({
+    qrDataUrl,
+    open,
+    expectedContent,
+    scannability,
+    t,
+    setResult,
+    setDigitalRunning,
+  });
 
   const copyScanUrl = async () => {
     if (!expectedContent?.startsWith('http')) return;
