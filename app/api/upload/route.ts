@@ -1,21 +1,19 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { saveUploadedFile } from '@/lib/storage';
 import { verifyImageMagicBytes } from '@/lib/file-magic';
 import { prisma } from '@/lib/db';
+import { requireUserId, isAuthError } from '@/lib/session-auth';
 
 const MAX_SIZE = 5 * 1024 * 1024; // 5MB for logos
 const ALLOWED = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif'];
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const auth = await requireUserId();
+    if (isAuthError(auth)) return auth;
+    const userId = auth;
 
     const formData = await req.formData();
     const file = formData.get('file') as File | null;
@@ -43,10 +41,8 @@ export async function POST(req: NextRequest) {
     }
 
     const { path: filePath } = await saveUploadedFile(buffer, file.name, file.type);
-    const userId = (session.user as { id?: string })?.id;
 
-    if (userId) {
-      try {
+    try {
         await prisma.mediaAsset.create({
           data: {
             userId,
@@ -59,7 +55,6 @@ export async function POST(req: NextRequest) {
       } catch {
         /* MediaAsset table may not exist yet */
       }
-    }
 
     return NextResponse.json({ path: filePath });
   } catch (error: any) {

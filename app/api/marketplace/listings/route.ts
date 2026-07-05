@@ -1,11 +1,10 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { sanitizeListingInput } from '@/lib/marketplace-sanitize';
 import { canUserSellOnMarketplace, getOrCreateSeller } from '@/lib/marketplace-seller';
+import { getSessionUserId, requireSessionContext, isAuthError } from '@/lib/session-auth';
 
 const publicSelect = {
   id: true,
@@ -24,8 +23,7 @@ const publicSelect = {
 } as const;
 
 export async function GET(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  const userId = (session?.user as { id?: string })?.id;
+  const userId = await getSessionUserId();
   const mine = req.nextUrl.searchParams.get('mine') === '1';
 
   if (mine) {
@@ -56,11 +54,10 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  const userId = (session?.user as { id?: string })?.id;
-  const email = session?.user?.email;
-  const name = session?.user?.name;
-  if (!userId || !email) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await requireSessionContext();
+  if (isAuthError(auth)) return auth;
+  const { userId, email, name } = auth;
+  if (!email) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const sellCheck = await canUserSellOnMarketplace(userId);
   if (!sellCheck.ok) {

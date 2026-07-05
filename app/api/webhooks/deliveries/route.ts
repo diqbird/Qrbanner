@@ -1,14 +1,13 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { listWebhookDeliveries } from '@/lib/webhook-deliveries';
+import { requireUserId, isAuthError } from '@/lib/session-auth';
 
 export async function GET(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  const userId = (session?.user as { id?: string })?.id;
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await requireUserId();
+  if (isAuthError(auth)) return auth;
+  const userId = auth;
 
   const endpointId = req.nextUrl.searchParams.get('endpointId') ?? undefined;
   const limit = parseInt(req.nextUrl.searchParams.get('limit') ?? '25', 10) || 25;

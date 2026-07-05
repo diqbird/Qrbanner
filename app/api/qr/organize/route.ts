@@ -1,21 +1,16 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { normalizeLabels } from '@/lib/organize-utils';
 import { getActiveWorkspaceId, assertWorkspaceRole, assertFolderInWorkspace } from '@/lib/workspace';
+import { requireUserId, isAuthError } from '@/lib/session-auth';
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const userId = (session.user as { id?: string })?.id;
-    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const auth = await requireUserId();
+    if (isAuthError(auth)) return auth;
+    const userId = auth;
 
     const body = await req.json();
     const { qrIds, folderId, labels, mode } = body as {

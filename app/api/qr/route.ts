@@ -1,9 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
 import type { Prisma } from '@prisma/client';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import bcrypt from 'bcryptjs';
 import { generateShortCode, buildQRPayload } from '@/lib/qr-utils';
@@ -15,6 +13,7 @@ import { assertQrUrlsAllowed } from '@/lib/validate-qr-urls';
 import { sanitizeStoredLandingPage } from '@/lib/landing-blocks';
 import { normalizeGa4Id, normalizeMetaPixelId } from '@/lib/pixel-analytics';
 import { sanitizeAbTestData, parseAbTestData } from '@/lib/ab-routing';
+import { requireUserId, isAuthError, getSessionUserId } from '@/lib/session-auth';
 import {
   getActiveWorkspaceId,
   assertWorkspaceRole,
@@ -47,15 +46,9 @@ function parseLabelsField(labels: unknown): string[] {
 
 export async function GET(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const userId = (session.user as { id?: string })?.id;
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const auth = await requireUserId();
+    if (isAuthError(auth)) return auth;
+    const userId = auth;
 
     const workspaceId = await getActiveWorkspaceId(userId);
     const where: Prisma.QRCodeWhereInput = { workspaceId };
@@ -171,15 +164,9 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const userId = (session.user as { id?: string })?.id;
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const auth = await requireUserId();
+    if (isAuthError(auth)) return auth;
+    const userId = auth;
 
     const limited = await rateLimitRequest(
       req,

@@ -1,8 +1,6 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { generateShortCode, buildQRPayload } from '@/lib/qr-utils';
 import { stripMetaFields } from '@/lib/industry-templates';
@@ -15,6 +13,7 @@ import { newCampaignId } from '@/lib/campaigns';
 import { sanitizeCampaignPlanForCreate } from '@/lib/campaign-sanitize';
 import { normalizeQRStyle } from '@/lib/qr-style';
 import { emptyLandingPage } from '@/lib/landing-page';
+import { requireUserId, isAuthError, getSessionUserId } from '@/lib/session-auth';
 
 async function uniqueShortCode(): Promise<string> {
   for (let i = 0; i < 15; i++) {
@@ -27,15 +26,9 @@ async function uniqueShortCode(): Promise<string> {
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const userId = (session.user as { id?: string })?.id;
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const auth = await requireUserId();
+    if (isAuthError(auth)) return auth;
+    const userId = auth;
 
     const limited = await rateLimitRequest(
       req,

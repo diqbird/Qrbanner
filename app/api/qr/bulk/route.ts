@@ -1,8 +1,6 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
@@ -11,6 +9,7 @@ import { BULK_ABSOLUTE_MAX_ROWS, parseBulkCSV, type BulkParsedRow } from '@/lib/
 import { assertCanCreateQr, getUserPlanUsage } from '@/lib/plan-usage';
 import { getActiveWorkspaceId, assertWorkspaceRole } from '@/lib/workspace';
 import { BULK_LIMIT, rateLimitRequest } from '@/lib/authenticated-rate-limit';
+import { requireUserId, isAuthError, getSessionUserId } from '@/lib/session-auth';
 
 async function uniqueShortCode(): Promise<string> {
   for (let attempt = 0; attempt < 15; attempt++) {
@@ -33,15 +32,9 @@ interface BulkCreateInput {
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const userId = (session.user as { id?: string })?.id;
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const auth = await requireUserId();
+    if (isAuthError(auth)) return auth;
+    const userId = auth;
 
     const limited = await rateLimitRequest(req, 'qr-bulk', BULK_LIMIT.limit, BULK_LIMIT.windowMs, userId);
     if (limited) return limited;

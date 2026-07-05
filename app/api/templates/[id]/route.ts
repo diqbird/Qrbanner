@@ -1,17 +1,16 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
+import { requireUserId, isAuthError } from '@/lib/session-auth';
 
 export async function DELETE(
   _req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const session = await getServerSession(authOptions);
-  const userId = (session?.user as { id?: string })?.id;
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await requireUserId();
+  if (isAuthError(auth)) return auth;
+  const userId = auth;
 
   const existing = await prisma.qRStyleTemplate.findFirst({
     where: { id: params.id, userId },

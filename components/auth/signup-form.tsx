@@ -7,8 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { QrCode, Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 import type { OAuthProviderId } from '@/lib/auth-providers';
 import { resolveCallbackUrl } from '@/lib/auth-providers';
@@ -18,9 +17,9 @@ import { validatePassword } from '@/lib/password';
 import { PasswordStrengthMeter } from './password-strength-meter';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
-import { LanguageSwitcher } from '@/components/i18n/language-switcher';
 import { ReferralSignupBanner } from './referral-signup-banner';
 import { ReferralCookieSync } from './referral-cookie-sync';
+import { AuthFormShell } from './auth-form-shell';
 import { TurnstileField, isTurnstileEnabledClient } from '@/components/security/turnstile-field';
 
 export function SignupForm({ oauthProviders = [] }: { oauthProviders?: OAuthProviderId[] }) {
@@ -97,20 +96,32 @@ export function SignupForm({ oauthProviders = [] }: { oauthProviders?: OAuthProv
   };
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="text-center">
-        <div className="flex justify-end mb-2">
-          <LanguageSwitcher />
-        </div>
-        <Link href="/" className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary">
-          <QrCode className="h-7 w-7 text-primary-foreground" />
-        </Link>
-        <CardTitle className="font-display text-2xl tracking-tight">{t('auth.createAccount')}</CardTitle>
-        <CardDescription>{t('auth.createAccountSubtitle')}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ReferralCookieSync />
-        <ReferralSignupBanner />
+    <AuthFormShell
+      title={t('auth.createAccount')}
+      subtitle={t('auth.createAccountSubtitle')}
+      homeAria={t('common.homeAria')}
+      beforeContent={
+        <>
+          <ReferralCookieSync />
+          <ReferralSignupBanner />
+        </>
+      }
+      footer={
+        <p className="mt-4 text-center text-sm text-muted-foreground">
+          {t('auth.hasAccount')}{' '}
+          <Link
+            href={
+              callbackUrl !== '/dashboard'
+                ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`
+                : '/login'
+            }
+            className="font-medium text-primary hover:underline"
+          >
+            {t('common.signIn')}
+          </Link>
+        </p>
+      }
+    >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">{t('auth.fullName')}</Label>
@@ -200,21 +211,6 @@ export function SignupForm({ oauthProviders = [] }: { oauthProviders?: OAuthProv
         </form>
 
         <OAuthButtons providers={oauthProviders} callbackUrl={callbackUrl} dividerLabel={t('auth.orSignUpWith')} />
-
-        <p className="mt-4 text-center text-sm text-muted-foreground">
-          {t('auth.hasAccount')}{' '}
-          <Link
-            href={
-              callbackUrl !== '/dashboard'
-                ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`
-                : '/login'
-            }
-            className="font-medium text-primary hover:underline"
-          >
-            {t('common.signIn')}
-          </Link>
-        </p>
-      </CardContent>
-    </Card>
+    </AuthFormShell>
   );
 }

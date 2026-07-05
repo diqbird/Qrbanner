@@ -1,22 +1,18 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { generateApiKey, hashApiKey, getApiKeyPrefix } from '@/lib/api-key';
 import { getPlanLimits } from '@/lib/plans';
 import { getApiUsage } from '@/lib/api-rate-limit';
+import { requireUserId, isAuthError, getSessionUserId } from '@/lib/session-auth';
 
-async function getSessionUserId() {
-  const session = await getServerSession(authOptions);
-  return (session?.user as { id?: string })?.id ?? null;
-}
 
 export async function GET() {
   try {
-    const userId = await getSessionUserId();
-    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const auth = await requireUserId();
+    if (isAuthError(auth)) return auth;
+    const userId = auth;
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -49,8 +45,9 @@ export async function GET() {
 
 export async function POST() {
   try {
-    const userId = await getSessionUserId();
-    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const auth = await requireUserId();
+    if (isAuthError(auth)) return auth;
+    const userId = auth;
 
     const rawKey = generateApiKey();
     const keyHash = hashApiKey(rawKey);
@@ -78,8 +75,9 @@ export async function POST() {
 
 export async function DELETE() {
   try {
-    const userId = await getSessionUserId();
-    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const auth = await requireUserId();
+    if (isAuthError(auth)) return auth;
+    const userId = auth;
 
     await prisma.user.update({
       where: { id: userId },

@@ -6,14 +6,13 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { QrCode, Lock, Eye, EyeOff, Mail, KeyRound } from 'lucide-react';
+import { Lock, Eye, EyeOff, Mail, KeyRound } from 'lucide-react';
 import { toast } from 'sonner';
 import { validatePassword } from '@/lib/password';
 import { PasswordStrengthMeter } from './password-strength-meter';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
-import { LanguageSwitcher } from '@/components/i18n/language-switcher';
+import { AuthFormShell } from './auth-form-shell';
 
 export function ResetPasswordForm() {
   const { t } = useLanguage();
@@ -94,18 +93,11 @@ export function ResetPasswordForm() {
   };
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="text-center">
-        <div className="flex justify-end mb-2">
-          <LanguageSwitcher />
-        </div>
-        <Link href="/" className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary">
-          <QrCode className="h-7 w-7 text-primary-foreground" />
-        </Link>
-        <CardTitle className="font-display text-2xl tracking-tight">{t('auth.resetTitle')}</CardTitle>
-        <CardDescription>{t('auth.resetCodeSubtitle')}</CardDescription>
-      </CardHeader>
-      <CardContent>
+    <AuthFormShell
+      title={t('auth.resetTitle')}
+      subtitle={t('auth.resetCodeSubtitle')}
+      homeAria={t('common.homeAria')}
+    >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">{t('common.email')}</Label>
@@ -191,7 +183,6 @@ export function ResetPasswordForm() {
             {t('auth.requestNewLink')}
           </Link>
         </form>
-      </CardContent>
-    </Card>
+    </AuthFormShell>
   );
 }

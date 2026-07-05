@@ -1,19 +1,18 @@
 export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { ensureReferralCode, parseBrandingSettings } from '@/lib/referral';
 import { getReferralRewardProgress } from '@/lib/referral-rewards';
 import { canClaimReferralReward } from '@/lib/referral-stripe';
 import { siteBaseUrl } from '@/lib/stripe';
+import { requireUserId, isAuthError } from '@/lib/session-auth';
 
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions);
-    const userId = (session?.user as { id?: string })?.id;
-    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const auth = await requireUserId();
+    if (isAuthError(auth)) return auth;
+    const userId = auth;
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -46,9 +45,9 @@ export async function GET() {
 
 export async function PATCH(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
-    const userId = (session?.user as { id?: string })?.id;
-    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const auth = await requireUserId();
+    if (isAuthError(auth)) return auth;
+    const userId = auth;
 
     const user = await prisma.user.findUnique({
       where: { id: userId },

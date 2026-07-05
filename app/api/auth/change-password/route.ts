@@ -1,25 +1,19 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import bcrypt from 'bcryptjs';
 import { validatePassword } from '@/lib/password';
 import { enforceRateLimit } from '@/lib/authenticated-rate-limit';
 import { AUTH_CHANGE_PASSWORD } from '@/lib/rate-limit-policies';
+import { requireUserId, isAuthError, requireSessionContext } from '@/lib/session-auth';
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
-    }
+    const auth = await requireUserId();
+    if (isAuthError(auth)) return auth;
+    const userId = auth;
 
-    const userId = (session.user as { id?: string })?.id;
-    if (!userId) {
-      return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
-    }
 
     const limited = await enforceRateLimit(
       AUTH_CHANGE_PASSWORD.key(userId),

@@ -2,15 +2,12 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { checkRateLimit } from '@/lib/rate-limit';
+import { enforcePublicRateLimit } from '@/lib/public-rate-limit';
 
 export async function POST(req: NextRequest) {
   try {
-    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-    const limited = await checkRateLimit(`scan-geo:${ip}`, 60, 15 * 60 * 1000);
-    if (!limited.ok) {
-      return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
-    }
+    const limited = await enforcePublicRateLimit(req, 'scan-geo', 60, 15 * 60 * 1000);
+    if (limited) return limited;
 
     const body = await req.json();
     const shortCode = String(body.shortCode ?? '').trim();

@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { activeBillingProvider, isBillingConfigured, siteBaseUrl } from '@/lib/billing-provider';
 import { createPaddlePortalSession, ensurePaddleCustomer } from '@/lib/paddle';
 import { getStripe } from '@/lib/stripe';
+import { requireSessionContext, isAuthError } from '@/lib/session-auth';
 
 export async function POST() {
   try {
@@ -12,13 +11,14 @@ export async function POST() {
       return NextResponse.json({ error: 'Billing not configured' }, { status: 503 });
     }
 
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.email) {
+    const auth = await requireSessionContext();
+    if (isAuthError(auth)) return auth;
+    if (!auth.email) {
       return NextResponse.json({ error: 'Sign in required' }, { status: 401 });
     }
 
     const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
+      where: { email: auth.email },
       select: {
         id: true,
         email: true,

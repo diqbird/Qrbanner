@@ -1,22 +1,18 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { deleteUploadedFile } from '@/lib/storage';
+import { requireSessionContext, isAuthError } from '@/lib/session-auth';
 
 export async function DELETE(
   _req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    const userId = (session?.user as { id?: string })?.id;
-    const role = (session?.user as { role?: string })?.role;
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const auth = await requireSessionContext();
+    if (isAuthError(auth)) return auth;
+    const { userId, role } = auth;
 
     const asset = await prisma.mediaAsset.findUnique({ where: { id: params.id } });
     if (!asset) {

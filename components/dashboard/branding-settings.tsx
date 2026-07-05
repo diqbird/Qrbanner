@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,58 +9,47 @@ import { Switch } from '@/components/ui/switch';
 import { Loader2, Palette } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { useSettingsResource } from '@/hooks/use-settings-resource';
+
+type BrandingForm = {
+  hidePoweredBy: boolean;
+  agencyName: string;
+  supportEmail: string;
+};
+
+function parseBranding(json: unknown): BrandingForm {
+  const data = json as { branding?: Record<string, unknown> };
+  const b = data.branding ?? {};
+  return {
+    hidePoweredBy: Boolean(b.hidePoweredBy),
+    agencyName: String(b.agencyName ?? ''),
+    supportEmail: String(b.supportEmail ?? ''),
+  };
+}
 
 export function BrandingSettings() {
   const { t } = useLanguage();
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [hidePoweredBy, setHidePoweredBy] = useState(false);
-  const [agencyName, setAgencyName] = useState('');
-  const [supportEmail, setSupportEmail] = useState('');
-
-  const load = useCallback(async () => {
-    try {
-      const res = await fetch('/api/referral');
-      if (res.ok) {
-        const data = await res.json();
-        const b = data.branding ?? {};
-        setHidePoweredBy(Boolean(b.hidePoweredBy));
-        setAgencyName(b.agencyName ?? '');
-        setSupportEmail(b.supportEmail ?? '');
-      }
-    } catch {
-      /* ignore */
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const { data, loading, saving, save } = useSettingsResource({
+    url: '/api/referral',
+    parse: parseBranding,
+  });
+  const [form, setForm] = useState<BrandingForm | null>(null);
 
   useEffect(() => {
-    load();
-  }, [load]);
+    if (data) setForm(data);
+  }, [data]);
 
   const saveBranding = async () => {
-    setSaving(true);
-    try {
-      const res = await fetch('/api/referral', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ hidePoweredBy, agencyName, supportEmail }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data?.error ?? t('settings.profileUpdateFailed'));
-        return;
-      }
-      toast.success(t('referral.brandingSaved'));
-    } catch {
-      toast.error(t('auth.somethingWrong'));
-    } finally {
-      setSaving(false);
+    if (!form) return;
+    const result = await save({ body: form });
+    if (!result.ok) {
+      toast.error((result.json as { error?: string })?.error ?? t('settings.profileUpdateFailed'));
+      return;
     }
+    toast.success(t('referral.brandingSaved'));
   };
 
-  if (loading) {
+  if (loading || !form) {
     return (
       <Card>
         <CardContent className="flex justify-center py-8">
@@ -85,13 +74,16 @@ export function BrandingSettings() {
             <Label>{t('referral.hidePoweredBy')}</Label>
             <p className="text-xs text-muted-foreground">{t('referral.hidePoweredByDesc')}</p>
           </div>
-          <Switch checked={hidePoweredBy} onCheckedChange={setHidePoweredBy} />
+          <Switch
+            checked={form.hidePoweredBy}
+            onCheckedChange={(hidePoweredBy) => setForm((prev) => (prev ? { ...prev, hidePoweredBy } : prev))}
+          />
         </div>
         <div className="space-y-2">
           <Label>{t('referral.agencyName')}</Label>
           <Input
-            value={agencyName}
-            onChange={(e) => setAgencyName(e.target.value)}
+            value={form.agencyName}
+            onChange={(e) => setForm((prev) => (prev ? { ...prev, agencyName: e.target.value } : prev))}
             placeholder={t('referral.agencyNamePlaceholder')}
           />
         </div>
@@ -99,8 +91,8 @@ export function BrandingSettings() {
           <Label>{t('referral.supportEmail')}</Label>
           <Input
             type="email"
-            value={supportEmail}
-            onChange={(e) => setSupportEmail(e.target.value)}
+            value={form.supportEmail}
+            onChange={(e) => setForm((prev) => (prev ? { ...prev, supportEmail: e.target.value } : prev))}
             placeholder="support@youragency.com"
           />
         </div>

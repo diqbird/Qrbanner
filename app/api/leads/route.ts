@@ -6,16 +6,16 @@ import { parseUserAgent } from '@/lib/qr-utils';
 import { lookupGeo } from '@/lib/geoip';
 import { logLandingCtaClick } from '@/lib/landing-cta-analytics';
 import { dispatchAutomations, buildLeadAutomationContext } from '@/lib/automation-engine';
-import { checkRateLimit } from '@/lib/rate-limit';
+import { clientIp } from '@/lib/rate-limit';
+import { enforcePublicRateLimit } from '@/lib/public-rate-limit';
 import { assertBrowserOrigin } from '@/lib/csrf-origin';
 
 export async function POST(req: NextRequest) {
   try {
-    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-    const limited = await checkRateLimit(`leads:${ip}`, 15, 15 * 60 * 1000);
-    if (!limited.ok) {
-      return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
-    }
+    const limited = await enforcePublicRateLimit(req, 'leads', 15, 15 * 60 * 1000);
+    if (limited) return limited;
+
+    const ip = clientIp(req);
 
     const originCheck = assertBrowserOrigin(req);
     if (!originCheck.ok) {

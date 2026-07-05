@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { activeBillingProvider, isBillingConfigured, siteBaseUrl } from '@/lib/billing-provider';
 import { createPaddleCheckout } from '@/lib/paddle';
@@ -8,6 +6,7 @@ import { getStripe, stripePriceIdForPlan } from '@/lib/stripe';
 import type { PlanId } from '@/lib/plans';
 import { normalizePlanId, type BillingInterval } from '@/lib/plans';
 import { referralCouponForCheckout } from '@/lib/referral-checkout';
+import { requireSessionContext, isAuthError } from '@/lib/session-auth';
 
 async function upgradeExistingStripeSubscription(
   stripe: NonNullable<ReturnType<typeof getStripe>>,
@@ -54,13 +53,14 @@ export async function POST(req: Request) {
       );
     }
 
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.email) {
+    const auth = await requireSessionContext();
+    if (isAuthError(auth)) return auth;
+    if (!auth.email) {
       return NextResponse.json({ error: 'Sign in required', signIn: true }, { status: 401 });
     }
 
     const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
+      where: { email: auth.email },
       select: {
         id: true,
         email: true,

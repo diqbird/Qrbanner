@@ -1,21 +1,20 @@
 export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { activeBillingProvider } from '@/lib/billing-provider';
 import { getStripe, isStripeConfigured, siteBaseUrl, stripePriceIdForPlan } from '@/lib/stripe';
 import { canClaimReferralReward, referralRewardCouponId } from '@/lib/referral-stripe';
 import { referralClaimedBranding } from '@/lib/referral-checkout';
 import { parseBrandingSettings } from '@/lib/referral';
+import { requireUserId, isAuthError } from '@/lib/session-auth';
 
 /** Claim 5-referral Pro reward — Stripe Checkout with referral coupon. */
 export async function POST() {
   try {
-    const session = await getServerSession(authOptions);
-    const userId = (session?.user as { id?: string })?.id;
-    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const auth = await requireUserId();
+    if (isAuthError(auth)) return auth;
+    const userId = auth;
 
     const provider = activeBillingProvider();
     const couponId = referralRewardCouponId();

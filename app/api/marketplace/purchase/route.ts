@@ -1,17 +1,16 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { splitMarketplaceFee } from '@/lib/marketplace-types';
 import { createListingCheckoutSession } from '@/lib/marketplace-connect';
+import { requireSessionContext, isAuthError } from '@/lib/session-auth';
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  const userId = (session?.user as { id?: string })?.id;
-  const email = session?.user?.email;
-  if (!userId || !email) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await requireSessionContext();
+  if (isAuthError(auth)) return auth;
+  const { userId, email } = auth;
+  if (!email) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const body = await req.json().catch(() => ({}));
   const listingId = String(body.listingId ?? '').trim();

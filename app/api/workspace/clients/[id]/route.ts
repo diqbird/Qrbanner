@@ -1,19 +1,18 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { assertWorkspaceRole } from '@/lib/workspace';
 import { workspaceOwnerHasResellerPlan } from '@/lib/workspace-enterprise';
 import { normalizePlanId } from '@/lib/plans';
+import { requireUserId, isAuthError } from '@/lib/session-auth';
 
 type RouteParams = { params: Promise<{ id: string }> };
 
 export async function PATCH(req: NextRequest, { params }: RouteParams) {
-  const session = await getServerSession(authOptions);
-  const userId = (session?.user as { id?: string })?.id;
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await requireUserId();
+  if (isAuthError(auth)) return auth;
+  const userId = auth;
 
   const { id } = await params;
   const client = await prisma.workspaceClient.findUnique({ where: { id } });
@@ -51,9 +50,9 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
 }
 
 export async function DELETE(_req: NextRequest, { params }: RouteParams) {
-  const session = await getServerSession(authOptions);
-  const userId = (session?.user as { id?: string })?.id;
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await requireUserId();
+  if (isAuthError(auth)) return auth;
+  const userId = auth;
 
   const { id } = await params;
   const client = await prisma.workspaceClient.findUnique({ where: { id } });

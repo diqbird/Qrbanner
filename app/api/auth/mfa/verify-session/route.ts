@@ -1,18 +1,17 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
 import { getToken } from 'next-auth/jwt';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { decryptTotpSecret, verifyTotpCode } from '@/lib/totp';
 import { createMfaProofToken } from '@/lib/mfa-step-up';
 import { checkRateLimit, clientIp } from '@/lib/rate-limit-store';
+import { requireUserId, isAuthError } from '@/lib/session-auth';
 
 export async function POST(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  const userId = (session?.user as { id?: string })?.id;
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await requireUserId();
+  if (isAuthError(auth)) return auth;
+  const userId = auth;
 
   const ip = clientIp(req);
   const rl = await checkRateLimit(`mfa-verify:${userId}:${ip}`, 10, 15 * 60 * 1000);

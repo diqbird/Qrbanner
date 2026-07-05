@@ -1,7 +1,8 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { checkRateLimit } from '@/lib/rate-limit';
+import { clientIp } from '@/lib/rate-limit';
+import { enforcePublicRateLimit } from '@/lib/public-rate-limit';
 import { sendSalesInquiryEmail } from '@/lib/sales-inquiry-email';
 import { guardPublicPost } from '@/lib/guard-public-post';
 
@@ -9,11 +10,10 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: NextRequest) {
   try {
-    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-    const limited = await checkRateLimit(`contact:${ip}`, 5, 15 * 60 * 1000);
-    if (!limited.ok) {
-      return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
-    }
+    const limited = await enforcePublicRateLimit(req, 'contact', 5, 15 * 60 * 1000);
+    if (limited) return limited;
+
+    const ip = clientIp(req);
 
     let body: unknown;
     try {

@@ -3,16 +3,15 @@
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { QrCode, Shield } from 'lucide-react';
+import { Shield } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { resolveCallbackUrl } from '@/lib/auth-providers';
+import { AuthFormShell } from './auth-form-shell';
 
 export function MfaVerifyForm() {
   const { t } = useLanguage();
@@ -48,18 +47,17 @@ export function MfaVerifyForm() {
   };
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="text-center">
-        <Link href="/" className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary">
-          <QrCode className="h-7 w-7 text-primary-foreground" />
-        </Link>
-        <CardTitle className="font-display text-2xl tracking-tight flex items-center justify-center gap-2">
+    <AuthFormShell
+      title={
+        <span className="flex items-center justify-center gap-2">
           <Shield className="h-6 w-6 text-primary" />
           {t('settings.mfa.verifyTitle')}
-        </CardTitle>
-        <CardDescription>{t('settings.mfa.verifyDesc')}</CardDescription>
-      </CardHeader>
-      <CardContent>
+        </span>
+      }
+      subtitle={t('settings.mfa.verifyDesc')}
+      homeAria={t('common.homeAria')}
+      showLanguageSwitcher={false}
+    >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="mfa-code">{t('settings.mfa.codeLabel')}</Label>
@@ -79,7 +77,6 @@ export function MfaVerifyForm() {
             {t('settings.mfa.verify')}
           </Button>
         </form>
-      </CardContent>
-    </Card>
+    </AuthFormShell>
   );
 }

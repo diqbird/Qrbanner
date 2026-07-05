@@ -7,13 +7,12 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { QrCode, MailCheck, Loader2 } from 'lucide-react';
+import { MailCheck, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { resolveCallbackUrl } from '@/lib/auth-providers';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
-import { LanguageSwitcher } from '@/components/i18n/language-switcher';
+import { AuthFormShell } from './auth-form-shell';
 
 export function VerifyForm() {
   const { t } = useLanguage();
@@ -104,18 +103,25 @@ export function VerifyForm() {
   };
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="text-center">
-        <div className="mb-2 flex justify-end">
-          <LanguageSwitcher />
+    <AuthFormShell
+      title={t('auth.verifyTitle')}
+      subtitle={t('auth.verifySubtitle')}
+      homeAria={t('common.homeAria')}
+      footer={
+        <div className="mt-2 text-center text-sm">
+          <Link
+            href={
+              callbackUrl !== '/dashboard'
+                ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`
+                : '/login'
+            }
+            className="text-muted-foreground hover:underline"
+          >
+            {t('auth.backToSignIn')}
+          </Link>
         </div>
-        <Link href="/" className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary">
-          <QrCode className="h-7 w-7 text-primary-foreground" />
-        </Link>
-        <CardTitle className="font-display text-2xl tracking-tight">{t('auth.verifyTitle')}</CardTitle>
-        <CardDescription>{t('auth.verifySubtitle')}</CardDescription>
-      </CardHeader>
-      <CardContent>
+      }
+    >
         <form onSubmit={handleVerify} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">{t('common.email')}</Label>
@@ -170,19 +176,6 @@ export function VerifyForm() {
           </button>
         </div>
 
-        <div className="mt-2 text-center text-sm">
-          <Link
-            href={
-              callbackUrl !== '/dashboard'
-                ? `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`
-                : '/login'
-            }
-            className="text-muted-foreground hover:underline"
-          >
-            {t('auth.backToSignIn')}
-          </Link>
-        </div>
-      </CardContent>
-    </Card>
+    </AuthFormShell>
   );
 }

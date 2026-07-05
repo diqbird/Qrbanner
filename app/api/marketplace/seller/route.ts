@@ -1,17 +1,16 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 import { canUserSellOnMarketplace } from '@/lib/marketplace-seller';
 import { refreshConnectStatus } from '@/lib/marketplace-connect';
 import { MARKETPLACE_PLATFORM_FEE_PERCENT } from '@/lib/marketplace-types';
+import { requireUserId, requireSessionContext, isAuthError } from '@/lib/session-auth';
 
 export async function GET() {
-  const session = await getServerSession(authOptions);
-  const userId = (session?.user as { id?: string })?.id;
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await requireUserId();
+  if (isAuthError(auth)) return auth;
+  const userId = auth;
 
   await refreshConnectStatus(userId).catch(() => undefined);
 
@@ -39,11 +38,10 @@ export async function GET() {
 }
 
 export async function PATCH(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  const userId = (session?.user as { id?: string })?.id;
-  const name = session?.user?.name;
-  const email = session?.user?.email;
-  if (!userId || !email) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await requireSessionContext();
+  if (isAuthError(auth)) return auth;
+  const { userId, name, email } = auth;
+  if (!email) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const sellCheck = await canUserSellOnMarketplace(userId);
   if (sellCheck.limit <= 0) {

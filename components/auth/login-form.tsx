@@ -8,16 +8,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { QrCode, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 import type { OAuthProviderId } from '@/lib/auth-providers';
 import { resolveCallbackUrl } from '@/lib/auth-providers';
 import { OAuthButtons } from './oauth-buttons';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
-import { LanguageSwitcher } from '@/components/i18n/language-switcher';
 import { ReferralCookieSync } from './referral-cookie-sync';
+import { AuthFormShell } from './auth-form-shell';
 import { TurnstileField, isTurnstileEnabledClient } from '@/components/security/turnstile-field';
 
 type SsoPolicy = {
@@ -182,19 +181,27 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
   };
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="text-center">
-        <div className="flex justify-end mb-2">
-          <LanguageSwitcher />
-        </div>
-        <Link href="/" className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary" aria-label={t('common.homeAria')}>
-          <QrCode className="h-7 w-7 text-primary-foreground" aria-hidden />
-        </Link>
-        <CardTitle className="font-display text-2xl tracking-tight">{t('auth.welcomeBack')}</CardTitle>
-        <CardDescription>{t('auth.signInSubtitle')}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ReferralCookieSync />
+    <AuthFormShell
+      title={t('auth.welcomeBack')}
+      subtitle={t('auth.signInSubtitle')}
+      homeAria={t('common.homeAria')}
+      beforeContent={<ReferralCookieSync />}
+      footer={
+        <p className="mt-4 text-center text-sm text-muted-foreground">
+          {t('auth.noAccount')}{' '}
+          <Link
+            href={
+              callbackUrl !== '/dashboard'
+                ? `/signup?callbackUrl=${encodeURIComponent(callbackUrl)}`
+                : '/signup'
+            }
+            className="font-medium text-primary hover:underline"
+          >
+            {t('auth.signUpFree')}
+          </Link>
+        </p>
+      }
+    >
         {ssoPolicy?.required && (
           <p className="mb-3 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-800 dark:text-amber-200">
             {t('auth.errors.sso_required')}
@@ -320,20 +327,6 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
           </div>
         ))}
 
-        <p className="mt-4 text-center text-sm text-muted-foreground">
-          {t('auth.noAccount')}{' '}
-          <Link
-            href={
-              callbackUrl !== '/dashboard'
-                ? `/signup?callbackUrl=${encodeURIComponent(callbackUrl)}`
-                : '/signup'
-            }
-            className="font-medium text-primary hover:underline"
-          >
-            {t('auth.signUpFree')}
-          </Link>
-        </p>
-      </CardContent>
-    </Card>
+    </AuthFormShell>
   );
 }

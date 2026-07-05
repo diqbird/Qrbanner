@@ -6,19 +6,18 @@ import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/db';
 import { sendVerificationEmail, isEmailConfigured } from '@/lib/email';
 import { validatePassword } from '@/lib/password';
-import { checkRateLimit } from '@/lib/rate-limit';
+import { clientIp } from '@/lib/rate-limit';
+import { enforcePublicRateLimit } from '@/lib/public-rate-limit';
 import { resolveReferrerByCode, recordReferralSignup } from '@/lib/referral';
 import { assertPasswordLoginAllowed } from '@/lib/workspace-sso';
 import { guardPublicPost } from '@/lib/guard-public-post';
 
 export async function POST(req: NextRequest) {
   try {
-    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown';
-    const limited = await checkRateLimit(`signup:${ip}`, 5, 15 * 60 * 1000);
-    if (!limited.ok) {
-      return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
-    }
+    const limited = await enforcePublicRateLimit(req, 'signup', 5, 15 * 60 * 1000);
+    if (limited) return limited;
 
+    const ip = clientIp(req);
     const body = await req.json();
     const blocked = await guardPublicPost(req, body, ip);
     if (blocked) return blocked;
