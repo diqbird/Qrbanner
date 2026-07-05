@@ -2,22 +2,34 @@
 
 Manual deploy workflow: **Actions → Deploy → Run workflow**.
 
-## Required repository secrets
+Uses GitHub environment **`Production`** (case-sensitive).
 
-Configure under **Settings → Secrets and variables → Actions** (environment: `production` if used):
+## Required secrets (environment: `Production`)
+
+Configure under **Settings → Environments → Production → Environment secrets**:
 
 | Secret | Description |
 |--------|-------------|
-| `DEPLOY_HOST` | VPS IP or hostname (e.g. `31.97.113.170`) |
+| `DEPLOY_HOST` | VPS IP or hostname |
 | `DEPLOY_USER` | SSH user (usually `root`) |
 | `DEPLOY_SSH_KEY` | Private key (PEM), full contents including `BEGIN`/`END` lines |
 
-## Optional repository variables (QA)
+Automated setup (local, one-time):
+
+```powershell
+$env:DEPLOY_HOST="your.vps.ip"
+$env:DEPLOY_PASSWORD="..."   # only to install pubkey on VPS
+python scripts/setup-github-deploy-secrets.py
+```
+
+This generates `~/.ssh/qrbanner_github_deploy`, adds the public key to the VPS, and runs `gh secret set` for the `Production` environment.
+
+## Repository variables (QA / E2E)
 
 | Variable | Description |
 |----------|-------------|
-| `PLAYWRIGHT_BASE_URL` | Staging URL for E2E on push (e.g. `https://staging.qrbanner.com`) |
-| `E2E_AGAINST_PROD` | Set to `true` to run E2E against production on push |
+| `PLAYWRIGHT_BASE_URL` | Base URL for Playwright E2E on push (e.g. `https://qrbanner.com`) |
+| `E2E_AGAINST_PROD` | Set to `true` to run E2E against production when `PLAYWRIGHT_BASE_URL` is empty |
 
 ## Local deploy (alternative)
 

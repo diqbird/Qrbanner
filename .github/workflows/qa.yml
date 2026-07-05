@@ -30,7 +30,7 @@ jobs:
   e2e:
     name: Playwright E2E
     runs-on: ubuntu-latest
-    # Skip prod E2E on push unless STAGING_URL or explicit prod flag is set
+    # Runs on push when PLAYWRIGHT_BASE_URL or E2E_AGAINST_PROD is set (see setup-github-deploy-secrets.py)
     if: >-
       github.event_name == 'workflow_dispatch' ||
       vars.PLAYWRIGHT_BASE_URL != '' ||
