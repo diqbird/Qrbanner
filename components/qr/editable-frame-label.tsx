@@ -1,16 +1,10 @@
 'use client';
 
-import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { Pencil, X } from 'lucide-react';
 import { useShowQrDescription } from '@/components/site-settings-provider';
-import {
-  clearFrameLabel,
-  frameLabelVisible,
-  getFrameLabelRect,
-  patchFrameText,
-  type QRStyleConfig,
-} from '@/lib/qr-style';
+import { getFrameLabelRect, type QRStyleConfig } from '@/lib/qr-style';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { useEditableFrameLabel } from '@/hooks/use-editable-frame-label';
 import { cn } from '@/lib/utils';
 
 export function EditableFrameLabel({
@@ -22,50 +16,9 @@ export function EditableFrameLabel({
 }) {
   const { t } = useLanguage();
   const showQrDescription = useShowQrDescription();
-  const [editing, setEditing] = useState(false);
-  const [draft, setDraft] = useState(style.frameText);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const label = useEditableFrameLabel({ style, onChange, showQrDescription });
+  const { editing, draft, setDraft, inputRef, visible, commit, cancel, startEdit, removeLabel } = label;
 
-  useEffect(() => {
-    if (!editing) setDraft(style.frameText);
-  }, [style.frameText, editing]);
-
-  useEffect(() => {
-    if (editing) {
-      inputRef.current?.focus();
-      inputRef.current?.select();
-    }
-  }, [editing]);
-
-  const commit = () => {
-    setEditing(false);
-    if (!draft.trim()) {
-      onChange(clearFrameLabel());
-      return;
-    }
-    onChange(patchFrameText(style, draft));
-  };
-
-  const cancel = () => {
-    setDraft(style.frameText);
-    setEditing(false);
-  };
-
-  const startEdit = () => {
-    if (style.frameStyle === 'none') {
-      onChange({ frameStyle: 'scan-me', frameText: draft.trim() || style.frameText || 'Scan me' });
-    }
-    setEditing(true);
-  };
-
-  const removeLabel = (e: MouseEvent) => {
-    e.stopPropagation();
-    setEditing(false);
-    setDraft('');
-    onChange(clearFrameLabel());
-  };
-
-  const visible = frameLabelVisible(style, { showQrDescription });
   const displayText = style.frameText?.trim() || t('style.frameLabelPlaceholder');
 
   if (!showQrDescription) {
@@ -91,7 +44,7 @@ export function EditableFrameLabel({
     <div
       className={cn(
         'absolute z-10 flex cursor-text items-center justify-center px-1',
-        editing && 'ring-2 ring-primary ring-offset-1 rounded-sm'
+        editing && 'ring-2 ring-primary ring-offset-1 rounded-sm',
       )}
       style={{
         left: `${rect.left * 100}%`,

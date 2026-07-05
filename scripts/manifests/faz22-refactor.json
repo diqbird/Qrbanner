@@ -1,0 +1,20 @@
+{
+  "upload": [
+    "hooks/use-automation-aux-data.ts",
+    "hooks/use-automation-draft.ts",
+    "hooks/use-automation-builder.ts",
+    "hooks/use-campaign-plan-editing.ts",
+    "hooks/use-campaign-generate.ts",
+    "hooks/use-campaign-create-batch.ts",
+    "hooks/use-campaign-wizard.ts",
+    "hooks/use-editable-frame-label.ts",
+    "hooks/use-dashboard-qr-filters.ts",
+    "hooks/use-dashboard-qr-list.ts",
+    "components/qr/qr-analytics-view.tsx",
+    "components/qr/analytics-view-states.tsx",
+    "components/qr/analytics-view-dashboard.tsx",
+    "components/qr/editable-frame-label.tsx"
+  ],
+  "build": true,
+  "restart": true
+}
