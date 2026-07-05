@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "lib/automation-flow-utils.ts",
+    "hooks/use-automation-builder.ts",
+    "components/dashboard/automation-builder.tsx",
+    "components/dashboard/automation-flow-list.tsx",
+    "components/dashboard/automation-logs-panel.tsx",
+    "components/dashboard/automation-flow-editor-dialog.tsx",
+    "components/qr/qr-style-editor.tsx",
+    "components/qr/style-editor-tab-props.ts",
+    "components/qr/style-editor-dot-preview.tsx",
+    "components/qr/style-editor-colors-tab.tsx",
+    "components/qr/style-editor-patterns-tab.tsx",
+    "components/qr/style-editor-frame-tab.tsx",
+    "components/qr/style-editor-logo-tab.tsx"
+  ],
+  "build": true,
+  "restart": true
+}
