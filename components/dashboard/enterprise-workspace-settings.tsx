@@ -16,6 +16,7 @@ import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { SettingsCardSkeleton } from '@/components/dashboard/settings-card-skeleton';
+import { useSettingsResource } from '@/hooks/use-settings-resource';
 
 interface EnterpriseState {
   workspace: {
@@ -47,13 +48,29 @@ interface ClientRow {
   notes: string | null;
 }
 
+type WorkspaceListData = {
+  activeWorkspaceId: string;
+};
+
+function parseActiveWorkspace(json: unknown): WorkspaceListData {
+  const data = json as Record<string, unknown>;
+  const workspaces = (data.workspaces as { id: string }[]) ?? [];
+  return {
+    activeWorkspaceId: String(data.activeWorkspaceId ?? workspaces[0]?.id ?? ''),
+  };
+}
+
 export function EnterpriseWorkspaceSettings() {
   const { t } = useLanguage();
-  const [activeId, setActiveId] = useState('');
+  const { data: wsData, loading: wsLoading } = useSettingsResource({
+    url: '/api/workspace',
+    parse: parseActiveWorkspace,
+  });
+  const activeId = wsData?.activeWorkspaceId ?? '';
   const [state, setState] = useState<EnterpriseState | null>(null);
   const [clients, setClients] = useState<ClientRow[]>([]);
   const [clientLimit, setClientLimit] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [detailLoading, setDetailLoading] = useState(false);
   const [working, setWorking] = useState(false);
   const [scimToken, setScimToken] = useState<string | null>(null);
 
@@ -83,17 +100,11 @@ export function EnterpriseWorkspaceSettings() {
     setClientLimit(data.limit ?? 0);
   }, []);
 
-  const loadAll = useCallback(async () => {
-    setLoading(true);
+  const loadEnterpriseDetails = useCallback(async (workspaceId: string) => {
+    if (!workspaceId) return;
+    setDetailLoading(true);
     try {
-      const wsRes = await fetch('/api/workspace');
-      if (!wsRes.ok) return;
-      const wsData = await wsRes.json();
-      const id = wsData.activeWorkspaceId ?? wsData.workspaces?.[0]?.id ?? '';
-      setActiveId(id);
-      if (!id) return;
-
-      const ent = await fetchEnterprise(id);
+      const ent = await fetchEnterprise(workspaceId);
       if (ent) {
         setState(ent);
         setSmtpHost(ent.workspace.smtpHost ?? '');
@@ -102,15 +113,17 @@ export function EnterpriseWorkspaceSettings() {
         setSmtpFrom(ent.workspace.smtpFrom ?? '');
         setSmtpPassword('');
       }
-      await fetchClients(id);
+      await fetchClients(workspaceId);
     } finally {
-      setLoading(false);
+      setDetailLoading(false);
     }
   }, [fetchEnterprise, fetchClients]);
 
   useEffect(() => {
-    loadAll();
-  }, [loadAll]);
+    if (activeId) loadEnterpriseDetails(activeId);
+  }, [activeId, loadEnterpriseDetails]);
+
+  const loading = wsLoading || detailLoading;
 
   const patchEnterprise = async (payload: Record<string, unknown>) => {
     setWorking(true);

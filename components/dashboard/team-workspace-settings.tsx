@@ -16,6 +16,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { SettingsCardSkeleton } from '@/components/dashboard/settings-card-skeleton';
+import { useSettingsResource } from '@/hooks/use-settings-resource';
 
 interface MemberRow {
   id: string;
@@ -25,12 +26,40 @@ interface MemberRow {
   user?: { name: string | null } | null;
 }
 
+interface WorkspaceRow {
+  id: string;
+  name: string;
+  isPersonal: boolean;
+  slug?: string;
+  ssoEnabled?: boolean;
+  ssoProvider?: string;
+  idpEntityId?: string;
+  idpSsoUrl?: string;
+  idpCertificate?: string;
+  allowedDomains?: string[];
+}
+
+type WorkspaceListData = {
+  workspaces: WorkspaceRow[];
+  activeWorkspaceId: string;
+};
+
+function parseWorkspaceList(json: unknown): WorkspaceListData {
+  const data = json as Record<string, unknown>;
+  return {
+    workspaces: (data.workspaces as WorkspaceRow[]) ?? [],
+    activeWorkspaceId: String(data.activeWorkspaceId ?? ''),
+  };
+}
+
 export function TeamWorkspaceSettings() {
   const { t } = useLanguage();
-  const [workspaces, setWorkspaces] = useState<any[]>([]);
-  const [activeId, setActiveId] = useState('');
+  const { data, loading, reload: reloadWorkspaces } = useSettingsResource({
+    url: '/api/workspace',
+    parse: parseWorkspaceList,
+  });
   const [members, setMembers] = useState<MemberRow[]>([]);
-  const [workspace, setWorkspace] = useState<any>(null);
+  const [workspace, setWorkspace] = useState<WorkspaceRow | null>(null);
   const [role, setRole] = useState('viewer');
   const [inviteEmail, setInviteEmail] = useState('');
   const [newTeamName, setNewTeamName] = useState('');
@@ -39,32 +68,21 @@ export function TeamWorkspaceSettings() {
   const [idpSsoUrl, setIdpSsoUrl] = useState('');
   const [idpCertificate, setIdpCertificate] = useState('');
   const [allowedDomainsText, setAllowedDomainsText] = useState('');
-  const [loading, setLoading] = useState(true);
   const [working, setWorking] = useState(false);
 
-  const fetchWorkspaces = useCallback(async () => {
-    const res = await fetch('/api/workspace');
-    if (res.ok) {
-      const data = await res.json();
-      setWorkspaces(data.workspaces ?? []);
-      setActiveId(data.activeWorkspaceId ?? '');
-    }
-  }, []);
+  const workspaces = data?.workspaces ?? [];
+  const activeId = data?.activeWorkspaceId ?? '';
 
   const fetchMembers = useCallback(async (wsId: string) => {
     if (!wsId) return;
     const res = await fetch(`/api/workspace/members?workspaceId=${wsId}`);
     if (res.ok) {
-      const data = await res.json();
-      setMembers(data.members ?? []);
-      setWorkspace(data.workspace);
-      setRole(data.role);
+      const json = await res.json();
+      setMembers(json.members ?? []);
+      setWorkspace(json.workspace);
+      setRole(json.role);
     }
   }, []);
-
-  useEffect(() => {
-    fetchWorkspaces().finally(() => setLoading(false));
-  }, [fetchWorkspaces]);
 
   useEffect(() => {
     if (activeId) fetchMembers(activeId);
@@ -126,7 +144,6 @@ export function TeamWorkspaceSettings() {
       body: JSON.stringify({ action: 'switch', workspaceId: id }),
     });
     if (res.ok) {
-      setActiveId(id);
       toast.success(t('settings.team.switched'));
       window.location.reload();
     }
@@ -146,8 +163,8 @@ export function TeamWorkspaceSettings() {
       if (!res.ok) return toast.error(resolveApiError(t, data.error, 'settings.team.createFailed'));
       toast.success(t('settings.team.created'));
       setNewTeamName('');
-      await fetchWorkspaces();
-      setActiveId(data.activeWorkspaceId);
+      await reloadWorkspaces();
+      if (data.activeWorkspaceId) fetchMembers(data.activeWorkspaceId);
     } finally {
       setWorking(false);
     }

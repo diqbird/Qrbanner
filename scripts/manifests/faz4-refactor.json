@@ -1,0 +1,11 @@
+{
+  "upload": [
+    "hooks/use-qr-edit-form.ts",
+    "components/qr/qr-edit-view.tsx",
+    "components/qr/qr-edit-form-column.tsx",
+    "components/dashboard/team-workspace-settings.tsx",
+    "components/dashboard/enterprise-workspace-settings.tsx"
+  ],
+  "build": true,
+  "restart": true
+}
