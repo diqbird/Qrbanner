@@ -1,0 +1,24 @@
+{
+  "upload": [
+    "lib/media-library-types.ts",
+    "lib/public-footer-links.ts",
+    "lib/style-template-types.ts",
+    "hooks/use-template-marketplace.ts",
+    "hooks/use-media-library.ts",
+    "hooks/use-style-template-library.ts",
+    "components/templates/template-marketplace-grid.tsx",
+    "components/templates/template-marketplace-card.tsx",
+    "components/templates/template-marketplace-filters.tsx",
+    "components/dashboard/media-library-card.tsx",
+    "components/dashboard/media-library-asset-grid.tsx",
+    "components/public-footer.tsx",
+    "components/public-footer-brand.tsx",
+    "components/public-footer-nav.tsx",
+    "components/qr/style-template-library.tsx",
+    "components/qr/style-template-list.tsx",
+    "components/qr/qr-create-design-editor-panel.tsx",
+    "components/qr/qr-create-advanced-options-panel.tsx"
+  ],
+  "build": true,
+  "restart": true
+}

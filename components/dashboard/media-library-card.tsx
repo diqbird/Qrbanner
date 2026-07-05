@@ -1,91 +1,14 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ImageIcon, Upload, Copy, Trash2 } from 'lucide-react';
-import { toast } from 'sonner';
-import { useLanguage } from '@/components/i18n/language-provider';
-
-interface MediaItem {
-  id: string;
-  filename: string;
-  url: string;
-  mimeType: string;
-  sizeBytes: number;
-  createdAt: string;
-}
-
-function formatBytes(n: number) {
-  if (n < 1024) return `${n} B`;
-  if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`;
-  return `${(n / (1024 * 1024)).toFixed(1)} MB`;
-}
+import { ImageIcon, Upload } from 'lucide-react';
+import { useMediaLibrary } from '@/hooks/use-media-library';
+import { MediaLibraryAssetGrid } from './media-library-asset-grid';
 
 export function MediaLibraryCard() {
-  const { t } = useLanguage();
-  const fileRef = useRef<HTMLInputElement>(null);
-  const [assets, setAssets] = useState<MediaItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
-
-  const fetchAssets = useCallback(async () => {
-    try {
-      const res = await fetch('/api/media');
-      if (res.ok) {
-        const data = await res.json();
-        setAssets(data.assets ?? []);
-      }
-    } catch {
-      /* ignore */
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchAssets();
-  }, [fetchAssets]);
-
-  const upload = async (file: File) => {
-    setUploading(true);
-    try {
-      const fd = new FormData();
-      fd.append('file', file);
-      const res = await fetch('/api/upload', { method: 'POST', body: fd });
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data?.error ?? t('settings.mediaLibrary.uploadFailed'));
-        return;
-      }
-      toast.success(t('settings.mediaLibrary.uploaded'));
-      fetchAssets();
-    } catch {
-      toast.error(t('settings.mediaLibrary.uploadFailed'));
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const copyUrl = (url: string) => {
-    const full = url.startsWith('http') ? url : `${window.location.origin}${url}`;
-    navigator.clipboard.writeText(full).then(() => toast.success(t('settings.mediaLibrary.urlCopied')));
-  };
-
-  const deleteAsset = async (id: string) => {
-    if (!window.confirm(t('settings.mediaLibrary.deleteConfirm'))) return;
-    try {
-      const res = await fetch(`/api/media/${id}`, { method: 'DELETE' });
-      if (!res.ok) {
-        toast.error(t('settings.mediaLibrary.deleteFailed'));
-        return;
-      }
-      toast.success(t('settings.mediaLibrary.deleted'));
-      fetchAssets();
-    } catch {
-      toast.error(t('settings.mediaLibrary.deleteFailed'));
-    }
-  };
+  const library = useMediaLibrary();
+  const { t, fileRef, loading, uploading, upload } = library;
 
   return (
     <Card>
@@ -119,43 +42,8 @@ export function MediaLibraryCard() {
 
         {loading ? (
           <p className="text-sm text-muted-foreground">{t('common.loading')}</p>
-        ) : assets.length === 0 ? (
-          <p className="text-sm text-muted-foreground">{t('settings.mediaLibrary.empty')}</p>
         ) : (
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {assets.map((a) => (
-              <div key={a.id} className="rounded-lg border border-border/50 p-2">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={a.url}
-                  alt={a.filename}
-                  className="aspect-video w-full rounded-md object-cover bg-muted"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <p className="mt-2 truncate text-xs font-medium">{a.filename}</p>
-                <p className="text-[10px] text-muted-foreground">{formatBytes(a.sizeBytes)}</p>
-                <div className="mt-1 flex gap-1">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-7 gap-1 text-xs"
-                    onClick={() => copyUrl(a.url)}
-                  >
-                    <Copy className="h-3 w-3" /> {t('settings.mediaLibrary.copyUrl')}
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-7 gap-1 text-xs text-destructive hover:text-destructive"
-                    onClick={() => deleteAsset(a.id)}
-                  >
-                    <Trash2 className="h-3 w-3" /> {t('settings.mediaLibrary.delete')}
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
+          <MediaLibraryAssetGrid library={library} />
         )}
       </CardContent>
     </Card>
