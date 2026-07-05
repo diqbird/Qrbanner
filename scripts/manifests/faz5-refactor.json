@@ -1,0 +1,12 @@
+{
+  "upload": [
+    "lib/qr-category-icons.ts",
+    "hooks/use-qr-create-form.ts",
+    "components/qr/qr-create-wizard.tsx",
+    "components/qr/qr-create-step-start.tsx",
+    "components/qr/qr-create-step-content.tsx",
+    "components/qr/qr-create-step-review.tsx"
+  ],
+  "build": true,
+  "restart": true
+}
