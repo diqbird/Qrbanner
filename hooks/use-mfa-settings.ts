@@ -1,10 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { useSettingsResource } from '@/hooks/use-settings-resource';
+import { useMfaSettingsActions } from '@/hooks/use-mfa-settings-actions';
 import { parseMfaStatus, type MfaSetupData } from '@/lib/mfa-types';
 
 export function useMfaSettings() {
@@ -23,84 +22,22 @@ export function useMfaSettings() {
   const enabled = data?.enabled ?? false;
   const hasPassword = data?.hasPassword ?? false;
 
-  const startSetup = async () => {
-    setWorking(true);
-    try {
-      const res = await fetch('/api/auth/mfa/setup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: hasPassword ? password : undefined }),
-      });
-      const json = await res.json();
-      if (!res.ok) {
-        toast.error(resolveApiError(t, json.error, 'settings.mfa.setupFailed'));
-        return;
-      }
-      setSetup({
-        qrDataUrl: json.qrDataUrl,
-        secret: json.secret,
-        otpauthUrl: json.otpauthUrl,
-      });
-      setPassword('');
-    } finally {
-      setWorking(false);
-    }
-  };
-
-  const confirmEnable = async () => {
-    if (!enableCode.trim()) return;
-    setWorking(true);
-    try {
-      const res = await fetch('/api/auth/mfa/enable', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: enableCode.trim() }),
-      });
-      const json = await res.json();
-      if (!res.ok) {
-        toast.error(resolveApiError(t, json.error, 'settings.mfa.enableFailed'));
-        return;
-      }
-      toast.success(t('settings.mfa.enabled'));
-      setSetup(null);
-      setEnableCode('');
-      reload();
-    } finally {
-      setWorking(false);
-    }
-  };
-
-  const disableMfa = async () => {
-    if (!disableCode.trim()) return;
-    setWorking(true);
-    try {
-      const res = await fetch('/api/auth/mfa/disable', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          code: disableCode.trim(),
-          password: hasPassword ? disablePassword : undefined,
-        }),
-      });
-      const json = await res.json();
-      if (!res.ok) {
-        toast.error(resolveApiError(t, json.error, 'settings.mfa.disableFailed'));
-        return;
-      }
-      toast.success(t('settings.mfa.disabled'));
-      setDisableCode('');
-      setDisablePassword('');
-      reload();
-    } finally {
-      setWorking(false);
-    }
-  };
-
-  const copySecret = async () => {
-    if (!setup?.secret) return;
-    await navigator.clipboard?.writeText(setup.secret);
-    toast.success(t('settings.mfa.secretCopied'));
-  };
+  const actions = useMfaSettingsActions({
+    t,
+    hasPassword,
+    password,
+    enableCode,
+    disableCode,
+    disablePassword,
+    setup,
+    setSetup,
+    setPassword,
+    setEnableCode,
+    setDisableCode,
+    setDisablePassword,
+    setWorking,
+    reload,
+  });
 
   return {
     t,
@@ -118,10 +55,7 @@ export function useMfaSettings() {
     setDisableCode,
     disablePassword,
     setDisablePassword,
-    startSetup,
-    confirmEnable,
-    disableMfa,
-    copySecret,
+    ...actions,
   };
 }
 

@@ -1,16 +1,12 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { useSettingsResource } from '@/hooks/use-settings-resource';
 import { useEnterpriseClients } from '@/hooks/use-enterprise-clients';
 import { useEnterpriseSmtp } from '@/hooks/use-enterprise-smtp';
-import {
-  parseActiveWorkspace,
-  type EnterpriseState,
-} from '@/lib/enterprise-workspace-types';
+import { useEnterpriseWorkspacePatch } from '@/hooks/use-enterprise-workspace-patch';
+import { parseActiveWorkspace, type EnterpriseState } from '@/lib/enterprise-workspace-types';
 
 export function useEnterpriseWorkspace() {
   const { t } = useLanguage();
@@ -22,49 +18,31 @@ export function useEnterpriseWorkspace() {
   const [state, setState] = useState<EnterpriseState | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
   const [working, setWorking] = useState(false);
-  const [scimToken, setScimToken] = useState<string | null>(null);
 
   const clients = useEnterpriseClients(activeId, t);
 
-  const fetchEnterprise = useCallback(async (workspaceId: string) => {
-    const res = await fetch(`/api/workspace/enterprise?workspaceId=${workspaceId}`);
-    if (!res.ok) return null;
-    return (await res.json()) as EnterpriseState;
-  }, []);
+  const patch = useEnterpriseWorkspacePatch({
+    activeId,
+    t,
+    setState,
+    setWorking,
+    onClientsRefresh: clients.fetchClients,
+  });
 
-  const patchEnterprise = async (payload: Record<string, unknown>) => {
-    setWorking(true);
-    try {
-      const res = await fetch('/api/workspace/enterprise', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ workspaceId: activeId, ...payload }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(resolveApiError(t, data.error, 'enterpriseWorkspace.saveFailed'));
-        return null;
-      }
-      if (data.scimToken) setScimToken(data.scimToken);
-      if (data.workspace) {
-        setState((prev) =>
-          prev ? { ...prev, workspace: { ...prev.workspace, ...data.workspace } } : prev,
-        );
-      }
-      return data;
-    } finally {
-      setWorking(false);
-    }
-  };
-
-  const smtp = useEnterpriseSmtp({ activeId, state, patchEnterprise, t, setWorking });
+  const smtp = useEnterpriseSmtp({
+    activeId,
+    state,
+    patchEnterprise: patch.patchEnterprise,
+    t,
+    setWorking,
+  });
 
   const loadEnterpriseDetails = useCallback(
     async (workspaceId: string) => {
       if (!workspaceId) return;
       setDetailLoading(true);
       try {
-        const ent = await fetchEnterprise(workspaceId);
+        const ent = await patch.fetchEnterprise(workspaceId);
         if (ent) {
           setState(ent);
           smtp.syncFromWorkspace(ent);
@@ -74,7 +52,7 @@ export function useEnterpriseWorkspace() {
         setDetailLoading(false);
       }
     },
-    [fetchEnterprise, clients.fetchClients, smtp.syncFromWorkspace],
+    [patch.fetchEnterprise, clients.fetchClients, smtp.syncFromWorkspace],
   );
 
   useEffect(() => {
@@ -84,36 +62,6 @@ export function useEnterpriseWorkspace() {
   const loading = wsLoading || detailLoading;
   const isWorking = working || clients.clientWorking;
 
-  const toggleScim = async (enabled: boolean) => {
-    const data = await patchEnterprise({ action: 'update_scim', scimEnabled: enabled });
-    if (data) {
-      toast.success(
-        enabled ? t('enterpriseWorkspace.scimEnabled') : t('enterpriseWorkspace.scimDisabled'),
-      );
-    }
-  };
-
-  const regenerateScimToken = async () => {
-    if (!confirm(t('enterpriseWorkspace.confirmRegenerateScim'))) return;
-    const data = await patchEnterprise({ action: 'update_scim', scimEnabled: true, regenerateToken: true });
-    if (data) toast.success(t('enterpriseWorkspace.scimTokenRegenerated'));
-  };
-
-  const toggleReseller = async (enabled: boolean) => {
-    const data = await patchEnterprise({ action: 'update_reseller', resellerEnabled: enabled });
-    if (data) {
-      toast.success(
-        enabled ? t('enterpriseWorkspace.resellerEnabled') : t('enterpriseWorkspace.resellerDisabled'),
-      );
-      clients.fetchClients(activeId);
-    }
-  };
-
-  const copyText = (text: string, label: string) => {
-    navigator.clipboard?.writeText(text);
-    toast.success(t('enterpriseWorkspace.copied').replace('{{label}}', label));
-  };
-
   return {
     t,
     loading,
@@ -121,7 +69,7 @@ export function useEnterpriseWorkspace() {
     clients: clients.clients,
     clientLimit: clients.clientLimit,
     working: isWorking,
-    scimToken,
+    scimToken: patch.scimToken,
     smtpHost: smtp.smtpHost,
     setSmtpHost: smtp.setSmtpHost,
     smtpPort: smtp.smtpPort,
@@ -145,12 +93,12 @@ export function useEnterpriseWorkspace() {
     saveSmtp: smtp.saveSmtp,
     toggleSmtp: smtp.toggleSmtp,
     sendSmtpTest: smtp.sendSmtpTest,
-    toggleScim,
-    regenerateScimToken,
-    toggleReseller,
+    toggleScim: patch.toggleScim,
+    regenerateScimToken: patch.regenerateScimToken,
+    toggleReseller: patch.toggleReseller,
     addClient: clients.addClient,
     removeClient: clients.removeClient,
-    copyText,
+    copyText: patch.copyText,
   };
 }
 

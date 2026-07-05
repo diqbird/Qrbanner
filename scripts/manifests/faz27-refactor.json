@@ -1,0 +1,32 @@
+{
+  "upload": [
+    "lib/qr-analytics-types.ts",
+    "lib/campaign-panel-types.ts",
+    "hooks/use-team-workspace-members.ts",
+    "hooks/use-team-workspace.ts",
+    "hooks/use-enterprise-workspace-patch.ts",
+    "hooks/use-enterprise-workspace.ts",
+    "hooks/use-qr-analytics-fetch.ts",
+    "hooks/use-qr-analytics-export.ts",
+    "hooks/use-qr-analytics.ts",
+    "hooks/use-mfa-settings-actions.ts",
+    "hooks/use-mfa-settings.ts",
+    "hooks/use-campaigns-panel.ts",
+    "components/admin/admin-users-table-toolbar.tsx",
+    "components/admin/admin-users-table-row.tsx",
+    "components/admin/admin-users-table.tsx",
+    "components/dashboard/campaigns-panel-list.tsx",
+    "components/dashboard/campaigns-panel.tsx",
+    "components/qr/qr-edit-dynamic-features.tsx",
+    "components/qr/qr-edit-features-section.tsx",
+    "components/qr/category-field-layouts-vcard.tsx",
+    "components/qr/category-field-layouts-wifi.tsx",
+    "components/qr/category-field-layouts-event.tsx",
+    "components/qr/category-field-layouts-contact.tsx",
+    "components/dashboard/dashboard-qr-list-empty.tsx",
+    "components/dashboard/dashboard-qr-list-pagination.tsx",
+    "components/dashboard/dashboard-qr-list-card.tsx"
+  ],
+  "build": true,
+  "restart": true
+}
