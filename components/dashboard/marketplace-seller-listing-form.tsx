@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Plus } from 'lucide-react';
+import { MARKETPLACE_PAID_SALES_ENABLED } from '@/lib/marketplace-types';
 import type { MarketplaceSellerPanelState } from '@/hooks/use-marketplace-seller';
 
 export function MarketplaceSellerListingForm({ seller }: { seller: MarketplaceSellerPanelState }) {
@@ -26,6 +27,8 @@ export function MarketplaceSellerListingForm({ seller }: { seller: MarketplaceSe
   const canAddMore = (state?.sellCheck.count ?? 0) < (state?.sellCheck.limit ?? 0);
   if (!canAddMore) return null;
 
+  const paidSalesEnabled = MARKETPLACE_PAID_SALES_ENABLED;
+
   return (
     <form onSubmit={createListing} className="space-y-3 border-t border-border/50 pt-4">
       <div className="space-y-2">
@@ -38,12 +41,16 @@ export function MarketplaceSellerListingForm({ seller }: { seller: MarketplaceSe
       </div>
       <div className="grid gap-3 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label>{t('marketplaceSeller.priceUsd')}</Label>
+          <Label>
+            {paidSalesEnabled ? t('marketplaceSeller.priceUsd') : t('marketplaceSeller.priceUsdFreeOnly')}
+          </Label>
           <Input
             type="number"
             min="0"
             step="0.01"
             value={priceUsd}
+            readOnly={!paidSalesEnabled}
+            disabled={!paidSalesEnabled}
             onChange={(e) => setPriceUsd(e.target.value)}
           />
         </div>

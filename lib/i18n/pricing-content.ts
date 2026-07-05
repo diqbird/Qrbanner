@@ -7,14 +7,14 @@ export function getLaunchBanner(locale: Locale, options?: { billingLive?: boolea
   const billingLive = options?.billingLive ?? isBillingConfigured();
   if (locale === 'tr') {
     if (!billingLive) {
-      return `Ücretsiz plan sonsuza kadar — ${n} dinamik QR kodu dahil. Ücretli planlar yakında; erken erişim için iletişime geçin.`;
+      return `Ücretsiz plan sonsuza kadar — ${n} dinamik QR kodu dahil. Ödeme geçici olarak kapalı — destekle iletişime geçin.`;
     }
-    return `Ücretsiz plan sonsuza kadar — ${n} dinamik QR kodu dahil. Daha fazlası için Pro $9.99/ay. Düşürme veya iptalde QR kodlarınız aktif kalır.`;
+    return `Ücretsiz plan sonsuza kadar — ${n} dinamik QR kodu dahil. Yeni hesaplarda 14 gün Pro denemesi. Daha fazlası için Pro $9.99/ay.`;
   }
   if (!billingLive) {
-    return `Free plan forever — ${n} dynamic QR codes included. Paid plans launch soon — contact us for early access.`;
+    return `Free plan forever — ${n} dynamic QR codes included. Checkout is temporarily unavailable — contact support.`;
   }
-  return `Free plan forever — ${n} dynamic QR codes included. Upgrade to Pro from $9.99/mo when you need more. Your QR codes stay active if you downgrade or cancel.`;
+  return `Free plan forever — ${n} dynamic QR codes included. New accounts get a 14-day Pro trial. Upgrade from $9.99/mo when you need more.`;
 }
 
 function apiLimitFeature(plan: PlanLimits, locale: Locale): string | null {
@@ -211,9 +211,11 @@ export function planName(planId: PlanId, locale: Locale): string {
 export function planCtaLabel(
   planId: PlanId,
   priceMonthly: number | null,
-  t: (key: string) => string
+  t: (key: string) => string,
+  options?: { proTrialEligible?: boolean },
 ): string {
   if (!priceMonthly || priceMonthly <= 0) return t('pricing.startFree');
+  if (planId === 'pro' && options?.proTrialEligible) return t('pricing.startProTrial');
   if (planId === 'agency') return t('pricing.upgradeAgency');
   if (planId === 'business') return t('pricing.upgradeBusiness');
   if (planId === 'pro') return t('pricing.upgradePro');

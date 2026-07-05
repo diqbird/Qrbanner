@@ -57,8 +57,23 @@ export function PlanUsageCard({ refreshKey = 0 }: { refreshKey?: number }) {
             <p className="text-sm text-muted-foreground">{t('planUsage.currentPlan')}</p>
             <p className="font-display text-lg font-bold">{data.plan.name}</p>
           </div>
-          <Badge variant="secondary">{data.plan.priceLabel}{data.plan.priceLabel === '$0' ? '' : '/mo'}</Badge>
+          <div className="flex flex-col items-end gap-1">
+            <Badge variant="secondary">{data.plan.priceLabel}{data.plan.priceLabel === '$0' ? '' : '/mo'}</Badge>
+            {data.trial?.active && (
+              <Badge variant="outline" className="text-primary border-primary/30">
+                {t('planUsage.trialDaysLeft', { days: data.trial.daysLeft })}
+              </Badge>
+            )}
+          </div>
         </div>
+        {data.trial?.active && (
+          <div className="rounded-lg border border-primary/20 bg-primary/5 p-3 text-sm text-muted-foreground">
+            {t('planUsage.trialActiveDesc', { days: data.trial.daysLeft })}
+            <Link href="/pricing" className="ml-1 text-primary hover:underline">
+              {t('planUsage.trialUpgradeCta')}
+            </Link>
+          </div>
+        )}
         <PlanUsageMeter label={t('planUsage.qrCodes')} used={data.usage.qrCodes} limit={data.usage.qrLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
         <PlanUsageMeter label={t('planUsage.customDomains')} used={data.usage.customDomains} limit={data.usage.domainLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
         <PlanUsageMeter label={t('planUsage.webhooks')} used={data.usage.webhooks} limit={data.usage.webhookLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
@@ -72,7 +87,7 @@ export function PlanUsageCard({ refreshKey = 0 }: { refreshKey?: number }) {
             {t('planUsage.viewPricing')} <ArrowRight className="h-4 w-4" />
           </Button>
         </Link>
-        {data.plan.id !== 'free' && (
+        {data.plan.id !== 'free' && !data.trial?.active && (
           <Button
             variant="ghost"
             size="sm"

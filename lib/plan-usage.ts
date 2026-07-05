@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/db';
 import { getPlanLimits, normalizePlanId, type PlanLimits } from '@/lib/plans';
+import { syncPlanGrantExpiry } from '@/lib/pro-trial';
 
 export interface PlanUsage {
   plan: PlanLimits;
@@ -12,6 +13,8 @@ export interface PlanUsage {
 }
 
 export async function getUserPlanUsage(userId: string): Promise<PlanUsage> {
+  await syncPlanGrantExpiry(userId);
+
   const user = await prisma.user.findUnique({
     where: { id: userId },
     select: { plan: true },

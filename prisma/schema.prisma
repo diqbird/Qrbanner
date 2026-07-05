@@ -17,6 +17,8 @@ model User {
   image         String?
   role          String    @default("user")
   plan          String    @default("free")
+  proTrialUsedAt DateTime?
+  planGrantExpiresAt DateTime?
   activeWorkspaceId String?
   verificationCode String?
   verificationExpiry DateTime?

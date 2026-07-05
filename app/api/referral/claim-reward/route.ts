@@ -25,6 +25,7 @@ export async function POST() {
         id: true,
         referralSignupCount: true,
         plan: true,
+        proTrialUsedAt: true,
         brandingSettings: true,
       },
     });
@@ -39,6 +40,7 @@ export async function POST() {
       where: { id: user.id },
       data: {
         plan: user.plan === 'free' ? 'pro' : user.plan,
+        proTrialUsedAt: user.proTrialUsedAt ?? new Date(),
         brandingSettings: referralClaimedBranding(user.brandingSettings),
       },
     });

@@ -1,8 +1,9 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Store } from 'lucide-react';
-import { MARKETPLACE_PLATFORM_FEE_PERCENT } from '@/lib/marketplace-types';
+import { MARKETPLACE_PAID_SALES_ENABLED, MARKETPLACE_PLATFORM_FEE_PERCENT } from '@/lib/marketplace-types';
 import { useMarketplaceSeller } from '@/hooks/use-marketplace-seller';
 import { MarketplaceSellerConnectBar, MarketplaceSellerUpgradeNotice } from './marketplace-seller-connect';
 import { MarketplaceSellerListings } from './marketplace-seller-listings';
@@ -24,9 +25,14 @@ export function MarketplaceSellerPanel() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="font-display flex items-center gap-2">
-          <Store className="h-5 w-5 text-primary" /> {t('marketplaceSeller.title')}
-        </CardTitle>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <CardTitle className="font-display flex items-center gap-2">
+            <Store className="h-5 w-5 text-primary" /> {t('marketplaceSeller.title')}
+          </CardTitle>
+          {!MARKETPLACE_PAID_SALES_ENABLED && (
+            <Badge variant="secondary">{t('marketplaceSeller.betaBadge')}</Badge>
+          )}
+        </div>
         <CardDescription>
           {t('marketplaceSeller.desc', { fee: MARKETPLACE_PLATFORM_FEE_PERCENT })}
         </CardDescription>
@@ -36,6 +42,11 @@ export function MarketplaceSellerPanel() {
           <MarketplaceSellerUpgradeNotice seller={seller} />
         ) : (
           <>
+            {!MARKETPLACE_PAID_SALES_ENABLED && (
+              <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-muted-foreground">
+                {t('marketplaceSeller.betaNotice')}
+              </div>
+            )}
             <MarketplaceSellerConnectBar seller={seller} />
             <MarketplaceSellerListings seller={seller} />
           </>

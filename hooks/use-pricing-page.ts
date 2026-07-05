@@ -15,6 +15,7 @@ export function usePricingPage(initialBillingStatus: PublicBillingStatus | null 
   const router = useRouter();
   const { data: session } = useSession() || {};
   const [interval, setInterval] = useState<BillingInterval>('monthly');
+  const [proTrialEligible, setProTrialEligible] = useState(false);
   const { checkoutPlan, loadingPlan, billingConfigured, annualAvailable, billingLoading } =
     usePlanCheckout(initialBillingStatus);
 
@@ -24,6 +25,17 @@ export function usePricingPage(initialBillingStatus: PublicBillingStatus | null 
       router.replace('/pricing');
     }
   }, [searchParams, router, t]);
+
+  useEffect(() => {
+    if (!session?.user) {
+      setProTrialEligible(false);
+      return;
+    }
+    fetch('/api/account/usage')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => setProTrialEligible(Boolean(data?.trial?.eligible)))
+      .catch(() => setProTrialEligible(false));
+  }, [session?.user]);
 
   const handlePlanClick = async (planId: PlanId, priceMonthly: number | null) => {
     const result = await checkoutPlan(planId, priceMonthly, interval, {
@@ -44,6 +56,7 @@ export function usePricingPage(initialBillingStatus: PublicBillingStatus | null 
     billingConfigured,
     annualAvailable,
     billingLoading,
+    proTrialEligible,
     handlePlanClick,
   };
 }

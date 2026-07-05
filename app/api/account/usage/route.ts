@@ -3,8 +3,8 @@ export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { getUserPlanUsage } from '@/lib/plan-usage';
-import { getPlanLimits } from '@/lib/plans';
 import { getLaunchBanner } from '@/lib/i18n/pricing-content';
+import { getProTrialStatus } from '@/lib/pro-trial';
 import { requireUserId, isAuthError, getSessionUserId } from '@/lib/session-auth';
 
 export async function GET() {
@@ -14,6 +14,7 @@ export async function GET() {
     const userId = auth;
 
     const usage = await getUserPlanUsage(userId);
+    const trial = await getProTrialStatus(userId);
 
     const [webhooks, automations, styleTemplates] = await Promise.all([
       prisma.webhookEndpoint.count({ where: { userId } }),
@@ -23,6 +24,7 @@ export async function GET() {
 
     return NextResponse.json({
       plan: usage.plan,
+      trial,
       usage: {
         qrCodes: usage.qrCodes,
         qrLimit: usage.qrLimit,

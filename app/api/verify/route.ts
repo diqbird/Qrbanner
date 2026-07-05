@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { prisma } from '@/lib/db';
 import { checkRateLimit, clientIp } from '@/lib/rate-limit';
+import { maybeStartProTrial } from '@/lib/pro-trial';
 
 const VERIFY_LIMIT = 5;
 const VERIFY_WINDOW_MS = 15 * 60 * 1000;
@@ -59,6 +60,12 @@ export async function POST(req: NextRequest) {
         verificationExpiry: null,
       },
     });
+
+    try {
+      await maybeStartProTrial(user.id);
+    } catch (trialErr) {
+      console.error('[verify] pro trial start failed', trialErr);
+    }
 
     const secret = process.env.NEXTAUTH_SECRET;
     let loginToken: string | undefined;

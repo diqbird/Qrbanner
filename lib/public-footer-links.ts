@@ -44,6 +44,7 @@ export function buildPublicFooterSections(
         { href: '/pricing', label: t('nav.pricing') },
         { href: '/roi-calculator', label: t('nav.roiCalculator') },
         { href: '/faq', label: t('nav.faq') },
+        { href: '/help', label: t('nav.help') },
         { href: '/blog', label: t('nav.blog') },
         { href: '/qr/create?quick=1', label: t('nav.createQr') },
         { href: '/developers', label: t('footer.apiWebhooks') },
@@ -88,6 +89,7 @@ export function buildPublicFooterSections(
         ...(whatsappUrl()
           ? [{ href: whatsappUrl(), label: t('contactPage.whatsappTitle'), external: true as const }]
           : []),
+        { href: '/help', label: t('nav.help') },
         { href: '/faq', label: t('nav.helpFaq') },
       ],
     },

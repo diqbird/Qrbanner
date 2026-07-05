@@ -1,0 +1,24 @@
+{
+  "upload": [
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/pricing-content.ts",
+    "lib/i18n/help-content.ts",
+    "lib/marketplace-types.ts",
+    "lib/public-footer-links.ts",
+    "lib/site-search.ts",
+    "hooks/use-marketplace-seller-listings.ts",
+    "components/dashboard/marketplace-seller-panel.tsx",
+    "components/dashboard/marketplace-seller-connect.tsx",
+    "components/dashboard/marketplace-seller-listing-form.tsx",
+    "components/public/help-page-content.tsx",
+    "app/(public)/help/page.tsx",
+    "app/sitemap.ts",
+    "e2e/smoke.spec.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

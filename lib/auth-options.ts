@@ -10,6 +10,7 @@ import { cookies } from 'next/headers';
 import { prisma } from '@/lib/db';
 import { ensurePersonalWorkspace } from '@/lib/workspace';
 import { resolveReferrerByCode, recordReferralSignup } from '@/lib/referral';
+import { maybeStartProTrial } from '@/lib/pro-trial';
 import { assertOAuthSignInAllowed, assertPasswordLoginAllowed, isEmailDomainAllowed, parseAllowedDomains } from '@/lib/workspace-sso';
 import { verifySamlSignInToken } from '@/lib/saml-auth';
 import { decryptTotpSecret, verifyTotpCode } from '@/lib/totp';
@@ -267,6 +268,14 @@ export const authOptions: NextAuthOptions = {
           where: { email, emailVerified: null },
           data: { emailVerified: new Date() },
         });
+
+        if (user.id) {
+          try {
+            await maybeStartProTrial(user.id);
+          } catch (err) {
+            console.error('[auth] pro trial start failed', err);
+          }
+        }
       }
       return true;
     },
@@ -354,6 +363,11 @@ export const authOptions: NextAuthOptions = {
           await recordReferralSignup(referrerId, user.id);
         }
         cookieStore.delete('qrb_ref');
+        try {
+          await maybeStartProTrial(user.id);
+        } catch (err) {
+          console.error('[auth] pro trial createUser', err);
+        }
       } catch (err) {
         console.error('[auth] referral createUser', err);
       }

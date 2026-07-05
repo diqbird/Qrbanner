@@ -8,7 +8,7 @@ import { getPricingPlans, planName } from '@/lib/i18n/pricing-content';
 import type { PricingPageState } from '@/hooks/use-pricing-page';
 
 export function PricingPlanGrid({ pricing }: { pricing: PricingPageState }) {
-  const { t, locale, interval, billingConfigured, billingLoading, loadingPlan, handlePlanClick } = pricing;
+  const { t, locale, interval, billingConfigured, billingLoading, loadingPlan, proTrialEligible, handlePlanClick } = pricing;
   const plans = getPricingPlans(locale, interval);
 
   return (
@@ -38,8 +38,14 @@ export function PricingPlanGrid({ pricing }: { pricing: PricingPageState }) {
           {isPaidCheckoutClosed(plan.priceMonthly, billingConfigured, billingLoading) && (
             <p className="mt-1 text-xs text-muted-foreground">{t('pricing.paidCheckoutClosedNote')}</p>
           )}
-          {plan.priceMonthly !== null && plan.priceMonthly > 0 && billingConfigured && !plan.billedNote && (
+          {plan.priceMonthly !== null && plan.priceMonthly > 0 && billingConfigured && !plan.billedNote && plan.id !== 'pro' && (
             <p className="mt-1 text-xs text-muted-foreground">{t('pricing.billingNote')}</p>
+          )}
+          {plan.id === 'pro' && billingConfigured && (
+            <p className="mt-1 text-xs font-medium text-primary">{t('pricing.proTrialBadge')}</p>
+          )}
+          {plan.id === 'pro' && billingConfigured && proTrialEligible && (
+            <p className="mt-1 text-xs text-muted-foreground">{t('pricing.proTrialNote')}</p>
           )}
           <ul className="mt-8 flex-1 space-y-3">
             {plan.features.map((f) => (
@@ -56,6 +62,7 @@ export function PricingPlanGrid({ pricing }: { pricing: PricingPageState }) {
             billingConfigured={billingConfigured}
             billingLoading={billingLoading}
             loadingPlan={loadingPlan}
+            proTrialEligible={plan.id === 'pro' && proTrialEligible}
             t={t}
             onCheckout={() => handlePlanClick(plan.id, plan.priceMonthly)}
           />

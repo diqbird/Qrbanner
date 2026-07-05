@@ -5,6 +5,7 @@ const PUBLIC_WITH_HEADER = [
   '/pricing',
   '/features',
   '/faq',
+  '/help',
   '/qr/create',
   '/enterprise',
   '/developers',

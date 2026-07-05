@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { MARKETPLACE_PAID_SALES_ENABLED } from '@/lib/marketplace-types';
 
 type Translate = (key: string) => string;
 
@@ -24,9 +25,12 @@ export function useMarketplaceSellerListings({
     if (!title.trim() || !description.trim()) {
       return toast.error(t('marketplaceSeller.fieldsRequired'));
     }
+    const priceCents = Math.round(parseFloat(priceUsd || '0') * 100);
+    if (!MARKETPLACE_PAID_SALES_ENABLED && priceCents > 0) {
+      return toast.error(t('marketplaceSeller.paidNotAvailable'));
+    }
     setWorking(true);
     try {
-      const priceCents = Math.round(parseFloat(priceUsd || '0') * 100);
       const res = await fetch('/api/marketplace/listings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

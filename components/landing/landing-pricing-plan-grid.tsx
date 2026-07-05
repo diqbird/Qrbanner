@@ -48,6 +48,9 @@ export function LandingPricingPlanGrid({ pricing }: { pricing: LandingPricingSta
           {isPaidCheckoutClosed(plan.priceMonthly, billingConfigured, billingLoading) && (
             <p className="mt-1 text-xs text-muted-foreground">{t('pricing.paidCheckoutClosedNote')}</p>
           )}
+          {plan.id === 'pro' && billingConfigured && (
+            <p className="mt-1 text-xs font-medium text-primary">{t('pricing.proTrialBadge')}</p>
+          )}
           <ul className="mt-6 space-y-2.5">
             {plan.features.slice(0, 6).map((f) => (
               <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">

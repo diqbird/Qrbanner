@@ -38,6 +38,15 @@ export async function runPlanCheckout({
     return { redirected: true, href: isSignedIn ? '/dashboard' : '/signup' };
   }
 
+  if (planId === 'pro' && isSignedIn) {
+    const trialRes = await fetch('/api/billing/start-trial', { method: 'POST' });
+    if (trialRes.ok) {
+      const trialData = (await trialRes.json()) as { redirect?: string };
+      toast.success(t('pricing.proTrialStarted'));
+      return { redirected: true, href: trialData.redirect ?? '/dashboard?trial=started' };
+    }
+  }
+
   const res = await fetch('/api/billing/checkout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

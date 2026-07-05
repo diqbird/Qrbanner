@@ -1,5 +1,11 @@
 export interface PlanUsageResponse {
   plan: { id: string; name: string; priceLabel: string };
+  trial?: {
+    eligible: boolean;
+    active: boolean;
+    daysLeft: number;
+    expiresAt: string | null;
+  };
   usage: {
     qrCodes: number;
     qrLimit: number;

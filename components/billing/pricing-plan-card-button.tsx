@@ -14,6 +14,7 @@ type Props = {
   billingConfigured: boolean;
   billingLoading: boolean;
   loadingPlan: PlanId | null;
+  proTrialEligible?: boolean;
   className?: string;
   t: (key: string) => string;
   onCheckout: () => void;
@@ -26,6 +27,7 @@ export function PricingPlanCardButton({
   billingConfigured,
   billingLoading,
   loadingPlan,
+  proTrialEligible = false,
   className = 'mt-8 w-full',
   t,
   onCheckout,
@@ -50,7 +52,7 @@ export function PricingPlanCardButton({
       {loadingPlan === planId ? (
         <Loader2 className="h-4 w-4 animate-spin" />
       ) : (
-        planCtaLabel(planId, priceMonthly, t)
+        planCtaLabel(planId, priceMonthly, t, { proTrialEligible })
       )}
     </Button>
   );

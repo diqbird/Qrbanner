@@ -1,0 +1,29 @@
+{
+  "upload": [
+    "prisma/schema.prisma",
+    "prisma/migrations/0003_pro_trial/migration.sql",
+    "lib/pro-trial.ts",
+    "lib/pro-trial.test.ts",
+    "lib/plan-usage.ts",
+    "lib/plan-usage-types.ts",
+    "lib/plan-checkout-api.ts",
+    "lib/i18n/pricing-content.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/auth-options.ts",
+    "app/api/billing/start-trial/route.ts",
+    "app/api/verify/route.ts",
+    "app/api/account/usage/route.ts",
+    "app/api/referral/claim-reward/route.ts",
+    "hooks/use-pricing-page.ts",
+    "components/billing/pricing-plan-card-button.tsx",
+    "components/public/pricing-plan-grid.tsx",
+    "components/landing/landing-pricing-plan-grid.tsx",
+    "components/dashboard/plan-usage-card.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": true,
+  "prisma_migrate": true,
+  "build": true,
+  "restart": true
+}
