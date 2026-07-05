@@ -1,0 +1,25 @@
+{
+  "upload": [
+    "lib/qr-create-step-design-types.ts",
+    "lib/dashboard-nav-items.ts",
+    "lib/public-nav-links.ts",
+    "hooks/use-dashboard-shell.ts",
+    "hooks/use-signup-form.ts",
+    "hooks/use-public-header.ts",
+    "components/qr/qr-create-step-design.tsx",
+    "components/qr/qr-create-design-editor-panel.tsx",
+    "components/qr/qr-create-design-preview-panel.tsx",
+    "components/dashboard/dashboard-shell.tsx",
+    "components/dashboard/dashboard-sidebar.tsx",
+    "components/dashboard/dashboard-mobile-sidebar.tsx",
+    "components/dashboard/dashboard-top-header.tsx",
+    "components/auth/signup-form.tsx",
+    "components/auth/signup-form-fields.tsx",
+    "components/public-header.tsx",
+    "components/public-header-nav.tsx",
+    "components/public-header-actions.tsx",
+    "components/public-header-mobile-nav.tsx"
+  ],
+  "build": true,
+  "restart": true
+}
