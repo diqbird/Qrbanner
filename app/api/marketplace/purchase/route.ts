@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { splitMarketplaceFee } from '@/lib/marketplace-types';
-import { createListingCheckoutSession } from '@/lib/marketplace-connect';
+import { createListingCheckoutSession, isMarketplacePayoutConfigured } from '@/lib/marketplace-connect';
 import { requireSessionContext, isAuthError } from '@/lib/session-auth';
 
 export async function POST(req: NextRequest) {
@@ -49,8 +49,8 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  if (!listing.seller.stripeConnectId || !listing.seller.connectOnboardingDone) {
-    return NextResponse.json({ fallback: 'stripe_connect_required' }, { status: 503 });
+  if (!isMarketplacePayoutConfigured()) {
+    return NextResponse.json({ fallback: 'payouts_not_available' }, { status: 503 });
   }
 
   const { platformFeeCents } = splitMarketplaceFee(listing.priceCents);
@@ -73,7 +73,6 @@ export async function POST(req: NextRequest) {
     buyerEmail: email,
     amountCents: listing.priceCents,
     currency: listing.currency,
-    sellerConnectId: listing.seller.stripeConnectId,
     platformFeeCents,
     title: listing.title,
   });

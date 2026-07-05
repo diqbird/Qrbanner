@@ -1126,7 +1126,7 @@ export const INDUSTRY_TEMPLATES: IndustryTemplate[] = [
       {
         id: 'donate',
         title: 'Donation or signup',
-        description: 'Givebutter, Stripe, volunteer form or impact report.',
+        description: 'Givebutter, donation link, volunteer form or impact report.',
         fields: [
           { key: 'url', label: 'Campaign URL', placeholder: 'https://yourcharity.org/gala-2026', required: true, type: 'url' },
         ],

@@ -37,6 +37,8 @@ def load_manifest(path: Path) -> DeployPlan:
         remove=dedupe_files(data.get("remove", [])),
         yarn_install=bool(data.get("yarn_install", False)),
         prisma_generate=bool(data.get("prisma_generate", False)),
+        prisma_migrate=bool(data.get("prisma_migrate", False)),
+        prisma_baseline=data.get("prisma_baseline"),
         prisma_push=bool(data.get("prisma_push", False)),
         build=bool(data.get("build", True)),
         restart=bool(data.get("restart", True)),
@@ -52,7 +54,8 @@ def main() -> int:
     parser.add_argument("--glob", action="append", default=[], dest="globs", help="Glob under repo root")
     parser.add_argument("--yarn-install", action="store_true")
     parser.add_argument("--prisma-generate", action="store_true")
-    parser.add_argument("--prisma-push", action="store_true")
+    parser.add_argument("--prisma-migrate", action="store_true")
+    parser.add_argument("--prisma-push", action="store_true", help="Deprecated: runs prisma migrate deploy")
     parser.add_argument("--build", action="store_true", default=False)
     parser.add_argument("--no-build", action="store_true")
     parser.add_argument("--restart", action="store_true", default=False)
@@ -71,6 +74,8 @@ def main() -> int:
         plan.yarn_install = True
     if args.prisma_generate:
         plan.prisma_generate = True
+    if args.prisma_migrate:
+        plan.prisma_migrate = True
     if args.prisma_push:
         plan.prisma_push = True
     if args.build:
@@ -83,7 +88,7 @@ def main() -> int:
         plan.restart = False
 
     if not plan.upload and not plan.remove and not plan.extra_commands:
-        if not (plan.yarn_install or plan.prisma_generate or plan.prisma_push or plan.build or plan.restart):
+        if not (plan.yarn_install or plan.prisma_generate or plan.prisma_migrate or plan.prisma_push or plan.build or plan.restart):
             parser.error("Nothing to deploy — pass --file, --glob, or --manifest")
 
     cfg = DeployConfig()

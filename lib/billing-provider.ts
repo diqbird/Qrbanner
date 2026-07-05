@@ -1,13 +1,10 @@
 import { isPaddleConfigured, paddlePriceIdForPlan } from '@/lib/paddle';
-import { isStripeConfigured, stripePriceIdForPlan } from '@/lib/stripe';
 import type { PlanId } from '@/lib/plans';
 
-export type BillingProvider = 'paddle' | 'stripe';
+export type BillingProvider = 'paddle';
 
-/** Paddle is preferred when both are configured. */
 export function activeBillingProvider(): BillingProvider | null {
   if (isPaddleConfigured()) return 'paddle';
-  if (isStripeConfigured()) return 'stripe';
   return null;
 }
 
@@ -15,18 +12,11 @@ export function isBillingConfigured(): boolean {
   return activeBillingProvider() !== null;
 }
 
-/** True when paid-plan annual price IDs exist for the active billing provider. */
+/** True when paid-plan annual price IDs exist for Paddle. */
 export function isAnnualBillingConfigured(): boolean {
-  const provider = activeBillingProvider();
-  if (!provider) return false;
+  if (!isPaddleConfigured()) return false;
   const plans: PlanId[] = ['pro', 'business', 'agency'];
-  return plans.every((plan) => {
-    const priceId =
-      provider === 'paddle'
-        ? paddlePriceIdForPlan(plan, 'annual')
-        : stripePriceIdForPlan(plan, 'annual');
-    return Boolean(priceId);
-  });
+  return plans.every((plan) => Boolean(paddlePriceIdForPlan(plan, 'annual')));
 }
 
 export function siteBaseUrl(): string {

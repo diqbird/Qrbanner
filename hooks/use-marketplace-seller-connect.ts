@@ -17,7 +17,7 @@ export function useMarketplaceSellerConnect({ t }: { t: Translate }) {
         window.location.href = data.url;
         return;
       }
-      if (data.fallback === 'stripe_connect_required') {
+      if (data.fallback === 'payouts_not_available') {
         toast.message(t('marketplaceSeller.connectPending'));
         return;
       }

@@ -3,9 +3,8 @@ export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { ensureReferralCode, parseBrandingSettings } from '@/lib/referral';
-import { getReferralRewardProgress } from '@/lib/referral-rewards';
-import { canClaimReferralReward } from '@/lib/referral-stripe';
-import { siteBaseUrl } from '@/lib/stripe';
+import { canClaimReferralReward, getReferralRewardProgress } from '@/lib/referral-rewards';
+import { siteBaseUrl } from '@/lib/billing-provider';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
 
 export async function GET() {

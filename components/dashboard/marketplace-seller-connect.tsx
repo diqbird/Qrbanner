@@ -21,7 +21,7 @@ export function MarketplaceSellerConnectBar({ seller }: { seller: MarketplaceSel
         <Badge>{t('marketplaceSeller.connectReady')}</Badge>
       ) : (
         <Button size="sm" variant="outline" loading={working} onClick={startConnect} className="gap-2">
-          <ExternalLink className="h-4 w-4" /> {t('marketplaceSeller.connectStripe')}
+          <ExternalLink className="h-4 w-4" /> {t('marketplaceSeller.connectPayouts')}
         </Button>
       )}
     </div>

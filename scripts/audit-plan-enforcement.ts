@@ -11,7 +11,7 @@ import {
   workspaceOwnerHasResellerPlan,
 } from '../lib/workspace-enterprise';
 import { getAnalyticsCutoffDate } from '../lib/analytics-range';
-import { isStripeConfigured } from '../lib/stripe';
+import { isPaddleConfigured } from '../lib/paddle';
 
 type Check = { name: string; ok: boolean; detail: string };
 
@@ -135,7 +135,7 @@ const ENFORCEMENT: { feature: string; file: string }[] = [
   { feature: 'SCIM Users API', file: 'app/api/scim/v2/Users/route.ts' },
   { feature: 'Marketplace listings', file: 'app/api/marketplace/listings/route.ts' },
   { feature: 'Admin manual plan', file: 'app/api/admin/users/route.ts' },
-  { feature: 'Stripe checkout fallback', file: 'app/api/billing/checkout/route.ts' },
+  { feature: 'Paddle checkout', file: 'app/api/billing/checkout/route.ts' },
 ];
 
 import fs from 'fs';
@@ -146,14 +146,14 @@ for (const row of ENFORCEMENT) {
   record(`enforce.${row.feature}`, exists, row.file);
 }
 
-// --- Stripe pre-launch note ---
-const stripeOn = isStripeConfigured();
+// --- Paddle billing note ---
+const paddleOn = isPaddleConfigured();
 record(
-  'stripe.configured',
+  'paddle.configured',
   true,
-  stripeOn
-    ? 'STRIPE_SECRET_KEY + PRO/BUSINESS prices set — checkout may work'
-    : 'Stripe not configured — paid CTAs use launch_free fallback (manual admin plan for QA)'
+  paddleOn
+    ? 'PADDLE_API_KEY + PRO/BUSINESS prices set — checkout may work'
+    : 'Paddle not configured — paid CTAs use launch_free fallback (manual admin plan for QA)'
 );
 
 // --- Report ---
@@ -180,7 +180,7 @@ if (failed.length) {
 }
 
 console.log('\n--- All static checks passed ---');
-console.log('\nManual QA (no Stripe):');
+console.log('\nManual QA (no Paddle checkout):');
 console.log('  1. Admin → Users → set plan to pro/business/agency');
 console.log('  2. Settings → Plan usage — verify QR/domain meters');
 console.log('  3. Create QR until limit → expect 403');

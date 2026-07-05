@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
@@ -14,6 +15,7 @@ export function ReferralRewardClaim({
   claimed: boolean;
 }) {
   const { t } = useLanguage();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   if (claimed) {
@@ -35,11 +37,12 @@ export function ReferralRewardClaim({
         toast.error(data?.error ?? t('referral.rewardClaimFailed'));
         return;
       }
-      if (data.url) {
-        window.location.href = data.url;
+      toast.success(t('referral.rewardClaimSuccess'));
+      if (data.redirect) {
+        router.push(data.redirect);
         return;
       }
-      toast.error(t('referral.rewardClaimFailed'));
+      router.refresh();
     } catch {
       toast.error(t('auth.somethingWrong'));
     } finally {

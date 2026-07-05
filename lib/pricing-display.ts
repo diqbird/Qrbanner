@@ -1,4 +1,4 @@
-/** Paid plan checkout is closed until Stripe/Paddle env is configured. */
+/** Paid plan checkout is closed until Paddle env is configured. */
 export function isPaidPlan(priceMonthly: number | null | undefined): boolean {
   return priceMonthly !== null && priceMonthly !== undefined && priceMonthly > 0;
 }

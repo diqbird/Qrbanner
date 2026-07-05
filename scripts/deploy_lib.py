@@ -20,18 +20,21 @@ except Exception:
 
 @dataclass
 class DeployConfig:
-    host: str = os.environ.get("DEPLOY_HOST", "31.97.113.170")
+    host: str = os.environ.get("DEPLOY_HOST", "")
     user: str = os.environ.get("DEPLOY_USER", "root")
     password: str | None = os.environ.get("DEPLOY_PASSWORD")
+    key_path: str | None = os.environ.get("DEPLOY_SSH_KEY_PATH")
+    key_passphrase: str | None = os.environ.get("DEPLOY_SSH_KEY_PASSPHRASE")
+    known_hosts: str | None = os.environ.get("DEPLOY_KNOWN_HOSTS")
     local: str = os.environ.get("DEPLOY_LOCAL", r"C:\Users\ACRO Technology\qrbanner")
     remote: str = os.environ.get("DEPLOY_REMOTE", "/var/www/qrbanner")
-    timeout: int = 30
+    timeout: int = int(os.environ.get("DEPLOY_TIMEOUT", "30"))
 
-    def require_password(self) -> str:
-        if not self.password:
-            print("ERROR: Set DEPLOY_PASSWORD environment variable.", file=sys.stderr)
+    def require_host(self) -> str:
+        if not self.host.strip():
+            print("ERROR: Set DEPLOY_HOST environment variable.", file=sys.stderr)
             raise SystemExit(1)
-        return self.password
+        return self.host.strip()
 
 
 @dataclass
@@ -40,7 +43,9 @@ class DeployPlan:
     remove: list[str] = field(default_factory=list)
     yarn_install: bool = False
     prisma_generate: bool = False
-    prisma_push: bool = False
+    prisma_migrate: bool = False
+    prisma_baseline: str | None = None
+    prisma_push: bool = False  # deprecated — maps to prisma_migrate with warning
     build: bool = True
     restart: bool = True
     extra_commands: list[str] = field(default_factory=list)
@@ -57,10 +62,48 @@ def ensure_remote_dir(sftp: paramiko.SFTPClient, remote_dir: str) -> None:
             sftp.mkdir(path)
 
 
+def _load_host_key_policy(cfg: DeployConfig) -> paramiko.MissingHostKeyPolicy:
+    if cfg.known_hosts and os.path.isfile(os.path.expanduser(cfg.known_hosts)):
+        return paramiko.RejectPolicy()
+    if os.environ.get("DEPLOY_STRICT_HOST_KEY") == "1":
+        print("ERROR: DEPLOY_STRICT_HOST_KEY=1 but DEPLOY_KNOWN_HOSTS file missing.", file=sys.stderr)
+        raise SystemExit(1)
+    print("WARN: DEPLOY_KNOWN_HOSTS not set — using AutoAddPolicy (insecure).", file=sys.stderr)
+    return paramiko.AutoAddPolicy()
+
+
 def connect(cfg: DeployConfig) -> tuple[paramiko.SSHClient, paramiko.SFTPClient]:
+    host = cfg.require_host()
     client = paramiko.SSHClient()
-    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    client.connect(cfg.host, username=cfg.user, password=cfg.require_password(), timeout=cfg.timeout)
+    policy = _load_host_key_policy(cfg)
+    client.set_missing_host_key_policy(policy)
+    if cfg.known_hosts and os.path.isfile(os.path.expanduser(cfg.known_hosts)):
+        client.load_host_keys(os.path.expanduser(cfg.known_hosts))
+
+    connect_kwargs: dict = {
+        "hostname": host,
+        "username": cfg.user,
+        "timeout": cfg.timeout,
+        "allow_agent": True,
+        "look_for_keys": not bool(cfg.key_path),
+    }
+
+    if cfg.key_path:
+        key_file = os.path.expanduser(cfg.key_path)
+        if not os.path.isfile(key_file):
+            print(f"ERROR: SSH key not found: {key_file}", file=sys.stderr)
+            raise SystemExit(1)
+        connect_kwargs["key_filename"] = key_file
+        if cfg.key_passphrase:
+            connect_kwargs["passphrase"] = cfg.key_passphrase
+    elif cfg.password:
+        print("WARN: Using DEPLOY_PASSWORD — prefer DEPLOY_SSH_KEY_PATH.", file=sys.stderr)
+        connect_kwargs["password"] = cfg.password
+    else:
+        print("ERROR: Set DEPLOY_SSH_KEY_PATH or DEPLOY_PASSWORD.", file=sys.stderr)
+        raise SystemExit(1)
+
+    client.connect(**connect_kwargs)
     return client, client.open_sftp()
 
 
@@ -101,15 +144,16 @@ def remove_files(
             print("warn remove", rel_norm, exc)
 
 
-def run_ssh(client: paramiko.SSHClient, command: str, timeout: int = 900) -> str:
+def run_ssh(client: paramiko.SSHClient, command: str, timeout: int = 900) -> tuple[str, int]:
     print("\n>>>", command)
     _, stdout, stderr = client.exec_command(command, timeout=timeout)
+    exit_code = stdout.channel.recv_exit_status()
     out = stdout.read().decode("utf-8", errors="replace")
     err = stderr.read().decode("utf-8", errors="replace")
     combined = out + err
     if combined.strip():
         print(combined.rstrip())
-    return combined
+    return combined, exit_code
 
 
 def build_post_commands(plan: DeployPlan, cfg: DeployConfig) -> list[str]:
@@ -119,8 +163,15 @@ def build_post_commands(plan: DeployPlan, cfg: DeployConfig) -> list[str]:
         cmds.append(f"{base} && yarn install --frozen-lockfile 2>&1 | tail -12")
     if plan.prisma_generate:
         cmds.append(f"{base} && yarn prisma generate 2>&1 | tail -8")
-    if plan.prisma_push:
-        cmds.append(f"{base} && yarn prisma db push --accept-data-loss 2>&1 | tail -20")
+    if plan.prisma_migrate or plan.prisma_push:
+        if plan.prisma_push:
+            print("WARN: prisma_push is deprecated — using prisma migrate deploy instead", file=sys.stderr)
+        if plan.prisma_baseline:
+            cmds.append(
+                f"{base} && (yarn prisma migrate resolve --applied {plan.prisma_baseline} "
+                f"2>&1 || true) | tail -8"
+            )
+        cmds.append(f"{base} && yarn prisma migrate deploy 2>&1 | tail -20")
     if plan.build:
         cmds.append(f"{base} && yarn build 2>&1 | tail -20")
     if plan.restart:
@@ -140,11 +191,15 @@ def execute_plan(cfg: DeployConfig, plan: DeployPlan) -> int:
         sftp.close()
 
     output = ""
+    failed = False
     for cmd in build_post_commands(plan, cfg):
-        output += run_ssh(client, cmd)
+        combined, exit_code = run_ssh(client, cmd)
+        output += combined
+        if exit_code != 0 and "yarn build" in cmd:
+            failed = True
 
     client.close()
-    if plan.build and "Failed to compile" in output:
+    if plan.build and ("Failed to compile" in output or failed):
         print("BUILD FAILED", file=sys.stderr)
         return 1
     print("Deploy complete.")

@@ -10,16 +10,16 @@ import type { AdminPlanCounts } from '@/lib/admin-billing-stats';
 interface AdminBillingPanelProps {
   planCounts: AdminPlanCounts;
   estimatedMrr: number;
-  stripeSubscribers: number;
+  paddleSubscribers: number;
 }
 
 export function AdminBillingPanel({
   planCounts,
   estimatedMrr,
-  stripeSubscribers,
+  paddleSubscribers,
 }: AdminBillingPanelProps) {
   const { t } = useLanguage();
-  const manualPremium = Math.max(0, planCounts.pro + planCounts.business + planCounts.agency - stripeSubscribers);
+  const manualPremium = Math.max(0, planCounts.pro + planCounts.business + planCounts.agency - paddleSubscribers);
 
   const tiers = (['pro', 'business', 'agency'] as const).map((id) => ({
     id,
@@ -50,9 +50,9 @@ export function AdminBillingPanel({
           <div className="rounded-lg border border-border/60 bg-muted/20 p-4">
             <p className="text-xs text-muted-foreground flex items-center gap-1.5">
               <CreditCard className="h-3.5 w-3.5" />
-              {t('admin.stripeSubscribers')}
+              {t('admin.paddleSubscribers')}
             </p>
-            <p className="mt-1 font-display text-2xl font-bold">{stripeSubscribers}</p>
+            <p className="mt-1 font-display text-2xl font-bold">{paddleSubscribers}</p>
           </div>
           <div className="rounded-lg border border-border/60 bg-muted/20 p-4">
             <p className="text-xs text-muted-foreground flex items-center gap-1.5">

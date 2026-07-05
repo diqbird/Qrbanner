@@ -1,0 +1,18 @@
+{
+  "upload": [
+    "scripts/strip-vps-stripe-env.py",
+    "scripts/smoke-billing-on-vps.mjs",
+    "scripts/smoke-billing-vps.py",
+    "scripts/configure-paddle.py",
+    "scripts/verify-billing-smoke.py",
+    "scripts/analyze-webhook-logs.py",
+    ".github/DEPLOY.md",
+    ".github/workflows/deploy.yml",
+    ".gitignore"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": false,
+  "restart": false
+}

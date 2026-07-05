@@ -42,7 +42,7 @@ export function MarketplacePurchaseButton({
         router.push(data.redirect);
         return;
       }
-      if (data.fallback === 'stripe_connect_required') {
+      if (data.fallback === 'payouts_not_available') {
         toast.message(t('marketplaceSeller.paymentsPending'));
         return;
       }

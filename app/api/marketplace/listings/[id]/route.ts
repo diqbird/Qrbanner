@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { sanitizeListingInput } from '@/lib/marketplace-sanitize';
+import { isMarketplacePayoutConfigured } from '@/lib/marketplace-connect';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
 
 const select = {
@@ -59,9 +60,9 @@ export async function PATCH(
   });
   if (!input) return NextResponse.json({ error: 'Invalid listing' }, { status: 400 });
 
-  if (input.priceCents > 0 && !existing.seller.connectOnboardingDone) {
+  if (input.priceCents > 0 && !isMarketplacePayoutConfigured()) {
     return NextResponse.json(
-      { error: 'Complete Stripe Connect onboarding before selling paid templates.' },
+      { error: 'Paid marketplace listings are not available yet. Use free listings only.' },
       { status: 403 }
     );
   }

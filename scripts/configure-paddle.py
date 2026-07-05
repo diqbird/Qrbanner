@@ -60,18 +60,17 @@ def read_env_key(content: str, key: str) -> str:
     return m.group(1).strip() if m else ""
 
 
-def disable_stripe_keys(content: str) -> str:
+def remove_stripe_keys(content: str) -> str:
     lines = []
     for line in content.split("\n"):
         stripped = line.strip()
-        if not stripped or stripped.startswith("#"):
+        if not stripped:
             lines.append(line)
             continue
-        key = stripped.split("=", 1)[0]
-        if key in STRIPE_KEYS:
-            lines.append(f"# {line}  # disabled — Paddle is primary billing")
-        else:
-            lines.append(line)
+        key = stripped.lstrip("#").strip().split("=", 1)[0].strip()
+        if key.startswith("STRIPE_"):
+            continue
+        lines.append(line)
     return "\n".join(lines)
 
 
@@ -140,7 +139,7 @@ def main():
     for key, val in updates.items():
         env_content = set_env_var(env_content, key, val)
 
-    env_content = disable_stripe_keys(env_content)
+    env_content = remove_stripe_keys(env_content)
 
     with sftp.open(f"{REMOTE}/.env", "w") as f:
         f.write(env_content)
@@ -150,7 +149,7 @@ def main():
     stdout.read()
     c.close()
 
-    print("Paddle configured on VPS (Stripe keys commented out).")
+    print("Paddle configured on VPS (legacy STRIPE_* keys removed).")
     if not client_token:
         print("WARNING: PADDLE_CLIENT_TOKEN not set — checkout overlay will not open.")
         print("         Paddle -> Developer tools -> Authentication -> Client-side tokens")

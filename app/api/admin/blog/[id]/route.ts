@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { requireAdminUserId } from '@/lib/admin-auth';
+import { requireApiAdmin, isAuthError } from '@/lib/api-route-auth';
 import type { Prisma } from '@prisma/client';
 import { getAdminActorContext, recordAdminAudit } from '@/lib/admin-audit';
 
@@ -11,10 +11,9 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const adminId = await requireAdminUserId();
-    if (!adminId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const auth = await requireApiAdmin();
+    if (isAuthError(auth)) return auth;
+    const adminId = auth;
     const post = await prisma.blogPost.findUnique({ where: { id: params.id } });
     if (!post) {
       return NextResponse.json({ error: 'Not found' }, { status: 404 });
@@ -31,10 +30,9 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
-    const adminId = await requireAdminUserId();
-    if (!adminId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const auth = await requireApiAdmin();
+    if (isAuthError(auth)) return auth;
+    const adminId = auth;
     const body = await req.json();
     const data: Prisma.BlogPostUpdateInput = {};
 
@@ -89,10 +87,9 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const adminId = await requireAdminUserId();
-    if (!adminId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const auth = await requireApiAdmin();
+    if (isAuthError(auth)) return auth;
+    const adminId = auth;
     const existing = await prisma.blogPost.findUnique({
       where: { id: params.id },
       select: { id: true, slug: true, title: true },

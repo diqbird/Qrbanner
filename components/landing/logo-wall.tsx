@@ -3,7 +3,7 @@ import { translate } from '@/lib/i18n';
 import Link from 'next/link';
 
 const INTEGRATIONS = [
-  { name: 'Stripe', href: null },
+  { name: 'Paddle', href: '/pricing' },
   { name: 'Zapier', href: '/integrations/zapier' },
   { name: 'Google Analytics', href: null },
   { name: 'Meta Pixel', href: null },

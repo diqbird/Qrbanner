@@ -9,6 +9,8 @@ export interface ReferralRewardProgress {
   progressPercent: number;
 }
 
+export const REFERRAL_REWARD_MIN_SIGNUPS = 5;
+
 export function getReferralRewardProgress(signupCount: number): ReferralRewardProgress {
   const count = Math.max(0, signupCount);
   const currentMilestone =
@@ -17,4 +19,8 @@ export function getReferralRewardProgress(signupCount: number): ReferralRewardPr
   const progressPercent = nextMilestone ? Math.min(100, Math.round((count / nextMilestone) * 100)) : 100;
 
   return { signupCount: count, currentMilestone, nextMilestone, progressPercent };
+}
+
+export function canClaimReferralReward(signupCount: number, claimed: boolean): boolean {
+  return signupCount >= REFERRAL_REWARD_MIN_SIGNUPS && !claimed;
 }

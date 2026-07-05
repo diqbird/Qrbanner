@@ -1,0 +1,22 @@
+{
+  "upload": [
+    "prisma/schema.prisma",
+    "prisma/migrations/0002_remove_stripe_columns/migration.sql",
+    "lib/billing-webhook-events.ts",
+    "lib/marketplace-connect.ts",
+    "app/api/marketplace/purchase/route.ts",
+    "app/api/marketplace/seller/route.ts",
+    "components/landing/logo-wall.tsx",
+    "lib/use-case-pages.ts",
+    "lib/blog/posts/totp-two-factor-guide.ts",
+    "lib/blog/posts/referral-program-guide.ts",
+    "lib/i18n/use-case-copy-tr.ts",
+    "lib/i18n/core-template-copy-extra.ts",
+    "lib/industry-templates.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": true,
+  "prisma_migrate": true,
+  "build": true,
+  "restart": true
+}

@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/db';
 import { sendVerificationEmail, isEmailConfigured } from '@/lib/email';
+import { EmailNotConfiguredError } from '@/lib/email-fallback';
 import { validatePassword } from '@/lib/password';
 import { clientIp } from '@/lib/rate-limit';
 import { enforcePublicRateLimit } from '@/lib/public-rate-limit';
@@ -68,7 +69,14 @@ export async function POST(req: NextRequest) {
       await recordReferralSignup(referredByUserId, user.id);
     }
 
-    await sendVerificationEmail(user.email, verificationCode, user.name);
+    try {
+      await sendVerificationEmail(user.email, verificationCode, user.name);
+    } catch (err) {
+      if (err instanceof EmailNotConfiguredError) {
+        return NextResponse.json({ error: 'email_not_configured' }, { status: 503 });
+      }
+      throw err;
+    }
 
     return NextResponse.json({
       message: 'signup_success',

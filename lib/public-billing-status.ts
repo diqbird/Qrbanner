@@ -4,7 +4,7 @@ import { paddleClientToken, paddleEnvironment } from '@/lib/paddle';
 export type PublicBillingStatus = {
   configured: boolean;
   annualAvailable: boolean;
-  provider: 'paddle' | 'stripe' | null;
+  provider: 'paddle' | null;
   paddle: {
     clientToken: string | null;
     environment: 'sandbox' | 'production';

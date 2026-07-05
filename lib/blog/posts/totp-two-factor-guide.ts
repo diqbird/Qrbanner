@@ -25,7 +25,7 @@ export const totpTwoFactorGuide: BlogPost = {
       type: 'ul',
       items: [
         'Prevents takeover if a password is reused or phished.',
-        'Protects API keys, webhooks and Stripe billing settings.',
+        'Protects API keys, webhooks and billing settings.',
         'Pairs with Business workspace SSO/SAML for larger teams.',
       ],
     },

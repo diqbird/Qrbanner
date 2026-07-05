@@ -1,0 +1,13 @@
+{
+  "upload": [
+    "lib/api-public-routes.ts",
+    "middleware.ts",
+    "scripts/set-vps-env.py",
+    "scripts/manifests/tech-debt-health-middleware.json"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

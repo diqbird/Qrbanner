@@ -1,6 +1,11 @@
 import { createSmtpTransport, isSmtpConfigured, smtpFromAddress } from '@/lib/smtp-transport';
 import { sendTenantMail } from '@/lib/tenant-email';
 import { SUPPORT_EMAIL } from '@/lib/site-contact';
+import {
+  EmailNotConfiguredError,
+  isDevEmailFallbackAllowed,
+  logDevEmailSkipped,
+} from '@/lib/email-fallback';
 
 /**
  * SMTP email sending for QRbanner.
@@ -70,11 +75,11 @@ export async function sendVerificationEmail(to: string, code: string, name?: str
   </div>`;
 
   if (!transporter) {
-    // Development fallback: no SMTP configured
-    console.log(
-      `[email] SMTP not configured. Verification code for ${to}: ${code} (set SMTP_HOST/SMTP_USER/SMTP_PASSWORD to send real emails)`
-    );
-    return { sent: false, fallback: true };
+    if (isDevEmailFallbackAllowed()) {
+      logDevEmailSkipped('verification', to);
+      return { sent: false, fallback: true };
+    }
+    throw new EmailNotConfiguredError('verification email');
   }
 
   await transporter.sendMail({
@@ -123,10 +128,11 @@ export async function sendPasswordResetEmail(to: string, code: string, name?: st
   </div>`;
 
   if (!transporter) {
-    console.log(
-      `[email] SMTP not configured. Password reset code for ${to}: ${code}`
-    );
-    return { sent: false, fallback: true, code };
+    if (isDevEmailFallbackAllowed()) {
+      logDevEmailSkipped('password reset', to);
+      return { sent: false, fallback: true };
+    }
+    throw new EmailNotConfiguredError('password reset email');
   }
 
   try {
@@ -172,8 +178,11 @@ export async function sendPasswordResetOAuthEmail(
   </div>`;
 
   if (!getTransporter()) {
-    console.log(`[email] SMTP not configured. OAuth reset notice for ${to} (${providerList})`);
-    return { sent: false, fallback: true };
+    if (isDevEmailFallbackAllowed()) {
+      logDevEmailSkipped('OAuth reset notice', to);
+      return { sent: false, fallback: true };
+    }
+    throw new EmailNotConfiguredError('OAuth reset notice');
   }
 
   try {

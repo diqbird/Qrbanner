@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { sendVerificationEmail } from '@/lib/email';
+import { EmailNotConfiguredError } from '@/lib/email-fallback';
 import { checkRateLimit, clientIp } from '@/lib/rate-limit';
 
 const RESEND_LIMIT = 3;
@@ -44,7 +45,14 @@ export async function POST(req: NextRequest) {
       data: { verificationCode, verificationExpiry },
     });
 
-    await sendVerificationEmail(user.email, verificationCode, user.name);
+    try {
+      await sendVerificationEmail(user.email, verificationCode, user.name);
+    } catch (err) {
+      if (err instanceof EmailNotConfiguredError) {
+        return NextResponse.json({ error: 'email_not_configured' }, { status: 503 });
+      }
+      throw err;
+    }
 
     return NextResponse.json({ message: 'resend_success' });
   } catch (error: unknown) {

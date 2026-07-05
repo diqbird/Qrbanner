@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { sanitizeListingInput } from '@/lib/marketplace-sanitize';
 import { canUserSellOnMarketplace, getOrCreateSeller } from '@/lib/marketplace-seller';
+import { isMarketplacePayoutConfigured } from '@/lib/marketplace-connect';
 import { getSessionUserId, requireSessionContext, isAuthError } from '@/lib/session-auth';
 
 const publicSelect = {
@@ -69,9 +70,9 @@ export async function POST(req: NextRequest) {
   if (!input) return NextResponse.json({ error: 'Invalid listing' }, { status: 400 });
 
   const seller = await getOrCreateSeller(userId, name ?? email.split('@')[0]);
-  if (input.priceCents > 0 && !seller.connectOnboardingDone) {
+  if (input.priceCents > 0 && !isMarketplacePayoutConfigured()) {
     return NextResponse.json(
-      { error: 'Complete Stripe Connect onboarding before selling paid templates.' },
+      { error: 'Paid marketplace listings are not available yet. Use free listings only.' },
       { status: 403 }
     );
   }

@@ -2,10 +2,13 @@ export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { isSmtpConfigured } from '@/lib/smtp-transport';
-import { isBillingConfigured } from '@/lib/billing-provider';
+import {
+  buildDetailedHealthResponse,
+  buildPublicHealthResponse,
+  healthDetailAuthorized,
+} from '@/lib/health-response';
 
-export async function GET() {
+export async function GET(req: Request) {
   const started = Date.now();
   let dbOk = false;
 
@@ -16,19 +19,10 @@ export async function GET() {
     dbOk = false;
   }
 
-  const ok = dbOk;
-  return NextResponse.json(
-    {
-      ok,
-      status: ok ? 'operational' : 'degraded',
-      checks: {
-        database: dbOk,
-        smtp: isSmtpConfigured(),
-        billing: isBillingConfigured(),
-      },
-      responseMs: Date.now() - started,
-      timestamp: new Date().toISOString(),
-    },
-    { status: ok ? 200 : 503 }
-  );
+  const detailed = healthDetailAuthorized(req);
+  const body = detailed
+    ? buildDetailedHealthResponse({ dbOk, started })
+    : buildPublicHealthResponse({ dbOk, started });
+
+  return NextResponse.json(body, { status: body.ok ? 200 : 503 });
 }

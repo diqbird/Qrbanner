@@ -331,7 +331,7 @@ export const USE_CASE_COPY_TR: Record<string, Partial<UseCasePage>> = {
     description:
       'Destekçiler bağış yapmak, yürüyüşlere kaydolmak veya kampanya hikayelerini sosyal medyada paylaşmak için tarasın.',
     benefits: [
-      'Stripe veya bağış platformuna bağlantı',
+      'Bağış veya ödeme platformuna bağlantı',
       'Takvim eklemeli etkinlik kaydı',
       'Posterlere, kumbaralara ve postalara basın',
       'Yerel şubeler için coğrafi kampanyalar',

@@ -1,23 +1,21 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { requireAdminUserId } from '@/lib/admin-auth';
+import { requireApiAdmin, isAuthError } from '@/lib/api-route-auth';
 import { getSiteSettings, writeSiteSettings } from '@/lib/site-settings-server';
 import { getAdminActorContext, recordAdminAudit } from '@/lib/admin-audit';
 
 export async function GET() {
-  const adminId = await requireAdminUserId();
-  if (!adminId) {
-    return NextResponse.json({ error: 'forbidden' }, { status: 403 });
-  }
+  const auth = await requireApiAdmin();
+  if (isAuthError(auth)) return auth;
+  const adminId = auth;
   return NextResponse.json(getSiteSettings());
 }
 
 export async function PATCH(req: NextRequest) {
-  const adminId = await requireAdminUserId();
-  if (!adminId) {
-    return NextResponse.json({ error: 'forbidden' }, { status: 403 });
-  }
+  const auth = await requireApiAdmin();
+  if (isAuthError(auth)) return auth;
+  const adminId = auth;
 
   let body: unknown;
   try {

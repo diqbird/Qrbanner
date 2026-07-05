@@ -1,0 +1,20 @@
+{
+  "upload": [
+    "lib/api-public-routes.ts",
+    "lib/api-route-auth.ts",
+    "app/api/admin/stats/route.ts",
+    "app/api/admin/users/route.ts",
+    "app/api/admin/site-settings/route.ts",
+    "app/api/admin/blog/route.ts",
+    "app/api/admin/blog/[id]/route.ts",
+    "app/api/admin/audit-log/route.ts",
+    "scripts/deploy_lib.py",
+    "scripts/deploy.py",
+    "scripts/.env.deploy.example"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

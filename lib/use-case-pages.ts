@@ -394,7 +394,7 @@ export const USE_CASE_PAGES: UseCasePage[] = [
     description:
       'Supporters scan to donate, register for walks or share campaign stories on social media.',
     benefits: [
-      'Link to Stripe or donation platform',
+      'Link to a donation or payment platform',
       'Event registration with calendar add',
       'Print on posters, jars and mailers',
       'Geofenced campaigns for local chapters',

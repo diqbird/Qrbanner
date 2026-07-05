@@ -20,7 +20,6 @@ export async function GET() {
       id: true,
       displayName: true,
       bio: true,
-      stripeConnectId: true,
       connectOnboardingDone: true,
       payoutsEnabled: true,
       createdAt: true,

@@ -80,49 +80,28 @@ def main() -> int:
     else:
         fail(f"webhook bad paddle signature unexpected HTTP {code}")
 
-    # Bad Stripe signature — skip when Stripe is not the active provider
-    provider = None
-    try:
-        _, status_body = curl("GET", f"{BASE}/api/billing/status")
-        provider = json.loads(status_body).get("provider")
-    except Exception:
-        pass
-
-    if provider == "stripe":
-        code, _ = curl(
-            "POST",
-            f"{BASE}/api/billing/webhook",
-            {"Content-Type": "application/json", "stripe-signature": "t=1,v1=deadbeef"},
-            '{"type":"checkout.session.completed","data":{"object":{}}}',
-        )
-        if code >= 500:
-            fail(f"webhook bad stripe sig HTTP {code}")
-        elif code in (400, 401, 403):
-            ok(f"webhook bad stripe signature rejected with {code}")
-        else:
-            fail(f"webhook bad stripe signature unexpected HTTP {code}")
+    # Legacy Stripe signature header — must reject (Stripe removed; Paddle-only billing)
+    code, _ = curl(
+        "POST",
+        f"{BASE}/api/billing/webhook",
+        {"Content-Type": "application/json", "stripe-signature": "t=1,v1=deadbeef"},
+        '{"type":"checkout.session.completed","data":{"object":{}}}',
+    )
+    if code >= 500:
+        fail(f"webhook legacy stripe header HTTP {code}")
+    elif code in (400, 401, 403):
+        ok(f"webhook legacy stripe header rejected with {code} (Paddle-only)")
     else:
-        code, _ = curl(
-            "POST",
-            f"{BASE}/api/billing/webhook",
-            {"Content-Type": "application/json", "stripe-signature": "t=1,v1=deadbeef"},
-            '{"type":"checkout.session.completed","data":{"object":{}}}',
-        )
-        if code == 503:
-            ok(f"webhook stripe path returns 503 (inactive provider={provider or 'unknown'})")
-        elif code in (400, 401, 403):
-            ok(f"webhook bad stripe signature rejected with {code}")
-        else:
-            fail(f"webhook stripe path unexpected HTTP {code} when provider={provider}")
+        fail(f"webhook legacy stripe header unexpected HTTP {code}")
 
     print()
     if FAILURES:
         print(f"=== Result: FAIL ({len(FAILURES)} issue(s)) ===")
         return 1
     print("=== Result: PASS ===")
-    print("\nNote: valid-signature Paddle/Stripe webhook + checkout session tests run on VPS only.")
-    print("  python scripts/verify-webhook-vps.py   (requires DEPLOY_PASSWORD)")
-    print("  node scripts/smoke-billing-on-vps.mjs  (on VPS)")
+    print("\nNote: valid-signature Paddle webhook + VPS checkout smoke run on server only.")
+    print("  python scripts/verify-webhook-vps.py   (requires DEPLOY credentials)")
+    print("  python scripts/smoke-billing-vps.py      (Paddle env + billing status)")
     return 0
 
 

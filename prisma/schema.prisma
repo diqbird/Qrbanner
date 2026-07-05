@@ -23,8 +23,6 @@ model User {
   passwordResetToken String?
   passwordResetExpiry DateTime?
   sessionVersion  Int       @default(0)
-  stripeCustomerId String?
-  stripeSubscriptionId String?
   paddleCustomerId String?
   paddleSubscriptionId String?
   // REST API access
@@ -467,7 +465,6 @@ model MarketplaceSeller {
   userId                String   @unique
   displayName           String
   bio                   String?
-  stripeConnectId       String?
   connectOnboardingDone Boolean  @default(false)
   payoutsEnabled        Boolean  @default(false)
   createdAt             DateTime @default(now())
@@ -507,7 +504,6 @@ model MarketplacePurchase {
   platformFeeCents Int
   sellerNetCents   Int
   currency         String   @default("usd")
-  stripePaymentId  String?
   status           String   @default("pending")
   createdAt        DateTime @default(now())
   listing          MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)

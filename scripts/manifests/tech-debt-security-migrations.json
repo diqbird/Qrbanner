@@ -1,0 +1,31 @@
+{
+  "upload": [
+    "lib/email-fallback.ts",
+    "lib/email.ts",
+    "lib/health-response.ts",
+    "app/api/health/route.ts",
+    "app/api/signup/route.ts",
+    "app/api/verify/resend/route.ts",
+    "hooks/use-status-page-health.ts",
+    "components/public/status-page-status-panel.tsx",
+    "scripts/deploy_lib.py",
+    "scripts/deploy.py",
+    "scripts/verify-deploy.py",
+    "scripts/verify-billing-smoke.py",
+    "next.config.js",
+    "tsconfig.json",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "prisma/migrations/migration_lock.toml",
+    "prisma/migrations/0001_baseline/migration.sql",
+    "prisma/MIGRATIONS.md",
+    "package.json",
+    "yarn.lock"
+  ],
+  "yarn_install": true,
+  "prisma_generate": true,
+  "prisma_migrate": true,
+  "prisma_baseline": "0001_baseline",
+  "build": true,
+  "restart": true
+}

@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react';
 export type HealthPayload = {
   ok: boolean;
   status: string;
-  checks: { database: boolean; smtp: boolean; billing: boolean };
   responseMs: number;
   timestamp: string;
+  checks?: { database: boolean; smtp: boolean; billing: boolean };
 };
 
 export function useStatusPageHealth() {

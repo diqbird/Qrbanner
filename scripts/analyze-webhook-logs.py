@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
-"""Analyze production webhook logs on VPS — Paddle/Stripe delivery health."""
+"""Analyze production webhook logs on VPS — Paddle billing delivery health."""
+from __future__ import annotations
+
 import os
 import re
 import sys
+import urllib.error
+import urllib.request
 from collections import Counter
 from datetime import datetime, timezone
 
@@ -11,56 +15,39 @@ try:
 except Exception:
     pass
 
-try:
-    import paramiko
-except ImportError:
-    print("paramiko required: pip install paramiko")
-    raise SystemExit(1)
+sys.path.insert(0, os.path.dirname(__file__))
+from deploy_lib import DeployConfig, connect, run_ssh  # noqa: E402
 
-HOST = os.environ.get("DEPLOY_HOST", "31.97.113.170")
-USER = os.environ.get("DEPLOY_USER", "root")
-PW = os.environ.get("DEPLOY_PASSWORD", "112358Onrks..")
-REMOTE = os.environ.get("DEPLOY_REMOTE", "/var/www/qrbanner")
 APP = os.environ.get("PM2_APP", "qrbanner")
 LINES = int(os.environ.get("WEBHOOK_LOG_LINES", "500"))
+BASE = os.environ.get("SITE_URL", "https://qrbanner.com").rstrip("/")
 
 FAILURES: list[str] = []
 
 
 def main() -> int:
-    print(f"=== Webhook log analysis ({HOST}) ===\n")
+    cfg = DeployConfig()
+    host = cfg.require_host()
+    print(f"=== Webhook log analysis ({host}) ===\n")
 
-    c = paramiko.SSHClient()
-    c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    c.connect(HOST, username=USER, password=PW, timeout=30)
+    client, _sftp = connect(cfg)
 
-    cmds = [
-        f"grep PADDLE_WEBHOOK {REMOTE}/.env 2>/dev/null | head -3 | sed 's/=.*/=***/' || echo NO_PADDLE",
-        f"grep STRIPE_WEBHOOK {REMOTE}/.env 2>/dev/null | head -3 | sed 's/=.*/=***/' || echo NO_STRIPE",
-        f"pm2 logs {APP} --lines {LINES} --nostream 2>&1",
-    ]
+    env_out, _ = run_ssh(
+        client,
+        f"grep PADDLE_ {cfg.remote}/.env 2>/dev/null | grep -E 'PADDLE_(API_KEY|WEBHOOK|ENVIRONMENT|PRICE_PRO)=' "
+        f"| sed 's/=.*/=***/' || echo NO_PADDLE",
+        timeout=60,
+    )
+    logs_out, _ = run_ssh(client, f"pm2 logs {APP} --lines {LINES} --nostream 2>&1", timeout=60)
+    client.close()
 
-    webhook_lines: list[str] = []
-    env_lines: list[str] = []
-
-    for i, cmd in enumerate(cmds):
-        _, stdout, stderr = c.exec_command(cmd, timeout=60)
-        out = (stdout.read() or b"").decode("utf-8", errors="replace")
-        err = (stderr.read() or b"").decode("utf-8", errors="replace")
-        text = out + err
-        if i < 2:
-            env_lines.extend(text.splitlines())
-        else:
-            webhook_lines.extend(text.splitlines())
-
-    c.close()
-
-    print("--- Billing webhook config ---")
-    for ln in env_lines:
+    print("--- Paddle billing config ---")
+    for ln in env_out.splitlines():
         if ln.strip():
             print(f"  {ln.strip()}")
 
-    hits = [ln for ln in webhook_lines if re.search(r"webhook|paddle|stripe|billing", ln, re.I)]
+    webhook_lines = logs_out.splitlines()
+    hits = [ln for ln in webhook_lines if re.search(r"webhook|paddle|billing", ln, re.I)]
     print(f"\n--- Webhook-related log lines (last {LINES} PM2 lines, {len(hits)} hits) ---")
 
     status_counter: Counter[str] = Counter()
@@ -90,11 +77,7 @@ def main() -> int:
         for ln in error_samples[-5:]:
             print(f"    • {ln}")
 
-    # Live probe — unsigned POST should 400
-    import urllib.error
-    import urllib.request
-
-    probe_url = "https://qrbanner.com/api/billing/webhook"
+    probe_url = f"{BASE}/api/billing/webhook"
     try:
         req = urllib.request.Request(
             probe_url,

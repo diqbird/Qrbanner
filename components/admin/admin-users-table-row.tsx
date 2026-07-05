@@ -46,11 +46,11 @@ export function AdminUsersTableRow({ user, t, updateUser }: AdminUsersTableRowPr
       </TableCell>
       <TableCell>
         <Badge
-          variant={user.billingStatus === 'stripe' ? 'secondary' : 'outline'}
+          variant={user.billingStatus === 'paddle' ? 'secondary' : 'outline'}
           className="text-[10px] font-normal"
         >
-          {user.billingStatus === 'stripe'
-            ? t('admin.billingStripe')
+          {user.billingStatus === 'paddle'
+            ? t('admin.billingPaddle')
             : user.billingStatus === 'manual'
               ? t('admin.billingManual')
               : t('admin.billingFree')}

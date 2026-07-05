@@ -36,7 +36,7 @@ export const referralProgramGuide: BlogPost = {
     {
       type: 'p',
       content:
-        'Track progress at 1, 3, 5 and 10 verified signups. At five referrals you can claim a discounted Pro checkout when STRIPE_REFERRAL_COUPON_ID is configured on the server. Agency partners at ten signups may qualify for a partner review.',
+        'Track progress at 1, 3, 5 and 10 verified signups. At five referrals you can claim a complimentary Pro plan upgrade. Agency partners at ten signups may qualify for a partner review.',
     },
     {
       type: 'h2',

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run smoke-billing-on-vps.mjs on the VPS (Stripe checkout session smoke)."""
+"""Run Paddle billing smoke on the VPS (env + local /api/billing/status)."""
 import os
 import sys
 
@@ -8,39 +8,24 @@ try:
 except Exception:
     pass
 
-try:
-    import paramiko
-except ImportError:
-    print("paramiko required")
-    raise SystemExit(1)
-
-HOST = os.environ.get("DEPLOY_HOST", "31.97.113.170")
-USER = os.environ.get("DEPLOY_USER", "root")
-PW = os.environ.get("DEPLOY_PASSWORD")
-REMOTE = os.environ.get("DEPLOY_REMOTE", "/var/www/qrbanner")
+sys.path.insert(0, os.path.dirname(__file__))
+from deploy_lib import DeployConfig, connect, run_ssh  # noqa: E402
 
 
 def main() -> int:
-    if not PW:
-        print("Set DEPLOY_PASSWORD")
-        return 1
+    cfg = DeployConfig()
+    client, _sftp = connect(cfg)
+    cmd = f"cd {cfg.remote} && node scripts/smoke-billing-on-vps.mjs 2>&1"
+    out, exit_code = run_ssh(client, cmd, timeout=120)
+    client.close()
+    print(out)
 
-    c = paramiko.SSHClient()
-    c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    c.connect(HOST, username=USER, password=PW, timeout=30)
-    cmd = f"cd {REMOTE} && node scripts/smoke-billing-on-vps.mjs 2>&1"
-    _, stdout, stderr = c.exec_command(cmd, timeout=120)
-    out = stdout.read().decode("utf-8", errors="replace")
-    err = stderr.read().decode("utf-8", errors="replace")
-    c.close()
-    print(out or err)
-
-    if "OK checkout_url" in out:
+    if ("OK billing_status" in out or "OK paddle_env" in out) and exit_code == 0:
         print("\n=== Result: PASS ===")
         return 0
-    if "FAIL stripe_env" in out:
-        print("\n=== Result: SKIP (Stripe not configured — Paddle is active provider) ===")
-        return 0
+    if "FAIL paddle_api_key" in out or "FAIL paddle_price_pro" in out:
+        print("\n=== Result: FAIL (Paddle env missing on VPS) ===")
+        return 1
     print("\n=== Result: FAIL ===")
     return 1
 

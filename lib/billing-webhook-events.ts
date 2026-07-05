@@ -1,7 +1,9 @@
 import { prisma } from '@/lib/db';
 
+export type BillingWebhookProvider = 'paddle';
+
 export async function claimBillingWebhookEvent(
-  provider: 'stripe' | 'paddle',
+  provider: BillingWebhookProvider,
   eventId: string
 ): Promise<boolean> {
   const id = `${provider}:${eventId}`;
@@ -19,7 +21,7 @@ export async function claimBillingWebhookEvent(
 
 /** Allow provider retries after a failed handler (claim is released). */
 export async function releaseBillingWebhookEvent(
-  provider: 'stripe' | 'paddle',
+  provider: BillingWebhookProvider,
   eventId: string
 ): Promise<void> {
   const id = `${provider}:${eventId}`;

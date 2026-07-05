@@ -6,6 +6,7 @@ import { getToken } from 'next-auth/jwt';
 
 import { isAppHost } from '@/lib/custom-domain';
 import { applySecurityHeaders } from '@/lib/security-headers';
+import { hasApiCredentialHeaders, isPublicApiRoute } from '@/lib/api-public-routes';
 import { LOCALE_HEADER, PATHNAME_HEADER, parseLocalePath, isEnglishOnlyPublicPath } from '@/lib/i18n/locale-path';
 import { LOCALE_STORAGE_KEY } from '@/lib/i18n/types';
 import { isMfaExemptApiPath } from '@/lib/api-mfa-exempt';
@@ -140,6 +141,19 @@ export async function middleware(req: NextRequest) {
       return finish(
         req,
         NextResponse.json({ error: 'mfa_required' }, { status: 403 })
+      );
+    }
+  }
+
+  if (path.startsWith('/api/') && !isPublicApiRoute(req.method, path)) {
+    const token = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+    if (!token && !hasApiCredentialHeaders(req)) {
+      return finish(
+        req,
+        NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
       );
     }
   }

@@ -2,17 +2,16 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { requireAdminUserId } from '@/lib/admin-auth';
+import { requireApiAdmin, isAuthError } from '@/lib/api-route-auth';
 import type { Prisma } from '@prisma/client';
 import type { BlogSection } from '@/lib/blog/types';
 import { getAdminActorContext, recordAdminAudit } from '@/lib/admin-audit';
 
 export async function GET() {
   try {
-    const adminId = await requireAdminUserId();
-    if (!adminId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const auth = await requireApiAdmin();
+    if (isAuthError(auth)) return auth;
+    const adminId = auth;
     const posts = await prisma.blogPost.findMany({
       orderBy: { updatedAt: 'desc' },
       select: {
@@ -36,10 +35,9 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    const adminId = await requireAdminUserId();
-    if (!adminId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const auth = await requireApiAdmin();
+    if (isAuthError(auth)) return auth;
+    const adminId = auth;
     const body = await req.json();
     const slug = String(body.slug ?? '').trim().toLowerCase().replace(/[^a-z0-9-]/g, '-');
     const title = String(body.title ?? '').trim();

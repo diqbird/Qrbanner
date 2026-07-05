@@ -57,9 +57,7 @@ export function StatusPageStatusPanel({
           </div>
 
           <ul className="mt-6 space-y-3 text-sm">
-            <StatusRow label={t('status.checkDatabase')} ok={health?.checks.database ?? false} />
-            <StatusRow label={t('status.checkSmtp')} ok={health?.checks.smtp ?? false} />
-            <StatusRow label={t('status.checkBilling')} ok={health?.checks.billing ?? false} />
+            <StatusRow label={t('status.checkApplication')} ok={health?.ok ?? false} />
           </ul>
 
           <p className="mt-6 text-xs text-muted-foreground">

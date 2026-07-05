@@ -7,7 +7,7 @@ export interface AdminStats {
   scanTotal: number;
   signupsLast7Days: number;
   premiumUsers: number;
-  stripeSubscribers: number;
+  paddleSubscribers: number;
   estimatedMrr: number;
 }
 
@@ -20,5 +20,5 @@ export interface AdminUser {
   createdAt: string;
   emailVerified: boolean;
   qrCount: number;
-  billingStatus: 'free' | 'stripe' | 'manual';
+  billingStatus: 'free' | 'paddle' | 'manual';
 }

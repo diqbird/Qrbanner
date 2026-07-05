@@ -17,7 +17,7 @@ export function planCountsFromGroupBy(
   return counts;
 }
 
-/** MRR from active Stripe subscriptions only (excludes manual admin plan assignments). */
+/** MRR from active Paddle subscriptions only (excludes manual admin plan assignments). */
 export function estimatedMrr(planCounts: AdminPlanCounts): number {
   let mrr = 0;
   for (const id of ['pro', 'business', 'agency'] as PlanId[]) {
@@ -33,8 +33,8 @@ export function premiumUserCount(planCounts: AdminPlanCounts): number {
 
 export function billingStatusForUser(
   plan: string,
-  stripeSubscriptionId: string | null,
-): 'free' | 'stripe' | 'manual' {
+  paddleSubscriptionId: string | null,
+): 'free' | 'paddle' | 'manual' {
   if (plan === 'free') return 'free';
-  return stripeSubscriptionId ? 'stripe' : 'manual';
+  return paddleSubscriptionId ? 'paddle' : 'manual';
 }

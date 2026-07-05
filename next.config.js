@@ -19,6 +19,10 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
   experimental: {
     serverComponentsExternalPackages: ['geoip-lite'],
+    outputFileTracingRoot: path.join(__dirname, '../'),
+    outputFileTracingIncludes: {
+      '/**': ['./node_modules/geoip-lite/data/**/*'],
+    },
   },
   transpilePackages: ['react-globe.gl', 'globe.gl', 'three-globe'],
   poweredByHeader: false,
@@ -64,12 +68,6 @@ const nextConfig = {
         headers: [{ key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' }],
       },
     ];
-  },
-  experimental: {
-    outputFileTracingRoot: path.join(__dirname, '../'),
-    outputFileTracingIncludes: {
-      '/**': ['./node_modules/geoip-lite/data/**/*'],
-    },
   },
   eslint: {
     ignoreDuringBuilds: false,

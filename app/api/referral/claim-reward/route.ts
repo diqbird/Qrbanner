@@ -2,37 +2,29 @@ export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { activeBillingProvider } from '@/lib/billing-provider';
-import { getStripe, isStripeConfigured, siteBaseUrl, stripePriceIdForPlan } from '@/lib/stripe';
-import { canClaimReferralReward, referralRewardCouponId } from '@/lib/referral-stripe';
+import { isBillingConfigured } from '@/lib/billing-provider';
+import { canClaimReferralReward } from '@/lib/referral-rewards';
 import { referralClaimedBranding } from '@/lib/referral-checkout';
 import { parseBrandingSettings } from '@/lib/referral';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
 
-/** Claim 5-referral Pro reward — Stripe Checkout with referral coupon. */
+/** Claim 5-referral Pro reward — complimentary Pro plan grant via Paddle billing stack. */
 export async function POST() {
   try {
     const auth = await requireUserId();
     if (isAuthError(auth)) return auth;
     const userId = auth;
 
-    const provider = activeBillingProvider();
-    const couponId = referralRewardCouponId();
-    if (provider !== 'stripe' || !couponId || !isStripeConfigured()) {
-      return NextResponse.json(
-        { error: 'Referral reward checkout is not available with the current billing provider' },
-        { status: 501 }
-      );
+    if (!isBillingConfigured()) {
+      return NextResponse.json({ error: 'Billing is not configured' }, { status: 503 });
     }
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: {
         id: true,
-        email: true,
-        name: true,
         referralSignupCount: true,
-        stripeCustomerId: true,
+        plan: true,
         brandingSettings: true,
       },
     });
@@ -43,49 +35,21 @@ export async function POST() {
       return NextResponse.json({ error: 'Reward not available' }, { status: 403 });
     }
 
-    const stripe = getStripe();
-    const priceId = stripePriceIdForPlan('pro', 'monthly');
-    if (!stripe || !priceId) {
-      return NextResponse.json({ error: 'Billing unavailable' }, { status: 503 });
-    }
-
-    let customerId = user.stripeCustomerId;
-    if (!customerId) {
-      const customer = await stripe.customers.create({
-        email: user.email,
-        name: user.name ?? undefined,
-        metadata: { userId: user.id },
-      });
-      customerId = customer.id;
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { stripeCustomerId: customerId },
-      });
-    }
-
-    const checkout = await stripe.checkout.sessions.create({
-      mode: 'subscription',
-      customer: customerId,
-      line_items: [{ price: priceId, quantity: 1 }],
-      discounts: [{ coupon: couponId }],
-      success_url: `${siteBaseUrl()}/settings?billing=referral_reward`,
-      cancel_url: `${siteBaseUrl()}/settings?billing=cancelled`,
-      metadata: { userId: user.id, plan: 'pro', referralReward: 'true' },
-      subscription_data: {
-        metadata: { userId: user.id, plan: 'pro', referralReward: 'true' },
-      },
-    });
-
     await prisma.user.update({
       where: { id: user.id },
       data: {
+        plan: user.plan === 'free' ? 'pro' : user.plan,
         brandingSettings: referralClaimedBranding(user.brandingSettings),
       },
     });
 
-    return NextResponse.json({ url: checkout.url });
+    return NextResponse.json({
+      ok: true,
+      plan: user.plan === 'free' ? 'pro' : user.plan,
+      redirect: '/settings?billing=referral_reward',
+    });
   } catch (error) {
     console.error('[referral claim-reward]', error);
-    return NextResponse.json({ error: 'Could not start reward checkout' }, { status: 500 });
+    return NextResponse.json({ error: 'Could not claim reward' }, { status: 500 });
   }
 }

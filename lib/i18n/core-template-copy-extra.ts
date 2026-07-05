@@ -64,7 +64,7 @@ export const extraCoreSectionsEn: TranslationTree = {
     salon: { title: 'Salon details', description: 'Brand line on landing page.' },
   },
   'nonprofit-fundraising': {
-    donate: { title: 'Donation or signup', description: 'Givebutter, Stripe, volunteer form or impact report.' },
+    donate: { title: 'Donation or signup', description: 'Givebutter, donation link, volunteer form or impact report.' },
     org: { title: 'Organization', description: 'Campaign name on landing page.' },
   },
   'dental-clinics': {
@@ -148,7 +148,7 @@ export const extraCoreSectionsTr: TranslationTree = {
     salon: { title: 'Salon bilgileri', description: 'Açılış sayfasında marka satırı.' },
   },
   'nonprofit-fundraising': {
-    donate: { title: 'Bağış veya kayıt', description: 'Givebutter, Stripe, gönüllü formu veya etki raporu.' },
+    donate: { title: 'Bağış veya kayıt', description: 'Givebutter, bağış linki, gönüllü formu veya etki raporu.' },
     org: { title: 'Kuruluş', description: 'Açılış sayfasında kampanya adı.' },
   },
   'dental-clinics': {

@@ -2,16 +2,15 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { requireAdminUserId } from '@/lib/admin-auth';
+import { requireApiAdmin, isAuthError } from '@/lib/api-route-auth';
 import { normalizePlanId, type PlanId } from '@/lib/plans';
 import { billingStatusForUser } from '@/lib/admin-billing-stats';
 import { getAdminActorContext, recordAdminAudit } from '@/lib/admin-audit';
 
 export async function GET(req: NextRequest) {
-  const adminId = await requireAdminUserId();
-  if (!adminId) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
+  const auth = await requireApiAdmin();
+  if (isAuthError(auth)) return auth;
+  const adminId = auth;
 
   const q = req.nextUrl.searchParams.get('q')?.trim() ?? '';
   const planFilter = req.nextUrl.searchParams.get('plan');
@@ -43,7 +42,7 @@ export async function GET(req: NextRequest) {
       role: true,
       createdAt: true,
       emailVerified: true,
-      stripeSubscriptionId: true,
+      paddleSubscriptionId: true,
       _count: { select: { qrCodes: true } },
     },
   });
@@ -58,16 +57,15 @@ export async function GET(req: NextRequest) {
       createdAt: u.createdAt,
       emailVerified: !!u.emailVerified,
       qrCount: u._count.qrCodes,
-      billingStatus: billingStatusForUser(u.plan, u.stripeSubscriptionId),
+      billingStatus: billingStatusForUser(u.plan, u.paddleSubscriptionId),
     })),
   });
 }
 
 export async function PATCH(req: NextRequest) {
-  const adminId = await requireAdminUserId();
-  if (!adminId) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
+  const auth = await requireApiAdmin();
+  if (isAuthError(auth)) return auth;
+  const adminId = auth;
 
   const body = await req.json();
   const userId = body?.userId as string | undefined;

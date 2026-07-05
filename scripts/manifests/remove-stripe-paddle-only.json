@@ -1,0 +1,41 @@
+{
+  "upload": [
+    "lib/billing-provider.ts",
+    "lib/public-billing-status.ts",
+    "lib/admin-billing-stats.ts",
+    "lib/admin-content-types.ts",
+    "lib/referral-rewards.ts",
+    "lib/referral-checkout.ts",
+    "lib/marketplace-connect.ts",
+    "lib/pricing-display.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "app/api/billing/checkout/route.ts",
+    "app/api/billing/portal/route.ts",
+    "app/api/billing/webhook/route.ts",
+    "app/api/referral/route.ts",
+    "app/api/referral/claim-reward/route.ts",
+    "app/api/admin/stats/route.ts",
+    "app/api/admin/users/route.ts",
+    "app/api/marketplace/listings/route.ts",
+    "app/api/marketplace/listings/[id]/route.ts",
+    "app/api/marketplace/purchase/route.ts",
+    "components/admin/admin-billing-panel.tsx",
+    "components/admin/admin-content.tsx",
+    "components/admin/admin-users-table-row.tsx",
+    "components/public/pricing-plan-grid.tsx",
+    "components/dashboard/marketplace-seller-connect.tsx",
+    "components/dashboard/referral-reward-claim.tsx",
+    "components/templates/marketplace-purchase-button.tsx",
+    "hooks/use-marketplace-seller-connect.ts",
+    "package.json",
+    "yarn.lock"
+  ],
+  "remove": [
+    "lib/stripe.ts",
+    "lib/referral-stripe.ts"
+  ],
+  "yarn_install": true,
+  "build": true,
+  "restart": true
+}

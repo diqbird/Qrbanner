@@ -39,7 +39,7 @@ export function PricingPlanGrid({ pricing }: { pricing: PricingPageState }) {
             <p className="mt-1 text-xs text-muted-foreground">{t('pricing.paidCheckoutClosedNote')}</p>
           )}
           {plan.priceMonthly !== null && plan.priceMonthly > 0 && billingConfigured && !plan.billedNote && (
-            <p className="mt-1 text-xs text-muted-foreground">{t('pricing.stripeNote')}</p>
+            <p className="mt-1 text-xs text-muted-foreground">{t('pricing.billingNote')}</p>
           )}
           <ul className="mt-8 flex-1 space-y-3">
             {plan.features.map((f) => (

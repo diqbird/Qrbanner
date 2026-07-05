@@ -1,0 +1,41 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      manifest:
+        description: 'Manifest path under scripts/manifests/'
+        required: true
+        default: 'remove-stripe-schema-cleanup.json'
+
+jobs:
+  deploy:
+    name: Deploy to VPS
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install paramiko
+        run: pip install paramiko
+      - name: Write SSH key
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+      - name: Deploy via manifest
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_SSH_KEY_PATH: ~/.ssh/deploy_key
+          DEPLOY_KNOWN_HOSTS: ~/.ssh/known_hosts
+          DEPLOY_STRICT_HOST_KEY: '1'
+          DEPLOY_REMOTE: /var/www/qrbanner
+          DEPLOY_LOCAL: ${{ github.workspace }}
+        run: |
+          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+          python scripts/deploy.py --manifest "scripts/manifests/${{ inputs.manifest }}"

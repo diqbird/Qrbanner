@@ -41,7 +41,7 @@ export function AdminContent() {
         <AdminBillingPanel
           planCounts={stats.planCounts}
           estimatedMrr={stats.estimatedMrr}
-          stripeSubscribers={stats.stripeSubscribers}
+          paddleSubscribers={stats.paddleSubscribers}
         />
       ) : null}
 

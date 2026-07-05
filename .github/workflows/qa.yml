@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Lint and build
+    name: Lint, typecheck, unit tests, build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,12 +22,19 @@ jobs:
         run: npx prisma generate
       - name: Lint
         run: yarn lint
+      - name: Unit tests
+        run: yarn test:unit
       - name: Build
         run: yarn build
 
   e2e:
     name: Playwright E2E
     runs-on: ubuntu-latest
+    # Skip prod E2E on push unless STAGING_URL or explicit prod flag is set
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      vars.PLAYWRIGHT_BASE_URL != '' ||
+      vars.E2E_AGAINST_PROD == 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -40,7 +47,7 @@ jobs:
         run: npx playwright install chromium --with-deps
       - name: Run E2E tests
         env:
-          PLAYWRIGHT_BASE_URL: https://qrbanner.com
+          PLAYWRIGHT_BASE_URL: ${{ vars.PLAYWRIGHT_BASE_URL || 'https://qrbanner.com' }}
           CI: true
         run: yarn test:e2e
 
@@ -56,13 +63,10 @@ jobs:
           node-version: '22'
           cache: yarn
       - uses: browser-actions/setup-chrome@v1
-        id: setup-chrome
       - name: Install dependencies
         run: yarn install --frozen-lockfile --ignore-engines
       - name: Run Lighthouse
         env:
-          PLAYWRIGHT_BASE_URL: https://qrbanner.com
+          PLAYWRIGHT_BASE_URL: ${{ vars.PLAYWRIGHT_BASE_URL || 'https://qrbanner.com' }}
           CI: true
-        run: |
-          google-chrome --version
-          node scripts/lighthouse-audit.mjs
+        run: node scripts/lighthouse-audit.mjs
