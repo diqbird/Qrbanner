@@ -1,0 +1,2619 @@
+{
+  "base": "https://qrbanner.com",
+  "testedAt": "2026-07-05T09:40:24.857275+00:00",
+  "routeCount": 93,
+  "probeCount": 137,
+  "analysis": {
+    "failures": [],
+    "timeouts": [],
+    "slow": [],
+    "missing_auth": [],
+    "missing_rate": [],
+    "missing_validation": []
+  },
+  "results": [
+    {
+      "path": "/api/account/usage",
+      "resolvedPath": "/api/account/usage",
+      "method": "GET",
+      "file": "app/api/account/usage/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 303,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/admin/audit-log",
+      "resolvedPath": "/api/admin/audit-log",
+      "method": "GET",
+      "file": "app/api/admin/audit-log/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 403,
+      "durationMs": 227,
+      "bodySnippet": "{\"error\":\"Forbidden\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/admin/blog",
+      "resolvedPath": "/api/admin/blog",
+      "method": "GET",
+      "file": "app/api/admin/blog/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 204,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/admin/blog",
+      "resolvedPath": "/api/admin/blog",
+      "method": "POST",
+      "file": "app/api/admin/blog/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 235,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/admin/blog/__id__",
+      "resolvedPath": "/api/admin/blog/000000000000000000000000",
+      "method": "DELETE",
+      "file": "app/api/admin/blog/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 237,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/admin/blog/__id__",
+      "resolvedPath": "/api/admin/blog/000000000000000000000000",
+      "method": "GET",
+      "file": "app/api/admin/blog/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 206,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/admin/blog/__id__",
+      "resolvedPath": "/api/admin/blog/000000000000000000000000",
+      "method": "PATCH",
+      "file": "app/api/admin/blog/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 213,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/admin/site-settings",
+      "resolvedPath": "/api/admin/site-settings",
+      "method": "GET",
+      "file": "app/api/admin/site-settings/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 403,
+      "durationMs": 225,
+      "bodySnippet": "{\"error\":\"forbidden\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/admin/site-settings",
+      "resolvedPath": "/api/admin/site-settings",
+      "method": "PATCH",
+      "file": "app/api/admin/site-settings/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 403,
+      "durationMs": 224,
+      "bodySnippet": "{\"error\":\"forbidden\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/admin/stats",
+      "resolvedPath": "/api/admin/stats",
+      "method": "GET",
+      "file": "app/api/admin/stats/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 403,
+      "durationMs": 233,
+      "bodySnippet": "{\"error\":\"Forbidden\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/admin/users",
+      "resolvedPath": "/api/admin/users",
+      "method": "GET",
+      "file": "app/api/admin/users/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 403,
+      "durationMs": 215,
+      "bodySnippet": "{\"error\":\"Forbidden\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/admin/users",
+      "resolvedPath": "/api/admin/users",
+      "method": "PATCH",
+      "file": "app/api/admin/users/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 403,
+      "durationMs": 214,
+      "bodySnippet": "{\"error\":\"Forbidden\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/auth/api-key",
+      "resolvedPath": "/api/auth/api-key",
+      "method": "DELETE",
+      "file": "app/api/auth/api-key/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 208,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/auth/api-key",
+      "resolvedPath": "/api/auth/api-key",
+      "method": "GET",
+      "file": "app/api/auth/api-key/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 230,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/auth/api-key",
+      "resolvedPath": "/api/auth/api-key",
+      "method": "POST",
+      "file": "app/api/auth/api-key/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 242,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/auth/change-password",
+      "resolvedPath": "/api/auth/change-password",
+      "method": "POST",
+      "file": "app/api/auth/change-password/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 204,
+      "bodySnippet": "{\"error\":\"unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/auth/forgot-password",
+      "resolvedPath": "/api/auth/forgot-password",
+      "method": "POST",
+      "file": "app/api/auth/forgot-password/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 403,
+      "durationMs": 228,
+      "bodySnippet": "{\"error\":\"origin_required\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/auth/mfa",
+      "resolvedPath": "/api/auth/mfa",
+      "method": "GET",
+      "file": "app/api/auth/mfa/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 230,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/auth/mfa/disable",
+      "resolvedPath": "/api/auth/mfa/disable",
+      "method": "POST",
+      "file": "app/api/auth/mfa/disable/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 203,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/auth/mfa/enable",
+      "resolvedPath": "/api/auth/mfa/enable",
+      "method": "POST",
+      "file": "app/api/auth/mfa/enable/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 228,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/auth/mfa/setup",
+      "resolvedPath": "/api/auth/mfa/setup",
+      "method": "POST",
+      "file": "app/api/auth/mfa/setup/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 222,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/auth/mfa/verify-session",
+      "resolvedPath": "/api/auth/mfa/verify-session",
+      "method": "POST",
+      "file": "app/api/auth/mfa/verify-session/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 251,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/auth/profile",
+      "resolvedPath": "/api/auth/profile",
+      "method": "PUT",
+      "file": "app/api/auth/profile/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 222,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/auth/reset-password",
+      "resolvedPath": "/api/auth/reset-password",
+      "method": "POST",
+      "file": "app/api/auth/reset-password/route.ts",
+      "verdict": "OK_REJECT",
+      "status": 400,
+      "durationMs": 219,
+      "bodySnippet": "{\"error\":\"missing_fields\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/auth/saml/acs",
+      "resolvedPath": "/api/auth/saml/acs",
+      "method": "POST",
+      "file": "app/api/auth/saml/acs/route.ts",
+      "verdict": "REDIRECT",
+      "status": 307,
+      "durationMs": 222,
+      "bodySnippet": "",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": false,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/auth/saml/info",
+      "resolvedPath": "/api/auth/saml/info",
+      "method": "GET",
+      "file": "app/api/auth/saml/info/route.ts",
+      "verdict": "OK_REJECT",
+      "status": 400,
+      "durationMs": 238,
+      "bodySnippet": "{\"error\":\"workspace_required\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/auth/saml/login",
+      "resolvedPath": "/api/auth/saml/login",
+      "method": "GET",
+      "file": "app/api/auth/saml/login/route.ts",
+      "verdict": "OK",
+      "status": 200,
+      "durationMs": 516,
+      "bodySnippet": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/css/7e954c73917cb950.css\" data-precedence=\"next\"/><link rel=\"stylesheet\" href=\"/_next/static/css/92fada89edc316c4.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/webpac",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": false,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/auth/saml/metadata",
+      "resolvedPath": "/api/auth/saml/metadata",
+      "method": "GET",
+      "file": "app/api/auth/saml/metadata/route.ts",
+      "verdict": "OK_REJECT",
+      "status": 400,
+      "durationMs": 230,
+      "bodySnippet": "{\"error\":\"workspace_required\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/auth/sso-policy",
+      "resolvedPath": "/api/auth/sso-policy",
+      "method": "GET",
+      "file": "app/api/auth/sso-policy/route.ts",
+      "verdict": "OK_REJECT",
+      "status": 400,
+      "durationMs": 232,
+      "bodySnippet": "{\"error\":\"email_required\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/automations",
+      "resolvedPath": "/api/automations",
+      "method": "GET",
+      "file": "app/api/automations/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 219,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/automations",
+      "resolvedPath": "/api/automations",
+      "method": "POST",
+      "file": "app/api/automations/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 213,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/automations/__id__",
+      "resolvedPath": "/api/automations/000000000000000000000000",
+      "method": "DELETE",
+      "file": "app/api/automations/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 210,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/automations/__id__",
+      "resolvedPath": "/api/automations/000000000000000000000000",
+      "method": "PATCH",
+      "file": "app/api/automations/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 238,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/automations/logs",
+      "resolvedPath": "/api/automations/logs",
+      "method": "GET",
+      "file": "app/api/automations/logs/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 230,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/billing/checkout",
+      "resolvedPath": "/api/billing/checkout",
+      "method": "POST",
+      "file": "app/api/billing/checkout/route.ts",
+      "verdict": "OK_REJECT",
+      "status": 400,
+      "durationMs": 223,
+      "bodySnippet": "{\"error\":\"Free plan does not require checkout\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/billing/portal",
+      "resolvedPath": "/api/billing/portal",
+      "method": "POST",
+      "file": "app/api/billing/portal/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 231,
+      "bodySnippet": "{\"error\":\"Sign in required\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/billing/status",
+      "resolvedPath": "/api/billing/status",
+      "method": "GET",
+      "file": "app/api/billing/status/route.ts",
+      "verdict": "OK",
+      "status": 200,
+      "durationMs": 251,
+      "bodySnippet": "{\"configured\":true,\"annualAvailable\":true,\"provider\":\"paddle\",\"paddle\":{\"clientToken\":\"live_c9370e656e2a96d60c5fbc039f4\",\"environment\":\"production\"}}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": false,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/billing/webhook",
+      "resolvedPath": "/api/billing/webhook",
+      "method": "POST",
+      "file": "app/api/billing/webhook/route.ts",
+      "verdict": "OK_REJECT",
+      "status": 400,
+      "durationMs": 221,
+      "bodySnippet": "{\"error\":\"Missing signature\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/campaign/create",
+      "resolvedPath": "/api/campaign/create",
+      "method": "POST",
+      "file": "app/api/campaign/create/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 216,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/campaign/generate",
+      "resolvedPath": "/api/campaign/generate",
+      "method": "POST",
+      "file": "app/api/campaign/generate/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 211,
+      "bodySnippet": "{\"error\":\"unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/campaigns",
+      "resolvedPath": "/api/campaigns",
+      "method": "GET",
+      "file": "app/api/campaigns/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 240,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/campaigns",
+      "resolvedPath": "/api/campaigns",
+      "method": "POST",
+      "file": "app/api/campaigns/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 214,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/campaigns/__id__",
+      "resolvedPath": "/api/campaigns/000000000000000000000000",
+      "method": "DELETE",
+      "file": "app/api/campaigns/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 229,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/campaigns/__id__",
+      "resolvedPath": "/api/campaigns/000000000000000000000000",
+      "method": "GET",
+      "file": "app/api/campaigns/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 227,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/campaigns/__id__",
+      "resolvedPath": "/api/campaigns/000000000000000000000000",
+      "method": "PATCH",
+      "file": "app/api/campaigns/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 211,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/contact/inquiry",
+      "resolvedPath": "/api/contact/inquiry",
+      "method": "POST",
+      "file": "app/api/contact/inquiry/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 403,
+      "durationMs": 204,
+      "bodySnippet": "{\"error\":\"origin_required\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/dashboard/analytics",
+      "resolvedPath": "/api/dashboard/analytics",
+      "method": "GET",
+      "file": "app/api/dashboard/analytics/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 223,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/domains",
+      "resolvedPath": "/api/domains",
+      "method": "GET",
+      "file": "app/api/domains/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 215,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/domains",
+      "resolvedPath": "/api/domains",
+      "method": "POST",
+      "file": "app/api/domains/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 238,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/domains/__id__",
+      "resolvedPath": "/api/domains/000000000000000000000000",
+      "method": "DELETE",
+      "file": "app/api/domains/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 239,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/domains/__id__",
+      "resolvedPath": "/api/domains/000000000000000000000000",
+      "method": "PATCH",
+      "file": "app/api/domains/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 236,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/domains/__id__/verify",
+      "resolvedPath": "/api/domains/000000000000000000000000/verify",
+      "method": "POST",
+      "file": "app/api/domains/[id]/verify/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 207,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/folders",
+      "resolvedPath": "/api/folders",
+      "method": "GET",
+      "file": "app/api/folders/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 243,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/folders",
+      "resolvedPath": "/api/folders",
+      "method": "POST",
+      "file": "app/api/folders/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 238,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/folders/__id__",
+      "resolvedPath": "/api/folders/000000000000000000000000",
+      "method": "DELETE",
+      "file": "app/api/folders/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 236,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/folders/__id__",
+      "resolvedPath": "/api/folders/000000000000000000000000",
+      "method": "PATCH",
+      "file": "app/api/folders/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 225,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/health",
+      "resolvedPath": "/api/health",
+      "method": "GET",
+      "file": "app/api/health/route.ts",
+      "verdict": "OK",
+      "status": 200,
+      "durationMs": 218,
+      "bodySnippet": "{\"ok\":true,\"status\":\"operational\",\"checks\":{\"database\":true,\"smtp\":true,\"billing\":true},\"responseMs\":13,\"timestamp\":\"2026-07-05T09:40:06.060Z\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": false,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/invite/__token__",
+      "resolvedPath": "/api/invite/invalid-token-qa",
+      "method": "GET",
+      "file": "app/api/invite/[token]/route.ts",
+      "verdict": "OK_REJECT",
+      "status": 404,
+      "durationMs": 234,
+      "bodySnippet": "{\"error\":\"Invite not found\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/invite/__token__",
+      "resolvedPath": "/api/invite/invalid-token-qa",
+      "method": "POST",
+      "file": "app/api/invite/[token]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 254,
+      "bodySnippet": "{\"error\":\"Sign in required\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/landing-cta",
+      "resolvedPath": "/api/landing-cta",
+      "method": "POST",
+      "file": "app/api/landing-cta/route.ts",
+      "verdict": "OK_REJECT",
+      "status": 400,
+      "durationMs": 216,
+      "bodySnippet": "{\"error\":\"shortCode required\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/landing-page/generate-copy",
+      "resolvedPath": "/api/landing-page/generate-copy",
+      "method": "POST",
+      "file": "app/api/landing-page/generate-copy/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 234,
+      "bodySnippet": "{\"error\":\"unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/leads",
+      "resolvedPath": "/api/leads",
+      "method": "POST",
+      "file": "app/api/leads/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 403,
+      "durationMs": 230,
+      "bodySnippet": "{\"error\":\"origin_required\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/marketplace/connect/onboard",
+      "resolvedPath": "/api/marketplace/connect/onboard",
+      "method": "POST",
+      "file": "app/api/marketplace/connect/onboard/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 223,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/marketplace/listings",
+      "resolvedPath": "/api/marketplace/listings",
+      "method": "GET",
+      "file": "app/api/marketplace/listings/route.ts",
+      "verdict": "OK",
+      "status": 200,
+      "durationMs": 224,
+      "bodySnippet": "{\"listings\":[]}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/marketplace/listings",
+      "resolvedPath": "/api/marketplace/listings",
+      "method": "POST",
+      "file": "app/api/marketplace/listings/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 242,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/marketplace/listings/__id__",
+      "resolvedPath": "/api/marketplace/listings/000000000000000000000000",
+      "method": "DELETE",
+      "file": "app/api/marketplace/listings/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 270,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/marketplace/listings/__id__",
+      "resolvedPath": "/api/marketplace/listings/000000000000000000000000",
+      "method": "GET",
+      "file": "app/api/marketplace/listings/[id]/route.ts",
+      "verdict": "OK_REJECT",
+      "status": 404,
+      "durationMs": 213,
+      "bodySnippet": "{\"error\":\"Not found\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/marketplace/listings/__id__",
+      "resolvedPath": "/api/marketplace/listings/000000000000000000000000",
+      "method": "PATCH",
+      "file": "app/api/marketplace/listings/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 226,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/marketplace/purchase",
+      "resolvedPath": "/api/marketplace/purchase",
+      "method": "POST",
+      "file": "app/api/marketplace/purchase/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 236,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/marketplace/seller",
+      "resolvedPath": "/api/marketplace/seller",
+      "method": "GET",
+      "file": "app/api/marketplace/seller/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 222,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/marketplace/seller",
+      "resolvedPath": "/api/marketplace/seller",
+      "method": "PATCH",
+      "file": "app/api/marketplace/seller/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 220,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/media",
+      "resolvedPath": "/api/media",
+      "method": "GET",
+      "file": "app/api/media/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 225,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/media/__id__",
+      "resolvedPath": "/api/media/000000000000000000000000",
+      "method": "DELETE",
+      "file": "app/api/media/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 243,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/mobile/v1/qr",
+      "resolvedPath": "/api/mobile/v1/qr",
+      "method": "GET",
+      "file": "app/api/mobile/v1/qr/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 204,
+      "bodySnippet": "{\"error\":\"Missing API key. Use Authorization: Bearer <key> or X-API-Key header.\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/mobile/v1/qr/__id__",
+      "resolvedPath": "/api/mobile/v1/qr/000000000000000000000000",
+      "method": "GET",
+      "file": "app/api/mobile/v1/qr/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 222,
+      "bodySnippet": "{\"error\":\"Missing API key. Use Authorization: Bearer <key> or X-API-Key header.\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/mobile/v1/summary",
+      "resolvedPath": "/api/mobile/v1/summary",
+      "method": "GET",
+      "file": "app/api/mobile/v1/summary/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 227,
+      "bodySnippet": "{\"error\":\"Missing API key. Use Authorization: Bearer <key> or X-API-Key header.\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/openapi.json",
+      "resolvedPath": "/api/openapi.json",
+      "method": "GET",
+      "file": "app/api/openapi.json/route.ts",
+      "verdict": "OK",
+      "status": 200,
+      "durationMs": 231,
+      "bodySnippet": "{\"openapi\":\"3.0.3\",\"info\":{\"title\":\"QRbanner REST API\",\"version\":\"1.0.0\",\"description\":\"Programmatic access to QR codes and folders. Authenticate with an API key from Dashboard \u2192 Settings.\\n\\n## Rate limits\\nRequests are limited per plan on two axes: a per-minute burst limit and a monthly quota.\\n\\n| Plan | Per minute | Monthly quota |\\n| --- | --- | --- |\\n| Free | 60 | 1,000 |\\n| Pro | 120 | 10,",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": false,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/public/stats",
+      "resolvedPath": "/api/public/stats",
+      "method": "GET",
+      "file": "app/api/public/stats/route.ts",
+      "verdict": "OK",
+      "status": 200,
+      "durationMs": 271,
+      "bodySnippet": "{\"qrCodes\":10,\"scans\":20,\"users\":10}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": true,
+        "hasValidation": false,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/qr",
+      "resolvedPath": "/api/qr",
+      "method": "GET",
+      "file": "app/api/qr/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 225,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/qr",
+      "resolvedPath": "/api/qr",
+      "method": "POST",
+      "file": "app/api/qr/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 233,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/qr/__id__",
+      "resolvedPath": "/api/qr/000000000000000000000000",
+      "method": "DELETE",
+      "file": "app/api/qr/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 226,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/qr/__id__",
+      "resolvedPath": "/api/qr/000000000000000000000000",
+      "method": "GET",
+      "file": "app/api/qr/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 205,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/qr/__id__",
+      "resolvedPath": "/api/qr/000000000000000000000000",
+      "method": "POST",
+      "file": "app/api/qr/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 222,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/qr/__id__",
+      "resolvedPath": "/api/qr/000000000000000000000000",
+      "method": "PUT",
+      "file": "app/api/qr/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 272,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/qr/__id__/analytics",
+      "resolvedPath": "/api/qr/000000000000000000000000/analytics",
+      "method": "GET",
+      "file": "app/api/qr/[id]/analytics/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 246,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/qr/__id__/leads",
+      "resolvedPath": "/api/qr/000000000000000000000000/leads",
+      "method": "GET",
+      "file": "app/api/qr/[id]/leads/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 232,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/qr/ai-restyle",
+      "resolvedPath": "/api/qr/ai-restyle",
+      "method": "POST",
+      "file": "app/api/qr/ai-restyle/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 205,
+      "bodySnippet": "{\"error\":\"unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/qr/bulk",
+      "resolvedPath": "/api/qr/bulk",
+      "method": "POST",
+      "file": "app/api/qr/bulk/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 234,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/qr/bulk-actions",
+      "resolvedPath": "/api/qr/bulk-actions",
+      "method": "POST",
+      "file": "app/api/qr/bulk-actions/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 223,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/qr/organize",
+      "resolvedPath": "/api/qr/organize",
+      "method": "POST",
+      "file": "app/api/qr/organize/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 220,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/referral",
+      "resolvedPath": "/api/referral",
+      "method": "GET",
+      "file": "app/api/referral/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 221,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/referral",
+      "resolvedPath": "/api/referral",
+      "method": "PATCH",
+      "file": "app/api/referral/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 220,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/referral/claim-reward",
+      "resolvedPath": "/api/referral/claim-reward",
+      "method": "POST",
+      "file": "app/api/referral/claim-reward/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 222,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/referral/lookup",
+      "resolvedPath": "/api/referral/lookup",
+      "method": "GET",
+      "file": "app/api/referral/lookup/route.ts",
+      "verdict": "OK",
+      "status": 200,
+      "durationMs": 226,
+      "bodySnippet": "{\"valid\":false}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/scan/geo",
+      "resolvedPath": "/api/scan/geo",
+      "method": "POST",
+      "file": "app/api/scan/geo/route.ts",
+      "verdict": "OK_REJECT",
+      "status": 400,
+      "durationMs": 220,
+      "bodySnippet": "{\"error\":\"Invalid payload\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/scim/v2/Schemas",
+      "resolvedPath": "/api/scim/v2/Schemas",
+      "method": "GET",
+      "file": "app/api/scim/v2/Schemas/route.ts",
+      "verdict": "OK",
+      "status": 200,
+      "durationMs": 224,
+      "bodySnippet": "{\"schemas\":[\"urn:ietf:params:scim:api:messages:2.0:ListResponse\"],\"totalResults\":2,\"Resources\":[{\"id\":\"urn:ietf:params:scim:schemas:core:2.0:User\",\"name\":\"User\",\"description\":\"Workspace member\",\"attributes\":[]},{\"id\":\"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\",\"name\":\"Enterprise User\",\"description\":\"Role extension\",\"attributes\":[]}]}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": false,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/scim/v2/ServiceProviderConfig",
+      "resolvedPath": "/api/scim/v2/ServiceProviderConfig",
+      "method": "GET",
+      "file": "app/api/scim/v2/ServiceProviderConfig/route.ts",
+      "verdict": "OK",
+      "status": 200,
+      "durationMs": 238,
+      "bodySnippet": "{\"schemas\":[\"urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig\"],\"documentationUri\":\"https://qrbanner.com/enterprise\",\"patch\":{\"supported\":true},\"bulk\":{\"supported\":false,\"maxOperations\":0,\"maxPayloadSize\":0},\"filter\":{\"supported\":true,\"maxResults\":100},\"changePassword\":{\"supported\":false},\"sort\":{\"supported\":false},\"etag\":{\"supported\":false},\"authenticationSchemes\":[{\"type\":\"oauthbearer",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": false,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/scim/v2/Users",
+      "resolvedPath": "/api/scim/v2/Users",
+      "method": "GET",
+      "file": "app/api/scim/v2/Users/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 232,
+      "bodySnippet": "{\"schemas\":[\"urn:ietf:params:scim:api:messages:2.0:Error\"],\"detail\":\"Unauthorized\",\"status\":\"401\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/scim/v2/Users",
+      "resolvedPath": "/api/scim/v2/Users",
+      "method": "POST",
+      "file": "app/api/scim/v2/Users/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 221,
+      "bodySnippet": "{\"schemas\":[\"urn:ietf:params:scim:api:messages:2.0:Error\"],\"detail\":\"Unauthorized\",\"status\":\"401\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/scim/v2/Users/__id__",
+      "resolvedPath": "/api/scim/v2/Users/000000000000000000000000",
+      "method": "DELETE",
+      "file": "app/api/scim/v2/Users/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 226,
+      "bodySnippet": "{\"schemas\":[\"urn:ietf:params:scim:api:messages:2.0:Error\"],\"detail\":\"Unauthorized\",\"status\":\"401\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/scim/v2/Users/__id__",
+      "resolvedPath": "/api/scim/v2/Users/000000000000000000000000",
+      "method": "GET",
+      "file": "app/api/scim/v2/Users/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 241,
+      "bodySnippet": "{\"schemas\":[\"urn:ietf:params:scim:api:messages:2.0:Error\"],\"detail\":\"Unauthorized\",\"status\":\"401\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/scim/v2/Users/__id__",
+      "resolvedPath": "/api/scim/v2/Users/000000000000000000000000",
+      "method": "PATCH",
+      "file": "app/api/scim/v2/Users/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 234,
+      "bodySnippet": "{\"schemas\":[\"urn:ietf:params:scim:api:messages:2.0:Error\"],\"detail\":\"Unauthorized\",\"status\":\"401\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/scim/v2/Users/__id__",
+      "resolvedPath": "/api/scim/v2/Users/000000000000000000000000",
+      "method": "PUT",
+      "file": "app/api/scim/v2/Users/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 225,
+      "bodySnippet": "{\"schemas\":[\"urn:ietf:params:scim:api:messages:2.0:Error\"],\"detail\":\"Unauthorized\",\"status\":\"401\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/signup",
+      "resolvedPath": "/api/signup",
+      "method": "POST",
+      "file": "app/api/signup/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 403,
+      "durationMs": 219,
+      "bodySnippet": "{\"error\":\"origin_required\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/site-settings",
+      "resolvedPath": "/api/site-settings",
+      "method": "GET",
+      "file": "app/api/site-settings/route.ts",
+      "verdict": "OK",
+      "status": 200,
+      "durationMs": 246,
+      "bodySnippet": "{\"showQrDescription\":true}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": false,
+        "hasValidation": false,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/templates",
+      "resolvedPath": "/api/templates",
+      "method": "GET",
+      "file": "app/api/templates/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 209,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/templates",
+      "resolvedPath": "/api/templates",
+      "method": "POST",
+      "file": "app/api/templates/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 242,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/templates/__id__",
+      "resolvedPath": "/api/templates/000000000000000000000000",
+      "method": "DELETE",
+      "file": "app/api/templates/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 211,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/upload",
+      "resolvedPath": "/api/upload",
+      "method": "POST",
+      "file": "app/api/upload/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 219,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/v1",
+      "resolvedPath": "/api/v1",
+      "method": "GET",
+      "file": "app/api/v1/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 218,
+      "bodySnippet": "{\"error\":\"Missing API key. Use Authorization: Bearer <key> or X-API-Key header.\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": false,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/v1/folders",
+      "resolvedPath": "/api/v1/folders",
+      "method": "GET",
+      "file": "app/api/v1/folders/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 220,
+      "bodySnippet": "{\"error\":\"Missing API key. Use Authorization: Bearer <key> or X-API-Key header.\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/v1/folders",
+      "resolvedPath": "/api/v1/folders",
+      "method": "POST",
+      "file": "app/api/v1/folders/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 205,
+      "bodySnippet": "{\"error\":\"Missing API key. Use Authorization: Bearer <key> or X-API-Key header.\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/v1/folders/__id__",
+      "resolvedPath": "/api/v1/folders/000000000000000000000000",
+      "method": "DELETE",
+      "file": "app/api/v1/folders/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 219,
+      "bodySnippet": "{\"error\":\"Missing API key. Use Authorization: Bearer <key> or X-API-Key header.\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/v1/folders/__id__",
+      "resolvedPath": "/api/v1/folders/000000000000000000000000",
+      "method": "GET",
+      "file": "app/api/v1/folders/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 210,
+      "bodySnippet": "{\"error\":\"Missing API key. Use Authorization: Bearer <key> or X-API-Key header.\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/v1/folders/__id__",
+      "resolvedPath": "/api/v1/folders/000000000000000000000000",
+      "method": "PATCH",
+      "file": "app/api/v1/folders/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 221,
+      "bodySnippet": "{\"error\":\"Missing API key. Use Authorization: Bearer <key> or X-API-Key header.\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/v1/qr",
+      "resolvedPath": "/api/v1/qr",
+      "method": "GET",
+      "file": "app/api/v1/qr/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 219,
+      "bodySnippet": "{\"error\":\"Missing API key. Use Authorization: Bearer <key> or X-API-Key header.\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/v1/qr",
+      "resolvedPath": "/api/v1/qr",
+      "method": "POST",
+      "file": "app/api/v1/qr/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 220,
+      "bodySnippet": "{\"error\":\"Missing API key. Use Authorization: Bearer <key> or X-API-Key header.\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/v1/qr/__id__",
+      "resolvedPath": "/api/v1/qr/000000000000000000000000",
+      "method": "DELETE",
+      "file": "app/api/v1/qr/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 245,
+      "bodySnippet": "{\"error\":\"Missing API key. Use Authorization: Bearer <key> or X-API-Key header.\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/v1/qr/__id__",
+      "resolvedPath": "/api/v1/qr/000000000000000000000000",
+      "method": "GET",
+      "file": "app/api/v1/qr/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 225,
+      "bodySnippet": "{\"error\":\"Missing API key. Use Authorization: Bearer <key> or X-API-Key header.\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/v1/qr/__id__",
+      "resolvedPath": "/api/v1/qr/000000000000000000000000",
+      "method": "PATCH",
+      "file": "app/api/v1/qr/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 243,
+      "bodySnippet": "{\"error\":\"Missing API key. Use Authorization: Bearer <key> or X-API-Key header.\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/verify",
+      "resolvedPath": "/api/verify",
+      "method": "POST",
+      "file": "app/api/verify/route.ts",
+      "verdict": "OK_REJECT",
+      "status": 400,
+      "durationMs": 213,
+      "bodySnippet": "{\"error\":\"missing_fields\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/verify/resend",
+      "resolvedPath": "/api/verify/resend",
+      "method": "POST",
+      "file": "app/api/verify/resend/route.ts",
+      "verdict": "OK_REJECT",
+      "status": 400,
+      "durationMs": 238,
+      "bodySnippet": "{\"error\":\"email_required\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": false,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": false,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/webhooks",
+      "resolvedPath": "/api/webhooks",
+      "method": "GET",
+      "file": "app/api/webhooks/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 232,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/webhooks",
+      "resolvedPath": "/api/webhooks",
+      "method": "POST",
+      "file": "app/api/webhooks/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 243,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/webhooks/__id__",
+      "resolvedPath": "/api/webhooks/000000000000000000000000",
+      "method": "DELETE",
+      "file": "app/api/webhooks/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 209,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/webhooks/__id__",
+      "resolvedPath": "/api/webhooks/000000000000000000000000",
+      "method": "PATCH",
+      "file": "app/api/webhooks/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 245,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": true,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/webhooks/deliveries",
+      "resolvedPath": "/api/webhooks/deliveries",
+      "method": "GET",
+      "file": "app/api/webhooks/deliveries/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 236,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": false
+      }
+    },
+    {
+      "path": "/api/workspace",
+      "resolvedPath": "/api/workspace",
+      "method": "GET",
+      "file": "app/api/workspace/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 228,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/workspace",
+      "resolvedPath": "/api/workspace",
+      "method": "POST",
+      "file": "app/api/workspace/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 229,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/workspace/clients",
+      "resolvedPath": "/api/workspace/clients",
+      "method": "GET",
+      "file": "app/api/workspace/clients/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 230,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/workspace/clients",
+      "resolvedPath": "/api/workspace/clients",
+      "method": "POST",
+      "file": "app/api/workspace/clients/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 230,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/workspace/clients/__id__",
+      "resolvedPath": "/api/workspace/clients/000000000000000000000000",
+      "method": "DELETE",
+      "file": "app/api/workspace/clients/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 230,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/workspace/clients/__id__",
+      "resolvedPath": "/api/workspace/clients/000000000000000000000000",
+      "method": "PATCH",
+      "file": "app/api/workspace/clients/[id]/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 204,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/workspace/enterprise",
+      "resolvedPath": "/api/workspace/enterprise",
+      "method": "GET",
+      "file": "app/api/workspace/enterprise/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 222,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/workspace/enterprise",
+      "resolvedPath": "/api/workspace/enterprise",
+      "method": "PATCH",
+      "file": "app/api/workspace/enterprise/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 226,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/workspace/members",
+      "resolvedPath": "/api/workspace/members",
+      "method": "GET",
+      "file": "app/api/workspace/members/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 244,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    },
+    {
+      "path": "/api/workspace/members",
+      "resolvedPath": "/api/workspace/members",
+      "method": "POST",
+      "file": "app/api/workspace/members/route.ts",
+      "verdict": "OK_AUTH",
+      "status": 401,
+      "durationMs": 246,
+      "bodySnippet": "{\"error\":\"Unauthorized\"}",
+      "error": null,
+      "timedOut": false,
+      "static": {
+        "hasSessionAuth": true,
+        "hasRateLimit": false,
+        "hasValidation": true,
+        "returns401": true,
+        "returns403": true
+      }
+    }
+  ]
+}

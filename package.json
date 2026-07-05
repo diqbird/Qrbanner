@@ -24,6 +24,8 @@
     "test:lighthouse:remote": "python scripts/run-lighthouse-remote.py",
     "audit:tour": "python scripts/run-post-audit-tour.py",
     "qa:senior": "python scripts/run-senior-qa.py",
+    "qa:buttons": "python scripts/qa/scan-buttons.py && node scripts/qa/test-public-buttons.mjs && python scripts/qa/generate-button-report.py",
+    "qa:apis": "python scripts/qa/audit-all-apis.py",
     "test:e2e": "playwright test",
     "cap:sync": "npx cap sync",
     "cap:android": "npx cap open android",

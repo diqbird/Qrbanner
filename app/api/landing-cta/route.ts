@@ -6,11 +6,21 @@ import { logLandingCtaClick, type LandingCtaType } from '@/lib/landing-cta-analy
 import { lookupGeo } from '@/lib/geoip';
 import { parseUserAgent } from '@/lib/qr-utils';
 import { dispatchAutomations, buildCtaAutomationContext } from '@/lib/automation-engine';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 const ALLOWED_TYPES = new Set<LandingCtaType>(['primary', 'hub', 'lead']);
 
 export async function POST(req: NextRequest) {
   try {
+    const ip =
+      req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+      req.headers.get('x-real-ip') ??
+      'unknown';
+    const limited = await checkRateLimit(`landing-cta:${ip}`, 30, 15 * 60 * 1000);
+    if (!limited.ok) {
+      return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
+    }
+
     const body = await req.json().catch(() => ({}));
     const shortCode = String(body.shortCode ?? '').trim();
     const ctaType = String(body.ctaType ?? 'hub') as LandingCtaType;
@@ -33,10 +43,6 @@ export async function POST(req: NextRequest) {
 
     logLandingCtaClick(qrCode, req, { ctaType, ctaLabel });
 
-    const ip =
-      req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
-      req.headers.get('x-real-ip') ??
-      'unknown';
     const geo = lookupGeo(ip);
     const { device } = parseUserAgent(req.headers.get('user-agent'));
 

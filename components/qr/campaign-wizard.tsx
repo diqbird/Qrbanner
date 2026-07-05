@@ -96,6 +96,7 @@ export function CampaignWizard() {
   }, []);
 
   const handleGenerate = async () => {
+    if (loading) return;
     if (prompt.trim().length < 8) {
       toast.error(t('campaign.promptTooShort'));
       return;
@@ -117,7 +118,13 @@ export function CampaignWizard() {
           websiteUrl: websiteUrl.trim() || undefined,
         }),
       });
-      const data = await res.json();
+      let data: { plan?: CampaignPlan; llmConfigured?: boolean; error?: string };
+      try {
+        data = await res.json();
+      } catch {
+        toast.error(t('campaign.generateFailed'));
+        return;
+      }
       if (res.status === 401) {
         router.push(`/signup?callbackUrl=${encodeURIComponent('/qr/campaign')}`);
         return;
@@ -126,7 +133,21 @@ export function CampaignWizard() {
         toast.error(t('campaign.rateLimited'));
         return;
       }
-      if (!res.ok) {
+      if (res.status === 400) {
+        toast.error(
+          data.error === 'prompt_too_long'
+            ? t('campaign.promptTooLong')
+            : data.error === 'invalid_json'
+              ? t('campaign.generateFailed')
+              : t('campaign.promptTooShort')
+        );
+        return;
+      }
+      if (res.status === 415) {
+        toast.error(t('campaign.generateFailed'));
+        return;
+      }
+      if (!res.ok || !data.plan) {
         toast.error(t('campaign.generateFailed'));
         return;
       }
@@ -141,7 +162,7 @@ export function CampaignWizard() {
   };
 
   const handleCreate = async () => {
-    if (!plan) return;
+    if (!plan || loading) return;
     const enabled = plan.items.filter((i) => i.enabled);
     if (!enabled.length) {
       toast.error(t('campaign.createFailed'));

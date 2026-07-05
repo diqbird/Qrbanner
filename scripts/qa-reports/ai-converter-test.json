@@ -1,0 +1,68 @@
+{
+  "testedAt": "2026-07-05T08:44:22.342160+00:00",
+  "base": "https://qrbanner.com",
+  "results": [
+    {
+      "test": "UI opens",
+      "verdict": "PASS",
+      "detail": "HTTP 200, 431ms"
+    },
+    {
+      "test": "401 without session",
+      "verdict": "PASS",
+      "detail": "HTTP 401",
+      "body": "{\"error\":\"unauthorized\"}"
+    },
+    {
+      "test": "404 wrong endpoint",
+      "verdict": "PASS",
+      "detail": "HTTP 404"
+    },
+    {
+      "test": "400 short prompt",
+      "verdict": "INFO",
+      "detail": "Blocked at 401 before validation (auth first \u2014 expected unauthenticated probe)"
+    },
+    {
+      "test": "Empty body",
+      "verdict": "PASS",
+      "detail": "HTTP 401"
+    },
+    {
+      "test": "Invalid JSON body",
+      "verdict": "PASS",
+      "detail": "HTTP 401"
+    },
+    {
+      "test": "Large prompt (6000 chars)",
+      "verdict": "INFO",
+      "detail": "HTTP 401 (server slices to 500)"
+    },
+    {
+      "test": "Unsupported multipart (file analog)",
+      "verdict": "PASS",
+      "detail": "HTTP 401"
+    },
+    {
+      "test": "405/404 GET on POST route",
+      "verdict": "PASS",
+      "detail": "HTTP 405"
+    },
+    {
+      "test": "10 concurrent requests",
+      "verdict": "PASS",
+      "detail": "statuses=[401, 401, 401, 401, 401, 401, 401, 401, 401, 401]"
+    },
+    {
+      "test": "Streaming",
+      "verdict": "INFO",
+      "detail": "Not implemented (JSON response only)",
+      "content_type": "application/json"
+    },
+    {
+      "test": "Response JSON parse",
+      "verdict": "PASS",
+      "detail": "valid JSON keys=['error']"
+    }
+  ]
+}

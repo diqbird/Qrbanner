@@ -1,0 +1,239 @@
+[
+  {
+    "page": "/",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/pricing",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/pricing",
+    "label": "Agency'ye yükselt",
+    "errors": [
+      "Failed to load resource: the server responded with a status of 401 ()",
+      "Failed to fetch RSC payload for https://qrbanner.com/cookies. Falling back to browser navigation. TypeError: Failed to fetch\n    at s (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:45560)\n    at https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:59111\n    at Object.u [as task] (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:31932)\n    at c.s (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:32637)\n    at Object.u [as task] (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:31994)",
+      "Failed to fetch RSC payload for https://qrbanner.com/privacy. Falling back to browser navigation. TypeError: Failed to fetch\n    at s (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:45560)\n    at https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:59111\n    at Object.u [as task] (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:31932)\n    at c.s (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:32637)\n    at Object.u [as task] (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:31994)"
+    ]
+  },
+  {
+    "page": "/features",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/faq",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/contact",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/enterprise",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/developers",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/qr/create",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/qr/create",
+    "label": "Paylaş",
+    "errors": [
+      "Connecting to 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUQAAAFrCAYAAACpEPAlAAAQAElEQVR4AeydCbAlVXnHzxAG2YZdicZIoYAIpjCyjMBEURBccCVR4xCCDhqHqIioUChooIZiogJOEJdAoACDhYCKVOFWbhmDIwMqChIRcdzAYGAGht0U9te88+h7+jv3nd7u7T7nR93z+p6vv/Mtv3PrX3273xs2eJT/IAABCEAgJ7CB4T8IQAACEMgJIIg5Bn5AAAIQMCYqQWRDIQABCDQhgCA2ocdaCEAgKgIIYlTbSTMQgEATAghiE3pdriU2BCAwcQII4sSRkxACEOgrAQSxrztDXRCAwMQJIIgTR55iQnqGwDAIIIjD2CeqhAAEJkAAQZwAZFJAAALDIIAgDmOfqLI/BKgkYgITF8S7164z3/3edebqr33bXPaFq835F19mzv7UhebMs89jwIDPQKKfAdGACz5zea4Jog2iEWvX3TNx6e1cENffd...4QiIEAPTQigCA2wsdiCEAgJgIIYky7SS8QgEAjAghiI3wshgAEuiMw+cgI4uSZkxECEOgpAQSxpxtDWRCAwOQJIIiTZ05GCECgpwQ6E8Q1N62c/YdH5Z+SZ8CDzwCfgbY+A13paWeC2FXBxIUABCDQFQEEsSuyxIUABAZHAEEM2zK8IACBBAggiAlsMi1CAAJhBBDEME54QQACCRBAEBPYZLdF5hCAgE4AQdS5YIUABBIkgCAmuOm0DAEI6AQQRJ0L1qEQoE4ItEgAQWwRJqEgAIFhE0AQh71/VA8BCLRIAEFsESahINCMAKunTQBBnPYOkB8CEOgNAQSxN1tBIRCAwLQJIIjT3gHyQyBOAoPsCkEc5LZRNAQg0AUBBLELqsSEAAQGSQBBHOS2UTQEINAFAZ8gdpGLmBCAAAR6TQBB7PX2UBwEIDBJAgjiJGmTCwIQ6DWBPwEAAP//FwvT/AAAAAZJREFUAwDPcDYQWBZ8fwAAAABJRU5ErkJggg==' violates the following Content Security Policy directive: \"connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.facebook.com https://client.crisp.chat wss://client.relay.crisp.chat wss://relay.crisp.chat https://api.paddle.com https://sandbox-api.paddle.com https://checkout-service.paddle.com https://sandbox-checkout-service.paddle.com\". The action has been blocked.",
+      "Fetch API cannot load data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUQAAAFrCAYAAACpEPAlAAAQAElEQVR4AeydCbAlVXnHzxAG2YZdicZIoYAIpjCyjMBEURBccCVR4xCCDhqHqIioUChooIZiogJOEJdAoACDhYCKVOFWbhmDIwMqChIRcdzAYGAGht0U9te88+h7+jv3nd7u7T7nR93z+p6vv/Mtv3PrX3273xs2eJT/IAABCEAgJ7CB4T8IQAACEMgJIIg5Bn5AAAIQMCYqQWRDIQABCDQhgCA2ocdaCEAgKgIIYlTbSTMQgEATAghiE3pdriU2BCAwcQII4sSRkxACEOgrAQSxrztDXRCAwMQJIIgTR55iQnqGwDAIIIjD2CeqhAAEJkAAQZwAZFJAAALDIIAgDmOfqLI/BKgkYgITF8S7164z3/3edebqr33bXPaFq835F19mzv7UhebMs89jwIDPQKKfAdGACz5zea4Jog2iEWvX3TNx6e1cENffd...4QiIEAPTQigCA2wsdiCEAgJgIIYky7SS8QgEAjAghiI3wshgAEuiMw+cgI4uSZkxECEOgpAQSxpxtDWRCAwOQJIIiTZ05GCECgpwQ6E8Q1N62c/YdH5Z+SZ8CDzwCfgbY+A13paWeC2FXBxIUABCDQFQEEsSuyxIUABAZHAEEM2zK8IACBBAggiAlsMi1CAAJhBBDEME54QQACCRBAEBPYZLdF5hCAgE4AQdS5YIUABBIkgCAmuOm0DAEI6AQQRJ0L1qEQoE4ItEgAQWwRJqEgAIFhE0AQh71/VA8BCLRIAEFsESahINCMAKunTQBBnPYOkB8CEOgNAQSxN1tBIRCAwLQJIIjT3gHyQyBOAoPsCkEc5LZRNAQg0AUBBLELqsSEAAQGSQBBHOS2UTQEINAFAZ8gdpGLmBCAAAR6TQBB7PX2UBwEIDBJAgjiJGmTCwIQ6DWBPwEAAP//FwvT/AAAAAZJREFUAwDPcDYQWBZ8fwAAAABJRU5ErkJggg==. Refused to connect because it violates the document's Content Security Policy."
+    ]
+  },
+  {
+    "page": "/qr/campaign",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/templates",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/case-studies",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/customers",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/reviews",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/blog",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/solutions",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/integrations",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/compare",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/compare",
+    "label": "TR",
+    "errors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to fetch RSC payload for https://qrbanner.com/contact?demo=1. Falling back to browser navigation. TypeError: Failed to fetch\n    at s (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:45560)\n    at https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:59111\n    at Object.u [as task] (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:31932)\n    at c.s (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:32637)\n    at Object.u [as task] (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:31994)",
+      "Failed to fetch RSC payload for https://qrbanner.com/tr/faq. Falling back to browser navigation. TypeError: Failed to fetch\n    at s (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:45560)\n    at https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:59111\n    at Object.u [as task] (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:31932)\n    at c.s (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:32637)\n    at Object.u [as task] (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:31994)",
+      "Failed to fetch RSC payload for https://qrbanner.com/qr/create?quick=1. Falling back to browser navigation. TypeError: Failed to fetch\n    at s (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:45560)\n    at https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:59111\n    at Object.u [as task] (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:31932)\n    at c.s (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:32637)\n    at Object.u [as task] (https://qrbanner.com/_next/static/chunks/2117-b68b9e35.js:1:31994)",
+      "Failed to fetch RSC payload for https://qrbanner.com/tr/pricing. Falling back to browser navigation. TypeError: network error",
+      "Failed to fetch RSC payload for https://qrbanner.com/blog. Falling back to browser navigation. TypeError: network error",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ]
+  },
+  {
+    "page": "/security",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/status",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/demo",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/referral",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/affiliates",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/privacy",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/terms",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/cookies",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/cookies",
+    "label": "QRbanner",
+    "errors": [
+      "Failed to load resource: the server responded with a status of 502 ()",
+      "Failed to load resource: the server responded with a status of 502 ()",
+      "Failed to load resource: the server responded with a status of 502 ()",
+      "Failed to load resource: the server responded with a status of 502 ()"
+    ]
+  },
+  {
+    "page": "/refund",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/tr",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  },
+  {
+    "page": "/tr/pricing",
+    "label": "Ara\n⌘K",
+    "errors": [
+      "`DialogContent` requires a `DialogTitle` for the component to be accessible for screen reader users.\n\nIf you want to hide the `DialogTitle`, you can wrap it with our VisuallyHidden component.\n\nFor more information, see https://radix-ui.com/primitives/docs/components/dialog"
+    ]
+  }
+]

@@ -29,6 +29,16 @@ import type { IndustryPrintLayout } from '@/lib/industry-print-layouts';
 
 const EXPORT_SIZES = [512, 1024, 2048, 4096] as const;
 
+function dataUrlToBlob(dataUrl: string): Blob {
+  const [header, data] = dataUrl.split(',');
+  if (!data) throw new Error('invalid_data_url');
+  const mime = header.match(/:(.*?);/)?.[1] || 'image/png';
+  const binary = atob(data);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return new Blob([bytes], { type: mime });
+}
+
 interface QRPreviewProps {
   category: string;
   qrData: Record<string, string>;
@@ -238,7 +248,7 @@ export function QRPreview({
     }
 
     try {
-      const blob = await fetch(qrDataUrl).then((r: Response) => r.blob());
+      const blob = dataUrlToBlob(qrDataUrl);
       const file = new File([blob], 'qr-code.png', { type: blob.type || 'image/png' });
       const fileShare = { files: [file], title: qrName || 'QR Code from QRbanner' };
 

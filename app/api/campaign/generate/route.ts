@@ -22,8 +22,28 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
-  const body = await req.json().catch(() => ({}));
-  const prompt = String(body.prompt ?? '').trim().slice(0, MAX_CAMPAIGN_PROMPT_LEN);
+  const contentType = req.headers.get('content-type') ?? '';
+  if (contentType && !contentType.includes('application/json')) {
+    return NextResponse.json({ error: 'unsupported_content_type' }, { status: 415 });
+  }
+
+  const raw = await req.text();
+  if (!raw.trim()) {
+    return NextResponse.json({ error: 'empty_body' }, { status: 400 });
+  }
+
+  let body: Record<string, unknown>;
+  try {
+    body = JSON.parse(raw) as Record<string, unknown>;
+  } catch {
+    return NextResponse.json({ error: 'invalid_json' }, { status: 400 });
+  }
+
+  const promptRaw = String(body.prompt ?? '').trim();
+  if (promptRaw.length > MAX_CAMPAIGN_PROMPT_LEN) {
+    return NextResponse.json({ error: 'prompt_too_long' }, { status: 400 });
+  }
+  const prompt = promptRaw;
   if (prompt.length < 8) {
     return NextResponse.json({ error: 'prompt_too_short' }, { status: 400 });
   }

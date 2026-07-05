@@ -2411,6 +2411,7 @@ export const tr: TranslationTree = {
     sourceTemplate: 'Akıllı şablon',
     noLlm: 'Daha zengin AI metni için OPENAI_API_KEY ekleyin — şimdilik kural tabanlı kit kullanılıyor.',
     promptTooShort: 'İşletmenizi en az birkaç kelimeyle anlatın.',
+    promptTooLong: 'Metin çok uzun — en fazla 500 karakter kullanın.',
     generateFailed: 'Kampanya üretilemedi. Tekrar deneyin.',
     createFailed: 'QR kodları oluşturulamadı.',
     rateLimited: 'Çok fazla istek — birkaç dakika bekleyin.',
