@@ -7,27 +7,18 @@ import { toast } from 'sonner';
 import { DEFAULT_QR_STYLE, normalizeQRStyle } from '@/components/qr/qr-style-editor';
 import type { QRStyleConfig } from '@/lib/qr-style';
 import { useQRStyleHistory } from '@/hooks/use-qr-style-history';
-import { downscaleLogo } from '@/lib/image-downscale';
 import { QR_CATEGORIES, buildQRPayload } from '@/lib/qr-utils';
 import type { IndustryTemplate } from '@/lib/industry-templates';
-import {
-  stripMetaFields,
-  buildLandingFromTemplate,
-  getTemplateById,
-  validateTemplateRequiredFields,
-} from '@/lib/industry-templates';
-import { emptyLandingPage } from '@/components/qr/landing-page-editor';
-import { defaultLeadForm } from '@/lib/landing-page';
+import { stripMetaFields, getTemplateById, validateTemplateRequiredFields } from '@/lib/industry-templates';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { useUnsavedChangesGuard } from '@/hooks/use-unsaved-changes-guard';
 import { buildQrFeaturePayload, useQrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import { hubLinksValid, firstHubUrl } from '@/components/qr/link-hub-editor';
-import {
-  clearQrCreateDraft,
-  loadQrCreateDraft,
-  saveQrCreateDraft,
-  type QrCreateDraft,
-} from '@/lib/qr-create-draft';
+import { clearQrCreateDraft } from '@/lib/qr-create-draft';
+import { applyQrCreateDraft, buildQrCreateDraft } from '@/lib/qr-create-form-draft';
+import { useQrCreateDraftSync } from '@/hooks/use-qr-create-draft-sync';
+import { useQrCreateTemplateActions } from '@/hooks/use-qr-create-template-actions';
+import { useQrCreateLogo } from '@/hooks/use-qr-create-logo';
 
 export function useQrCreateForm() {
   const { t } = useLanguage();
@@ -88,7 +79,6 @@ export function useQrCreateForm() {
     searchParams?.get('quick') === '1' ? 'quick' : 'wizard',
   );
   const urlParamsApplied = useRef(false);
-  const draftRestored = useRef(false);
 
   const hasWizardProgress =
     step > 0 ||
@@ -101,61 +91,62 @@ export function useQrCreateForm() {
 
   const payloadData = useCallback(() => stripMetaFields(qrData), [qrData]);
 
-  const buildCurrentDraft = useCallback((): QrCreateDraft => ({
-    version: 1,
-    savedAt: new Date().toISOString(),
-    step,
-    category,
-    name,
-    qrData,
-    style,
-    logoPreview,
-    templateId: activeTemplate?.id ?? null,
-    advanced,
-    landingEnabled,
-    landingPage,
-    scheduleEnabled,
-    scheduleData,
-    geofenceEnabled,
-    geofenceData,
-    abTestEnabled,
-    abTestData,
-    gpsHeatmapEnabled,
-    nfcEnabled,
-    scanNotify,
-    pixels,
-  }), [
-    step, category, name, qrData, style, logoPreview, activeTemplate,
-    advanced, landingEnabled, landingPage, scheduleEnabled, scheduleData,
-    geofenceEnabled, geofenceData, abTestEnabled, abTestData,
-    gpsHeatmapEnabled, nfcEnabled, scanNotify, pixels,
-  ]);
+  const buildCurrentDraft = useCallback(
+    () =>
+      buildQrCreateDraft({
+        step,
+        category,
+        name,
+        qrData,
+        style,
+        logoPreview,
+        activeTemplate,
+        advanced,
+        landingEnabled,
+        landingPage,
+        scheduleEnabled,
+        scheduleData,
+        geofenceEnabled,
+        geofenceData,
+        abTestEnabled,
+        abTestData,
+        gpsHeatmapEnabled,
+        nfcEnabled,
+        scanNotify,
+        pixels,
+      }),
+    [
+      step, category, name, qrData, style, logoPreview, activeTemplate,
+      advanced, landingEnabled, landingPage, scheduleEnabled, scheduleData,
+      geofenceEnabled, geofenceData, abTestEnabled, abTestData,
+      gpsHeatmapEnabled, nfcEnabled, scanNotify, pixels,
+    ],
+  );
 
   const applyDraft = useCallback(
-    (draft: QrCreateDraft) => {
-      setStep(draft.step);
-      setCategory(draft.category);
-      setName(draft.name);
-      setQrData(draft.qrData);
-      resetStyleHistory(normalizeQRStyle(draft.style));
-      setLogoPreview(draft.logoPreview);
-      setAdvanced(draft.advanced);
-      setLandingEnabled(draft.landingEnabled);
-      setLandingPage(draft.landingPage);
-      setScheduleEnabled(draft.scheduleEnabled);
-      setScheduleData(draft.scheduleData);
-      setGeofenceEnabled(draft.geofenceEnabled);
-      setGeofenceData(draft.geofenceData);
-      setAbTestEnabled(draft.abTestEnabled);
-      setAbTestData(draft.abTestData);
-      setGpsHeatmapEnabled(draft.gpsHeatmapEnabled);
-      setNfcEnabled(draft.nfcEnabled);
-      setScanNotify(draft.scanNotify);
-      setPixels(draft.pixels);
-      if (draft.templateId) {
-        const tmpl = getTemplateById(draft.templateId);
-        if (tmpl) setActiveTemplate(tmpl);
-      }
+    (draft: ReturnType<typeof buildCurrentDraft>) => {
+      applyQrCreateDraft(draft, {
+        setStep,
+        setCategory,
+        setName,
+        setQrData,
+        resetStyleHistory,
+        setLogoPreview,
+        setActiveTemplate,
+        setAdvanced,
+        setLandingEnabled,
+        setLandingPage,
+        setScheduleEnabled,
+        setScheduleData,
+        setGeofenceEnabled,
+        setGeofenceData,
+        setAbTestEnabled,
+        setAbTestData,
+        setGpsHeatmapEnabled,
+        setNfcEnabled,
+        setScanNotify,
+        setPixels,
+      });
     },
     [
       resetStyleHistory,
@@ -175,89 +166,46 @@ export function useQrCreateForm() {
     ],
   );
 
-  const redirectGuestToSignup = useCallback(() => {
-    saveQrCreateDraft({ ...buildCurrentDraft(), step: 3 });
-    const callback = encodeURIComponent('/qr/create?restore=1');
-    router.push(`/signup?callbackUrl=${callback}`);
-  }, [buildCurrentDraft, router]);
+  const { redirectGuestToSignup, saveGuestDraft } = useQrCreateDraftSync({
+    isGuest,
+    category,
+    authStatus,
+    restoreParam: searchParams.get('restore'),
+    buildCurrentDraft,
+    applyDraft,
+    router,
+    t,
+  });
 
-  const saveGuestDraft = useCallback(() => {
-    if (!isGuest || !category) return;
-    saveQrCreateDraft(buildCurrentDraft());
-  }, [isGuest, category, buildCurrentDraft]);
+  const {
+    applyStyleTemplate,
+    applyTemplate,
+    selectCategory,
+    enterWizardFromQuick: enterWizardFromQuickInner,
+    applyStyleTemplateFromApi,
+  } = useQrCreateTemplateActions({
+    category,
+    resetStyleHistory,
+    setCategory,
+    setQrData,
+    setName,
+    setStep,
+    setActiveTemplate,
+    setTemplateGuideDismissed,
+    setStoredLogoPath,
+    setLogoPreview,
+    setLogoFile,
+    setLandingEnabled,
+    setLandingPage,
+    t,
+  });
 
-  const applyStyleTemplate = useCallback(
-    (tpl: { style: Record<string, unknown>; logoPath: string | null; name?: string }) => {
-      resetStyleHistory(normalizeQRStyle(tpl.style));
-      if (tpl.logoPath) {
-        setStoredLogoPath(tpl.logoPath);
-        setLogoPreview(tpl.logoPath);
-        setLogoFile(null);
-      }
-      if (!category) {
-        setCategory('url');
-        setQrData({ url: 'https://' });
-      }
-      setStep((s) => Math.max(s, 1));
-    },
-    [resetStyleHistory, category],
-  );
-
-  const applyTemplate = useCallback(
-    (template: IndustryTemplate) => {
-      setActiveTemplate(template);
-      setTemplateGuideDismissed(false);
-      setCategory(template.category);
-      setQrData({ ...template.qrData });
-      resetStyleHistory(normalizeQRStyle({ ...DEFAULT_QR_STYLE, ...template.style }));
-      setName(template.suggestedQrName);
-      const built = buildLandingFromTemplate(template, template.qrData);
-      const hubLinks = template.landingPage?.hubLinks;
-      const wantsLanding = built.enabled || template.category === 'link_hub';
-      if (wantsLanding) {
-        setLandingEnabled(true);
-        setLandingPage({
-          ...emptyLandingPage,
-          template: built.template ?? (template.category === 'link_hub' ? 'hotel' : 'minimal'),
-          title: built.title ?? template.suggestedQrName,
-          subtitle: built.subtitle ?? '',
-          accentColor: built.accentColor ?? emptyLandingPage.accentColor,
-          ctaLabel: built.ctaLabel ?? 'Continue',
-          leadFormEnabled: built.leadFormEnabled ?? false,
-          leadForm: { ...defaultLeadForm, ...built.leadForm },
-          ...(hubLinks?.length ? { hubMode: true, hubLinks: [...hubLinks] } : {}),
-        });
-        if (template.category === 'link_hub' && hubLinks?.length) {
-          const url = hubLinks.find((l) => l.url?.trim())?.url ?? '';
-          if (url) setQrData({ url });
-        }
-      }
-      setStep(1);
-    },
-    [resetStyleHistory, setLandingEnabled, setLandingPage],
-  );
-
-  const selectCategory = useCallback(
-    (catId: string) => {
-      setActiveTemplate(null);
-      setCategory(catId);
-      setQrData({});
-      if (catId === 'link_hub') {
-        setLandingEnabled(true);
-        setLandingPage({
-          ...emptyLandingPage,
-          template: 'minimal',
-          hubMode: true,
-          hubLinks: [
-            { label: 'Website', url: '' },
-            { label: 'Instagram', url: '' },
-          ],
-        });
-      }
-      setStep(1);
-    },
-    [setLandingEnabled, setLandingPage],
-  );
+  const { handleLogoChange, applyTemplateLogo, uploadLogo } = useQrCreateLogo({
+    logoFile,
+    setLogoFile,
+    setLogoPreview,
+    setStoredLogoPath,
+  });
 
   useEffect(() => {
     if (urlParamsApplied.current) return;
@@ -277,33 +225,9 @@ export function useQrCreateForm() {
       setStep(1);
     } else if (styleTemplateId) {
       urlParamsApplied.current = true;
-      fetch('/api/templates')
-        .then((res) => (res.ok ? res.json() : null))
-        .then((data) => {
-          const tpl = (data?.templates ?? []).find(
-            (row: { id: string }) => row.id === styleTemplateId,
-          );
-          if (tpl) {
-            applyStyleTemplate(tpl);
-            toast.success(t('settings.brandKit.applied', { name: tpl.name }));
-          }
-        })
-        .catch(() => {
-          /* ignore */
-        });
+      void applyStyleTemplateFromApi(styleTemplateId);
     }
-  }, [searchParams, applyTemplate, applyStyleTemplate, t]);
-
-  useEffect(() => {
-    if (draftRestored.current || authStatus !== 'authenticated') return;
-    if (searchParams.get('restore') !== '1') return;
-    const draft = loadQrCreateDraft();
-    if (!draft) return;
-    draftRestored.current = true;
-    applyDraft(draft);
-    toast.success(t('create.draftRestored'));
-    router.replace('/qr/create');
-  }, [authStatus, searchParams, applyDraft, router, t]);
+  }, [searchParams, applyTemplate, applyStyleTemplateFromApi]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -315,52 +239,7 @@ export function useQrCreateForm() {
     void import('@/components/qr/qr-create-step-design');
   }, [step]);
 
-  useEffect(() => {
-    if (!isGuest || !category) return;
-    const timer = window.setTimeout(() => {
-      saveQrCreateDraft(buildCurrentDraft());
-    }, 400);
-    return () => window.clearTimeout(timer);
-  }, [isGuest, category, buildCurrentDraft]);
-
   const goToStep = useCallback((next: number) => setStep(next), []);
-
-  const handleLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target?.files?.[0];
-    if (!file) return;
-    setStoredLogoPath(null);
-    try {
-      const { dataUrl, file: optimized } = await downscaleLogo(file);
-      setLogoFile(optimized);
-      setLogoPreview(dataUrl);
-    } catch {
-      const reader = new FileReader();
-      reader.onloadend = () => setLogoPreview(reader.result as string);
-      reader.readAsDataURL(file);
-      setLogoFile(file);
-    }
-  };
-
-  const applyTemplateLogo = useCallback((path: string | null) => {
-    setStoredLogoPath(path);
-    if (path) setLogoPreview(path);
-  }, []);
-
-  const uploadLogo = async (file?: File | null): Promise<{ cloud_storage_path: string } | null> => {
-    const toUpload = file ?? logoFile;
-    if (!toUpload) return null;
-    try {
-      const formData = new FormData();
-      formData.append('file', toUpload);
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
-      if (!res.ok) return null;
-      const { path } = await res.json();
-      return { cloud_storage_path: path };
-    } catch (e: unknown) {
-      console.error('Logo upload failed:', e);
-      return null;
-    }
-  };
 
   const handleSave = async () => {
     if (!name.trim()) {
@@ -434,16 +313,10 @@ export function useQrCreateForm() {
 
   const enterWizardFromQuick = useCallback(
     (data: { url?: string; name?: string; style?: Partial<QRStyleConfig> }) => {
-      if (data.url) {
-        setCategory('url');
-        setQrData({ url: data.url });
-        setName(data.name || '');
-        resetStyleHistory(normalizeQRStyle(data.style ?? DEFAULT_QR_STYLE));
-        setStep(1);
-      }
+      enterWizardFromQuickInner(data);
       setMode('wizard');
     },
-    [resetStyleHistory],
+    [enterWizardFromQuickInner],
   );
 
   return {

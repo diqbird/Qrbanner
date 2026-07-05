@@ -1,0 +1,25 @@
+{
+  "upload": [
+    "lib/qr-create-form-draft.ts",
+    "lib/qr-edit-form-types.ts",
+    "lib/qr-edit-form-utils.ts",
+    "lib/dashboard-qr-list-types.ts",
+    "hooks/use-qr-create-draft-sync.ts",
+    "hooks/use-qr-create-template-actions.ts",
+    "hooks/use-qr-create-logo.ts",
+    "hooks/use-qr-edit-dirty.ts",
+    "hooks/use-qr-edit-logo.ts",
+    "hooks/use-qr-list-data.ts",
+    "hooks/use-qr-list-actions.ts",
+    "hooks/use-qr-create-form.ts",
+    "hooks/use-qr-edit-form.ts",
+    "hooks/use-dashboard-qr-list.ts",
+    "components/qr/category-field-layouts.tsx",
+    "components/qr/category-field-layouts-url.tsx",
+    "components/qr/category-field-layouts-messaging.tsx",
+    "components/qr/category-field-layouts-social.tsx",
+    "components/qr/category-field-layouts-structured.tsx"
+  ],
+  "build": true,
+  "restart": true
+}

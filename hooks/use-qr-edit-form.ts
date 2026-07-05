@@ -1,68 +1,19 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import { DEFAULT_QR_STYLE, normalizeQRStyle } from '@/components/qr/qr-style-editor';
 import { useQRStyleHistory } from '@/hooks/use-qr-style-history';
 import type { QRStyleConfig } from '@/lib/qr-style';
-import { downscaleLogo } from '@/lib/image-downscale';
 import { stripMetaFields } from '@/lib/industry-templates';
-import { AdvancedValues } from '@/components/qr/advanced-settings';
-import { type LandingPageData } from '@/components/qr/landing-page-editor';
-import { type ScheduleData } from '@/components/qr/schedule-settings';
-import { type GeofenceData } from '@/components/qr/geofence-settings';
-import type { AbTestData } from '@/lib/ab-routing';
-import { type ScanNotifyValues } from '@/components/qr/scan-notify-settings';
-import { type PixelAnalyticsConfig } from '@/components/qr/analytics-pixel-settings';
 import { buildQrFeaturePayload, useQrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import { normalizeLabels } from '@/lib/organize-utils';
 import { useScanBaseUrl } from '@/lib/use-scan-base-url';
-import { useUnsavedChangesGuard } from '@/hooks/use-unsaved-changes-guard';
 import { useLanguage } from '@/components/i18n/language-provider';
-
-export interface QrEditRecord {
-  id: string;
-  name: string;
-  shortCode: string;
-  category: string;
-  targetUrl: string;
-  qrData: Record<string, string>;
-  style: unknown;
-  logoPath: string | null;
-  logoIsPublic: boolean;
-  isActive: boolean;
-  totalScans: number;
-  createdAt: string;
-  hasPassword?: boolean;
-  folderId?: string | null;
-  labels?: string[];
-}
-
-function editFormSnapshot(input: {
-  name: string;
-  qrData: Record<string, string>;
-  style: QRStyleConfig;
-  isActive: boolean;
-  storedLogoPath: string | null;
-  advanced: AdvancedValues;
-  landingEnabled: boolean;
-  landingPage: LandingPageData;
-  scheduleEnabled: boolean;
-  scheduleData: ScheduleData;
-  geofenceEnabled: boolean;
-  geofenceData: GeofenceData;
-  abTestEnabled: boolean;
-  abTestData: AbTestData;
-  gpsHeatmapEnabled: boolean;
-  nfcEnabled: boolean;
-  scanNotify: ScanNotifyValues;
-  folderId: string | null;
-  labels: string[];
-  pixels: PixelAnalyticsConfig;
-  removePassword: boolean;
-}) {
-  return JSON.stringify(input);
-}
+import type { QrEditRecord } from '@/lib/qr-edit-form-types';
+export type { QrEditRecord } from '@/lib/qr-edit-form-types';
+import { useQrEditDirty } from '@/hooks/use-qr-edit-dirty';
+import { useQrEditLogo } from '@/hooks/use-qr-edit-logo';
 
 export function useQrEditForm(qrId: string) {
   const { t } = useLanguage();
@@ -120,34 +71,31 @@ export function useQrEditForm(qrId: string) {
   const [folderId, setFolderId] = useState<string | null>(null);
   const [labels, setLabels] = useState<string[]>([]);
   const scanBaseUrl = useScanBaseUrl();
-  const [baseline, setBaseline] = useState<string | null>(null);
-  const [baselineTick, setBaselineTick] = useState(0);
 
-  const formSnapshot = useMemo(
-    () =>
-      editFormSnapshot({
-        name,
-        qrData,
-        style,
-        isActive,
-        storedLogoPath,
-        advanced,
-        landingEnabled,
-        landingPage,
-        scheduleEnabled,
-        scheduleData,
-        geofenceEnabled,
-        geofenceData,
-        abTestEnabled,
-        abTestData,
-        gpsHeatmapEnabled,
-        nfcEnabled,
-        scanNotify,
-        folderId,
-        labels,
-        pixels,
-        removePassword,
-      }),
+  const snapshotInput = useMemo(
+    () => ({
+      name,
+      qrData,
+      style,
+      isActive,
+      storedLogoPath,
+      advanced,
+      landingEnabled,
+      landingPage,
+      scheduleEnabled,
+      scheduleData,
+      geofenceEnabled,
+      geofenceData,
+      abTestEnabled,
+      abTestData,
+      gpsHeatmapEnabled,
+      nfcEnabled,
+      scanNotify,
+      folderId,
+      labels,
+      pixels,
+      removePassword,
+    }),
     [
       name,
       qrData,
@@ -173,19 +121,13 @@ export function useQrEditForm(qrId: string) {
     ],
   );
 
-  const isDirty = Boolean(logoFile) || (baseline !== null && formSnapshot !== baseline);
-  useUnsavedChangesGuard(isDirty);
+  const { markSaved } = useQrEditDirty(loading, qr?.id, snapshotInput, logoFile);
 
-  const formSnapshotRef = useRef(formSnapshot);
-  formSnapshotRef.current = formSnapshot;
-
-  useEffect(() => {
-    if (loading || !qr) {
-      setBaseline(null);
-      return;
-    }
-    setBaseline(formSnapshotRef.current);
-  }, [loading, qr?.id, baselineTick]);
+  const { handleLogoChange, applyTemplateLogo } = useQrEditLogo({
+    setLogoFile,
+    setLogoPreview,
+    setStoredLogoPath,
+  });
 
   const fetchQR = useCallback(async () => {
     try {
@@ -255,7 +197,7 @@ export function useQrEditForm(qrId: string) {
       if (res.ok) {
         toast.success(t('editQr.updated'));
         setLogoFile(null);
-        setBaselineTick((n) => n + 1);
+        markSaved();
         fetchQR();
       } else {
         toast.error(t('editQr.updateFailed'));
@@ -266,26 +208,6 @@ export function useQrEditForm(qrId: string) {
       setSaving(false);
     }
   };
-
-  const handleLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target?.files?.[0];
-    if (!file) return;
-    try {
-      const { dataUrl, file: optimized } = await downscaleLogo(file);
-      setLogoFile(optimized);
-      setLogoPreview(dataUrl);
-    } catch {
-      const reader = new FileReader();
-      reader.onloadend = () => setLogoPreview(reader.result as string);
-      reader.readAsDataURL(file);
-      setLogoFile(file);
-    }
-  };
-
-  const applyTemplateLogo = useCallback((path: string | null) => {
-    setStoredLogoPath(path);
-    if (path) setLogoPreview(path);
-  }, []);
 
   return {
     qr,
