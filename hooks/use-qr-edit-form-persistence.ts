@@ -1,11 +1,10 @@
 'use client';
 
-import { useQrEditFetch } from '@/hooks/use-qr-edit-fetch';
-import { useQrEditFormSnapshot } from '@/hooks/use-qr-edit-form-snapshot';
-import { useQrEditDirty } from '@/hooks/use-qr-edit-dirty';
 import { useQrEditSave } from '@/hooks/use-qr-edit-save';
+import { useQrEditFormFetchDirty } from '@/hooks/use-qr-edit-form-fetch-dirty';
 import type { useQrEditHydrateSetters } from '@/hooks/use-qr-edit-hydrate-setters';
 import type { QrFeatureFields } from '@/hooks/use-qr-feature-fields';
+import type { QrEditPersistenceSnapshotInput } from '@/lib/qr-edit-persistence-snapshot';
 import type { QRStyleConfig } from '@/lib/qr-style';
 
 type HydrateSetters = ReturnType<typeof useQrEditHydrateSetters>;
@@ -69,9 +68,7 @@ export function useQrEditFormPersistence({
   setSaving: (v: boolean) => void;
   t: (key: string) => string;
 }) {
-  const { qr, loading, fetchQR } = useQrEditFetch(qrId, hydrateSetters);
-
-  const snapshotInput = useQrEditFormSnapshot({
+  const snapshotFields: QrEditPersistenceSnapshotInput = {
     name,
     qrData,
     style,
@@ -93,9 +90,14 @@ export function useQrEditFormPersistence({
     labels,
     pixels,
     removePassword,
-  });
+  };
 
-  const { markSaved } = useQrEditDirty(loading, qr?.id, snapshotInput, logoFile);
+  const { qr, loading, fetchQR, markSaved } = useQrEditFormFetchDirty({
+    qrId,
+    hydrateSetters,
+    snapshotFields,
+    logoFile,
+  });
 
   const { handleSave } = useQrEditSave({
     qrId,

@@ -1,10 +1,11 @@
 'use client';
 
-import { Pencil, X } from 'lucide-react';
 import { getFrameLabelRect, type QRStyleConfig } from '@/lib/qr-style';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { cn } from '@/lib/utils';
 import type { MouseEvent, RefObject } from 'react';
+import { EditableFrameLabelEditInput } from './editable-frame-label-edit-input';
+import { EditableFrameLabelDisplay } from './editable-frame-label-display';
 
 type EditableFrameLabelOverlayProps = {
   style: QRStyleConfig;
@@ -58,44 +59,16 @@ export function EditableFrameLabelOverlay({
       }}
     >
       {editing ? (
-        <input
-          ref={inputRef}
-          value={draft}
-          onChange={(e) => setDraft(e.target.value.slice(0, 32))}
-          onBlur={onCommit}
-          onClick={(e) => e.stopPropagation()}
-          onKeyDown={(e) => {
-            e.stopPropagation();
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              onCommit();
-            }
-            if (e.key === 'Escape') {
-              e.preventDefault();
-              onCancel();
-            }
-          }}
-          className="w-full min-w-0 border-0 bg-transparent text-center font-bold outline-none"
-          style={{ color: style.frameTextColor, fontSize: 'clamp(10px, 2.5vw, 15px)' }}
-          maxLength={32}
+        <EditableFrameLabelEditInput
+          style={style}
+          draft={draft}
+          setDraft={setDraft}
+          inputRef={inputRef}
+          onCommit={onCommit}
+          onCancel={onCancel}
         />
       ) : (
-        <span
-          className="group flex max-w-full items-center justify-center gap-1 truncate text-center font-bold"
-          style={{ color: style.frameTextColor, fontSize: 'clamp(10px, 2.5vw, 15px)' }}
-        >
-          <span className="truncate">{displayText}</span>
-          <Pencil className="h-3 w-3 shrink-0 opacity-60 group-hover:opacity-100" aria-hidden />
-          <button
-            type="button"
-            onClick={onRemove}
-            className="ml-0.5 shrink-0 rounded p-0.5 opacity-60 hover:bg-black/10 hover:opacity-100 dark:hover:bg-white/10"
-            aria-label={t('style.frameLabelRemove')}
-            title={t('style.frameLabelRemove')}
-          >
-            <X className="h-3 w-3" />
-          </button>
-        </span>
+        <EditableFrameLabelDisplay style={style} displayText={displayText} onRemove={onRemove} />
       )}
     </div>
   );
