@@ -22,6 +22,7 @@ FILES = [
     "app/(public)/privacy/page.tsx",
     "app/(public)/terms/page.tsx",
     "app/(public)/cookies/page.tsx",
+    "app/(public)/refund/page.tsx",
     "scripts/upgrade-dmarc-guide.py",
     "scripts/verify-dmarc-policy.py",
 ]
