@@ -11,6 +11,7 @@ import { useQrEditDirty } from '@/hooks/use-qr-edit-dirty';
 import { useQrEditLogo } from '@/hooks/use-qr-edit-logo';
 import { useQrEditSave } from '@/hooks/use-qr-edit-save';
 import { useQrEditFetch } from '@/hooks/use-qr-edit-fetch';
+import { useQrEditFormSnapshot } from '@/hooks/use-qr-edit-form-snapshot';
 
 export function useQrEditForm(qrId: string) {
   const { t } = useLanguage();
@@ -86,54 +87,29 @@ export function useQrEditForm(qrId: string) {
 
   const { qr, loading, fetchQR } = useQrEditFetch(qrId, hydrateSetters);
 
-  const snapshotInput = useMemo(
-    () => ({
-      name,
-      qrData,
-      style,
-      isActive,
-      storedLogoPath,
-      advanced,
-      landingEnabled,
-      landingPage,
-      scheduleEnabled,
-      scheduleData,
-      geofenceEnabled,
-      geofenceData,
-      abTestEnabled,
-      abTestData,
-      gpsHeatmapEnabled,
-      nfcEnabled,
-      scanNotify,
-      folderId,
-      labels,
-      pixels,
-      removePassword,
-    }),
-    [
-      name,
-      qrData,
-      style,
-      isActive,
-      storedLogoPath,
-      advanced,
-      landingEnabled,
-      landingPage,
-      scheduleEnabled,
-      scheduleData,
-      geofenceEnabled,
-      geofenceData,
-      abTestEnabled,
-      abTestData,
-      gpsHeatmapEnabled,
-      nfcEnabled,
-      scanNotify,
-      folderId,
-      labels,
-      pixels,
-      removePassword,
-    ],
-  );
+  const snapshotInput = useQrEditFormSnapshot({
+    name,
+    qrData,
+    style,
+    isActive,
+    storedLogoPath,
+    advanced,
+    landingEnabled,
+    landingPage,
+    scheduleEnabled,
+    scheduleData,
+    geofenceEnabled,
+    geofenceData,
+    abTestEnabled,
+    abTestData,
+    gpsHeatmapEnabled,
+    nfcEnabled,
+    scanNotify,
+    folderId,
+    labels,
+    pixels,
+    removePassword,
+  });
 
   const { markSaved } = useQrEditDirty(loading, qr?.id, snapshotInput, logoFile);
 

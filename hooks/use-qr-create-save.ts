@@ -8,6 +8,7 @@ import type { QrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import type { AdvancedValues } from '@/lib/advanced-settings-types';
 import type { QRStyleConfig } from '@/lib/qr-style';
 import { clearQrCreateDraft } from '@/lib/qr-create-draft';
+import { resolveQrCreateLogoPath } from '@/lib/qr-save-logo-upload';
 
 type Translate = (key: string) => string;
 
@@ -55,19 +56,13 @@ export function useQrCreateSave({
     }
     setSaving(true);
     try {
-      let logoPath = storedLogoPath;
-      let fileToUpload: File | null = logoFile;
-      if (!fileToUpload && logoPreview?.startsWith('data:')) {
-        const blob = await fetch(logoPreview).then((r) => r.blob());
-        fileToUpload = new File([blob], 'logo.png', { type: blob.type || 'image/png' });
-      }
-      if (fileToUpload) {
-        const result = await uploadLogo(fileToUpload);
-        logoPath = result?.cloud_storage_path ?? null;
-        if (!logoPath) toast.error(t('create.logoUploadFailed'));
-      } else if (!logoPath && logoPreview && !logoPreview.startsWith('data:')) {
-        logoPath = logoPreview;
-      }
+      const logoPath = await resolveQrCreateLogoPath({
+        logoFile,
+        logoPreview,
+        storedLogoPath,
+        uploadLogo,
+        t,
+      });
 
       const res = await fetch('/api/qr', {
         method: 'POST',

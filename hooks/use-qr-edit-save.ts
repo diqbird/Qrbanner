@@ -8,6 +8,7 @@ import type { QrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import type { AdvancedValues } from '@/lib/advanced-settings-types';
 import type { QRStyleConfig } from '@/lib/qr-style';
 import type { QrEditRecord } from '@/lib/qr-edit-form-types';
+import { uploadQrLogoFile } from '@/lib/qr-save-logo-upload';
 
 type Translate = (key: string) => string;
 
@@ -55,15 +56,7 @@ export function useQrEditSave({
     try {
       let logoPath = storedLogoPath ?? qr?.logoPath ?? null;
       if (logoFile) {
-        const formData = new FormData();
-        formData.append('file', logoFile);
-        const uploadRes = await fetch('/api/upload', { method: 'POST', body: formData });
-        if (uploadRes.ok) {
-          const { path } = await uploadRes.json();
-          logoPath = path;
-        } else {
-          toast.error(t('editQr.logoUploadPartialFail'));
-        }
+        logoPath = (await uploadQrLogoFile(logoFile, t)) ?? logoPath;
       }
 
       const res = await fetch(`/api/qr/${qrId}`, {
