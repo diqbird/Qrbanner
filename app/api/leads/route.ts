@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { findQrByShortCode } from '@/lib/repositories/qr-repository';
 import { parseUserAgent } from '@/lib/qr-utils';
 import { lookupGeo } from '@/lib/geoip';
 import { logLandingCtaClick } from '@/lib/landing-cta-analytics';
@@ -28,7 +29,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'shortCode required' }, { status: 400 });
     }
 
-    const qrCode = await prisma.qRCode.findUnique({ where: { shortCode } });
+    const qrCode = await findQrByShortCode(shortCode);
     if (!qrCode || !qrCode.isActive) {
       return NextResponse.json({ error: 'QR code not found' }, { status: 404 });
     }

@@ -1,9 +1,8 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
 import bcrypt from 'bcryptjs';
-import { generateShortCode, buildQRPayload } from '@/lib/qr-utils';
+import { buildQRPayload } from '@/lib/qr-utils';
 import { stripMetaFields } from '@/lib/industry-templates';
 import { normalizeLabels } from '@/lib/organize-utils';
 import { sanitizeGeofenceData } from '@/lib/geofence-shared';
@@ -16,6 +15,12 @@ import { parseAnalyticsMoney } from '@/lib/analytics-roi';
 import { invalidateScanQrCache } from '@/lib/scan-redirect-cache';
 import { QR_MUTATION_LIMIT, rateLimitRequest } from '@/lib/authenticated-rate-limit';
 import { requireUserId, isAuthError, getSessionUserId } from '@/lib/session-auth';
+import {
+  allocateUniqueShortCode,
+  createQr,
+  updateQr,
+  deleteQr,
+} from '@/lib/repositories/qr-repository';
 
 async function limitQrMutation(req: NextRequest, userId: string) {
   return rateLimitRequest(req, 'qr-mutation', QR_MUTATION_LIMIT.limit, QR_MUTATION_LIMIT.windowMs, userId);
@@ -163,10 +168,7 @@ export async function PUT(
       updateData.password = password ? await bcrypt.hash(String(password), 10) : null;
     }
 
-    const updated = await prisma.qRCode.update({
-      where: { id: params.id },
-      data: updateData,
-    });
+    const updated = await updateQr(params.id, updateData);
 
     await invalidateScanQrCache(existing.shortCode);
 
@@ -195,7 +197,7 @@ export async function DELETE(
     }
 
     await invalidateScanQrCache(access.qr.shortCode);
-    await prisma.qRCode.delete({ where: { id: params.id } });
+    await deleteQr(params.id);
 
     return NextResponse.json({ message: 'QR code deleted' });
   } catch (error: any) {
@@ -226,15 +228,9 @@ export async function POST(
       }
       const original = access.qr;
 
-      let shortCode = generateShortCode();
-      let exists = await prisma.qRCode.findUnique({ where: { shortCode } });
-      while (exists) {
-        shortCode = generateShortCode();
-        exists = await prisma.qRCode.findUnique({ where: { shortCode } });
-      }
+      const shortCode = await allocateUniqueShortCode();
 
-      const duplicate = await prisma.qRCode.create({
-        data: {
+      const duplicate = await createQr({
           userId,
           workspaceId: original.workspaceId,
           name: `${original.name} (Copy)`,
@@ -275,7 +271,6 @@ export async function POST(
           ga4MeasurementId: original.ga4MeasurementId,
           metaPixelEnabled: original.metaPixelEnabled,
           metaPixelId: original.metaPixelId,
-        },
       });
 
       return NextResponse.json({ qrCode: duplicate });

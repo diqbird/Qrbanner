@@ -1,6 +1,6 @@
 import type { QRCode } from '@prisma/client';
-import { prisma } from '@/lib/db';
 import { getRedisClient, isRedisConfigured } from '@/lib/redis-client';
+import { findQrByShortCode, getShortCodesByIds } from '@/lib/repositories/qr-repository';
 
 const CACHE_PREFIX = 'scan:qr:';
 const DEFAULT_TTL_SECONDS = 120;
@@ -85,10 +85,7 @@ export async function invalidateScanQrCaches(shortCodes: string[]): Promise<void
 export async function invalidateScanQrCacheForIds(qrIds: string[]): Promise<void> {
   if (!qrIds.length) return;
 
-  const rows = await prisma.qRCode.findMany({
-    where: { id: { in: qrIds } },
-    select: { shortCode: true },
-  });
+  const rows = await getShortCodesByIds(qrIds);
   await invalidateScanQrCaches(rows.map((row) => row.shortCode));
 }
 
@@ -105,7 +102,7 @@ export async function getQrForScan(shortCode: string): Promise<QRCode | null> {
     }
   }
 
-  const qr = await prisma.qRCode.findUnique({ where: { shortCode } });
+  const qr = await findQrByShortCode(shortCode);
   if (qr && isRedisConfigured()) {
     setCachedQrByShortCode(shortCode, qr).catch((err) => {
       console.warn('[scan-cache] write failed', err);

@@ -32,6 +32,8 @@ blob-report/
 
 # misc
 .DS_Store
+__pycache__/
+*.pyc
 *.pem
 .vercel
 .turbo

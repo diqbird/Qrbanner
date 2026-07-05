@@ -1,10 +1,10 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
 import { normalizeLabels } from '@/lib/organize-utils';
 import { getActiveWorkspaceId, assertWorkspaceRole, assertFolderInWorkspace } from '@/lib/workspace';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
+import { findQrsInWorkspace, updateManyQrs } from '@/lib/repositories/qr-repository';
 
 export async function POST(req: NextRequest) {
   try {
@@ -34,10 +34,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: canEdit.error }, { status: 403 });
     }
 
-    const owned = await prisma.qRCode.findMany({
-      where: { workspaceId, id: { in: qrIds } },
-      select: { id: true, labels: true },
-    });
+    const owned = await findQrsInWorkspace(qrIds, workspaceId);
 
     if (owned.length !== qrIds.length) {
       return NextResponse.json({ error: 'One or more QR codes not found' }, { status: 404 });
@@ -51,7 +48,7 @@ export async function POST(req: NextRequest) {
     const labelMode = mode ?? 'set';
     const newLabels = labels !== undefined ? normalizeLabels(labels) : null;
 
-    await prisma.$transaction(
+    await updateManyQrs(
       owned.map((qr) => {
         const data: { folderId?: string | null; labels?: string[] } = {};
 
@@ -71,7 +68,7 @@ export async function POST(req: NextRequest) {
           }
         }
 
-        return prisma.qRCode.update({ where: { id: qr.id }, data });
+        return { id: qr.id, data };
       })
     );
 

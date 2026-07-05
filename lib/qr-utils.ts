@@ -1,5 +1,14 @@
 import crypto from 'crypto';
-import { buildGs1DigitalLink } from './gs1';
+import { buildCategoryPayload } from './qr-category-registry';
+
+export { categoryUrlFieldLabel } from './qr-category-registry';
+export {
+  STATIC_PAYLOAD_CATEGORIES,
+  ATTACHMENT_SCAN_META,
+  SCHEME_SCAN_CATEGORIES,
+  getAttachmentScanMeta,
+  isSchemeScanCategory,
+} from './qr-category-registry';
 
 export function generateShortCode(length: number = 8): string {
   return crypto.randomBytes(length).toString('base64url').slice(0, length);
@@ -66,199 +75,8 @@ export function isDynamicCategory(category: string): boolean {
   return DYNAMIC_QR_CATEGORIES.has(category);
 }
 
-function stripAt(s: string): string {
-  return (s ?? '').trim().replace(/^@/, '');
-}
-
-function normalizeUrl(url: string): string {
-  const t = (url ?? '').trim();
-  if (!t) return '';
-  if (/^https?:\/\//i.test(t)) return t;
-  return `https://${t}`;
-}
-
-/** Escape special characters in vCard / iCal text values. */
-function escapeStructuredText(value: unknown): string {
-  return String(value ?? '')
-    .replace(/\\/g, '\\\\')
-    .replace(/;/g, '\\;')
-    .replace(/,/g, '\\,')
-    .replace(/\r\n/g, '\\n')
-    .replace(/\n/g, '\\n')
-    .replace(/\r/g, '\\n');
-}
-
-/** Escape SSID/password fields in the WIFI: QR payload format. */
-function escapeWifiField(value: unknown): string {
-  return String(value ?? '')
-    .replace(/\\/g, '\\\\')
-    .replace(/;/g, '\\;')
-    .replace(/:/g, '\\:')
-    .replace(/"/g, '\\"');
-}
-
 export function buildQRPayload(category: string, data: Record<string, any>): string {
-  switch (category) {
-    case 'url':
-    case 'menu':
-    case 'social':
-    case 'app':
-    case 'pdf':
-    case 'file':
-    case 'link_hub':
-      return normalizeUrl(data?.url ?? '');
-    case 'text':
-      return (data?.text ?? '').trim();
-    case 'vcard': {
-      const firstName = escapeStructuredText(data?.firstName);
-      const lastName = escapeStructuredText(data?.lastName);
-      const lines = [
-        'BEGIN:VCARD',
-        'VERSION:3.0',
-        `N:${lastName};${firstName}`,
-        `FN:${escapeStructuredText(`${data?.firstName ?? ''} ${data?.lastName ?? ''}`.trim())}`,
-        data?.org ? `ORG:${escapeStructuredText(data.org)}` : '',
-        data?.title ? `TITLE:${escapeStructuredText(data.title)}` : '',
-        data?.phone ? `TEL:${escapeStructuredText(data.phone)}` : '',
-        data?.email ? `EMAIL:${escapeStructuredText(data.email)}` : '',
-        data?.website ? `URL:${normalizeUrl(data.website)}` : '',
-        data?.address ? `ADR:;;${escapeStructuredText(data.address)}` : '',
-        'END:VCARD',
-      ].filter(Boolean);
-      return lines.join('\n');
-    }
-    case 'wifi':
-      return `WIFI:T:${escapeWifiField(data?.encryption ?? 'WPA')};S:${escapeWifiField(data?.ssid ?? '')};P:${escapeWifiField(data?.password ?? '')};H:${data?.hidden ? 'true' : 'false'};;`;
-    case 'email':
-      return `mailto:${data?.email ?? ''}?subject=${encodeURIComponent(data?.subject ?? '')}&body=${encodeURIComponent(data?.body ?? '')}`;
-    case 'sms':
-      return `sms:${data?.phone ?? ''}?body=${encodeURIComponent(data?.message ?? '')}`;
-    case 'phone':
-      return `tel:${(data?.phone ?? '').replace(/\s/g, '')}`;
-    case 'location': {
-      const lat = parseFloat(data?.latitude ?? '');
-      const lng = parseFloat(data?.longitude ?? '');
-      if (!Number.isFinite(lat) || !Number.isFinite(lng)) return '';
-      const label = encodeURIComponent(data?.label ?? `${lat},${lng}`);
-      return `geo:${lat},${lng}?q=${label}`;
-    }
-    case 'event': {
-      const lines = [
-        'BEGIN:VCALENDAR',
-        'BEGIN:VEVENT',
-        `SUMMARY:${escapeStructuredText(data?.title)}`,
-        `LOCATION:${escapeStructuredText(data?.location)}`,
-        `DESCRIPTION:${escapeStructuredText(data?.description)}`,
-        data?.startDate ? `DTSTART:${data.startDate.replace(/[-:]/g, '').replace('T', 'T')}` : '',
-        data?.endDate ? `DTEND:${data.endDate.replace(/[-:]/g, '').replace('T', 'T')}` : '',
-        'END:VEVENT',
-        'END:VCALENDAR',
-      ].filter(Boolean);
-      return lines.join('\n');
-    }
-    case 'whatsapp': {
-      const phone = (data?.phone ?? '').replace(/\D/g, '');
-      const msg = data?.message ? `?text=${encodeURIComponent(data.message)}` : '';
-      return phone ? `https://wa.me/${phone}${msg}` : '';
-    }
-    case 'telegram': {
-      const user = stripAt(data?.username ?? '');
-      return user ? `https://t.me/${user}` : '';
-    }
-    case 'discord': {
-      const code = stripAt(data?.inviteCode ?? data?.username ?? '');
-      return code ? `https://discord.gg/${code}` : '';
-    }
-    case 'instagram': {
-      const user = stripAt(data?.username ?? '');
-      return user ? `https://instagram.com/${user}` : normalizeUrl(data?.url ?? '');
-    }
-    case 'facebook': {
-      const user = stripAt(data?.username ?? '');
-      return user ? `https://facebook.com/${user}` : normalizeUrl(data?.url ?? '');
-    }
-    case 'tiktok': {
-      const user = stripAt(data?.username ?? '');
-      return user ? `https://tiktok.com/@${user}` : normalizeUrl(data?.url ?? '');
-    }
-    case 'linkedin': {
-      const slug = stripAt(data?.username ?? '');
-      return slug ? `https://linkedin.com/in/${slug}` : normalizeUrl(data?.url ?? '');
-    }
-    case 'youtube': {
-      const url = data?.url?.trim();
-      if (url) return normalizeUrl(url);
-      const handle = stripAt(data?.username ?? '');
-      return handle ? `https://youtube.com/@${handle}` : '';
-    }
-    case 'spotify': {
-      const url = data?.url?.trim();
-      if (url) return normalizeUrl(url);
-      const uri = (data?.uri ?? '').trim();
-      if (uri.startsWith('spotify:')) return `https://open.spotify.com/${uri.replace('spotify:', '').replace(':', '/')}`;
-      return '';
-    }
-    case 'zoom': {
-      const id = (data?.meetingId ?? '').replace(/\s/g, '');
-      if (!id) return '';
-      const pwd = data?.password ? `?pwd=${encodeURIComponent(data.password)}` : '';
-      return `https://zoom.us/j/${id}${pwd}`;
-    }
-    case 'google_meet': {
-      const code = (data?.meetingCode ?? '').replace(/\s/g, '').toLowerCase();
-      return code ? `https://meet.google.com/${code}` : '';
-    }
-    case 'crypto': {
-      const type = (data?.coin ?? 'btc').toLowerCase();
-      const address = (data?.address ?? '').trim();
-      if (!address) return '';
-      const amount = data?.amount ? `?amount=${encodeURIComponent(data.amount)}` : '';
-      if (type === 'eth' || type === 'ethereum') return `ethereum:${address}${amount}`;
-      return `bitcoin:${address}${amount}`;
-    }
-    case 'google_review': {
-      const url = (data?.url ?? '').trim();
-      if (url) return normalizeUrl(url);
-      const placeId = (data?.placeId ?? '').trim();
-      return placeId
-        ? `https://search.google.com/local/writereview?placeid=${encodeURIComponent(placeId)}`
-        : '';
-    }
-    case 'paypal': {
-      const raw = (data?.username ?? data?.url ?? '').trim();
-      if (!raw) return '';
-      const slug = raw.replace(/^https?:\/\/(www\.)?paypal\.me\//i, '').replace(/^@/, '').split('/')[0];
-      return slug ? `https://paypal.me/${slug}` : normalizeUrl(raw);
-    }
-    case 'upi': {
-      const vpa = (data?.vpa ?? data?.upiId ?? '').trim();
-      if (!vpa) return '';
-      const parts = [`pa=${encodeURIComponent(vpa)}`];
-      if (data?.payeeName?.trim()) parts.push(`pn=${encodeURIComponent(data.payeeName.trim())}`);
-      if (data?.amount?.trim()) parts.push(`am=${encodeURIComponent(data.amount.trim())}`);
-      parts.push('cu=INR');
-      return `upi://pay?${parts.join('&')}`;
-    }
-    case 'signal': {
-      const phone = (data?.phone ?? '').replace(/\D/g, '');
-      if (phone) return `https://signal.me/#p/+${phone}`;
-      return normalizeUrl(data?.url ?? '');
-    }
-    case 'apple_music':
-    case 'google_drive':
-    case 'dropbox':
-      return normalizeUrl(data?.url ?? '');
-    case 'gs1':
-      return buildGs1DigitalLink({
-        gtin: data?.gtin ?? '',
-        domain: data?.domain ?? '',
-        lot: data?.lot ?? '',
-        serial: data?.serial ?? '',
-        expiry: data?.expiry ?? '',
-      });
-    default:
-      return data?.url ?? data?.text ?? '';
-  }
+  return buildCategoryPayload(category, data);
 }
 
 export function categoryDisplayName(category: string): string {
@@ -273,23 +91,6 @@ export function categoryShortName(category: string): string {
 export function isPopularCategory(category: string): boolean {
   const cat = QR_CATEGORIES.find((c) => c.id === category);
   return Boolean(cat && 'popular' in cat && cat.popular);
-}
-
-export function categoryUrlFieldLabel(category: string): string {
-  switch (category) {
-    case 'menu':
-      return 'Menu link (website or PDF)';
-    case 'pdf':
-      return 'PDF file link';
-    case 'file':
-      return 'Download link';
-    case 'app':
-      return 'App store link';
-    case 'social':
-      return 'Social profile link';
-    default:
-      return 'Website URL';
-  }
 }
 
 export function parseUserAgent(ua: string | null): { device: string; browser: string; os: string } {

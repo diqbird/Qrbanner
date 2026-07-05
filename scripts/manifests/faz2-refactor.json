@@ -1,0 +1,26 @@
+{
+  "upload": [
+    "lib/qr-category-registry.ts",
+    "lib/qr-utils.ts",
+    "lib/workspace.ts",
+    "lib/scan-redirect-cache.ts",
+    "lib/repositories/index.ts",
+    "lib/repositories/qr-repository.ts",
+    "lib/repositories/workspace-repository.ts",
+    "lib/scan/handle-scan.ts",
+    "lib/scan/scan-guards.ts",
+    "lib/scan/scan-html.ts",
+    "lib/scan/scan-landing.ts",
+    "lib/scan/scan-log.ts",
+    "lib/scan/scan-redirect.ts",
+    "app/s/[code]/route.ts",
+    "app/api/qr/route.ts",
+    "app/api/qr/[id]/route.ts",
+    "app/api/qr/organize/route.ts",
+    "app/api/landing-cta/route.ts",
+    "app/api/leads/route.ts",
+    "app/api/scan/geo/route.ts"
+  ],
+  "build": true,
+  "restart": true
+}

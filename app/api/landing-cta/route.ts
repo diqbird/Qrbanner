@@ -1,8 +1,8 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
 import { logLandingCtaClick, type LandingCtaType } from '@/lib/landing-cta-analytics';
+import { findQrByShortCodeSelect } from '@/lib/repositories/qr-repository';
 import { lookupGeo } from '@/lib/geoip';
 import { parseUserAgent } from '@/lib/qr-utils';
 import { dispatchAutomations, buildCtaAutomationContext } from '@/lib/automation-engine';
@@ -30,9 +30,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'invalid ctaType' }, { status: 400 });
     }
 
-    const qrCode = await prisma.qRCode.findUnique({
-      where: { shortCode },
-      select: { id: true, userId: true, name: true, shortCode: true, isActive: true, landingPageEnabled: true },
+    const qrCode = await findQrByShortCodeSelect(shortCode, {
+      id: true,
+      userId: true,
+      name: true,
+      shortCode: true,
+      isActive: true,
+      landingPageEnabled: true,
     });
     if (!qrCode?.isActive || !qrCode.landingPageEnabled) {
       return NextResponse.json({ error: 'not found' }, { status: 404 });

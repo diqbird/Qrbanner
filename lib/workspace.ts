@@ -1,5 +1,17 @@
 import crypto from 'crypto';
 import { prisma } from '@/lib/db';
+import {
+  findActiveMember,
+  findActiveMemberships,
+  findPersonalMembership,
+  getUserActiveWorkspaceId,
+  setUserActiveWorkspace,
+  findUserEmail,
+  createWorkspace,
+  findWorkspaceById,
+  attachLegacyQrsToWorkspace,
+} from '@/lib/repositories/workspace-repository';
+import { findQrById } from '@/lib/repositories/qr-repository';
 
 export type WorkspaceRole = 'owner' | 'admin' | 'editor' | 'viewer';
 
@@ -15,44 +27,33 @@ export function canRolePerform(role: string, minRole: WorkspaceRole): boolean {
 }
 
 export async function ensurePersonalWorkspace(userId: string) {
-  const existing = await prisma.workspaceMember.findFirst({
-    where: { userId, workspace: { isPersonal: true } },
-    include: { workspace: true },
-  });
+  const existing = await findPersonalMembership(userId);
   if (existing) return existing.workspace;
 
-  const user = await prisma.user.findUnique({ where: { id: userId } });
-  if (!user) throw new Error('User not found');
+  const user = await findUserEmail(userId);
+  if (!user?.email) throw new Error('User not found');
 
   const slug = `personal-${userId.slice(-10)}`;
-  const workspace = await prisma.workspace.create({
-    data: {
-      name: user.name ? `${user.name}'s Workspace` : 'Personal Workspace',
-      slug,
-      ownerId: userId,
-      isPersonal: true,
-      members: {
-        create: {
-          userId,
-          email: user.email,
-          role: 'owner',
-          status: 'active',
-          joinedAt: new Date(),
-        },
+  const workspace = await createWorkspace({
+    name: user.name ? `${user.name}'s Workspace` : 'Personal Workspace',
+    slug,
+    ownerId: userId,
+    isPersonal: true,
+    members: {
+      create: {
+        userId,
+        email: user.email,
+        role: 'owner',
+        status: 'active',
+        joinedAt: new Date(),
       },
     },
   });
 
-  await prisma.qRCode.updateMany({
-    where: { userId, workspaceId: null },
-    data: { workspaceId: workspace.id },
-  });
+  await attachLegacyQrsToWorkspace(userId, workspace.id);
 
   if (!user.activeWorkspaceId) {
-    await prisma.user.update({
-      where: { id: userId },
-      data: { activeWorkspaceId: workspace.id },
-    });
+    await setUserActiveWorkspace(userId, workspace.id);
   }
 
   return workspace;
@@ -60,11 +61,7 @@ export async function ensurePersonalWorkspace(userId: string) {
 
 export async function getUserWorkspaces(userId: string) {
   await ensurePersonalWorkspace(userId);
-  const memberships = await prisma.workspaceMember.findMany({
-    where: { userId, status: 'active' },
-    include: { workspace: true },
-    orderBy: { joinedAt: 'asc' },
-  });
+  const memberships = await findActiveMemberships(userId);
   return memberships.map((m) => ({
     id: m.workspace.id,
     name: m.workspace.name,
@@ -76,14 +73,9 @@ export async function getUserWorkspaces(userId: string) {
 }
 
 export async function getActiveWorkspaceId(userId: string): Promise<string> {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { activeWorkspaceId: true },
-  });
+  const user = await getUserActiveWorkspaceId(userId);
   if (user?.activeWorkspaceId) {
-    const member = await prisma.workspaceMember.findFirst({
-      where: { userId, workspaceId: user.activeWorkspaceId, status: 'active' },
-    });
+    const member = await findActiveMember(userId, user.activeWorkspaceId);
     if (member) return user.activeWorkspaceId;
   }
   const personal = await ensurePersonalWorkspace(userId);
@@ -91,23 +83,16 @@ export async function getActiveWorkspaceId(userId: string): Promise<string> {
 }
 
 export async function setActiveWorkspace(userId: string, workspaceId: string) {
-  const member = await prisma.workspaceMember.findFirst({
-    where: { userId, workspaceId, status: 'active' },
-  });
+  const member = await findActiveMember(userId, workspaceId);
   if (!member) throw new Error('Workspace access denied');
-  await prisma.user.update({
-    where: { id: userId },
-    data: { activeWorkspaceId: workspaceId },
-  });
+  await setUserActiveWorkspace(userId, workspaceId);
 }
 
 export async function getMemberRole(
   userId: string,
   workspaceId: string
 ): Promise<WorkspaceRole | null> {
-  const member = await prisma.workspaceMember.findFirst({
-    where: { userId, workspaceId, status: 'active' },
-  });
+  const member = await findActiveMember(userId, workspaceId);
   return member ? (member.role as WorkspaceRole) : null;
 }
 
@@ -136,7 +121,7 @@ export async function assertQrAccess(
   qrId: string,
   minRole: WorkspaceRole = 'viewer'
 ) {
-  const qr = await prisma.qRCode.findUnique({ where: { id: qrId } });
+  const qr = await findQrById(qrId);
   if (!qr) return { ok: false as const, error: 'QR code not found' };
 
   if (qr.workspaceId) {
@@ -161,10 +146,7 @@ export async function resolveApiWorkspaceId(
 }
 
 async function folderScopeForWorkspace(userId: string, workspaceId: string) {
-  const workspace = await prisma.workspace.findUnique({
-    where: { id: workspaceId },
-    select: { isPersonal: true },
-  });
+  const workspace = await findWorkspaceById(workspaceId, { isPersonal: true });
   if (workspace?.isPersonal) {
     return {
       OR: [{ workspaceId }, { workspaceId: null, userId }],
@@ -259,23 +241,21 @@ export async function createTeamWorkspace(userId: string, name: string) {
     '-' +
     crypto.randomBytes(3).toString('hex');
 
-  const user = await prisma.user.findUnique({ where: { id: userId } });
-  if (!user) throw new Error('User not found');
+  const user = await findUserEmail(userId);
+  if (!user?.email) throw new Error('User not found');
 
-  return prisma.workspace.create({
-    data: {
-      name,
-      slug,
-      ownerId: userId,
-      isPersonal: false,
-      members: {
-        create: {
-          userId,
-          email: user.email,
-          role: 'owner',
-          status: 'active',
-          joinedAt: new Date(),
-        },
+  return createWorkspace({
+    name,
+    slug,
+    ownerId: userId,
+    isPersonal: false,
+    members: {
+      create: {
+        userId,
+        email: user.email,
+        role: 'owner',
+        status: 'active',
+        joinedAt: new Date(),
       },
     },
   });

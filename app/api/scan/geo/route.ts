@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { findQrByShortCode } from '@/lib/repositories/qr-repository';
 import { enforcePublicRateLimit } from '@/lib/public-rate-limit';
 
 export async function POST(req: NextRequest) {
@@ -18,7 +19,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
     }
 
-    const qrCode = await prisma.qRCode.findUnique({ where: { shortCode } });
+    const qrCode = await findQrByShortCode(shortCode);
     if (!qrCode?.gpsHeatmapEnabled) {
       return NextResponse.json({ ok: true, skipped: true });
     }
