@@ -1,0 +1,23 @@
+{
+  "upload": [
+    "lib/visual-preset-utils.ts",
+    "lib/admin-blog-panel-types.ts",
+    "lib/qr-list-row-types.ts",
+    "hooks/use-admin-blog-panel.ts",
+    "components/qr/visual-preset-picker.tsx",
+    "components/qr/visual-preset-card.tsx",
+    "components/qr/visual-preset-category-tabs.tsx",
+    "components/qr/style-editor-colors-tab.tsx",
+    "components/qr/style-editor-color-fields.tsx",
+    "components/qr/style-editor-gradient-panel.tsx",
+    "components/admin/admin-blog-panel.tsx",
+    "components/admin/admin-blog-create-form.tsx",
+    "components/admin/admin-blog-post-list.tsx",
+    "components/dashboard/qr-list-row.tsx",
+    "components/dashboard/qr-list-row-info.tsx",
+    "components/dashboard/qr-list-row-actions.tsx",
+    "hooks/use-qr-list-data.ts"
+  ],
+  "build": true,
+  "restart": true
+}

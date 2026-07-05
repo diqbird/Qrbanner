@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import type { QRFolderOption } from '@/components/qr/qr-organize-settings';
-import type { QRCodeItem } from '@/components/dashboard/qr-list-row';
+import type { QRCodeItem } from '@/lib/qr-list-row-types';
 import { QR_LIST_MAX_LIMIT } from '@/lib/qr-list-pagination';
 import type { ListMeta, ListPagination, ListTotals } from '@/lib/dashboard-qr-list-types';
 
