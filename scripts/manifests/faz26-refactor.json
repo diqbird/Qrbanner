@@ -1,0 +1,26 @@
+{
+  "upload": [
+    "hooks/use-qr-edit-fetch.ts",
+    "hooks/use-qr-edit-form.ts",
+    "hooks/use-admin-blog-editor-actions.ts",
+    "hooks/use-admin-blog-editor.ts",
+    "hooks/use-qr-bulk-import-usage.ts",
+    "hooks/use-qr-bulk-import-file.ts",
+    "hooks/use-qr-bulk-import.ts",
+    "hooks/use-qr-create-style-template.ts",
+    "hooks/use-qr-create-template-actions.ts",
+    "hooks/use-qr-create-draft-bridge.ts",
+    "hooks/use-qr-create-wizard-effects.ts",
+    "hooks/use-qr-create-form.ts",
+    "hooks/use-ai-design-assistant.ts",
+    "components/qr/schedule-settings-hours.tsx",
+    "components/qr/schedule-settings-daily-urls.tsx",
+    "components/qr/schedule-settings.tsx",
+    "components/qr/ai-design-assistant-panels.tsx",
+    "components/qr/ai-design-assistant.tsx",
+    "components/dashboard/automation-flow-action-row.tsx",
+    "components/dashboard/automation-flow-actions-section.tsx"
+  ],
+  "build": true,
+  "restart": true
+}

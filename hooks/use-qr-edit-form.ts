@@ -6,17 +6,14 @@ import { useQRStyleHistory } from '@/hooks/use-qr-style-history';
 import { useQrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import { useScanBaseUrl } from '@/lib/use-scan-base-url';
 import { useLanguage } from '@/components/i18n/language-provider';
-import type { QrEditRecord } from '@/lib/qr-edit-form-types';
 export type { QrEditRecord } from '@/lib/qr-edit-form-types';
-import { mapQrEditRecordToForm } from '@/lib/qr-edit-hydrate';
 import { useQrEditDirty } from '@/hooks/use-qr-edit-dirty';
 import { useQrEditLogo } from '@/hooks/use-qr-edit-logo';
 import { useQrEditSave } from '@/hooks/use-qr-edit-save';
+import { useQrEditFetch } from '@/hooks/use-qr-edit-fetch';
 
 export function useQrEditForm(qrId: string) {
   const { t } = useLanguage();
-  const [qr, setQr] = useState<QrEditRecord | null>(null);
-  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [name, setName] = useState('');
   const [targetUrl, setTargetUrl] = useState('');
@@ -69,6 +66,25 @@ export function useQrEditForm(qrId: string) {
   const [folderId, setFolderId] = useState<string | null>(null);
   const [labels, setLabels] = useState<string[]>([]);
   const scanBaseUrl = useScanBaseUrl();
+
+  const hydrateSetters = useMemo(
+    () => ({
+      setName,
+      setTargetUrl,
+      setQrData,
+      setIsActive,
+      setHasExistingPassword,
+      applyFeatureFieldsFromRecord,
+      resetStyleHistory,
+      setFolderId,
+      setLabels,
+      setStoredLogoPath,
+      setLogoPreview,
+    }),
+    [applyFeatureFieldsFromRecord, resetStyleHistory],
+  );
+
+  const { qr, loading, fetchQR } = useQrEditFetch(qrId, hydrateSetters);
 
   const snapshotInput = useMemo(
     () => ({
@@ -126,39 +142,6 @@ export function useQrEditForm(qrId: string) {
     setLogoPreview,
     setStoredLogoPath,
   });
-
-  const fetchQR = useCallback(async () => {
-    try {
-      const res = await fetch(`/api/qr/${qrId}`);
-      if (res.ok) {
-        const data = await res.json();
-        const qrCode = data?.qrCode as QrEditRecord | undefined;
-        setQr(qrCode ?? null);
-        if (qrCode) {
-          const mapped = mapQrEditRecordToForm(qrCode);
-          setName(mapped.name);
-          setTargetUrl(mapped.targetUrl);
-          setQrData(mapped.qrData);
-          setIsActive(mapped.isActive);
-          setHasExistingPassword(mapped.hasExistingPassword);
-          applyFeatureFieldsFromRecord(mapped.featureRecord);
-          if (mapped.style) resetStyleHistory(mapped.style);
-          setFolderId(mapped.folderId);
-          setLabels(mapped.labels);
-          setStoredLogoPath(mapped.storedLogoPath);
-          if (mapped.logoPreview) setLogoPreview(mapped.logoPreview);
-        }
-      }
-    } catch (e: unknown) {
-      console.error('Failed to fetch QR code:', e);
-    } finally {
-      setLoading(false);
-    }
-  }, [qrId, applyFeatureFieldsFromRecord, resetStyleHistory]);
-
-  useEffect(() => {
-    fetchQR();
-  }, [fetchQR]);
 
   const { handleSave } = useQrEditSave({
     qrId,

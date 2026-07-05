@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { DEFAULT_QR_STYLE } from '@/components/qr/qr-style-editor';
@@ -11,13 +11,15 @@ import type { IndustryTemplate } from '@/lib/industry-templates';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { useUnsavedChangesGuard } from '@/hooks/use-unsaved-changes-guard';
 import { useQrFeatureFields } from '@/hooks/use-qr-feature-fields';
-import { applyQrCreateDraft, buildQrCreateDraft } from '@/lib/qr-create-form-draft';
-import { useQrCreateDraftSync } from '@/hooks/use-qr-create-draft-sync';
+import { useQrCreateDraftBridge } from '@/hooks/use-qr-create-draft-bridge';
 import { useQrCreateTemplateActions } from '@/hooks/use-qr-create-template-actions';
 import { useQrCreateLogo } from '@/hooks/use-qr-create-logo';
 import { useQrCreateUrlParams } from '@/hooks/use-qr-create-url-params';
 import { useQrCreateSave } from '@/hooks/use-qr-create-save';
-import { canProceedCreateStep } from '@/lib/qr-create-can-proceed';
+import {
+  createCanProceedCreateStep,
+  useQrCreateWizardEffects,
+} from '@/hooks/use-qr-create-wizard-effects';
 
 export function useQrCreateForm() {
   const { t } = useLanguage();
@@ -89,30 +91,29 @@ export function useQrCreateForm() {
 
   const payloadData = useCallback(() => stripMetaFields(qrData), [qrData]);
 
-  const buildCurrentDraft = useCallback(
-    () =>
-      buildQrCreateDraft({
-        step,
-        category,
-        name,
-        qrData,
-        style,
-        logoPreview,
-        activeTemplate,
-        advanced,
-        landingEnabled,
-        landingPage,
-        scheduleEnabled,
-        scheduleData,
-        geofenceEnabled,
-        geofenceData,
-        abTestEnabled,
-        abTestData,
-        gpsHeatmapEnabled,
-        nfcEnabled,
-        scanNotify,
-        pixels,
-      }),
+  const draftState = useMemo(
+    () => ({
+      step,
+      category,
+      name,
+      qrData,
+      style,
+      logoPreview,
+      activeTemplate,
+      advanced,
+      landingEnabled,
+      landingPage,
+      scheduleEnabled,
+      scheduleData,
+      geofenceEnabled,
+      geofenceData,
+      abTestEnabled,
+      abTestData,
+      gpsHeatmapEnabled,
+      nfcEnabled,
+      scanNotify,
+      pixels,
+    }),
     [
       step, category, name, qrData, style, logoPreview, activeTemplate,
       advanced, landingEnabled, landingPage, scheduleEnabled, scheduleData,
@@ -121,31 +122,29 @@ export function useQrCreateForm() {
     ],
   );
 
-  const applyDraft = useCallback(
-    (draft: ReturnType<typeof buildCurrentDraft>) => {
-      applyQrCreateDraft(draft, {
-        setStep,
-        setCategory,
-        setName,
-        setQrData,
-        resetStyleHistory,
-        setLogoPreview,
-        setActiveTemplate,
-        setAdvanced,
-        setLandingEnabled,
-        setLandingPage,
-        setScheduleEnabled,
-        setScheduleData,
-        setGeofenceEnabled,
-        setGeofenceData,
-        setAbTestEnabled,
-        setAbTestData,
-        setGpsHeatmapEnabled,
-        setNfcEnabled,
-        setScanNotify,
-        setPixels,
-      });
-    },
+  const draftSetters = useMemo(
+    () => ({
+      setStep,
+      setCategory,
+      setName,
+      setQrData,
+      resetStyleHistory,
+      setLogoPreview,
+      setActiveTemplate,
+      setAdvanced,
+      setLandingEnabled,
+      setLandingPage,
+      setScheduleEnabled,
+      setScheduleData,
+      setGeofenceEnabled,
+      setGeofenceData,
+      setAbTestEnabled,
+      setAbTestData,
+      setGpsHeatmapEnabled,
+      setNfcEnabled,
+      setScanNotify,
+      setPixels,
+    }),
     [
       resetStyleHistory,
       setAdvanced,
@@ -164,13 +163,13 @@ export function useQrCreateForm() {
     ],
   );
 
-  const { redirectGuestToSignup, saveGuestDraft } = useQrCreateDraftSync({
+  const { redirectGuestToSignup, saveGuestDraft } = useQrCreateDraftBridge({
+    draftState,
+    draftSetters,
     isGuest,
     category,
     authStatus,
     restoreParam: searchParams.get('restore'),
-    buildCurrentDraft,
-    applyDraft,
     router,
     t,
   });
@@ -213,15 +212,7 @@ export function useQrCreateForm() {
     setStep,
   });
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [step]);
-
-  useEffect(() => {
-    if (step < 1) return;
-    void import('@/components/qr/qr-preview');
-    void import('@/components/qr/qr-create-step-design');
-  }, [step]);
+  useQrCreateWizardEffects(step);
 
   const goToStep = useCallback((next: number) => setStep(next), []);
 
@@ -243,16 +234,15 @@ export function useQrCreateForm() {
     setSaving,
   });
 
-  const canProceed = () =>
-    canProceedCreateStep({
-      step,
-      category,
-      name,
-      qrData,
-      payloadData,
-      activeTemplate,
-      landingPage,
-    });
+  const canProceed = createCanProceedCreateStep({
+    step,
+    category,
+    name,
+    qrData,
+    payloadData,
+    activeTemplate,
+    landingPage,
+  });
 
   const enterWizardFromQuick = useCallback(
     (data: { url?: string; name?: string; style?: Partial<QRStyleConfig> }) => {
