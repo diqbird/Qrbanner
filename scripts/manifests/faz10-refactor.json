@@ -1,0 +1,21 @@
+{
+  "upload": [
+    "lib/landing-editor-utils.ts",
+    "lib/enterprise-workspace-types.ts",
+    "hooks/use-landing-page-editor.ts",
+    "hooks/use-enterprise-workspace.ts",
+    "components/qr/landing-page-editor.tsx",
+    "components/qr/landing-editor-mode-toggle.tsx",
+    "components/qr/landing-editor-template-picker.tsx",
+    "components/qr/landing-editor-simple-fields.tsx",
+    "components/qr/landing-editor-appearance.tsx",
+    "components/qr/landing-editor-seo-section.tsx",
+    "components/qr/landing-editor-lead-form.tsx",
+    "components/dashboard/enterprise-workspace-settings.tsx",
+    "components/dashboard/enterprise-smtp-panel.tsx",
+    "components/dashboard/enterprise-scim-panel.tsx",
+    "components/dashboard/enterprise-reseller-panel.tsx"
+  ],
+  "build": true,
+  "restart": true
+}
