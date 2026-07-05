@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,12 +11,27 @@ import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { SettingsCardSkeleton } from '@/components/dashboard/settings-card-skeleton';
+import { useSettingsResource } from '@/hooks/use-settings-resource';
+
+type MfaStatus = {
+  enabled: boolean;
+  hasPassword: boolean;
+};
+
+function parseMfaStatus(json: unknown): MfaStatus {
+  const data = json as Record<string, unknown>;
+  return {
+    enabled: Boolean(data.enabled),
+    hasPassword: Boolean(data.hasPassword),
+  };
+}
 
 export function MfaSettings() {
   const { t } = useLanguage();
-  const [enabled, setEnabled] = useState(false);
-  const [hasPassword, setHasPassword] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const { data, loading, reload } = useSettingsResource({
+    url: '/api/auth/mfa',
+    parse: parseMfaStatus,
+  });
   const [working, setWorking] = useState(false);
   const [setup, setSetup] = useState<{
     qrDataUrl: string;
@@ -28,18 +43,8 @@ export function MfaSettings() {
   const [disableCode, setDisableCode] = useState('');
   const [disablePassword, setDisablePassword] = useState('');
 
-  const fetchStatus = useCallback(async () => {
-    const res = await fetch('/api/auth/mfa');
-    if (res.ok) {
-      const data = await res.json();
-      setEnabled(Boolean(data.enabled));
-      setHasPassword(Boolean(data.hasPassword));
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchStatus().finally(() => setLoading(false));
-  }, [fetchStatus]);
+  const enabled = data?.enabled ?? false;
+  const hasPassword = data?.hasPassword ?? false;
 
   const startSetup = async () => {
     setWorking(true);
@@ -82,7 +87,7 @@ export function MfaSettings() {
       toast.success(t('settings.mfa.enabled'));
       setSetup(null);
       setEnableCode('');
-      fetchStatus();
+      reload();
     } finally {
       setWorking(false);
     }
@@ -108,7 +113,7 @@ export function MfaSettings() {
       toast.success(t('settings.mfa.disabled'));
       setDisableCode('');
       setDisablePassword('');
-      fetchStatus();
+      reload();
     } finally {
       setWorking(false);
     }

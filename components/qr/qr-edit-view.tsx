@@ -8,9 +8,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
-import { ArrowLeft, Save, BarChart3, Trash2, Copy, ExternalLink } from 'lucide-react';
+import { Trash2, Copy, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { QRPreviewSkeleton } from './qr-preview-skeleton';
@@ -22,7 +21,6 @@ import type { QRStyleConfig } from '@/lib/qr-style';
 import { downscaleLogo } from '@/lib/image-downscale';
 import { CategoryFields } from './category-fields';
 import { LinkHubEditor, firstHubUrl } from './link-hub-editor';
-import { categoryDisplayName } from '@/lib/qr-utils';
 import { stripMetaFields } from '@/lib/industry-templates';
 import { buildQRPayload, isDynamicCategory } from '@/lib/qr-utils';
 import { AdvancedSettings, AdvancedValues } from './advanced-settings';
@@ -37,6 +35,7 @@ import { ScanNotifySettings, type ScanNotifyValues } from './scan-notify-setting
 import { AnalyticsPixelSettings, type PixelAnalyticsConfig } from './analytics-pixel-settings';
 import { buildQrFeaturePayload, useQrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import { QROrganizeSettings } from './qr-organize-settings';
+import { QrEditHeader } from './qr-edit-header';
 import { EditQrTips } from './edit-qr-tips';
 import { normalizeLabels } from '@/lib/organize-utils';
 import { useScanBaseUrl, buildScanLink } from '@/lib/use-scan-base-url';
@@ -358,30 +357,13 @@ export function QREditView({ qrId }: { qrId: string }) {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Link href="/dashboard">
-            <Button variant="ghost" size="icon-sm"><ArrowLeft className="h-4 w-4" /></Button>
-          </Link>
-          <div>
-            <h1 className="font-display text-2xl font-bold tracking-tight">{t('editQr.title')}</h1>
-            <div className="mt-1 flex items-center gap-2">
-              <Badge variant="outline" className="text-xs">{categoryDisplayName(qr?.category ?? 'url')}</Badge>
-              <Badge variant={isActive ? 'default' : 'secondary'}>{isActive ? t('editQr.active') : t('editQr.inactive')}</Badge>
-            </div>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Link href={`/qr/${qrId}/analytics`}>
-            <Button variant="outline" size="sm" className="gap-2">
-              <BarChart3 className="h-4 w-4" /> {t('editQr.analytics')}
-            </Button>
-          </Link>
-          <Button onClick={handleSave} loading={saving} size="sm" className="gap-2">
-            <Save className="h-4 w-4" /> {t('common.save')}
-          </Button>
-        </div>
-      </div>
+      <QrEditHeader
+        qrId={qrId}
+        category={qr.category}
+        isActive={isActive}
+        saving={saving}
+        onSave={handleSave}
+      />
 
       <OnboardingSuccessCard qrId={qrId} qrName={qr.name} />
 

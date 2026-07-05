@@ -14,6 +14,7 @@ import { Webhook, Plus, Trash2, Copy } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
+import { useSettingsResource } from '@/hooks/use-settings-resource';
 
 interface WebhookRow {
   id: string;
@@ -36,49 +37,50 @@ interface DeliveryRow {
   createdAt: string;
 }
 
+type WebhooksData = {
+  webhooks: WebhookRow[];
+  limit: number;
+};
+
+function parseWebhooks(json: unknown): WebhooksData {
+  const data = json as Record<string, unknown>;
+  return {
+    webhooks: (data.webhooks as WebhookRow[]) ?? [],
+    limit: Number(data.limit ?? 2),
+  };
+}
+
 export function WebhookSettings() {
   const { t } = useLanguage();
-  const [webhooks, setWebhooks] = useState<WebhookRow[]>([]);
+  const { data, loading, reload } = useSettingsResource({
+    url: '/api/webhooks',
+    parse: parseWebhooks,
+  });
   const [deliveries, setDeliveries] = useState<DeliveryRow[]>([]);
-  const [limit, setLimit] = useState(2);
-  const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState('');
   const [label, setLabel] = useState('');
   const [working, setWorking] = useState(false);
   const [newSecret, setNewSecret] = useState<string | null>(null);
   const [showSecretDialog, setShowSecretDialog] = useState(false);
 
+  const webhooks = data?.webhooks ?? [];
+  const limit = data?.limit ?? 2;
+
   const fetchDeliveries = useCallback(async () => {
     try {
       const res = await fetch('/api/webhooks/deliveries?limit=20');
       if (res.ok) {
-        const data = await res.json();
-        setDeliveries(data.deliveries ?? []);
+        const json = await res.json();
+        setDeliveries(json.deliveries ?? []);
       }
     } catch {
       /* ignore */
-    }
-  }, []);
-
-  const fetchWebhooks = useCallback(async () => {
-    try {
-      const res = await fetch('/api/webhooks');
-      if (res.ok) {
-        const data = await res.json();
-        setWebhooks(data.webhooks ?? []);
-        setLimit(data.limit ?? 2);
-      }
-    } catch {
-      /* ignore */
-    } finally {
-      setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    fetchWebhooks();
     fetchDeliveries();
-  }, [fetchWebhooks, fetchDeliveries]);
+  }, [fetchDeliveries]);
 
   const addWebhook = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,7 +98,7 @@ export function WebhookSettings() {
       setShowSecretDialog(true);
       setUrl('');
       setLabel('');
-      fetchWebhooks();
+      reload();
       fetchDeliveries();
       toast.success(t('settings.webhooks.added'));
     } catch {
@@ -112,9 +114,7 @@ export function WebhookSettings() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ enabled }),
     });
-    if (res.ok) {
-      setWebhooks((prev) => prev.map((w) => (w.id === id ? { ...w, enabled } : w)));
-    }
+    if (res.ok) reload();
   };
 
   const removeWebhook = async (id: string) => {
@@ -122,7 +122,7 @@ export function WebhookSettings() {
     const res = await fetch(`/api/webhooks/${id}`, { method: 'DELETE' });
     if (res.ok) {
       toast.success(t('settings.webhooks.removed'));
-      fetchWebhooks();
+      reload();
     } else {
       toast.error(t('settings.webhooks.removeFailed'));
     }

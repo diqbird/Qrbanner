@@ -1,0 +1,18 @@
+{
+  "upload": [
+    "lib/qr-category-field-registry.ts",
+    "hooks/use-dashboard-qr-list.ts",
+    "hooks/use-settings-resource.ts",
+    "components/dashboard/dashboard-content.tsx",
+    "components/dashboard/dashboard-stats-cards.tsx",
+    "components/dashboard/api-key-settings.tsx",
+    "components/dashboard/custom-domain-settings.tsx",
+    "components/dashboard/webhook-settings.tsx",
+    "components/dashboard/mfa-settings.tsx",
+    "components/qr/category-fields.tsx",
+    "components/qr/qr-edit-view.tsx",
+    "components/qr/qr-edit-header.tsx"
+  ],
+  "build": true,
+  "restart": true
+}

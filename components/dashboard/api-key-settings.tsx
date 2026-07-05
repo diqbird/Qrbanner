@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -12,6 +12,7 @@ import { Key, Copy, RefreshCw, Trash2, BookOpen, Terminal, Gauge } from 'lucide-
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
+import { useSettingsResource } from '@/hooks/use-settings-resource';
 
 const API_BASE = typeof window !== 'undefined' ? window.location.origin : 'https://qrbanner.com';
 
@@ -23,58 +24,60 @@ interface ApiUsageState {
   monthlyResetAt: number;
 }
 
+type ApiKeyStatus = {
+  hasKey: boolean;
+  prefix: string | null;
+  createdAt: string | null;
+  planName: string | null;
+  usage: ApiUsageState | null;
+};
+
+function parseApiKeyStatus(json: unknown): ApiKeyStatus {
+  const data = json as Record<string, unknown>;
+  const usage = data.usage as Record<string, number> | undefined;
+  return {
+    hasKey: Boolean(data.has_key),
+    prefix: (data.prefix as string | null) ?? null,
+    createdAt: (data.created_at as string | null) ?? null,
+    planName: (data.plan_name as string | null) ?? null,
+    usage: usage
+      ? {
+          perMinuteLimit: usage.per_minute_limit,
+          monthlyQuota: usage.monthly_quota,
+          monthlyUsed: usage.monthly_used,
+          monthlyRemaining: usage.monthly_remaining,
+          monthlyResetAt: usage.monthly_reset_at,
+        }
+      : null,
+  };
+}
+
 export function ApiKeySettings() {
   const { t } = useLanguage();
-  const [hasKey, setHasKey] = useState(false);
-  const [prefix, setPrefix] = useState<string | null>(null);
-  const [createdAt, setCreatedAt] = useState<string | null>(null);
-  const [planName, setPlanName] = useState<string | null>(null);
-  const [usage, setUsage] = useState<ApiUsageState | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { data, loading, reload } = useSettingsResource({
+    url: '/api/auth/api-key',
+    parse: parseApiKeyStatus,
+  });
   const [newKey, setNewKey] = useState<string | null>(null);
   const [showKeyDialog, setShowKeyDialog] = useState(false);
   const [working, setWorking] = useState(false);
 
-  const fetchStatus = useCallback(async () => {
-    try {
-      const res = await fetch('/api/auth/api-key');
-      if (res.ok) {
-        const data = await res.json();
-        setHasKey(Boolean(data.has_key));
-        setPrefix(data.prefix ?? null);
-        setCreatedAt(data.created_at ?? null);
-        setPlanName(data.plan_name ?? null);
-        if (data.usage) {
-          setUsage({
-            perMinuteLimit: data.usage.per_minute_limit,
-            monthlyQuota: data.usage.monthly_quota,
-            monthlyUsed: data.usage.monthly_used,
-            monthlyRemaining: data.usage.monthly_remaining,
-            monthlyResetAt: data.usage.monthly_reset_at,
-          });
-        }
-      }
-    } catch {
-      /* ignore */
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchStatus();
-  }, [fetchStatus]);
+  const hasKey = data?.hasKey ?? false;
+  const prefix = data?.prefix ?? null;
+  const createdAt = data?.createdAt ?? null;
+  const planName = data?.planName ?? null;
+  const usage = data?.usage ?? null;
 
   const generateKey = async () => {
     if (hasKey && !confirm(t('settings.apiKey.confirmRegenerate'))) return;
     setWorking(true);
     try {
       const res = await fetch('/api/auth/api-key', { method: 'POST' });
-      const data = await res.json();
-      if (!res.ok) return toast.error(resolveApiError(t, data.error, 'settings.apiKey.generateFailed'));
-      setNewKey(data.api_key);
+      const json = await res.json();
+      if (!res.ok) return toast.error(resolveApiError(t, json.error, 'settings.apiKey.generateFailed'));
+      setNewKey(json.api_key);
       setShowKeyDialog(true);
-      fetchStatus();
+      reload();
       toast.success(t('settings.apiKey.generated'));
     } catch {
       toast.error(t('auth.somethingWrong'));
@@ -90,9 +93,7 @@ export function ApiKeySettings() {
       const res = await fetch('/api/auth/api-key', { method: 'DELETE' });
       if (!res.ok) return toast.error(t('settings.apiKey.revokeFailed'));
       toast.success(t('settings.apiKey.revoked'));
-      setHasKey(false);
-      setPrefix(null);
-      setCreatedAt(null);
+      reload();
     } catch {
       toast.error(t('auth.somethingWrong'));
     } finally {

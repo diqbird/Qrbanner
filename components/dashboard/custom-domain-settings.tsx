@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -11,6 +11,7 @@ import {
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
+import { useSettingsResource } from '@/hooks/use-settings-resource';
 
 interface CustomDomainRecord {
   id: string;
@@ -26,35 +27,34 @@ interface DnsInstructions {
   txt: { host: string; value: string };
 }
 
+type DomainsData = {
+  domains: CustomDomainRecord[];
+  scanBaseUrl: string;
+  cnameTarget: string;
+};
+
+function parseDomains(json: unknown): DomainsData {
+  const data = json as Record<string, unknown>;
+  return {
+    domains: (data.domains as CustomDomainRecord[]) ?? [],
+    scanBaseUrl: String(data.scan_base_url ?? 'https://qrbanner.com'),
+    cnameTarget: String(data.cname_target ?? 'qrbanner.com'),
+  };
+}
+
 export function CustomDomainSettings() {
   const { t } = useLanguage();
-  const [domains, setDomains] = useState<CustomDomainRecord[]>([]);
-  const [scanBaseUrl, setScanBaseUrl] = useState('https://qrbanner.com');
-  const [cnameTarget, setCnameTarget] = useState('qrbanner.com');
+  const { data, loading, reload } = useSettingsResource({
+    url: '/api/domains',
+    parse: parseDomains,
+  });
   const [newDomain, setNewDomain] = useState('');
-  const [loading, setLoading] = useState(true);
   const [working, setWorking] = useState(false);
   const [pendingDns, setPendingDns] = useState<DnsInstructions | null>(null);
 
-  const fetchDomains = useCallback(async () => {
-    try {
-      const res = await fetch('/api/domains');
-      if (res.ok) {
-        const data = await res.json();
-        setDomains(data.domains ?? []);
-        setScanBaseUrl(data.scan_base_url ?? 'https://qrbanner.com');
-        setCnameTarget(data.cname_target ?? 'qrbanner.com');
-      }
-    } catch {
-      /* ignore */
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchDomains();
-  }, [fetchDomains]);
+  const domains = data?.domains ?? [];
+  const scanBaseUrl = data?.scanBaseUrl ?? 'https://qrbanner.com';
+  const cnameTarget = data?.cnameTarget ?? 'qrbanner.com';
 
   const addDomain = async () => {
     const domain = newDomain.trim();
@@ -71,7 +71,7 @@ export function CustomDomainSettings() {
       toast.success(t('settings.customDomain.added'));
       setNewDomain('');
       setPendingDns(data.dns);
-      fetchDomains();
+      reload();
     } catch {
       toast.error(t('auth.somethingWrong'));
     } finally {
@@ -87,7 +87,7 @@ export function CustomDomainSettings() {
       if (!res.ok) return toast.error(resolveApiError(t, data.error, 'settings.customDomain.verifyFailed'));
       toast.success(t('settings.customDomain.verified'));
       setPendingDns(null);
-      fetchDomains();
+      reload();
     } catch {
       toast.error(t('auth.somethingWrong'));
     } finally {
@@ -104,7 +104,7 @@ export function CustomDomainSettings() {
       });
       if (!res.ok) return toast.error(t('settings.customDomain.primaryFailed'));
       toast.success(t('settings.customDomain.primaryUpdated'));
-      fetchDomains();
+      reload();
     } catch {
       toast.error(t('auth.somethingWrong'));
     }
@@ -116,7 +116,7 @@ export function CustomDomainSettings() {
       const res = await fetch(`/api/domains/${id}`, { method: 'DELETE' });
       if (!res.ok) return toast.error(t('settings.customDomain.removeFailed'));
       toast.success(t('settings.customDomain.removed'));
-      fetchDomains();
+      reload();
     } catch {
       toast.error(t('auth.somethingWrong'));
     }
