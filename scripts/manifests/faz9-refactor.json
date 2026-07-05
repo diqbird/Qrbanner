@@ -1,0 +1,21 @@
+{
+  "upload": [
+    "components/qr/category-field-types.ts",
+    "components/qr/category-field-primitives.tsx",
+    "components/qr/category-field-layouts.tsx",
+    "components/qr/category-fields.tsx",
+    "hooks/use-qr-bulk-import.ts",
+    "components/qr/qr-bulk-import.tsx",
+    "components/qr/bulk-import-header.tsx",
+    "components/qr/bulk-import-result.tsx",
+    "components/qr/bulk-import-upload.tsx",
+    "components/qr/bulk-import-preview.tsx",
+    "hooks/use-scan-simulation.ts",
+    "components/qr/scan-simulation.tsx",
+    "components/qr/scan-simulation-digital-panel.tsx",
+    "components/qr/scan-simulation-camera-panel.tsx",
+    "components/qr/scan-simulation-result.tsx"
+  ],
+  "build": true,
+  "restart": true
+}
