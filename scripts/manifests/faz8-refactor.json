@@ -1,0 +1,17 @@
+{
+  "upload": [
+    "lib/campaign-wizard-utils.ts",
+    "hooks/use-campaign-wizard.ts",
+    "hooks/use-qr-analytics.ts",
+    "components/qr/campaign-wizard.tsx",
+    "components/qr/campaign-wizard-prompt-step.tsx",
+    "components/qr/campaign-wizard-review-step.tsx",
+    "components/qr/campaign-wizard-done-step.tsx",
+    "components/qr/qr-analytics-view.tsx",
+    "components/qr/analytics-view-header.tsx",
+    "components/qr/analytics-stats-cards.tsx",
+    "components/qr/analytics-recent-scans.tsx"
+  ],
+  "build": true,
+  "restart": true
+}
