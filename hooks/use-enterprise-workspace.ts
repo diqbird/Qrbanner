@@ -5,9 +5,10 @@ import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { useSettingsResource } from '@/hooks/use-settings-resource';
+import { useEnterpriseClients } from '@/hooks/use-enterprise-clients';
+import { useEnterpriseSmtp } from '@/hooks/use-enterprise-smtp';
 import {
   parseActiveWorkspace,
-  type ClientRow,
   type EnterpriseState,
 } from '@/lib/enterprise-workspace-types';
 
@@ -19,65 +20,17 @@ export function useEnterpriseWorkspace() {
   });
   const activeId = wsData?.activeWorkspaceId ?? '';
   const [state, setState] = useState<EnterpriseState | null>(null);
-  const [clients, setClients] = useState<ClientRow[]>([]);
-  const [clientLimit, setClientLimit] = useState(0);
   const [detailLoading, setDetailLoading] = useState(false);
   const [working, setWorking] = useState(false);
   const [scimToken, setScimToken] = useState<string | null>(null);
 
-  const [smtpHost, setSmtpHost] = useState('');
-  const [smtpPort, setSmtpPort] = useState('587');
-  const [smtpUser, setSmtpUser] = useState('');
-  const [smtpPassword, setSmtpPassword] = useState('');
-  const [smtpFrom, setSmtpFrom] = useState('');
-  const [testEmail, setTestEmail] = useState('');
-
-  const [clientName, setClientName] = useState('');
-  const [clientEmail, setClientEmail] = useState('');
-  const [clientPlan, setClientPlan] = useState('free');
-  const [clientFee, setClientFee] = useState('0');
+  const clients = useEnterpriseClients(activeId, t);
 
   const fetchEnterprise = useCallback(async (workspaceId: string) => {
     const res = await fetch(`/api/workspace/enterprise?workspaceId=${workspaceId}`);
     if (!res.ok) return null;
     return (await res.json()) as EnterpriseState;
   }, []);
-
-  const fetchClients = useCallback(async (workspaceId: string) => {
-    const res = await fetch(`/api/workspace/clients?workspaceId=${workspaceId}`);
-    if (!res.ok) return;
-    const data = await res.json();
-    setClients(data.clients ?? []);
-    setClientLimit(data.limit ?? 0);
-  }, []);
-
-  const loadEnterpriseDetails = useCallback(
-    async (workspaceId: string) => {
-      if (!workspaceId) return;
-      setDetailLoading(true);
-      try {
-        const ent = await fetchEnterprise(workspaceId);
-        if (ent) {
-          setState(ent);
-          setSmtpHost(ent.workspace.smtpHost ?? '');
-          setSmtpPort(String(ent.workspace.smtpPort ?? 587));
-          setSmtpUser(ent.workspace.smtpUser ?? '');
-          setSmtpFrom(ent.workspace.smtpFrom ?? '');
-          setSmtpPassword('');
-        }
-        await fetchClients(workspaceId);
-      } finally {
-        setDetailLoading(false);
-      }
-    },
-    [fetchEnterprise, fetchClients],
-  );
-
-  useEffect(() => {
-    if (activeId) loadEnterpriseDetails(activeId);
-  }, [activeId, loadEnterpriseDetails]);
-
-  const loading = wsLoading || detailLoading;
 
   const patchEnterprise = async (payload: Record<string, unknown>) => {
     setWorking(true);
@@ -104,47 +57,32 @@ export function useEnterpriseWorkspace() {
     }
   };
 
-  const saveSmtp = async () => {
-    const data = await patchEnterprise({
-      action: 'update_smtp',
-      smtpEnabled: state?.workspace.smtpEnabled ?? false,
-      smtpHost,
-      smtpPort,
-      smtpUser,
-      smtpFrom,
-      smtpPassword: smtpPassword || undefined,
-    });
-    if (data) {
-      toast.success(t('enterpriseWorkspace.smtpSaved'));
-      setSmtpPassword('');
-    }
-  };
+  const smtp = useEnterpriseSmtp({ activeId, state, patchEnterprise, t, setWorking });
 
-  const toggleSmtp = async (enabled: boolean) => {
-    const data = await patchEnterprise({ action: 'update_smtp', smtpEnabled: enabled });
-    if (data) {
-      toast.success(
-        enabled ? t('enterpriseWorkspace.smtpEnabled') : t('enterpriseWorkspace.smtpDisabled'),
-      );
-    }
-  };
+  const loadEnterpriseDetails = useCallback(
+    async (workspaceId: string) => {
+      if (!workspaceId) return;
+      setDetailLoading(true);
+      try {
+        const ent = await fetchEnterprise(workspaceId);
+        if (ent) {
+          setState(ent);
+          smtp.syncFromWorkspace(ent);
+        }
+        await clients.fetchClients(workspaceId);
+      } finally {
+        setDetailLoading(false);
+      }
+    },
+    [fetchEnterprise, clients.fetchClients, smtp.syncFromWorkspace],
+  );
 
-  const sendSmtpTest = async () => {
-    if (!testEmail.trim()) return toast.error(t('enterpriseWorkspace.testEmailRequired'));
-    setWorking(true);
-    try {
-      const res = await fetch('/api/workspace/enterprise', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'test_smtp', workspaceId: activeId, testEmail: testEmail.trim() }),
-      });
-      const data = await res.json();
-      if (!res.ok) return toast.error(resolveApiError(t, data.error, 'enterpriseWorkspace.smtpTestFailed'));
-      toast.success(t('enterpriseWorkspace.smtpTestSent'));
-    } finally {
-      setWorking(false);
-    }
-  };
+  useEffect(() => {
+    if (activeId) loadEnterpriseDetails(activeId);
+  }, [activeId, loadEnterpriseDetails]);
+
+  const loading = wsLoading || detailLoading;
+  const isWorking = working || clients.clientWorking;
 
   const toggleScim = async (enabled: boolean) => {
     const data = await patchEnterprise({ action: 'update_scim', scimEnabled: enabled });
@@ -167,44 +105,7 @@ export function useEnterpriseWorkspace() {
       toast.success(
         enabled ? t('enterpriseWorkspace.resellerEnabled') : t('enterpriseWorkspace.resellerDisabled'),
       );
-      fetchClients(activeId);
-    }
-  };
-
-  const addClient = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!clientName.trim()) return;
-    setWorking(true);
-    try {
-      const res = await fetch('/api/workspace/clients', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          workspaceId: activeId,
-          name: clientName.trim(),
-          email: clientEmail.trim() || null,
-          plan: clientPlan,
-          monthlyFeeUsd: clientFee,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) return toast.error(resolveApiError(t, data.error, 'enterpriseWorkspace.clientCreateFailed'));
-      toast.success(t('enterpriseWorkspace.clientCreated'));
-      setClientName('');
-      setClientEmail('');
-      setClientFee('0');
-      fetchClients(activeId);
-    } finally {
-      setWorking(false);
-    }
-  };
-
-  const removeClient = async (id: string) => {
-    if (!confirm(t('enterpriseWorkspace.confirmDeleteClient'))) return;
-    const res = await fetch(`/api/workspace/clients/${id}`, { method: 'DELETE' });
-    if (res.ok) {
-      toast.success(t('enterpriseWorkspace.clientDeleted'));
-      fetchClients(activeId);
+      clients.fetchClients(activeId);
     }
   };
 
@@ -217,38 +118,38 @@ export function useEnterpriseWorkspace() {
     t,
     loading,
     state,
-    clients,
-    clientLimit,
-    working,
+    clients: clients.clients,
+    clientLimit: clients.clientLimit,
+    working: isWorking,
     scimToken,
-    smtpHost,
-    setSmtpHost,
-    smtpPort,
-    setSmtpPort,
-    smtpUser,
-    setSmtpUser,
-    smtpPassword,
-    setSmtpPassword,
-    smtpFrom,
-    setSmtpFrom,
-    testEmail,
-    setTestEmail,
-    clientName,
-    setClientName,
-    clientEmail,
-    setClientEmail,
-    clientPlan,
-    setClientPlan,
-    clientFee,
-    setClientFee,
-    saveSmtp,
-    toggleSmtp,
-    sendSmtpTest,
+    smtpHost: smtp.smtpHost,
+    setSmtpHost: smtp.setSmtpHost,
+    smtpPort: smtp.smtpPort,
+    setSmtpPort: smtp.setSmtpPort,
+    smtpUser: smtp.smtpUser,
+    setSmtpUser: smtp.setSmtpUser,
+    smtpPassword: smtp.smtpPassword,
+    setSmtpPassword: smtp.setSmtpPassword,
+    smtpFrom: smtp.smtpFrom,
+    setSmtpFrom: smtp.setSmtpFrom,
+    testEmail: smtp.testEmail,
+    setTestEmail: smtp.setTestEmail,
+    clientName: clients.clientName,
+    setClientName: clients.setClientName,
+    clientEmail: clients.clientEmail,
+    setClientEmail: clients.setClientEmail,
+    clientPlan: clients.clientPlan,
+    setClientPlan: clients.setClientPlan,
+    clientFee: clients.clientFee,
+    setClientFee: clients.setClientFee,
+    saveSmtp: smtp.saveSmtp,
+    toggleSmtp: smtp.toggleSmtp,
+    sendSmtpTest: smtp.sendSmtpTest,
     toggleScim,
     regenerateScimToken,
     toggleReseller,
-    addClient,
-    removeClient,
+    addClient: clients.addClient,
+    removeClient: clients.removeClient,
     copyText,
   };
 }

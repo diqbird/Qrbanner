@@ -1,0 +1,26 @@
+{
+  "upload": [
+    "lib/qr-preview-types.ts",
+    "lib/qr-feature-fields-types.ts",
+    "lib/qr-feature-fields-utils.ts",
+    "lib/scan-simulation-types.ts",
+    "lib/scan-simulation-evaluate.ts",
+    "hooks/use-reset-password-form.ts",
+    "hooks/use-qr-preview.ts",
+    "hooks/use-qr-feature-fields.ts",
+    "hooks/use-enterprise-clients.ts",
+    "hooks/use-enterprise-smtp.ts",
+    "hooks/use-enterprise-workspace.ts",
+    "hooks/use-team-sso-settings.ts",
+    "hooks/use-team-workspace.ts",
+    "hooks/use-scan-simulation-camera.ts",
+    "hooks/use-scan-simulation.ts",
+    "components/auth/reset-password-form.tsx",
+    "components/auth/reset-password-form-fields.tsx",
+    "components/qr/qr-preview.tsx",
+    "components/qr/qr-preview-canvas.tsx",
+    "components/qr/qr-preview-extras.tsx"
+  ],
+  "build": true,
+  "restart": true
+}

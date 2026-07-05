@@ -2,25 +2,14 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
-import {
-  decodeQrFromDataUrlRobust,
-  decodeQrFromVideoFrame,
-  payloadsMatch,
-  type DecodeConfidence,
-} from '@/lib/qr-scan-decode';
+import { decodeQrFromDataUrlRobust } from '@/lib/qr-scan-decode';
 import { computeScannability } from '@/lib/scannability';
+import { evaluateScanDecode } from '@/lib/scan-simulation-evaluate';
+import { useScanSimulationCamera } from '@/hooks/use-scan-simulation-camera';
 import type { QRStyleConfig } from '@/lib/qr-style';
 import { useLanguage } from '@/components/i18n/language-provider';
 
-export type ScanStatus = 'idle' | 'running' | 'pass' | 'warn' | 'fail';
-
-export interface ScanResult {
-  status: ScanStatus;
-  title: string;
-  detail: string;
-  decoded?: string;
-  confidence?: DecodeConfidence;
-}
+export type { ScanStatus, ScanResult } from '@/lib/scan-simulation-types';
 
 export function useScanSimulation({
   qrDataUrl,
@@ -38,17 +27,11 @@ export function useScanSimulation({
   defaultOpen?: boolean;
 }) {
   const { t } = useLanguage();
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const streamRef = useRef<MediaStream | null>(null);
-  const scanLoopRef = useRef<number | null>(null);
   const autoRunRef = useRef<string | null>(null);
 
   const [open, setOpen] = useState(defaultOpen);
-  const [cameraOn, setCameraOn] = useState(false);
   const [digitalRunning, setDigitalRunning] = useState(false);
-  const [liveScanning, setLiveScanning] = useState(false);
-  const [result, setResult] = useState<ScanResult | null>(null);
-  const [liveHits, setLiveHits] = useState(0);
+  const [result, setResult] = useState<import('@/lib/scan-simulation-types').ScanResult | null>(null);
 
   const scannability = computeScannability(style ?? {}, {
     hasLogo,
@@ -56,62 +39,17 @@ export function useScanSimulation({
     contentLength,
   });
 
-  const stopCamera = useCallback(() => {
-    if (scanLoopRef.current) {
-      cancelAnimationFrame(scanLoopRef.current);
-      scanLoopRef.current = null;
-    }
-    streamRef.current?.getTracks().forEach((track) => track.stop());
-    streamRef.current = null;
-    setCameraOn(false);
-    setLiveScanning(false);
-  }, []);
-
-  useEffect(() => () => stopCamera(), [stopCamera]);
-
-  const confidenceNote = (confidence: DecodeConfidence) => {
-    if (confidence === 'high') return t('scan.confidenceHigh');
-    if (confidence === 'medium') return t('scan.confidenceMedium');
-    return t('scan.confidenceLow');
-  };
+  const camera = useScanSimulationCamera({
+    expectedContent,
+    scannability,
+    t,
+    setResult,
+  });
 
   const evaluateDecode = useCallback(
-    (decoded: string | null, source: 'digital' | 'camera', confidence?: DecodeConfidence): ScanResult => {
-      if (!decoded) {
-        return {
-          status: 'fail',
-          title: source === 'digital' ? t('scan.failDecode') : t('scan.failNoQr'),
-          detail: source === 'digital' ? t('scan.failDecodeDetail') : t('scan.failNoQrDetail'),
-        };
-      }
-
-      if (expectedContent && !payloadsMatch(decoded, expectedContent)) {
-        return {
-          status: 'warn',
-          title: t('scan.warnPayload'),
-          detail: `Decoded: ${decoded.slice(0, 120)}${decoded.length > 120 ? '…' : ''}`,
-          decoded,
-          confidence,
-        };
-      }
-
-      const gradeNote =
-        scannability.grade === 'A' || scannability.grade === 'B'
-          ? t('scan.gradeGood')
-          : t('scan.gradeWarn', { grade: scannability.grade });
-
-      const dpiNote = t('scan.minDpi', { dpi: scannability.printDpiRecommendation });
-      const confNote = confidence ? confidenceNote(confidence) : '';
-
-      return {
-        status: confidence === 'low' && source === 'digital' ? 'warn' : 'pass',
-        title: source === 'digital' ? t('scan.passDigital') : t('scan.passCamera'),
-        detail: [confNote, gradeNote, dpiNote].filter(Boolean).join(' '),
-        decoded,
-        confidence,
-      };
-    },
-    [expectedContent, scannability.grade, scannability.printDpiRecommendation, t],
+    (decoded: string | null, source: 'digital' | 'camera', confidence?: import('@/lib/qr-scan-decode').DecodeConfidence) =>
+      evaluateScanDecode({ decoded, source, confidence, expectedContent, scannability, t }),
+    [expectedContent, scannability, t],
   );
 
   const runDigitalTest = useCallback(
@@ -155,58 +93,6 @@ export function useScanSimulation({
     }
   };
 
-  const startCamera = async () => {
-    setResult(null);
-    setLiveHits(0);
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } },
-      });
-      streamRef.current = stream;
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        await videoRef.current.play();
-      }
-      setCameraOn(true);
-      setLiveScanning(true);
-    } catch {
-      setResult({
-        status: 'fail',
-        title: t('scan.failCamera'),
-        detail: t('scan.failCameraDetail'),
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (!cameraOn || !liveScanning || !videoRef.current) return;
-
-    let lastCheck = 0;
-    const tick = async (ts: number) => {
-      if (!videoRef.current || !liveScanning) return;
-      if (ts - lastCheck > 250) {
-        lastCheck = ts;
-        try {
-          const decoded = await decodeQrFromVideoFrame(videoRef.current);
-          if (decoded) {
-            setLiveHits((h) => h + 1);
-            setResult(evaluateDecode(decoded, 'camera'));
-            if (payloadsMatch(decoded, expectedContent ?? decoded)) {
-              setLiveScanning(false);
-            }
-          }
-        } catch {
-          /* ignore frame errors */
-        }
-      }
-      scanLoopRef.current = requestAnimationFrame(tick);
-    };
-    scanLoopRef.current = requestAnimationFrame(tick);
-    return () => {
-      if (scanLoopRef.current) cancelAnimationFrame(scanLoopRef.current);
-    };
-  }, [cameraOn, liveScanning, evaluateDecode, expectedContent]);
-
   const dismissResult = () => setResult(null);
 
   return {
@@ -215,17 +101,17 @@ export function useScanSimulation({
     expectedContent,
     open,
     setOpen,
-    cameraOn,
+    cameraOn: camera.cameraOn,
     digitalRunning,
-    liveScanning,
+    liveScanning: camera.liveScanning,
     result,
-    liveHits,
+    liveHits: camera.liveHits,
     scannability,
-    videoRef,
+    videoRef: camera.videoRef,
     runDigitalTest,
     copyScanUrl,
-    startCamera,
-    stopCamera,
+    startCamera: camera.startCamera,
+    stopCamera: camera.stopCamera,
     dismissResult,
   };
 }

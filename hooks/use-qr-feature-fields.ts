@@ -1,56 +1,29 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { AdvancedValues, emptyAdvanced } from '@/components/qr/advanced-settings';
-import { emptyLandingPage, type LandingPageData } from '@/components/qr/landing-page-editor';
-import { emptyScheduleData, type ScheduleData } from '@/components/qr/schedule-settings';
-import { emptyGeofenceData, type GeofenceData } from '@/components/qr/geofence-settings';
-import { emptyAbTestData } from '@/components/qr/ab-test-settings';
-import { parseAbTestData, type AbTestData } from '@/lib/ab-routing';
-import { emptyScanNotify, type ScanNotifyValues } from '@/components/qr/scan-notify-settings';
+import type { AdvancedValues } from '@/components/qr/advanced-settings';
+import type { LandingPageData } from '@/components/qr/landing-page-editor';
+import type { ScheduleData } from '@/components/qr/schedule-settings';
+import type { GeofenceData } from '@/components/qr/geofence-settings';
+import type { AbTestData } from '@/lib/ab-routing';
+import type { ScanNotifyValues } from '@/components/qr/scan-notify-settings';
+import type { PixelAnalyticsConfig } from '@/components/qr/analytics-pixel-settings';
+import { emptyAdvanced } from '@/components/qr/advanced-settings';
+import { emptyLandingPage } from '@/components/qr/landing-page-editor';
+import { emptyScheduleData } from '@/components/qr/schedule-settings';
+import { emptyGeofenceData } from '@/components/qr/geofence-settings';
+import { emptyAbTestData } from '@/lib/ab-routing';
+import { emptyScanNotify } from '@/components/qr/scan-notify-settings';
+import { emptyPixelAnalytics } from '@/components/qr/analytics-pixel-settings';
+import type { QrFeatureRecord } from '@/lib/qr-feature-fields-types';
 import {
-  emptyPixelAnalytics,
-  type PixelAnalyticsConfig,
-} from '@/components/qr/analytics-pixel-settings';
-import { getPixelConfig } from '@/lib/pixel-analytics';
+  emptyQrFeatureFieldState,
+  qrFeatureFieldStateFromRecord,
+} from '@/lib/qr-feature-fields-utils';
 
-export type QrFeatureRecord = {
-  expiresAt?: string | null;
-  scanLimit?: number | null;
-  iosUrl?: string | null;
-  androidUrl?: string | null;
-  utmEnabled?: boolean;
-  utmSource?: string | null;
-  utmMedium?: string | null;
-  utmCampaign?: string | null;
-  landingPageEnabled?: boolean;
-  landingPageData?: LandingPageData | null;
-  scheduleEnabled?: boolean;
-  scheduleData?: ScheduleData | null;
-  geofenceEnabled?: boolean;
-  geofenceData?: GeofenceData | null;
-  abTestEnabled?: boolean;
-  abTestData?: AbTestData | null;
-  gpsHeatmapEnabled?: boolean;
-  nfcEnabled?: boolean;
-  scanNotifyEnabled?: boolean;
-  scanNotifyFirst?: boolean;
-  scanNotifyMilestones?: boolean;
-  scanNotifyEvery?: boolean;
-  ga4Enabled?: boolean;
-  ga4MeasurementId?: string | null;
-  metaPixelEnabled?: boolean;
-  metaPixelId?: string | null;
-  hasPassword?: boolean;
-};
-
-function toLocalInput(iso?: string | null): string {
-  if (!iso) return '';
-  const d = new Date(iso);
-  if (isNaN(d.getTime())) return '';
-  const tzOffset = d.getTimezoneOffset() * 60000;
-  return new Date(d.getTime() - tzOffset).toISOString().slice(0, 16);
-}
+export type { QrFeatureRecord } from '@/lib/qr-feature-fields-types';
+export { buildQrFeaturePayload } from '@/lib/qr-feature-fields-utils';
+export type { QrFeaturePayloadInput } from '@/lib/qr-feature-fields-types';
 
 /** Shared advanced + feature toggles used by create wizard and edit view. */
 export function useQrFeatureFields() {
@@ -69,65 +42,37 @@ export function useQrFeatureFields() {
   const [pixels, setPixels] = useState<PixelAnalyticsConfig>(emptyPixelAnalytics);
 
   const resetFeatureFields = useCallback(() => {
-    setAdvanced(emptyAdvanced);
-    setLandingEnabled(false);
-    setLandingPage(emptyLandingPage);
-    setScheduleEnabled(false);
-    setScheduleData(emptyScheduleData);
-    setGeofenceEnabled(false);
-    setGeofenceData(emptyGeofenceData);
-    setAbTestEnabled(false);
-    setAbTestData(emptyAbTestData);
-    setGpsHeatmapEnabled(false);
-    setNfcEnabled(false);
-    setScanNotify(emptyScanNotify);
-    setPixels(emptyPixelAnalytics);
+    const empty = emptyQrFeatureFieldState();
+    setAdvanced(empty.advanced);
+    setLandingEnabled(empty.landingEnabled);
+    setLandingPage(empty.landingPage);
+    setScheduleEnabled(empty.scheduleEnabled);
+    setScheduleData(empty.scheduleData);
+    setGeofenceEnabled(empty.geofenceEnabled);
+    setGeofenceData(empty.geofenceData);
+    setAbTestEnabled(empty.abTestEnabled);
+    setAbTestData(empty.abTestData);
+    setGpsHeatmapEnabled(empty.gpsHeatmapEnabled);
+    setNfcEnabled(empty.nfcEnabled);
+    setScanNotify(empty.scanNotify);
+    setPixels(empty.pixels);
   }, []);
 
   const applyFeatureFieldsFromRecord = useCallback((record: QrFeatureRecord) => {
-    setAdvanced({
-      password: '',
-      expiresAt: toLocalInput(record.expiresAt),
-      scanLimit: record.scanLimit != null ? String(record.scanLimit) : '',
-      iosUrl: record.iosUrl ?? '',
-      androidUrl: record.androidUrl ?? '',
-      utmEnabled: Boolean(record.utmEnabled),
-      utmSource: record.utmSource ?? 'qrbanner',
-      utmMedium: record.utmMedium ?? 'qr',
-      utmCampaign: record.utmCampaign ?? '',
-    });
-    setLandingEnabled(Boolean(record.landingPageEnabled));
-    setLandingPage({
-      ...emptyLandingPage,
-      ...(record.landingPageData && typeof record.landingPageData === 'object'
-        ? record.landingPageData
-        : {}),
-    });
-    setScheduleEnabled(Boolean(record.scheduleEnabled));
-    setScheduleData({
-      ...emptyScheduleData,
-      ...(record.scheduleData && typeof record.scheduleData === 'object'
-        ? record.scheduleData
-        : {}),
-    });
-    setGeofenceEnabled(Boolean(record.geofenceEnabled));
-    setGeofenceData({
-      ...emptyGeofenceData,
-      ...(record.geofenceData && typeof record.geofenceData === 'object'
-        ? record.geofenceData
-        : {}),
-    });
-    setAbTestEnabled(Boolean(record.abTestEnabled));
-    setAbTestData(parseAbTestData(record.abTestData));
-    setGpsHeatmapEnabled(Boolean(record.gpsHeatmapEnabled));
-    setNfcEnabled(Boolean(record.nfcEnabled));
-    setScanNotify({
-      enabled: Boolean(record.scanNotifyEnabled),
-      firstScan: record.scanNotifyFirst !== false,
-      milestones: record.scanNotifyMilestones !== false,
-      everyScan: Boolean(record.scanNotifyEvery),
-    });
-    setPixels(getPixelConfig(record));
+    const next = qrFeatureFieldStateFromRecord(record);
+    setAdvanced(next.advanced);
+    setLandingEnabled(next.landingEnabled);
+    setLandingPage(next.landingPage);
+    setScheduleEnabled(next.scheduleEnabled);
+    setScheduleData(next.scheduleData);
+    setGeofenceEnabled(next.geofenceEnabled);
+    setGeofenceData(next.geofenceData);
+    setAbTestEnabled(next.abTestEnabled);
+    setAbTestData(next.abTestData);
+    setGpsHeatmapEnabled(next.gpsHeatmapEnabled);
+    setNfcEnabled(next.nfcEnabled);
+    setScanNotify(next.scanNotify);
+    setPixels(next.pixels);
   }, []);
 
   return {
@@ -163,78 +108,3 @@ export function useQrFeatureFields() {
 }
 
 export type QrFeatureFields = ReturnType<typeof useQrFeatureFields>;
-
-export type QrFeaturePayloadInput = {
-  name: string;
-  mode: 'create' | 'update';
-  fields: Pick<
-    QrFeatureFields,
-    | 'advanced'
-    | 'landingEnabled'
-    | 'landingPage'
-    | 'scheduleEnabled'
-    | 'scheduleData'
-    | 'geofenceEnabled'
-    | 'geofenceData'
-    | 'abTestEnabled'
-    | 'abTestData'
-    | 'gpsHeatmapEnabled'
-    | 'nfcEnabled'
-    | 'scanNotify'
-    | 'pixels'
-  >;
-};
-
-/** Build the shared advanced/feature slice of create/update API payloads. */
-export function buildQrFeaturePayload({ name, mode, fields }: QrFeaturePayloadInput) {
-  const {
-    advanced,
-    landingEnabled,
-    landingPage,
-    scheduleEnabled,
-    scheduleData,
-    geofenceEnabled,
-    geofenceData,
-    abTestEnabled,
-    abTestData,
-    gpsHeatmapEnabled,
-    nfcEnabled,
-    scanNotify,
-    pixels,
-  } = fields;
-
-  const empty = mode === 'create' ? undefined : null;
-
-  return {
-    expiresAt: advanced.expiresAt || empty,
-    scanLimit: advanced.scanLimit !== '' ? advanced.scanLimit : empty,
-    iosUrl: advanced.iosUrl || (mode === 'create' ? undefined : advanced.iosUrl),
-    androidUrl: advanced.androidUrl || (mode === 'create' ? undefined : advanced.androidUrl),
-    utmEnabled: advanced.utmEnabled,
-    utmSource: advanced.utmSource || (mode === 'create' ? undefined : advanced.utmSource),
-    utmMedium: advanced.utmMedium || (mode === 'create' ? undefined : advanced.utmMedium),
-    utmCampaign: advanced.utmCampaign || name || (mode === 'create' ? undefined : name),
-    landingPageEnabled: landingEnabled,
-    landingPageData: landingEnabled
-      ? mode === 'create'
-        ? { ...landingPage, title: landingPage.title || name }
-        : landingPage
-      : empty,
-    scheduleEnabled: scheduleEnabled,
-    scheduleData: scheduleEnabled ? scheduleData : empty,
-    geofenceEnabled: geofenceEnabled,
-    geofenceData: geofenceEnabled ? geofenceData : empty,
-    abTestEnabled,
-    abTestData: abTestEnabled ? abTestData : empty,
-    gpsHeatmapEnabled,
-    nfcEnabled,
-    scanNotifyEnabled: scanNotify.enabled,
-    scanNotifyFirst: scanNotify.firstScan,
-    scanNotifyMilestones: scanNotify.milestones,
-    scanNotifyEvery: scanNotify.everyScan,
-    ga4Enabled: pixels.ga4Enabled,
-    ga4MeasurementId: pixels.ga4MeasurementId,
-    metaPixelEnabled: pixels.metaPixelEnabled,
-    metaPixelId: pixels.metaPixelId,
-  };
-}
