@@ -1,0 +1,24 @@
+{
+  "upload": [
+    "lib/mfa-types.ts",
+    "lib/print-banner-export-types.ts",
+    "lib/analytics-distribution-data.ts",
+    "hooks/use-mfa-settings.ts",
+    "hooks/use-print-banner-export.ts",
+    "components/dashboard/mfa-settings.tsx",
+    "components/dashboard/mfa-settings-panels.tsx",
+    "components/qr/qr-create-wizard.tsx",
+    "components/qr/qr-create-guest-banner.tsx",
+    "components/qr/qr-create-step-indicator.tsx",
+    "components/qr/qr-create-wizard-footer.tsx",
+    "components/qr/qr-create-design-step.tsx",
+    "components/qr/print-banner-export.tsx",
+    "components/qr/print-banner-template-picker.tsx",
+    "components/qr/print-banner-fields-panel.tsx",
+    "components/qr/analytics-charts-distribution.tsx",
+    "components/qr/analytics-pie-chart-card.tsx",
+    "components/qr/analytics-bar-chart-card.tsx"
+  ],
+  "build": true,
+  "restart": true
+}
