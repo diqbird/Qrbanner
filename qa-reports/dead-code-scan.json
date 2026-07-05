@@ -1,0 +1,696 @@
+{
+  "unused_components_likely": [
+    {
+      "file": "components/analytics/site-google-analytics.tsx",
+      "exports": [
+        "SiteGoogleAnalytics"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/analytics/site-google-tag-manager.tsx",
+      "exports": [
+        "SiteGoogleTagManagerBody",
+        "SiteGoogleTagManagerHead"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/layouts/app-shell.tsx",
+      "exports": [
+        "AppShell"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/layouts/auth-layout.tsx",
+      "exports": [
+        "AuthLayout"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/layouts/page-header.tsx",
+      "exports": [
+        "PageHeader"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/ui/alert-dialog.tsx",
+      "exports": [
+        "AlertDialog",
+        "AlertDialogAction",
+        "AlertDialogCancel",
+        "AlertDialogContent",
+        "AlertDialogDescription",
+        "AlertDialogFooter",
+        "AlertDialogHeader",
+        "AlertDialogOverlay"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/ui/aspect-ratio.tsx",
+      "exports": [
+        "AspectRatio"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/ui/avatar.tsx",
+      "exports": [
+        "Avatar",
+        "AvatarFallback",
+        "AvatarImage"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/ui/context-menu.tsx",
+      "exports": [
+        "ContextMenu",
+        "ContextMenuCheckboxItem",
+        "ContextMenuContent",
+        "ContextMenuGroup",
+        "ContextMenuItem",
+        "ContextMenuLabel",
+        "ContextMenuPortal",
+        "ContextMenuRadioGroup"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/ui/drawer.tsx",
+      "exports": [
+        "Drawer",
+        "DrawerClose",
+        "DrawerContent",
+        "DrawerDescription",
+        "DrawerFooter",
+        "DrawerHeader",
+        "DrawerOverlay",
+        "DrawerPortal"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/ui/hover-card.tsx",
+      "exports": [
+        "HoverCard",
+        "HoverCardContent",
+        "HoverCardTrigger"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/ui/input-otp.tsx",
+      "exports": [
+        "InputOTP",
+        "InputOTPGroup",
+        "InputOTPSeparator",
+        "InputOTPSlot"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/ui/menubar.tsx",
+      "exports": [
+        "Menubar",
+        "MenubarCheckboxItem",
+        "MenubarContent",
+        "MenubarGroup",
+        "MenubarItem",
+        "MenubarLabel",
+        "MenubarMenu",
+        "MenubarPortal"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/ui/radio-group.tsx",
+      "exports": [
+        "RadioGroup",
+        "RadioGroupItem"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/ui/resizable.tsx",
+      "exports": [
+        "ResizableHandle",
+        "ResizablePanel",
+        "ResizablePanelGroup"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/ui/scroll-area.tsx",
+      "exports": [
+        "ScrollArea",
+        "ScrollBar"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/ui/task-card.tsx",
+      "exports": [
+        "TaskCard"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/ui/toggle-group.tsx",
+      "exports": [
+        "ToggleGroup",
+        "ToggleGroupItem"
+      ],
+      "importers": []
+    },
+    {
+      "file": "components/ui/tooltip.tsx",
+      "exports": [
+        "Tooltip",
+        "TooltipContent",
+        "TooltipProvider",
+        "TooltipTrigger"
+      ],
+      "importers": []
+    }
+  ],
+  "unused_hooks_likely": [],
+  "unused_lib_likely": [
+    {
+      "file": "lib/api-mfa-exempt.ts",
+      "exports": [
+        "isMfaExemptApiPath",
+        "isMfaRequiredAuthPath"
+      ],
+      "importers": []
+    },
+    {
+      "file": "lib/session-guard.ts",
+      "exports": [
+        "AuthenticatedSession",
+        "requireAuthenticatedSession",
+        "sessionUserId"
+      ],
+      "importers": []
+    }
+  ],
+  "zero_import_lib": [
+    {
+      "file": "lib/api-mfa-exempt.ts",
+      "exports": [
+        "isMfaExemptApiPath",
+        "isMfaRequiredAuthPath"
+      ]
+    },
+    {
+      "file": "lib/aws-config.ts",
+      "exports": [
+        "createS3Client",
+        "getBucketConfig",
+        "isS3StorageEnabled"
+      ]
+    },
+    {
+      "file": "lib/blog/index.ts",
+      "exports": [
+        "getAllPostSlugs",
+        "getAllPosts",
+        "getPostBySlug"
+      ]
+    },
+    {
+      "file": "lib/blog/posts/accounting-firm-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/affiliate-qr-marketing.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/agency-qr-codes.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/ai-landing-copy-guide.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/automotive-dealership-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/bakery-pastry-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/brewery-taproom-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/bulk-qr-guide.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/car-wash-detailing-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/childcare-enrollment-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/cinema-qr-codes.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/civic-engagement-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/coffee-shop-loyalty-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/coworking-space-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/custom-scan-domain-guide.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/dental-practice-qr-codes.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/developers-api-getting-started.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/dynamic-qr-codes-guide.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/dynamic-vs-static-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/farmers-market-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/fitness-gym-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/florist-gift-shop-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/food-trucks-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/government-qr-codes.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/healthcare-qr-codes.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/home-services-contractor-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/hotel-qr-codes.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/insurance-agency-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/landing-cta-analytics-guide.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/landscaping-lawn-care-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/law-firm-qr-codes.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/logistics-qr-codes.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/logistics-warehouse-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/manufacturing-qr-codes.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/marina-harbor-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/museum-qr-codes.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/nonprofit-fundraising-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/nonprofit-gala-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/optometry-practice-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/pet-grooming-salon-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/pharmacy-qr-codes.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/print-shop-banner-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/property-management-tenant-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/qr-analytics-guide.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/qr-security-guide.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/real-estate-open-house-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/recruitment-hiring-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/referral-program-guide.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/restaurant-menu-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/retail-qr-codes.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/salon-spa-qr-codes.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/senior-living-facility-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/stadium-qr-codes.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/supermarket-loyalty-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/totp-two-factor-guide.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/tourist-attraction-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/trade-show-booth-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/university-qr-codes.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/university-wayfinding-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/veterinary-clinic-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/webhook-automation-guide.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/wifi-qr-guide.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/blog/posts/wine-tasting-room-qr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/gs1.ts",
+      "exports": [
+        "Gs1LinkInput",
+        "buildGs1DigitalLink",
+        "isValidGtin",
+        "toGtin14"
+      ]
+    },
+    {
+      "file": "lib/i18n/core-template-copy-extra.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/i18n/fields.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/i18n/index.ts",
+      "exports": [
+        "DEFAULT_LOCALE",
+        "LOCALES",
+        "LOCALE_HEADER",
+        "LOCALE_STORAGE_KEY",
+        "dictionaries",
+        "isEnglishOnlyPublicPath",
+        "localizePath",
+        "parseLocalePath",
+        "pathsMatchLocalized",
+        "shouldLocalizePath",
+        "translate"
+      ]
+    },
+    {
+      "file": "lib/i18n/industry-template-copy.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/i18n/print-template-copy.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/i18n/qr-type-copy-tr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/i18n/template-cta-copy.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/i18n/template-meta-copy.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/i18n/template-print-copy.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/i18n/use-case-copy-tr.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/i18n/visual-preset-copy.ts",
+      "exports": []
+    },
+    {
+      "file": "lib/s3.ts",
+      "exports": [
+        "completeMultipartUpload",
+        "deleteFile",
+        "generatePresignedUploadUrl",
+        "getFileUrl",
+        "getPresignedUrlForPart",
+        "initiateMultipartUpload",
+        "parseS3ObjectKeyFromUrl",
+        "uploadPublicBuffer"
+      ]
+    },
+    {
+      "file": "lib/session-guard.ts",
+      "exports": [
+        "AuthenticatedSession",
+        "requireAuthenticatedSession",
+        "sessionUserId"
+      ]
+    },
+    {
+      "file": "lib/types.ts",
+      "exports": [
+        "DateRange",
+        "EXPENSE_CATEGORIES",
+        "Expense",
+        "ExpenseFormData"
+      ]
+    }
+  ],
+  "api_routes_low_refs": [
+    {
+      "file": "app/api/public/stats/route.ts",
+      "path": "/api/public/stats",
+      "refHits": 0
+    },
+    {
+      "file": "app/api/qr/[id]/analytics/route.ts",
+      "path": "/api/qr/{id}/analytics",
+      "refHits": 0
+    },
+    {
+      "file": "app/api/scim/v2/Schemas/route.ts",
+      "path": "/api/scim/v2/Schemas",
+      "refHits": 0
+    },
+    {
+      "file": "app/api/scim/v2/ServiceProviderConfig/route.ts",
+      "path": "/api/scim/v2/ServiceProviderConfig",
+      "refHits": 0
+    },
+    {
+      "file": "app/api/scim/v2/Users/[id]/route.ts",
+      "path": "/api/scim/v2/Users/{id}",
+      "refHits": 1
+    }
+  ],
+  "unused_deps_grep": [
+    "@floating-ui/react",
+    "@headlessui/react",
+    "@hookform/resolvers",
+    "@next/swc-wasm-nodejs",
+    "@tanstack/react-query",
+    "@typescript-eslint/eslint-plugin",
+    "@typescript-eslint/parser",
+    "autoprefixer",
+    "chart.js",
+    "cookie",
+    "dayjs",
+    "dotenv",
+    "eslint",
+    "eslint-config-next",
+    "eslint-plugin-prettier",
+    "eslint-plugin-react-hooks",
+    "formik",
+    "gray-matter",
+    "ioredis",
+    "jotai",
+    "jsqr",
+    "jszip",
+    "lodash",
+    "maplibre-gl",
+    "plotly.js",
+    "postcss",
+    "prisma",
+    "qr-code-styling",
+    "qrcode",
+    "react-chartjs-2",
+    "react-datepicker",
+    "react-dom",
+    "react-hot-toast",
+    "react-is",
+    "react-plotly.js",
+    "react-select",
+    "react-use",
+    "sharp",
+    "swr",
+    "tailwind-scrollbar-hide",
+    "tailwindcss",
+    "tailwindcss-animate",
+    "ts-node",
+    "tsx",
+    "typescript",
+    "webpack",
+    "yup",
+    "zod",
+    "zustand"
+  ],
+  "dep_usage": {
+    "@floating-ui/react": false,
+    "@headlessui/react": false,
+    "@hookform/resolvers": false,
+    "@tanstack/react-query": false,
+    "@types/nodemailer": false,
+    "@types/qrcode": false,
+    "autoprefixer": false,
+    "chart.js": false,
+    "cookie": false,
+    "csv": false,
+    "dayjs": false,
+    "dotenv": false,
+    "formik": false,
+    "gray-matter": false,
+    "jotai": false,
+    "lodash": false,
+    "maplibre-gl": false,
+    "plotly.js": false,
+    "react-chartjs-2": false,
+    "react-datepicker": false,
+    "react-dom": false,
+    "react-hot-toast": false,
+    "react-is": false,
+    "react-plotly.js": false,
+    "react-select": false,
+    "react-use": false,
+    "sharp": false,
+    "swr": false,
+    "tailwind-scrollbar-hide": false,
+    "webpack": false,
+    "yup": false,
+    "zod": false,
+    "zustand": false
+  },
+  "counts": {
+    "components_checked": 221,
+    "unused_components": 19,
+    "unused_hooks": 0,
+    "unused_lib": 2,
+    "zero_import_lib": 81,
+    "api_low_refs": 5,
+    "unused_deps": 49,
+    "deps_unused_import": 33
+  }
+}
