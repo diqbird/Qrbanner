@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { DateRange } from 'react-day-picker';
 import { analyticsPresetRange } from '@/lib/analytics-view-utils';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { useQrAnalyticsPlan } from '@/hooks/use-qr-analytics-plan';
 import type { PeriodComparison } from '@/lib/analytics-comparison';
 import type { FunnelMetrics } from '@/lib/analytics-funnel';
 import type { RoiMetrics } from '@/lib/analytics-roi';
@@ -12,12 +13,12 @@ import type { QrAnalyticsData, QrAnalyticsApiResult } from '@/lib/qr-analytics-t
 
 export function useQrAnalyticsFetch(qrId: string) {
   const { locale } = useLanguage();
+  const planName = useQrAnalyticsPlan();
   const [data, setData] = useState<QrAnalyticsData | null>(null);
   const [periodComparison, setPeriodComparison] = useState<PeriodComparison | null>(null);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
   const [retentionCutoff, setRetentionCutoff] = useState<string | null>(null);
-  const [planName, setPlanName] = useState('Free');
   const [qrName, setQrName] = useState('');
   const [landingCta, setLandingCta] = useState<LandingCtaAnalytics | null>(null);
   const [funnel, setFunnel] = useState<FunnelMetrics | null>(null);
@@ -51,15 +52,6 @@ export function useQrAnalyticsFetch(qrId: string) {
       setLoading(false);
     }
   }, [qrId, dateRange, locale]);
-
-  useEffect(() => {
-    fetch('/api/account/usage')
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (d?.plan?.name) setPlanName(d.plan.name);
-      })
-      .catch(() => undefined);
-  }, []);
 
   useEffect(() => {
     setLoading(true);

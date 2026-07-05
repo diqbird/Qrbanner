@@ -11,6 +11,7 @@ import { useQrCreateFormDraft } from '@/hooks/use-qr-create-form-draft';
 import { useQrCreateFormActions } from '@/hooks/use-qr-create-form-actions';
 import { buildQrCreateDraftSetters, buildQrCreateDraftValues } from '@/lib/qr-create-draft-input';
 import { extractQrCreateFeatureSlice } from '@/lib/qr-create-feature-slice';
+import { buildQrCreateFormReturn } from '@/lib/qr-create-form-return';
 
 export function useQrCreateForm() {
   const { t } = useLanguage();
@@ -23,39 +24,24 @@ export function useQrCreateForm() {
   const { featureFields, ...coreRest } = core;
   const featureSlice = extractQrCreateFeatureSlice(featureFields);
 
-  const {
-    step,
-    category,
-    name,
-    setName,
-    qrData,
-    setQrData,
-    style,
-    setStyle,
-    undo: undoStyle,
-    redo: redoStyle,
-    canUndo: canUndoStyle,
-    canRedo: canRedoStyle,
-    logoFile,
-    logoPreview,
-    storedLogoPath,
-    activeTemplate,
-    templateGuideDismissed,
-    setTemplateGuideDismissed,
-    saving,
-    mode,
-    setMode,
-  } = coreRest;
+  useQrCreateWizardGuard({
+    mode: coreRest.mode,
+    saving: coreRest.saving,
+    step: coreRest.step,
+    category: coreRest.category,
+    name: coreRest.name,
+    qrData: coreRest.qrData,
+    logoFile: coreRest.logoFile,
+    logoPreview: coreRest.logoPreview,
+  });
 
-  useQrCreateWizardGuard({ mode, saving, step, category, name, qrData, logoFile, logoPreview });
-
-  const payloadData = useCallback(() => stripMetaFields(qrData), [qrData]);
+  const payloadData = useCallback(() => stripMetaFields(coreRest.qrData), [coreRest.qrData]);
 
   const { redirectGuestToSignup, saveGuestDraft } = useQrCreateFormDraft({
     draftValues: buildQrCreateDraftValues(coreRest, featureSlice),
     draftSettersInput: buildQrCreateDraftSetters(core, featureFields),
     isGuest,
-    category,
+    category: coreRest.category,
     authStatus,
     restoreParam: searchParams.get('restore'),
     router,
@@ -74,44 +60,17 @@ export function useQrCreateForm() {
     t,
   });
 
-  return {
+  return buildQrCreateFormReturn({
     session,
     isGuest,
-    mode,
-    setMode,
-    step,
-    goToStep: actions.goToStep,
-    category,
-    name,
-    setName,
-    qrData,
-    setQrData,
-    style,
-    setStyle,
-    undoStyle,
-    redoStyle,
-    canUndoStyle,
-    canRedoStyle,
-    logoFile,
-    logoPreview,
-    storedLogoPath,
+    coreRest,
     featureFields,
-    ...featureSlice,
-    activeTemplate,
-    templateGuideDismissed,
-    setTemplateGuideDismissed,
-    saving,
+    featureSlice,
+    actions,
     payloadData,
-    applyTemplate: actions.applyTemplate,
-    selectCategory: actions.selectCategory,
-    handleLogoChange: actions.handleLogoChange,
-    applyTemplateLogo: actions.applyTemplateLogo,
-    handleSave: actions.handleSave,
-    canProceed: actions.canProceed,
     redirectGuestToSignup,
     saveGuestDraft,
-    enterWizardFromQuick: actions.enterWizardFromQuick,
-  };
+  });
 }
 
 export type QrCreateFormState = ReturnType<typeof useQrCreateForm>;

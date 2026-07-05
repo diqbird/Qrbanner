@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/command';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { useLocalePath } from '@/components/i18n/use-locale-path';
-import { SITE_SEARCH_INDEX } from '@/lib/site-search';
+import { filterSiteSearchGroups } from '@/lib/site-search-groups';
 
 type SiteSearchDialogProps = {
   open: boolean;
@@ -30,31 +30,14 @@ export function SiteSearchDialog({ open, onOpenChange }: SiteSearchDialogProps) 
     if (!open) setQuery('');
   }, [open]);
 
-  const groups = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    const filtered = SITE_SEARCH_INDEX.filter((item) => {
-      if (!q) return true;
-      const title = t(item.titleKey).toLowerCase();
-      const desc = item.descriptionKey ? t(item.descriptionKey).toLowerCase() : '';
-      const kw = (item.keywords ?? []).join(' ').toLowerCase();
-      return title.includes(q) || desc.includes(q) || kw.includes(q) || item.href.includes(q);
-    });
-
-    const byGroup = new Map<string, typeof filtered>();
-    for (const item of filtered) {
-      const list = byGroup.get(item.groupKey) ?? [];
-      list.push(item);
-      byGroup.set(item.groupKey, list);
-    }
-    return byGroup;
-  }, [query, t]);
+  const groups = useMemo(() => filterSiteSearchGroups(query, t), [query, t]);
 
   const navigate = useCallback(
     (href: string) => {
       onOpenChange(false);
       router.push(localePath(href));
     },
-    [localePath, onOpenChange, router]
+    [localePath, onOpenChange, router],
   );
 
   return (
@@ -71,7 +54,11 @@ export function SiteSearchDialog({ open, onOpenChange }: SiteSearchDialogProps) 
             {i > 0 && <CommandSeparator />}
             <CommandGroup heading={t(groupKey)}>
               {items.map((item) => (
-                <CommandItem key={item.id} value={`${item.id} ${t(item.titleKey)}`} onSelect={() => navigate(item.href)}>
+                <CommandItem
+                  key={item.id}
+                  value={`${item.id} ${t(item.titleKey)}`}
+                  onSelect={() => navigate(item.href)}
+                >
                   <span>{t(item.titleKey)}</span>
                 </CommandItem>
               ))}
@@ -83,16 +70,4 @@ export function SiteSearchDialog({ open, onOpenChange }: SiteSearchDialogProps) 
   );
 }
 
-/** Global Cmd+K / Ctrl+K shortcut hook. */
-export function useSiteSearchShortcut(onOpen: () => void) {
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        onOpen();
-      }
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [onOpen]);
-}
+export { useSiteSearchShortcut } from '@/hooks/use-site-search-shortcut';

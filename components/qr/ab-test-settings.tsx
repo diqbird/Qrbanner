@@ -4,11 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { Split, Plus } from 'lucide-react';
+import { type AbTestData } from '@/lib/ab-routing';
 import {
-  type AbTestData,
-  emptyAbTestData,
-  sanitizeAbTestData,
-} from '@/lib/ab-routing';
+  addAbTestVariant,
+  getAbTestVariants,
+  patchAbTestVariant,
+  removeAbTestVariant,
+} from '@/lib/ab-test-variant-mutations';
 import { AbTestVariantRow } from './ab-test-variant-row';
 
 export function AbTestSettings({
@@ -24,30 +26,7 @@ export function AbTestSettings({
   onChange: (v: AbTestData) => void;
   defaultUrl?: string;
 }) {
-  const variants = data.variants ?? emptyAbTestData.variants;
-
-  const setVariant = (index: number, patch: Partial<(typeof variants)[number]>) => {
-    const next = variants.map((v, i) => (i === index ? { ...v, ...patch } : v));
-    onChange(sanitizeAbTestData({ ...data, variants: next }));
-  };
-
-  const addVariant = () => {
-    if (variants.length >= 5) return;
-    onChange(
-      sanitizeAbTestData({
-        ...data,
-        variants: [
-          ...variants,
-          { id: `v${variants.length + 1}`, label: `Variant ${variants.length + 1}`, url: '', weight: 10 },
-        ],
-      }),
-    );
-  };
-
-  const removeVariant = (index: number) => {
-    if (variants.length <= 2) return;
-    onChange(sanitizeAbTestData({ ...data, variants: variants.filter((_, i) => i !== index) }));
-  };
+  const variants = getAbTestVariants(data);
 
   return (
     <Card>
@@ -78,12 +57,18 @@ export function AbTestSettings({
               index={i}
               defaultUrl={defaultUrl}
               canRemove={variants.length > 2}
-              onUpdate={setVariant}
-              onRemove={removeVariant}
+              onUpdate={(index, patch) => onChange(patchAbTestVariant(data, index, patch))}
+              onRemove={(index) => onChange(removeAbTestVariant(data, index))}
             />
           ))}
           {variants.length < 5 && (
-            <Button type="button" variant="outline" size="sm" onClick={addVariant} className="gap-1">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => onChange(addAbTestVariant(data))}
+              className="gap-1"
+            >
               <Plus className="h-4 w-4" /> Add variant
             </Button>
           )}
@@ -93,4 +78,4 @@ export function AbTestSettings({
   );
 }
 
-export { emptyAbTestData };
+export { emptyAbTestData } from '@/lib/ab-routing';

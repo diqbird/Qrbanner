@@ -3,7 +3,7 @@
 import { useCallback } from 'react';
 import { toast } from 'sonner';
 import { putUpdateQr } from '@/lib/qr-edit-save-api';
-import { uploadQrLogoFile } from '@/lib/qr-save-logo-upload';
+import { resolveQrEditLogoPath } from '@/lib/qr-edit-save-logo';
 import type { QrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import type { AdvancedValues } from '@/lib/advanced-settings-types';
 import type { QRStyleConfig } from '@/lib/qr-style';
@@ -53,10 +53,7 @@ export function useQrEditSave({
   const handleSave = useCallback(async () => {
     setSaving(true);
     try {
-      let logoPath = storedLogoPath ?? qr?.logoPath ?? null;
-      if (logoFile) {
-        logoPath = (await uploadQrLogoFile(logoFile, t)) ?? logoPath;
-      }
+      const logoPath = await resolveQrEditLogoPath({ logoFile, storedLogoPath, qr, t });
 
       const ok = await putUpdateQr({
         qrId,
@@ -88,7 +85,7 @@ export function useQrEditSave({
   }, [
     setSaving,
     storedLogoPath,
-    qr?.logoPath,
+    qr,
     logoFile,
     qrId,
     name,
