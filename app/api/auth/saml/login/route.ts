@@ -3,11 +3,12 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { buildSamlInstance } from '@/lib/saml-sp';
+import { absoluteSitePath } from '@/lib/request-site-url';
 
 export async function GET(req: NextRequest) {
   const workspaceSlug = req.nextUrl.searchParams.get('workspace')?.trim();
   if (!workspaceSlug) {
-    return NextResponse.redirect(new URL('/login?error=saml_workspace_required', req.url));
+    return NextResponse.redirect(absoluteSitePath(req, '/login?error=saml_workspace_required'));
   }
 
   const workspace = await prisma.workspace.findUnique({
@@ -29,12 +30,12 @@ export async function GET(req: NextRequest) {
     !workspace.ssoEnabled ||
     workspace.ssoProvider !== 'saml'
   ) {
-    return NextResponse.redirect(new URL('/login?error=saml_not_configured', req.url));
+    return NextResponse.redirect(absoluteSitePath(req, '/login?error=saml_not_configured'));
   }
 
   const saml = buildSamlInstance(workspace);
   if (!saml) {
-    return NextResponse.redirect(new URL('/login?error=saml_not_configured', req.url));
+    return NextResponse.redirect(absoluteSitePath(req, '/login?error=saml_not_configured'));
   }
 
   const host = req.headers.get('x-forwarded-host') ?? req.headers.get('host') ?? 'qrbanner.com';

@@ -21,17 +21,23 @@ import {
 import type { BillingInterval, PlanId } from '@/lib/plans';
 import { ANNUAL_DISCOUNT_PERCENT } from '@/lib/plans';
 import { toast } from 'sonner';
+import type { PublicBillingStatus } from '@/lib/public-billing-status';
 import { EnterpriseCtaBand } from '@/components/marketing/enterprise-cta-band';
 import { PricingReferralBanner } from '@/components/marketing/pricing-referral-banner';
 
-export function PricingPageContent() {
+type PricingPageContentProps = {
+  initialBillingStatus?: PublicBillingStatus | null;
+};
+
+export function PricingPageContent({ initialBillingStatus = null }: PricingPageContentProps) {
   const { t, locale } = useLanguage();
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session } = useSession() || {};
   const [interval, setInterval] = useState<BillingInterval>('monthly');
   const plans = getPricingPlans(locale, interval);
-  const { checkoutPlan, loadingPlan, billingConfigured, annualAvailable, billingLoading } = usePlanCheckout();
+  const { checkoutPlan, loadingPlan, billingConfigured, annualAvailable, billingLoading } =
+    usePlanCheckout(initialBillingStatus);
 
   const comparison = getComparisonRows(locale);
 

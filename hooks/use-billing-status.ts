@@ -1,26 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import type { PublicBillingStatus } from '@/lib/public-billing-status';
 
-interface BillingStatus {
-  configured: boolean;
-  annualAvailable?: boolean;
-  provider: 'paddle' | 'stripe' | null;
-  paddle?: {
-    clientToken: string | null;
-    environment: 'sandbox' | 'production';
-  } | null;
-}
-
-export function useBillingStatus() {
-  const [status, setStatus] = useState<BillingStatus | null>(null);
-  const [loading, setLoading] = useState(true);
+export function useBillingStatus(initial?: PublicBillingStatus | null) {
+  const [status, setStatus] = useState<PublicBillingStatus | null>(initial ?? null);
+  const [loading, setLoading] = useState(initial == null);
 
   useEffect(() => {
+    if (initial != null) return;
     let cancelled = false;
     fetch('/api/billing/status')
       .then((r) => (r.ok ? r.json() : null))
-      .then((data: BillingStatus | null) => {
+      .then((data: PublicBillingStatus | null) => {
         if (!cancelled && data) setStatus(data);
       })
       .catch(() => undefined)
@@ -30,7 +22,7 @@ export function useBillingStatus() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [initial]);
 
   return {
     loading,

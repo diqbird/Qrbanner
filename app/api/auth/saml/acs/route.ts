@@ -10,10 +10,10 @@ import {
 } from '@/lib/saml-sp';
 import { isEmailDomainAllowed, parseAllowedDomains } from '@/lib/workspace-sso';
 import { createSamlSignInToken, provisionSamlUser } from '@/lib/saml-auth';
-import { DEFAULT_SITE_URL } from '@/lib/custom-domain';
+import { absoluteSitePath } from '@/lib/request-site-url';
 
-function loginRedirect(path: string): string {
-  return `${DEFAULT_SITE_URL.replace(/\/$/, '')}${path}`;
+function loginRedirect(req: NextRequest, path: string): string {
+  return absoluteSitePath(req, path);
 }
 
 export async function POST(req: NextRequest) {
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     });
 
     if (!relayState) {
-      return NextResponse.redirect(loginRedirect('/login?error=saml_workspace_required'));
+      return NextResponse.redirect(loginRedirect(req, '/login?error=saml_workspace_required'));
     }
 
     const workspace = await prisma.workspace.findUnique({
@@ -50,24 +50,24 @@ export async function POST(req: NextRequest) {
       !workspace.ssoEnabled ||
       workspace.ssoProvider !== 'saml'
     ) {
-      return NextResponse.redirect(loginRedirect('/login?error=saml_not_configured'));
+      return NextResponse.redirect(loginRedirect(req, '/login?error=saml_not_configured'));
     }
 
     const saml = buildSamlInstance(workspace);
     if (!saml) {
-      return NextResponse.redirect(loginRedirect('/login?error=saml_not_configured'));
+      return NextResponse.redirect(loginRedirect(req, '/login?error=saml_not_configured'));
     }
 
     const { profile } = await saml.validatePostResponseAsync(body);
     const profileRecord = (profile ?? {}) as Record<string, unknown>;
     const email = extractSamlEmail(profileRecord);
     if (!email) {
-      return NextResponse.redirect(loginRedirect('/login?error=saml_email_missing'));
+      return NextResponse.redirect(loginRedirect(req, '/login?error=saml_email_missing'));
     }
 
     const allowedDomains = parseAllowedDomains(workspace.allowedDomains);
     if (allowedDomains.length && !isEmailDomainAllowed(email, allowedDomains)) {
-      return NextResponse.redirect(loginRedirect('/login?error=domain_not_allowed'));
+      return NextResponse.redirect(loginRedirect(req, '/login?error=domain_not_allowed'));
     }
 
     const providerAccountId = extractSamlProviderAccountId(profileRecord);
@@ -80,13 +80,13 @@ export async function POST(req: NextRequest) {
     });
 
     const token = createSamlSignInToken(userId, workspace.id);
-    const callback = new URL(loginRedirect('/login'));
+    const callback = new URL(loginRedirect(req, '/login'));
     callback.searchParams.set('samlToken', token);
     callback.searchParams.set('email', email);
 
     return NextResponse.redirect(callback.toString());
   } catch (err) {
     console.error('[saml] acs', err);
-    return NextResponse.redirect(loginRedirect('/login?error=saml_assertion_failed'));
+    return NextResponse.redirect(loginRedirect(req, '/login?error=saml_assertion_failed'));
   }
 }

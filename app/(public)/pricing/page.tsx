@@ -7,6 +7,7 @@ import { PricingPageContent } from '@/components/public/pricing-page-content';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { freePlanQrLimit } from '@/lib/plans';
+import { getPublicBillingStatus } from '@/lib/public-billing-status';
 
 export const revalidate = 3600;
 
@@ -29,6 +30,7 @@ export default async function PricingPage() {
   const freeQrCount = freePlanQrLimit();
   const pageTitle = t('pricing.metaTitle');
   const pageDesc = t('pricing.metaDescription', { count: freeQrCount });
+  const initialBillingStatus = getPublicBillingStatus();
 
   return (
     <>
@@ -37,7 +39,7 @@ export default async function PricingPage() {
       <div className="py-10 sm:py-16">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
           <Suspense fallback={null}>
-            <PricingPageContent />
+            <PricingPageContent initialBillingStatus={initialBillingStatus} />
           </Suspense>
         </div>
       </div>

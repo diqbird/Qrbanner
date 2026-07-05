@@ -1,0 +1,3745 @@
+{
+  "base": "https://qrbanner.com",
+  "testedAt": "2026-07-05T08:01:06.895Z",
+  "pages": [
+    {
+      "path": "/",
+      "url": "https://qrbanner.com/",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3699,
+      "title": "Free QR Code Generator — Menus, Business Cards, Wi‑Fi & Analytics | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        {
+          "type": "pageerror",
+          "text": "Minified React error #425; visit https://react.dev/errors/425 for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+        },
+        {
+          "type": "pageerror",
+          "text": "Minified React error #422; visit https://react.dev/errors/422 for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+        }
+      ],
+      "requestFailedCount": 7,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=1nm42",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=1nm42",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=1nm42",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/signup?_rsc=1nm42",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/demo?_rsc=1nm42",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=1nm42",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/cookies?_rsc=1nm42",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 75,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/pricing",
+      "url": "https://qrbanner.com/pricing",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3054,
+      "title": "Pricing | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        {
+          "type": "pageerror",
+          "text": "Minified React error #425; visit https://react.dev/errors/425 for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+        },
+        {
+          "type": "pageerror",
+          "text": "Minified React error #422; visit https://react.dev/errors/422 for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+        }
+      ],
+      "requestFailedCount": 8,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=10bql",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=10bql",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=10bql",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=10bql",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=10bql",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=10bql",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=10bql",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=10bql",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 51,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/features",
+      "url": "https://qrbanner.com/features",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3060,
+      "title": "Features | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 10,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=14zqi",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=14zqi",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=14zqi",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=14zqi",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=14zqi",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=14zqi",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=14zqi",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=14zqi",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=14zqi",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=14zqi",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 54,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/faq",
+      "url": "https://qrbanner.com/faq",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3038,
+      "title": "FAQ | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 8,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=3eztc",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=3eztc",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=3eztc",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=3eztc",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=3eztc",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=3eztc",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=3eztc",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=3eztc",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 51,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/contact",
+      "url": "https://qrbanner.com/contact",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3006,
+      "title": "Contact | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 7,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=be05w",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=be05w",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=be05w",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=be05w",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=be05w",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=be05w",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=be05w",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 52,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/enterprise",
+      "url": "https://qrbanner.com/enterprise",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3021,
+      "title": "Enterprise & High-Volume QR | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 10,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=1aiif",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=1aiif",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=1aiif",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=1aiif",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=1aiif",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=1aiif",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=1aiif",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=1aiif",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=1aiif",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/cookies?_rsc=1aiif",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 51,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/developers",
+      "url": "https://qrbanner.com/developers",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 2978,
+      "title": "Developers & API | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 8,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=vu4kd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=vu4kd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=vu4kd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=vu4kd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=vu4kd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=vu4kd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=vu4kd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=vu4kd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 50,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/status",
+      "url": "https://qrbanner.com/status",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3090,
+      "title": "System Status | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 13,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=8w6uz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=8w6uz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=8w6uz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=8w6uz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=8w6uz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=8w6uz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=8w6uz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/qr-types?_rsc=8w6uz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/about?_rsc=8w6uz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/customers?_rsc=8w6uz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/privacy?_rsc=8w6uz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/terms?_rsc=8w6uz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/signup?_rsc=8w6uz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 57,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/login",
+      "url": "https://qrbanner.com/login",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 2722,
+      "title": "Sign In | QRbanner",
+      "hasHeader": false,
+      "hasFooter": false,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 4,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/forgot-password?_rsc=7khhj",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/signup?_rsc=7khhj",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=7khhj",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/cookies?_rsc=7khhj",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 36,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/signup",
+      "url": "https://qrbanner.com/signup",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 2771,
+      "title": "Sign Up | QRbanner",
+      "hasHeader": false,
+      "hasFooter": false,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 3,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/terms?_rsc=1bse4",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=1bse4",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?callbackUrl=%2Fqr%2Fcreate%3Fquick%3D1%26onboarding%3D1&_rsc=1bse4",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 36,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/forgot-password",
+      "url": "https://qrbanner.com/forgot-password",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 2785,
+      "title": "Forgot Password | QRbanner",
+      "hasHeader": false,
+      "hasFooter": false,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 0,
+      "requestFailed": [],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 34,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/reset-password",
+      "url": "https://qrbanner.com/reset-password",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 2695,
+      "title": "Reset Password | QRbanner",
+      "hasHeader": false,
+      "hasFooter": false,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 0,
+      "requestFailed": [],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 34,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/privacy",
+      "url": "https://qrbanner.com/privacy",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3071,
+      "title": "Privacy Policy | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 2,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=qq1c5",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=qq1c5",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 49,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/terms",
+      "url": "https://qrbanner.com/terms",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3898,
+      "title": "Terms of Service | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 6,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=5mauq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=5mauq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=5mauq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=5mauq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=5mauq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=5mauq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 56,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/cookies",
+      "url": "https://qrbanner.com/cookies",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3051,
+      "title": "Cookie Policy | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 13,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=m8joq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=m8joq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=m8joq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=m8joq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=m8joq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=m8joq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=m8joq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=m8joq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/qr-types?_rsc=m8joq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/about?_rsc=m8joq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/customers?_rsc=m8joq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/privacy?_rsc=m8joq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/terms?_rsc=m8joq",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 55,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/refund",
+      "url": "https://qrbanner.com/refund",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3054,
+      "title": "Refund Policy | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 7,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=7nr3h",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=7nr3h",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=7nr3h",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=7nr3h",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=7nr3h",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=7nr3h",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=7nr3h",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 51,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/qr/create",
+      "url": "https://qrbanner.com/qr/create",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3102,
+      "title": "Create QR Code | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 401 ()"
+        }
+      ],
+      "requestFailedCount": 9,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=1ac9v",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=1ac9v",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=1ac9v",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=1ac9v",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=1ac9v",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=1ac9v",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=1ac9v",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=1ac9v",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=1ac9v",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 1,
+      "responses4xx5xx": [
+        {
+          "url": "https://qrbanner.com/api/domains",
+          "status": 401,
+          "method": "GET"
+        }
+      ],
+      "totalResponses": 62,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/qr/templates",
+      "url": "https://qrbanner.com/qr/templates",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 2854,
+      "title": "Sign In | QRbanner",
+      "hasHeader": false,
+      "hasFooter": false,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 2,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/forgot-password?_rsc=1x9az",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/signup?callbackUrl=%2Fqr%2Ftemplates&_rsc=1x9az",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 37,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/case-studies",
+      "url": "https://qrbanner.com/case-studies",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3139,
+      "title": "QR Use Case Scenarios | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 6,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=2fsat",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=2fsat",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=2fsat",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=2fsat",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=2fsat",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=2fsat",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 52,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/customers",
+      "url": "https://qrbanner.com/customers",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3021,
+      "title": "Customers & Use Cases | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 7,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=udp36",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=udp36",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=udp36",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=udp36",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=udp36",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=udp36",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=udp36",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 73,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/reviews",
+      "url": "https://qrbanner.com/reviews",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3057,
+      "title": "Reviews & Testimonials | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 6,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=4kg0n",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=4kg0n",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=4kg0n",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=4kg0n",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/reviews/g2-setup?_rsc=4kg0n",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=4kg0n",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 51,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/blog",
+      "url": "https://qrbanner.com/blog",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3125,
+      "title": "QR Code Guides & Resources | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 8,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=1mknl",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=1mknl",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=1mknl",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=1mknl",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=1mknl",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=1mknl",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=1mknl",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/blog/qr-account-two-factor-authentication?_rsc=1mknl",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 52,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/solutions",
+      "url": "https://qrbanner.com/solutions",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3226,
+      "title": "QR Code Solutions by Industry | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 13,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=1tm6d",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=1tm6d",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=1tm6d",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=1tm6d",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=1tm6d",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=1tm6d",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=1tm6d",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=1tm6d",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/solutions/restaurant-menu?_rsc=1tm6d",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/solutions/wifi-guest?_rsc=1tm6d",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/solutions/event-rsvp?_rsc=1tm6d",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/solutions/retail-stores?_rsc=1tm6d",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/solutions/healthcare-clinics?_rsc=1tm6d",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 59,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/integrations",
+      "url": "https://qrbanner.com/integrations",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3022,
+      "title": "Integrations — API, Webhooks & Zapier | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 10,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=47wi7",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=47wi7",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=47wi7",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=47wi7",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=47wi7",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=47wi7",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=47wi7",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/integrations/zapier?_rsc=47wi7",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/signup?_rsc=47wi7",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=47wi7",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 54,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/compare",
+      "url": "https://qrbanner.com/compare",
+      "navStatus": 404,
+      "navError": null,
+      "durationMs": 3315,
+      "title": "QRbanner - Dynamic QR Platform with Smart Routing & API",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ],
+      "requestFailedCount": 13,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=jc852",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=jc852",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=jc852",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=jc852",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=jc852",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/apps?_rsc=jc852",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases/product-packaging?_rsc=jc852",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases/restaurant-table-tents?_rsc=jc852",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases/whatsapp-support?_rsc=jc852",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/about?_rsc=jc852",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/privacy?_rsc=jc852",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/terms?_rsc=jc852",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/refund?_rsc=jc852",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 1,
+      "responses4xx5xx": [
+        {
+          "url": "https://qrbanner.com/compare",
+          "status": 404,
+          "method": "GET"
+        }
+      ],
+      "totalResponses": 65,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/security",
+      "url": "https://qrbanner.com/security",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 2944,
+      "title": "Security & Trust | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 10,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=f0hdo",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=f0hdo",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=f0hdo",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=f0hdo",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/templates?_rsc=f0hdo",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=f0hdo",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=f0hdo",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=f0hdo",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=f0hdo",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=f0hdo",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 50,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/changelog",
+      "url": "https://qrbanner.com/changelog",
+      "navStatus": 404,
+      "navError": null,
+      "durationMs": 3267,
+      "title": "QRbanner - Dynamic QR Platform with Smart Routing & API",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ],
+      "requestFailedCount": 14,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=691xu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=691xu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=691xu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=691xu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=691xu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=691xu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases/whatsapp-support?_rsc=691xu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/about?_rsc=691xu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/customers?_rsc=691xu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/referral?_rsc=691xu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/enterprise?_rsc=691xu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/contact?_rsc=691xu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/terms?_rsc=691xu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/cookies?_rsc=691xu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 1,
+      "responses4xx5xx": [
+        {
+          "url": "https://qrbanner.com/changelog",
+          "status": 404,
+          "method": "GET"
+        }
+      ],
+      "totalResponses": 65,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/dashboard",
+      "url": "https://qrbanner.com/dashboard",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 2835,
+      "title": "Sign In | QRbanner",
+      "hasHeader": false,
+      "hasFooter": false,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 2,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/forgot-password?_rsc=evpom",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/signup?_rsc=evpom",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 37,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/admin",
+      "url": "https://qrbanner.com/admin",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 2849,
+      "title": "Sign In | QRbanner",
+      "hasHeader": false,
+      "hasFooter": false,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 3,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/signup?callbackUrl=%2Fadmin&_rsc=1mdmj",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=1mdmj",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/forgot-password?_rsc=1mdmj",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 37,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/this-page-does-not-exist-qa-break",
+      "url": "https://qrbanner.com/this-page-does-not-exist-qa-break",
+      "navStatus": 404,
+      "navError": null,
+      "durationMs": 3252,
+      "title": "QRbanner - Dynamic QR Platform with Smart Routing & API",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ],
+      "requestFailedCount": 18,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/apps?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/vs?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases/product-packaging?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases/whatsapp-support?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/referral?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/affiliates?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/enterprise?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/privacy?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/terms?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/refund?_rsc=1p8an",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 1,
+      "responses4xx5xx": [
+        {
+          "url": "https://qrbanner.com/this-page-does-not-exist-qa-break",
+          "status": 404,
+          "method": "GET"
+        }
+      ],
+      "totalResponses": 65,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/tr",
+      "url": "https://qrbanner.com/tr",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3073,
+      "title": "Ücretsiz QR Kod Oluşturucu — Menü, Kartvizit, Wi‑Fi ve Analitik | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        {
+          "type": "pageerror",
+          "text": "Minified React error #425; visit https://react.dev/errors/425 for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+        },
+        {
+          "type": "pageerror",
+          "text": "Minified React error #422; visit https://react.dev/errors/422 for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+        }
+      ],
+      "requestFailedCount": 6,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=1qg30",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=1qg30",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=1qg30",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=1qg30",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/demo?_rsc=1qg30",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=1qg30",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 75,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/tr/pricing",
+      "url": "https://qrbanner.com/tr/pricing",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3041,
+      "title": "Fiyatlandırma | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        {
+          "type": "pageerror",
+          "text": "Minified React error #425; visit https://react.dev/errors/425 for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+        },
+        {
+          "type": "pageerror",
+          "text": "Minified React error #422; visit https://react.dev/errors/422 for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+        }
+      ],
+      "requestFailedCount": 3,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=yzr1k",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=yzr1k",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=yzr1k",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 50,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/de/pricing",
+      "url": "https://qrbanner.com/de/pricing",
+      "navStatus": 404,
+      "navError": null,
+      "durationMs": 3336,
+      "title": "QRbanner - Dynamic QR Platform with Smart Routing & API",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ],
+      "requestFailedCount": 20,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/qr-types?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/apps?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases/product-packaging?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases/whatsapp-support?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/about?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/customers?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/case-studies?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/referral?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/affiliates?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/privacy?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/terms?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/refund?_rsc=q59qe",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 1,
+      "responses4xx5xx": [
+        {
+          "url": "https://qrbanner.com/de/pricing",
+          "status": 404,
+          "method": "GET"
+        }
+      ],
+      "totalResponses": 65,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/fr/features",
+      "url": "https://qrbanner.com/fr/features",
+      "navStatus": 404,
+      "navError": null,
+      "durationMs": 3311,
+      "title": "QRbanner - Dynamic QR Platform with Smart Routing & API",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ],
+      "requestFailedCount": 20,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/qr-types?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/vs?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases/product-packaging?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/apps?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases/restaurant-table-tents?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases/healthcare-patient-info?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases/whatsapp-support?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/about?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/case-studies?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/reviews?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/referral?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/affiliates?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/enterprise?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/terms?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/refund?_rsc=1r6lr",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 1,
+      "responses4xx5xx": [
+        {
+          "url": "https://qrbanner.com/fr/features",
+          "status": 404,
+          "method": "GET"
+        }
+      ],
+      "totalResponses": 65,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/case-studies/multi-location-restaurant-menus",
+      "url": "https://qrbanner.com/case-studies/multi-location-restaurant-menus",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3037,
+      "title": "Multi-Location Restaurant Group | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 8,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=1plxu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=1plxu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=1plxu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=1plxu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=1plxu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=1plxu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=1plxu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/case-studies?_rsc=1plxu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 51,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/solutions/restaurants",
+      "url": "https://qrbanner.com/solutions/restaurants",
+      "navStatus": 404,
+      "navError": null,
+      "durationMs": 3480,
+      "title": "QRbanner - Dynamic QR Platform with Smart Routing & API",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 404 ()"
+        }
+      ],
+      "requestFailedCount": 16,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=1y1j3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=1y1j3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=1y1j3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=1y1j3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=1y1j3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/vs?_rsc=1y1j3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/apps?_rsc=1y1j3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases/product-packaging?_rsc=1y1j3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases/restaurant-table-tents?_rsc=1y1j3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases/healthcare-patient-info?_rsc=1y1j3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases/whatsapp-support?_rsc=1y1j3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/about?_rsc=1y1j3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/referral?_rsc=1y1j3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/affiliates?_rsc=1y1j3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/privacy?_rsc=1y1j3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/terms?_rsc=1y1j3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 1,
+      "responses4xx5xx": [
+        {
+          "url": "https://qrbanner.com/solutions/restaurants",
+          "status": 404,
+          "method": "GET"
+        }
+      ],
+      "totalResponses": 72,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/contact?demo=1",
+      "url": "https://qrbanner.com/contact?demo=1",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 2994,
+      "title": "Contact | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 4,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=o6bry",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=o6bry",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=o6bry",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=o6bry",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 51,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/templates",
+      "url": "https://qrbanner.com/templates",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3270,
+      "title": "Professional QR Code Templates | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 9,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=1hg3e",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=1hg3e",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=1hg3e",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=1hg3e",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=1hg3e",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=1hg3e",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=1hg3e",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?template=restaurant-menu&_rsc=1hg3e",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?template=hotels-hospitality&_rsc=1hg3e",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 66,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/qr-types",
+      "url": "https://qrbanner.com/qr-types",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3186,
+      "title": "QR Code Types — 27+ Generators for Every Use Case | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 11,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=1o9ss",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=1o9ss",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=1o9ss",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=1o9ss",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=1o9ss",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=1o9ss",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr-types/vcard?_rsc=1o9ss",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr-types/wifi?_rsc=1o9ss",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr-types/phone?_rsc=1o9ss",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr-types/event?_rsc=1o9ss",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr-types/location?_rsc=1o9ss",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 60,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/use-cases",
+      "url": "https://qrbanner.com/use-cases",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3244,
+      "title": "QR Code Use Cases — Marketing, Retail, Events & More | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 15,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=iddch",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=iddch",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=iddch",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=iddch",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=iddch",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=iddch",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=iddch",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/use-cases/product-packaging?_rsc=iddch",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/use-cases/trade-show-leads?_rsc=iddch",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/use-cases/print-advertising?_rsc=iddch",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/use-cases/hotel-guest-experience?_rsc=iddch",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/use-cases/event-check-in?_rsc=iddch",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/use-cases/retail-loyalty?_rsc=iddch",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/use-cases/museum-exhibits?_rsc=iddch",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/use-cases/social-media-growth?_rsc=iddch",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 64,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/geo",
+      "url": "https://qrbanner.com/geo",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3303,
+      "title": "QR Codes by City & Industry | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 14,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=lj2zv",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=lj2zv",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=lj2zv",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=lj2zv",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=lj2zv",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=lj2zv",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/geo/istanbul?_rsc=lj2zv",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/geo/ankara?_rsc=lj2zv",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/geo/london?_rsc=lj2zv",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/geo/new-york?_rsc=lj2zv",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/geo/riyadh?_rsc=lj2zv",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/geo/berlin?_rsc=lj2zv",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=lj2zv",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/geo/sydney?_rsc=lj2zv",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 68,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/vs",
+      "url": "https://qrbanner.com/vs",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3060,
+      "title": "QRbanner Comparisons — Feature & Pricing Guides | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 9,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=rh7jp",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=rh7jp",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=rh7jp",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=rh7jp",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=rh7jp",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/vs/qr-tiger?_rsc=rh7jp",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/vs/flowcode?_rsc=rh7jp",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/vs/qr-code-monkey?_rsc=rh7jp",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/vs/bitly?_rsc=rh7jp",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 55,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/integrations/zapier",
+      "url": "https://qrbanner.com/integrations/zapier",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3017,
+      "title": "Zapier Integration — QR Scan Webhooks | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 5,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=6nct9",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=6nct9",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=6nct9",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=6nct9",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=6nct9",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 53,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/roi-calculator",
+      "url": "https://qrbanner.com/roi-calculator",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3114,
+      "title": "QR Reprint ROI Calculator | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 5,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=1r5ep",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=1r5ep",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=1r5ep",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=1r5ep",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/terms?_rsc=1r5ep",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 57,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/reviews/g2-setup",
+      "url": "https://qrbanner.com/reviews/g2-setup",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 2983,
+      "title": "G2 Profile Setup Guide | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 7,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=1ttn3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=1ttn3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=1ttn3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=1ttn3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=1ttn3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=1ttn3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/reviews?_rsc=1ttn3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 51,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/referral",
+      "url": "https://qrbanner.com/referral",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3045,
+      "title": "Referral Program — Share QRbanner | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 5,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=opg43",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=opg43",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=opg43",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=opg43",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=opg43",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 53,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/affiliates",
+      "url": "https://qrbanner.com/affiliates",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 2998,
+      "title": "Affiliate & Agency Partners | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 5,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=1qmhd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=1qmhd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=1qmhd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=1qmhd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=1qmhd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 51,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/brand/logos",
+      "url": "https://qrbanner.com/brand/logos",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 2986,
+      "title": "Replace Customer Logos | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 4,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=2g3f3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=2g3f3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=2g3f3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=2g3f3",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 50,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/downloads/enterprise-overview",
+      "url": "https://qrbanner.com/downloads/enterprise-overview",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3062,
+      "title": "Enterprise Overview — Security & SLA | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 10,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=ovolu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=ovolu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=ovolu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=ovolu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=ovolu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=ovolu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=ovolu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=ovolu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/enterprise?_rsc=ovolu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=ovolu",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 51,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/demo",
+      "url": "https://qrbanner.com/demo",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 2929,
+      "title": "Product Demo | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 11,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=djcfd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=djcfd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=djcfd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=djcfd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=djcfd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=djcfd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=djcfd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=djcfd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=djcfd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=djcfd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/cookies?_rsc=djcfd",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 50,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/about",
+      "url": "https://qrbanner.com/about",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3027,
+      "title": "About QRbanner | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 7,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=92kyb",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=92kyb",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=92kyb",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=92kyb",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/about?_rsc=92kyb",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/customers?_rsc=92kyb",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=92kyb",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 57,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/solutions/restaurant-menu",
+      "url": "https://qrbanner.com/solutions/restaurant-menu",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3112,
+      "title": "Restaurant Menu QR Code | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 3,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=18sx4",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=18sx4",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=18sx4",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 55,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/solutions/business-card",
+      "url": "https://qrbanner.com/solutions/business-card",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3043,
+      "title": "Digital Business Card QR | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 6,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=17eov",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=17eov",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=17eov",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=17eov",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=17eov",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=17eov",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 55,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/solutions/wifi-guest",
+      "url": "https://qrbanner.com/solutions/wifi-guest",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3007,
+      "title": "Wi‑Fi QR Code for Guests | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 5,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=18q8v",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=18q8v",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=18q8v",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=18q8v",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=18q8v",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 55,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/solutions/event-rsvp",
+      "url": "https://qrbanner.com/solutions/event-rsvp",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3080,
+      "title": "Event & Wedding QR Code | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 4,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=l1guk",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=l1guk",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=l1guk",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=l1guk",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 55,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/solutions/retail-stores",
+      "url": "https://qrbanner.com/solutions/retail-stores",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3588,
+      "title": "Retail & In-Store QR | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 8,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=138ai",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=138ai",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=138ai",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=138ai",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=138ai",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=138ai",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=138ai",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=138ai",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 55,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/solutions/hotels-hospitality",
+      "url": "https://qrbanner.com/solutions/hotels-hospitality",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3043,
+      "title": "Hotels & Hospitality QR | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 3,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=g10xb",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=g10xb",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=g10xb",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 55,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/solutions/healthcare-clinics",
+      "url": "https://qrbanner.com/solutions/healthcare-clinics",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3104,
+      "title": "Healthcare & Clinic QR | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 9,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=17ejx",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=17ejx",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=17ejx",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=17ejx",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/templates?_rsc=17ejx",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=17ejx",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=17ejx",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=17ejx",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=17ejx",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 55,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/solutions/museums-venues",
+      "url": "https://qrbanner.com/solutions/museums-venues",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3105,
+      "title": "Museums & Venues QR | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 7,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=cgppz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=cgppz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=cgppz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=cgppz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=cgppz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=cgppz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=cgppz",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 55,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/solutions/marketing-agencies",
+      "url": "https://qrbanner.com/solutions/marketing-agencies",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3136,
+      "title": "Marketing Agencies | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 9,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=1457w",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=1457w",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=1457w",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=1457w",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=1457w",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=1457w",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=1457w",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=1457w",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/cookies?_rsc=1457w",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 55,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/solutions/real-estate",
+      "url": "https://qrbanner.com/solutions/real-estate",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3064,
+      "title": "Real Estate QR | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 9,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr?_rsc=ibj3j",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/features?_rsc=ibj3j",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/solutions?_rsc=ibj3j",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=ibj3j",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=ibj3j",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/faq?_rsc=ibj3j",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=ibj3j",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=ibj3j",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/privacy?_rsc=ibj3j",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 55,
+      "thirdPartyFailures": []
+    },
+    {
+      "path": "/solutions/university-campus",
+      "url": "https://qrbanner.com/solutions/university-campus",
+      "navStatus": 200,
+      "navError": null,
+      "durationMs": 3111,
+      "title": "University Campus QR | QRbanner",
+      "hasHeader": true,
+      "hasFooter": true,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "requestFailedCount": 6,
+      "requestFailed": [
+        {
+          "url": "https://qrbanner.com/tr/use-cases?_rsc=7a9ug",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/integrations?_rsc=7a9ug",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/tr/pricing?_rsc=7a9ug",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?quick=1&_rsc=7a9ug",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/login?_rsc=7a9ug",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://qrbanner.com/qr/create?template=campus-institution&_rsc=7a9ug",
+          "method": "GET",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "responses4xx5xxCount": 0,
+      "responses4xx5xx": [],
+      "totalResponses": 55,
+      "thirdPartyFailures": []
+    }
+  ]
+}

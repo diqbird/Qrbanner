@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
+import { activeBillingProvider } from '@/lib/billing-provider';
 import { getStripe, isStripeConfigured, siteBaseUrl, stripePriceIdForPlan } from '@/lib/stripe';
 import { canClaimReferralReward, referralRewardCouponId } from '@/lib/referral-stripe';
 import { referralClaimedBranding } from '@/lib/referral-checkout';
@@ -12,14 +13,18 @@ import { parseBrandingSettings } from '@/lib/referral';
 /** Claim 5-referral Pro reward — Stripe Checkout with referral coupon. */
 export async function POST() {
   try {
-    const couponId = referralRewardCouponId();
-    if (!couponId || !isStripeConfigured()) {
-      return NextResponse.json({ error: 'Referral reward is not configured yet' }, { status: 503 });
-    }
-
     const session = await getServerSession(authOptions);
     const userId = (session?.user as { id?: string })?.id;
     if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+    const provider = activeBillingProvider();
+    const couponId = referralRewardCouponId();
+    if (provider !== 'stripe' || !couponId || !isStripeConfigured()) {
+      return NextResponse.json(
+        { error: 'Referral reward checkout is not available with the current billing provider' },
+        { status: 501 }
+      );
+    }
 
     const user = await prisma.user.findUnique({
       where: { id: userId },

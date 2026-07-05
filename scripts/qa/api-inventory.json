@@ -1,0 +1,697 @@
+[
+  {
+    "path": "/api/account/usage",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\account\\usage\\route.ts"
+  },
+  {
+    "path": "/api/admin/audit-log",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\admin\\audit-log\\route.ts"
+  },
+  {
+    "path": "/api/admin/blog",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\admin\\blog\\route.ts"
+  },
+  {
+    "path": "/api/admin/blog/__id__",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PATCH"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\admin\\blog\\[id]\\route.ts"
+  },
+  {
+    "path": "/api/admin/site-settings",
+    "methods": [
+      "GET",
+      "PATCH"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\admin\\site-settings\\route.ts"
+  },
+  {
+    "path": "/api/admin/stats",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\admin\\stats\\route.ts"
+  },
+  {
+    "path": "/api/admin/users",
+    "methods": [
+      "GET",
+      "PATCH"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\admin\\users\\route.ts"
+  },
+  {
+    "path": "/api/auth/api-key",
+    "methods": [
+      "DELETE",
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\auth\\api-key\\route.ts"
+  },
+  {
+    "path": "/api/auth/change-password",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\auth\\change-password\\route.ts"
+  },
+  {
+    "path": "/api/auth/forgot-password",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\auth\\forgot-password\\route.ts"
+  },
+  {
+    "path": "/api/auth/mfa",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\auth\\mfa\\route.ts"
+  },
+  {
+    "path": "/api/auth/mfa/disable",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\auth\\mfa\\disable\\route.ts"
+  },
+  {
+    "path": "/api/auth/mfa/enable",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\auth\\mfa\\enable\\route.ts"
+  },
+  {
+    "path": "/api/auth/mfa/setup",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\auth\\mfa\\setup\\route.ts"
+  },
+  {
+    "path": "/api/auth/mfa/verify-session",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\auth\\mfa\\verify-session\\route.ts"
+  },
+  {
+    "path": "/api/auth/profile",
+    "methods": [
+      "PUT"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\auth\\profile\\route.ts"
+  },
+  {
+    "path": "/api/auth/reset-password",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\auth\\reset-password\\route.ts"
+  },
+  {
+    "path": "/api/auth/saml/acs",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\auth\\saml\\acs\\route.ts"
+  },
+  {
+    "path": "/api/auth/saml/info",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\auth\\saml\\info\\route.ts"
+  },
+  {
+    "path": "/api/auth/saml/login",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\auth\\saml\\login\\route.ts"
+  },
+  {
+    "path": "/api/auth/saml/metadata",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\auth\\saml\\metadata\\route.ts"
+  },
+  {
+    "path": "/api/auth/sso-policy",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\auth\\sso-policy\\route.ts"
+  },
+  {
+    "path": "/api/automations",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\automations\\route.ts"
+  },
+  {
+    "path": "/api/automations/__id__",
+    "methods": [
+      "DELETE",
+      "PATCH"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\automations\\[id]\\route.ts"
+  },
+  {
+    "path": "/api/automations/logs",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\automations\\logs\\route.ts"
+  },
+  {
+    "path": "/api/billing/checkout",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\billing\\checkout\\route.ts"
+  },
+  {
+    "path": "/api/billing/portal",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\billing\\portal\\route.ts"
+  },
+  {
+    "path": "/api/billing/status",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\billing\\status\\route.ts"
+  },
+  {
+    "path": "/api/billing/webhook",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\billing\\webhook\\route.ts"
+  },
+  {
+    "path": "/api/campaign/create",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\campaign\\create\\route.ts"
+  },
+  {
+    "path": "/api/campaign/generate",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\campaign\\generate\\route.ts"
+  },
+  {
+    "path": "/api/campaigns",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\campaigns\\route.ts"
+  },
+  {
+    "path": "/api/campaigns/__id__",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PATCH"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\campaigns\\[id]\\route.ts"
+  },
+  {
+    "path": "/api/contact/inquiry",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\contact\\inquiry\\route.ts"
+  },
+  {
+    "path": "/api/dashboard/analytics",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\dashboard\\analytics\\route.ts"
+  },
+  {
+    "path": "/api/domains",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\domains\\route.ts"
+  },
+  {
+    "path": "/api/domains/__id__",
+    "methods": [
+      "DELETE",
+      "PATCH"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\domains\\[id]\\route.ts"
+  },
+  {
+    "path": "/api/domains/__id__/verify",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\domains\\[id]\\verify\\route.ts"
+  },
+  {
+    "path": "/api/folders",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\folders\\route.ts"
+  },
+  {
+    "path": "/api/folders/__id__",
+    "methods": [
+      "DELETE",
+      "PATCH"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\folders\\[id]\\route.ts"
+  },
+  {
+    "path": "/api/health",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\health\\route.ts"
+  },
+  {
+    "path": "/api/invite/__token__",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\invite\\[token]\\route.ts"
+  },
+  {
+    "path": "/api/landing-cta",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\landing-cta\\route.ts"
+  },
+  {
+    "path": "/api/landing-page/generate-copy",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\landing-page\\generate-copy\\route.ts"
+  },
+  {
+    "path": "/api/leads",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\leads\\route.ts"
+  },
+  {
+    "path": "/api/marketplace/connect/onboard",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\marketplace\\connect\\onboard\\route.ts"
+  },
+  {
+    "path": "/api/marketplace/listings",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\marketplace\\listings\\route.ts"
+  },
+  {
+    "path": "/api/marketplace/listings/__id__",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PATCH"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\marketplace\\listings\\[id]\\route.ts"
+  },
+  {
+    "path": "/api/marketplace/purchase",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\marketplace\\purchase\\route.ts"
+  },
+  {
+    "path": "/api/marketplace/seller",
+    "methods": [
+      "GET",
+      "PATCH"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\marketplace\\seller\\route.ts"
+  },
+  {
+    "path": "/api/media",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\media\\route.ts"
+  },
+  {
+    "path": "/api/media/__id__",
+    "methods": [
+      "DELETE"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\media\\[id]\\route.ts"
+  },
+  {
+    "path": "/api/mobile/v1/qr",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\mobile\\v1\\qr\\route.ts"
+  },
+  {
+    "path": "/api/mobile/v1/qr/__id__",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\mobile\\v1\\qr\\[id]\\route.ts"
+  },
+  {
+    "path": "/api/mobile/v1/summary",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\mobile\\v1\\summary\\route.ts"
+  },
+  {
+    "path": "/api/openapi.json",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\openapi.json\\route.ts"
+  },
+  {
+    "path": "/api/public/stats",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\public\\stats\\route.ts"
+  },
+  {
+    "path": "/api/qr",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\qr\\route.ts"
+  },
+  {
+    "path": "/api/qr/__id__",
+    "methods": [
+      "DELETE",
+      "GET",
+      "POST",
+      "PUT"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\qr\\[id]\\route.ts"
+  },
+  {
+    "path": "/api/qr/__id__/analytics",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\qr\\[id]\\analytics\\route.ts"
+  },
+  {
+    "path": "/api/qr/__id__/leads",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\qr\\[id]\\leads\\route.ts"
+  },
+  {
+    "path": "/api/qr/ai-restyle",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\qr\\ai-restyle\\route.ts"
+  },
+  {
+    "path": "/api/qr/bulk",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\qr\\bulk\\route.ts"
+  },
+  {
+    "path": "/api/qr/bulk-actions",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\qr\\bulk-actions\\route.ts"
+  },
+  {
+    "path": "/api/qr/organize",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\qr\\organize\\route.ts"
+  },
+  {
+    "path": "/api/referral",
+    "methods": [
+      "GET",
+      "PATCH"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\referral\\route.ts"
+  },
+  {
+    "path": "/api/referral/claim-reward",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\referral\\claim-reward\\route.ts"
+  },
+  {
+    "path": "/api/referral/lookup",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\referral\\lookup\\route.ts"
+  },
+  {
+    "path": "/api/scan/geo",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\scan\\geo\\route.ts"
+  },
+  {
+    "path": "/api/scim/v2/Schemas",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\scim\\v2\\Schemas\\route.ts"
+  },
+  {
+    "path": "/api/scim/v2/ServiceProviderConfig",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\scim\\v2\\ServiceProviderConfig\\route.ts"
+  },
+  {
+    "path": "/api/scim/v2/Users",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\scim\\v2\\Users\\route.ts"
+  },
+  {
+    "path": "/api/scim/v2/Users/__id__",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PATCH",
+      "PUT"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\scim\\v2\\Users\\[id]\\route.ts"
+  },
+  {
+    "path": "/api/signup",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\signup\\route.ts"
+  },
+  {
+    "path": "/api/site-settings",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\site-settings\\route.ts"
+  },
+  {
+    "path": "/api/templates",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\templates\\route.ts"
+  },
+  {
+    "path": "/api/templates/__id__",
+    "methods": [
+      "DELETE"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\templates\\[id]\\route.ts"
+  },
+  {
+    "path": "/api/upload",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\upload\\route.ts"
+  },
+  {
+    "path": "/api/v1",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\v1\\route.ts"
+  },
+  {
+    "path": "/api/v1/folders",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\v1\\folders\\route.ts"
+  },
+  {
+    "path": "/api/v1/folders/__id__",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PATCH"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\v1\\folders\\[id]\\route.ts"
+  },
+  {
+    "path": "/api/v1/qr",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\v1\\qr\\route.ts"
+  },
+  {
+    "path": "/api/v1/qr/__id__",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PATCH"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\v1\\qr\\[id]\\route.ts"
+  },
+  {
+    "path": "/api/verify",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\verify\\route.ts"
+  },
+  {
+    "path": "/api/verify/resend",
+    "methods": [
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\verify\\resend\\route.ts"
+  },
+  {
+    "path": "/api/webhooks",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\webhooks\\route.ts"
+  },
+  {
+    "path": "/api/webhooks/__id__",
+    "methods": [
+      "DELETE",
+      "PATCH"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\webhooks\\[id]\\route.ts"
+  },
+  {
+    "path": "/api/webhooks/deliveries",
+    "methods": [
+      "GET"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\webhooks\\deliveries\\route.ts"
+  },
+  {
+    "path": "/api/workspace",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\workspace\\route.ts"
+  },
+  {
+    "path": "/api/workspace/clients",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\workspace\\clients\\route.ts"
+  },
+  {
+    "path": "/api/workspace/clients/__id__",
+    "methods": [
+      "DELETE",
+      "PATCH"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\workspace\\clients\\[id]\\route.ts"
+  },
+  {
+    "path": "/api/workspace/enterprise",
+    "methods": [
+      "GET",
+      "PATCH"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\workspace\\enterprise\\route.ts"
+  },
+  {
+    "path": "/api/workspace/members",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "file": "C:\\Users\\ACRO Technology\\qrbanner\\app\\api\\workspace\\members\\route.ts"
+  }
+]

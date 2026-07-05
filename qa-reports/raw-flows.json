@@ -1,0 +1,118 @@
+{
+  "base": "https://qrbanner.com",
+  "testedAt": "2026-07-05T08:01:25.087Z",
+  "flows": [
+    {
+      "name": "Login — empty submit",
+      "verdict": "WARN",
+      "steps": [
+        "Opened /login",
+        "Clicked submit without credentials",
+        "Still on login: true"
+      ],
+      "consoleErrors": [],
+      "networkFailures": [
+        "GET https://qrbanner.com/forgot-password?_rsc=7khhj — net::ERR_ABORTED",
+        "GET https://qrbanner.com/signup?_rsc=7khhj — net::ERR_ABORTED"
+      ]
+    },
+    {
+      "name": "Signup — UI reachability",
+      "verdict": "WARN",
+      "steps": [
+        "Opened /signup",
+        "Filled invalid email",
+        "Submitted form"
+      ],
+      "consoleErrors": [],
+      "networkFailures": [
+        "GET https://qrbanner.com/terms?_rsc=1bse4 — net::ERR_ABORTED",
+        "GET https://qrbanner.com/privacy?_rsc=1bse4 — net::ERR_ABORTED",
+        "GET https://qrbanner.com/login?callbackUrl=%2Fqr%2Fcreate%3Fquick%3D1%26onboarding%3D1&_rsc=1bse4 — net::ERR_ABORTED",
+        "GET https://qrbanner.com/cookies?_rsc=1bse4 — net::ERR_ABORTED"
+      ]
+    },
+    {
+      "name": "Forgot password — submit",
+      "verdict": "WARN",
+      "steps": [
+        "Opened /forgot-password",
+        "Submitted forgot-password for qa-break@example.com"
+      ],
+      "consoleErrors": [],
+      "networkFailures": [
+        "GET https://qrbanner.com/reset-password?email=qa-break%40example.com&_rsc=1oqhu — net::ERR_ABORTED"
+      ]
+    },
+    {
+      "name": "Enterprise contact — XSS probe",
+      "verdict": "WARN",
+      "steps": [
+        "Opened /enterprise",
+        "Submitted XSS payload in name field",
+        "Alert dialog fired: false"
+      ],
+      "consoleErrors": [],
+      "networkFailures": [
+        "GET https://qrbanner.com/tr?_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/features?_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/solutions?_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/integrations?_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/pricing?_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/qr/create?quick=1&_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/login?_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/privacy?_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/cookies?_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/about?_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/signup?_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/qr-types?_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/use-cases/product-packaging?_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/refund?_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/referral?_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/geo?_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/use-cases/real-estate-listings?_rsc=1aiif — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/contact?_rsc=1aiif — net::ERR_ABORTED"
+      ]
+    },
+    {
+      "name": "QR create — load wizard",
+      "verdict": "WARN",
+      "steps": [
+        "Opened /qr/create",
+        "H1: QR Kodu Oluştur"
+      ],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 401 ()"
+      ],
+      "networkFailures": [
+        "GET https://qrbanner.com/tr?_rsc=1ac9v — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/features?_rsc=1ac9v — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/solutions?_rsc=1ac9v — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/templates?_rsc=1ac9v — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/pricing?_rsc=1ac9v — net::ERR_ABORTED",
+        "GET https://qrbanner.com/cookies?_rsc=1ac9v — net::ERR_ABORTED"
+      ]
+    },
+    {
+      "name": "Pricing — page + CTA",
+      "verdict": "WARN",
+      "steps": [
+        "Opened /pricing",
+        "Signup CTA visible"
+      ],
+      "consoleErrors": [
+        "Minified React error #425; visit https://react.dev/errors/425 for the full message or use the non-minified dev environment for full errors and additional helpful warnings.",
+        "Minified React error #422; visit https://react.dev/errors/422 for the full message or use the non-minified dev environment for full errors and additional helpful warnings."
+      ],
+      "networkFailures": [
+        "GET https://qrbanner.com/tr?_rsc=10bql — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/features?_rsc=10bql — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/solutions?_rsc=10bql — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/templates?_rsc=10bql — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/pricing?_rsc=10bql — net::ERR_ABORTED",
+        "GET https://qrbanner.com/tr/faq?_rsc=10bql — net::ERR_ABORTED",
+        "GET https://qrbanner.com/login?_rsc=10bql — net::ERR_ABORTED"
+      ]
+    }
+  ]
+}

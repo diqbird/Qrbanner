@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { useBillingStatus } from '@/hooks/use-billing-status';
+import type { PublicBillingStatus } from '@/lib/public-billing-status';
 import { openPaddleCheckout, openPaddleCheckoutFromUrl } from '@/lib/paddle-client';
 import type { BillingInterval, PlanId } from '@/lib/plans';
 import { earlyAccessContactHref } from '@/lib/pricing-display';
@@ -15,9 +16,10 @@ type CheckoutResponse = {
   manageBilling?: boolean;
 };
 
-export function usePlanCheckout() {
+export function usePlanCheckout(initialBillingStatus?: PublicBillingStatus | null) {
   const { t } = useLanguage();
-  const { configured: billingConfigured, annualAvailable, loading: billingLoading, provider } = useBillingStatus();
+  const { configured: billingConfigured, annualAvailable, loading: billingLoading, provider } =
+    useBillingStatus(initialBillingStatus);
   const [loadingPlan, setLoadingPlan] = useState<PlanId | null>(null);
 
   const checkoutPlan = async (

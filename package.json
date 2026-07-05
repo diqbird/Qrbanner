@@ -23,6 +23,7 @@
     "test:lighthouse:vps": "python scripts/lighthouse-on-vps.py",
     "test:lighthouse:remote": "python scripts/run-lighthouse-remote.py",
     "audit:tour": "python scripts/run-post-audit-tour.py",
+    "qa:senior": "python scripts/run-senior-qa.py",
     "test:e2e": "playwright test",
     "cap:sync": "npx cap sync",
     "cap:android": "npx cap open android",
