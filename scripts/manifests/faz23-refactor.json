@@ -1,0 +1,20 @@
+{
+  "upload": [
+    "lib/qr-create-template-utils.ts",
+    "lib/industry-template-guide-copy.ts",
+    "lib/plan-usage-types.ts",
+    "hooks/use-qr-create-template-actions.ts",
+    "hooks/use-plan-usage.ts",
+    "hooks/use-pricing-page.ts",
+    "components/qr/industry-template-guide.tsx",
+    "components/qr/industry-template-guide-header.tsx",
+    "components/qr/industry-template-guide-tips.tsx",
+    "components/dashboard/plan-usage-card.tsx",
+    "components/dashboard/plan-usage-meter.tsx",
+    "components/public/pricing-page-content.tsx",
+    "components/public/pricing-plan-section.tsx",
+    "components/public/pricing-comparison-table.tsx"
+  ],
+  "build": true,
+  "restart": true
+}

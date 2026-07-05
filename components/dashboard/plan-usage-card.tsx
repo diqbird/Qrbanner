@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,91 +7,14 @@ import { Badge } from '@/components/ui/badge';
 import { CreditCard, ArrowRight, ExternalLink } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { useBillingStatus } from '@/hooks/use-billing-status';
+import { usePlanUsage } from '@/hooks/use-plan-usage';
+import { PlanUsageMeter } from './plan-usage-meter';
 import { getLaunchBanner } from '@/lib/i18n/pricing-content';
 
-interface UsageResponse {
-  plan: { id: string; name: string; priceLabel: string };
-  usage: {
-    qrCodes: number;
-    qrLimit: number;
-    customDomains: number;
-    domainLimit: number;
-    bulkRowLimit: number;
-    webhooks: number;
-    webhookLimit: number;
-    automations: number;
-    automationLimit: number;
-    styleTemplates: number;
-    styleTemplateLimit: number;
-  };
-}
-
-function UsageMeter({
-  label,
-  used,
-  limit,
-  warningLabel,
-  fullLabel,
-}: {
-  label: string;
-  used: number;
-  limit: number;
-  warningLabel: string;
-  fullLabel: string;
-}) {
-  const pct = limit > 0 ? Math.min(100, Math.round((used / limit) * 100)) : 0;
-  const barColor = pct >= 100 ? 'bg-amber-500' : pct >= 80 ? 'bg-amber-400' : 'bg-primary';
-  return (
-    <div>
-      <div className="flex items-center justify-between text-sm">
-        <span>{label}</span>
-        <span className="font-mono text-muted-foreground">
-          {used} / {limit}
-          {pct >= 100 && <span className="ml-2 text-amber-600">{fullLabel}</span>}
-          {pct >= 80 && pct < 100 && <span className="ml-2 text-amber-600">{warningLabel}</span>}
-        </span>
-      </div>
-      <div className="mt-2 h-2 overflow-hidden rounded-full bg-muted">
-        <div className={`h-full rounded-full transition-all ${barColor}`} style={{ width: `${pct}%` }} />
-      </div>
-    </div>
-  );
-}
-
 export function PlanUsageCard({ refreshKey = 0 }: { refreshKey?: number }) {
-  const { t, locale } = useLanguage();
+  const { locale } = useLanguage();
   const { configured: billingConfigured } = useBillingStatus();
-  const [data, setData] = useState<UsageResponse | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [portalLoading, setPortalLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    fetch('/api/account/usage')
-      .then((r) => (r.ok ? r.json() : null))
-      .then(setData)
-      .catch(() => undefined)
-      .finally(() => setLoading(false));
-  }, [refreshKey]);
-
-  const openBillingPortal = async () => {
-    setPortalLoading(true);
-    try {
-      const res = await fetch('/api/billing/portal', { method: 'POST' });
-      const body = await res.json();
-      if (body?.url) {
-        window.location.href = body.url;
-        return;
-      }
-      const { toast } = await import('sonner');
-      toast.error(body?.error ?? t('billing.portalError'));
-    } catch {
-      const { toast } = await import('sonner');
-      toast.error(t('billing.portalError'));
-    } finally {
-      setPortalLoading(false);
-    }
-  };
+  const { data, loading, portalLoading, openBillingPortal, t } = usePlanUsage(refreshKey);
 
   if (loading) {
     return (
@@ -137,11 +59,11 @@ export function PlanUsageCard({ refreshKey = 0 }: { refreshKey?: number }) {
           </div>
           <Badge variant="secondary">{data.plan.priceLabel}{data.plan.priceLabel === '$0' ? '' : '/mo'}</Badge>
         </div>
-        <UsageMeter label={t('planUsage.qrCodes')} used={data.usage.qrCodes} limit={data.usage.qrLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
-        <UsageMeter label={t('planUsage.customDomains')} used={data.usage.customDomains} limit={data.usage.domainLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
-        <UsageMeter label={t('planUsage.webhooks')} used={data.usage.webhooks} limit={data.usage.webhookLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
-        <UsageMeter label={t('planUsage.automations')} used={data.usage.automations} limit={data.usage.automationLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
-        <UsageMeter label={t('planUsage.styleTemplates')} used={data.usage.styleTemplates} limit={data.usage.styleTemplateLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
+        <PlanUsageMeter label={t('planUsage.qrCodes')} used={data.usage.qrCodes} limit={data.usage.qrLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
+        <PlanUsageMeter label={t('planUsage.customDomains')} used={data.usage.customDomains} limit={data.usage.domainLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
+        <PlanUsageMeter label={t('planUsage.webhooks')} used={data.usage.webhooks} limit={data.usage.webhookLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
+        <PlanUsageMeter label={t('planUsage.automations')} used={data.usage.automations} limit={data.usage.automationLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
+        <PlanUsageMeter label={t('planUsage.styleTemplates')} used={data.usage.styleTemplates} limit={data.usage.styleTemplateLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} />
         <p className="text-xs text-muted-foreground">
           {t('planUsage.bulkHint', { limit: data.usage.bulkRowLimit })}
         </p>
