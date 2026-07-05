@@ -1,0 +1,30 @@
+{
+  "upload": [
+    "components/qr/qr-create-step-form-card.tsx",
+    "components/qr/qr-create-step-preview.tsx",
+    "components/qr/qr-create-step-content.tsx",
+    "components/analytics/analytics-roi-sections.tsx",
+    "components/analytics/analytics-roi-card.tsx",
+    "components/qr/ab-test-variant-row.tsx",
+    "components/qr/ab-test-settings.tsx",
+    "components/qr/frame-label-settings-panels.tsx",
+    "components/qr/frame-label-settings.tsx",
+    "components/dashboard/automation-flow-condition-row.tsx",
+    "components/dashboard/automation-flow-conditions-section.tsx",
+    "components/dashboard/dashboard-qr-list-toolbar-sections.tsx",
+    "components/dashboard/dashboard-qr-list-toolbar.tsx",
+    "components/qr/template-field-input.tsx",
+    "components/qr/template-section-fields.tsx",
+    "components/dashboard/mfa-disable-panel.tsx",
+    "components/dashboard/mfa-setup-confirm-panel.tsx",
+    "components/dashboard/mfa-start-setup-panel.tsx",
+    "components/dashboard/mfa-settings-panels.tsx",
+    "components/qr/landing-block-hub-links-layout.tsx",
+    "components/qr/landing-block-social-layout.tsx",
+    "components/qr/landing-block-layouts-links.tsx",
+    "hooks/use-qr-list-folders.ts",
+    "hooks/use-qr-list-data.ts"
+  ],
+  "build": true,
+  "restart": true
+}

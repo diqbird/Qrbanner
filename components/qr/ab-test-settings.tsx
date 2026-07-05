@@ -1,17 +1,15 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { Split, Plus, Trash2 } from 'lucide-react';
+import { Split, Plus } from 'lucide-react';
 import {
   type AbTestData,
-  type AbVariant,
   emptyAbTestData,
   sanitizeAbTestData,
 } from '@/lib/ab-routing';
+import { AbTestVariantRow } from './ab-test-variant-row';
 
 export function AbTestSettings({
   enabled,
@@ -28,7 +26,7 @@ export function AbTestSettings({
 }) {
   const variants = data.variants ?? emptyAbTestData.variants;
 
-  const setVariant = (index: number, patch: Partial<AbVariant>) => {
+  const setVariant = (index: number, patch: Partial<(typeof variants)[number]>) => {
     const next = variants.map((v, i) => (i === index ? { ...v, ...patch } : v));
     onChange(sanitizeAbTestData({ ...data, variants: next }));
   };
@@ -42,7 +40,7 @@ export function AbTestSettings({
           ...variants,
           { id: `v${variants.length + 1}`, label: `Variant ${variants.length + 1}`, url: '', weight: 10 },
         ],
-      })
+      }),
     );
   };
 
@@ -74,41 +72,15 @@ export function AbTestSettings({
             />
           </label>
           {variants.map((v, i) => (
-            <div key={v.id} className="grid gap-3 rounded-lg border border-border/50 p-3 sm:grid-cols-[1fr_2fr_80px_36px]">
-              <div className="space-y-1">
-                <Label className="text-xs">Label</Label>
-                <Input value={v.label} onChange={(e) => setVariant(i, { label: e.target.value })} />
-              </div>
-              <div className="space-y-1">
-                <Label className="text-xs">URL</Label>
-                <Input
-                  placeholder={defaultUrl || 'https://...'}
-                  value={v.url}
-                  onChange={(e) => setVariant(i, { url: e.target.value })}
-                />
-              </div>
-              <div className="space-y-1">
-                <Label className="text-xs">Weight %</Label>
-                <Input
-                  type="number"
-                  min={1}
-                  max={100}
-                  value={v.weight}
-                  onChange={(e) => setVariant(i, { weight: Number(e.target.value) })}
-                />
-              </div>
-              <div className="flex items-end">
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon-sm"
-                  disabled={variants.length <= 2}
-                  onClick={() => removeVariant(i)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
+            <AbTestVariantRow
+              key={v.id}
+              variant={v}
+              index={i}
+              defaultUrl={defaultUrl}
+              canRemove={variants.length > 2}
+              onUpdate={setVariant}
+              onRemove={removeVariant}
+            />
           ))}
           {variants.length < 5 && (
             <Button type="button" variant="outline" size="sm" onClick={addVariant} className="gap-1">

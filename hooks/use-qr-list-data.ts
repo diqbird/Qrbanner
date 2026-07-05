@@ -1,10 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import type { QRFolderOption } from '@/components/qr/qr-organize-settings';
 import type { QRCodeItem } from '@/lib/qr-list-row-types';
 import { QR_LIST_MAX_LIMIT } from '@/lib/qr-list-pagination';
 import type { ListMeta, ListPagination, ListTotals } from '@/lib/dashboard-qr-list-types';
+import { useQrListFolders } from '@/hooks/use-qr-list-folders';
 
 export function useQrListData({
   folderFilter,
@@ -26,7 +26,7 @@ export function useQrListData({
   page: number;
 }) {
   const [qrCodes, setQrCodes] = useState<QRCodeItem[]>([]);
-  const [folders, setFolders] = useState<QRFolderOption[]>([]);
+  const { folders, fetchFolders } = useQrListFolders();
   const [meta, setMeta] = useState<ListMeta>({ labels: [], batches: [] });
   const [loading, setLoading] = useState(true);
   const [totals, setTotals] = useState<ListTotals>({
@@ -43,18 +43,6 @@ export function useQrListData({
     total: 0,
     totalPages: 1,
   });
-
-  const fetchFolders = useCallback(async () => {
-    try {
-      const res = await fetch('/api/folders');
-      if (res.ok) {
-        const data = await res.json();
-        setFolders(data.folders ?? []);
-      }
-    } catch {
-      /* ignore */
-    }
-  }, []);
 
   const fetchQRCodes = useCallback(async () => {
     try {
@@ -92,10 +80,6 @@ export function useQrListData({
     archivedFilter,
     page,
   ]);
-
-  useEffect(() => {
-    fetchFolders();
-  }, [fetchFolders]);
 
   useEffect(() => {
     setLoading(true);
