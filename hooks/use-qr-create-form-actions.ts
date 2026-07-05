@@ -1,17 +1,9 @@
 'use client';
 
-import { useCallback } from 'react';
 import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import type { ReadonlyURLSearchParams } from 'next/navigation';
-import type { QRStyleConfig } from '@/lib/qr-style';
-import { useQrCreateTemplateActions } from '@/hooks/use-qr-create-template-actions';
-import { useQrCreateLogo } from '@/hooks/use-qr-create-logo';
-import { useQrCreateUrlParams } from '@/hooks/use-qr-create-url-params';
-import { useQrCreateSave } from '@/hooks/use-qr-create-save';
-import {
-  createCanProceedCreateStep,
-  useQrCreateWizardEffects,
-} from '@/hooks/use-qr-create-wizard-effects';
+import { useQrCreateFormTemplateLogo } from '@/hooks/use-qr-create-form-template-logo';
+import { useQrCreateFormWizardSave } from '@/hooks/use-qr-create-form-wizard-save';
 import type { QrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import type { useQrCreateCoreState } from '@/hooks/use-qr-create-core-state';
 
@@ -38,118 +30,29 @@ export function useQrCreateFormActions({
   searchParams: ReadonlyURLSearchParams;
   t: (key: string) => string;
 }) {
-  const {
-    step,
-    category,
-    name,
-    qrData,
-    style,
-    resetHistory: resetStyleHistory,
-    setCategory,
-    setQrData,
-    setName,
-    setStep,
-    setActiveTemplate,
-    setTemplateGuideDismissed,
-    setStoredLogoPath,
-    setLogoPreview,
-    setLogoFile,
-    logoFile,
-    logoPreview,
-    storedLogoPath,
-    activeTemplate,
-    setSaving,
-    setMode,
-  } = core;
+  const templateLogo = useQrCreateFormTemplateLogo({ core, featureFields, searchParams, t });
 
-  const { landingPage, setLandingEnabled, setLandingPage } = featureFields;
-
-  const {
-    applyTemplate,
-    selectCategory,
-    enterWizardFromQuick: enterWizardFromQuickInner,
-    applyStyleTemplateFromApi,
-  } = useQrCreateTemplateActions({
-    category,
-    resetStyleHistory,
-    setCategory,
-    setQrData,
-    setName,
-    setStep,
-    setActiveTemplate,
-    setTemplateGuideDismissed,
-    setStoredLogoPath,
-    setLogoPreview,
-    setLogoFile,
-    setLandingEnabled,
-    setLandingPage,
-    t,
-  });
-
-  const { handleLogoChange, applyTemplateLogo, uploadLogo } = useQrCreateLogo({
-    logoFile,
-    setLogoFile,
-    setLogoPreview,
-    setStoredLogoPath,
-  });
-
-  useQrCreateUrlParams({
-    searchParams,
-    applyTemplate,
-    applyStyleTemplateFromApi,
-    setActiveTemplate,
-    setCategory,
-    setStep,
-  });
-
-  useQrCreateWizardEffects(step);
-
-  const goToStep = useCallback((next: number) => setStep(next), [setStep]);
-
-  const { handleSave } = useQrCreateSave({
-    name,
-    category,
-    session,
+  const wizardSave = useQrCreateFormWizardSave({
+    core,
     featureFields,
     advanced,
     payloadData,
-    style,
-    logoFile,
-    logoPreview,
-    storedLogoPath,
-    uploadLogo,
+    session,
     redirectGuestToSignup,
     router,
+    uploadLogo: templateLogo.uploadLogo,
     t,
-    setSaving,
+    enterWizardFromQuickInner: templateLogo.enterWizardFromQuick,
   });
-
-  const canProceed = createCanProceedCreateStep({
-    step,
-    category,
-    name,
-    qrData,
-    payloadData,
-    activeTemplate,
-    landingPage,
-  });
-
-  const enterWizardFromQuick = useCallback(
-    (data: { url?: string; name?: string; style?: Partial<QRStyleConfig> }) => {
-      enterWizardFromQuickInner(data);
-      setMode('wizard');
-    },
-    [enterWizardFromQuickInner, setMode],
-  );
 
   return {
-    goToStep,
-    applyTemplate,
-    selectCategory,
-    handleLogoChange,
-    applyTemplateLogo,
-    handleSave,
-    canProceed,
-    enterWizardFromQuick,
+    goToStep: wizardSave.goToStep,
+    applyTemplate: templateLogo.applyTemplate,
+    selectCategory: templateLogo.selectCategory,
+    handleLogoChange: templateLogo.handleLogoChange,
+    applyTemplateLogo: templateLogo.applyTemplateLogo,
+    handleSave: wizardSave.handleSave,
+    canProceed: wizardSave.canProceed,
+    enterWizardFromQuick: wizardSave.enterWizardFromQuick,
   };
 }

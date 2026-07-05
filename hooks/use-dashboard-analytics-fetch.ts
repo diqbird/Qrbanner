@@ -11,15 +11,16 @@ import type {
 } from '@/lib/dashboard-analytics-types';
 import type { PeriodComparison } from '@/lib/analytics-comparison';
 import type { FunnelMetrics } from '@/lib/analytics-funnel';
+import { useDashboardAnalyticsPlan } from '@/hooks/use-dashboard-analytics-plan';
 
 export function useDashboardAnalyticsFetch() {
   const { locale } = useLanguage();
+  const planName = useDashboardAnalyticsPlan();
   const [data, setData] = useState<DashboardAnalyticsData | null>(null);
   const [periodComparison, setPeriodComparison] = useState<PeriodComparison | null>(null);
   const [topQRCodes, setTopQRCodes] = useState<TopQR[]>([]);
   const [funnel, setFunnel] = useState<FunnelMetrics | null>(null);
   const [retentionCutoff, setRetentionCutoff] = useState<string | null>(null);
-  const [planName, setPlanName] = useState('Free');
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
   const [dateRange, setDateRange] = useState<DateRange>(() => analyticsPresetRange(30));
@@ -55,15 +56,6 @@ export function useDashboardAnalyticsFetch() {
       setLoading(false);
     }
   }, [dateRange, locale]);
-
-  useEffect(() => {
-    fetch('/api/account/usage')
-      .then((r) => (r.ok ? r.json() : null))
-      .then((d) => {
-        if (d?.plan?.name) setPlanName(d.plan.name);
-      })
-      .catch(() => undefined);
-  }, []);
 
   useEffect(() => {
     setLoading(true);

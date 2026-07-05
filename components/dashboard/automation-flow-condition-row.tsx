@@ -9,6 +9,7 @@ import {
 import { Trash2 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import type { AutomationBuilderState } from '@/hooks/use-automation-builder';
+import { AutomationFlowConditionTypeSelect } from './automation-flow-condition-type-select';
 
 type AutomationFlowConditionRowProps = {
   builder: AutomationBuilderState;
@@ -22,33 +23,7 @@ export function AutomationFlowConditionRow({ builder, index }: AutomationFlowCon
 
   return (
     <div className="flex flex-wrap items-end gap-2">
-      <div className="min-w-[120px] space-y-1">
-        <Label className="text-xs">{t('settings.automations.field')}</Label>
-        <Select
-          value={cond.type}
-          onValueChange={(v) => {
-            const type = v as 'country' | 'device';
-            updateCondition(
-              index,
-              type === 'device'
-                ? { type: 'device', op: 'eq', value: cond.value }
-                : {
-                    type: 'country',
-                    op: cond.type === 'country' ? cond.op : 'eq',
-                    value: cond.value,
-                  },
-            );
-          }}
-        >
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="country">{t('settings.automations.fieldCountry')}</SelectItem>
-            <SelectItem value="device">{t('settings.automations.fieldDevice')}</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+      <AutomationFlowConditionTypeSelect builder={builder} index={index} />
       {cond.type === 'country' && (
         <div className="min-w-[100px] space-y-1">
           <Label className="text-xs">{t('settings.automations.operator')}</Label>

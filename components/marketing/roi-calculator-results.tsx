@@ -4,12 +4,12 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowRight } from 'lucide-react';
-import type { useRoiCalculatorState } from './roi-calculator-inputs';
+import type { RoiCalculatorState } from '@/hooks/use-roi-calculator-state';
 
 export function RoiCalculatorResults({
   state,
 }: {
-  state: ReturnType<typeof useRoiCalculatorState>;
+  state: RoiCalculatorState;
 }) {
   const { t, staticCost, dynamicCost, savings, fmt } = state;
 

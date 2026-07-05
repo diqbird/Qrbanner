@@ -1,6 +1,7 @@
 'use client';
 
-import { useRoiCalculatorState, RoiCalculatorInputs } from './roi-calculator-inputs';
+import { useRoiCalculatorState } from '@/hooks/use-roi-calculator-state';
+import { RoiCalculatorInputs } from './roi-calculator-inputs';
 import { RoiCalculatorResults } from './roi-calculator-results';
 
 export function RoiCalculator() {

@@ -6,6 +6,10 @@ import { useLanguage } from '@/components/i18n/language-provider';
 import { useQrListData } from '@/hooks/use-qr-list-data';
 import { useQrListActions } from '@/hooks/use-qr-list-actions';
 import { useDashboardQrFilters } from '@/hooks/use-dashboard-qr-filters';
+import {
+  computeDashboardQrListRange,
+  computeDashboardQrListStats,
+} from '@/lib/dashboard-qr-list-stats';
 
 export type { ListMeta, ListTotals, ListPagination } from '@/lib/dashboard-qr-list-types';
 
@@ -36,23 +40,14 @@ export function useDashboardQrList() {
   });
 
   const stats = useMemo(
-    () =>
-      filters.hasFilters
-        ? {
-            total: totals.filteredTotal,
-            totalScans: totals.filteredScans,
-            active: totals.filteredActive,
-          }
-        : {
-            total: totals.accountQrCount,
-            totalScans: totals.accountTotalScans,
-            active: totals.accountActiveCount,
-          },
+    () => computeDashboardQrListStats(Boolean(filters.hasFilters), totals),
     [filters.hasFilters, totals],
   );
 
-  const rangeFrom = pagination.total === 0 ? 0 : (pagination.page - 1) * pagination.limit + 1;
-  const rangeTo = Math.min(pagination.page * pagination.limit, pagination.total);
+  const { rangeFrom, rangeTo } = useMemo(
+    () => computeDashboardQrListRange(pagination),
+    [pagination],
+  );
 
   const {
     selectedIds,

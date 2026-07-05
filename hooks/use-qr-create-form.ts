@@ -10,6 +10,7 @@ import { useQrCreateCoreState } from '@/hooks/use-qr-create-core-state';
 import { useQrCreateFormDraft } from '@/hooks/use-qr-create-form-draft';
 import { useQrCreateFormActions } from '@/hooks/use-qr-create-form-actions';
 import { buildQrCreateDraftSetters, buildQrCreateDraftValues } from '@/lib/qr-create-draft-input';
+import { extractQrCreateFeatureSlice } from '@/lib/qr-create-feature-slice';
 
 export function useQrCreateForm() {
   const { t } = useLanguage();
@@ -20,6 +21,8 @@ export function useQrCreateForm() {
 
   const core = useQrCreateCoreState();
   const { featureFields, ...coreRest } = core;
+  const featureSlice = extractQrCreateFeatureSlice(featureFields);
+
   const {
     step,
     category,
@@ -43,35 +46,6 @@ export function useQrCreateForm() {
     mode,
     setMode,
   } = coreRest;
-
-  const featureSlice = {
-    advanced: featureFields.advanced,
-    setAdvanced: featureFields.setAdvanced,
-    landingEnabled: featureFields.landingEnabled,
-    setLandingEnabled: featureFields.setLandingEnabled,
-    landingPage: featureFields.landingPage,
-    setLandingPage: featureFields.setLandingPage,
-    scheduleEnabled: featureFields.scheduleEnabled,
-    setScheduleEnabled: featureFields.setScheduleEnabled,
-    scheduleData: featureFields.scheduleData,
-    setScheduleData: featureFields.setScheduleData,
-    geofenceEnabled: featureFields.geofenceEnabled,
-    setGeofenceEnabled: featureFields.setGeofenceEnabled,
-    geofenceData: featureFields.geofenceData,
-    setGeofenceData: featureFields.setGeofenceData,
-    abTestEnabled: featureFields.abTestEnabled,
-    setAbTestEnabled: featureFields.setAbTestEnabled,
-    abTestData: featureFields.abTestData,
-    setAbTestData: featureFields.setAbTestData,
-    gpsHeatmapEnabled: featureFields.gpsHeatmapEnabled,
-    setGpsHeatmapEnabled: featureFields.setGpsHeatmapEnabled,
-    nfcEnabled: featureFields.nfcEnabled,
-    setNfcEnabled: featureFields.setNfcEnabled,
-    scanNotify: featureFields.scanNotify,
-    setScanNotify: featureFields.setScanNotify,
-    pixels: featureFields.pixels,
-    setPixels: featureFields.setPixels,
-  };
 
   useQrCreateWizardGuard({ mode, saving, step, category, name, qrData, logoFile, logoPreview });
 
