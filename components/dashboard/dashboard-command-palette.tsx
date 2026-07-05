@@ -53,7 +53,7 @@ export function DashboardCommandPalette({
       onOpenChange(false);
       router.push(href);
     },
-    [onOpenChange, router]
+    [onOpenChange, router],
   );
 
   return (
@@ -95,15 +95,4 @@ export function DashboardCommandPalette({
   );
 }
 
-export function useDashboardCommandShortcut(onOpen: () => void) {
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        onOpen();
-      }
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [onOpen]);
-}
+export { useDashboardCommandShortcut } from '@/hooks/use-dashboard-command-shortcut';

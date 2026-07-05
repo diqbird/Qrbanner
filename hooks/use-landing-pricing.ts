@@ -19,7 +19,7 @@ export function useLandingPricing() {
       signInCallbackUrl: '/pricing',
       isSignedIn: Boolean(session),
     });
-    if (result.redirected && result.href) {
+    if ('redirected' in result && result.href) {
       window.location.href = result.href;
     }
   };
