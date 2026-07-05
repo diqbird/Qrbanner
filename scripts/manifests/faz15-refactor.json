@@ -1,0 +1,27 @@
+{
+  "upload": [
+    "lib/qr-edit-form-column-types.ts",
+    "lib/admin-audit-types.ts",
+    "lib/marketplace-seller-types.ts",
+    "lib/custom-domain-types.ts",
+    "hooks/use-admin-audit.ts",
+    "hooks/use-marketplace-seller.ts",
+    "hooks/use-custom-domains.ts",
+    "components/qr/qr-edit-form-column.tsx",
+    "components/qr/qr-edit-details-card.tsx",
+    "components/qr/qr-edit-content-card.tsx",
+    "components/qr/qr-edit-design-section.tsx",
+    "components/qr/qr-edit-features-section.tsx",
+    "components/admin/admin-audit-panel.tsx",
+    "components/admin/admin-audit-toolbar.tsx",
+    "components/admin/admin-audit-table.tsx",
+    "components/dashboard/marketplace-seller-panel.tsx",
+    "components/dashboard/marketplace-seller-connect.tsx",
+    "components/dashboard/marketplace-seller-listings.tsx",
+    "components/dashboard/custom-domain-settings.tsx",
+    "components/dashboard/custom-domain-dns-panel.tsx",
+    "components/dashboard/custom-domain-list.tsx"
+  ],
+  "build": true,
+  "restart": true
+}
