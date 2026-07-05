@@ -1,205 +1,71 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
-import { Shirt, CreditCard, Image, Coffee, RotateCcw, Upload, Move, Minus, Plus, Maximize2 } from 'lucide-react';
+import { Shirt, CreditCard, Image, Coffee, Upload, Move, Minus, Plus, Maximize2 } from 'lucide-react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+  MOCKUP_PRESETS,
+  getMockupPreset,
+  type MockupKey,
+  type MockupPresetId,
+} from '@/lib/mockup-presets';
+import { useMockupPlacement } from '@/hooks/use-mockup-placement';
+import { MockupPlacementControls } from './mockup-placement-controls';
 
-type PresetId = 'card' | 'poster' | 'shirt' | 'mug';
-type MockupKey = PresetId | 'custom';
-
-type MockupConfig = {
-  id: PresetId;
-  label: string;
-  icon: typeof CreditCard;
-  image: string;
-  defaultSize: number;
-  defaultTop: number;
-  defaultLeft: number;
-  invertQr?: boolean;
-  aspect: string;
-};
-
-const PRESETS: MockupConfig[] = [
-  {
-    id: 'card',
-    label: 'Business Card',
-    icon: CreditCard,
-    image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80&auto=format&fit=crop',
-    defaultSize: 16,
-    defaultTop: 58,
-    defaultLeft: 78,
-    aspect: '4/3',
-  },
-  {
-    id: 'poster',
-    label: 'Poster / Flyer',
-    icon: Image,
-    image: 'https://images.unsplash.com/photo-1561214115-f2f8c08e92b2?w=800&q=80&auto=format&fit=crop',
-    defaultSize: 28,
-    defaultTop: 52,
-    defaultLeft: 50,
-    aspect: '3/4',
-  },
-  {
-    id: 'shirt',
-    label: 'T-Shirt',
-    icon: Shirt,
-    image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80&auto=format&fit=crop',
-    defaultSize: 14,
-    defaultTop: 42,
-    defaultLeft: 38,
-    invertQr: true,
-    aspect: '4/5',
-  },
-  {
-    id: 'mug',
-    label: 'Mug',
-    icon: Coffee,
-    image: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=800&q=80&auto=format&fit=crop',
-    defaultSize: 12,
-    defaultTop: 48,
-    defaultLeft: 62,
-    aspect: '4/3',
-  },
-];
-
-const CUSTOM_DEFAULTS = { size: 20, top: 50, left: 50 };
-
-type Placement = { size: number; top: number; left: number };
-
-function defaultsFor(key: MockupKey): Placement {
-  if (key === 'custom') return { ...CUSTOM_DEFAULTS };
-  const mock = PRESETS.find((m) => m.id === key) ?? PRESETS[1];
-  return { size: mock.defaultSize, top: mock.defaultTop, left: mock.defaultLeft };
-}
-
-function clampPct(n: number, min = 5, max = 95) {
-  return Math.min(max, Math.max(min, n));
-}
-
-function clampSize(n: number) {
-  return Math.min(60, Math.max(4, Math.round(n)));
-}
+const PRESET_ICONS = {
+  card: CreditCard,
+  poster: Image,
+  shirt: Shirt,
+  mug: Coffee,
+} as const;
 
 export function MockupPreview({ qrDataUrl }: { qrDataUrl: string | null }) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<MockupKey>('poster');
   const [customImage, setCustomImage] = useState<string | null>(null);
-  const [placements, setPlacements] = useState<Partial<Record<MockupKey, Placement>>>({});
-  const [dragging, setDragging] = useState(false);
-  const [resizing, setResizing] = useState(false);
-  const resizeStartRef = useRef({ size: 0, clientY: 0 });
-
-  const containerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const preset = PRESETS.find((m) => m.id === active) ?? PRESETS[1];
-  const placement = placements[active] ?? defaultsFor(active);
+  const {
+    containerRef,
+    placement,
+    dragging,
+    resizing,
+    updatePlacement,
+    resetPlacement,
+    onQrPointerDown,
+    onQrPointerMove,
+    onQrPointerUp,
+    onResizeHandleDown,
+    onQrWheel,
+    nudgeSize,
+    initCustomPlacement,
+  } = useMockupPlacement(active);
+
+  const preset = getMockupPreset(active);
   const isCustom = active === 'custom';
   const backgroundImage = isCustom ? customImage : preset.image;
   const invertQr = !isCustom && preset.invertQr;
   const aspectStyle = useMemo(
     () => ({ aspectRatio: isCustom ? '4/3' : preset.aspect }),
-    [isCustom, preset.aspect]
+    [isCustom, preset.aspect],
   );
-
-  useEffect(() => {
-    setPlacements((prev) => {
-      if (prev[active]) return prev;
-      return { ...prev, [active]: defaultsFor(active) };
-    });
-  }, [active]);
-
-  const updatePlacement = (patch: Partial<Placement>) => {
-    setPlacements((prev) => ({
-      ...prev,
-      [active]: { ...(prev[active] ?? defaultsFor(active)), ...patch },
-    }));
-  };
-
-  const resetPlacement = () => {
-    setPlacements((prev) => ({ ...prev, [active]: defaultsFor(active) }));
-  };
-
-  const positionFromPointer = (clientX: number, clientY: number) => {
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return null;
-    return {
-      left: clampPct(((clientX - rect.left) / rect.width) * 100),
-      top: clampPct(((clientY - rect.top) / rect.height) * 100),
-    };
-  };
-
-  const onQrPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
-    if (!qrDataUrl || resizing) return;
-    e.preventDefault();
-    e.currentTarget.setPointerCapture(e.pointerId);
-    setDragging(true);
-  };
-
-  const onQrPointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
-    if (resizing) {
-      const delta = (resizeStartRef.current.clientY - e.clientY) * 0.12;
-      updatePlacement({ size: clampSize(resizeStartRef.current.size + delta) });
-      return;
-    }
-    if (!dragging) return;
-    const pos = positionFromPointer(e.clientX, e.clientY);
-    if (pos) updatePlacement(pos);
-  };
-
-  const onQrPointerUp = (e: ReactPointerEvent<HTMLDivElement>) => {
-    if (dragging || resizing) {
-      e.currentTarget.releasePointerCapture(e.pointerId);
-      setDragging(false);
-      setResizing(false);
-    }
-  };
-
-  const onResizeHandleDown = (e: ReactPointerEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const wrapper = e.currentTarget.parentElement;
-    if (!wrapper) return;
-    resizeStartRef.current = { size: placement.size, clientY: e.clientY };
-    setResizing(true);
-    wrapper.setPointerCapture(e.pointerId);
-  };
-
-  const onQrWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const delta = e.deltaY > 0 ? -2 : 2;
-    updatePlacement({ size: clampSize(placement.size + delta) });
-  };
-
-  const nudgeSize = (delta: number) => {
-    updatePlacement({ size: clampSize(placement.size + delta) });
-  };
 
   const handleCustomUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !file.type.startsWith('image/')) return;
     const reader = new FileReader();
     reader.onloadend = () => {
-      const dataUrl = reader.result as string;
-      setCustomImage(dataUrl);
+      setCustomImage(reader.result as string);
       setActive('custom');
-      setPlacements((prev) => ({
-        ...prev,
-        custom: prev.custom ?? { ...CUSTOM_DEFAULTS },
-      }));
+      initCustomPlacement();
     };
     reader.readAsDataURL(file);
     e.target.value = '';
   };
+
+  const selectPreset = (id: MockupPresetId) => setActive(id);
 
   return (
     <Collapsible open={open} onOpenChange={setOpen}>
@@ -220,20 +86,23 @@ export function MockupPreview({ qrDataUrl }: { qrDataUrl: string | null }) {
         <CollapsibleContent>
           <CardContent className="space-y-4 pt-0">
             <div className="flex flex-wrap gap-2">
-              {PRESETS.map((m) => (
-                <button
-                  key={m.id}
-                  type="button"
-                  onClick={() => setActive(m.id)}
-                  className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs transition-colors ${
-                    active === m.id
-                      ? 'border-primary bg-primary/10 text-foreground'
-                      : 'text-muted-foreground hover:bg-muted'
-                  }`}
-                >
-                  <m.icon className="h-3.5 w-3.5" /> {m.label}
-                </button>
-              ))}
+              {MOCKUP_PRESETS.map((m) => {
+                const Icon = PRESET_ICONS[m.id];
+                return (
+                  <button
+                    key={m.id}
+                    type="button"
+                    onClick={() => selectPreset(m.id)}
+                    className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs transition-colors ${
+                      active === m.id
+                        ? 'border-primary bg-primary/10 text-foreground'
+                        : 'text-muted-foreground hover:bg-muted'
+                    }`}
+                  >
+                    <Icon className="h-3.5 w-3.5" /> {m.label}
+                  </button>
+                );
+              })}
               <button
                 type="button"
                 onClick={() => {
@@ -259,18 +128,16 @@ export function MockupPreview({ qrDataUrl }: { qrDataUrl: string | null }) {
             />
 
             {isCustom && (
-              <div className="flex flex-wrap gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="gap-1.5 text-xs"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <Upload className="h-3.5 w-3.5" />
-                  {customImage ? 'Change photo' : 'Upload photo'}
-                </Button>
-              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="gap-1.5 text-xs"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <Upload className="h-3.5 w-3.5" />
+                {customImage ? 'Change photo' : 'Upload photo'}
+              </Button>
             )}
 
             <div
@@ -311,7 +178,7 @@ export function MockupPreview({ qrDataUrl }: { qrDataUrl: string | null }) {
                     left: `${placement.left}%`,
                     transform: 'translate(-50%, -50%)',
                   }}
-                  onPointerDown={onQrPointerDown}
+                  onPointerDown={(e) => onQrPointerDown(e, Boolean(qrDataUrl))}
                   onPointerMove={onQrPointerMove}
                   onPointerUp={onQrPointerUp}
                   onPointerCancel={onQrPointerUp}
@@ -378,16 +245,16 @@ export function MockupPreview({ qrDataUrl }: { qrDataUrl: string | null }) {
                       { label: 'S', size: 12 },
                       { label: 'M', size: 22 },
                       { label: 'L', size: 35 },
-                    ].map((preset) => (
+                    ].map((sizePreset) => (
                       <Button
-                        key={preset.label}
+                        key={sizePreset.label}
                         type="button"
-                        variant={Math.abs(placement.size - preset.size) < 2 ? 'default' : 'ghost'}
+                        variant={Math.abs(placement.size - sizePreset.size) < 2 ? 'default' : 'ghost'}
                         size="sm"
                         className="h-7 px-2 text-xs"
-                        onClick={() => updatePlacement({ size: preset.size })}
+                        onClick={() => updatePlacement({ size: sizePreset.size })}
                       >
-                        {preset.label}
+                        {sizePreset.label}
                       </Button>
                     ))}
                   </div>
@@ -396,65 +263,11 @@ export function MockupPreview({ qrDataUrl }: { qrDataUrl: string | null }) {
             )}
 
             {qrDataUrl && backgroundImage && (
-              <div className="space-y-4 rounded-lg border border-border/60 bg-muted/30 p-4">
-                <div className="flex items-center justify-between gap-2">
-                  <p className="text-xs font-medium text-muted-foreground">Adjust QR placement</p>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="h-7 gap-1 px-2 text-xs"
-                    onClick={resetPlacement}
-                  >
-                    <RotateCcw className="h-3 w-3" /> Reset
-                  </Button>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-xs">
-                    <Label htmlFor="mockup-size">QR size</Label>
-                    <span className="font-mono text-muted-foreground">{placement.size}%</span>
-                  </div>
-                  <Slider
-                    id="mockup-size"
-                    min={4}
-                    max={60}
-                    step={1}
-                    value={[placement.size]}
-                    onValueChange={([size]) => updatePlacement({ size: clampSize(size) })}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-xs">
-                    <Label htmlFor="mockup-top">Vertical position</Label>
-                    <span className="font-mono text-muted-foreground">{placement.top}%</span>
-                  </div>
-                  <Slider
-                    id="mockup-top"
-                    min={5}
-                    max={95}
-                    step={1}
-                    value={[placement.top]}
-                    onValueChange={([top]) => updatePlacement({ top })}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-xs">
-                    <Label htmlFor="mockup-left">Horizontal position</Label>
-                    <span className="font-mono text-muted-foreground">{placement.left}%</span>
-                  </div>
-                  <Slider
-                    id="mockup-left"
-                    min={5}
-                    max={95}
-                    step={1}
-                    value={[placement.left]}
-                    onValueChange={([left]) => updatePlacement({ left })}
-                  />
-                </div>
-              </div>
+              <MockupPlacementControls
+                placement={placement}
+                onUpdate={updatePlacement}
+                onReset={resetPlacement}
+              />
             )}
           </CardContent>
         </CollapsibleContent>

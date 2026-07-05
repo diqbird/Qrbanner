@@ -1,0 +1,18 @@
+{
+  "upload": [
+    "lib/landing-block-factory.ts",
+    "lib/mockup-presets.ts",
+    "lib/qr-export-actions.ts",
+    "hooks/use-mockup-placement.ts",
+    "hooks/use-qr-preview-render.ts",
+    "components/qr/landing-block-builder.tsx",
+    "components/qr/landing-block-fields.tsx",
+    "components/qr/landing-block-row.tsx",
+    "components/qr/mockup-preview.tsx",
+    "components/qr/mockup-placement-controls.tsx",
+    "components/qr/qr-preview.tsx",
+    "components/qr/qr-preview-export-panel.tsx"
+  ],
+  "build": true,
+  "restart": true
+}
