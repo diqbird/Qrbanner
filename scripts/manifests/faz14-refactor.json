@@ -1,0 +1,26 @@
+{
+  "upload": [
+    "lib/webhook-types.ts",
+    "hooks/use-mockup-preview.ts",
+    "hooks/use-webhook-settings.ts",
+    "components/qr/landing-block-field-layouts.tsx",
+    "components/qr/landing-block-layouts-content.tsx",
+    "components/qr/landing-block-layouts-media.tsx",
+    "components/qr/landing-block-layouts-links.tsx",
+    "components/qr/landing-block-layouts-form.tsx",
+    "components/dashboard/dashboard-content.tsx",
+    "components/dashboard/dashboard-overview-section.tsx",
+    "components/dashboard/dashboard-qr-list-card.tsx",
+    "components/dashboard/dashboard-qr-list-toolbar.tsx",
+    "components/qr/mockup-preview.tsx",
+    "components/qr/mockup-preset-picker.tsx",
+    "components/qr/mockup-canvas.tsx",
+    "components/qr/mockup-size-toolbar.tsx",
+    "components/dashboard/webhook-settings.tsx",
+    "components/dashboard/webhook-endpoints-panel.tsx",
+    "components/dashboard/webhook-deliveries-panel.tsx",
+    "components/dashboard/webhook-secret-dialog.tsx"
+  ],
+  "build": true,
+  "restart": true
+}
