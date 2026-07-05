@@ -1,15 +1,13 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { MapPin, Plus, Trash2 } from 'lucide-react';
+import { MapPin, Plus } from 'lucide-react';
+import { GeofenceRuleRow } from './geofence-rule-row';
 import {
   GeofenceData,
   emptyGeofenceData,
-  COUNTRY_OPTIONS,
   MAX_GEOFENCE_RULES,
 } from '@/lib/geofence-shared';
 
@@ -73,58 +71,13 @@ export function GeofenceSettings({
           ) : (
             <div className="space-y-3">
               {data.rules.map((rule, index) => (
-                <div key={rule.id} className="rounded-lg border p-4 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-medium text-muted-foreground">Rule {index + 1}</span>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => removeRule(rule.id)}
-                      className="h-8 w-8 p-0 text-destructive"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <div className="space-y-1">
-                      <Label className="text-xs">Country</Label>
-                      <select
-                        className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm"
-                        value={rule.countryCode}
-                        onChange={(e) => updateRule(rule.id, { countryCode: e.target.value })}
-                      >
-                        {COUNTRY_OPTIONS.map((c) => (
-                          <option key={c.code} value={c.code}>{c.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="space-y-1">
-                      <Label className="text-xs">City (optional)</Label>
-                      <Input
-                        placeholder="e.g. Istanbul"
-                        value={rule.city}
-                        onChange={(e) => updateRule(rule.id, { city: e.target.value })}
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-1">
-                    <Label className="text-xs">Label (optional)</Label>
-                    <Input
-                      placeholder="e.g. Turkey store"
-                      value={rule.label ?? ''}
-                      onChange={(e) => updateRule(rule.id, { label: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label className="text-xs">Redirect URL</Label>
-                    <Input
-                      placeholder="https://example.com/tr"
-                      value={rule.url}
-                      onChange={(e) => updateRule(rule.id, { url: e.target.value })}
-                    />
-                  </div>
-                </div>
+                <GeofenceRuleRow
+                  key={rule.id}
+                  rule={rule}
+                  index={index}
+                  onUpdate={(patch) => updateRule(rule.id, patch)}
+                  onRemove={() => removeRule(rule.id)}
+                />
               ))}
             </div>
           )}

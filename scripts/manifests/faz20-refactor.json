@@ -1,0 +1,24 @@
+{
+  "upload": [
+    "lib/qr-quick-create-utils.ts",
+    "lib/advanced-settings-types.ts",
+    "lib/qr-bulk-import-types.ts",
+    "lib/qr-bulk-import-utils.ts",
+    "hooks/use-verify-form.ts",
+    "hooks/use-login-sso-effects.ts",
+    "hooks/use-login-form.ts",
+    "hooks/use-qr-quick-create.ts",
+    "hooks/use-qr-bulk-import.ts",
+    "components/auth/verify-form.tsx",
+    "components/auth/verify-form-fields.tsx",
+    "components/qr/qr-quick-create.tsx",
+    "components/qr/qr-quick-create-form.tsx",
+    "components/qr/advanced-settings.tsx",
+    "components/qr/advanced-settings-security.tsx",
+    "components/qr/advanced-settings-utm.tsx",
+    "components/qr/geofence-settings.tsx",
+    "components/qr/geofence-rule-row.tsx"
+  ],
+  "build": true,
+  "restart": true
+}

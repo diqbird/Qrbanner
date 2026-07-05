@@ -1,14 +1,14 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { toast } from 'sonner';
-import type { OAuthProviderId } from '@/lib/auth-providers';
 import { resolveCallbackUrl } from '@/lib/auth-providers';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { isTurnstileEnabledClient } from '@/components/security/turnstile-field';
+import { useLoginSsoEffects } from '@/hooks/use-login-sso-effects';
 import type { SamlInfo, SsoPolicy } from '@/lib/login-form-types';
 
 export function useLoginForm() {
@@ -29,6 +29,8 @@ export function useLoginForm() {
   const [rememberMe, setRememberMe] = useState(true);
   const turnstileRequired = isTurnstileEnabledClient();
 
+  useLoginSsoEffects({ callbackUrl, workspaceSlug, setLoading, setSamlInfo });
+
   const checkSsoPolicy = useCallback(async (value: string) => {
     const trimmed = value.trim().toLowerCase();
     if (!trimmed || !trimmed.includes('@')) {
@@ -45,66 +47,6 @@ export function useLoginForm() {
       setSsoPolicy(null);
     }
   }, []);
-
-  useEffect(() => {
-    const samlToken = searchParams.get('samlToken');
-    const samlEmail = searchParams.get('email');
-    if (!samlToken || !samlEmail) return;
-
-    let cancelled = false;
-    (async () => {
-      setLoading(true);
-      try {
-        const result = await signIn('credentials', {
-          email: samlEmail,
-          verifyToken: samlToken,
-          redirect: false,
-          callbackUrl,
-        });
-        if (cancelled) return;
-        if (result?.error) {
-          toast.error(resolveApiError(t, result.error));
-          return;
-        }
-        if (result?.ok) {
-          toast.success(t('auth.signedInSuccess'));
-          window.location.href = callbackUrl;
-        }
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [searchParams, callbackUrl, t]);
-
-  useEffect(() => {
-    if (!workspaceSlug) {
-      setSamlInfo(null);
-      return;
-    }
-    let cancelled = false;
-    fetch(`/api/auth/saml/info?workspace=${encodeURIComponent(workspaceSlug)}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (!cancelled) setSamlInfo(data?.enabled ? data : { enabled: false });
-      })
-      .catch(() => {
-        if (!cancelled) setSamlInfo({ enabled: false });
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [workspaceSlug]);
-
-  useEffect(() => {
-    const error = searchParams.get('error');
-    if (!error || error === 'Callback') return;
-    const code = error === 'AccessDenied' ? 'sso_required' : error;
-    toast.error(resolveApiError(t, code));
-  }, [searchParams, t]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

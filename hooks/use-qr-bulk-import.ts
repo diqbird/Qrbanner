@@ -2,30 +2,16 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
-import { BULK_CSV_TEMPLATE, parseBulkCSV, type BulkParsedRow, type BulkParseError } from '@/lib/bulk-csv';
+import { parseBulkCSV, type BulkParsedRow, type BulkParseError } from '@/lib/bulk-csv';
+import {
+  defaultBulkUsage,
+  type BulkResult,
+  type UsageInfo,
+} from '@/lib/qr-bulk-import-types';
+import { downloadBulkCsvTemplate, exportBulkResultCsv } from '@/lib/qr-bulk-import-utils';
 import { useLanguage } from '@/components/i18n/language-provider';
 
-export interface CreatedQR {
-  id: string;
-  name: string;
-  shortCode: string;
-  category: string;
-}
-
-export interface BulkResult {
-  batchId: string;
-  batchLabel: string | null;
-  created: CreatedQR[];
-  failed: BulkParseError[];
-  summary: { total: number; success: number; failed: number };
-}
-
-export interface UsageInfo {
-  maxBulkRows: number;
-  qrLimit: number;
-  qrCodes: number;
-  planName: string;
-}
+export type { CreatedQR, BulkResult, UsageInfo } from '@/lib/qr-bulk-import-types';
 
 export function useQrBulkImport() {
   const { t } = useLanguage();
@@ -37,12 +23,7 @@ export function useQrBulkImport() {
   const [importing, setImporting] = useState(false);
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<BulkResult | null>(null);
-  const [usage, setUsage] = useState<UsageInfo>({
-    maxBulkRows: 100,
-    qrLimit: 25,
-    qrCodes: 0,
-    planName: 'Free',
-  });
+  const [usage, setUsage] = useState<UsageInfo>(defaultBulkUsage);
 
   useEffect(() => {
     fetch('/api/account/usage')
@@ -61,16 +42,6 @@ export function useQrBulkImport() {
 
   const maxRows = usage.maxBulkRows;
   const slotsLeft = Math.max(0, usage.qrLimit - usage.qrCodes);
-
-  const downloadTemplate = () => {
-    const blob = new Blob([BULK_CSV_TEMPLATE], { type: 'text/csv;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'qrbanner-bulk-template.csv';
-    a.click();
-    URL.revokeObjectURL(url);
-  };
 
   const handleFile = useCallback(
     (file: File) => {
@@ -171,25 +142,6 @@ export function useQrBulkImport() {
     if (fileRef.current) fileRef.current.value = '';
   };
 
-  const exportResultCsv = () => {
-    if (!result?.created.length) return;
-    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://qrbanner.com';
-    const lines = [
-      'name,shortCode,category,scanUrl',
-      ...result.created.map(
-        (qr) =>
-          `"${qr.name.replace(/"/g, '""')}",${qr.shortCode},${qr.category},${origin}/s/${qr.shortCode}`,
-      ),
-    ];
-    const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `qrbanner-import-${result.batchId}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
   return {
     t,
     fileRef,
@@ -204,12 +156,12 @@ export function useQrBulkImport() {
     usage,
     maxRows,
     slotsLeft,
-    downloadTemplate,
+    downloadTemplate: downloadBulkCsvTemplate,
     onFileChange,
     onDrop,
     handleImport,
     reset,
-    exportResultCsv,
+    exportResultCsv: () => result && exportBulkResultCsv(result),
   };
 }
 
