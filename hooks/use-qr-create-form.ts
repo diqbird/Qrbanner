@@ -1,12 +1,11 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import type { QRStyleConfig } from '@/lib/qr-style';
 import { stripMetaFields } from '@/lib/industry-templates';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { useQrCreateDraftBridge } from '@/hooks/use-qr-create-draft-bridge';
 import { useQrCreateTemplateActions } from '@/hooks/use-qr-create-template-actions';
 import { useQrCreateLogo } from '@/hooks/use-qr-create-logo';
 import { useQrCreateUrlParams } from '@/hooks/use-qr-create-url-params';
@@ -15,9 +14,9 @@ import {
   createCanProceedCreateStep,
   useQrCreateWizardEffects,
 } from '@/hooks/use-qr-create-wizard-effects';
-import { useQrCreateDraftState } from '@/hooks/use-qr-create-draft-state';
 import { useQrCreateWizardGuard } from '@/hooks/use-qr-create-wizard-guard';
 import { useQrCreateCoreState } from '@/hooks/use-qr-create-core-state';
+import { useQrCreateFormDraft } from '@/hooks/use-qr-create-form-draft';
 
 export function useQrCreateForm() {
   const { t } = useLanguage();
@@ -93,8 +92,8 @@ export function useQrCreateForm() {
 
   const payloadData = useCallback(() => stripMetaFields(qrData), [qrData]);
 
-  const { draftState, draftSetters } = useQrCreateDraftState(
-    {
+  const { redirectGuestToSignup, saveGuestDraft } = useQrCreateFormDraft({
+    draftValues: {
       step,
       category,
       name,
@@ -116,7 +115,7 @@ export function useQrCreateForm() {
       scanNotify,
       pixels,
     },
-    {
+    draftSettersInput: {
       setStep,
       setCategory,
       setName,
@@ -138,11 +137,6 @@ export function useQrCreateForm() {
       setScanNotify,
       setPixels,
     },
-  );
-
-  const { redirectGuestToSignup, saveGuestDraft } = useQrCreateDraftBridge({
-    draftState,
-    draftSetters,
     isGuest,
     category,
     authStatus,

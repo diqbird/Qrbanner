@@ -5,6 +5,7 @@ import type { QRCodeItem } from '@/lib/qr-list-row-types';
 import { QR_LIST_MAX_LIMIT } from '@/lib/qr-list-pagination';
 import type { ListMeta, ListPagination, ListTotals } from '@/lib/dashboard-qr-list-types';
 import { useQrListFolders } from '@/hooks/use-qr-list-folders';
+import { useQrListFetch } from '@/hooks/use-qr-list-fetch';
 
 export function useQrListData({
   folderFilter,
@@ -44,33 +45,7 @@ export function useQrListData({
     totalPages: 1,
   });
 
-  const fetchQRCodes = useCallback(async () => {
-    try {
-      const params = new URLSearchParams();
-      if (unfiledFilter) params.set('unfiled', '1');
-      else if (folderFilter) params.set('folderId', folderFilter);
-      if (labelFilter) params.set('label', labelFilter);
-      if (batchFilter) params.set('batchId', batchFilter);
-      if (debouncedSearch.trim()) params.set('q', debouncedSearch.trim());
-      if (favoritesFilter) params.set('favorites', '1');
-      if (archivedFilter) params.set('archived', '1');
-      params.set('page', String(page));
-      params.set('limit', String(QR_LIST_MAX_LIMIT));
-
-      const res = await fetch(`/api/qr?${params.toString()}`);
-      if (res.ok) {
-        const data = await res.json();
-        setQrCodes(data?.qrCodes ?? []);
-        setMeta(data?.meta ?? { labels: [], batches: [] });
-        if (data?.totals) setTotals(data.totals);
-        if (data?.pagination) setPagination(data.pagination);
-      }
-    } catch {
-      console.error('Failed to fetch QR codes');
-    } finally {
-      setLoading(false);
-    }
-  }, [
+  const fetchQRCodes = useQrListFetch({
     folderFilter,
     unfiledFilter,
     labelFilter,
@@ -79,7 +54,12 @@ export function useQrListData({
     favoritesFilter,
     archivedFilter,
     page,
-  ]);
+    setQrCodes,
+    setMeta,
+    setTotals,
+    setPagination,
+    setLoading,
+  });
 
   useEffect(() => {
     setLoading(true);

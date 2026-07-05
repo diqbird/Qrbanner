@@ -3,13 +3,10 @@
 import { useLanguage } from '@/components/i18n/language-provider';
 import { useScanBaseUrl } from '@/lib/use-scan-base-url';
 export type { QrEditRecord } from '@/lib/qr-edit-form-types';
-import { useQrEditDirty } from '@/hooks/use-qr-edit-dirty';
 import { useQrEditLogo } from '@/hooks/use-qr-edit-logo';
-import { useQrEditSave } from '@/hooks/use-qr-edit-save';
-import { useQrEditFetch } from '@/hooks/use-qr-edit-fetch';
-import { useQrEditFormSnapshot } from '@/hooks/use-qr-edit-form-snapshot';
 import { useQrEditCoreState } from '@/hooks/use-qr-edit-core-state';
 import { useQrEditHydrateSetters } from '@/hooks/use-qr-edit-hydrate-setters';
+import { useQrEditFormPersistence } from '@/hooks/use-qr-edit-form-persistence';
 
 export function useQrEditForm(qrId: string) {
   const { t } = useLanguage();
@@ -29,7 +26,6 @@ export function useQrEditForm(qrId: string) {
     setStyle,
     undo: undoStyle,
     redo: redoStyle,
-    resetHistory: resetStyleHistory,
     canUndo: canUndoStyle,
     canRedo: canRedoStyle,
     isActive,
@@ -87,16 +83,16 @@ export function useQrEditForm(qrId: string) {
     setIsActive,
     setHasExistingPassword,
     applyFeatureFieldsFromRecord,
-    resetStyleHistory,
+    resetStyleHistory: core.resetHistory,
     setFolderId,
     setLabels,
     setStoredLogoPath,
     setLogoPreview: core.setLogoPreview,
   });
 
-  const { qr, loading, fetchQR } = useQrEditFetch(qrId, hydrateSetters);
-
-  const snapshotInput = useQrEditFormSnapshot({
+  const { qr, loading, handleSave } = useQrEditFormPersistence({
+    qrId,
+    hydrateSetters,
     name,
     qrData,
     style,
@@ -118,35 +114,17 @@ export function useQrEditForm(qrId: string) {
     labels,
     pixels,
     removePassword,
+    logoFile,
+    featureFields,
+    setLogoFile,
+    setSaving,
+    t,
   });
-
-  const { markSaved } = useQrEditDirty(loading, qr?.id, snapshotInput, logoFile);
 
   const { handleLogoChange, applyTemplateLogo } = useQrEditLogo({
     setLogoFile,
     setLogoPreview: core.setLogoPreview,
     setStoredLogoPath,
-  });
-
-  const { handleSave } = useQrEditSave({
-    qrId,
-    qr,
-    name,
-    qrData,
-    style,
-    isActive,
-    logoFile,
-    storedLogoPath,
-    advanced,
-    removePassword,
-    folderId,
-    labels,
-    featureFields,
-    setLogoFile,
-    markSaved,
-    fetchQR,
-    t,
-    setSaving,
   });
 
   return {

@@ -2,13 +2,12 @@
 
 import { useCallback } from 'react';
 import { toast } from 'sonner';
-import { stripMetaFields } from '@/lib/industry-templates';
-import { buildQrFeaturePayload } from '@/hooks/use-qr-feature-fields';
+import { putUpdateQr } from '@/lib/qr-edit-save-api';
+import { uploadQrLogoFile } from '@/lib/qr-save-logo-upload';
 import type { QrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import type { AdvancedValues } from '@/lib/advanced-settings-types';
 import type { QRStyleConfig } from '@/lib/qr-style';
 import type { QrEditRecord } from '@/lib/qr-edit-form-types';
-import { uploadQrLogoFile } from '@/lib/qr-save-logo-upload';
 
 type Translate = (key: string) => string;
 
@@ -59,24 +58,21 @@ export function useQrEditSave({
         logoPath = (await uploadQrLogoFile(logoFile, t)) ?? logoPath;
       }
 
-      const res = await fetch(`/api/qr/${qrId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          qrData: stripMetaFields(qrData),
-          style,
-          isActive,
-          logoPath,
-          logoIsPublic: true,
-          password: advanced.password ? advanced.password : removePassword ? '' : undefined,
-          folderId,
-          labels,
-          ...buildQrFeaturePayload({ name, mode: 'update', fields: featureFields }),
-        }),
+      const ok = await putUpdateQr({
+        qrId,
+        name,
+        qrData,
+        style,
+        isActive,
+        logoPath,
+        advanced,
+        removePassword,
+        folderId,
+        labels,
+        featureFields,
       });
 
-      if (res.ok) {
+      if (ok) {
         toast.success(t('editQr.updated'));
         setLogoFile(null);
         markSaved();
@@ -99,7 +95,7 @@ export function useQrEditSave({
     qrData,
     style,
     isActive,
-    advanced.password,
+    advanced,
     removePassword,
     folderId,
     labels,

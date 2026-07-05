@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { AdvancedValues } from '@/components/qr/advanced-settings';
 import type { LandingPageData } from '@/components/qr/landing-page-editor';
 import type { ScheduleData } from '@/components/qr/schedule-settings';
@@ -15,11 +15,7 @@ import { emptyGeofenceData } from '@/components/qr/geofence-settings';
 import { emptyAbTestData } from '@/lib/ab-routing';
 import { emptyScanNotify } from '@/components/qr/scan-notify-settings';
 import { emptyPixelAnalytics } from '@/components/qr/analytics-pixel-settings';
-import type { QrFeatureRecord } from '@/lib/qr-feature-fields-types';
-import {
-  emptyQrFeatureFieldState,
-  qrFeatureFieldStateFromRecord,
-} from '@/lib/qr-feature-fields-utils';
+import { useQrFeatureFieldsSync } from '@/hooks/use-qr-feature-fields-sync';
 
 export function useQrFeatureFieldsState() {
   const [advanced, setAdvanced] = useState<AdvancedValues>(emptyAdvanced);
@@ -36,39 +32,26 @@ export function useQrFeatureFieldsState() {
   const [scanNotify, setScanNotify] = useState<ScanNotifyValues>(emptyScanNotify);
   const [pixels, setPixels] = useState<PixelAnalyticsConfig>(emptyPixelAnalytics);
 
-  const resetFeatureFields = useCallback(() => {
-    const empty = emptyQrFeatureFieldState();
-    setAdvanced(empty.advanced);
-    setLandingEnabled(empty.landingEnabled);
-    setLandingPage(empty.landingPage);
-    setScheduleEnabled(empty.scheduleEnabled);
-    setScheduleData(empty.scheduleData);
-    setGeofenceEnabled(empty.geofenceEnabled);
-    setGeofenceData(empty.geofenceData);
-    setAbTestEnabled(empty.abTestEnabled);
-    setAbTestData(empty.abTestData);
-    setGpsHeatmapEnabled(empty.gpsHeatmapEnabled);
-    setNfcEnabled(empty.nfcEnabled);
-    setScanNotify(empty.scanNotify);
-    setPixels(empty.pixels);
-  }, []);
+  const setters = useMemo(
+    () => ({
+      setAdvanced,
+      setLandingEnabled,
+      setLandingPage,
+      setScheduleEnabled,
+      setScheduleData,
+      setGeofenceEnabled,
+      setGeofenceData,
+      setAbTestEnabled,
+      setAbTestData,
+      setGpsHeatmapEnabled,
+      setNfcEnabled,
+      setScanNotify,
+      setPixels,
+    }),
+    [],
+  );
 
-  const applyFeatureFieldsFromRecord = useCallback((record: QrFeatureRecord) => {
-    const next = qrFeatureFieldStateFromRecord(record);
-    setAdvanced(next.advanced);
-    setLandingEnabled(next.landingEnabled);
-    setLandingPage(next.landingPage);
-    setScheduleEnabled(next.scheduleEnabled);
-    setScheduleData(next.scheduleData);
-    setGeofenceEnabled(next.geofenceEnabled);
-    setGeofenceData(next.geofenceData);
-    setAbTestEnabled(next.abTestEnabled);
-    setAbTestData(next.abTestData);
-    setGpsHeatmapEnabled(next.gpsHeatmapEnabled);
-    setNfcEnabled(next.nfcEnabled);
-    setScanNotify(next.scanNotify);
-    setPixels(next.pixels);
-  }, []);
+  const { resetFeatureFields, applyFeatureFieldsFromRecord } = useQrFeatureFieldsSync(setters);
 
   return {
     advanced,
