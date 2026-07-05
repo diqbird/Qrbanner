@@ -1,25 +1,30 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { DEFAULT_QR_STYLE } from '@/components/qr/qr-style-editor';
-import { useQRStyleHistory } from '@/hooks/use-qr-style-history';
-import { useQrFeatureFields } from '@/hooks/use-qr-feature-fields';
-import { useScanBaseUrl } from '@/lib/use-scan-base-url';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { useScanBaseUrl } from '@/lib/use-scan-base-url';
 export type { QrEditRecord } from '@/lib/qr-edit-form-types';
 import { useQrEditDirty } from '@/hooks/use-qr-edit-dirty';
 import { useQrEditLogo } from '@/hooks/use-qr-edit-logo';
 import { useQrEditSave } from '@/hooks/use-qr-edit-save';
 import { useQrEditFetch } from '@/hooks/use-qr-edit-fetch';
 import { useQrEditFormSnapshot } from '@/hooks/use-qr-edit-form-snapshot';
+import { useQrEditCoreState } from '@/hooks/use-qr-edit-core-state';
+import { useQrEditHydrateSetters } from '@/hooks/use-qr-edit-hydrate-setters';
 
 export function useQrEditForm(qrId: string) {
   const { t } = useLanguage();
-  const [saving, setSaving] = useState(false);
-  const [name, setName] = useState('');
-  const [targetUrl, setTargetUrl] = useState('');
-  const [qrData, setQrData] = useState<Record<string, string>>({});
+  const scanBaseUrl = useScanBaseUrl();
+
+  const core = useQrEditCoreState();
   const {
+    saving,
+    setSaving,
+    name,
+    setName,
+    targetUrl,
+    setTargetUrl,
+    qrData,
+    setQrData,
     style,
     setStyle,
     undo: undoStyle,
@@ -27,12 +32,24 @@ export function useQrEditForm(qrId: string) {
     resetHistory: resetStyleHistory,
     canUndo: canUndoStyle,
     canRedo: canRedoStyle,
-  } = useQRStyleHistory(DEFAULT_QR_STYLE);
-  const [isActive, setIsActive] = useState(true);
-  const [logoPreview, setLogoPreview] = useState<string | null>(null);
-  const [logoFile, setLogoFile] = useState<File | null>(null);
-  const [storedLogoPath, setStoredLogoPath] = useState<string | null>(null);
-  const featureFields = useQrFeatureFields();
+    isActive,
+    setIsActive,
+    logoPreview,
+    logoFile,
+    setLogoFile,
+    storedLogoPath,
+    setStoredLogoPath,
+    featureFields,
+    hasExistingPassword,
+    setHasExistingPassword,
+    removePassword,
+    setRemovePassword,
+    folderId,
+    setFolderId,
+    labels,
+    setLabels,
+  } = core;
+
   const {
     advanced,
     setAdvanced,
@@ -62,28 +79,20 @@ export function useQrEditForm(qrId: string) {
     setPixels,
     applyFeatureFieldsFromRecord,
   } = featureFields;
-  const [hasExistingPassword, setHasExistingPassword] = useState(false);
-  const [removePassword, setRemovePassword] = useState(false);
-  const [folderId, setFolderId] = useState<string | null>(null);
-  const [labels, setLabels] = useState<string[]>([]);
-  const scanBaseUrl = useScanBaseUrl();
 
-  const hydrateSetters = useMemo(
-    () => ({
-      setName,
-      setTargetUrl,
-      setQrData,
-      setIsActive,
-      setHasExistingPassword,
-      applyFeatureFieldsFromRecord,
-      resetStyleHistory,
-      setFolderId,
-      setLabels,
-      setStoredLogoPath,
-      setLogoPreview,
-    }),
-    [applyFeatureFieldsFromRecord, resetStyleHistory],
-  );
+  const hydrateSetters = useQrEditHydrateSetters({
+    setName,
+    setTargetUrl,
+    setQrData,
+    setIsActive,
+    setHasExistingPassword,
+    applyFeatureFieldsFromRecord,
+    resetStyleHistory,
+    setFolderId,
+    setLabels,
+    setStoredLogoPath,
+    setLogoPreview: core.setLogoPreview,
+  });
 
   const { qr, loading, fetchQR } = useQrEditFetch(qrId, hydrateSetters);
 
@@ -115,7 +124,7 @@ export function useQrEditForm(qrId: string) {
 
   const { handleLogoChange, applyTemplateLogo } = useQrEditLogo({
     setLogoFile,
-    setLogoPreview,
+    setLogoPreview: core.setLogoPreview,
     setStoredLogoPath,
   });
 

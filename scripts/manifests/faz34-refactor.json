@@ -1,0 +1,32 @@
+{
+  "upload": [
+    "hooks/use-qr-create-core-state.ts",
+    "hooks/use-qr-create-form.ts",
+    "hooks/use-qr-edit-core-state.ts",
+    "hooks/use-qr-edit-hydrate-setters.ts",
+    "hooks/use-qr-edit-form.ts",
+    "components/qr/editable-frame-label-empty.tsx",
+    "components/qr/editable-frame-label-overlay.tsx",
+    "components/qr/editable-frame-label.tsx",
+    "components/dashboard/automation-flow-list-toolbar.tsx",
+    "components/dashboard/automation-flow-list-row.tsx",
+    "components/dashboard/automation-flow-list.tsx",
+    "components/qr/campaign-wizard-prompt-guest-banner.tsx",
+    "components/qr/campaign-wizard-prompt-form.tsx",
+    "components/qr/campaign-wizard-prompt-step.tsx",
+    "components/qr/category-field-layouts-crypto.tsx",
+    "components/qr/category-field-layouts-upi.tsx",
+    "components/qr/category-field-layouts-gs1.tsx",
+    "components/qr/category-field-layouts-commerce.tsx",
+    "components/qr/qr-create-advanced-dynamic-panel.tsx",
+    "components/qr/qr-create-advanced-options-panel.tsx",
+    "hooks/use-scan-simulation-camera-stream.ts",
+    "hooks/use-scan-simulation-camera-loop.ts",
+    "hooks/use-scan-simulation-camera.ts",
+    "hooks/use-team-workspace-switch-create.ts",
+    "hooks/use-team-workspace-member-actions.ts",
+    "hooks/use-team-workspace-mutations.ts"
+  ],
+  "build": true,
+  "restart": true
+}

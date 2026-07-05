@@ -1,15 +1,11 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { DEFAULT_QR_STYLE } from '@/components/qr/qr-style-editor';
 import type { QRStyleConfig } from '@/lib/qr-style';
-import { useQRStyleHistory } from '@/hooks/use-qr-style-history';
 import { stripMetaFields } from '@/lib/industry-templates';
-import type { IndustryTemplate } from '@/lib/industry-templates';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { useQrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import { useQrCreateDraftBridge } from '@/hooks/use-qr-create-draft-bridge';
 import { useQrCreateTemplateActions } from '@/hooks/use-qr-create-template-actions';
 import { useQrCreateLogo } from '@/hooks/use-qr-create-logo';
@@ -21,6 +17,7 @@ import {
 } from '@/hooks/use-qr-create-wizard-effects';
 import { useQrCreateDraftState } from '@/hooks/use-qr-create-draft-state';
 import { useQrCreateWizardGuard } from '@/hooks/use-qr-create-wizard-guard';
+import { useQrCreateCoreState } from '@/hooks/use-qr-create-core-state';
 
 export function useQrCreateForm() {
   const { t } = useLanguage();
@@ -29,11 +26,16 @@ export function useQrCreateForm() {
   const { data: session, status: authStatus } = useSession() || {};
   const isGuest = authStatus === 'unauthenticated';
 
-  const [step, setStep] = useState(0);
-  const [category, setCategory] = useState('');
-  const [name, setName] = useState('');
-  const [qrData, setQrData] = useState<Record<string, string>>({});
+  const core = useQrCreateCoreState();
   const {
+    step,
+    setStep,
+    category,
+    setCategory,
+    name,
+    setName,
+    qrData,
+    setQrData,
     style,
     setStyle,
     undo: undoStyle,
@@ -41,11 +43,23 @@ export function useQrCreateForm() {
     resetHistory: resetStyleHistory,
     canUndo: canUndoStyle,
     canRedo: canRedoStyle,
-  } = useQRStyleHistory(DEFAULT_QR_STYLE);
-  const [logoFile, setLogoFile] = useState<File | null>(null);
-  const [logoPreview, setLogoPreview] = useState<string | null>(null);
-  const [storedLogoPath, setStoredLogoPath] = useState<string | null>(null);
-  const featureFields = useQrFeatureFields();
+    logoFile,
+    setLogoFile,
+    logoPreview,
+    setLogoPreview,
+    storedLogoPath,
+    setStoredLogoPath,
+    featureFields,
+    activeTemplate,
+    setActiveTemplate,
+    templateGuideDismissed,
+    setTemplateGuideDismissed,
+    saving,
+    setSaving,
+    mode,
+    setMode,
+  } = core;
+
   const {
     advanced,
     setAdvanced,
@@ -74,12 +88,6 @@ export function useQrCreateForm() {
     pixels,
     setPixels,
   } = featureFields;
-  const [activeTemplate, setActiveTemplate] = useState<IndustryTemplate | null>(null);
-  const [templateGuideDismissed, setTemplateGuideDismissed] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [mode, setMode] = useState<'quick' | 'wizard'>(() =>
-    searchParams?.get('quick') === '1' ? 'quick' : 'wizard',
-  );
 
   useQrCreateWizardGuard({ mode, saving, step, category, name, qrData, logoFile, logoPreview });
 
@@ -183,7 +191,7 @@ export function useQrCreateForm() {
 
   useQrCreateWizardEffects(step);
 
-  const goToStep = useCallback((next: number) => setStep(next), []);
+  const goToStep = useCallback((next: number) => setStep(next), [setStep]);
 
   const { handleSave } = useQrCreateSave({
     name,
@@ -218,7 +226,7 @@ export function useQrCreateForm() {
       enterWizardFromQuickInner(data);
       setMode('wizard');
     },
-    [enterWizardFromQuickInner],
+    [enterWizardFromQuickInner, setMode],
   );
 
   return {

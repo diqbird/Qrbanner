@@ -1,11 +1,11 @@
 'use client';
 
-import { Pencil, X } from 'lucide-react';
 import { useShowQrDescription } from '@/components/site-settings-provider';
-import { getFrameLabelRect, type QRStyleConfig } from '@/lib/qr-style';
+import type { QRStyleConfig } from '@/lib/qr-style';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { useEditableFrameLabel } from '@/hooks/use-editable-frame-label';
-import { cn } from '@/lib/utils';
+import { EditableFrameLabelEmpty } from './editable-frame-label-empty';
+import { EditableFrameLabelOverlay } from './editable-frame-label-overlay';
 
 export function EditableFrameLabel({
   style,
@@ -21,88 +21,21 @@ export function EditableFrameLabel({
 
   const displayText = style.frameText?.trim() || t('style.frameLabelPlaceholder');
 
-  if (!showQrDescription) {
-    return null;
-  }
-
-  if (!visible) {
-    return (
-      <button
-        type="button"
-        onClick={startEdit}
-        className="absolute -bottom-1 left-1/2 z-10 flex w-[min(100%,260px)] max-w-[calc(100%-0.5rem)] -translate-x-1/2 translate-y-full items-center justify-center gap-1.5 rounded-lg border border-dashed border-primary/50 bg-primary/5 px-3 py-2 text-center text-xs font-medium leading-snug text-primary whitespace-normal hover:border-primary hover:bg-primary/10 transition-colors"
-      >
-        <Pencil className="h-3 w-3 shrink-0" />
-        {t('style.frameLabelClickToAdd')}
-      </button>
-    );
-  }
-
-  const rect = getFrameLabelRect(style);
+  if (!showQrDescription) return null;
+  if (!visible) return <EditableFrameLabelEmpty onStartEdit={startEdit} />;
 
   return (
-    <div
-      className={cn(
-        'absolute z-10 flex cursor-text items-center justify-center px-1',
-        editing && 'ring-2 ring-primary ring-offset-1 rounded-sm',
-      )}
-      style={{
-        left: `${rect.left * 100}%`,
-        top: `${rect.top * 100}%`,
-        width: `${rect.width * 100}%`,
-        height: `${rect.height * 100}%`,
-      }}
-      onClick={() => !editing && startEdit()}
-      role="button"
-      tabIndex={0}
-      aria-label={t('style.frameLabelClickEdit')}
-      onKeyDown={(e) => {
-        if (!editing && (e.key === 'Enter' || e.key === ' ')) {
-          e.preventDefault();
-          startEdit();
-        }
-      }}
-    >
-      {editing ? (
-        <input
-          ref={inputRef}
-          value={draft}
-          onChange={(e) => setDraft(e.target.value.slice(0, 32))}
-          onBlur={commit}
-          onClick={(e) => e.stopPropagation()}
-          onKeyDown={(e) => {
-            e.stopPropagation();
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              commit();
-            }
-            if (e.key === 'Escape') {
-              e.preventDefault();
-              cancel();
-            }
-          }}
-          className="w-full min-w-0 border-0 bg-transparent text-center font-bold outline-none"
-          style={{ color: style.frameTextColor, fontSize: 'clamp(10px, 2.5vw, 15px)' }}
-          maxLength={32}
-        />
-      ) : (
-        <span
-          className="group flex max-w-full items-center justify-center gap-1 truncate text-center font-bold"
-          style={{ color: style.frameTextColor, fontSize: 'clamp(10px, 2.5vw, 15px)' }}
-        >
-          <span className="truncate">{displayText}</span>
-          <Pencil className="h-3 w-3 shrink-0 opacity-60 group-hover:opacity-100" aria-hidden />
-          <button
-            type="button"
-            onClick={removeLabel}
-            className="ml-0.5 shrink-0 rounded p-0.5 opacity-60 hover:bg-black/10 hover:opacity-100 dark:hover:bg-white/10"
-            aria-label={t('style.frameLabelRemove')}
-            title={t('style.frameLabelRemove')}
-          >
-            <X className="h-3 w-3" />
-          </button>
-        </span>
-      )}
-    </div>
+    <EditableFrameLabelOverlay
+      style={style}
+      displayText={displayText}
+      editing={editing}
+      draft={draft}
+      setDraft={setDraft}
+      inputRef={inputRef}
+      onStartEdit={startEdit}
+      onCommit={commit}
+      onCancel={cancel}
+      onRemove={removeLabel}
+    />
   );
 }
