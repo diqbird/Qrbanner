@@ -29,7 +29,6 @@ METHOD_RE = re.compile(r"export\s+async\s+function\s+(GET|POST|PUT|PATCH|DELETE)
 PUBLIC_OK = {
     ("GET", "/api/health"),
     ("GET", "/api/billing/status"),
-    ("GET", "/api/public/stats"),
     ("GET", "/api/site-settings"),
     ("GET", "/api/openapi.json"),
     ("GET", "/api/marketplace/listings"),
