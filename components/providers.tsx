@@ -10,10 +10,18 @@ import { CookieConsent } from '@/components/cookie-consent';
 
 import { HtmlLangSync } from '@/components/i18n/html-lang-sync';
 
-export function Providers({ children }: { children: React.ReactNode }) {
+import type { Locale } from '@/lib/i18n';
+
+export function Providers({
+  children,
+  initialLocale = 'en',
+}: {
+  children: React.ReactNode;
+  initialLocale?: Locale;
+}) {
   return (
     <SessionProvider refetchOnWindowFocus={false} refetchInterval={0}>
-      <LanguageProvider>
+      <LanguageProvider initialLocale={initialLocale}>
         <HtmlLangSync />
         <SiteSettingsProvider>
         <ThemeProvider

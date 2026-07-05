@@ -81,7 +81,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <LocaleHeadLinks />
       </head>
       <body className={`${dmSans.variable} ${jakartaSans.variable} font-sans antialiased`}>
-        <Providers>{children}</Providers>
+        <Providers initialLocale={locale}>{children}</Providers>
         <DeferredSiteAnalytics />
       </body>
     </html>

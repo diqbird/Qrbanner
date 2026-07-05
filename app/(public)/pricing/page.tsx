@@ -9,7 +9,7 @@ import { translate } from '@/lib/i18n';
 import { freePlanQrLimit } from '@/lib/plans';
 import { getPublicBillingStatus } from '@/lib/public-billing-status';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();

@@ -44,10 +44,11 @@ export function hasApiCredentialHeaders(req: { headers: { get(name: string): str
 }
 
 export function isPublicApiRoute(method: string, pathname: string): boolean {
-  const key = `${method.toUpperCase()} ${pathname}`;
+  const normalizedMethod = method.toUpperCase() === 'HEAD' ? 'GET' : method.toUpperCase();
+  const key = `${normalizedMethod} ${pathname}`;
   if (PUBLIC_SET.has(key)) return true;
 
-  const m = method.toUpperCase();
+  const m = normalizedMethod;
   for (const { method: pm, prefix } of PUBLIC_PREFIXES) {
     if (m === pm && pathname.startsWith(prefix)) {
       if (prefix === '/api/auth/') {

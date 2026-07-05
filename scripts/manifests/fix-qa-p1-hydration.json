@@ -1,0 +1,16 @@
+{
+  "upload": [
+    "app/layout.tsx",
+    "app/(public)/pricing/page.tsx",
+    "components/providers.tsx",
+    "components/i18n/language-provider.tsx",
+    "lib/use-scan-base-url.ts",
+    "lib/api-public-routes.ts",
+    "middleware.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

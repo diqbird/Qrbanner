@@ -5,9 +5,7 @@ import { useSession } from 'next-auth/react';
 
 export function useScanBaseUrl(): string {
   const { status } = useSession();
-  const [base, setBase] = useState(
-    typeof window !== 'undefined' ? window.location.origin : 'https://qrbanner.com'
-  );
+  const [base, setBase] = useState('https://qrbanner.com');
 
   useEffect(() => {
     if (status !== 'authenticated') return;

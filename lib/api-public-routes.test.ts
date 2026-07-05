@@ -21,6 +21,10 @@ describe('api-public-routes', () => {
     expect(isPublicApiRoute('POST', '/api/invite/abc-token')).toBe(false);
   });
 
+  it('treats HEAD like GET for public routes', () => {
+    expect(isPublicApiRoute('HEAD', '/api/health')).toBe(true);
+  });
+
   it('detects credential headers', () => {
     expect(hasApiCredentialHeaders({ headers: { get: () => null } })).toBe(false);
     expect(

@@ -145,16 +145,19 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  if (path.startsWith('/api/') && !isPublicApiRoute(req.method, path)) {
-    const token = await getToken({
-      req,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
-    if (!token && !hasApiCredentialHeaders(req)) {
-      return finish(
+  if (path.startsWith('/api/')) {
+    const apiMethod = req.method === 'HEAD' ? 'GET' : req.method;
+    if (!isPublicApiRoute(apiMethod, path)) {
+      const token = await getToken({
         req,
-        NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-      );
+        secret: process.env.NEXTAUTH_SECRET,
+      });
+      if (!token && !hasApiCredentialHeaders(req)) {
+        return finish(
+          req,
+          NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+        );
+      }
     }
   }
 
