@@ -2,7 +2,7 @@
 
 **Project:** QRbanner (`https://qrbanner.com`)  
 **Report generated:** 2026-07-05 08:02 UTC  
-**Last triage update:** 2026-07-06 (post customer-ux packs 1–28)  
+**Last triage update:** 2026-07-06 (post customer-ux packs 1–29)  
 **Methodology:** Sequential live probes — no code assumptions.
 
 ## Scope
@@ -73,6 +73,7 @@
 | Automation default templates, SMTP test email, automation log errors | Pack 26 |
 | Automation template var labels; localized geo/device in dispatch output | Pack 27 |
 | Dashboard account fallback; automation builder select closed-state labels | Pack 28 |
+| Landing builder, QR export size, reseller plan, and SSO provider select labels | Pack 29 |
 
 ### Remaining (low impact / operational)
 

@@ -41,7 +41,10 @@ export function QrPreviewExportPanel({
         <Label className="text-xs text-muted-foreground">{t('preview.exportSize')}</Label>
         <Select value={String(exportSize)} onValueChange={(v) => onExportSizeChange(parseInt(v, 10))}>
           <SelectTrigger className="h-9">
-            <SelectValue />
+            <SelectValue>
+              {exportSize} × {exportSize} px
+              {exportSize >= 2048 ? ` (${t('preview.printQuality')})` : ''}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             {QR_EXPORT_SIZES.map((sz) => (

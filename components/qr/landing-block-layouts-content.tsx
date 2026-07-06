@@ -26,7 +26,13 @@ export function LandingBlockHeadingLayout({ block, patch, t }: LandingBlockField
             onValueChange={(v) => patch({ level: Number(v) as 1 | 2 | 3 })}
           >
             <SelectTrigger className="h-9">
-              <SelectValue />
+              <SelectValue>
+                {block.level === 3
+                  ? t('landingBuilder.levelSmall')
+                  : block.level === 2
+                    ? t('landingBuilder.levelMedium')
+                    : t('landingBuilder.levelLarge')}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="1">{t('landingBuilder.levelLarge')}</SelectItem>
@@ -63,7 +69,13 @@ export function LandingBlockSpacerLayout({ block, patch, t }: LandingBlockFieldP
       <Label className="text-xs">{t('landingBuilder.spacerSize')}</Label>
       <Select value={block.size ?? 'md'} onValueChange={(v) => patch({ size: v as 'sm' | 'md' | 'lg' })}>
         <SelectTrigger className="h-9">
-          <SelectValue />
+          <SelectValue>
+            {(block.size ?? 'md') === 'lg'
+              ? t('landingBuilder.spacerLarge')
+              : (block.size ?? 'md') === 'sm'
+                ? t('landingBuilder.spacerSmall')
+                : t('landingBuilder.spacerMedium')}
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="sm">{t('landingBuilder.spacerSmall')}</SelectItem>

@@ -1,0 +1,18 @@
+{
+  "upload": [
+    "components/dashboard/enterprise-reseller-client-form.tsx",
+    "components/dashboard/team-sso-panel.tsx",
+    "components/qr/landing-block-social-layout.tsx",
+    "components/qr/landing-block-layouts-media.tsx",
+    "components/qr/landing-block-layouts-content.tsx",
+    "components/qr/landing-block-field-primitives.tsx",
+    "components/qr/qr-preview-export-panel.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

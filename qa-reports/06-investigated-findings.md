@@ -169,6 +169,7 @@ python scripts/configure-review-profiles.py \
 | 26 | `4d54741` | Automation action defaults, SMTP test email, log error labels |
 | 27 | (this deploy) | Automation template var labels; localized values in Slack/email/webhook dispatch |
 | 28 | (this deploy) | Dashboard sidebar account name fallback; automation builder select closed-state labels |
+| 29 | (this deploy) | Landing builder, QR export size, reseller plan, and SSO provider select closed-state labels |
 
 ---
 

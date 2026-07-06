@@ -47,7 +47,13 @@ export function TeamSsoPanel({ team }: TeamSsoPanelProps) {
         <Label htmlFor="sso-provider">{t('settings.team.ssoProvider')}</Label>
         <Select value={ssoProvider} onValueChange={setSsoProvider}>
           <SelectTrigger id="sso-provider">
-            <SelectValue />
+            <SelectValue>
+              {ssoProvider === 'google'
+                ? t('settings.team.ssoProviderGoogle')
+                : ssoProvider === 'azure-ad'
+                  ? t('settings.team.ssoProviderMicrosoft')
+                  : t('settings.team.ssoProviderSaml')}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="google">{t('settings.team.ssoProviderGoogle')}</SelectItem>

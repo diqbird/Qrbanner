@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/select';
 import { Plus } from 'lucide-react';
 import type { EnterpriseWorkspaceState } from '@/hooks/use-enterprise-workspace';
+import { resolveResellerClientPlanLabel } from '@/lib/i18n/resolve-reseller-client-labels';
 
 type EnterpriseResellerClientFormProps = {
   enterprise: EnterpriseWorkspaceState;
@@ -42,7 +43,7 @@ export function EnterpriseResellerClientForm({ enterprise }: EnterpriseResellerC
       />
       <Select value={clientPlan} onValueChange={setClientPlan}>
         <SelectTrigger>
-          <SelectValue />
+          <SelectValue>{resolveResellerClientPlanLabel(t, clientPlan)}</SelectValue>
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="free">{t('enterpriseWorkspace.planFree')}</SelectItem>

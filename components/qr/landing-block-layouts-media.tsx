@@ -65,7 +65,11 @@ export function LandingBlockButtonLayout({ block, patch, t }: LandingBlockFieldP
           onValueChange={(v) => patch({ variant: v as 'solid' | 'outline' })}
         >
           <SelectTrigger className="h-9">
-            <SelectValue />
+            <SelectValue>
+              {(block.variant ?? 'solid') === 'outline'
+                ? t('landingBuilder.styleOutline')
+                : t('landingBuilder.styleSolid')}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="solid">{t('landingBuilder.styleSolid')}</SelectItem>

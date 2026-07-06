@@ -26,7 +26,7 @@ export function LandingBlockSocialLayout({ block, patch, t }: LandingBlockFieldP
             onValueChange={(v) => setLink(i, { platform: v as SocialPlatform })}
           >
             <SelectTrigger className="h-9 w-36 shrink-0">
-              <SelectValue />
+              <SelectValue>{t(`landingBuilder.social.${link.platform}`)}</SelectValue>
             </SelectTrigger>
             <SelectContent>
               {LANDING_SOCIAL_PLATFORMS.map((p) => (
