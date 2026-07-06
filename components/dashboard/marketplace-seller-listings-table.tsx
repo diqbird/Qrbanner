@@ -3,11 +3,16 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
-import { formatListingPrice } from '@/lib/marketplace-types';
+import { useLanguage } from '@/components/i18n/language-provider';
+import {
+  formatLocalizedListingPrice,
+  resolveMarketplaceListingStatusLabel,
+} from '@/lib/i18n/resolve-marketplace-listing-labels';
 import type { MarketplaceSellerPanelState } from '@/hooks/use-marketplace-seller';
 
 export function MarketplaceSellerListingsTable({ seller }: { seller: MarketplaceSellerPanelState }) {
   const { t, listings, archiveListing } = seller;
+  const { locale } = useLanguage();
 
   if (listings.length === 0) return null;
 
@@ -21,7 +26,8 @@ export function MarketplaceSellerListingsTable({ seller }: { seller: Marketplace
           <div className="min-w-0">
             <p className="font-medium">{l.title}</p>
             <p className="text-xs text-muted-foreground">
-              {formatListingPrice(l.priceCents)} · {l.status}
+              {formatLocalizedListingPrice(l.priceCents, locale, t)} ·{' '}
+              {resolveMarketplaceListingStatusLabel(t, l.status)}
             </p>
           </div>
           <div className="flex items-center gap-2">

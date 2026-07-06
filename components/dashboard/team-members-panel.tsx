@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Mail, Trash2 } from 'lucide-react';
+import { resolveEnumLabel } from '@/lib/i18n/resolve-enum-label';
 import type { TeamWorkspaceState } from '@/hooks/use-team-workspace';
 
 type TeamMembersPanelProps = {
@@ -52,8 +53,10 @@ export function TeamMembersPanel({ team }: TeamMembersPanelProps) {
                 <p className="text-xs text-muted-foreground">{m.email}</p>
               </div>
               <div className="flex items-center gap-2">
-                <Badge variant="secondary">{m.role}</Badge>
-                <Badge variant={m.status === 'active' ? 'default' : 'outline'}>{m.status}</Badge>
+                <Badge variant="secondary">{resolveEnumLabel(t, 'settings.team.roles', m.role)}</Badge>
+                <Badge variant={m.status === 'active' ? 'default' : 'outline'}>
+                  {resolveEnumLabel(t, 'settings.team.statuses', m.status)}
+                </Badge>
                 {canManage && m.role !== 'owner' && (
                   <Button variant="ghost" size="icon-sm" onClick={() => removeMember(m.id)} aria-label={t('common.removeAria')}>
                     <Trash2 className="h-4 w-4 text-destructive" />

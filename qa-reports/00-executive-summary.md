@@ -2,7 +2,7 @@
 
 **Project:** QRbanner (`https://qrbanner.com`)  
 **Report generated:** 2026-07-05 08:02 UTC  
-**Last triage update:** 2026-07-06 (post customer-ux packs 1–12)  
+**Last triage update:** 2026-07-06 (post customer-ux packs 1–17)  
 **Methodology:** Sequential live probes — no code assumptions.
 
 ## Scope
@@ -57,6 +57,11 @@
 | CSV export headers, QR categories, share/print titles EN | Pack 10 |
 | Analytics device/OS labels, funnel stages, campaign `{{count}}` | Pack 11 |
 | Form placeholders + aria-labels (UTM, geofence, pixels, SMTP, SAML, automations) | Pack 12 |
+| Scan page password/guards/lead forms via `Accept-Language` | Pack 13 |
+| Scheme redirect pages, landing defaults, pixel redirect, dialog a11y | Pack 14 |
+| Geofence country names, A/B URL placeholder, frame label, social aria-labels | Pack 15 |
+| Icon delete aria-labels, schedule timezone i18n, scan CTA analytics locale | Pack 16 |
+| Team role/status badges, reseller client plan/status/fee, marketplace listing status | Pack 17 |
 
 ### Remaining (low impact / operational)
 

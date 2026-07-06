@@ -141,7 +141,7 @@ python scripts/configure-review-profiles.py \
 
 ---
 
-## Customer-UX packs 5–12 (summary)
+## Customer-UX packs 5–17 (summary)
 
 | Pack | Commit | Focus |
 |------|--------|-------|
@@ -152,7 +152,12 @@ python scripts/configure-review-profiles.py \
 | 9 | `e80f033` | Analytics insights, heatmap, leads, date picker |
 | 10 | `d5e8dbb` | CSV export i18n, QR categories, share/print titles |
 | 11 | (prior) | Analytics device/OS labels, funnel stages, campaign counts |
-| 12 | (this deploy) | Placeholders + aria-labels i18n; review-profile scripts; QA doc refresh |
+| 12 | `15ef3e2` | Placeholders + aria-labels i18n; review-profile scripts; QA doc refresh |
+| 13 | `04d8c41` | Scan page i18n: password/guards/lead forms via `Accept-Language` |
+| 14 | `2f6d485` | Scheme redirect pages, landing defaults, pixel redirect, dialog a11y |
+| 15 | `ebff430` | Geofence countries, A/B URL placeholder, frame label, social aria-labels |
+| 16 | `6630524` | Icon delete aria-labels, schedule timezone i18n, scan CTA analytics locale |
+| 17 | (this deploy) | Team/reseller/marketplace status badges i18n; QA doc refresh |
 
 ---
 

@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "lib/i18n/resolve-enum-label.ts",
+    "lib/i18n/resolve-reseller-client-labels.ts",
+    "lib/i18n/resolve-marketplace-listing-labels.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "components/dashboard/team-members-panel.tsx",
+    "components/dashboard/enterprise-reseller-client-list.tsx",
+    "components/dashboard/marketplace-seller-listings-table.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
