@@ -1,0 +1,29 @@
+{
+  "upload": [
+    "lib/geo-seo-cities.ts",
+    "lib/geo-seo-pages.ts",
+    "lib/analytics-city-names.ts",
+    "lib/i18n/resolve-analytics-city-label.ts",
+    "lib/i18n/scan-notification-email.ts",
+    "lib/i18n/localize-analytics-export-payload.ts",
+    "lib/referral.ts",
+    "lib/email.ts",
+    "lib/scan-notify.ts",
+    "app/api/account/preferences/route.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "components/i18n/language-provider.tsx",
+    "components/qr/analytics-charts-distribution-bars.tsx",
+    "components/qr/analytics-recent-scans.tsx",
+    "components/dashboard/dashboard-analytics-live-scans.tsx",
+    "components/qr/lead-submissions-panel.tsx",
+    "components/dashboard/api-key-quick-ref-panel.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

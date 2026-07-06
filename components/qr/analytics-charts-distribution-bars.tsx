@@ -7,6 +7,7 @@ import {
   resolveAnalyticsAbVariantLabel,
   resolveAnalyticsCountryLabel,
 } from '@/lib/i18n/resolve-analytics-country-label';
+import { resolveAnalyticsCityLabel } from '@/lib/i18n/resolve-analytics-city-label';
 import type { AnalyticsDistributionData } from '@/lib/analytics-distribution-data';
 import { AnalyticsBarChartCard } from './analytics-bar-chart-card';
 
@@ -42,7 +43,9 @@ export function AnalyticsChartsDistributionBars({ dist }: { dist: AnalyticsDistr
         <AnalyticsBarChartCard
           title={t('analytics.charts.topCities')}
           icon={MapPin}
-          data={dist.scansByCity}
+          data={localizeNamedValues(dist.scansByCity, (name) =>
+            resolveAnalyticsCityLabel(t, name, locale),
+          )}
           fill="#80D8C3"
           className="lg:col-span-2"
           xAngle={-30}

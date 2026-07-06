@@ -1,5 +1,6 @@
 import type { AnalyticsPayload } from '@/lib/analytics-export';
 import { resolveAnalyticsCountryLabel } from './resolve-analytics-country-label';
+import { resolveAnalyticsCityLabel } from './resolve-analytics-city-label';
 import {
   localizeNamedValues,
   resolveAnalyticsBrowserLabel,
@@ -21,6 +22,7 @@ export function localizeAnalyticsExportPayload(
     country: scan.country
       ? resolveAnalyticsCountryLabel(t, String(scan.country), locale)
       : scan.country,
+    city: scan.city ? resolveAnalyticsCityLabel(t, String(scan.city), locale) : scan.city,
     device: scan.device ? resolveAnalyticsDeviceLabel(t, String(scan.device)) : scan.device,
     browser: scan.browser ? resolveAnalyticsBrowserLabel(t, String(scan.browser)) : scan.browser,
     os: scan.os ? resolveAnalyticsOsLabel(t, String(scan.os)) : scan.os,
@@ -31,7 +33,9 @@ export function localizeAnalyticsExportPayload(
     scansByCountry: localizeNamedValues(data.scansByCountry ?? [], (name) =>
       resolveAnalyticsCountryLabel(t, name, locale),
     ),
-    scansByCity: data.scansByCity,
+    scansByCity: localizeNamedValues(data.scansByCity ?? [], (name) =>
+      resolveAnalyticsCityLabel(t, name, locale),
+    ),
     scansByDevice: localizeNamedValues(data.scansByDevice ?? [], (name) =>
       resolveAnalyticsDeviceLabel(t, name),
     ),

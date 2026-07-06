@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { UserPlus, Mail, Phone, MessageSquare } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveAnalyticsCountryLabel } from '@/lib/i18n/resolve-analytics-country-label';
+import { resolveAnalyticsCityLabel } from '@/lib/i18n/resolve-analytics-city-label';
 
 interface LeadRow {
   id: string;
@@ -86,7 +87,9 @@ export function LeadSubmissionsPanel({ qrId }: { qrId: string }) {
                 {lead.country
                   ? resolveAnalyticsCountryLabel(t, lead.country, locale)
                   : ''}
-                {lead.city ? `${lead.country ? ', ' : ''}${lead.city}` : ''}
+                {lead.city
+                  ? `${lead.country ? ', ' : ''}${resolveAnalyticsCityLabel(t, lead.city, locale)}`
+                  : ''}
               </p>
               <p>{new Date(lead.createdAt).toLocaleString()}</p>
             </div>

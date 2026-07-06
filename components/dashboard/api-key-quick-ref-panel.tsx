@@ -54,10 +54,10 @@ export function ApiKeyQuickRefPanel({ apiKey }: ApiKeyQuickRefPanelProps) {
 Authorization: Bearer qb_live_...
 
 {
-  "name": "Store Entrance",
+  "name": "${t('settings.apiKey.exampleName')}",
   "category": "url",
   "url": "https://example.com",
-  "labels": ["retail"],
+  "labels": ["${t('settings.apiKey.exampleLabel')}"],
   "folder_id": "optional-folder-id"
 }`}
         </pre>

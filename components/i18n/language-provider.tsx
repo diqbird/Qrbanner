@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { translate, type Locale, LOCALE_STORAGE_KEY } from '@/lib/i18n';
 import { localizePath, parseLocalePath } from '@/lib/i18n/locale-path';
 
@@ -47,6 +48,7 @@ export function LanguageProvider({
 }) {
   const router = useRouter();
   const pathname = usePathname();
+  const { status: sessionStatus } = useSession();
   const [locale, setLocaleState] = useState<Locale>(initialLocale);
   const [ready, setReady] = useState(false);
 
@@ -72,9 +74,20 @@ export function LanguageProvider({
     } catch {}
   }, [locale, ready]);
 
+  const persistLocalePreference = useCallback((next: Locale) => {
+    fetch('/api/account/preferences', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ preferredLocale: next }),
+    }).catch(() => {});
+  }, []);
+
   const setLocale = useCallback(
     (next: Locale) => {
       setLocaleState(next);
+      if (sessionStatus === 'authenticated') {
+        persistLocalePreference(next);
+      }
       const logicalPath = parseLocalePath(pathname).pathname;
       const search = typeof window !== 'undefined' ? window.location.search : '';
       const nextPath = `${localizePath(logicalPath, next)}${search}`;
@@ -82,7 +95,7 @@ export function LanguageProvider({
         router.push(nextPath);
       }
     },
-    [pathname, router]
+    [pathname, router, sessionStatus, persistLocalePreference],
   );
 
   const t = useCallback(

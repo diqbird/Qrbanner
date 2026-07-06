@@ -1,5 +1,6 @@
 import { sendScanNotificationEmail } from '@/lib/email';
 import { prisma } from '@/lib/db';
+import { resolveUserEmailLocale } from '@/lib/referral';
 
 import { SCAN_MILESTONES } from '@/lib/scan-notify-constants';
 
@@ -34,7 +35,7 @@ export async function processScanNotifications(
       scanNotifyFirst: true,
       scanNotifyMilestones: true,
       scanNotifiedMilestones: true,
-      user: { select: { email: true, name: true } },
+      user: { select: { email: true, name: true, brandingSettings: true } },
     },
   });
 
@@ -60,6 +61,8 @@ export async function processScanNotifications(
 
   const baseUrl = process.env.NEXTAUTH_URL || 'https://qrbanner.com';
 
+  const locale = resolveUserEmailLocale(qr.user.brandingSettings);
+
   await sendScanNotificationEmail(
     qr.user.email,
     {
@@ -76,7 +79,8 @@ export async function processScanNotifications(
       device: scan.device ?? undefined,
       os: scan.os ?? undefined,
     },
-    qr.workspaceId
+    qr.workspaceId,
+    locale,
   );
 
   if (milestone) {

@@ -10,6 +10,7 @@ import {
   resolveAnalyticsOsLabel,
 } from '@/lib/i18n/resolve-analytics-scan-copy';
 import { resolveAnalyticsCountryLabel } from '@/lib/i18n/resolve-analytics-country-label';
+import { resolveAnalyticsCityLabel } from '@/lib/i18n/resolve-analytics-city-label';
 import type { DashboardAnalyticsState } from '@/hooks/use-dashboard-analytics';
 
 type DashboardAnalyticsLiveScansProps = {
@@ -46,7 +47,9 @@ export function DashboardAnalyticsLiveScans({ analytics }: DashboardAnalyticsLiv
                   {scan.country
                     ? resolveAnalyticsCountryLabel(t, scan.country, locale)
                     : '—'}
-                  {scan.city ? `, ${scan.city}` : ''}
+                  {scan.city
+                    ? `, ${resolveAnalyticsCityLabel(t, scan.city, locale)}`
+                    : ''}
                 </span>
                 <span className="hidden sm:flex items-center gap-1 text-muted-foreground/70">
                   <Smartphone className="h-3 w-3" />

@@ -9,6 +9,7 @@ import {
   resolveAnalyticsDeviceLabel,
 } from '@/lib/i18n/resolve-analytics-scan-copy';
 import { resolveAnalyticsCountryLabel } from '@/lib/i18n/resolve-analytics-country-label';
+import { resolveAnalyticsCityLabel } from '@/lib/i18n/resolve-analytics-city-label';
 import type { QrAnalyticsState } from '@/hooks/use-qr-analytics';
 
 type AnalyticsRecentScansProps = {
@@ -51,7 +52,9 @@ export function AnalyticsRecentScans({ analytics }: AnalyticsRecentScansProps) {
                       {scan.country
                         ? resolveAnalyticsCountryLabel(t, String(scan.country), locale)
                         : '—'}
-                      {scan.city ? `, ${scan.city}` : ''}
+                      {scan.city
+                        ? `, ${resolveAnalyticsCityLabel(t, String(scan.city), locale)}`
+                        : ''}
                     </span>
                   </div>
                   <div className="hidden items-center gap-1.5 text-muted-foreground sm:flex">

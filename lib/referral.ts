@@ -63,17 +63,25 @@ export interface BrandingSettings {
   agencyName?: string;
   supportEmail?: string;
   referralRewardClaimed?: boolean;
+  preferredLocale?: 'en' | 'tr';
 }
 
 export function parseBrandingSettings(raw: unknown): BrandingSettings {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return {};
   const o = raw as Record<string, unknown>;
+  const preferredLocale = o.preferredLocale === 'tr' ? 'tr' : o.preferredLocale === 'en' ? 'en' : undefined;
   return {
     hidePoweredBy: Boolean(o.hidePoweredBy),
     agencyName: typeof o.agencyName === 'string' ? o.agencyName : undefined,
     supportEmail: typeof o.supportEmail === 'string' ? o.supportEmail : undefined,
     referralRewardClaimed: Boolean(o.referralRewardClaimed),
+    preferredLocale,
   };
+}
+
+export function resolveUserEmailLocale(brandingSettings: unknown): 'en' | 'tr' {
+  const branding = parseBrandingSettings(brandingSettings);
+  return branding.preferredLocale === 'tr' ? 'tr' : 'en';
 }
 
 export function canUseWhiteLabel(planId: string): boolean {

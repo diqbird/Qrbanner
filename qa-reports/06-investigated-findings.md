@@ -163,7 +163,8 @@ python scripts/configure-review-profiles.py \
 | 20 | `cfa6f46` | Print template physical sizes; Wi‑Fi/crypto template select options |
 | 21 | `e514468` | Scan source analytics labels; print use-case; automation device select |
 | 22 | `f9b3125` | Analytics country display via Intl; A/B variant chart labels |
-| 23 | (this deploy) | Scan simulation decoded/confidence i18n; localized analytics CSV/PDF values |
+| 23 | `eb3ad38` | Scan simulation decoded/confidence i18n; localized analytics CSV/PDF values |
+| 24 | (this deploy) | Analytics city labels; scan notification email TR/EN; API key example i18n |
 
 ---
 
