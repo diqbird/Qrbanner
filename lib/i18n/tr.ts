@@ -1728,6 +1728,16 @@ export const tr: TranslationTree = {
       nfc: 'NFC dokunuşu',
       link: 'Doğrudan link',
     },
+    abVariantLabels: {
+      a: 'Varyant A',
+      b: 'Varyant B',
+      v1: 'Varyant 1',
+      v2: 'Varyant 2',
+      v3: 'Varyant 3',
+      v4: 'Varyant 4',
+      v5: 'Varyant 5',
+    },
+    abVariantFallback: 'Varyant {{id}}',
     funnelStages: {
       scans: 'Taramalar',
       cta: 'CTA tıklamaları',

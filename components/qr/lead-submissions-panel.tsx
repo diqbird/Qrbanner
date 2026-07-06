@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { UserPlus, Mail, Phone, MessageSquare } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { resolveAnalyticsCountryLabel } from '@/lib/i18n/resolve-analytics-country-label';
 
 interface LeadRow {
   id: string;
@@ -19,7 +20,7 @@ interface LeadRow {
 }
 
 export function LeadSubmissionsPanel({ qrId }: { qrId: string }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [leads, setLeads] = useState<LeadRow[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -81,7 +82,12 @@ export function LeadSubmissionsPanel({ qrId }: { qrId: string }) {
               )}
             </div>
             <div className="text-right text-xs text-muted-foreground">
-              <p>{lead.country}{lead.city ? `, ${lead.city}` : ''}</p>
+              <p>
+                {lead.country
+                  ? resolveAnalyticsCountryLabel(t, lead.country, locale)
+                  : ''}
+                {lead.city ? `${lead.country ? ', ' : ''}${lead.city}` : ''}
+              </p>
               <p>{new Date(lead.createdAt).toLocaleString()}</p>
             </div>
           </div>

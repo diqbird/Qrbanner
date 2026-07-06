@@ -2,7 +2,7 @@
 
 **Project:** QRbanner (`https://qrbanner.com`)  
 **Report generated:** 2026-07-05 08:02 UTC  
-**Last triage update:** 2026-07-06 (post customer-ux packs 1–21)  
+**Last triage update:** 2026-07-06 (post customer-ux packs 1–22)  
 **Methodology:** Sequential live probes — no code assumptions.
 
 ## Scope
@@ -66,6 +66,7 @@
 | Plan names, price badges, marketplace prices, mockup preset labels | Pack 19 |
 | Print template physical sizes, template select field options (Wi‑Fi/crypto) | Pack 20 |
 | Analytics scan source labels, print use-case line, automation device select | Pack 21 |
+| Analytics country names and A/B variant chart labels | Pack 22 |
 
 ### Remaining (low impact / operational)
 

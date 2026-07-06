@@ -1,0 +1,20 @@
+{
+  "upload": [
+    "lib/geoip-country-names.ts",
+    "lib/geoip.ts",
+    "lib/i18n/resolve-analytics-country-label.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "components/qr/analytics-charts-distribution-bars.tsx",
+    "components/qr/analytics-recent-scans.tsx",
+    "components/dashboard/dashboard-analytics-live-scans.tsx",
+    "components/qr/lead-submissions-panel.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

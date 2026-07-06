@@ -2,11 +2,16 @@
 
 import { Globe, MapPin, Split, Clock } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { localizeNamedValues } from '@/lib/i18n/resolve-analytics-scan-copy';
+import {
+  resolveAnalyticsAbVariantLabel,
+  resolveAnalyticsCountryLabel,
+} from '@/lib/i18n/resolve-analytics-country-label';
 import type { AnalyticsDistributionData } from '@/lib/analytics-distribution-data';
 import { AnalyticsBarChartCard } from './analytics-bar-chart-card';
 
 export function AnalyticsChartsDistributionBars({ dist }: { dist: AnalyticsDistributionData }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <>
@@ -25,7 +30,9 @@ export function AnalyticsChartsDistributionBars({ dist }: { dist: AnalyticsDistr
       <AnalyticsBarChartCard
         title={t('analytics.charts.topCountries')}
         icon={Globe}
-        data={dist.scansByCountry}
+        data={localizeNamedValues(dist.scansByCountry, (name) =>
+          resolveAnalyticsCountryLabel(t, name, locale),
+        )}
         fill="#60B5FF"
         className="lg:col-span-2"
         emptyMessage={t('analytics.charts.noCountryData')}
@@ -46,7 +53,9 @@ export function AnalyticsChartsDistributionBars({ dist }: { dist: AnalyticsDistr
         <AnalyticsBarChartCard
           title={t('analytics.charts.abVariants')}
           icon={Split}
-          data={dist.scansByAbVariant}
+          data={localizeNamedValues(dist.scansByAbVariant, (name) =>
+            resolveAnalyticsAbVariantLabel(t, name),
+          )}
           fill="#A19AD3"
           height={200}
           xAngle={0}

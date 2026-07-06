@@ -4,10 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Globe, Smartphone } from 'lucide-react';
 import { formatScanTimeAgo, recentScanRowKey } from '@/lib/analytics-view-utils';
+import { useLanguage } from '@/components/i18n/language-provider';
 import {
   resolveAnalyticsDeviceLabel,
   resolveAnalyticsOsLabel,
 } from '@/lib/i18n/resolve-analytics-scan-copy';
+import { resolveAnalyticsCountryLabel } from '@/lib/i18n/resolve-analytics-country-label';
 import type { DashboardAnalyticsState } from '@/hooks/use-dashboard-analytics';
 
 type DashboardAnalyticsLiveScansProps = {
@@ -15,6 +17,7 @@ type DashboardAnalyticsLiveScansProps = {
 };
 
 export function DashboardAnalyticsLiveScans({ analytics }: DashboardAnalyticsLiveScansProps) {
+  const { locale } = useLanguage();
   const { t, data } = analytics;
   const scans = data?.recentScans ?? [];
 
@@ -40,7 +43,9 @@ export function DashboardAnalyticsLiveScans({ analytics }: DashboardAnalyticsLiv
               <div className="flex items-center gap-3 min-w-0">
                 <Globe className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                 <span className="truncate text-muted-foreground">
-                  {scan.country}
+                  {scan.country
+                    ? resolveAnalyticsCountryLabel(t, scan.country, locale)
+                    : '—'}
                   {scan.city ? `, ${scan.city}` : ''}
                 </span>
                 <span className="hidden sm:flex items-center gap-1 text-muted-foreground/70">

@@ -3,10 +3,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Globe, Smartphone } from 'lucide-react';
 import { formatScanTimeAgo, recentScanRowKey } from '@/lib/analytics-view-utils';
+import { useLanguage } from '@/components/i18n/language-provider';
 import {
   resolveAnalyticsBrowserLabel,
   resolveAnalyticsDeviceLabel,
 } from '@/lib/i18n/resolve-analytics-scan-copy';
+import { resolveAnalyticsCountryLabel } from '@/lib/i18n/resolve-analytics-country-label';
 import type { QrAnalyticsState } from '@/hooks/use-qr-analytics';
 
 type AnalyticsRecentScansProps = {
@@ -14,6 +16,7 @@ type AnalyticsRecentScansProps = {
 };
 
 export function AnalyticsRecentScans({ analytics }: AnalyticsRecentScansProps) {
+  const { locale } = useLanguage();
   const { t, data } = analytics;
   const scans = data?.recentScans ?? [];
 
@@ -45,7 +48,9 @@ export function AnalyticsRecentScans({ analytics }: AnalyticsRecentScansProps) {
                   <div className="flex items-center gap-1.5 text-muted-foreground">
                     <Globe className="h-3.5 w-3.5 shrink-0" />
                     <span>
-                      {(scan.country as string) ?? '—'}
+                      {scan.country
+                        ? resolveAnalyticsCountryLabel(t, String(scan.country), locale)
+                        : '—'}
                       {scan.city ? `, ${scan.city}` : ''}
                     </span>
                   </div>

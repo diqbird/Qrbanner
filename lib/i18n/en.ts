@@ -1727,6 +1727,16 @@ export const en: TranslationTree = {
       nfc: 'NFC tap',
       link: 'Direct link',
     },
+    abVariantLabels: {
+      a: 'Variant A',
+      b: 'Variant B',
+      v1: 'Variant 1',
+      v2: 'Variant 2',
+      v3: 'Variant 3',
+      v4: 'Variant 4',
+      v5: 'Variant 5',
+    },
+    abVariantFallback: 'Variant {{id}}',
     funnelStages: {
       scans: 'Scans',
       cta: 'CTA clicks',
