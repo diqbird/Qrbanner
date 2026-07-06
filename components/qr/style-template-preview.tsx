@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
 import { renderStyledQRDataUrl } from '@/lib/qr-render';
 import { normalizeQRStyle, type QRStyleConfig } from '@/lib/qr-style';
 
@@ -18,6 +19,7 @@ export function StyleTemplatePreview({
   size?: number;
   className?: string;
 }) {
+  const { locale } = useLanguage();
   const [src, setSrc] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
   const normalized = normalizeQRStyle(style);
@@ -33,6 +35,7 @@ export function StyleTemplatePreview({
       size,
       logoUrl: logoPath ?? undefined,
       withFrame: normalized.frameStyle !== 'none',
+      locale,
     })
       .then((url) => {
         if (!cancelled) setSrc(url);
@@ -44,7 +47,7 @@ export function StyleTemplatePreview({
     return () => {
       cancelled = true;
     };
-  }, [styleKey, logoKey, size]);
+  }, [styleKey, logoKey, size, locale]);
 
   return (
     <div

@@ -21,7 +21,7 @@ export function useQrPreview({
   QRPreviewProps,
   'category' | 'qrData' | 'style' | 'logoPreview' | 'shortCode' | 'qrName' | 'onStyleChange'
 >) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const [exportSize, setExportSize] = useState<number>(1024);
   const normalized = normalizeQRStyle(style);
@@ -48,6 +48,7 @@ export function useQrPreview({
     onStyleChange,
     containerRef,
     renderErrorMessage: t('preview.renderError'),
+    locale,
   });
 
   const exportCtx = {
@@ -63,6 +64,7 @@ export function useQrPreview({
     scanBaseUrl,
     qrName,
     t,
+    locale,
   };
 
   const handleFrameLabelChange = (patch: Partial<QRStyleConfig>) => {

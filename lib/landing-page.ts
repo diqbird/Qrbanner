@@ -7,6 +7,7 @@ import { renderHubLinkBeacon } from '@/lib/landing-cta-beacon';
 import { renderGpsCaptureScript } from '@/lib/gps-heatmap';
 import { renderLandingBlocks } from '@/lib/landing-blocks';
 import { resolveScanPageCopy, resolveScanLandingCopy } from '@/lib/i18n/resolve-scan-page-copy';
+import { resolveLandingCtaLabel } from '@/lib/i18n/resolve-landing-cta-label';
 import type { Locale } from '@/lib/i18n/types';
 
 export type LandingTemplate = 'minimal' | 'restaurant' | 'hotel' | 'event' | 'business';
@@ -165,7 +166,7 @@ export const emptyLandingPage: LandingPageData = {
   subtitle: '',
   bannerImage: '',
   accentColor: '#0071e3',
-  ctaLabel: 'Continue',
+  ctaLabel: '',
 };
 
 export const LANDING_TEMPLATES: { id: LandingTemplate; name: string; description: string }[] = [
@@ -223,7 +224,7 @@ export function renderLandingPage(
   const accent = data.accentColor || '#0071e3';
   const title = escapeHtml(data.title || landingCopy.defaultTitle);
   const subtitle = escapeHtml(data.subtitle || '');
-  const cta = escapeHtml(data.ctaLabel || landingCopy.defaultCta);
+  const cta = escapeHtml(resolveLandingCtaLabel(data.ctaLabel, locale));
   const banner = data.bannerImage ? escapeHtml(data.bannerImage) : '';
   const goUrl = preview ? '#' : `/s/${escapeHtml(shortCode)}?go=1`;
   const emoji = tpl.emoji;

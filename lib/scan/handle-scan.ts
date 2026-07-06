@@ -3,7 +3,8 @@ import { logLandingCtaClick } from '@/lib/landing-cta-analytics';
 import { logScan } from '@/lib/scan/scan-log';
 import { getRedirectUrl, resolveRedirect } from '@/lib/scan/scan-redirect';
 import { landingPageResponse, parseLandingData, shouldShowLanding } from '@/lib/scan/scan-landing';
-import { pickScanLocale, resolveScanLandingCopy } from '@/lib/i18n/resolve-scan-page-copy';
+import { pickScanLocale } from '@/lib/i18n/resolve-scan-page-copy';
+import { resolveLandingCtaLabel } from '@/lib/i18n/resolve-landing-cta-label';
 import type { ScanQrCode } from '@/lib/scan/scan-log';
 
 export async function handleScan(
@@ -19,7 +20,7 @@ export async function handleScan(
       const landing = parseLandingData(qrCode.landingPageData);
       logLandingCtaClick(qrCode, req, {
         ctaType: 'primary',
-        ctaLabel: landing.ctaLabel || resolveScanLandingCopy(locale).defaultCta,
+        ctaLabel: resolveLandingCtaLabel(landing.ctaLabel, locale),
       });
     }
     return resolveRedirect(qrCode, req);

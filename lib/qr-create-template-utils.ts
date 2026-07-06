@@ -22,7 +22,7 @@ export function buildLandingPageFromIndustryTemplate(
     title: built.title ?? template.suggestedQrName,
     subtitle: built.subtitle ?? '',
     accentColor: built.accentColor ?? emptyLandingPage.accentColor,
-    ctaLabel: built.ctaLabel ?? 'Continue',
+    ctaLabel: built.ctaLabel ?? '',
     leadFormEnabled: built.leadFormEnabled ?? false,
     leadForm: { ...defaultLeadForm, ...built.leadForm },
     ...(hubLinks?.length ? { hubMode: true, hubLinks: [...hubLinks] } : {}),

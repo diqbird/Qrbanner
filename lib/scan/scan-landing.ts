@@ -16,7 +16,7 @@ function emptyLandingPageDefaults(): LandingPageData {
     subtitle: '',
     bannerImage: '',
     accentColor: '#0071e3',
-    ctaLabel: 'Continue',
+    ctaLabel: '',
   };
 }
 

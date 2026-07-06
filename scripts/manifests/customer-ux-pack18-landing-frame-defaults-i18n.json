@@ -1,0 +1,24 @@
+{
+  "upload": [
+    "lib/i18n/resolve-landing-cta-label.ts",
+    "lib/i18n/resolve-frame-label-text.ts",
+    "lib/i18n/get-browser-locale.ts",
+    "lib/qr-render.ts",
+    "lib/landing-page.ts",
+    "lib/scan/scan-landing.ts",
+    "lib/scan/handle-scan.ts",
+    "lib/qr-create-template-utils.ts",
+    "lib/qr-export-actions.ts",
+    "lib/bulk-qr-zip-export.ts",
+    "hooks/use-qr-preview-render.ts",
+    "hooks/use-qr-preview.ts",
+    "components/qr/style-template-preview.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

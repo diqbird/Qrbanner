@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { renderStyledQR } from '@/lib/qr-render';
 import { normalizeQRStyle, type QRStyleConfig } from '@/lib/qr-style';
+import type { Locale } from '@/lib/i18n';
 
 export function useQrPreviewRender({
   previewContent,
@@ -11,6 +12,7 @@ export function useQrPreviewRender({
   onStyleChange,
   containerRef,
   renderErrorMessage,
+  locale = 'en',
 }: {
   previewContent: string;
   normalized: QRStyleConfig;
@@ -18,6 +20,7 @@ export function useQrPreviewRender({
   onStyleChange?: (style: QRStyleConfig) => void;
   containerRef: React.RefObject<HTMLDivElement | null>;
   renderErrorMessage: string;
+  locale?: Locale;
 }) {
   const renderIdRef = useRef(0);
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
@@ -40,6 +43,7 @@ export function useQrPreviewRender({
           logoUrl: logoPreview,
           withFrame: true,
           skipFrameText: !!onStyleChange,
+          locale,
         });
 
         if (cancelled || renderId !== renderIdRef.current) return;
@@ -71,7 +75,7 @@ export function useQrPreviewRender({
     return () => {
       cancelled = true;
     };
-  }, [previewContent, styleKey, logoPreview, onStyleChange, containerRef, renderErrorMessage]);
+  }, [previewContent, styleKey, logoPreview, onStyleChange, containerRef, renderErrorMessage, locale]);
 
   return { qrDataUrl, loading, error };
 }

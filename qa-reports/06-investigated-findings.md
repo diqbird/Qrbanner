@@ -141,7 +141,7 @@ python scripts/configure-review-profiles.py \
 
 ---
 
-## Customer-UX packs 5–17 (summary)
+## Customer-UX packs 5–18 (summary)
 
 | Pack | Commit | Focus |
 |------|--------|-------|
@@ -157,7 +157,8 @@ python scripts/configure-review-profiles.py \
 | 14 | `2f6d485` | Scheme redirect pages, landing defaults, pixel redirect, dialog a11y |
 | 15 | `ebff430` | Geofence countries, A/B URL placeholder, frame label, social aria-labels |
 | 16 | `6630524` | Icon delete aria-labels, schedule timezone i18n, scan CTA analytics locale |
-| 17 | (this deploy) | Team/reseller/marketplace status badges i18n; QA doc refresh |
+| 17 | `3dc0afd` | Team/reseller/marketplace status badges i18n; QA doc refresh |
+| 18 | (this deploy) | Landing CTA + QR frame label locale defaults; empty editor defaults |
 
 ---
 

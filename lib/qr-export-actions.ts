@@ -4,6 +4,7 @@ import { renderStyledQR, renderStyledQRSvg } from '@/lib/qr-render';
 import { renderStyledQREps } from '@/lib/qr-eps';
 import { normalizeQRStyle, type QRStyleConfig } from '@/lib/qr-style';
 import { resolveQrEncodeContent } from '@/lib/qr-preview-content';
+import type { Locale } from '@/lib/i18n';
 import { toast } from 'sonner';
 
 export const QR_EXPORT_SIZES = [512, 1024, 2048, 4096] as const;
@@ -40,6 +41,7 @@ type ExportContext = {
   scanBaseUrl: string;
   qrName?: string;
   t: (key: string, params?: Record<string, string | number>) => string;
+  locale?: Locale;
 };
 
 async function renderExportCanvas(ctx: ExportContext) {
@@ -47,6 +49,7 @@ async function renderExportCanvas(ctx: ExportContext) {
     size: ctx.exportSize,
     logoUrl: ctx.logoPreview,
     withFrame: true,
+    locale: ctx.locale ?? 'en',
   });
 }
 
@@ -61,6 +64,7 @@ export async function downloadQrFormat(ctx: ExportContext, format: QrExportForma
         size: ctx.exportSize,
         logoUrl: ctx.logoPreview,
         withFrame: ctx.normalized.frameStyle !== 'none',
+        locale: ctx.locale ?? 'en',
       });
       const blob = new Blob([svg], { type: 'image/svg+xml' });
       const url = URL.createObjectURL(blob);
@@ -111,6 +115,7 @@ export async function printQrPreview(ctx: ExportContext) {
       size: 600,
       logoUrl: ctx.logoPreview,
       withFrame: true,
+      locale: ctx.locale ?? 'en',
     });
     const dataUrl = canvas.toDataURL('image/png');
     const printWindow = window.open('', '_blank');

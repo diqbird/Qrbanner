@@ -4,6 +4,8 @@ import {
   frameLabelVisible,
   type QRStyleConfig,
 } from './qr-style';
+import { resolveFrameLabelText } from '@/lib/i18n/resolve-frame-label-text';
+import type { Locale } from '@/lib/i18n';
 
 export { frameLabelVisible };
 
@@ -70,6 +72,14 @@ function fillFramedBackground(
   ctx.fillRect(0, 0, w, h);
 }
 
+export type QrRenderOptions = {
+  size?: number;
+  logoUrl?: string | null;
+  withFrame?: boolean;
+  skipFrameText?: boolean;
+  locale?: Locale;
+};
+
 function drawLabelBar(
   ctx: CanvasRenderingContext2D,
   style: QRStyleConfig,
@@ -77,7 +87,8 @@ function drawLabelBar(
   pad: number,
   qrCanvas: HTMLCanvasElement,
   badgeH: number,
-  skipFrameText: boolean
+  skipFrameText: boolean,
+  locale: Locale = 'en'
 ) {
   const barY = pad + qrCanvas.height + (style.frameStyle === 'scan-me' ? 8 : 0);
   const barH = badgeH - (style.frameStyle === 'scan-me' ? 8 : 0);
@@ -100,7 +111,7 @@ function drawLabelBar(
   ctx.font = `bold ${fontSize}px system-ui, -apple-system, sans-serif`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  const label = (style.frameText || 'Scan me').trim().slice(0, 32);
+  const label = resolveFrameLabelText(style.frameText, locale);
   if (!skipFrameText && label) {
     ctx.fillText(label, outW / 2, barY + barH / 2 + (style.frameStyle === 'scan-me' ? 4 : 0));
   }
@@ -109,7 +120,8 @@ function drawLabelBar(
 function applyFrame(
   qrCanvas: HTMLCanvasElement,
   style: QRStyleConfig,
-  skipFrameText = false
+  skipFrameText = false,
+  locale: Locale = 'en'
 ): HTMLCanvasElement {
   const pad = Math.round(qrCanvas.width * 0.08);
   const showLabelBar = frameHasLabelBar(style);
@@ -204,7 +216,7 @@ function applyFrame(
   }
 
   if (showLabelBar) {
-    drawLabelBar(ctx, style, out.width, pad, qrCanvas, badgeH, skipFrameText);
+    drawLabelBar(ctx, style, out.width, pad, qrCanvas, badgeH, skipFrameText, locale);
   }
 
   return out;
@@ -213,12 +225,13 @@ function applyFrame(
 export async function renderStyledQR(
   content: string,
   style: Partial<QRStyleConfig> | Record<string, unknown>,
-  options?: { size?: number; logoUrl?: string | null; withFrame?: boolean; skipFrameText?: boolean }
+  options?: QrRenderOptions
 ): Promise<HTMLCanvasElement> {
   const normalized = normalizeQRStyle(style);
   const size = options?.size ?? 280;
   const withFrame = options?.withFrame ?? normalized.frameStyle !== 'none';
   const skipFrameText = options?.skipFrameText ?? false;
+  const locale = options?.locale ?? 'en';
 
   try {
     const QRCodeStyling = (await import('qr-code-styling')).default;
@@ -233,10 +246,10 @@ export async function renderStyledQR(
     if (!withFrame || normalized.frameStyle === 'none') {
       return qrCanvas;
     }
-    return applyFrame(qrCanvas, normalized, skipFrameText);
+    return applyFrame(qrCanvas, normalized, skipFrameText, locale);
   } catch (e) {
     console.warn('qr-code-styling render failed, using fallback:', e);
-    return renderBasicQR(content, normalized, size, withFrame, skipFrameText);
+    return renderBasicQR(content, normalized, size, withFrame, skipFrameText, locale);
   }
 }
 
@@ -245,7 +258,8 @@ async function renderBasicQR(
   style: QRStyleConfig,
   size: number,
   withFrame: boolean,
-  skipFrameText = false
+  skipFrameText = false,
+  locale: Locale = 'en'
 ): Promise<HTMLCanvasElement> {
   const QRCode = (await import('qrcode')).default;
   const canvas = document.createElement('canvas');
@@ -261,13 +275,13 @@ async function renderBasicQR(
   if (!withFrame || style.frameStyle === 'none') {
     return canvas;
   }
-  return applyFrame(canvas, style, skipFrameText);
+  return applyFrame(canvas, style, skipFrameText, locale);
 }
 
 export async function renderStyledQRDataUrl(
   content: string,
   style: Partial<QRStyleConfig> | Record<string, unknown>,
-  options?: { size?: number; logoUrl?: string | null; withFrame?: boolean }
+  options?: QrRenderOptions
 ): Promise<string> {
   const canvas = await renderStyledQR(content, style, options);
   return canvas.toDataURL('image/png');
@@ -276,7 +290,7 @@ export async function renderStyledQRDataUrl(
 export async function renderStyledQRSvg(
   content: string,
   style: Partial<QRStyleConfig> | Record<string, unknown>,
-  options?: { size?: number; logoUrl?: string | null; withFrame?: boolean }
+  options?: QrRenderOptions
 ): Promise<string> {
   const normalized = normalizeQRStyle(style);
   const withFrame = options?.withFrame ?? normalized.frameStyle !== 'none';

@@ -2,7 +2,7 @@
 
 **Project:** QRbanner (`https://qrbanner.com`)  
 **Report generated:** 2026-07-05 08:02 UTC  
-**Last triage update:** 2026-07-06 (post customer-ux packs 1–17)  
+**Last triage update:** 2026-07-06 (post customer-ux packs 1–18)  
 **Methodology:** Sequential live probes — no code assumptions.
 
 ## Scope
@@ -62,6 +62,7 @@
 | Geofence country names, A/B URL placeholder, frame label, social aria-labels | Pack 15 |
 | Icon delete aria-labels, schedule timezone i18n, scan CTA analytics locale | Pack 16 |
 | Team role/status badges, reseller client plan/status/fee, marketplace listing status | Pack 17 |
+| Landing CTA + QR frame label locale defaults (`Continue`/`Scan me` sentinels) | Pack 18 |
 
 ### Remaining (low impact / operational)
 

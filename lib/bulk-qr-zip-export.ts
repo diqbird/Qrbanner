@@ -1,6 +1,7 @@
 import { renderStyledQR } from '@/lib/qr-render';
 import { normalizeQRStyle } from '@/lib/qr-style';
 import { resolveQrEncodeContent } from '@/lib/qr-preview-content';
+import { getBrowserLocale } from '@/lib/i18n/get-browser-locale';
 
 export const BULK_ZIP_MAX = 50;
 
@@ -37,6 +38,8 @@ export async function downloadBulkQrImagesZip(
   const usedNames = new Set<string>();
   let added = 0;
 
+  const locale = getBrowserLocale();
+
   for (const item of items.slice(0, BULK_ZIP_MAX)) {
     const style = normalizeQRStyle((item.style ?? {}) as Record<string, unknown>);
     const content = resolveQrEncodeContent({
@@ -52,6 +55,7 @@ export async function downloadBulkQrImagesZip(
     const canvas = await renderStyledQR(content, style, {
       size: 512,
       logoUrl: item.logoPath ?? undefined,
+      locale,
     });
 
     const blob = await new Promise<Blob | null>((resolve) => {
