@@ -34,12 +34,12 @@ export function StyleEditorColorsTab({
         <div className="flex flex-wrap gap-2">
           {STYLE_PRESETS.map((preset) => (
             <button
-              key={preset.name}
+              key={preset.id}
               type="button"
               onClick={() => onStyleChange(normalizeQRStyle({ ...s, ...preset.style }))}
               className="rounded-lg border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:border-primary/50 hover:bg-primary/5"
             >
-              {preset.name}
+              {t(`style.colorPresets.${preset.id}`)}
             </button>
           ))}
         </div>

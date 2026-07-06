@@ -113,7 +113,7 @@ export function getSmartQrSuggestions(category: string, name?: string): AiSugges
 
 export function applyBrandGenerator(name: string): Partial<QRStyleConfig> {
   const p = generateBrandPalette(name);
-  const preset = STYLE_PRESETS.find((s) => s.name === 'Brand');
+  const preset = STYLE_PRESETS.find((s) => s.id === 'brand');
   return {
     ...(preset?.style ?? {}),
     fgColor: p.primary,

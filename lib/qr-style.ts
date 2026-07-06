@@ -85,19 +85,19 @@ export const FRAME_STYLES: { id: FrameStyle; label: string; description: string 
   { id: 'coupon', label: 'Coupon', description: 'Perforated promo ticket style' },
 ];
 
-export const FRAME_TEXT_PRESETS: { label: string; text: string }[] = [
-  { label: 'Scan me', text: 'Scan me' },
-  { label: 'Follow us', text: 'Follow us' },
-  { label: 'View menu', text: 'View menu' },
-  { label: 'Subscribe', text: 'Subscribe' },
-  { label: 'Register', text: 'Register' },
-  { label: 'Wi‑Fi', text: 'Wi‑Fi' },
-  { label: 'Contact', text: 'Contact us' },
-  { label: 'Donate', text: 'Donate' },
-  { label: 'Book now', text: 'Book now' },
-  { label: 'Shop now', text: 'Shop now' },
-  { label: 'Learn more', text: 'Learn more' },
-  { label: 'Open link', text: 'Open link' },
+export const FRAME_TEXT_PRESETS: { id: string; textEn: string }[] = [
+  { id: 'scanMe', textEn: 'Scan me' },
+  { id: 'followUs', textEn: 'Follow us' },
+  { id: 'viewMenu', textEn: 'View menu' },
+  { id: 'subscribe', textEn: 'Subscribe' },
+  { id: 'register', textEn: 'Register' },
+  { id: 'wifi', textEn: 'Wi‑Fi' },
+  { id: 'contact', textEn: 'Contact us' },
+  { id: 'donate', textEn: 'Donate' },
+  { id: 'bookNow', textEn: 'Book now' },
+  { id: 'shopNow', textEn: 'Shop now' },
+  { id: 'learnMore', textEn: 'Learn more' },
+  { id: 'openLink', textEn: 'Open link' },
 ];
 
 export const ERROR_LEVELS = ['L', 'M', 'Q', 'H'] as const;
@@ -126,13 +126,13 @@ export const DEFAULT_QR_STYLE: QRStyleConfig = {
   backgroundGradientColor2: '#f5f5f7',
 };
 
-export const STYLE_PRESETS: { name: string; style: Partial<QRStyleConfig> }[] = [
-  { name: 'Classic', style: { fgColor: '#000000', bgColor: '#FFFFFF', dotStyle: 'square', cornerStyle: 'square' } },
-  { name: 'Ocean', style: { fgColor: '#0369a1', bgColor: '#f0f9ff', dotStyle: 'rounded', cornerStyle: 'extra-rounded', gradientEnabled: true, gradientColor2: '#0ea5e9' } },
-  { name: 'Sunset', style: { fgColor: '#c2410c', bgColor: '#fff7ed', dotStyle: 'dots', cornerStyle: 'dot', gradientEnabled: true, gradientColor2: '#f59e0b', gradientRotation: 135 } },
-  { name: 'Forest', style: { fgColor: '#166534', bgColor: '#f0fdf4', dotStyle: 'classy-rounded', cornerStyle: 'classy-rounded' } },
-  { name: 'Midnight', style: { fgColor: '#e2e8f0', bgColor: '#0f172a', dotStyle: 'rounded', cornerStyle: 'extra-rounded', frameStyle: 'rounded', frameColor: '#334155' } },
-  { name: 'Brand', style: { fgColor: '#4f46e5', bgColor: '#FFFFFF', dotStyle: 'classy', cornerStyle: 'classy', gradientEnabled: true, gradientColor2: '#7c3aed', frameStyle: 'badge', frameColor: '#4f46e5', frameText: 'SCAN ME' } },
+export const STYLE_PRESETS: { id: string; style: Partial<QRStyleConfig> }[] = [
+  { id: 'classic', style: { fgColor: '#000000', bgColor: '#FFFFFF', dotStyle: 'square', cornerStyle: 'square' } },
+  { id: 'ocean', style: { fgColor: '#0369a1', bgColor: '#f0f9ff', dotStyle: 'rounded', cornerStyle: 'extra-rounded', gradientEnabled: true, gradientColor2: '#0ea5e9' } },
+  { id: 'sunset', style: { fgColor: '#c2410c', bgColor: '#fff7ed', dotStyle: 'dots', cornerStyle: 'dot', gradientEnabled: true, gradientColor2: '#f59e0b', gradientRotation: 135 } },
+  { id: 'forest', style: { fgColor: '#166534', bgColor: '#f0fdf4', dotStyle: 'classy-rounded', cornerStyle: 'classy-rounded' } },
+  { id: 'midnight', style: { fgColor: '#e2e8f0', bgColor: '#0f172a', dotStyle: 'rounded', cornerStyle: 'extra-rounded', frameStyle: 'rounded', frameColor: '#334155' } },
+  { id: 'brand', style: { fgColor: '#4f46e5', bgColor: '#FFFFFF', dotStyle: 'classy', cornerStyle: 'classy', gradientEnabled: true, gradientColor2: '#7c3aed', frameStyle: 'badge', frameColor: '#4f46e5', frameText: 'SCAN ME' } },
 ];
 
 type GradientOpts = {

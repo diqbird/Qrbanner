@@ -45,20 +45,23 @@ export function FrameStylePicker({
       <div className="space-y-1.5">
         <Label className="text-xs text-muted-foreground">{t('style.frameQuickLabels')}</Label>
         <div className="flex flex-wrap gap-1.5">
-          {FRAME_TEXT_PRESETS.slice(0, compact ? 6 : undefined).map((preset) => (
-            <button
-              key={preset.text}
-              type="button"
-              onClick={() => onChange(patchFrameText(style, preset.text))}
-              className={`rounded-full border px-2 py-0.5 text-xs transition-colors ${
-                style.frameText === preset.text
-                  ? 'border-primary bg-primary/10 text-primary'
-                  : 'border-border text-muted-foreground hover:border-primary/50'
-              }`}
-            >
-              {preset.label}
-            </button>
-          ))}
+          {FRAME_TEXT_PRESETS.slice(0, compact ? 6 : undefined).map((preset) => {
+            const presetText = t(`style.frameTextPresetText.${preset.id}`);
+            return (
+              <button
+                key={preset.id}
+                type="button"
+                onClick={() => onChange(patchFrameText(style, presetText))}
+                className={`rounded-full border px-2 py-0.5 text-xs transition-colors ${
+                  style.frameText === presetText || style.frameText === preset.textEn
+                    ? 'border-primary bg-primary/10 text-primary'
+                    : 'border-border text-muted-foreground hover:border-primary/50'
+                }`}
+              >
+                {t(`style.frameTextPresetLabels.${preset.id}`)}
+              </button>
+            );
+          })}
         </div>
       </div>
     </>
