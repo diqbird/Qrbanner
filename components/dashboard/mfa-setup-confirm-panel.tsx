@@ -48,7 +48,7 @@ export function MfaSetupConfirmPanel({ mfa }: { mfa: MfaSettingsState }) {
           inputMode="numeric"
           value={enableCode}
           onChange={(e) => setEnableCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-          placeholder="000000"
+          placeholder={t('settings.mfa.codePlaceholder')}
           className="max-w-xs font-mono"
         />
       </div>

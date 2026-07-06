@@ -7,6 +7,8 @@ import type {
   SocialPlatform,
   BlockAlign,
 } from '@/lib/landing-page';
+import type { Locale } from '@/lib/i18n/types';
+import { resolveScanPageCopy } from '@/lib/i18n/resolve-scan-page-copy';
 
 export const MAX_BLOCKS = 30;
 export const MAX_LINKS_PER_BLOCK = 12;
@@ -123,6 +125,7 @@ export interface RenderBlocksContext {
   accent: string;
   preview: boolean;
   goUrl: string;
+  locale?: Locale;
 }
 
 function renderLeadFormBlock(
@@ -130,18 +133,20 @@ function renderLeadFormBlock(
   submitLabel: string,
   ctx: RenderBlocksContext
 ): string {
+  const copy = resolveScanPageCopy(ctx.locale ?? 'en');
   const label = escapeHtml(submitLabel || 'Submit');
   return `<form class="lead-form"${ctx.preview ? ' onsubmit="event.preventDefault();return false"' : ''}>
-      ${cfg.collectName ? '<input type="text" name="name" placeholder="Your name"/>' : ''}
-      ${cfg.collectEmail ? `<input type="email" name="email" placeholder="Email address" ${cfg.requiredEmail ? 'required' : ''}/>` : ''}
-      ${cfg.collectPhone ? '<input type="tel" name="phone" placeholder="Phone number"/>' : ''}
-      ${cfg.collectMessage ? '<textarea name="message" placeholder="Message" rows="3"></textarea>' : ''}
+      ${cfg.collectName ? `<input type="text" name="name" placeholder="${copy.leadNamePlaceholder}"/>` : ''}
+      ${cfg.collectEmail ? `<input type="email" name="email" placeholder="${copy.leadEmailPlaceholder}" ${cfg.requiredEmail ? 'required' : ''}/>` : ''}
+      ${cfg.collectPhone ? `<input type="tel" name="phone" placeholder="${copy.leadPhonePlaceholder}"/>` : ''}
+      ${cfg.collectMessage ? `<textarea name="message" placeholder="${copy.leadMessagePlaceholder}" rows="3"></textarea>` : ''}
       <button type="submit" class="cta" style="border:none;cursor:pointer;margin-top:0">${label}</button>
       <p class="lead-err"></p>
     </form>`;
 }
 
-function leadFormScript(shortCode: string, goUrl: string): string {
+function leadFormScript(shortCode: string, goUrl: string, locale: Locale = 'en'): string {
+  const copy = resolveScanPageCopy(locale);
   return `<script>
     document.querySelectorAll('form.lead-form').forEach(function(form){
       form.addEventListener('submit',async function(e){
@@ -154,9 +159,9 @@ function leadFormScript(shortCode: string, goUrl: string): string {
         try{
           var r=await fetch('/api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
           var j=await r.json();
-          if(!r.ok){if(err)err.textContent=j.error||'Submission failed';return;}
+          if(!r.ok){if(err)err.textContent=j.error||${JSON.stringify(copy.leadSubmitFailed)};return;}
           window.location.href=j.redirect||${JSON.stringify(goUrl)};
-        }catch(_){if(err)err.textContent='Network error';}
+        }catch(_){if(err)err.textContent=${JSON.stringify(copy.leadNetworkError)};}
       });
     });
   </script>`;
@@ -277,7 +282,7 @@ export function renderLandingBlocks(
   }
 
   const html = `<div class="blocks">${parts.join('')}</div>`;
-  const script = hasLeadForm && !ctx.preview ? leadFormScript(ctx.shortCode, ctx.goUrl) : '';
+  const script = hasLeadForm && !ctx.preview ? leadFormScript(ctx.shortCode, ctx.goUrl, ctx.locale ?? 'en') : '';
   return { html, script };
 }
 

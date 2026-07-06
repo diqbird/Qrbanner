@@ -40,7 +40,7 @@ export function AnalyticsRoiCard({
               type="number"
               min={0}
               step="0.01"
-              placeholder="0"
+              placeholder={t('analytics.roiNumberPlaceholder')}
               value={cost}
               onChange={(e) => setCost(e.target.value)}
             />
@@ -52,7 +52,7 @@ export function AnalyticsRoiCard({
               type="number"
               min={0}
               step="0.01"
-              placeholder="0"
+              placeholder={t('analytics.roiNumberPlaceholder')}
               value={value}
               onChange={(e) => setValue(e.target.value)}
             />

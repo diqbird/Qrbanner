@@ -65,7 +65,7 @@ export function MfaVerifyForm() {
               id="mfa-code"
               inputMode="numeric"
               autoComplete="one-time-code"
-              placeholder="000000"
+              placeholder={t('settings.mfa.codePlaceholder')}
               value={code}
               onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
               className="text-center text-lg tracking-widest font-mono"

@@ -1,0 +1,27 @@
+{
+  "upload": [
+    "lib/i18n/resolve-scan-page-copy.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/scan/scan-html.ts",
+    "lib/scan/scan-guards.ts",
+    "lib/scan/scan-landing.ts",
+    "lib/scan/scan-redirect.ts",
+    "lib/landing-page.ts",
+    "lib/landing-blocks.ts",
+    "app/s/[code]/route.ts",
+    "app/(public)/blog/page.tsx",
+    "components/auth/login-form-mfa-section.tsx",
+    "components/auth/mfa-verify-form.tsx",
+    "components/dashboard/mfa-setup-confirm-panel.tsx",
+    "components/dashboard/mfa-disable-panel.tsx",
+    "components/dashboard/branding-settings-form.tsx",
+    "components/dashboard/marketplace-seller-listing-form.tsx",
+    "components/analytics/analytics-roi-card.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

@@ -29,7 +29,7 @@ export function MfaDisablePanel({ mfa }: { mfa: MfaSettingsState }) {
           inputMode="numeric"
           value={disableCode}
           onChange={(e) => setDisableCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-          placeholder="000000"
+          placeholder={t('settings.mfa.codePlaceholder')}
           className="max-w-xs font-mono"
         />
       </div>

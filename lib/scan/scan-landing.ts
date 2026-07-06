@@ -6,6 +6,7 @@ import { getPixelConfig } from '@/lib/pixel-analytics';
 import { parseBrandingSettings } from '@/lib/referral';
 import { withScanHeaders } from '@/lib/scan/scan-html';
 import { attachAbCookie, getRedirectUrl } from '@/lib/scan/scan-redirect';
+import { pickScanLocale } from '@/lib/i18n/resolve-scan-page-copy';
 import type { ScanQrCode } from '@/lib/scan/scan-log';
 
 function emptyLandingPageDefaults(): LandingPageData {
@@ -51,11 +52,14 @@ export async function landingPageResponse(
     Boolean(branding.hidePoweredBy) &&
     (owner?.plan === 'agency' || owner?.plan === 'business');
 
+  const locale = pickScanLocale(req.headers.get('accept-language'));
+
   const html = renderLandingPage(qrCode.shortCode, data, redirectUrl, {
     pixels,
     qrName: qrCode.name,
     gpsHeatmapEnabled: qrCode.gpsHeatmapEnabled,
     hidePoweredBy,
+    locale,
   });
   return withScanHeaders(
     attachAbCookie(

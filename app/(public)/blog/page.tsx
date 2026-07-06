@@ -107,7 +107,7 @@ export default async function BlogIndexPage({
           {totalPages > 1 && (
             <nav
               className="mt-12 flex items-center justify-between gap-4"
-              aria-label="Blog pagination"
+              aria-label={t('blogIndex.paginationAria')}
             >
               {currentPage > 1 ? (
                 <Link

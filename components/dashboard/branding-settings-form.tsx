@@ -45,7 +45,7 @@ export function BrandingSettingsForm({
           type="email"
           value={form.supportEmail}
           onChange={(e) => setForm((prev) => (prev ? { ...prev, supportEmail: e.target.value } : prev))}
-          placeholder="support@youragency.com"
+          placeholder={t('referral.supportEmailPlaceholder')}
         />
       </div>
       <Button onClick={onSave} loading={saving}>

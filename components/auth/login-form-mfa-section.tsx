@@ -47,7 +47,7 @@ export function LoginFormMfaSection({
             id="totp-code"
             inputMode="numeric"
             autoComplete="one-time-code"
-            placeholder="000000"
+            placeholder={t('settings.mfa.codePlaceholder')}
             value={totpCode}
             onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
             className="text-center font-mono tracking-widest"

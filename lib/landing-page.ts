@@ -6,6 +6,8 @@ import {
 import { renderHubLinkBeacon } from '@/lib/landing-cta-beacon';
 import { renderGpsCaptureScript } from '@/lib/gps-heatmap';
 import { renderLandingBlocks } from '@/lib/landing-blocks';
+import { resolveScanPageCopy } from '@/lib/i18n/resolve-scan-page-copy';
+import type { Locale } from '@/lib/i18n/types';
 
 export type LandingTemplate = 'minimal' | 'restaurant' | 'hotel' | 'event' | 'business';
 
@@ -198,7 +200,7 @@ export interface RenderLandingPageOptions {
   hidePoweredBy?: boolean;
   /** Static iframe preview in the editor — disables tracking and navigation */
   preview?: boolean;
-  locale?: 'en' | 'tr';
+  locale?: Locale;
 }
 
 export function renderLandingPage(
@@ -229,9 +231,10 @@ export function renderLandingPage(
   const leadForm = data.leadForm ?? defaultLeadForm;
   const showLeadForm = Boolean(data.leadFormEnabled);
 
+  const leadCopy = resolveScanPageCopy(locale);
   const useBuilder = Boolean(data.builderMode && data.blocks && data.blocks.length > 0);
   const builder = useBuilder
-    ? renderLandingBlocks(data.blocks!, { shortCode, accent, preview, goUrl })
+    ? renderLandingBlocks(data.blocks!, { shortCode, accent, preview, goUrl, locale })
     : null;
 
   const seo = data.seo ?? {};
@@ -263,10 +266,10 @@ export function renderLandingPage(
   const leadFields = showLeadForm
     ? `
     <form id="lead-form" class="lead-form"${preview ? ' onsubmit="event.preventDefault();return false"' : ''}>
-      ${leadForm.collectName ? `<input type="text" name="name" placeholder="Your name" ${leadForm.requiredEmail ? '' : ''}/>` : ''}
-      ${leadForm.collectEmail ? `<input type="email" name="email" placeholder="Email address" ${leadForm.requiredEmail ? 'required' : ''}/>` : ''}
-      ${leadForm.collectPhone ? `<input type="tel" name="phone" placeholder="Phone number"/>` : ''}
-      ${leadForm.collectMessage ? `<textarea name="message" placeholder="Message" rows="3"></textarea>` : ''}
+      ${leadForm.collectName ? `<input type="text" name="name" placeholder="${leadCopy.leadNamePlaceholder}" ${leadForm.requiredEmail ? '' : ''}/>` : ''}
+      ${leadForm.collectEmail ? `<input type="email" name="email" placeholder="${leadCopy.leadEmailPlaceholder}" ${leadForm.requiredEmail ? 'required' : ''}/>` : ''}
+      ${leadForm.collectPhone ? `<input type="tel" name="phone" placeholder="${leadCopy.leadPhonePlaceholder}"/>` : ''}
+      ${leadForm.collectMessage ? `<textarea name="message" placeholder="${leadCopy.leadMessagePlaceholder}" rows="3"></textarea>` : ''}
       <button type="submit" class="cta" style="border:none;cursor:pointer">${cta}</button>
       <p class="lead-err" id="lead-err"></p>
     </form>
@@ -281,9 +284,9 @@ export function renderLandingPage(
       try{
         const r=await fetch('/api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
         const j=await r.json();
-        if(!r.ok){err.textContent=j.error||'Submission failed';return;}
+        if(!r.ok){err.textContent=j.error||${JSON.stringify(leadCopy.leadSubmitFailed)};return;}
         window.location.href=j.redirect||${JSON.stringify(goUrl)};
-      }catch{err.textContent='Network error';}
+      }catch{err.textContent=${JSON.stringify(leadCopy.leadNetworkError)};}
     });
     </script>`
     : hubLinks.length > 0

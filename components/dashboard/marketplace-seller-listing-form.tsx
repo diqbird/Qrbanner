@@ -57,7 +57,7 @@ export function MarketplaceSellerListingForm({ seller }: { seller: MarketplaceSe
         <div className="space-y-2">
           <Label>{t('marketplaceSeller.templateId')}</Label>
           <Input
-            placeholder="restaurant-menu"
+            placeholder={t('marketplaceSeller.templateIdPlaceholder')}
             value={templateId}
             onChange={(e) => setTemplateId(e.target.value)}
           />

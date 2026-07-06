@@ -9,6 +9,7 @@ import {
   isSchemeScanCategory,
 } from '@/lib/qr-category-registry';
 import { isBlockedRedirectUrl } from '@/lib/url-safety';
+import { pickScanLocale } from '@/lib/i18n/resolve-scan-page-copy';
 import {
   getPixelConfig,
   hasActivePixels,
@@ -98,7 +99,7 @@ export function resolveRedirect(qrCode: ScanQrCode, req: NextRequest): NextRespo
   const { url: redirectUrl, abVariantId, abSticky } = getRedirectUrl(qrCode, req);
 
   if (redirectUrl && isBlockedRedirectUrl(redirectUrl)) {
-    return blockedRedirectPage();
+    return blockedRedirectPage(pickScanLocale(req.headers.get('accept-language')));
   }
 
   const attachment = getAttachmentScanMeta(qrCode.category);
