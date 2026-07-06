@@ -10,12 +10,13 @@ export type {
 } from '@/lib/dashboard-analytics-types';
 
 export function useDashboardAnalytics() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const fetchState = useDashboardAnalyticsFetch();
   const { handleExportCsv, handleExportPdf } = useDashboardAnalyticsExport(
     fetchState.data,
     fetchState.dateRange,
     t,
+    locale,
   );
 
   return {

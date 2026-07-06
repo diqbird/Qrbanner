@@ -162,7 +162,8 @@ python scripts/configure-review-profiles.py \
 | 19 | `a777aca` | Plan display names, price badges, marketplace prices, mockup presets |
 | 20 | `cfa6f46` | Print template physical sizes; Wi‑Fi/crypto template select options |
 | 21 | `e514468` | Scan source analytics labels; print use-case; automation device select |
-| 22 | (this deploy) | Analytics country display via Intl; A/B variant chart labels |
+| 22 | `f9b3125` | Analytics country display via Intl; A/B variant chart labels |
+| 23 | (this deploy) | Scan simulation decoded/confidence i18n; localized analytics CSV/PDF values |
 
 ---
 

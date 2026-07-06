@@ -3,6 +3,7 @@
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle2, AlertTriangle, X } from 'lucide-react';
 import type { ScanResult, ScanStatus } from '@/hooks/use-scan-simulation';
+import { resolveScanConfidenceBadgeLabel } from '@/lib/i18n/resolve-scan-confidence-label';
 
 function statusIcon(status: ScanStatus) {
   if (status === 'pass') return <CheckCircle2 className="h-4 w-4 text-green-600" />;
@@ -48,8 +49,8 @@ export function ScanSimulationResult({ result, onDismiss, t }: ScanSimulationRes
               <p className="text-sm font-medium">{result.title}</p>
               {statusBadge(result.status)}
               {result.confidence && (
-                <Badge variant="outline" className="text-[10px] capitalize">
-                  {result.confidence}
+                <Badge variant="outline" className="text-[10px]">
+                  {resolveScanConfidenceBadgeLabel(t, result.confidence)}
                 </Badge>
               )}
             </div>

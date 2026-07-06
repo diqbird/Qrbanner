@@ -7,7 +7,7 @@ import { useQrAnalyticsExport } from '@/hooks/use-qr-analytics-export';
 export type { QrAnalyticsData } from '@/lib/qr-analytics-types';
 
 export function useQrAnalytics(qrId: string) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const fetchState = useQrAnalyticsFetch(qrId);
   const { handleExport, handleExportPdf } = useQrAnalyticsExport(
     qrId,
@@ -15,6 +15,7 @@ export function useQrAnalytics(qrId: string) {
     fetchState.qrName,
     fetchState.dateRange,
     t,
+    locale,
   );
 
   return {

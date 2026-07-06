@@ -1,0 +1,22 @@
+{
+  "upload": [
+    "lib/i18n/localize-analytics-export-payload.ts",
+    "lib/i18n/resolve-scan-confidence-label.ts",
+    "lib/scan-simulation-evaluate.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "components/qr/scan-simulation-result.tsx",
+    "components/qr/scan-simulation-digital-panel.tsx",
+    "hooks/use-qr-analytics-export.ts",
+    "hooks/use-dashboard-analytics-export.ts",
+    "hooks/use-qr-analytics.ts",
+    "hooks/use-dashboard-analytics.ts",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

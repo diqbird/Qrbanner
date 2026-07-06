@@ -20,7 +20,7 @@ export function ScanSimulationDigitalPanel({ scan }: ScanSimulationDigitalPanelP
       {qrDataUrl && (
         <div className="flex justify-center rounded-md bg-white p-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={qrDataUrl} alt="QR preview" className="max-h-32 w-auto" />
+          <img src={qrDataUrl} alt={t('scan.qrPreviewAlt')} className="max-h-32 w-auto" />
         </div>
       )}
       <div className="flex flex-col gap-2 sm:flex-row">

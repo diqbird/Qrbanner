@@ -6,19 +6,23 @@ import { DateRange } from 'react-day-picker';
 import { toast } from 'sonner';
 import { downloadAnalyticsCsv, buildAnalyticsCsvLabels } from '@/lib/analytics-export';
 import { buildAnalyticsPdfLabels, downloadAnalyticsPdf } from '@/lib/analytics-pdf-export';
+import { localizeAnalyticsExportPayload } from '@/lib/i18n/localize-analytics-export-payload';
+import type { Locale } from '@/lib/i18n/types';
 import type { DashboardAnalyticsData } from '@/lib/dashboard-analytics-types';
 
-type Translate = (key: string) => string;
+type Translate = (key: string, vars?: Record<string, string | number>) => string;
 
 export function useDashboardAnalyticsExport(
   data: DashboardAnalyticsData | null,
   dateRange: DateRange,
   t: Translate,
+  locale: Locale,
 ) {
   const handleExportCsv = useCallback(() => {
     if (!data) return;
-    downloadAnalyticsCsv(data, 'dashboard-analytics', buildAnalyticsCsvLabels(t));
-  }, [data, t]);
+    const localized = localizeAnalyticsExportPayload(t, locale, data);
+    downloadAnalyticsCsv(localized, 'dashboard-analytics', buildAnalyticsCsvLabels(t));
+  }, [data, t, locale]);
 
   const handleExportPdf = useCallback(async () => {
     if (!data) return;
@@ -27,7 +31,8 @@ export function useDashboardAnalyticsExport(
         dateRange.from && dateRange.to
           ? `${format(dateRange.from, 'yyyy-MM-dd')} – ${format(dateRange.to, 'yyyy-MM-dd')}`
           : undefined;
-      await downloadAnalyticsPdf(data, {
+      const localized = localizeAnalyticsExportPayload(t, locale, data);
+      await downloadAnalyticsPdf(localized, {
         filename: 'dashboard-analytics',
         subtitle: t('dashboard.analyticsOverview'),
         periodLabel,
@@ -37,7 +42,7 @@ export function useDashboardAnalyticsExport(
     } catch {
       toast.error(t('analytics.loadError'));
     }
-  }, [data, dateRange, t]);
+  }, [data, dateRange, t, locale]);
 
   return { handleExportCsv, handleExportPdf };
 }

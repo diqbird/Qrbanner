@@ -2,7 +2,7 @@
 
 **Project:** QRbanner (`https://qrbanner.com`)  
 **Report generated:** 2026-07-05 08:02 UTC  
-**Last triage update:** 2026-07-06 (post customer-ux packs 1–22)  
+**Last triage update:** 2026-07-06 (post customer-ux packs 1–23)  
 **Methodology:** Sequential live probes — no code assumptions.
 
 ## Scope
@@ -67,6 +67,7 @@
 | Print template physical sizes, template select field options (Wi‑Fi/crypto) | Pack 20 |
 | Analytics scan source labels, print use-case line, automation device select | Pack 21 |
 | Analytics country names and A/B variant chart labels | Pack 22 |
+| Scan simulation confidence/decoded copy, QR preview alt; localized analytics CSV/PDF dimension values | Pack 23 |
 
 ### Remaining (low impact / operational)
 
@@ -76,7 +77,7 @@
 | `?_rsc=` prefetch aborts | **By design / FP** — Next.js framework noise; exclude from failure metrics |
 | G2 / Capterra review links hidden | **Operational** — VPS env vars unset until profiles claimed; run `python scripts/verify-review-profiles.py` |
 | Campaign AI `purpose` field English | **By design** — AI-generated content stored in English; UI labels are localized |
-| Geo analytics country/city names | **By design** — stored English DB values; display maps where applicable |
+| Geo analytics city names | **By design** — stored English DB values; countries localized at display/export (Pack 22–23) |
 | QA runner locale + RSC filters | Recommended for future automated runs (not a product defect) |
 
 **Functional flows:** Login, signup, forgot-password, QR wizard, pricing CTA, referral claim, SAML wizard — usable.

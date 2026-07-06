@@ -6,9 +6,11 @@ import { DateRange } from 'react-day-picker';
 import { toast } from 'sonner';
 import { downloadAnalyticsCsv, buildAnalyticsCsvLabels } from '@/lib/analytics-export';
 import { buildAnalyticsPdfLabels, downloadAnalyticsPdf } from '@/lib/analytics-pdf-export';
+import { localizeAnalyticsExportPayload } from '@/lib/i18n/localize-analytics-export-payload';
+import type { Locale } from '@/lib/i18n/types';
 import type { QrAnalyticsData } from '@/lib/qr-analytics-types';
 
-type Translate = (key: string) => string;
+type Translate = (key: string, vars?: Record<string, string | number>) => string;
 
 export function useQrAnalyticsExport(
   qrId: string,
@@ -16,11 +18,13 @@ export function useQrAnalyticsExport(
   qrName: string,
   dateRange: DateRange,
   t: Translate,
+  locale: Locale,
 ) {
   const handleExport = useCallback(() => {
     if (!data) return;
-    downloadAnalyticsCsv(data, `qr-analytics-${qrId}`, buildAnalyticsCsvLabels(t));
-  }, [data, qrId, t]);
+    const localized = localizeAnalyticsExportPayload(t, locale, data);
+    downloadAnalyticsCsv(localized, `qr-analytics-${qrId}`, buildAnalyticsCsvLabels(t));
+  }, [data, qrId, t, locale]);
 
   const handleExportPdf = useCallback(async () => {
     if (!data) return;
@@ -29,7 +33,8 @@ export function useQrAnalyticsExport(
         dateRange.from && dateRange.to
           ? `${format(dateRange.from, 'yyyy-MM-dd')} – ${format(dateRange.to, 'yyyy-MM-dd')}`
           : undefined;
-      await downloadAnalyticsPdf(data, {
+      const localized = localizeAnalyticsExportPayload(t, locale, data);
+      await downloadAnalyticsPdf(localized, {
         filename: `qr-analytics-${qrId}`,
         subtitle: qrName || undefined,
         periodLabel,
@@ -39,7 +44,7 @@ export function useQrAnalyticsExport(
     } catch {
       toast.error(t('analytics.loadError'));
     }
-  }, [data, qrId, qrName, dateRange, t]);
+  }, [data, qrId, qrName, dateRange, t, locale]);
 
   return { handleExport, handleExportPdf };
 }

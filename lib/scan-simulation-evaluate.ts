@@ -34,10 +34,11 @@ export function evaluateScanDecode({
   }
 
   if (expectedContent && !payloadsMatch(decoded, expectedContent)) {
+    const preview = `${decoded.slice(0, 120)}${decoded.length > 120 ? '…' : ''}`;
     return {
       status: 'warn',
       title: t('scan.warnPayload'),
-      detail: `Decoded: ${decoded.slice(0, 120)}${decoded.length > 120 ? '…' : ''}`,
+      detail: t('scan.decodedDetail', { payload: preview }),
       decoded,
       confidence,
     };
