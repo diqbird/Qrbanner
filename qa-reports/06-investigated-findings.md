@@ -141,7 +141,7 @@ python scripts/configure-review-profiles.py \
 
 ---
 
-## Customer-UX packs 5–19 (summary)
+## Customer-UX packs 5–20 (summary)
 
 | Pack | Commit | Focus |
 |------|--------|-------|
@@ -159,7 +159,8 @@ python scripts/configure-review-profiles.py \
 | 16 | `6630524` | Icon delete aria-labels, schedule timezone i18n, scan CTA analytics locale |
 | 17 | `3dc0afd` | Team/reseller/marketplace status badges i18n; QA doc refresh |
 | 18 | `7451084` | Landing CTA + QR frame label locale defaults; empty editor defaults |
-| 19 | (this deploy) | Plan display names, price badges, marketplace prices, mockup presets |
+| 19 | `a777aca` | Plan display names, price badges, marketplace prices, mockup presets |
+| 20 | (this deploy) | Print template physical sizes; Wi‑Fi/crypto template select options |
 
 ---
 

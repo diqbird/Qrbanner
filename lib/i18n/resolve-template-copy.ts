@@ -87,6 +87,17 @@ export function resolveTemplateFieldHint(
   return resolved(t, key, field.hint);
 }
 
+export function resolveTemplateFieldOptionLabel(
+  t: TranslateFn,
+  templateId: string,
+  fieldKey: string,
+  optionValue: string,
+  fallback: string,
+): string {
+  const key = `templates.fields.${templateId}.${fieldKey}.options.${optionValue}`;
+  return resolved(t, key, fallback);
+}
+
 export function resolveTemplateTagline(t: TranslateFn, templateId: string, fallback: string): string {
   return resolved(t, `templates.meta.${templateId}.tagline`, fallback);
 }

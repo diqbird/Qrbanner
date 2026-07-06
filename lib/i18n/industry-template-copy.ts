@@ -127,7 +127,14 @@ const coreFieldsEn: TranslationTree = {
     _venueName: { label: 'Venue name', placeholder: 'e.g. Harbor Hotel Lobby' },
     ssid: { label: 'Network name (SSID)', placeholder: 'Guest_WiFi' },
     password: { label: 'Password', placeholder: 'guest2026' },
-    encryption: { label: 'Security type' },
+    encryption: {
+      label: 'Security type',
+      options: {
+        WPA: 'WPA / WPA2',
+        WEP: 'WEP',
+        nopass: 'Open (no password)',
+      },
+    },
   },
 };
 
@@ -146,7 +153,14 @@ const coreFieldsTr: TranslationTree = {
     _venueName: { label: 'Mekan adı', placeholder: 'ör. Liman Otel Lobisi' },
     ssid: { label: 'Ağ adı (SSID)', placeholder: 'Misafir_WiFi' },
     password: { label: 'Şifre', placeholder: 'misafir2026' },
-    encryption: { label: 'Güvenlik türü' },
+    encryption: {
+      label: 'Güvenlik türü',
+      options: {
+        WPA: 'WPA / WPA2',
+        WEP: 'WEP',
+        nopass: 'Açık (şifresiz)',
+      },
+    },
   },
 };
 

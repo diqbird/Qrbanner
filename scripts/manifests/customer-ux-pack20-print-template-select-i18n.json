@@ -1,0 +1,18 @@
+{
+  "upload": [
+    "lib/i18n/print-template-copy.ts",
+    "lib/i18n/resolve-print-copy.ts",
+    "lib/i18n/resolve-template-copy.ts",
+    "lib/i18n/industry-template-copy.ts",
+    "lib/i18n/core-template-copy-extra.ts",
+    "components/qr/print-banner-template-picker.tsx",
+    "components/qr/template-field-input.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

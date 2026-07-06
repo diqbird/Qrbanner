@@ -208,6 +208,13 @@ export const extraCoreFieldsEn: TranslationTree = {
     _linkedin: { label: 'LinkedIn (optional)' },
   },
   'crypto-donate': {
+    coin: {
+      label: 'Cryptocurrency',
+      options: {
+        btc: 'Bitcoin (BTC)',
+        eth: 'Ethereum (ETH)',
+      },
+    },
     address: { label: 'Address', placeholder: 'bc1q... or 0x...' },
     _purpose: { label: 'Purpose', placeholder: 'Support our community garden' },
   },
@@ -315,6 +322,13 @@ export const extraCoreFieldsTr: TranslationTree = {
     _linkedin: { label: 'LinkedIn (isteğe bağlı)' },
   },
   'crypto-donate': {
+    coin: {
+      label: 'Kripto para',
+      options: {
+        btc: 'Bitcoin (BTC)',
+        eth: 'Ethereum (ETH)',
+      },
+    },
     address: { label: 'Adres', placeholder: 'bc1q... veya 0x...' },
     _purpose: { label: 'Amaç', placeholder: 'Topluluk bahçemizi destekleyin' },
   },

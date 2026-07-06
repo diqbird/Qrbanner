@@ -23,6 +23,22 @@ export function resolvePrintTemplateDescription(
   return resolved(t, `templates.printFormats.${id}.description`, fallback);
 }
 
+export function resolvePrintTemplatePhysicalSize(
+  t: TranslateFn,
+  id: PrintTemplateId,
+  fallback: string,
+): string {
+  return resolved(t, `templates.printFormats.${id}.physicalSize`, fallback);
+}
+
+export function resolvePrintTemplateUseCase(
+  t: TranslateFn,
+  id: PrintTemplateId,
+  fallback: string,
+): string {
+  return resolved(t, `templates.printFormats.${id}.useCase`, fallback);
+}
+
 export function resolveIndustryPrintNotes(
   t: TranslateFn,
   templateId: string,

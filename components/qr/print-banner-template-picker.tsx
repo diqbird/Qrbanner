@@ -6,6 +6,7 @@ import {
   resolveIndustryPrintNotes,
   resolvePrintTemplateDescription,
   resolvePrintTemplateName,
+  resolvePrintTemplatePhysicalSize,
 } from '@/lib/i18n/resolve-print-copy';
 import type { PrintBannerExportState } from '@/hooks/use-print-banner-export';
 
@@ -51,7 +52,9 @@ export function PrintBannerTemplatePicker({ exportState }: { exportState: PrintB
               {resolvePrintTemplateDescription(t, tpl.id, tpl.description)}
             </p>
             {tpl.physicalSize ? (
-              <p className="text-[10px] text-muted-foreground mt-1">{tpl.physicalSize}</p>
+              <p className="text-[10px] text-muted-foreground mt-1">
+                {resolvePrintTemplatePhysicalSize(t, tpl.id, tpl.physicalSize)}
+              </p>
             ) : null}
           </button>
         ))}

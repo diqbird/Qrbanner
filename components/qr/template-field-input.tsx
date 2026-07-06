@@ -8,6 +8,7 @@ import {
   resolveTemplateFieldHint,
   resolveTemplateFieldLabel,
   resolveTemplateFieldPlaceholder,
+  resolveTemplateFieldOptionLabel,
 } from '@/lib/i18n/resolve-template-copy';
 import type { TemplateFieldDef } from '@/lib/industry-templates';
 
@@ -49,7 +50,7 @@ export function TemplateFieldInput({
         >
           {field.options.map((opt) => (
             <option key={opt.value} value={opt.value}>
-              {opt.label}
+              {resolveTemplateFieldOptionLabel(t, templateId, field.key, opt.value, opt.label)}
             </option>
           ))}
         </select>
