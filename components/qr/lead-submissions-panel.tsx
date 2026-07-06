@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { UserPlus, Mail, Phone, MessageSquare } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
 
 interface LeadRow {
   id: string;
@@ -18,6 +19,7 @@ interface LeadRow {
 }
 
 export function LeadSubmissionsPanel({ qrId }: { qrId: string }) {
+  const { t } = useLanguage();
   const [leads, setLeads] = useState<LeadRow[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -48,9 +50,9 @@ export function LeadSubmissionsPanel({ qrId }: { qrId: string }) {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="font-display text-base flex items-center gap-2">
-          <UserPlus className="h-4 w-4 text-primary" /> Lead Captures
+          <UserPlus className="h-4 w-4 text-primary" /> {t('analytics.leads.title')}
         </CardTitle>
-        <Badge variant="secondary">{total} total</Badge>
+        <Badge variant="secondary">{t('analytics.leads.total', { count: String(total) })}</Badge>
       </CardHeader>
       <CardContent className="space-y-2">
         {leads.map((lead) => (

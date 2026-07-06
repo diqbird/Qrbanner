@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ResponsiveContainer, PieChart, Pie, Cell, Tooltip,
 } from 'recharts';
+import { useLanguage } from '@/components/i18n/language-provider';
 import { ANALYTICS_CHART_COLORS } from '@/lib/analytics-chart-constants';
 import type { NamedValue } from '@/lib/analytics-distribution-data';
 
@@ -21,6 +22,8 @@ export function AnalyticsPieChartCard({
   data: NamedValue[];
   colorOffset?: number;
 }) {
+  const { t } = useLanguage();
+
   return (
     <Card>
       <CardHeader>
@@ -56,7 +59,7 @@ export function AnalyticsPieChartCard({
                 className="h-2.5 w-2.5 rounded-full"
                 style={{ backgroundColor: COLORS[(i + colorOffset) % COLORS.length] }}
               />
-              <span>{d?.name ?? 'Unknown'}: {d?.value ?? 0}</span>
+              <span>{d?.name ?? t('analytics.unknown')}: {d?.value ?? 0}</span>
             </div>
           ))}
         </div>

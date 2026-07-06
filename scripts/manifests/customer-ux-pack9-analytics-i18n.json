@@ -1,0 +1,27 @@
+{
+  "upload": [
+    "lib/date-locale.ts",
+    "lib/optimization-insights.ts",
+    "lib/gps-heatmap-globe-points.ts",
+    "components/qr/optimization-insights-panel.tsx",
+    "components/qr/gps-heatmap.tsx",
+    "components/qr/gps-heatmap-flat-map.tsx",
+    "components/qr/gps-heatmap-globe.tsx",
+    "components/qr/gps-heatmap-globe-inner.tsx",
+    "components/qr/gps-heatmap-globe-legend.tsx",
+    "components/qr/lead-submissions-panel.tsx",
+    "components/qr/analytics-pie-chart-card.tsx",
+    "components/qr/analytics-view-retention-banner.tsx",
+    "components/qr/campaign-wizard-done-step.tsx",
+    "components/ui/date-range-picker.tsx",
+    "components/dashboard/campaigns-panel-list.tsx",
+    "components/dashboard/dashboard-analytics.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

@@ -1563,6 +1563,50 @@ export const en: TranslationTree = {
       medium: 'Medium',
       campaign: 'Campaign',
     },
+    unknown: 'Unknown',
+    dateRangePlaceholder: 'Pick a date range',
+    insights: {
+      panelTitle: 'Optimization Tips',
+      items: {
+        noScans: {
+          title: 'No scans yet',
+          body: 'Share your QR on packaging, social bio, or print materials. Add a “Scan Me” frame for better visibility.',
+        },
+        mobileHeavy: {
+          title: '{{mobilePct}}% mobile scans',
+          body: 'Most users scan from phones — optimize landing pages for mobile and keep redirect URLs fast.',
+        },
+        repeatScans: {
+          title: 'High repeat scan rate',
+          body: 'Many users scan more than once — great for menus or WiFi. Consider a static QR if the link never changes.',
+        },
+        peakHour: {
+          title: 'Peak hour: {{hour}}:00–{{hourEnd}}:00',
+          body: 'Schedule campaigns or staff availability around your busiest scan window.',
+        },
+        geoDiverse: {
+          title: 'International audience',
+          body: 'Enable geofencing or localized landing pages for top countries.',
+        },
+        menuTip: {
+          title: 'Restaurant best practice',
+          body: 'Use time-based routing for lunch vs dinner menus and NFC tags on table tents.',
+        },
+      },
+    },
+    heatmap: {
+      title: 'GPS Heatmap',
+      hint: '{{count}} location clusters · taller/larger = more scans · drag to rotate',
+      legendGps: 'GPS',
+      legendIp: 'IP approx.',
+      loadingGlobe: 'Loading globe…',
+      tooltipOne: '{{label}} · 1 scan',
+      tooltipMany: '{{label}} · {{count}} scans',
+    },
+    leads: {
+      title: 'Lead Captures',
+      total: '{{count}} total',
+    },
   },
   admin: {
     title: 'Site Admin',
@@ -1732,6 +1776,7 @@ export const en: TranslationTree = {
     namePlaceholder: 'Campaign name (e.g. Summer 2026)',
     empty: 'No campaigns yet. Create one to organize bulk imports and promos.',
     active: 'active',
+    qrSummary: '{{qrCount}} QR · {{activeCount}} active',
     created: 'Campaign created',
     createFailed: 'Could not create campaign',
   },

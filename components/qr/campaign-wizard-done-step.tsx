@@ -30,7 +30,7 @@ export function CampaignWizardDoneStep({ wizard }: CampaignWizardDoneStepProps) 
         <div>
           <h2 className="font-display text-xl font-bold">{t('campaign.successTitle')}</h2>
           <p className="mt-1 text-sm text-muted-foreground">{t('campaign.successSubtitle')}</p>
-          <p className="mt-2 text-sm font-medium">{result.created.length} QR</p>
+          <p className="mt-2 text-sm font-medium">{t('campaign.itemsCount', { count: result.created.length })}</p>
         </div>
         <div className="flex flex-wrap justify-center gap-3">
           <Button asChild>

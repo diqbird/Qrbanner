@@ -1563,6 +1563,50 @@ export const tr: TranslationTree = {
       medium: 'Ortam',
       campaign: 'Kampanya',
     },
+    unknown: 'Bilinmiyor',
+    dateRangePlaceholder: 'Tarih aralığı seçin',
+    insights: {
+      panelTitle: 'Optimizasyon İpuçları',
+      items: {
+        noScans: {
+          title: 'Henüz tarama yok',
+          body: 'QR kodunuzu ambalaj, sosyal biyografi veya baskı materyallerinde paylaşın. Daha görünür olması için “Beni tara” çerçevesi ekleyin.',
+        },
+        mobileHeavy: {
+          title: '%{{mobilePct}} mobil tarama',
+          body: 'Kullanıcıların çoğu telefondan tarıyor — açılış sayfalarını mobil için optimize edin ve yönlendirme URL\'lerini hızlı tutun.',
+        },
+        repeatScans: {
+          title: 'Yüksek tekrar tarama oranı',
+          body: 'Birçok kullanıcı birden fazla kez tarıyor — menüler veya Wi‑Fi için harika. Bağlantı değişmiyorsa statik QR düşünün.',
+        },
+        peakHour: {
+          title: 'Yoğun saat: {{hour}}:00–{{hourEnd}}:00',
+          body: 'Kampanyaları veya personel müsaitliğini en yoğun tarama pencerenize göre planlayın.',
+        },
+        geoDiverse: {
+          title: 'Uluslararası kitle',
+          body: 'En çok taranan ülkeler için coğrafi sınırlandırma veya yerelleştirilmiş açılış sayfaları etkinleştirin.',
+        },
+        menuTip: {
+          title: 'Restoran en iyi uygulaması',
+          body: 'Öğle ve akşam menüleri için zamana dayalı yönlendirme ve masa üstü NFC etiketleri kullanın.',
+        },
+      },
+    },
+    heatmap: {
+      title: 'GPS Isı Haritası',
+      hint: '{{count}} konum kümesi · daha uzun/büyük = daha fazla tarama · döndürmek için sürükleyin',
+      legendGps: 'GPS',
+      legendIp: 'IP yaklaşık',
+      loadingGlobe: 'Küre yükleniyor…',
+      tooltipOne: '{{label}} · 1 tarama',
+      tooltipMany: '{{label}} · {{count}} tarama',
+    },
+    leads: {
+      title: 'Lead Kayıtları',
+      total: '{{count}} toplam',
+    },
   },
   admin: {
     title: 'Site Yönetimi',
@@ -1732,6 +1776,7 @@ export const tr: TranslationTree = {
     namePlaceholder: 'Kampanya adı (ör. Yaz 2026)',
     empty: 'Henüz kampanya yok. Toplu içe aktarma ve promosyonlar için bir tane oluşturun.',
     active: 'aktif',
+    qrSummary: '{{qrCount}} QR · {{activeCount}} aktif',
     created: 'Kampanya oluşturuldu',
     createFailed: 'Kampanya oluşturulamadı',
   },

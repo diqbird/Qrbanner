@@ -39,7 +39,7 @@ export function CampaignsPanelList({ panel }: { panel: CampaignsPanelState }) {
                 <div className="min-w-0">
                   <p className="truncate font-medium text-sm">{c.name}</p>
                   <p className="text-xs text-muted-foreground">
-                    {c.qrCount} QR · {c.activeCount} {t('campaigns.active')}
+                    {t('campaigns.qrSummary', { qrCount: c.qrCount, activeCount: c.activeCount })}
                   </p>
                 </div>
                 <div className="flex shrink-0 items-center gap-2">

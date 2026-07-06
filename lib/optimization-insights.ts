@@ -1,10 +1,17 @@
 import type { ScanRecord } from '@/lib/analytics-utils';
 
+export type OptimizationInsightId =
+  | 'noScans'
+  | 'mobileHeavy'
+  | 'repeatScans'
+  | 'peakHour'
+  | 'geoDiverse'
+  | 'menuTip';
+
 export interface OptimizationInsight {
-  id: string;
+  id: OptimizationInsightId;
   severity: 'info' | 'warning' | 'success';
-  title: string;
-  body: string;
+  params?: Record<string, string | number>;
 }
 
 export function buildOptimizationInsights(
@@ -17,10 +24,8 @@ export function buildOptimizationInsights(
 
   if (total === 0) {
     insights.push({
-      id: 'no-scans',
+      id: 'noScans',
       severity: 'info',
-      title: 'No scans yet',
-      body: 'Share your QR on packaging, social bio, or print materials. Add a “Scan Me” frame for better visibility.',
     });
     return insights;
   }
@@ -29,20 +34,17 @@ export function buildOptimizationInsights(
   const mobilePct = Math.round((mobile / total) * 100);
   if (mobilePct > 70) {
     insights.push({
-      id: 'mobile-heavy',
+      id: 'mobileHeavy',
       severity: 'success',
-      title: `${mobilePct}% mobile scans`,
-      body: 'Most users scan from phones — optimize landing pages for mobile and keep redirect URLs fast.',
+      params: { mobilePct },
     });
   }
 
   const repeatRate = total > 0 && unique > 0 ? total / unique : 1;
   if (repeatRate > 2.5) {
     insights.push({
-      id: 'repeat-scans',
+      id: 'repeatScans',
       severity: 'info',
-      title: 'High repeat scan rate',
-      body: 'Many users scan more than once — great for menus or WiFi. Consider a static QR if the link never changes.',
     });
   }
 
@@ -54,29 +56,24 @@ export function buildOptimizationInsights(
   const peakHour = hours.indexOf(Math.max(...hours));
   if (Math.max(...hours) > 0) {
     insights.push({
-      id: 'peak-hour',
+      id: 'peakHour',
       severity: 'info',
-      title: `Peak hour: ${peakHour}:00–${peakHour + 1}:00`,
-      body: 'Schedule campaigns or staff availability around your busiest scan window.',
+      params: { hour: peakHour, hourEnd: peakHour + 1 },
     });
   }
 
   const countries = new Set(scans.map((s) => s.country).filter(Boolean));
   if (countries.size > 3) {
     insights.push({
-      id: 'geo-diverse',
+      id: 'geoDiverse',
       severity: 'warning',
-      title: 'International audience',
-      body: 'Enable geofencing or localized landing pages for top countries.',
     });
   }
 
   if (opts?.category === 'menu' || opts?.category === 'restaurant') {
     insights.push({
-      id: 'menu-tip',
+      id: 'menuTip',
       severity: 'info',
-      title: 'Restaurant best practice',
-      body: 'Use time-based routing for lunch vs dinner menus and NFC tags on table tents.',
     });
   }
 
