@@ -91,6 +91,7 @@ export function buildPublicFooterSections(
           : []),
         { href: '/help', label: t('nav.help') },
         { href: '/faq', label: t('nav.helpFaq') },
+        { href: '/status', label: t('footer.systemStatus') },
       ],
     },
     {

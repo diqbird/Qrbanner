@@ -11,6 +11,9 @@ export interface ReferralRewardProgress {
 
 export const REFERRAL_REWARD_MIN_SIGNUPS = 5;
 
+/** Complimentary Pro days granted when claiming the 5-referral milestone. */
+export const REFERRAL_REWARD_PRO_DAYS = 30;
+
 export function getReferralRewardProgress(signupCount: number): ReferralRewardProgress {
   const count = Math.max(0, signupCount);
   const currentMilestone =

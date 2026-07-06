@@ -8,6 +8,7 @@ import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { Gift, Link2, Users, ArrowRight } from 'lucide-react';
 import { freePlanQrLimit } from '@/lib/plans';
+import { REFERRAL_REWARD_PRO_DAYS } from '@/lib/referral-rewards';
 
 const STEP_ICONS = [Link2, Users, Gift];
 const STEP_KEYS = ['referralLanding.step1', 'referralLanding.step2', 'referralLanding.step3'] as const;
@@ -91,11 +92,13 @@ export default async function ReferralLandingPage() {
             <ul className="mt-6 space-y-3">
               {([1, 3, 5, 10] as const).map((m) => (
                 <li key={m} className="rounded-lg border border-border/50 bg-card px-4 py-3 text-sm text-muted-foreground">
-                  {t(`referral.milestone${m}` as 'referral.milestone1')}
+                  {t(`referral.milestone${m}` as 'referral.milestone1', { days: REFERRAL_REWARD_PRO_DAYS })}
                 </li>
               ))}
             </ul>
-            <p className="mt-4 text-xs text-muted-foreground">{t('referral.rewardsNote')}</p>
+            <p className="mt-4 text-xs text-muted-foreground">
+              {t('referral.rewardsNote', { days: REFERRAL_REWARD_PRO_DAYS })}
+            </p>
           </section>
 
           <section className="mt-16 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 to-background p-8">

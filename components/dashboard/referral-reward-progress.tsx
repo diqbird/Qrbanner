@@ -1,6 +1,6 @@
 'use client';
 
-import { REFERRAL_MILESTONES } from '@/lib/referral-rewards';
+import { REFERRAL_MILESTONES, REFERRAL_REWARD_PRO_DAYS } from '@/lib/referral-rewards';
 import { CheckCircle2, Circle } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 
@@ -21,13 +21,17 @@ export function ReferralRewardProgress({ signupCount }: { signupCount: number })
                 <Circle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
               )}
               <span className={done ? 'text-foreground' : ''}>
-                {t(`referral.milestone${m}` as 'referral.milestone1')}
+                {t(`referral.milestone${m}` as 'referral.milestone1', {
+                  days: REFERRAL_REWARD_PRO_DAYS,
+                })}
               </span>
             </li>
           );
         })}
       </ul>
-      <p className="text-xs text-muted-foreground">{t('referral.rewardsNote')}</p>
+      <p className="text-xs text-muted-foreground">
+        {t('referral.rewardsNote', { days: REFERRAL_REWARD_PRO_DAYS })}
+      </p>
     </div>
   );
 }

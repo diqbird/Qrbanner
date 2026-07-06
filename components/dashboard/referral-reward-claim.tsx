@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { REFERRAL_REWARD_PRO_DAYS } from '@/lib/referral-rewards';
 
 export function ReferralRewardClaim({
   eligible,
@@ -37,7 +38,7 @@ export function ReferralRewardClaim({
         toast.error(data?.error ?? t('referral.rewardClaimFailed'));
         return;
       }
-      toast.success(t('referral.rewardClaimSuccess'));
+      toast.success(t('referral.rewardClaimSuccess', { days: REFERRAL_REWARD_PRO_DAYS }));
       if (data.redirect) {
         router.push(data.redirect);
         return;
@@ -56,7 +57,9 @@ export function ReferralRewardClaim({
         <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
         <div className="space-y-2">
           <p className="text-sm font-medium">{t('referral.rewardEligibleTitle')}</p>
-          <p className="text-sm text-muted-foreground">{t('referral.rewardEligibleDesc')}</p>
+          <p className="text-sm text-muted-foreground">
+            {t('referral.rewardEligibleDesc', { days: REFERRAL_REWARD_PRO_DAYS })}
+          </p>
           <Button type="button" size="sm" onClick={claim} loading={loading}>
             {t('referral.claimReward')}
           </Button>

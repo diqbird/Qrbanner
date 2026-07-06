@@ -21,6 +21,7 @@ export const SITE_SEARCH_INDEX: SiteSearchItem[] = [
   { id: 'blog', titleKey: 'siteSearch.blog', href: '/blog', groupKey: 'siteSearch.groupPages' },
   { id: 'faq', titleKey: 'siteSearch.faq', href: '/faq', groupKey: 'siteSearch.groupPages' },
   { id: 'help', titleKey: 'siteSearch.help', href: '/help', groupKey: 'siteSearch.groupPages' },
+  { id: 'status', titleKey: 'siteSearch.status', href: '/status', groupKey: 'siteSearch.groupPages' },
   { id: 'contact', titleKey: 'siteSearch.contact', href: '/contact', groupKey: 'siteSearch.groupPages' },
   { id: 'about', titleKey: 'siteSearch.about', href: '/about', groupKey: 'siteSearch.groupPages' },
   { id: 'security', titleKey: 'siteSearch.security', href: '/security', groupKey: 'siteSearch.groupPages' },

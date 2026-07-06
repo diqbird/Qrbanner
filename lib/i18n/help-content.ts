@@ -61,6 +61,12 @@ export const HELP_SECTIONS: HelpSection[] = [
         descKey: 'help.topicRefundDesc',
         href: '/refund',
       },
+      {
+        id: 'trial',
+        titleKey: 'help.topicTrialTitle',
+        descKey: 'help.topicTrialDesc',
+        href: '/pricing',
+      },
     ],
   },
   {
@@ -91,6 +97,18 @@ export const HELP_SECTIONS: HelpSection[] = [
         titleKey: 'help.topicSamlTitle',
         descKey: 'help.topicSamlDesc',
         href: '/login?callbackUrl=%2Fsettings%3Ftab%3Dsaml',
+      },
+      {
+        id: 'mobile',
+        titleKey: 'help.topicMobileTitle',
+        descKey: 'help.topicMobileDesc',
+        href: '/apps',
+      },
+      {
+        id: 'status',
+        titleKey: 'help.topicStatusTitle',
+        descKey: 'help.topicStatusDesc',
+        href: '/status',
       },
     ],
   },

@@ -3,9 +3,10 @@ export const dynamic = 'force-dynamic';
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { isBillingConfigured } from '@/lib/billing-provider';
-import { canClaimReferralReward } from '@/lib/referral-rewards';
+import { canClaimReferralReward, REFERRAL_REWARD_PRO_DAYS } from '@/lib/referral-rewards';
 import { referralClaimedBranding } from '@/lib/referral-checkout';
 import { parseBrandingSettings } from '@/lib/referral';
+import { normalizePlanId } from '@/lib/plans';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
 
 /** Claim 5-referral Pro reward — complimentary Pro plan grant via Paddle billing stack. */
@@ -25,7 +26,7 @@ export async function POST() {
         id: true,
         referralSignupCount: true,
         plan: true,
-        proTrialUsedAt: true,
+        paddleSubscriptionId: true,
         brandingSettings: true,
       },
     });
@@ -36,19 +37,28 @@ export async function POST() {
       return NextResponse.json({ error: 'Reward not available' }, { status: 403 });
     }
 
+    if (user.paddleSubscriptionId) {
+      return NextResponse.json({ error: 'paid_subscription_active' }, { status: 403 });
+    }
+
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + REFERRAL_REWARD_PRO_DAYS);
+
     await prisma.user.update({
       where: { id: user.id },
       data: {
-        plan: user.plan === 'free' ? 'pro' : user.plan,
-        proTrialUsedAt: user.proTrialUsedAt ?? new Date(),
+        plan: normalizePlanId(user.plan) === 'free' ? 'pro' : user.plan,
+        planGrantExpiresAt: expiresAt,
         brandingSettings: referralClaimedBranding(user.brandingSettings),
       },
     });
 
     return NextResponse.json({
       ok: true,
-      plan: user.plan === 'free' ? 'pro' : user.plan,
-      redirect: '/settings?billing=referral_reward',
+      plan: normalizePlanId(user.plan) === 'free' ? 'pro' : user.plan,
+      expiresAt: expiresAt.toISOString(),
+      daysGranted: REFERRAL_REWARD_PRO_DAYS,
+      redirect: '/settings?tab=plan&billing=referral_reward',
     });
   } catch (error) {
     console.error('[referral claim-reward]', error);

@@ -1,0 +1,21 @@
+{
+  "upload": [
+    "lib/referral-rewards.ts",
+    "app/api/referral/claim-reward/route.ts",
+    "components/dashboard/referral-reward-progress.tsx",
+    "components/dashboard/referral-reward-claim.tsx",
+    "app/(public)/referral/page.tsx",
+    "lib/i18n/help-content.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/public-footer-links.ts",
+    "lib/site-search.ts",
+    "app/sitemap.ts",
+    "app/(public)/status/page.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
