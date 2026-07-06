@@ -1,0 +1,24 @@
+{
+  "upload": [
+    "lib/i18n/resolve-automation-defaults.ts",
+    "lib/i18n/resolve-automation-log-error.ts",
+    "lib/i18n/smtp-test-email.ts",
+    "lib/tenant-email.ts",
+    "app/api/workspace/enterprise/route.ts",
+    "hooks/use-automation-draft.ts",
+    "hooks/use-enterprise-smtp.ts",
+    "hooks/use-enterprise-smtp-actions.ts",
+    "hooks/use-enterprise-workspace.ts",
+    "components/dashboard/automation-flow-action-row.tsx",
+    "components/dashboard/automation-logs-panel.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

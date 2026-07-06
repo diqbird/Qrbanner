@@ -12,12 +12,14 @@ export function useEnterpriseSmtp({
   state,
   patchEnterprise,
   t,
+  locale,
   setWorking,
 }: {
   activeId: string;
   state: EnterpriseState | null;
   patchEnterprise: PatchEnterprise;
   t: Translate;
+  locale: 'en' | 'tr';
   setWorking: (v: boolean) => void;
 }) {
   const smtpState = useEnterpriseSmtpState();
@@ -27,6 +29,7 @@ export function useEnterpriseSmtp({
     state,
     patchEnterprise,
     t,
+    locale,
     setWorking,
     smtpHost: smtpState.smtpHost,
     smtpPort: smtpState.smtpPort,

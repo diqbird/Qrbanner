@@ -10,7 +10,7 @@ import { useEnterpriseWorkspaceDetails } from '@/hooks/use-enterprise-workspace-
 import { parseActiveWorkspace, type EnterpriseState } from '@/lib/enterprise-workspace-types';
 
 export function useEnterpriseWorkspace() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const { data: wsData, loading: wsLoading } = useSettingsResource({
     url: '/api/workspace',
     parse: parseActiveWorkspace,
@@ -35,6 +35,7 @@ export function useEnterpriseWorkspace() {
     state,
     patchEnterprise: patch.patchEnterprise,
     t,
+    locale,
     setWorking,
   });
 

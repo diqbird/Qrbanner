@@ -165,7 +165,8 @@ python scripts/configure-review-profiles.py \
 | 22 | `f9b3125` | Analytics country display via Intl; A/B variant chart labels |
 | 23 | `eb3ad38` | Scan simulation decoded/confidence i18n; localized analytics CSV/PDF values |
 | 24 | `506289b` | Analytics city labels; scan notification email TR/EN; API key example i18n |
-| 25 | (this deploy) | Verification + password-reset email TR/EN; signup stores preferredLocale |
+| 25 | `e4d9dd0` | Verification + password-reset email TR/EN; signup stores preferredLocale |
+| 26 | (this deploy) | Automation action defaults, SMTP test email, log error labels |
 
 ---
 

@@ -611,6 +611,17 @@ export const en: TranslationTree = {
         email: 'Email',
         webhook: 'Webhook (CRM/Zapier)',
       },
+      defaults: {
+        slackMessage: 'New event: {{qrName}} from {{country}}',
+        discordMessage: 'Event: {{qrName}} — {{country}}',
+        emailSubject: 'QRbanner: {{qrName}}',
+        emailBody: 'Trigger fired for {{shortCode}} from {{country}}.',
+      },
+      errors: {
+        emailNotConfigured: 'Email delivery not configured',
+        actionFailed: 'Action failed',
+        http: 'Webhook returned HTTP {{status}}',
+      },
     },
     customDomain: {
       title: 'Custom Domain',
@@ -2150,6 +2161,8 @@ export const en: TranslationTree = {
     sendTest: 'Send test email',
     smtpTestSent: 'Test email sent',
     smtpTestFailed: 'Test email failed',
+    smtpTestSubject: 'QRbanner SMTP test',
+    smtpTestBody: 'Your workspace SMTP configuration is working.',
     scimTitle: 'SCIM provisioning',
     scimDesc: 'Sync users from Okta, Azure AD or any SCIM 2.0 IdP into this workspace.',
     enableScim: 'Enable SCIM',

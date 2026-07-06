@@ -1,23 +1,24 @@
 'use client';
 
 import { useState } from 'react';
+import { useLanguage } from '@/components/i18n/language-provider';
 import type { AutomationAction, AutomationCondition, AutomationFlowData } from '@/lib/automation-types';
 import { MAX_AUTOMATION_ACTIONS, MAX_AUTOMATION_CONDITIONS } from '@/lib/automation-types';
 import {
-  defaultAutomationAction,
-  emptyAutomationDraft,
-  parseAutomationFlow,
-  type AutomationFlowRow,
-} from '@/lib/automation-flow-utils';
+  defaultAutomationActionLocalized,
+  emptyAutomationDraftLocalized,
+} from '@/lib/i18n/resolve-automation-defaults';
+import { parseAutomationFlow, type AutomationFlowRow } from '@/lib/automation-flow-utils';
 
 export function useAutomationDraft() {
+  const { t } = useLanguage();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [draft, setDraft] = useState<AutomationFlowData>(emptyAutomationDraft());
+  const [draft, setDraft] = useState<AutomationFlowData>(() => emptyAutomationDraftLocalized(t));
 
   const openCreate = () => {
     setEditingId(null);
-    setDraft(emptyAutomationDraft());
+    setDraft(emptyAutomationDraftLocalized(t));
     setDialogOpen(true);
   };
 
@@ -60,7 +61,7 @@ export function useAutomationDraft() {
 
   const addAction = () => {
     if (draft.actions.length >= MAX_AUTOMATION_ACTIONS) return;
-    setDraft((prev) => ({ ...prev, actions: [...prev.actions, defaultAutomationAction()] }));
+    setDraft((prev) => ({ ...prev, actions: [...prev.actions, defaultAutomationActionLocalized(t)] }));
   };
 
   const removeAction = (index: number) => {

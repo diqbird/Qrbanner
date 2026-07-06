@@ -1,4 +1,6 @@
 import nodemailer from 'nodemailer';
+import { buildSmtpTestEmailContent } from '@/lib/i18n/smtp-test-email';
+import type { Locale } from '@/lib/i18n/types';
 import type { Transporter } from 'nodemailer';
 import { createSmtpTransport, smtpFromAddress } from '@/lib/smtp-transport';
 import { prisma } from '@/lib/db';
@@ -86,13 +88,18 @@ export async function sendTenantMail(
   return { sent: true, fallback: false, tenant: usedTenant };
 }
 
-export async function testWorkspaceSmtp(workspaceId: string, to: string): Promise<{ sent: boolean }> {
+export async function testWorkspaceSmtp(
+  workspaceId: string,
+  to: string,
+  locale: Locale = 'en',
+): Promise<{ sent: boolean }> {
+  const { subject, text, html } = buildSmtpTestEmailContent(locale);
   const result = await sendTenantMail({
     workspaceId,
     to,
-    subject: 'QRbanner SMTP test',
-    text: 'Your workspace SMTP configuration is working.',
-    html: '<p>Your workspace SMTP configuration is working.</p>',
+    subject,
+    text,
+    html,
     fromName: 'QRbanner',
   });
   return { sent: result.sent };

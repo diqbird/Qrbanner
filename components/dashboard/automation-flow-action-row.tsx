@@ -6,7 +6,8 @@ import {
 } from '@/components/ui/select';
 import { Trash2 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { AUTOMATION_ACTION_TYPES, defaultAutomationAction } from '@/lib/automation-flow-utils';
+import { AUTOMATION_ACTION_TYPES } from '@/lib/automation-flow-utils';
+import { defaultAutomationActionLocalized } from '@/lib/i18n/resolve-automation-defaults';
 import type { AutomationBuilderState } from '@/hooks/use-automation-builder';
 import {
   AutomationFlowActionChatFields,
@@ -32,7 +33,7 @@ export function AutomationFlowActionRow({ builder, index }: AutomationFlowAction
         <Select
           value={action.type}
           onValueChange={(v) =>
-            updateAction(index, defaultAutomationAction(v as (typeof AUTOMATION_ACTION_TYPES)[number]))
+            updateAction(index, defaultAutomationActionLocalized(t, v as (typeof AUTOMATION_ACTION_TYPES)[number]))
           }
         >
           <SelectTrigger className="w-[180px]">

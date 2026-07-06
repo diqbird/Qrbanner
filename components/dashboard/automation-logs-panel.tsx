@@ -3,6 +3,7 @@
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/components/i18n/language-provider';
 import type { AutomationTrigger } from '@/lib/automation-types';
+import { resolveAutomationLogError } from '@/lib/i18n/resolve-automation-log-error';
 import type { AutomationBuilderState } from '@/hooks/use-automation-builder';
 
 type AutomationLogsPanelProps = {
@@ -36,7 +37,9 @@ export function AutomationLogsPanel({ builder }: AutomationLogsPanelProps) {
                   {triggerLabel(log.trigger as AutomationTrigger)} ·{' '}
                   {new Date(log.createdAt).toLocaleString()}
                 </p>
-                {log.error && <p className="text-destructive">{log.error}</p>}
+                {log.error && (
+                  <p className="text-destructive">{resolveAutomationLogError(t, log.error)}</p>
+                )}
               </div>
               <Badge variant={log.success ? 'default' : 'destructive'}>
                 {log.success

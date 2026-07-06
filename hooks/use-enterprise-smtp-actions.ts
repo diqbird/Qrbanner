@@ -12,6 +12,7 @@ export function useEnterpriseSmtpActions({
   state,
   patchEnterprise,
   t,
+  locale,
   setWorking,
   smtpHost,
   smtpPort,
@@ -25,6 +26,7 @@ export function useEnterpriseSmtpActions({
   state: EnterpriseState | null;
   patchEnterprise: PatchEnterprise;
   t: Translate;
+  locale: 'en' | 'tr';
   setWorking: (v: boolean) => void;
   smtpHost: string;
   smtpPort: string;
@@ -66,7 +68,12 @@ export function useEnterpriseSmtpActions({
       const res = await fetch('/api/workspace/enterprise', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'test_smtp', workspaceId: activeId, testEmail: testEmail.trim() }),
+        body: JSON.stringify({
+          action: 'test_smtp',
+          workspaceId: activeId,
+          testEmail: testEmail.trim(),
+          locale,
+        }),
       });
       const data = await res.json();
       if (!res.ok) return toast.error(resolveApiError(t, data.error, 'enterpriseWorkspace.smtpTestFailed'));

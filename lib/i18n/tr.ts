@@ -612,6 +612,17 @@ export const tr: TranslationTree = {
         email: 'E-posta',
         webhook: 'Webhook (CRM/Zapier)',
       },
+      defaults: {
+        slackMessage: 'Yeni olay: {{country}} konumundan {{qrName}}',
+        discordMessage: 'Olay: {{qrName}} — {{country}}',
+        emailSubject: 'QRbanner: {{qrName}}',
+        emailBody: '{{shortCode}} için tetikleyici çalıştı — {{country}}.',
+      },
+      errors: {
+        emailNotConfigured: 'E-posta gönderimi yapılandırılmamış',
+        actionFailed: 'Eylem başarısız',
+        http: 'Webhook HTTP {{status}} döndürdü',
+      },
     },
     customDomain: {
       title: 'Özel Alan Adı',
@@ -2151,6 +2162,8 @@ export const tr: TranslationTree = {
     sendTest: 'Test e-postası gönder',
     smtpTestSent: 'Test e-postası gönderildi',
     smtpTestFailed: 'Test e-postası başarısız',
+    smtpTestSubject: 'QRbanner SMTP testi',
+    smtpTestBody: 'Çalışma alanı SMTP yapılandırmanız çalışıyor.',
     scimTitle: 'SCIM provizyon',
     scimDesc: 'Okta, Azure AD veya herhangi bir SCIM 2.0 IdP\'den kullanıcıları bu çalışma alanına senkronize edin.',
     enableScim: 'SCIM etkinleştir',

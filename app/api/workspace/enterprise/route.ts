@@ -12,6 +12,8 @@ import {
 } from '@/lib/workspace-enterprise';
 import { generateScimBearerToken } from '@/lib/scim';
 import { testWorkspaceSmtp } from '@/lib/tenant-email';
+import { resolveEmailLocaleFromRequest } from '@/lib/i18n/resolve-email-locale';
+import { resolveUserEmailLocale } from '@/lib/referral';
 
 const enterpriseSelect = {
   id: true,
@@ -117,7 +119,14 @@ export async function PATCH(req: NextRequest) {
     }
     const to = String(body.testEmail ?? '').trim();
     if (!to) return NextResponse.json({ error: 'email_required' }, { status: 400 });
-    const result = await testWorkspaceSmtp(workspaceId, to);
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { brandingSettings: true },
+    });
+    const fromRequest = resolveEmailLocaleFromRequest(req, body.locale);
+    const locale =
+      fromRequest === 'tr' ? 'tr' : resolveUserEmailLocale(user?.brandingSettings);
+    const result = await testWorkspaceSmtp(workspaceId, to, locale);
     if (!result.sent) return NextResponse.json({ error: 'smtp_test_failed' }, { status: 400 });
     return NextResponse.json({ ok: true });
   }
