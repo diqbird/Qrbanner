@@ -35,7 +35,9 @@ export function AutomationFlowConditionRow({ builder, index }: AutomationFlowCon
             }
           >
             <SelectTrigger>
-              <SelectValue />
+              <SelectValue>
+                {cond.op === 'neq' ? t('settings.automations.opNeq') : t('settings.automations.opEq')}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="eq">{t('settings.automations.opEq')}</SelectItem>
@@ -52,7 +54,9 @@ export function AutomationFlowConditionRow({ builder, index }: AutomationFlowCon
             onValueChange={(value) => updateCondition(index, { type: 'device', op: 'eq', value })}
           >
             <SelectTrigger>
-              <SelectValue />
+              <SelectValue>
+                {resolveAnalyticsDeviceLabel(t, cond.value || 'Mobile')}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               {(['Mobile', 'Desktop', 'Tablet'] as const).map((device) => (

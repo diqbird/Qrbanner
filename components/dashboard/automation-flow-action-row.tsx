@@ -37,7 +37,7 @@ export function AutomationFlowActionRow({ builder, index }: AutomationFlowAction
           }
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue />
+            <SelectValue>{actionLabel(action.type)}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             {AUTOMATION_ACTION_TYPES.map((at) => (

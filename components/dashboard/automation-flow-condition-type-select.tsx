@@ -38,7 +38,11 @@ export function AutomationFlowConditionTypeSelect({
         }}
       >
         <SelectTrigger>
-          <SelectValue />
+          <SelectValue>
+            {cond.type === 'device'
+              ? t('settings.automations.fieldDevice')
+              : t('settings.automations.fieldCountry')}
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="country">{t('settings.automations.fieldCountry')}</SelectItem>

@@ -24,6 +24,7 @@ export const tr: TranslationTree = {
     email: 'E-posta',
     password: 'Şifre',
     name: 'Ad',
+    accountNameFallback: 'Kullanıcı',
     refresh: 'Yenile',
     learnMore: 'Daha fazla',
     createFree: 'Ücretsiz oluştur',

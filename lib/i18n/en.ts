@@ -23,6 +23,7 @@ export const en: TranslationTree = {
     email: 'Email',
     password: 'Password',
     name: 'Name',
+    accountNameFallback: 'User',
     refresh: 'Refresh',
     learnMore: 'Learn more',
     createFree: 'Create free',

@@ -66,7 +66,7 @@ export function DashboardSidebar({ shell }: { shell: DashboardShellState }) {
                 {session?.user?.name?.[0]?.toUpperCase() ?? session?.user?.email?.[0]?.toUpperCase() ?? 'U'}
               </div>
               <div className="flex-1 text-left">
-                <p className="truncate font-medium">{session?.user?.name ?? 'User'}</p>
+                <p className="truncate font-medium">{session?.user?.name ?? t('common.accountNameFallback')}</p>
                 <p className="truncate text-xs text-muted-foreground">{session?.user?.email ?? ''}</p>
               </div>
               <ChevronDown className="h-4 w-4 text-muted-foreground" />

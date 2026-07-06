@@ -168,6 +168,7 @@ python scripts/configure-review-profiles.py \
 | 25 | `e4d9dd0` | Verification + password-reset email TR/EN; signup stores preferredLocale |
 | 26 | `4d54741` | Automation action defaults, SMTP test email, log error labels |
 | 27 | (this deploy) | Automation template var labels; localized values in Slack/email/webhook dispatch |
+| 28 | (this deploy) | Dashboard sidebar account name fallback; automation builder select closed-state labels |
 
 ---
 

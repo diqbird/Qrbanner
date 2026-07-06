@@ -31,7 +31,7 @@ export function AutomationFlowTriggerSection({ builder }: AutomationFlowTriggerS
             onValueChange={(v) => setDraft((p) => ({ ...p, trigger: v as AutomationTrigger }))}
           >
             <SelectTrigger>
-              <SelectValue />
+              <SelectValue>{triggerLabel(draft.trigger)}</SelectValue>
             </SelectTrigger>
             <SelectContent>
               {AUTOMATION_TRIGGERS.map((tr) => (
@@ -49,7 +49,14 @@ export function AutomationFlowTriggerSection({ builder }: AutomationFlowTriggerS
             onValueChange={(v) => setDraft((p) => ({ ...p, qrCodeId: v === '__all__' ? null : v }))}
           >
             <SelectTrigger>
-              <SelectValue />
+              <SelectValue>
+                {(draft.qrCodeId ?? '__all__') === '__all__'
+                  ? t('settings.automations.allQr')
+                  : (() => {
+                      const qr = qrOptions.find((q) => q.id === draft.qrCodeId);
+                      return qr ? `${qr.name} (${qr.shortCode})` : '';
+                    })()}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="__all__">{t('settings.automations.allQr')}</SelectItem>

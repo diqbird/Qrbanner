@@ -1,0 +1,18 @@
+{
+  "upload": [
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "components/dashboard/dashboard-sidebar.tsx",
+    "components/dashboard/automation-flow-condition-row.tsx",
+    "components/dashboard/automation-flow-condition-type-select.tsx",
+    "components/dashboard/automation-flow-action-row.tsx",
+    "components/dashboard/automation-flow-trigger-section.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
