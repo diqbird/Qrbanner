@@ -553,7 +553,7 @@ export const en: TranslationTree = {
       opNeq: 'not equals',
       value: 'Value',
       countryPlaceholder: 'US, TR, DE...',
-      devicePlaceholder: 'mobile, desktop, tablet',
+      devicePlaceholder: 'Select device type',
       addAction: 'Add action',
       templateVars: 'Template variables',
       webhookUrl: 'Webhook URL',
@@ -1721,6 +1721,11 @@ export const en: TranslationTree = {
       linux: 'Linux',
       android: 'Android',
       ios: 'iOS',
+    },
+    sourceLabels: {
+      qr: 'QR code scan',
+      nfc: 'NFC tap',
+      link: 'Direct link',
     },
     funnelStages: {
       scans: 'Scans',

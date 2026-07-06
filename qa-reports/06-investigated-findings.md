@@ -141,7 +141,7 @@ python scripts/configure-review-profiles.py \
 
 ---
 
-## Customer-UX packs 5–20 (summary)
+## Customer-UX packs 5–21 (summary)
 
 | Pack | Commit | Focus |
 |------|--------|-------|
@@ -160,7 +160,8 @@ python scripts/configure-review-profiles.py \
 | 17 | `3dc0afd` | Team/reseller/marketplace status badges i18n; QA doc refresh |
 | 18 | `7451084` | Landing CTA + QR frame label locale defaults; empty editor defaults |
 | 19 | `a777aca` | Plan display names, price badges, marketplace prices, mockup presets |
-| 20 | (this deploy) | Print template physical sizes; Wi‑Fi/crypto template select options |
+| 20 | `cfa6f46` | Print template physical sizes; Wi‑Fi/crypto template select options |
+| 21 | (this deploy) | Scan source analytics labels; print use-case; automation device select |
 
 ---
 

@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/select';
 import { Trash2 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { resolveAnalyticsDeviceLabel } from '@/lib/i18n/resolve-analytics-scan-copy';
 import type { AutomationBuilderState } from '@/hooks/use-automation-builder';
 import { AutomationFlowConditionTypeSelect } from './automation-flow-condition-type-select';
 
@@ -45,23 +46,32 @@ export function AutomationFlowConditionRow({ builder, index }: AutomationFlowCon
       )}
       <div className="min-w-[140px] flex-1 space-y-1">
         <Label className="text-xs">{t('settings.automations.value')}</Label>
-        <Input
-          value={cond.value}
-          onChange={(e) => {
-            const value = e.target.value;
-            updateCondition(
-              index,
-              cond.type === 'device'
-                ? { type: 'device', op: 'eq', value }
-                : { type: 'country', op: cond.op, value },
-            );
-          }}
-          placeholder={
-            cond.type === 'country'
-              ? t('settings.automations.countryPlaceholder')
-              : t('settings.automations.devicePlaceholder')
-          }
-        />
+        {cond.type === 'device' ? (
+          <Select
+            value={cond.value || 'Mobile'}
+            onValueChange={(value) => updateCondition(index, { type: 'device', op: 'eq', value })}
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {(['Mobile', 'Desktop', 'Tablet'] as const).map((device) => (
+                <SelectItem key={device} value={device}>
+                  {resolveAnalyticsDeviceLabel(t, device)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        ) : (
+          <Input
+            value={cond.value}
+            onChange={(e) => {
+              const value = e.target.value;
+              updateCondition(index, { type: 'country', op: cond.op, value });
+            }}
+            placeholder={t('settings.automations.countryPlaceholder')}
+          />
+        )}
       </div>
       <Button type="button" variant="ghost" size="icon-sm" onClick={() => removeCondition(index)} aria-label={t('common.removeAria')}>
         <Trash2 className="h-4 w-4 text-destructive" />

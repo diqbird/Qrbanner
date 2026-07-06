@@ -2,7 +2,7 @@
 
 **Project:** QRbanner (`https://qrbanner.com`)  
 **Report generated:** 2026-07-05 08:02 UTC  
-**Last triage update:** 2026-07-06 (post customer-ux packs 1–20)  
+**Last triage update:** 2026-07-06 (post customer-ux packs 1–21)  
 **Methodology:** Sequential live probes — no code assumptions.
 
 ## Scope
@@ -65,6 +65,7 @@
 | Landing CTA + QR frame label locale defaults (`Continue`/`Scan me` sentinels) | Pack 18 |
 | Plan names, price badges, marketplace prices, mockup preset labels | Pack 19 |
 | Print template physical sizes, template select field options (Wi‑Fi/crypto) | Pack 20 |
+| Analytics scan source labels, print use-case line, automation device select | Pack 21 |
 
 ### Remaining (low impact / operational)
 

@@ -554,7 +554,7 @@ export const tr: TranslationTree = {
       opNeq: 'eşit değildir',
       value: 'Değer',
       countryPlaceholder: 'US, TR, DE...',
-      devicePlaceholder: 'mobile, desktop, tablet',
+      devicePlaceholder: 'Cihaz türü seçin',
       addAction: 'Aksiyon ekle',
       templateVars: 'Şablon değişkenleri',
       webhookUrl: 'Webhook URL',
@@ -1722,6 +1722,11 @@ export const tr: TranslationTree = {
       linux: 'Linux',
       android: 'Android',
       ios: 'iOS',
+    },
+    sourceLabels: {
+      qr: 'QR kod taraması',
+      nfc: 'NFC dokunuşu',
+      link: 'Doğrudan link',
     },
     funnelStages: {
       scans: 'Taramalar',

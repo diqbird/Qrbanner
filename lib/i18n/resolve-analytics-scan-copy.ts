@@ -55,6 +55,23 @@ export function resolveAnalyticsOsLabel(t: TranslateFn, value: string): string {
   return resolveSlugLabel(t, value, OS_SLUGS, 'analytics.osLabels');
 }
 
+const SCAN_SOURCE_SLUGS: Record<string, string> = {
+  qr: 'qr',
+  nfc: 'nfc',
+  link: 'link',
+};
+
+export function resolveAnalyticsScanSourceLabel(t: TranslateFn, value: string): string {
+  if (!value || value === 'Unknown') {
+    return resolved(t, 'analytics.unknown', 'Unknown');
+  }
+  const slug = SCAN_SOURCE_SLUGS[value.toLowerCase()];
+  if (slug) {
+    return resolved(t, `analytics.sourceLabels.${slug}`, value);
+  }
+  return value;
+}
+
 export function localizeNamedValues(
   rows: { name: string; value: number }[],
   localize: (name: string) => string,
