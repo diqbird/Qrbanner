@@ -2,6 +2,8 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Gauge } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { resolvePlanDisplayName } from '@/lib/i18n/resolve-plan-display-name';
 import type { ApiKeySettingsState } from '@/hooks/use-api-key-settings';
 
 type ApiKeyUsagePanelProps = {
@@ -9,8 +11,11 @@ type ApiKeyUsagePanelProps = {
 };
 
 export function ApiKeyUsagePanel({ apiKey }: ApiKeyUsagePanelProps) {
-  const { t, usage, planName } = apiKey;
+  const { locale } = useLanguage();
+  const { t, usage, planId } = apiKey;
   if (!usage) return null;
+
+  const planLabel = planId ? resolvePlanDisplayName(planId, locale) : null;
 
   const pct =
     usage.monthlyQuota > 0 ? Math.min(100, Math.round((usage.monthlyUsed / usage.monthlyQuota) * 100)) : 0;
@@ -22,7 +27,7 @@ export function ApiKeyUsagePanel({ apiKey }: ApiKeyUsagePanelProps) {
         <p className="text-sm font-medium flex items-center gap-2">
           <Gauge className="h-4 w-4 text-primary" /> {t('settings.apiKey.usageTitle')}
         </p>
-        {planName && <Badge variant="outline">{planName}</Badge>}
+        {planLabel && <Badge variant="outline">{planLabel}</Badge>}
       </div>
       <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
         <div

@@ -17,12 +17,12 @@ export interface UsageInfo {
   maxBulkRows: number;
   qrLimit: number;
   qrCodes: number;
-  planName: string;
+  planId: string;
 }
 
 export const defaultBulkUsage: UsageInfo = {
   maxBulkRows: 100,
   qrLimit: 25,
   qrCodes: 0,
-  planName: 'Free',
+  planId: 'free',
 };

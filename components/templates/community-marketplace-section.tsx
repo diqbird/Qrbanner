@@ -6,7 +6,7 @@ import { ArrowRight, Users } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { formatListingPrice } from '@/lib/marketplace-types';
+import { formatLocalizedListingPrice } from '@/lib/i18n/resolve-marketplace-listing-labels';
 
 interface CommunityListing {
   id: string;
@@ -18,7 +18,7 @@ interface CommunityListing {
 }
 
 export function CommunityMarketplaceSection() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [listings, setListings] = useState<CommunityListing[]>([]);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ export function CommunityMarketplaceSection() {
           >
             <div className="flex items-start justify-between gap-2">
               <h3 className="font-display font-semibold">{listing.title}</h3>
-              <Badge variant="secondary">{formatListingPrice(listing.priceCents)}</Badge>
+              <Badge variant="secondary">{formatLocalizedListingPrice(listing.priceCents, locale, t)}</Badge>
             </div>
             <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{listing.description}</p>
             <p className="mt-2 text-xs text-muted-foreground">{listing.seller.displayName}</p>

@@ -15,7 +15,7 @@ export function useQrBulkImportUsage() {
           maxBulkRows: data.usage.bulkRowLimit ?? 100,
           qrLimit: data.usage.qrLimit ?? 25,
           qrCodes: data.usage.qrCodes ?? 0,
-          planName: data.plan?.name ?? 'Free',
+          planId: data.plan?.id ?? 'free',
         });
       })
       .catch(() => undefined);

@@ -20,6 +20,7 @@ export function useApiKeySettings() {
   const hasKey = data?.hasKey ?? false;
   const prefix = data?.prefix ?? null;
   const createdAt = data?.createdAt ?? null;
+  const planId = data?.planId ?? null;
   const planName = data?.planName ?? null;
   const usage = data?.usage ?? null;
 
@@ -75,6 +76,7 @@ export function useApiKeySettings() {
     hasKey,
     prefix,
     createdAt,
+    planId,
     planName,
     usage,
     working,

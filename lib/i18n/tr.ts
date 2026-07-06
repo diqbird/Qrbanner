@@ -1229,6 +1229,8 @@ export const tr: TranslationTree = {
     trialDaysLeft: 'Denemede {{days}} gün kaldı',
     trialActiveDesc: 'Ücretsiz Pro deneme sürecindesiniz ({{days}} gün kaldı).',
     trialUpgradeCta: 'Pro\'yu sürdürmek için yükseltin',
+    pricePerMonth: '{{price}}/ay',
+    priceFree: 'Ücretsiz',
   },
   aiDesign: {
     title: 'AI Tasarım Asistanı',
@@ -1384,6 +1386,13 @@ export const tr: TranslationTree = {
     reset: 'Sıfırla',
     verticalPosition: 'Dikey konum',
     horizontalPosition: 'Yatay konum',
+    presets: {
+      card: 'Kartvizit',
+      poster: 'Poster / El ilanı',
+      shirt: 'Tişört',
+      mug: 'Kahve Kupası',
+    },
+    yourPhoto: 'Kendi fotoğrafınız',
   },
   organize: {
     title: 'Organizasyon',

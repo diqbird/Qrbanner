@@ -1228,6 +1228,8 @@ export const en: TranslationTree = {
     trialDaysLeft: '{{days}} days left in trial',
     trialActiveDesc: 'You are on a complimentary Pro trial ({{days}} days left).',
     trialUpgradeCta: 'Upgrade to keep Pro',
+    pricePerMonth: '{{price}}/mo',
+    priceFree: 'Free',
   },
   aiDesign: {
     title: 'AI Design Assistant',
@@ -1383,6 +1385,13 @@ export const en: TranslationTree = {
     reset: 'Reset',
     verticalPosition: 'Vertical position',
     horizontalPosition: 'Horizontal position',
+    presets: {
+      card: 'Business Card',
+      poster: 'Poster / Flyer',
+      shirt: 'T-Shirt',
+      mug: 'Coffee Mug',
+    },
+    yourPhoto: 'Your photo',
   },
   organize: {
     title: 'Organization',

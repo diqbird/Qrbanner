@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { AlertTriangle, ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { resolvePlanDisplayName } from '@/lib/i18n/resolve-plan-display-name';
 
 interface UsagePayload {
   plan: { id: string; name: string };
@@ -17,7 +18,7 @@ function usagePct(used: number, limit: number): number {
 }
 
 export function PlanUpgradeBanner() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [data, setData] = useState<UsagePayload | null>(null);
 
   useEffect(() => {
@@ -60,7 +61,7 @@ export function PlanUpgradeBanner() {
               ? t('planUpgrade.atLimitBody', {
                   used: data.usage.qrCodes,
                   limit: data.usage.qrLimit,
-                  plan: data.plan.name,
+                  plan: resolvePlanDisplayName(data.plan.id, locale),
                 })
               : t('planUpgrade.nearLimitBody', { pct: Math.max(qrPct, domainPct) })}
           </p>

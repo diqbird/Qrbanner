@@ -1,0 +1,29 @@
+{
+  "upload": [
+    "lib/i18n/resolve-plan-display-name.ts",
+    "lib/i18n/resolve-mockup-preset-label.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "components/dashboard/plan-usage-card.tsx",
+    "components/dashboard/plan-upgrade-banner.tsx",
+    "components/dashboard/api-key-usage-panel.tsx",
+    "components/templates/marketplace-purchase-button.tsx",
+    "components/templates/community-marketplace-section.tsx",
+    "components/qr/bulk-import-header.tsx",
+    "components/qr/mockup-preset-picker.tsx",
+    "app/(public)/marketplace/[id]/page.tsx",
+    "hooks/use-qr-analytics-plan.ts",
+    "hooks/use-dashboard-analytics-plan.ts",
+    "hooks/use-qr-bulk-import-usage.ts",
+    "hooks/use-api-key-settings.ts",
+    "lib/api-key-types.ts",
+    "lib/qr-bulk-import-types.ts",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

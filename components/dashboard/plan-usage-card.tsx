@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { CreditCard, ArrowRight, ExternalLink } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { resolvePlanDisplayName } from '@/lib/i18n/resolve-plan-display-name';
 import { useBillingStatus } from '@/hooks/use-billing-status';
 import { usePlanUsage } from '@/hooks/use-plan-usage';
 import { PlanUsageMeter } from './plan-usage-meter';
@@ -55,10 +56,14 @@ export function PlanUsageCard({ refreshKey = 0 }: { refreshKey?: number }) {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-muted-foreground">{t('planUsage.currentPlan')}</p>
-            <p className="font-display text-lg font-bold">{data.plan.name}</p>
+            <p className="font-display text-lg font-bold">{resolvePlanDisplayName(data.plan.id, locale)}</p>
           </div>
           <div className="flex flex-col items-end gap-1">
-            <Badge variant="secondary">{data.plan.priceLabel}{data.plan.priceLabel === '$0' ? '' : '/mo'}</Badge>
+            <Badge variant="secondary">
+              {data.plan.priceLabel === '$0' || data.plan.id === 'free'
+                ? t('planUsage.priceFree')
+                : t('planUsage.pricePerMonth', { price: data.plan.priceLabel })}
+            </Badge>
             {data.trial?.active && (
               <Badge variant="outline" className="text-primary border-primary/30">
                 {t('planUsage.trialDaysLeft', { days: data.trial.daysLeft })}

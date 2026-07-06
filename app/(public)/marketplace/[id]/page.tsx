@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
-import { formatListingPrice, MARKETPLACE_PLATFORM_FEE_PERCENT } from '@/lib/marketplace-types';
+import { MARKETPLACE_PLATFORM_FEE_PERCENT } from '@/lib/marketplace-types';
+import { formatLocalizedListingPrice } from '@/lib/i18n/resolve-marketplace-listing-labels';
 import { MarketplacePurchaseButton } from '@/components/templates/marketplace-purchase-button';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
@@ -55,7 +56,7 @@ export default async function MarketplaceListingPage({ params }: { params: { id:
         <div className="mx-auto max-w-2xl px-4 sm:px-6">
           <header>
             <div className="flex flex-wrap items-center gap-2">
-              <Badge>{formatListingPrice(listing.priceCents, listing.currency)}</Badge>
+              <Badge>{formatLocalizedListingPrice(listing.priceCents, locale, t, listing.currency)}</Badge>
               <Badge variant="outline">{listing.seller.displayName}</Badge>
             </div>
             <h1 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl">

@@ -1,6 +1,10 @@
 'use client';
 
+'use client';
+
 import { Shirt, CreditCard, Image, Coffee, Upload } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { resolveMockupPresetLabel } from '@/lib/i18n/resolve-mockup-preset-label';
 import { MOCKUP_PRESETS, type MockupPresetId } from '@/lib/mockup-presets';
 import type { MockupPreviewState } from '@/hooks/use-mockup-preview';
 
@@ -22,6 +26,8 @@ export function MockupPresetPicker({
   onSelectPreset: (id: MockupPresetId) => void;
   onSelectCustom: () => void;
 }) {
+  const { t } = useLanguage();
+
   return (
     <div className="flex flex-wrap gap-2">
       {MOCKUP_PRESETS.map((m) => {
@@ -37,7 +43,7 @@ export function MockupPresetPicker({
                 : 'text-muted-foreground hover:bg-muted'
             }`}
           >
-            <Icon className="h-3.5 w-3.5" /> {m.label}
+            <Icon className="h-3.5 w-3.5" /> {resolveMockupPresetLabel(t, m.id, m.label)}
           </button>
         );
       })}
@@ -50,7 +56,7 @@ export function MockupPresetPicker({
             : 'text-muted-foreground hover:bg-muted'
         }`}
       >
-        <Upload className="h-3.5 w-3.5" /> Your photo
+        <Upload className="h-3.5 w-3.5" /> {t('mockup.yourPhoto')}
       </button>
     </div>
   );

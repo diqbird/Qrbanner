@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { formatListingPrice } from '@/lib/marketplace-types';
+import { formatLocalizedListingPrice } from '@/lib/i18n/resolve-marketplace-listing-labels';
 import { toast } from 'sonner';
 
 export function MarketplacePurchaseButton({
@@ -15,7 +15,7 @@ export function MarketplacePurchaseButton({
   listingId: string;
   priceCents: number;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const { data: session } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -58,7 +58,7 @@ export function MarketplacePurchaseButton({
     <Button onClick={handlePurchase} loading={loading} className="w-full sm:w-auto">
       {priceCents <= 0
         ? t('marketplaceSeller.getFree')
-        : t('marketplaceSeller.buyFor', { price: formatListingPrice(priceCents) })}
+        : t('marketplaceSeller.buyFor', { price: formatLocalizedListingPrice(priceCents, locale, t) })}
     </Button>
   );
 }
