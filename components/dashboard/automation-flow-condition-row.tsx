@@ -63,7 +63,7 @@ export function AutomationFlowConditionRow({ builder, index }: AutomationFlowCon
           }
         />
       </div>
-      <Button type="button" variant="ghost" size="icon-sm" onClick={() => removeCondition(index)}>
+      <Button type="button" variant="ghost" size="icon-sm" onClick={() => removeCondition(index)} aria-label={t('common.removeAria')}>
         <Trash2 className="h-4 w-4 text-destructive" />
       </Button>
     </div>

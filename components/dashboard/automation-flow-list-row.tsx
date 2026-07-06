@@ -43,10 +43,10 @@ export function AutomationFlowListRow({
             {flow.enabled ? t('settings.automations.active') : t('settings.automations.paused')}
           </Badge>
           <Switch checked={flow.enabled} onCheckedChange={(v) => onToggleEnabled(flow.id, v)} />
-          <Button variant="ghost" size="icon-sm" onClick={() => onEdit(flow)}>
+          <Button variant="ghost" size="icon-sm" onClick={() => onEdit(flow)} aria-label={t('common.editAria')}>
             <Pencil className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="icon-sm" onClick={() => onRemove(flow.id)}>
+          <Button variant="ghost" size="icon-sm" onClick={() => onRemove(flow.id)} aria-label={t('common.removeAria')}>
             <Trash2 className="h-4 w-4 text-destructive" />
           </Button>
         </div>

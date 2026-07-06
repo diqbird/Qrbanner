@@ -46,6 +46,7 @@ export function StyleTemplateList({
                 variant="ghost"
                 size="icon-sm"
                 onClick={() => deleteTemplate(tpl.id)}
+                aria-label={t('common.removeAria')}
               >
                 <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
               </Button>

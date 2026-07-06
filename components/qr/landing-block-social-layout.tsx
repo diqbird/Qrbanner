@@ -48,6 +48,7 @@ export function LandingBlockSocialLayout({ block, patch, t }: LandingBlockFieldP
             size="icon"
             className="shrink-0"
             onClick={() => patch({ links: links.filter((_, idx) => idx !== i) })}
+            aria-label={t('common.removeAria')}
           >
             <Trash2 className="h-4 w-4" />
           </Button>

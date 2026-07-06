@@ -32,7 +32,7 @@ export function WebhookEndpointList({ settings }: { settings: WebhookSettingsSta
               {w.enabled ? t('settings.webhooks.active') : t('settings.webhooks.paused')}
             </Badge>
             <Switch checked={w.enabled} onCheckedChange={(v) => toggleEnabled(w.id, v)} />
-            <Button variant="ghost" size="icon-sm" onClick={() => removeWebhook(w.id)}>
+            <Button variant="ghost" size="icon-sm" onClick={() => removeWebhook(w.id)} aria-label={t('common.removeAria')}>
               <Trash2 className="h-4 w-4 text-destructive" />
             </Button>
           </div>

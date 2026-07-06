@@ -56,7 +56,7 @@ export function LandingBlockRow({
         </button>
         <Icon className="h-4 w-4 text-primary" />
         <span className="flex-1 text-sm font-medium">{t(`landingBuilder.type.${block.type}`)}</span>
-        <Button type="button" variant="ghost" size="icon" className="h-8 w-8" onClick={onRemove}>
+        <Button type="button" variant="ghost" size="icon" className="h-8 w-8" onClick={onRemove} aria-label={t('common.removeAria')}>
           <Trash2 className="h-4 w-4" />
         </Button>
       </div>

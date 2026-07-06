@@ -28,7 +28,7 @@ export function MarketplaceSellerListingsTable({ seller }: { seller: Marketplace
             <Link href={`/marketplace/${l.id}`}>
               <Button variant="ghost" size="sm">{t('marketplaceSeller.view')}</Button>
             </Link>
-            <Button variant="ghost" size="icon-sm" onClick={() => archiveListing(l.id)}>
+            <Button variant="ghost" size="icon-sm" onClick={() => archiveListing(l.id)} aria-label={t('common.removeAria')}>
               <Trash2 className="h-4 w-4 text-destructive" />
             </Button>
           </div>

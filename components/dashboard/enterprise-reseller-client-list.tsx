@@ -10,7 +10,7 @@ type EnterpriseResellerClientListProps = {
 };
 
 export function EnterpriseResellerClientList({ enterprise }: EnterpriseResellerClientListProps) {
-  const { clients, removeClient } = enterprise;
+  const { t, clients, removeClient } = enterprise;
 
   if (clients.length === 0) return null;
 
@@ -29,7 +29,7 @@ export function EnterpriseResellerClientList({ enterprise }: EnterpriseResellerC
             <Badge variant="secondary">{c.plan}</Badge>
             <Badge variant="outline">${(c.monthlyFeeCents / 100).toFixed(2)}/mo</Badge>
             <Badge variant={c.status === 'active' ? 'default' : 'outline'}>{c.status}</Badge>
-            <Button variant="ghost" size="icon-sm" onClick={() => removeClient(c.id)}>
+            <Button variant="ghost" size="icon-sm" onClick={() => removeClient(c.id)} aria-label={t('common.removeAria')}>
               <Trash2 className="h-4 w-4 text-destructive" />
             </Button>
           </div>

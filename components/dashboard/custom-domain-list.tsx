@@ -56,6 +56,7 @@ export function CustomDomainList({ domains }: { domains: CustomDomainsState }) {
               variant="ghost"
               onClick={() => removeDomain(d.id, d.domain)}
               className="text-destructive"
+              aria-label={t('common.removeAria')}
             >
               <Trash2 className="h-4 w-4" />
             </Button>

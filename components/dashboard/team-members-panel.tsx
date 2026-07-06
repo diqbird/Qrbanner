@@ -55,7 +55,7 @@ export function TeamMembersPanel({ team }: TeamMembersPanelProps) {
                 <Badge variant="secondary">{m.role}</Badge>
                 <Badge variant={m.status === 'active' ? 'default' : 'outline'}>{m.status}</Badge>
                 {canManage && m.role !== 'owner' && (
-                  <Button variant="ghost" size="icon-sm" onClick={() => removeMember(m.id)}>
+                  <Button variant="ghost" size="icon-sm" onClick={() => removeMember(m.id)} aria-label={t('common.removeAria')}>
                     <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>
                 )}

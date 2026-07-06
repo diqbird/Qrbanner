@@ -51,7 +51,7 @@ export function AbTestVariantRow({
         />
       </div>
       <div className="flex items-end">
-        <Button type="button" variant="ghost" size="icon-sm" disabled={!canRemove} onClick={() => onRemove(index)}>
+        <Button type="button" variant="ghost" size="icon-sm" disabled={!canRemove} onClick={() => onRemove(index)} aria-label={t('common.removeAria')}>
           <Trash2 className="h-4 w-4" />
         </Button>
       </div>

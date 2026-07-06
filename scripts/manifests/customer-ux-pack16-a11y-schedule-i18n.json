@@ -1,0 +1,28 @@
+{
+  "upload": [
+    "lib/i18n/resolve-schedule-timezone-label.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/scan/handle-scan.ts",
+    "components/qr/schedule-settings-hours.tsx",
+    "components/qr/geofence-rule-row.tsx",
+    "components/qr/ab-test-variant-row.tsx",
+    "components/qr/landing-block-row.tsx",
+    "components/qr/landing-block-hub-links-layout.tsx",
+    "components/qr/landing-block-social-layout.tsx",
+    "components/qr/style-template-list.tsx",
+    "components/dashboard/automation-flow-condition-row.tsx",
+    "components/dashboard/automation-flow-action-row.tsx",
+    "components/dashboard/automation-flow-list-row.tsx",
+    "components/dashboard/webhook-endpoints-panel.tsx",
+    "components/dashboard/custom-domain-list.tsx",
+    "components/dashboard/team-members-panel.tsx",
+    "components/dashboard/marketplace-seller-listings-table.tsx",
+    "components/dashboard/enterprise-reseller-client-list.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { TIMEZONE_OPTIONS, DAY_LABELS, type ScheduleData } from '@/lib/schedule-utils';
+import { resolveScheduleTimezoneLabel } from '@/lib/i18n/resolve-schedule-timezone-label';
 
 type ScheduleSettingsHoursProps = {
   data: ScheduleData;
@@ -11,7 +12,7 @@ type ScheduleSettingsHoursProps = {
 };
 
 export function ScheduleSettingsHours({ data, onChange }: ScheduleSettingsHoursProps) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const set = (patch: Partial<ScheduleData>) => onChange({ ...data, ...patch });
 
   const toggleDay = (day: number) => {
@@ -33,7 +34,9 @@ export function ScheduleSettingsHours({ data, onChange }: ScheduleSettingsHoursP
           onChange={(e) => set({ timezone: e.target.value })}
         >
           {TIMEZONE_OPTIONS.map((tz) => (
-            <option key={tz.value} value={tz.value}>{tz.label}</option>
+            <option key={tz.value} value={tz.value}>
+              {resolveScheduleTimezoneLabel(tz.value, locale)}
+            </option>
           ))}
         </select>
       </div>

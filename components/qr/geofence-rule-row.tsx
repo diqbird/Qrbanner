@@ -33,6 +33,7 @@ export function GeofenceRuleRow({
           size="sm"
           onClick={onRemove}
           className="h-8 w-8 p-0 text-destructive"
+          aria-label={t('common.removeAria')}
         >
           <Trash2 className="h-4 w-4" />
         </Button>

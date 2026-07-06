@@ -47,7 +47,7 @@ export function AutomationFlowActionRow({ builder, index }: AutomationFlowAction
           </SelectContent>
         </Select>
         {draft.actions.length > 1 && (
-          <Button type="button" variant="ghost" size="icon-sm" onClick={() => removeAction(index)}>
+          <Button type="button" variant="ghost" size="icon-sm" onClick={() => removeAction(index)} aria-label={t('common.removeAria')}>
             <Trash2 className="h-4 w-4 text-destructive" />
           </Button>
         )}
