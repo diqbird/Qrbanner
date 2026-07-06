@@ -12,10 +12,12 @@ export function useEditableFrameLabel({
   style,
   onChange,
   showQrDescription,
+  defaultFrameText = 'Scan me',
 }: {
   style: QRStyleConfig;
   onChange: (patch: Partial<QRStyleConfig>) => void;
   showQrDescription: boolean;
+  defaultFrameText?: string;
 }) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(style.frameText);
@@ -48,7 +50,7 @@ export function useEditableFrameLabel({
 
   const startEdit = () => {
     if (style.frameStyle === 'none') {
-      onChange({ frameStyle: 'scan-me', frameText: draft.trim() || style.frameText || 'Scan me' });
+      onChange({ frameStyle: 'scan-me', frameText: draft.trim() || style.frameText || defaultFrameText });
     }
     setEditing(true);
   };

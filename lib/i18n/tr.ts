@@ -814,6 +814,7 @@ export const tr: TranslationTree = {
     abAddVariant: 'Varyant ekle',
     abLabel: 'Etiket',
     abUrl: 'URL',
+    abUrlPlaceholder: 'https://...',
     abWeight: 'Ağırlık %',
     pixelTitle: 'GA4 ve Meta Pixel',
     pixelSubtitle: 'Kullanıcılar QR kodunuzu taradığında izleme piksellerini tetikleyin — açılış sayfasında veya yönlendirmeden önce.',
@@ -841,6 +842,7 @@ export const tr: TranslationTree = {
     geofenceCityPlaceholder: 'İstanbul',
     geofenceLabelPlaceholder: 'Türkiye mağazası',
     geofenceRedirectPlaceholder: 'https://ornek.com/tr',
+    geofenceAllCountries: 'Diğer tüm ülkeler',
     scheduleTitle: 'Zamana göre yönlendirme',
     scheduleSubtitle:
       'Günün saatine veya haftanın gününe göre farklı URL\'lere yönlendirin — menüler ve çalışma saatleri için ideal.',

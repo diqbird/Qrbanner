@@ -9,6 +9,7 @@ import type {
 } from '@/lib/landing-page';
 import type { Locale } from '@/lib/i18n/types';
 import { resolveScanPageCopy, resolveScanLandingCopy } from '@/lib/i18n/resolve-scan-page-copy';
+import { resolveSocialPlatformLabel } from '@/lib/i18n/resolve-social-platform-label';
 
 export const MAX_BLOCKS = 30;
 export const MAX_LINKS_PER_BLOCK = 12;
@@ -242,8 +243,9 @@ export function renderLandingBlocks(
           if (!url) continue;
           const href = ctx.preview ? '#' : escapeHtml(url);
           const beacon = ctx.preview ? '' : renderHubLinkBeacon(ctx.shortCode, platform);
+          const platformLabel = resolveSocialPlatformLabel(platform, ctx.locale ?? 'en');
           items.push(
-            `<a href="${href}" target="_blank" rel="noopener noreferrer" aria-label="${platform}" ${beacon}>${socialIcon(platform)}</a>`
+            `<a href="${href}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(platformLabel)}" ${beacon}>${socialIcon(platform)}</a>`
           );
         }
         if (items.length) parts.push(`<div class="blk-social">${items.join('')}</div>`);

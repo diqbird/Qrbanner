@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { COUNTRY_OPTIONS, type GeofenceData } from '@/lib/geofence-shared';
+import { resolveGeofenceCountryName } from '@/lib/i18n/resolve-geofence-country-name';
 
 export function GeofenceRuleRow({
   rule,
@@ -18,7 +19,7 @@ export function GeofenceRuleRow({
   onUpdate: (patch: Partial<GeofenceData['rules'][0]>) => void;
   onRemove: () => void;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <div className="rounded-lg border p-4 space-y-3">
@@ -46,7 +47,7 @@ export function GeofenceRuleRow({
           >
             {COUNTRY_OPTIONS.map((c) => (
               <option key={c.code} value={c.code}>
-                {c.name}
+                {resolveGeofenceCountryName(c.code, locale)}
               </option>
             ))}
           </select>

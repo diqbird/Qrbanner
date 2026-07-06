@@ -16,7 +16,12 @@ export function EditableFrameLabel({
 }) {
   const { t } = useLanguage();
   const showQrDescription = useShowQrDescription();
-  const label = useEditableFrameLabel({ style, onChange, showQrDescription });
+  const label = useEditableFrameLabel({
+    style,
+    onChange,
+    showQrDescription,
+    defaultFrameText: t('style.frameTextPresetText.scanMe'),
+  });
   const { editing, draft, setDraft, inputRef, visible, commit, cancel, startEdit, removeLabel } = label;
 
   const displayText = style.frameText?.trim() || t('style.frameLabelPlaceholder');

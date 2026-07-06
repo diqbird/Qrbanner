@@ -35,7 +35,7 @@ export function AbTestVariantRow({
       <div className="space-y-1">
         <Label className="text-xs">{t('qrFeatures.abUrl')}</Label>
         <Input
-          placeholder={defaultUrl || 'https://...'}
+          placeholder={defaultUrl || t('qrFeatures.abUrlPlaceholder')}
           value={variant.url}
           onChange={(e) => onUpdate(index, { url: e.target.value })}
         />

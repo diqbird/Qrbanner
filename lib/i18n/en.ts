@@ -813,6 +813,7 @@ export const en: TranslationTree = {
     abAddVariant: 'Add variant',
     abLabel: 'Label',
     abUrl: 'URL',
+    abUrlPlaceholder: 'https://...',
     abWeight: 'Weight %',
     pixelTitle: 'GA4 & Meta Pixel',
     pixelSubtitle: 'Fire tracking pixels when users scan your QR — on the landing page or before redirect.',
@@ -840,6 +841,7 @@ export const en: TranslationTree = {
     geofenceCityPlaceholder: 'Istanbul',
     geofenceLabelPlaceholder: 'Turkey store',
     geofenceRedirectPlaceholder: 'https://example.com/tr',
+    geofenceAllCountries: 'All other countries',
     scheduleTitle: 'Time-based routing',
     scheduleSubtitle:
       'Redirect to different URLs by time of day or day of week — perfect for menus and business hours.',

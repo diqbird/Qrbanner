@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "lib/i18n/resolve-geofence-country-name.ts",
+    "lib/i18n/resolve-social-platform-label.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/landing-blocks.ts",
+    "components/qr/ab-test-variant-row.tsx",
+    "components/qr/geofence-rule-row.tsx",
+    "components/qr/editable-frame-label.tsx",
+    "components/landing/hero-video.tsx",
+    "hooks/use-editable-frame-label.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
