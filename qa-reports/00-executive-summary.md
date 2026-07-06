@@ -2,6 +2,7 @@
 
 **Project:** QRbanner (`https://qrbanner.com`)  
 **Report generated:** 2026-07-05 08:02 UTC  
+**Last triage update:** 2026-07-06 (post customer-ux packs 1–4)  
 **Methodology:** Sequential live probes — no code assumptions.
 
 ## Scope
@@ -10,7 +11,7 @@
 - All discovered API routes probed without authenticated session
 - Interactive user flows (forms, auth UI)
 
-## Results at a glance
+## Results at a glance (original run)
 
 | Pages tested | 62 |
 | Pages with issues | 60 |
@@ -33,15 +34,31 @@
 5. [Network Failures](./05-network-failures.md)
 6. **[Investigated Findings (triaged)](./06-investigated-findings.md)** ← start here
 
-## Triaged verdict (after investigation)
+## Triaged verdict (after investigation + fixes)
 
-| Severity | Count | Top items |
-|----------|-------|-----------|
-| **P0** | 1 | SAML login redirects to `localhost:3000` |
-| **P1** | 2 | Pricing React hydration (#425/#422); referral reward 503 (Stripe-only) |
-| **P2** | 2 | `/api/domains` 401 noise on `/qr/create`; unsupported `/de/` `/fr/` 404 |
-| **FP** | ~490 | Next.js `?_rsc=` prefetch aborts (not user-facing failures) |
+| Severity | Original | Resolved | Remaining |
+|----------|----------|----------|-----------|
+| **P0** | 1 | 1 | 0 |
+| **P1** | 2 | 2 | 0 |
+| **P2** | 2 | 1 | 1 |
+| **FP** | ~490 | — | ~490 (RSC prefetch noise) |
 
-**Functional flows:** Login, signup, forgot-password, XSS probe, QR wizard, pricing CTA — all usable. SAML SSO broken for enterprise.
+### Resolved since original audit
 
-See [06-investigated-findings.md](./06-investigated-findings.md) for repro steps and root causes.
+| Item | Fix |
+|------|-----|
+| SAML redirect to `localhost:3000` | `siteBaseUrl()` in SAML routes (Pack 3) |
+| Pricing React hydration #425/#422 | SSR locale sync + pricing hydration (commit `bc346ba`) |
+| Referral reward 503 (Stripe-only) | 30-day Pro `planGrantExpiresAt` grant via Paddle stack (Pack 4) |
+| `/api/domains` 401 on guest `/qr/create` | `useScanBaseUrl` gates fetch behind authenticated session |
+
+### Remaining (low impact)
+
+| Item | Notes |
+|------|-------|
+| `/de/`, `/fr/` locale 404 | Expected — only `en` + `tr` shipped |
+| `?_rsc=` prefetch aborts | Next.js framework noise; exclude from failure metrics |
+
+**Functional flows:** Login, signup, forgot-password, QR wizard, pricing CTA, referral claim, SAML wizard — usable.
+
+See [06-investigated-findings.md](./06-investigated-findings.md) for repro steps and resolution notes.

@@ -87,6 +87,12 @@ export const HELP_SECTIONS: HelpSection[] = [
         href: '/integrations',
       },
       {
+        id: 'scan-notify',
+        titleKey: 'help.topicScanNotifyTitle',
+        descKey: 'help.topicScanNotifyDesc',
+        href: '/qr/create?quick=1',
+      },
+      {
         id: 'security',
         titleKey: 'nav.security',
         descKey: 'help.topicSecurityDesc',

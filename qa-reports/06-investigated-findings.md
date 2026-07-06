@@ -19,62 +19,41 @@
 
 ## P0 — SAML redirect uses localhost in production
 
+**Status:** ✅ **Resolved** (2026-07-06, customer-ux Pack 3)
+
 **Endpoint:** `GET /api/auth/saml/login`  
-**Observed:** HTTP 307 → `https://localhost:3000/login?error=saml_workspace_required`  
-**Repro:**
-
-```bash
-curl -sI "https://qrbanner.com/api/auth/saml/login"
-# location: https://localhost:3000/login?error=saml_workspace_required
-```
-
-**Impact:** Enterprise SAML login cannot redirect users back to the live site. Any workspace attempting SSO will land on an unreachable host.
-
-**Root cause (verified via response headers):** `NextResponse.redirect(new URL('/login?...', req.url))` resolves against an internal base URL (`localhost:3000`) instead of the public site origin on VPS.
-
-**Recommended fix:** Use `siteBaseUrl()` / `x-forwarded-host` when building redirect URLs in SAML routes (same pattern as billing checkout).
+**Was:** HTTP 307 → `https://localhost:3000/login?error=saml_workspace_required`  
+**Fix:** SAML login/metadata routes build redirects with `siteBaseUrl()` / public origin instead of `req.url` internal host.
 
 ---
 
 ## P1 — React hydration mismatch on `/pricing`
 
+**Status:** ✅ **Resolved** (commit `bc346ba`)
+
 **Page:** `/pricing` (HTTP 200)  
-**Console:**
-
-- `Minified React error #425` — text content mismatch (SSR vs client)
-- `Minified React error #422` — hydration recovered with client render
-
-**Impact:** Pricing page hydrates with errors. Users may see flicker, incorrect initial prices, or SEO/crawler inconsistency.
-
-**Repro:** Open `/pricing` in Chrome → DevTools Console → errors appear on load.
-
-**Next step:** Run local dev build with `NODE_ENV=development` on pricing component tree; compare SSR HTML vs client (often dynamic dates, locale, or Paddle script injection).
+**Was:** Minified React errors #425 / #422 on load (SSR vs client mismatch).  
+**Fix:** Locale SSR sync via root layout + pricing provider hydration alignment.
 
 ---
 
 ## P1 — `/api/referral/claim-reward` returns 503 before auth check
 
-**Endpoint:** `POST /api/referral/claim-reward` (no session)  
-**Observed:** HTTP 503 `{"error":"Referral reward is not configured yet"}`
+**Status:** ✅ **Resolved** (customer-ux Pack 4)
 
-**Impact:** Misleading status — endpoint is Stripe-coupon based but production billing is Paddle-only. Referral reward flow is effectively dead.
-
-**Root cause (verified):** Route checks `referralRewardCouponId()` + `isStripeConfigured()` before session validation.
-
-**Recommendation:** Either migrate reward claim to Paddle, or return 501/feature-disabled with docs; check auth first (401) for API consistency.
+**Endpoint:** `POST /api/referral/claim-reward`  
+**Was:** HTTP 503 when Stripe coupon env missing; Paddle-only production.  
+**Fix:** Reward is a **30-day Pro plan grant** (`planGrantExpiresAt`) — no Stripe coupon. Auth checked first (401 without session).
 
 ---
 
 ## P2 — `/qr/create` triggers `/api/domains` 401 in console
 
+**Status:** ✅ **Resolved**
+
 **Page:** `/qr/create`  
-**Network:** `GET /api/domains` → 401
-
-**Root cause:** `lib/use-scan-base-url.ts` fetches domains for logged-in custom-domain base URL; unauthenticated visitors still trigger the hook.
-
-**Impact:** Console noise only; wizard still loads (H1 visible).
-
-**Recommendation:** Gate fetch behind session or swallow 401 without console error.
+**Was:** `GET /api/domains` → 401 for unauthenticated visitors.  
+**Fix:** `useScanBaseUrl` only fetches custom domains when `useSession().status === 'authenticated'`.
 
 ---
 
@@ -144,10 +123,10 @@ All flows marked WARN only due to RSC abort noise or console warnings — no flo
 
 ## Recommended action order
 
-1. Fix SAML redirect base URL (P0)
-2. Fix pricing hydration (P1)
-3. Decide referral reward strategy under Paddle (P1)
-4. Silence `/api/domains` fetch for anonymous QR create (P2)
+1. ~~Fix SAML redirect base URL (P0)~~ ✅
+2. ~~Fix pricing hydration (P1)~~ ✅
+3. ~~Referral reward under Paddle (P1)~~ ✅
+4. ~~Silence `/api/domains` fetch for anonymous QR create (P2)~~ ✅
 5. Update QA runner to ignore `?_rsc=` aborts and unsupported locales
 
 ---

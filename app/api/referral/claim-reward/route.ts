@@ -2,23 +2,18 @@ export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { isBillingConfigured } from '@/lib/billing-provider';
 import { canClaimReferralReward, REFERRAL_REWARD_PRO_DAYS } from '@/lib/referral-rewards';
 import { referralClaimedBranding } from '@/lib/referral-checkout';
 import { parseBrandingSettings } from '@/lib/referral';
 import { normalizePlanId } from '@/lib/plans';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
 
-/** Claim 5-referral Pro reward — complimentary Pro plan grant via Paddle billing stack. */
+/** Claim 5-referral Pro reward — complimentary timed Pro plan grant (no checkout). */
 export async function POST() {
   try {
     const auth = await requireUserId();
     if (isAuthError(auth)) return auth;
     const userId = auth;
-
-    if (!isBillingConfigured()) {
-      return NextResponse.json({ error: 'Billing is not configured' }, { status: 503 });
-    }
 
     const user = await prisma.user.findUnique({
       where: { id: userId },

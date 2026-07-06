@@ -1,0 +1,14 @@
+{
+  "upload": [
+    "app/api/referral/claim-reward/route.ts",
+    "components/qr/scan-notify-settings.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/help-content.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
