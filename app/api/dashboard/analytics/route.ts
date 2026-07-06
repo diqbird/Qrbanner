@@ -95,7 +95,6 @@ export async function GET(req: NextRequest) {
       ctaClicks,
       leads: leadsCount,
       landingEnabled: hasLandingQr > 0,
-      locale,
     });
 
     const topQRCodes = [...qrCodes]

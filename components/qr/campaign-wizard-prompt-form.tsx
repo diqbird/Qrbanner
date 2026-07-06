@@ -49,7 +49,7 @@ export function CampaignWizardPromptForm({ wizard }: { wizard: CampaignWizardSta
             <Input
               value={websiteUrl}
               onChange={(e) => setWebsiteUrl(e.target.value)}
-              placeholder="https://"
+              placeholder={t('campaign.websitePlaceholder')}
             />
           </div>
         </div>

@@ -1,6 +1,7 @@
+export type FunnelStageId = 'scans' | 'cta' | 'leads';
+
 export type FunnelStage = {
-  id: string;
-  label: string;
+  id: FunnelStageId;
   count: number;
   rateFromPrevious: number | null;
 };
@@ -20,22 +21,14 @@ export function buildFunnelMetrics(opts: {
   ctaClicks: number;
   leads: number;
   landingEnabled: boolean;
-  locale: 'en' | 'tr';
 }): FunnelMetrics {
-  const { scans, ctaClicks, leads, landingEnabled, locale } = opts;
-  const labels =
-    locale === 'tr'
-      ? { scans: 'Taramalar', cta: 'CTA tıklamaları', leads: 'Form gönderimleri' }
-      : { scans: 'Scans', cta: 'CTA clicks', leads: 'Lead submissions' };
+  const { scans, ctaClicks, leads, landingEnabled } = opts;
 
-  const stages: FunnelStage[] = [
-    { id: 'scans', label: labels.scans, count: scans, rateFromPrevious: null },
-  ];
+  const stages: FunnelStage[] = [{ id: 'scans', count: scans, rateFromPrevious: null }];
 
   if (landingEnabled || ctaClicks > 0) {
     stages.push({
       id: 'cta',
-      label: labels.cta,
       count: ctaClicks,
       rateFromPrevious: rate(ctaClicks, scans),
     });
@@ -45,7 +38,6 @@ export function buildFunnelMetrics(opts: {
   if (leads > 0 || landingEnabled) {
     stages.push({
       id: 'leads',
-      label: labels.leads,
       count: leads,
       rateFromPrevious: rate(leads, prevForLeads),
     });

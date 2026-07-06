@@ -4,6 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Globe, Smartphone } from 'lucide-react';
 import { formatScanTimeAgo, recentScanRowKey } from '@/lib/analytics-view-utils';
+import {
+  resolveAnalyticsDeviceLabel,
+  resolveAnalyticsOsLabel,
+} from '@/lib/i18n/resolve-analytics-scan-copy';
 import type { DashboardAnalyticsState } from '@/hooks/use-dashboard-analytics';
 
 type DashboardAnalyticsLiveScansProps = {
@@ -41,7 +45,8 @@ export function DashboardAnalyticsLiveScans({ analytics }: DashboardAnalyticsLiv
                 </span>
                 <span className="hidden sm:flex items-center gap-1 text-muted-foreground/70">
                   <Smartphone className="h-3 w-3" />
-                  {scan.device} · {scan.os}
+                  {scan.device ? resolveAnalyticsDeviceLabel(t, scan.device) : '—'} ·{' '}
+                  {scan.os ? resolveAnalyticsOsLabel(t, scan.os) : '—'}
                 </span>
                 {scan.qrName && (
                   <Badge variant="outline" className="hidden md:inline-flex text-xs truncate max-w-[120px]">

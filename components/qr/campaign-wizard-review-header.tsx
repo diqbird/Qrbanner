@@ -21,7 +21,7 @@ export function CampaignWizardReviewHeader({ wizard }: { wizard: CampaignWizardS
               {plan.source === 'llm' ? t('campaign.sourceLlm') : t('campaign.sourceTemplate')}
             </Badge>
             <Badge variant="outline">
-              {t('campaign.itemsCount').replace('{count}', String(enabledCount))}
+              {t('campaign.itemsCount', { count: enabledCount })}
             </Badge>
           </div>
         </div>

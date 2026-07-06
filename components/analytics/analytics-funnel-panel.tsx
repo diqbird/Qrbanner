@@ -23,7 +23,7 @@ export function AnalyticsFunnelPanel({ data }: { data: FunnelMetrics }) {
           <div key={stage.id} className="space-y-1.5">
             <div className="flex items-center justify-between text-sm">
               <span className="font-medium">
-                {i + 1}. {stage.label}
+                {i + 1}. {t(`analytics.funnelStages.${stage.id}`)}
               </span>
               <span className="text-muted-foreground">
                 {stage.count.toLocaleString()}

@@ -45,7 +45,7 @@ export function CampaignWizardReviewStep({ wizard }: CampaignWizardReviewStepPro
           {t('campaign.regenerate')}
         </Button>
         <Button onClick={handleCreate} disabled={enabledCount === 0} className="gap-2">
-          {t('campaign.createAll').replace('{count}', String(enabledCount))}
+          {t('campaign.createAll', { count: enabledCount })}
           <ArrowRight className="h-4 w-4" />
         </Button>
       </div>

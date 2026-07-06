@@ -1,0 +1,24 @@
+{
+  "upload": [
+    "lib/analytics-funnel.ts",
+    "lib/i18n/resolve-analytics-scan-copy.ts",
+    "app/api/qr/[id]/analytics/route.ts",
+    "app/api/dashboard/analytics/route.ts",
+    "components/analytics/analytics-funnel-panel.tsx",
+    "components/qr/analytics-charts-distribution-pie.tsx",
+    "components/qr/analytics-recent-scans.tsx",
+    "components/dashboard/dashboard-analytics-live-scans.tsx",
+    "components/qr/campaign-wizard-prompt-form.tsx",
+    "components/qr/campaign-wizard-review-header.tsx",
+    "components/qr/campaign-wizard-review-step.tsx",
+    "components/qr/advanced-settings-smart-routing.tsx",
+    "components/qr/schedule-settings-hours.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

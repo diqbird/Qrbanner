@@ -73,7 +73,7 @@ export function ScheduleSettingsHours({ data, onChange }: ScheduleSettingsHoursP
         <div className="space-y-2">
           <Label>{t('qrFeatures.scheduleUrlOpen')}</Label>
           <Input
-            placeholder="https://menu.example.com/lunch"
+            placeholder={t('qrFeatures.scheduleUrlOpenPlaceholder')}
             value={data.openUrl}
             onChange={(e) => set({ openUrl: e.target.value })}
           />
@@ -81,7 +81,7 @@ export function ScheduleSettingsHours({ data, onChange }: ScheduleSettingsHoursP
         <div className="space-y-2">
           <Label>{t('qrFeatures.scheduleUrlClosed')}</Label>
           <Input
-            placeholder="https://menu.example.com/closed"
+            placeholder={t('qrFeatures.scheduleUrlClosedPlaceholder')}
             value={data.closedUrl}
             onChange={(e) => set({ closedUrl: e.target.value })}
           />

@@ -3,6 +3,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Globe, Smartphone } from 'lucide-react';
 import { formatScanTimeAgo, recentScanRowKey } from '@/lib/analytics-view-utils';
+import {
+  resolveAnalyticsBrowserLabel,
+  resolveAnalyticsDeviceLabel,
+} from '@/lib/i18n/resolve-analytics-scan-copy';
 import type { QrAnalyticsState } from '@/hooks/use-qr-analytics';
 
 type AnalyticsRecentScansProps = {
@@ -48,7 +52,13 @@ export function AnalyticsRecentScans({ analytics }: AnalyticsRecentScansProps) {
                   <div className="hidden items-center gap-1.5 text-muted-foreground sm:flex">
                     <Smartphone className="h-3.5 w-3.5 shrink-0" />
                     <span>
-                      {(scan.device as string) ?? '—'} · {(scan.browser as string) ?? '—'}
+                      {scan.device
+                        ? resolveAnalyticsDeviceLabel(t, String(scan.device))
+                        : '—'}{' '}
+                      ·{' '}
+                      {scan.browser
+                        ? resolveAnalyticsBrowserLabel(t, String(scan.browser))
+                        : '—'}
                     </span>
                   </div>
                 </div>

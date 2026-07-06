@@ -123,7 +123,6 @@ export async function GET(
       ctaClicks,
       leads: leadsCount,
       landingEnabled: Boolean(qrCode.landingPageEnabled),
-      locale,
     });
 
     const roi = buildRoiMetrics({

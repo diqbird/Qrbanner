@@ -26,7 +26,7 @@ export function AdvancedSettingsSmartRouting({
         <div className="space-y-2">
           <Label className="text-xs">{t('qrFeatures.smartRoutingIos')}</Label>
           <Input
-            placeholder="https://apps.apple.com/..."
+            placeholder={t('qrFeatures.smartRoutingIosPlaceholder')}
             value={values.iosUrl}
             onChange={(e) => onChange({ ...values, iosUrl: e.target.value })}
           />
@@ -34,7 +34,7 @@ export function AdvancedSettingsSmartRouting({
         <div className="space-y-2">
           <Label className="text-xs">{t('qrFeatures.smartRoutingAndroid')}</Label>
           <Input
-            placeholder="https://play.google.com/..."
+            placeholder={t('qrFeatures.smartRoutingAndroidPlaceholder')}
             value={values.androidUrl}
             onChange={(e) => onChange({ ...values, androidUrl: e.target.value })}
           />
