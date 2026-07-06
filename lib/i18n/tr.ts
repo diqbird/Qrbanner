@@ -6,6 +6,7 @@ import { templateMetaTr } from './template-meta-copy';
 import { templatePrintCopyTr } from './template-print-copy';
 import { printTemplateCopyTr } from './print-template-copy';
 import { visualPresetCopyTr } from './visual-preset-copy';
+import { qrCategoryCopyTr } from './qr-category-copy-tr';
 
 export const tr: TranslationTree = {
   common: {
@@ -920,6 +921,8 @@ export const tr: TranslationTree = {
     renderError: 'Önizleme oluşturulamadı. Daha sade bir stil deneyin.',
     pendingDynamicHint: 'Önizleme geçici bir bağlantı gösterir. Düzenlenebilir kısa URL için QR kodunuzu kaydedin.',
     saveBeforeExport: 'Önce QR kodunuzu kaydedin — dinamik kodlar hedef URL değil kısa bağlantınızı kullanmalıdır.',
+    printTitle: 'QR Kodunu Yazdır',
+    shareDefaultTitle: 'QRbanner QR Kodu',
   },
   quick: {
     title: 'Hızlı QR — Saniyeler içinde bağlantıdan koda',
@@ -1607,6 +1610,16 @@ export const tr: TranslationTree = {
       title: 'Lead Kayıtları',
       total: '{{count}} toplam',
     },
+    csvExport: {
+      summary: 'Özet',
+      metric: 'Metrik',
+      value: 'Değer',
+      scansByDay: 'Güne göre taramalar',
+      city: 'Şehir',
+      os: 'İşletim sistemi',
+      qr: 'QR',
+    },
+    pdfMoreRows: '+{{count}} satır daha',
   },
   admin: {
     title: 'Site Yönetimi',
@@ -2519,6 +2532,7 @@ export const tr: TranslationTree = {
     ctaCreate: 'Ücretsiz QR oluştur',
     ctaRoi: 'ROI hesapla',
   },
+  qrCategories: qrCategoryCopyTr,
   qrTypesIndex: {
     metaTitle: 'QR Kod Türleri — 27+ Kullanım Alanı İçin Oluşturucu',
     metaDescription:

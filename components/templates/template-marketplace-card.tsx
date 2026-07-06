@@ -9,7 +9,7 @@ import {
   resolveTemplateTagline,
   resolveTemplateUseCases,
 } from '@/lib/i18n/resolve-template-copy';
-import { categoryShortName } from '@/lib/qr-utils';
+import { resolveCategoryShortName } from '@/lib/i18n/resolve-qr-category-copy';
 import { createUrlForTemplate } from '@/lib/template-marketplace';
 import type { IndustryTemplate } from '@/lib/industry-templates';
 
@@ -45,7 +45,7 @@ export function TemplateMarketplaceCard({ template }: { template: IndustryTempla
               {name}
             </Link>
             <Badge variant="outline" className="text-[10px]">
-              {categoryShortName(template.category)}
+              {resolveCategoryShortName(t, template.category)}
             </Badge>
           </div>
           <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{tagline}</p>

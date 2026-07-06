@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { categoryDisplayName } from '@/lib/qr-utils';
+import { resolveCategoryDisplayName } from '@/lib/i18n/resolve-qr-category-copy';
 import { QRPreviewSkeleton } from '@/components/qr/qr-preview-skeleton';
 import type { QrCreateFormState } from '@/hooks/use-qr-create-form';
 
@@ -34,7 +34,7 @@ export function QrCreateStepReview({ form }: QrCreateStepReviewProps) {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm text-muted-foreground">{t('create.reviewCategory')}</span>
-            <Badge variant="outline">{categoryDisplayName(category)}</Badge>
+            <Badge variant="outline">{resolveCategoryDisplayName(t, category)}</Badge>
           </div>
           {style.frameStyle !== 'none' && style.frameText?.trim() && (
             <div className="flex items-center justify-between">

@@ -920,6 +920,8 @@ export const en: TranslationTree = {
     renderError: 'Could not render preview. Try a simpler style or refresh.',
     pendingDynamicHint: 'Preview shows a placeholder link. Save your QR to get a trackable short URL you can edit anytime.',
     saveBeforeExport: 'Save your QR first — dynamic codes must use your short link, not the destination URL.',
+    printTitle: 'Print QR Code',
+    shareDefaultTitle: 'QR Code from QRbanner',
   },
   quick: {
     title: 'Quick QR — URL to code in seconds',
@@ -1607,6 +1609,16 @@ export const en: TranslationTree = {
       title: 'Lead Captures',
       total: '{{count}} total',
     },
+    csvExport: {
+      summary: 'Summary',
+      metric: 'Metric',
+      value: 'Value',
+      scansByDay: 'Scans by day',
+      city: 'City',
+      os: 'OS',
+      qr: 'QR',
+    },
+    pdfMoreRows: '+{{count}} more',
   },
   admin: {
     title: 'Site Admin',

@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
-import { categoryDisplayName } from '@/lib/qr-utils';
+import { resolveCategoryDisplayName } from '@/lib/i18n/resolve-qr-category-copy';
 import { campaignPrimaryFieldKey, campaignPrimaryFieldLabel } from '@/lib/campaign-wizard-utils';
 import type { CampaignWizardState } from '@/hooks/use-campaign-wizard';
 import type { CampaignQrItem } from '@/lib/campaign-types';
@@ -37,7 +37,7 @@ export function CampaignWizardReviewItem({
               disabled={!item.enabled}
             />
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="outline">{categoryDisplayName(item.category)}</Badge>
+              <Badge variant="outline">{resolveCategoryDisplayName(t, item.category)}</Badge>
               <span className="text-xs text-muted-foreground">{item.purpose}</span>
             </div>
           </div>

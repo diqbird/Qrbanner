@@ -3,7 +3,7 @@
 import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { categoryShortName } from '@/lib/qr-utils';
+import { resolveCategoryShortName } from '@/lib/i18n/resolve-qr-category-copy';
 import type { TemplateMarketplaceState } from '@/hooks/use-template-marketplace';
 
 export function TemplateMarketplaceFilters({ market }: { market: TemplateMarketplaceState }) {
@@ -43,7 +43,7 @@ export function TemplateMarketplaceFilters({ market }: { market: TemplateMarketp
             className="h-8 text-xs"
             onClick={() => setCategory(cat)}
           >
-            {categoryShortName(cat)}
+            {resolveCategoryShortName(t, cat)}
           </Button>
         ))}
       </div>

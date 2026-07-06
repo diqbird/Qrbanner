@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Save, BarChart3 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { categoryDisplayName } from '@/lib/qr-utils';
+import { resolveCategoryDisplayName } from '@/lib/i18n/resolve-qr-category-copy';
 
 type QrEditHeaderProps = {
   qrId: string;
@@ -30,7 +30,7 @@ export function QrEditHeader({ qrId, category, isActive, saving, onSave }: QrEdi
           <h1 className="font-display text-2xl font-bold tracking-tight">{t('editQr.title')}</h1>
           <div className="mt-1 flex items-center gap-2">
             <Badge variant="outline" className="text-xs">
-              {categoryDisplayName(category)}
+              {resolveCategoryDisplayName(t, category)}
             </Badge>
             <Badge variant={isActive ? 'default' : 'secondary'}>
               {isActive ? t('editQr.active') : t('editQr.inactive')}

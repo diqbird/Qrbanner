@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ScanLine, X } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import type { IndustryTemplateGuideCopy } from '@/lib/industry-template-guide-copy';
-import { categoryShortName } from '@/lib/qr-utils';
+import { resolveCategoryShortName } from '@/lib/i18n/resolve-qr-category-copy';
 import type { IndustryTemplate } from '@/lib/industry-templates';
 
 export function IndustryTemplateGuideHeader({
@@ -26,7 +26,7 @@ export function IndustryTemplateGuideHeader({
         <div className="flex flex-wrap items-center gap-2">
           <p className="text-sm font-medium">{displayName}</p>
           <Badge variant="secondary" className="text-[10px]">
-            {categoryShortName(template.category)}
+            {resolveCategoryShortName(t, template.category)}
           </Badge>
           {designStyleLabel ? (
             <Badge variant="outline" className="text-[10px]">

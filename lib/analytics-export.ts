@@ -7,16 +7,78 @@ export type AnalyticsPayload = Partial<ReturnType<typeof buildAnalytics>> & {
   scansByCountry: { name: string; value: number }[];
 };
 
-export function buildAnalyticsCsv(data: AnalyticsPayload, label = 'analytics'): string {
+export type AnalyticsCsvLabels = {
+  summary: string;
+  metric: string;
+  value: string;
+  totalScans: string;
+  uniqueVisitors: string;
+  today: string;
+  last7Days: string;
+  last30Days: string;
+  scansByDay: string;
+  countries: string;
+  cities: string;
+  devices: string;
+  browsers: string;
+  operatingSystems: string;
+  recentScans: string;
+  date: string;
+  scans: string;
+  country: string;
+  city: string;
+  device: string;
+  browser: string;
+  os: string;
+  qr: string;
+  time: string;
+};
+
+export function buildAnalyticsCsvLabels(
+  t: (key: string, vars?: Record<string, string | number>) => string,
+): AnalyticsCsvLabels {
+  return {
+    summary: t('analytics.csvExport.summary'),
+    metric: t('analytics.csvExport.metric'),
+    value: t('analytics.csvExport.value'),
+    totalScans: t('analytics.totalScans'),
+    uniqueVisitors: t('analytics.uniqueVisitors'),
+    today: t('analytics.today'),
+    last7Days: t('analytics.last7Days'),
+    last30Days: t('analytics.last30Days'),
+    scansByDay: t('analytics.csvExport.scansByDay'),
+    countries: t('analytics.countries'),
+    cities: t('analytics.cities'),
+    devices: t('analytics.charts.devices'),
+    browsers: t('analytics.charts.browsers'),
+    operatingSystems: t('analytics.charts.operatingSystems'),
+    recentScans: t('analytics.recentScans'),
+    date: t('analytics.pdfDate'),
+    scans: t('analytics.charts.scans'),
+    country: t('analytics.pdfCountry'),
+    city: t('analytics.csvExport.city'),
+    device: t('analytics.pdfDevice'),
+    browser: t('analytics.pdfBrowser'),
+    os: t('analytics.csvExport.os'),
+    qr: t('analytics.csvExport.qr'),
+    time: t('analytics.pdfTime'),
+  };
+}
+
+export function buildAnalyticsCsv(
+  data: AnalyticsPayload,
+  labels: AnalyticsCsvLabels,
+  label = 'analytics',
+): string {
   const lines: string[] = [`# ${label}`, ''];
 
-  lines.push('Summary');
-  lines.push('Metric,Value');
-  lines.push(`Total scans,${data.totalScans}`);
-  lines.push(`Unique visitors,${data.uniqueScans ?? 0}`);
-  lines.push(`Today,${data.todayScans ?? 0}`);
-  lines.push(`Last 7 days,${data.last7Days}`);
-  lines.push(`Last 30 days,${data.last30Days ?? 0}`);
+  lines.push(labels.summary);
+  lines.push(`${labels.metric},${labels.value}`);
+  lines.push(`${labels.totalScans},${data.totalScans}`);
+  lines.push(`${labels.uniqueVisitors},${data.uniqueScans ?? 0}`);
+  lines.push(`${labels.today},${data.todayScans ?? 0}`);
+  lines.push(`${labels.last7Days},${data.last7Days}`);
+  lines.push(`${labels.last30Days},${data.last30Days ?? 0}`);
   lines.push('');
 
   const section = (title: string, rows: { name: string; value: number }[], keyA: string, keyB: string) => {
@@ -27,16 +89,23 @@ export function buildAnalyticsCsv(data: AnalyticsPayload, label = 'analytics'): 
     lines.push('');
   };
 
-  section('Scans by day', data.scansByDay.map((d) => ({ name: d.date, value: d.count })), 'Date', 'Scans');
-  section('Countries', data.scansByCountry, 'Country', 'Scans');
-  if (data.scansByCity?.length) section('Cities', data.scansByCity, 'City', 'Scans');
-  if (data.scansByDevice?.length) section('Devices', data.scansByDevice, 'Device', 'Scans');
-  if (data.scansByBrowser?.length) section('Browsers', data.scansByBrowser, 'Browser', 'Scans');
-  if (data.scansByOS?.length) section('Operating systems', data.scansByOS, 'OS', 'Scans');
+  section(
+    labels.scansByDay,
+    data.scansByDay.map((d) => ({ name: d.date, value: d.count })),
+    labels.date,
+    labels.scans,
+  );
+  section(labels.countries, data.scansByCountry, labels.country, labels.scans);
+  if (data.scansByCity?.length) section(labels.cities, data.scansByCity, labels.city, labels.scans);
+  if (data.scansByDevice?.length) section(labels.devices, data.scansByDevice, labels.device, labels.scans);
+  if (data.scansByBrowser?.length) section(labels.browsers, data.scansByBrowser, labels.browser, labels.scans);
+  if (data.scansByOS?.length) section(labels.operatingSystems, data.scansByOS, labels.os, labels.scans);
 
   if (data.recentScans?.length) {
-    lines.push('Recent scans');
-    lines.push('Time,Country,City,Device,Browser,OS,QR');
+    lines.push(labels.recentScans);
+    lines.push(
+      [labels.time, labels.country, labels.city, labels.device, labels.browser, labels.os, labels.qr].join(','),
+    );
     data.recentScans.forEach((s) => {
       const time = s.scannedAt ? new Date(s.scannedAt).toISOString() : '';
       lines.push(
@@ -50,7 +119,7 @@ export function buildAnalyticsCsv(data: AnalyticsPayload, label = 'analytics'): 
           (s as { qrName?: string }).qrName ?? '',
         ]
           .map((v) => `"${String(v).replace(/"/g, '""')}"`)
-          .join(',')
+          .join(','),
       );
     });
   }
@@ -58,8 +127,12 @@ export function buildAnalyticsCsv(data: AnalyticsPayload, label = 'analytics'): 
   return lines.join('\n');
 }
 
-export function downloadAnalyticsCsv(data: AnalyticsPayload, filename: string) {
-  const csv = buildAnalyticsCsv(data, filename);
+export function downloadAnalyticsCsv(
+  data: AnalyticsPayload,
+  filename: string,
+  labels: AnalyticsCsvLabels,
+) {
+  const csv = buildAnalyticsCsv(data, labels, filename);
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');

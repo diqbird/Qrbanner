@@ -2,7 +2,7 @@
 
 import { Badge } from '@/components/ui/badge';
 import { QrCode, Star, FolderOpen } from 'lucide-react';
-import { categoryShortName } from '@/lib/qr-utils';
+import { resolveCategoryShortName } from '@/lib/i18n/resolve-qr-category-copy';
 import { useLanguage } from '@/components/i18n/language-provider';
 import type { QRCodeItem } from '@/lib/qr-list-row-types';
 
@@ -52,7 +52,7 @@ export function QrListRowInfo({
                 : t('dashboard.statusInactive')}
           </Badge>
           <Badge variant="outline" className="text-xs">
-            {categoryShortName(qr.category)}
+            {resolveCategoryShortName(t, qr.category)}
           </Badge>
           {qr.folder && (
             <Badge variant="secondary" className="gap-1 text-xs" style={{ borderColor: qr.folder.color }}>

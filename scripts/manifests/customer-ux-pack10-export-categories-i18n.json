@@ -1,0 +1,30 @@
+{
+  "upload": [
+    "lib/analytics-export.ts",
+    "lib/analytics-pdf-export.ts",
+    "lib/qr-export-actions.ts",
+    "lib/campaign-wizard-utils.ts",
+    "lib/i18n/resolve-qr-category-copy.ts",
+    "lib/i18n/qr-category-copy-tr.ts",
+    "hooks/use-qr-analytics-export.ts",
+    "hooks/use-dashboard-analytics-export.ts",
+    "components/qr/qr-create-step-start.tsx",
+    "components/qr/qr-create-step-review.tsx",
+    "components/qr/qr-edit-header.tsx",
+    "components/qr/campaign-wizard-review-item.tsx",
+    "components/qr/industry-template-card.tsx",
+    "components/qr/industry-template-guide-header.tsx",
+    "components/dashboard/qr-list-row-info.tsx",
+    "components/dashboard/top-qr-widget.tsx",
+    "components/templates/template-detail-header.tsx",
+    "components/templates/template-marketplace-filters.tsx",
+    "components/templates/template-marketplace-card.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

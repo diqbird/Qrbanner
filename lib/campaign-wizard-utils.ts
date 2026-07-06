@@ -24,7 +24,7 @@ export function campaignPrimaryFieldKey(category: string): string | null {
 }
 
 export function campaignPrimaryFieldLabel(category: string, t: (k: string) => string): string {
-  if (category === 'wifi') return 'Wi‑Fi name (SSID)';
+  if (category === 'wifi') return t('fields.wifiName');
   if (['instagram', 'facebook', 'tiktok', 'linkedin'].includes(category)) return t('fields.username');
   if (category === 'whatsapp') return t('fields.whatsappNumber');
   return t('fields.urlLabel.default');

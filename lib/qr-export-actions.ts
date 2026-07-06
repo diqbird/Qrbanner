@@ -116,7 +116,7 @@ export async function printQrPreview(ctx: ExportContext) {
     const printWindow = window.open('', '_blank');
     if (printWindow) {
       printWindow.document.write(`
-        <html><head><title>Print QR Code</title></head>
+        <html><head><title>${ctx.t('preview.printTitle')}</title></head>
         <body style="display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0">
           <img src="${dataUrl}" style="max-width:400px" />
         </body></html>
@@ -141,8 +141,9 @@ export async function shareQrPreview(ctx: ExportContext) {
 
   try {
     const blob = dataUrlToBlob(ctx.qrDataUrl);
+    const shareTitle = ctx.qrName || ctx.t('preview.shareDefaultTitle');
     const file = new File([blob], 'qr-code.png', { type: blob.type || 'image/png' });
-    const fileShare = { files: [file], title: ctx.qrName || 'QR Code from QRbanner' };
+    const fileShare = { files: [file], title: shareTitle };
 
     if (navigator.canShare?.(fileShare)) {
       try {
@@ -162,7 +163,7 @@ export async function shareQrPreview(ctx: ExportContext) {
       }).content;
       const urlShare = {
         url: link,
-        title: ctx.qrName || 'QR Code from QRbanner',
+        title: shareTitle,
         text: link,
       };
       if (navigator.share && navigator.canShare?.(urlShare)) {

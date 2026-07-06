@@ -11,7 +11,7 @@ import {
   resolveTemplateTagline,
 } from '@/lib/i18n/resolve-template-copy';
 import { getTemplateById, type IndustryTemplate } from '@/lib/industry-templates';
-import { categoryShortName } from '@/lib/qr-utils';
+import { resolveCategoryShortName } from '@/lib/i18n/resolve-qr-category-copy';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 export function IndustryTemplateCard({
@@ -39,7 +39,7 @@ export function IndustryTemplateCard({
             <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{tagline}</p>
           </div>
           <Badge variant="outline" className="text-[10px] shrink-0">
-            {categoryShortName(template.category)}
+            {resolveCategoryShortName(t, template.category)}
           </Badge>
         </div>
       </button>

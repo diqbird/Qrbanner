@@ -6,7 +6,7 @@ import { BarChart3, TrendingUp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { categoryShortName } from '@/lib/qr-utils';
+import { resolveCategoryShortName } from '@/lib/i18n/resolve-qr-category-copy';
 
 interface TopQrItem {
   id: string;
@@ -61,7 +61,7 @@ export function TopQrWidget() {
               {qr.category && (
                 <div className="mt-1 flex items-center gap-2">
                   <Badge variant="secondary" className="text-[10px]">
-                    {categoryShortName(qr.category)}
+                    {resolveCategoryShortName(t, qr.category)}
                   </Badge>
                   {qr.shortCode && (
                     <span className="text-xs text-muted-foreground font-mono">/{qr.shortCode}</span>

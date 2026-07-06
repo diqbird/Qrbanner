@@ -8,7 +8,7 @@ import { IndustryTemplateGuide } from '@/components/qr/industry-template-guide';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveTemplateName, resolveTemplateTagline } from '@/lib/i18n/resolve-template-copy';
 import type { IndustryTemplate } from '@/lib/industry-templates';
-import { categoryShortName } from '@/lib/qr-utils';
+import { resolveCategoryShortName } from '@/lib/i18n/resolve-qr-category-copy';
 
 export function TemplateDetailHeader({
   template,
@@ -33,7 +33,7 @@ export function TemplateDetailHeader({
 
       <header className="mt-6 text-center">
         <Badge variant="outline" className="mb-3">
-          {categoryShortName(template.category)}
+          {resolveCategoryShortName(t, template.category)}
         </Badge>
         <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">{name}</h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">{tagline}</p>

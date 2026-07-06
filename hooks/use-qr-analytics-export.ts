@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { format } from 'date-fns';
 import { DateRange } from 'react-day-picker';
 import { toast } from 'sonner';
-import { downloadAnalyticsCsv } from '@/lib/analytics-export';
+import { downloadAnalyticsCsv, buildAnalyticsCsvLabels } from '@/lib/analytics-export';
 import { buildAnalyticsPdfLabels, downloadAnalyticsPdf } from '@/lib/analytics-pdf-export';
 import type { QrAnalyticsData } from '@/lib/qr-analytics-types';
 
@@ -19,8 +19,8 @@ export function useQrAnalyticsExport(
 ) {
   const handleExport = useCallback(() => {
     if (!data) return;
-    downloadAnalyticsCsv(data, `qr-analytics-${qrId}`);
-  }, [data, qrId]);
+    downloadAnalyticsCsv(data, `qr-analytics-${qrId}`, buildAnalyticsCsvLabels(t));
+  }, [data, qrId, t]);
 
   const handleExportPdf = useCallback(async () => {
     if (!data) return;

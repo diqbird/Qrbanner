@@ -4,6 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Globe } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import {
+  resolveCategoryDescription,
+  resolveCategoryDisplayName,
+  resolveCategoryGroupLabel,
+  resolveCategoryGroupSubtitle,
+} from '@/lib/i18n/resolve-qr-category-copy';
 import { QR_CATEGORIES, QR_CATEGORY_GROUPS } from '@/lib/qr-utils';
 import { QR_CATEGORY_ICONS } from '@/lib/qr-category-icons';
 import { IndustryTemplatePicker } from '@/components/qr/industry-template-picker';
@@ -23,9 +29,9 @@ export function QrCreateStepStart({ form }: QrCreateStepStartProps) {
       {QR_CATEGORY_GROUPS.map((group) => (
         <Card key={group.id}>
           <CardHeader className="pb-2">
-            <CardTitle className="font-display text-base">{group.label}</CardTitle>
+            <CardTitle className="font-display text-base">{resolveCategoryGroupLabel(t, group.id)}</CardTitle>
             {'subtitle' in group && group.subtitle && (
-              <p className="text-xs text-muted-foreground">{group.subtitle}</p>
+              <p className="text-xs text-muted-foreground">{resolveCategoryGroupSubtitle(t, group.id)}</p>
             )}
           </CardHeader>
           <CardContent>
@@ -60,8 +66,10 @@ export function QrCreateStepStart({ form }: QrCreateStepStartProps) {
                       <Icon className="h-5 w-5" />
                     </div>
                     <div className="min-w-0 pr-8">
-                      <p className="text-sm font-medium">{cat.name}</p>
-                      <p className="line-clamp-2 text-xs text-muted-foreground">{cat.description}</p>
+                      <p className="text-sm font-medium">{resolveCategoryDisplayName(t, cat.id)}</p>
+                      <p className="line-clamp-2 text-xs text-muted-foreground">
+                        {resolveCategoryDescription(t, cat.id)}
+                      </p>
                     </div>
                   </button>
                 );

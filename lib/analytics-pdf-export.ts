@@ -25,6 +25,7 @@ export type AnalyticsPdfLabels = {
   browser: string;
   time: string;
   footer: string;
+  moreRows: string;
 };
 
 export type AnalyticsPdfOptions = {
@@ -72,6 +73,7 @@ function twoColumnTable(
   headers: [string, string],
   y: number,
   maxRows = 12,
+  moreRowsLabel?: string,
 ): number {
   if (!rows.length) return y;
   y = ensureSpace(doc, y, 10);
@@ -95,7 +97,12 @@ function twoColumnTable(
   if (rows.length > maxRows) {
     y = ensureSpace(doc, y, 5);
     doc.setTextColor(120, 120, 120);
-    doc.text(`+${rows.length - maxRows} more`, MARGIN, y);
+    doc.text(
+      moreRowsLabel?.replace('{{count}}', String(rows.length - maxRows)) ??
+        `+${rows.length - maxRows} more`,
+      MARGIN,
+      y,
+    );
     y += 4;
   }
 
@@ -144,29 +151,30 @@ export async function downloadAnalyticsPdf(data: AnalyticsPayload, options: Anal
     [labels.date, labels.value],
     y,
     14,
+    labels.moreRows,
   );
 
   y = sectionTitle(doc, labels.countries, y);
-  y = twoColumnTable(doc, data.scansByCountry, [labels.country, labels.value], y);
+  y = twoColumnTable(doc, data.scansByCountry, [labels.country, labels.value], y, 12, labels.moreRows);
 
   if (data.scansByCity?.length) {
     y = sectionTitle(doc, labels.cities, y);
-    y = twoColumnTable(doc, data.scansByCity, [labels.name, labels.value], y);
+    y = twoColumnTable(doc, data.scansByCity, [labels.name, labels.value], y, 12, labels.moreRows);
   }
 
   if (data.scansByDevice?.length) {
     y = sectionTitle(doc, labels.devices, y);
-    y = twoColumnTable(doc, data.scansByDevice, [labels.device, labels.value], y);
+    y = twoColumnTable(doc, data.scansByDevice, [labels.device, labels.value], y, 12, labels.moreRows);
   }
 
   if (data.scansByBrowser?.length) {
     y = sectionTitle(doc, labels.browsers, y);
-    y = twoColumnTable(doc, data.scansByBrowser, [labels.browser, labels.value], y);
+    y = twoColumnTable(doc, data.scansByBrowser, [labels.browser, labels.value], y, 12, labels.moreRows);
   }
 
   if (data.scansByOS?.length) {
     y = sectionTitle(doc, labels.operatingSystems, y);
-    y = twoColumnTable(doc, data.scansByOS, [labels.name, labels.value], y);
+    y = twoColumnTable(doc, data.scansByOS, [labels.name, labels.value], y, 12, labels.moreRows);
   }
 
   if (data.recentScans?.length) {
@@ -234,5 +242,6 @@ export function buildAnalyticsPdfLabels(
     browser: t('analytics.pdfBrowser'),
     time: t('analytics.pdfTime'),
     footer: t('analytics.pdfFooter'),
+    moreRows: t('analytics.pdfMoreRows'),
   };
 }
