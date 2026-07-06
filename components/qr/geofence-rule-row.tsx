@@ -54,7 +54,7 @@ export function GeofenceRuleRow({
         <div className="space-y-1">
           <Label className="text-xs">{t('qrFeatures.geofenceCity')}</Label>
           <Input
-            placeholder="Istanbul"
+            placeholder={t('qrFeatures.geofenceCityPlaceholder')}
             value={rule.city}
             onChange={(e) => onUpdate({ city: e.target.value })}
           />
@@ -63,7 +63,7 @@ export function GeofenceRuleRow({
       <div className="space-y-1">
         <Label className="text-xs">{t('qrFeatures.geofenceLabel')}</Label>
         <Input
-          placeholder="Turkey store"
+          placeholder={t('qrFeatures.geofenceLabelPlaceholder')}
           value={rule.label ?? ''}
           onChange={(e) => onUpdate({ label: e.target.value })}
         />
@@ -71,7 +71,7 @@ export function GeofenceRuleRow({
       <div className="space-y-1">
         <Label className="text-xs">{t('qrFeatures.geofenceRedirect')}</Label>
         <Input
-          placeholder="https://example.com/tr"
+          placeholder={t('qrFeatures.geofenceRedirectPlaceholder')}
           value={rule.url}
           onChange={(e) => onUpdate({ url: e.target.value })}
         />

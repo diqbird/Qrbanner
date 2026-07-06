@@ -1,14 +1,18 @@
+'use client';
+
 import Link from 'next/link';
 import { JsonLd } from '@/components/seo/json-ld';
 import { breadcrumbJsonLd } from '@/lib/seo';
 import { ChevronRight } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
 
 export function PublicBreadcrumbs({
   items,
 }: {
   items: { label: string; href: string }[];
 }) {
-  const trail = [{ label: 'Home', href: '/' }, ...items];
+  const { t } = useLanguage();
+  const trail = [{ label: t('common.home'), href: '/' }, ...items];
 
   return (
     <>
@@ -16,7 +20,7 @@ export function PublicBreadcrumbs({
         data={breadcrumbJsonLd(trail.map((item) => ({ name: item.label, path: item.href })))}
       />
       <nav
-        aria-label="Breadcrumb"
+        aria-label={t('common.breadcrumbAria')}
         className="mx-auto max-w-[1200px] px-4 pt-6 sm:px-6"
       >
         <ol className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">

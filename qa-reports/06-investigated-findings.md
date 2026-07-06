@@ -93,21 +93,6 @@
 
 ---
 
-## User flows summary
-
-| Flow | Functional result | Notes |
-|------|-------------------|-------|
-| Login empty submit | Stays on `/login` | PASS |
-| Signup invalid email | Form blocks / no crash | PASS |
-| Forgot password | Submitted without error UI crash | PASS |
-| Enterprise XSS | No alert dialog | PASS |
-| QR create wizard | Loads (TR H1) | WARN — domains 401 console |
-| Pricing CTA | Visible | WARN — hydration errors |
-
-All flows marked WARN only due to RSC abort noise or console warnings — no flow completely blocked except SAML (P0).
-
----
-
 ## API summary (after triage)
 
 | Category | Count |
@@ -116,8 +101,58 @@ All flows marked WARN only due to RSC abort noise or console warnings — no flo
 | Protected (401/403) — expected | 118 |
 | Success (200) — public | 7 |
 | Valid rejection (400/404) | 10 |
-| **Real defects** | **2** (SAML redirect, referral/Stripe 503) |
+| **Real defects** | **2** (SAML redirect, referral/Stripe 503) — both fixed |
 | Test artifact (SCIM path typo in probe) | 1 |
+
+---
+
+## User flows summary
+
+| Flow | Functional result | Notes |
+|------|-------------------|-------|
+| Login empty submit | Stays on `/login` | PASS |
+| Signup invalid email | Form blocks / no crash | PASS |
+| Forgot password | Submitted without error UI crash | PASS |
+| Enterprise XSS | No alert dialog | PASS |
+| QR create wizard | Loads (TR H1) | PASS — domains 401 fixed (Pack 5) |
+| Pricing CTA | Visible | PASS — hydration fixed (`bc346ba`) |
+
+All flows functional. Historical WARN flags (domains 401, hydration) are resolved. RSC abort noise remains FP only.
+
+---
+
+## By design (not defects)
+
+| Topic | Verdict |
+|-------|---------|
+| `/de/`, `/fr/` → 404 | Middleware ships `en` + `tr` only; sitemap has no de/fr URLs |
+| `?_rsc=` `net::ERR_ABORTED` | Next.js RSC prefetch; page HTTP 200 — exclude from metrics |
+| Campaign wizard AI `purpose` | English prose from model output; surrounding UI is i18n |
+| Analytics geo country/city | English values in DB; localized labels via resolver where mapped |
+| G2 / Capterra footer links | Hidden when `NEXT_PUBLIC_G2_REVIEW_URL` / `NEXT_PUBLIC_CAPTERRA_REVIEW_URL` unset |
+
+**Review profile workflow (Pack 12):**
+
+```bash
+python scripts/verify-review-profiles.py          # check VPS env + URL reachability
+python scripts/configure-review-profiles.py \
+  --g2-url <url> --capterra-url <url>           # set env + optional rebuild
+```
+
+---
+
+## Customer-UX packs 5–12 (summary)
+
+| Pack | Commit | Focus |
+|------|--------|-------|
+| 5 | `32594e4` | Scan notify i18n, referral billing gate, QA triage |
+| 6 | `63b39a6` | QR advanced feature panels i18n |
+| 7 | `40e082a` | Design step panels i18n |
+| 8 | `02845ea` | Style editor color/pattern/frame i18n |
+| 9 | `e80f033` | Analytics insights, heatmap, leads, date picker |
+| 10 | `d5e8dbb` | CSV export i18n, QR categories, share/print titles |
+| 11 | (prior) | Analytics device/OS labels, funnel stages, campaign counts |
+| 12 | (this deploy) | Placeholders + aria-labels i18n; review-profile scripts; QA doc refresh |
 
 ---
 
@@ -128,6 +163,7 @@ All flows marked WARN only due to RSC abort noise or console warnings — no flo
 3. ~~Referral reward under Paddle (P1)~~ ✅
 4. ~~Silence `/api/domains` fetch for anonymous QR create (P2)~~ ✅
 5. Update QA runner to ignore `?_rsc=` aborts and unsupported locales
+6. Claim G2/Capterra profiles → run `configure-review-profiles.py` when URLs are live
 
 ---
 

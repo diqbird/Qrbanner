@@ -2,7 +2,7 @@
 
 **Project:** QRbanner (`https://qrbanner.com`)  
 **Report generated:** 2026-07-05 08:02 UTC  
-**Last triage update:** 2026-07-06 (post customer-ux packs 1–4)  
+**Last triage update:** 2026-07-06 (post customer-ux packs 1–12)  
 **Methodology:** Sequential live probes — no code assumptions.
 
 ## Scope
@@ -50,15 +50,25 @@
 | SAML redirect to `localhost:3000` | `siteBaseUrl()` in SAML routes (Pack 3) |
 | Pricing React hydration #425/#422 | SSR locale sync + pricing hydration (commit `bc346ba`) |
 | Referral reward 503 (Stripe-only) | 30-day Pro `planGrantExpiresAt` grant via Paddle stack (Pack 4) |
-| `/api/domains` 401 on guest `/qr/create` | `useScanBaseUrl` gates fetch behind authenticated session |
+| `/api/domains` 401 on guest `/qr/create` | `useScanBaseUrl` gates fetch behind authenticated session (Pack 5) |
+| Scan notification copy hardcoded EN | i18n keys in settings + help (Pack 5) |
+| QR advanced / design / style editor EN leaks | Packs 6–8 — `qrFeatures`, design panels, style editor i18n |
+| Analytics insights, heatmap, leads, date picker EN | Pack 9 |
+| CSV export headers, QR categories, share/print titles EN | Pack 10 |
+| Analytics device/OS labels, funnel stages, campaign `{{count}}` | Pack 11 |
+| Form placeholders + aria-labels (UTM, geofence, pixels, SMTP, SAML, automations) | Pack 12 |
 
-### Remaining (low impact)
+### Remaining (low impact / operational)
 
 | Item | Notes |
 |------|-------|
-| `/de/`, `/fr/` locale 404 | Expected — only `en` + `tr` shipped |
-| `?_rsc=` prefetch aborts | Next.js framework noise; exclude from failure metrics |
+| `/de/`, `/fr/` locale 404 | **By design** — only `en` + `tr` shipped |
+| `?_rsc=` prefetch aborts | **By design / FP** — Next.js framework noise; exclude from failure metrics |
+| G2 / Capterra review links hidden | **Operational** — VPS env vars unset until profiles claimed; run `python scripts/verify-review-profiles.py` |
+| Campaign AI `purpose` field English | **By design** — AI-generated content stored in English; UI labels are localized |
+| Geo analytics country/city names | **By design** — stored English DB values; display maps where applicable |
+| QA runner locale + RSC filters | Recommended for future automated runs (not a product defect) |
 
 **Functional flows:** Login, signup, forgot-password, QR wizard, pricing CTA, referral claim, SAML wizard — usable.
 
-See [06-investigated-findings.md](./06-investigated-findings.md) for repro steps and resolution notes.
+See [06-investigated-findings.md](./06-investigated-findings.md) for repro steps, by-design notes, and resolution history.

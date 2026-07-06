@@ -25,7 +25,7 @@ export function LinkHubLinkRow({ link, index, canRemove, onUpdate, onRemove }: L
         <Input
           value={link.label}
           onChange={(e) => onUpdate(index, { label: e.target.value })}
-          placeholder="Instagram"
+          placeholder={t('linkHub.linkLabelPlaceholder')}
         />
       </div>
       <div className="flex-[2] space-y-2">
@@ -34,7 +34,7 @@ export function LinkHubLinkRow({ link, index, canRemove, onUpdate, onRemove }: L
           type="url"
           value={link.url}
           onChange={(e) => onUpdate(index, { url: e.target.value })}
-          placeholder="https://"
+          placeholder={t('linkHub.linkUrlPlaceholder')}
         />
       </div>
       <Button
@@ -44,7 +44,7 @@ export function LinkHubLinkRow({ link, index, canRemove, onUpdate, onRemove }: L
         className="shrink-0 text-muted-foreground hover:text-destructive"
         onClick={() => onRemove(index)}
         disabled={!canRemove}
-        aria-label="Remove link"
+        aria-label={t('common.removeLinkAria')}
       >
         <Trash2 className="h-4 w-4" />
       </Button>

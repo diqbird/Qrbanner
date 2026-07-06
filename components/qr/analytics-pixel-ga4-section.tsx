@@ -29,7 +29,7 @@ export function AnalyticsPixelGa4Section({
         <div className="space-y-2">
           <Label className="text-xs">{t('qrFeatures.pixelGa4Id')}</Label>
           <Input
-            placeholder="G-XXXXXXXXXX"
+            placeholder={t('qrFeatures.pixelGa4IdPlaceholder')}
             value={values.ga4MeasurementId ?? ''}
             onChange={(e) => set({ ga4MeasurementId: e.target.value.trim() })}
             className="font-mono text-sm"

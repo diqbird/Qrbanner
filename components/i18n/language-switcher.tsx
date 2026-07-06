@@ -5,7 +5,7 @@ import { useLanguage } from './language-provider';
 import { cn } from '@/lib/utils';
 
 export function LanguageSwitcher({ className }: { className?: string }) {
-  const { locale, setLocale } = useLanguage();
+  const { locale, setLocale, t } = useLanguage();
 
   return (
     <div
@@ -14,7 +14,7 @@ export function LanguageSwitcher({ className }: { className?: string }) {
         className
       )}
       role="group"
-      aria-label="Language"
+      aria-label={t('common.languageAria')}
     >
       {LOCALES.map((item) => (
         <button

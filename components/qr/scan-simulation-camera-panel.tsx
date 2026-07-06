@@ -38,7 +38,7 @@ export function ScanSimulationCameraPanel({ scan }: ScanSimulationCameraPanelPro
             size="icon"
             className="absolute right-2 top-2 h-7 w-7"
             onClick={stopCamera}
-            aria-label="Close camera"
+            aria-label={t('common.closeCameraAria')}
           >
             <X className="h-4 w-4" />
           </Button>

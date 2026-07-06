@@ -25,7 +25,7 @@ export function AutomationFlowActionWebhookFields({ builder, index }: Automation
         <Input
           value={action.url}
           onChange={(e) => updateAction(index, { ...action, url: e.target.value })}
-          placeholder="https://hooks.zapier.com/..."
+          placeholder={t('settings.webhooks.endpointPlaceholder')}
         />
       </div>
       <div className="space-y-1">

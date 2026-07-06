@@ -63,7 +63,7 @@ export function ScanSimulationResult({ result, onDismiss, t }: ScanSimulationRes
           type="button"
           className="shrink-0 text-muted-foreground hover:text-foreground"
           onClick={onDismiss}
-          aria-label="Dismiss"
+          aria-label={t('common.dismissAria')}
         >
           <X className="h-3.5 w-3.5" />
         </button>

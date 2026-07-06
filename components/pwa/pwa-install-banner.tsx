@@ -61,7 +61,7 @@ export function PwaInstallBanner() {
       </div>
       <div className="flex items-center gap-2">
         <Button size="sm" onClick={install}>{t('mobileApps.installBtn')}</Button>
-        <Button size="icon-sm" variant="ghost" onClick={dismiss} aria-label="Dismiss">
+        <Button size="icon-sm" variant="ghost" onClick={dismiss} aria-label={t('common.dismissAria')}>
           <X className="h-4 w-4" />
         </Button>
       </div>

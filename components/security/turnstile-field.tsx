@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useLanguage } from '@/components/i18n/language-provider';
 
 type TurnstileApi = {
   render: (
@@ -50,6 +51,7 @@ export function TurnstileField({
   onToken: (token: string | null) => void;
   className?: string;
 }) {
+  const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
@@ -81,7 +83,7 @@ export function TurnstileField({
   }, [siteKey, onToken]);
 
   if (!siteKey) return null;
-  return <div ref={containerRef} className={className} aria-label="Security check" />;
+  return <div ref={containerRef} className={className} aria-label={t('common.securityCheckAria')} />;
 }
 
 export function isTurnstileEnabledClient(): boolean {

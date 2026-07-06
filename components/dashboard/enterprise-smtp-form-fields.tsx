@@ -28,15 +28,15 @@ export function EnterpriseSmtpFormFields({ enterprise, smtpConfigured }: Enterpr
     <div className="grid gap-3 sm:grid-cols-2">
       <div className="space-y-2">
         <Label>{t('enterpriseWorkspace.smtpHost')}</Label>
-        <Input value={smtpHost} onChange={(e) => setSmtpHost(e.target.value)} placeholder="smtp.example.com" />
+        <Input value={smtpHost} onChange={(e) => setSmtpHost(e.target.value)} placeholder={t('enterpriseWorkspace.smtpHostPlaceholder')} />
       </div>
       <div className="space-y-2">
         <Label>{t('enterpriseWorkspace.smtpPort')}</Label>
-        <Input value={smtpPort} onChange={(e) => setSmtpPort(e.target.value)} placeholder="587" />
+        <Input value={smtpPort} onChange={(e) => setSmtpPort(e.target.value)} placeholder={t('enterpriseWorkspace.smtpPortPlaceholder')} />
       </div>
       <div className="space-y-2">
         <Label>{t('enterpriseWorkspace.smtpUser')}</Label>
-        <Input value={smtpUser} onChange={(e) => setSmtpUser(e.target.value)} placeholder="no-reply@company.com" />
+        <Input value={smtpUser} onChange={(e) => setSmtpUser(e.target.value)} placeholder={t('enterpriseWorkspace.smtpUserPlaceholder')} />
       </div>
       <div className="space-y-2">
         <Label>{t('enterpriseWorkspace.smtpPassword')}</Label>
@@ -44,12 +44,12 @@ export function EnterpriseSmtpFormFields({ enterprise, smtpConfigured }: Enterpr
           type="password"
           value={smtpPassword}
           onChange={(e) => setSmtpPassword(e.target.value)}
-          placeholder={smtpConfigured ? '••••••••' : ''}
+          placeholder={smtpConfigured ? t('enterpriseWorkspace.smtpPasswordMaskedPlaceholder') : ''}
         />
       </div>
       <div className="space-y-2 sm:col-span-2">
         <Label>{t('enterpriseWorkspace.smtpFrom')}</Label>
-        <Input value={smtpFrom} onChange={(e) => setSmtpFrom(e.target.value)} placeholder="notifications@company.com" />
+        <Input value={smtpFrom} onChange={(e) => setSmtpFrom(e.target.value)} placeholder={t('enterpriseWorkspace.smtpFromPlaceholder')} />
       </div>
     </div>
   );

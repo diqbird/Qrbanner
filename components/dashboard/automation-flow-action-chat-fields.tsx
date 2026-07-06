@@ -25,7 +25,7 @@ export function AutomationFlowActionChatFields({ builder, index }: AutomationFlo
         <Input
           value={action.webhookUrl}
           onChange={(e) => updateAction(index, { ...action, webhookUrl: e.target.value })}
-          placeholder="https://hooks.slack.com/..."
+          placeholder={t('settings.automations.chatWebhookPlaceholder')}
         />
       </div>
       <div className="space-y-1">

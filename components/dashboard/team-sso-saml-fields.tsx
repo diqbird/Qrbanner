@@ -31,7 +31,7 @@ export function TeamSsoSamlFields({ team }: TeamSsoSamlFieldsProps) {
           id="idp-entity-id"
           value={idpEntityId}
           onChange={(e) => setIdpEntityId(e.target.value)}
-          placeholder="https://idp.example.com/metadata"
+          placeholder={t('settings.team.idpEntityIdPlaceholder')}
         />
       </div>
       <div className="space-y-2">
@@ -40,7 +40,7 @@ export function TeamSsoSamlFields({ team }: TeamSsoSamlFieldsProps) {
           id="idp-sso-url"
           value={idpSsoUrl}
           onChange={(e) => setIdpSsoUrl(e.target.value)}
-          placeholder="https://idp.example.com/sso/saml"
+          placeholder={t('settings.team.idpSsoUrlPlaceholder')}
         />
       </div>
       <div className="space-y-2">

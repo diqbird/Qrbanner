@@ -18,6 +18,7 @@
     "verify:dmarc:upgrade": "python scripts/upgrade-dmarc-guide.py",
     "verify:smtp": "python scripts/run-smtp-test.py",
     "verify:smtp:env": "python scripts/check-vps-smtp-env.py",
+    "verify:reviews": "python scripts/verify-review-profiles.py",
     "test:pagespeed": "python scripts/pagespeed-audit.py",
     "test:lighthouse": "node scripts/lighthouse-audit.mjs",
     "test:lighthouse:vps": "python scripts/lighthouse-on-vps.py",

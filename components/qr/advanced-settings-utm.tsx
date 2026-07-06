@@ -31,15 +31,15 @@ export function AdvancedSettingsUtm({
         <div className="grid gap-3 sm:grid-cols-3">
           <div className="space-y-1">
             <Label className="text-xs">{t('qrFeatures.utmSource')}</Label>
-            <Input placeholder="qrbanner" value={values.utmSource} onChange={(e) => set({ utmSource: e.target.value })} />
+            <Input placeholder={t('qrFeatures.utmSourcePlaceholder')} value={values.utmSource} onChange={(e) => set({ utmSource: e.target.value })} />
           </div>
           <div className="space-y-1">
             <Label className="text-xs">{t('qrFeatures.utmMedium')}</Label>
-            <Input placeholder="qr" value={values.utmMedium} onChange={(e) => set({ utmMedium: e.target.value })} />
+            <Input placeholder={t('qrFeatures.utmMediumPlaceholder')} value={values.utmMedium} onChange={(e) => set({ utmMedium: e.target.value })} />
           </div>
           <div className="space-y-1">
             <Label className="text-xs">{t('qrFeatures.utmCampaign')}</Label>
-            <Input placeholder="summer-menu" value={values.utmCampaign} onChange={(e) => set({ utmCampaign: e.target.value })} />
+            <Input placeholder={t('qrFeatures.utmCampaignPlaceholder')} value={values.utmCampaign} onChange={(e) => set({ utmCampaign: e.target.value })} />
           </div>
         </div>
       )}

@@ -29,7 +29,7 @@ export function AnalyticsPixelMetaSection({
         <div className="space-y-2">
           <Label className="text-xs">{t('qrFeatures.pixelMetaId')}</Label>
           <Input
-            placeholder="123456789012345"
+            placeholder={t('qrFeatures.pixelMetaIdPlaceholder')}
             value={values.metaPixelId ?? ''}
             onChange={(e) => set({ metaPixelId: e.target.value.replace(/\D/g, '') })}
             className="font-mono text-sm"

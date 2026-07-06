@@ -4,14 +4,16 @@ import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { Monitor, Moon, Sun } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/components/i18n/language-provider';
 
 const modes = [
-  { value: 'light', label: 'Light', icon: Sun },
-  { value: 'dark', label: 'Dark', icon: Moon },
-  { value: 'system', label: 'System', icon: Monitor },
+  { value: 'light', labelKey: 'settings.appearanceLight', icon: Sun },
+  { value: 'dark', labelKey: 'settings.appearanceDark', icon: Moon },
+  { value: 'system', labelKey: 'settings.appearanceSystem', icon: Monitor },
 ] as const;
 
 export function ThemeModeSwitch({ className }: { className?: string }) {
+  const { t } = useLanguage();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -31,7 +33,7 @@ export function ThemeModeSwitch({ className }: { className?: string }) {
     <div
       className={cn('grid grid-cols-3 gap-1 rounded-lg bg-muted p-1', className)}
       role="radiogroup"
-      aria-label="Appearance"
+      aria-label={t('settings.appearance')}
     >
       {modes.map((mode) => {
         const active = theme === mode.value;
@@ -50,7 +52,7 @@ export function ThemeModeSwitch({ className }: { className?: string }) {
             )}
           >
             <mode.icon className="h-4 w-4" />
-            <span className="hidden sm:inline">{mode.label}</span>
+            <span className="hidden sm:inline">{t(mode.labelKey)}</span>
           </button>
         );
       })}
