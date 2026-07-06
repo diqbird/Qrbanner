@@ -1,6 +1,7 @@
 'use client';
 
 import { Upload } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
 import type { MockupPreviewState } from '@/hooks/use-mockup-preview';
 
 export function MockupCanvasBackground({
@@ -10,6 +11,8 @@ export function MockupCanvasBackground({
   backgroundImage: string | null;
   fileInputRef: MockupPreviewState['fileInputRef'];
 }) {
+  const { t } = useLanguage();
+
   if (backgroundImage) {
     return (
       <>
@@ -32,7 +35,7 @@ export function MockupCanvasBackground({
       className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-muted/80 p-4 text-center text-sm text-muted-foreground hover:bg-muted"
     >
       <Upload className="h-8 w-8 opacity-50" />
-      <span>Upload your photo (JPG, PNG, WebP)</span>
+      <span>{t('mockup.uploadPhoto')}</span>
     </button>
   );
 }

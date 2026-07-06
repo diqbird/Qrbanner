@@ -4,6 +4,7 @@ import { Label } from '@/components/ui/label';
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
+import { useLanguage } from '@/components/i18n/language-provider';
 import type { QRFolderOption } from '@/lib/qr-organize-types';
 
 export function QrOrganizeFolderSelect({
@@ -15,18 +16,20 @@ export function QrOrganizeFolderSelect({
   folderId: string | null;
   onFolderChange: (folderId: string | null) => void;
 }) {
+  const { t } = useLanguage();
+
   return (
     <div className="space-y-2">
-      <Label>Folder</Label>
+      <Label>{t('organize.folder')}</Label>
       <Select
         value={folderId ?? '__none__'}
         onValueChange={(v) => onFolderChange(v === '__none__' ? null : v)}
       >
         <SelectTrigger>
-          <SelectValue placeholder="No folder" />
+          <SelectValue placeholder={t('organize.noFolder')} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="__none__">No folder</SelectItem>
+          <SelectItem value="__none__">{t('organize.noFolder')}</SelectItem>
           {folders.map((f) => (
             <SelectItem key={f.id} value={f.id}>
               <span className="flex items-center gap-2">

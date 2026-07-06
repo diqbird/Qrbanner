@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tag, X } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
 import { MAX_LABELS_PER_QR, normalizeLabels } from '@/lib/organize-utils';
 
 export function QrOrganizeLabelsEditor({
@@ -15,6 +16,7 @@ export function QrOrganizeLabelsEditor({
   labels: string[];
   onLabelsChange: (labels: string[]) => void;
 }) {
+  const { t } = useLanguage();
   const [labelInput, setLabelInput] = useState('');
 
   const addLabel = () => {
@@ -31,13 +33,13 @@ export function QrOrganizeLabelsEditor({
   return (
     <div className="space-y-2">
       <Label className="flex items-center gap-2">
-        <Tag className="h-4 w-4" /> Labels
+        <Tag className="h-4 w-4" /> {t('organize.labels')}
       </Label>
       <div className="flex gap-2">
         <Input
           value={labelInput}
           onChange={(e) => setLabelInput(e.target.value)}
-          placeholder="Add label..."
+          placeholder={t('organize.addLabel')}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               e.preventDefault();
@@ -47,7 +49,7 @@ export function QrOrganizeLabelsEditor({
           disabled={labels.length >= MAX_LABELS_PER_QR}
         />
         <Button type="button" variant="outline" onClick={addLabel} disabled={!labelInput.trim()}>
-          Add
+          {t('organize.add')}
         </Button>
       </div>
       {labels.length > 0 && (
@@ -63,7 +65,7 @@ export function QrOrganizeLabelsEditor({
         </div>
       )}
       <p className="text-xs text-muted-foreground">
-        Up to {MAX_LABELS_PER_QR} labels. Separate with comma or press Enter.
+        {t('organize.labelsHint', { max: MAX_LABELS_PER_QR })}
       </p>
     </div>
   );

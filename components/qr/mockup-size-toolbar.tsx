@@ -2,25 +2,27 @@
 
 import { Button } from '@/components/ui/button';
 import { Move, Minus, Plus } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
 import type { MockupPreviewState } from '@/hooks/use-mockup-preview';
 
 export function MockupSizeToolbar({ mockup }: { mockup: MockupPreviewState }) {
+  const { t } = useLanguage();
   const { placement, nudgeSize, updatePlacement } = mockup;
 
   return (
     <div className="flex flex-col items-center gap-2">
       <p className="flex items-center justify-center gap-1.5 text-center text-xs text-muted-foreground">
-        <Move className="h-3.5 w-3.5" /> Drag to move · corner handle or scroll to resize
+        <Move className="h-3.5 w-3.5" /> {t('mockup.dragHint')}
       </p>
       <div className="flex items-center gap-2 rounded-lg border border-border/60 bg-muted/40 px-3 py-2">
-        <span className="text-xs font-medium text-muted-foreground">QR size</span>
+        <span className="text-xs font-medium text-muted-foreground">{t('mockup.qrSize')}</span>
         <Button
           type="button"
           variant="outline"
           size="icon"
           className="h-7 w-7"
           onClick={() => nudgeSize(-2)}
-          aria-label="Decrease QR size"
+          aria-label={t('mockup.decreaseSize')}
         >
           <Minus className="h-3.5 w-3.5" />
         </Button>
@@ -33,7 +35,7 @@ export function MockupSizeToolbar({ mockup }: { mockup: MockupPreviewState }) {
           size="icon"
           className="h-7 w-7"
           onClick={() => nudgeSize(2)}
-          aria-label="Increase QR size"
+          aria-label={t('mockup.increaseSize')}
         >
           <Plus className="h-3.5 w-3.5" />
         </Button>

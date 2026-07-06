@@ -11,7 +11,7 @@ export function StyleEditorErrorMarginSection({ style: s, update }: StyleEditorT
   return (
     <>
       <div className="space-y-2">
-        <Label>Error Correction</Label>
+        <Label>{t('style.errorCorrection')}</Label>
         <div className="flex gap-2">
           {ERROR_LEVELS.map((ec) => (
             <button
@@ -28,9 +28,7 @@ export function StyleEditorErrorMarginSection({ style: s, update }: StyleEditorT
             </button>
           ))}
         </div>
-        <p className="text-xs text-muted-foreground">
-          Use H when adding a logo. Higher levels tolerate more damage before becoming unreadable.
-        </p>
+        <p className="text-xs text-muted-foreground">{t('style.errorCorrectionHint')}</p>
       </div>
 
       <div className="space-y-2">
@@ -47,9 +45,7 @@ export function StyleEditorErrorMarginSection({ style: s, update }: StyleEditorT
           onChange={(e) => update({ margin: parseInt(e.target.value, 10) })}
           className="w-full"
         />
-        <p className="text-xs text-muted-foreground">
-          White space around the QR pattern. Increase for print or busy backgrounds (4–8 recommended).
-        </p>
+        <p className="text-xs text-muted-foreground">{t('style.quietZoneHint')}</p>
       </div>
     </>
   );

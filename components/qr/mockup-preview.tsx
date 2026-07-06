@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Upload } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { useLanguage } from '@/components/i18n/language-provider';
 import { useMockupPreviewState } from '@/hooks/use-mockup-preview';
 import { MockupPresetPicker } from './mockup-preset-picker';
 import { MockupCanvas } from './mockup-canvas';
@@ -11,6 +12,7 @@ import { MockupSizeToolbar } from './mockup-size-toolbar';
 import { MockupPlacementControls } from './mockup-placement-controls';
 
 export function MockupPreview({ qrDataUrl }: { qrDataUrl: string | null }) {
+  const { t } = useLanguage();
   const mockup = useMockupPreviewState();
   const { open, setOpen, isCustom, customImage, fileInputRef, handleCustomUpload, backgroundImage } = mockup;
 
@@ -19,16 +21,14 @@ export function MockupPreview({ qrDataUrl }: { qrDataUrl: string | null }) {
       <Card>
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between gap-2">
-            <CardTitle className="font-display text-base">Surface Mockup Preview</CardTitle>
+            <CardTitle className="font-display text-base">{t('mockup.title')}</CardTitle>
             <CollapsibleTrigger asChild>
               <Button type="button" variant="ghost" size="sm" className="h-7 text-xs">
-                {open ? 'Hide' : 'Show'}
+                {open ? t('mockup.hide') : t('mockup.show')}
               </Button>
             </CollapsibleTrigger>
           </div>
-          <p className="text-xs text-muted-foreground">
-            Preset surfaces or your own photo — drag the QR to position, use sliders for size.
-          </p>
+          <p className="text-xs text-muted-foreground">{t('mockup.subtitle')}</p>
         </CardHeader>
         <CollapsibleContent>
           <CardContent className="space-y-4 pt-0">
@@ -56,7 +56,7 @@ export function MockupPreview({ qrDataUrl }: { qrDataUrl: string | null }) {
                 onClick={() => fileInputRef.current?.click()}
               >
                 <Upload className="h-3.5 w-3.5" />
-                {customImage ? 'Change photo' : 'Upload photo'}
+                {customImage ? t('mockup.changePhoto') : t('mockup.uploadPhotoBtn')}
               </Button>
             )}
 

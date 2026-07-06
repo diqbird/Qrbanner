@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FolderOpen } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
 import { useQrOrganizeFolders } from '@/hooks/use-qr-organize-folders';
 import { QrOrganizeFolderSelect, QrOrganizeLabelsEditor } from './qr-organize-settings-panels';
 
@@ -20,13 +21,14 @@ export function QROrganizeSettings({
   onFolderChange,
   onLabelsChange,
 }: QROrganizeSettingsProps) {
+  const { t } = useLanguage();
   const { folders } = useQrOrganizeFolders();
 
   return (
     <Card>
       <CardHeader>
         <CardTitle className="font-display flex items-center gap-2 text-base">
-          <FolderOpen className="h-5 w-5 text-primary" /> Organization
+          <FolderOpen className="h-5 w-5 text-primary" /> {t('organize.title')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-5">

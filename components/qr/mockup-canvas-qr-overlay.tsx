@@ -1,6 +1,7 @@
 'use client';
 
 import { Maximize2 } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
 import type { MockupPreviewState } from '@/hooks/use-mockup-preview';
 
 export function MockupCanvasQrOverlay({
@@ -12,6 +13,7 @@ export function MockupCanvasQrOverlay({
   qrDataUrl: string | null;
   backgroundImage: string | null;
 }) {
+  const { t } = useLanguage();
   const {
     placement,
     dragging,
@@ -28,7 +30,7 @@ export function MockupCanvasQrOverlay({
     if (backgroundImage) {
       return (
         <p className="absolute inset-0 flex items-center justify-center p-4 text-center text-sm text-white drop-shadow">
-          Generate preview first
+          {t('mockup.generateFirst')}
         </p>
       );
     }
@@ -55,7 +57,7 @@ export function MockupCanvasQrOverlay({
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={qrDataUrl}
-        alt="QR on mockup"
+        alt=""
         className={`w-full rounded-sm bg-white p-0.5 shadow-lg ring-1 ring-black/10 ${
           dragging || resizing ? 'ring-2 ring-primary' : ''
         }`}
@@ -64,7 +66,7 @@ export function MockupCanvasQrOverlay({
       />
       <button
         type="button"
-        aria-label="Resize QR"
+        aria-label={t('mockup.resizeQr')}
         className="absolute -bottom-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full border-2 border-background bg-primary text-primary-foreground shadow-md hover:scale-110 active:scale-95"
         onPointerDown={onResizeHandleDown}
       >

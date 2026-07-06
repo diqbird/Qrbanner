@@ -3,9 +3,19 @@ import type { QRStyleConfig } from '@/lib/qr-style';
 export interface ScannabilityResult {
   score: number;
   grade: 'A' | 'B' | 'C' | 'D' | 'F';
-  factors: { label: string; impact: number; tip: string }[];
+  factors: { id: ScannabilityFactorId; impact: number }[];
   printDpiRecommendation: number;
 }
+
+export type ScannabilityFactorId =
+  | 'lowContrast'
+  | 'moderateContrast'
+  | 'goodContrast'
+  | 'logoWithoutH'
+  | 'largeLogo'
+  | 'gradientFill'
+  | 'decorativeDots'
+  | 'densePayload';
 
 function contrastRatio(fg: string, bg: string): number {
   const parse = (hex: string) => {
@@ -44,21 +54,13 @@ export function computeScannability(
   if (ratio < 3) {
     const impact = -35;
     score += impact;
-    factors.push({
-      label: 'Low contrast',
-      impact,
-      tip: 'Increase contrast between foreground and background (aim for 4.5:1 or higher).',
-    });
+    factors.push({ id: 'lowContrast', impact });
   } else if (ratio < 4.5) {
     const impact = -15;
     score += impact;
-    factors.push({
-      label: 'Moderate contrast',
-      impact,
-      tip: 'Consider darker dots or a lighter background for outdoor scanning.',
-    });
+    factors.push({ id: 'moderateContrast', impact });
   } else {
-    factors.push({ label: 'Good contrast', impact: 0, tip: 'Contrast ratio supports reliable scanning.' });
+    factors.push({ id: 'goodContrast', impact: 0 });
   }
 
   const ec = style.errorCorrection ?? 'M';
@@ -66,54 +68,34 @@ export function computeScannability(
   if (opts?.hasLogo && ec !== 'H') {
     const impact = -20;
     score += impact;
-    factors.push({
-      label: 'Logo without level H',
-      impact,
-      tip: 'Use error correction H when embedding a logo.',
-    });
+    factors.push({ id: 'logoWithoutH', impact });
   }
 
   const logoSize = opts?.logoSize ?? style.logoSize ?? 0.22;
   if (opts?.hasLogo && logoSize > 0.28) {
     const impact = -18;
     score += impact;
-    factors.push({
-      label: 'Large logo',
-      impact,
-      tip: 'Reduce logo size below 28% of QR area for better readability.',
-    });
+    factors.push({ id: 'largeLogo', impact });
   }
 
   if (style.gradientEnabled) {
     const impact = -8;
     score += impact;
-    factors.push({
-      label: 'Gradient fill',
-      impact,
-      tip: 'Gradients can reduce scan reliability on low-end cameras — test before print.',
-    });
+    factors.push({ id: 'gradientFill', impact });
   }
 
   const complexDots = ['dots', 'classy', 'classy-rounded'].includes(style.dotStyle ?? '');
   if (complexDots) {
     const impact = -5;
     score += impact;
-    factors.push({
-      label: 'Decorative dot style',
-      impact,
-      tip: 'Rounded/classy dots scan well but may fail at very small print sizes.',
-    });
+    factors.push({ id: 'decorativeDots', impact });
   }
 
   const len = opts?.contentLength ?? 0;
   if (len > 800) {
     const impact = -12;
     score += impact;
-    factors.push({
-      label: 'Dense payload',
-      impact,
-      tip: 'Long content creates a busier QR — use a short link when possible.',
-    });
+    factors.push({ id: 'densePayload', impact });
   }
 
   score = Math.round(Math.min(100, Math.max(0, (score * 0.6 + ecScore * 0.4))));
@@ -129,7 +111,7 @@ export function analyzePrintQuality(
   style: Partial<QRStyleConfig>,
   sizePx: number,
   hasLogo?: boolean
-): { ok: boolean; minPrintCm: number; message: string } {
+): { ok: boolean; minPrintCm: number; printDpi: number; physicalCm: number } {
   const scan = computeScannability(style, { hasLogo, logoSize: style.logoSize });
   const minPrintCm = scan.printDpiRecommendation <= 150 ? 2 : scan.printDpiRecommendation <= 200 ? 2.5 : 3.5;
   const physicalCm = (sizePx / scan.printDpiRecommendation) * 2.54;
@@ -137,8 +119,7 @@ export function analyzePrintQuality(
   return {
     ok,
     minPrintCm,
-    message: ok
-      ? `At ${scan.printDpiRecommendation} DPI this QR prints clearly at ~${physicalCm.toFixed(1)} cm.`
-      : `Increase print size to at least ${minPrintCm} cm or export at higher resolution (recommended ${scan.printDpiRecommendation} DPI).`,
+    printDpi: scan.printDpiRecommendation,
+    physicalCm,
   };
 }

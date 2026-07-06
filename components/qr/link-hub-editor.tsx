@@ -32,7 +32,7 @@ export function LinkHubEditor({
     setLinks(next);
   };
 
-  const addLink = () => setLinks([...links, { label: 'New link', url: '' }]);
+  const addLink = () => setLinks([...links, { label: t('linkHub.newLink'), url: '' }]);
 
   const removeLink = (index: number) => {
     if (links.length <= 1) return;
@@ -54,7 +54,7 @@ export function LinkHubEditor({
           <Input
             value={landing.title}
             onChange={(e) => onChange({ ...landing, title: e.target.value })}
-            placeholder={qrName || 'My links'}
+            placeholder={qrName || t('linkHub.placeholderMyLinks')}
           />
         </div>
         <div className="space-y-2">
@@ -63,7 +63,7 @@ export function LinkHubEditor({
             rows={2}
             value={landing.subtitle}
             onChange={(e) => onChange({ ...landing, subtitle: e.target.value })}
-            placeholder="Tap a link below"
+            placeholder={t('linkHub.placeholderTapBelow')}
           />
         </div>
 
