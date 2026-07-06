@@ -178,6 +178,40 @@ export const en: TranslationTree = {
     metaDescription:
       'Create QR codes for menus, business cards, Wi‑Fi, Instagram, PDFs and more. Edit links anytime, track scans, capture leads and download print-ready designs. Free QR code generator with analytics — QRbanner.',
   },
+  authEmail: {
+    footerRights: '© {{year}} QRbanner. All rights reserved.',
+    verification: {
+      subject: 'Your QRbanner verification code',
+      greeting: 'Hi {{name}},',
+      greetingNoName: 'Hi,',
+      intro: 'Use the verification code below to confirm your email address and activate your QRbanner account:',
+      expiryNote:
+        "This code expires in 30 minutes. If you didn't create a QRbanner account, you can safely ignore this email.",
+      text: 'Your QRbanner verification code is {{code}}. It expires in 30 minutes.',
+    },
+    passwordReset: {
+      subject: 'Your QRbanner password reset code',
+      greeting: 'Hi {{name}},',
+      greetingNoName: 'Hi,',
+      intro: 'We received a request to reset your password. Use the code below to choose a new password:',
+      enterCode: 'Enter code',
+      expiryNote: "This code expires in 15 minutes. If you didn't request a reset, you can ignore this email.",
+      text: 'Your password reset code is {{code}}. It expires in 15 minutes. Enter it at {{resetUrl}}',
+    },
+    passwordResetOAuth: {
+      subject: 'QRbanner password reset — use social sign-in',
+      greeting: 'Hi {{name}},',
+      greetingNoName: 'Hi,',
+      defaultProvider: 'your social sign-in provider',
+      intro:
+        'We received a password reset request for your account. This email address uses {{providers}} sign-in, so there is no QRbanner password to reset.',
+      signInPrompt: 'Please sign in with {{providers}} instead:',
+      goToSignIn: 'Go to sign in',
+      footerHelp:
+        'If you did not request this, you can ignore this email. Need help? Reply to {{supportEmail}}.',
+      text: 'Your account uses {{providers}} sign-in. Sign in at {{loginUrl}}. No password reset is needed.',
+    },
+  },
   auth: {
     welcomeBack: 'Welcome back',
     signInSubtitle: 'Sign in to your QRbanner account',

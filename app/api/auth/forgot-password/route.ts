@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { sendPasswordResetEmail } from '@/lib/email';
 import { createPasswordResetCode } from '@/lib/password-reset';
+import { resolveEmailLocaleFromRequest } from '@/lib/i18n/resolve-email-locale';
 import { clientIp } from '@/lib/rate-limit';
 import { enforceRateLimit } from '@/lib/authenticated-rate-limit';
 import { AUTH_FORGOT_PASSWORD } from '@/lib/rate-limit-policies';
@@ -19,7 +20,7 @@ export async function POST(req: NextRequest) {
     );
     if (limited) return limited;
 
-    let body: { email?: string; turnstileToken?: string; captchaToken?: string };
+    let body: { email?: string; turnstileToken?: string; captchaToken?: string; locale?: string };
     try {
       body = await req.json();
     } catch {
@@ -29,7 +30,8 @@ export async function POST(req: NextRequest) {
     const blocked = await guardPublicPost(req, body, ip);
     if (blocked) return blocked;
 
-    const { email } = body;
+    const { email, locale: bodyLocale } = body;
+    const locale = resolveEmailLocaleFromRequest(req, bodyLocale);
     if (!email || typeof email !== 'string') {
       return NextResponse.json({ error: 'email_required' }, { status: 400 });
     }
@@ -50,7 +52,7 @@ export async function POST(req: NextRequest) {
       data: { passwordResetToken: codeHash, passwordResetExpiry: expiry },
     });
 
-    const result = await sendPasswordResetEmail(user.email, code, user.name);
+    const result = await sendPasswordResetEmail(user.email, code, user.name, locale);
     if (!result.sent && result.fallback) {
       console.log(`[forgot-password] SMTP fallback — code for ${user.email}: ${code}`);
     }

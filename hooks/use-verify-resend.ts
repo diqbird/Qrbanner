@@ -8,11 +8,13 @@ type Translate = (key: string) => string;
 export function useVerifyResend({
   t,
   email,
+  locale,
   setResending,
   setCooldown,
 }: {
   t: Translate;
   email: string;
+  locale: 'en' | 'tr';
   setResending: (resending: boolean) => void;
   setCooldown: (cooldown: number | ((c: number) => number)) => void;
 }) {
@@ -26,7 +28,7 @@ export function useVerifyResend({
       const res = await fetch('/api/verify/resend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, locale }),
       });
       const data = await res.json();
       if (!res.ok) {

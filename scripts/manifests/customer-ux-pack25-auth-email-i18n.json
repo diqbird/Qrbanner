@@ -1,0 +1,26 @@
+{
+  "upload": [
+    "lib/i18n/resolve-email-locale.ts",
+    "lib/i18n/auth-transactional-email.ts",
+    "lib/email.ts",
+    "app/api/signup/route.ts",
+    "app/api/auth/forgot-password/route.ts",
+    "app/api/verify/resend/route.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "hooks/use-signup-submit.ts",
+    "hooks/use-signup-form.ts",
+    "hooks/use-verify-resend.ts",
+    "hooks/use-verify-form.ts",
+    "components/auth/forgot-password-form.tsx",
+    "hooks/use-reset-password-resend.ts",
+    "hooks/use-reset-password-form.ts",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

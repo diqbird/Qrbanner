@@ -8,10 +8,12 @@ type Translate = (key: string) => string;
 export function useResetPasswordResend({
   t,
   email,
+  locale,
   setResending,
 }: {
   t: Translate;
   email: string;
+  locale: 'en' | 'tr';
   setResending: (v: boolean) => void;
 }) {
   const handleResend = async () => {
@@ -24,7 +26,7 @@ export function useResetPasswordResend({
       const res = await fetch('/api/auth/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, locale }),
       });
       const data = await res.json();
       if (!res.ok) {

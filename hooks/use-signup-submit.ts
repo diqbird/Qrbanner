@@ -17,6 +17,7 @@ export function useSignupSubmit({
   turnstileToken,
   referralCode,
   callbackUrl,
+  locale,
   router,
   setLoading,
 }: {
@@ -30,6 +31,7 @@ export function useSignupSubmit({
   turnstileToken: string | null;
   referralCode: string | null;
   callbackUrl: string;
+  locale: 'en' | 'tr';
   router: { replace: (url: string) => void };
   setLoading: (v: boolean) => void;
 }) {
@@ -69,6 +71,7 @@ export function useSignupSubmit({
           name,
           referralCode,
           turnstileToken,
+          locale,
         }),
       });
 

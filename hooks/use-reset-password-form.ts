@@ -6,7 +6,7 @@ import { useLanguage } from '@/components/i18n/language-provider';
 import { useResetPasswordResend, useResetPasswordSubmit } from '@/hooks/use-reset-password-form-actions';
 
 export function useResetPasswordForm() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState(searchParams.get('email') ?? '');
@@ -17,7 +17,7 @@ export function useResetPasswordForm() {
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
 
-  const { handleResend } = useResetPasswordResend({ t, email, setResending });
+  const { handleResend } = useResetPasswordResend({ t, email, locale, setResending });
   const { handleSubmit } = useResetPasswordSubmit({
     t,
     email,

@@ -2,7 +2,7 @@
 
 **Project:** QRbanner (`https://qrbanner.com`)  
 **Report generated:** 2026-07-05 08:02 UTC  
-**Last triage update:** 2026-07-06 (post customer-ux packs 1–24)  
+**Last triage update:** 2026-07-06 (post customer-ux packs 1–25)  
 **Methodology:** Sequential live probes — no code assumptions.
 
 ## Scope
@@ -69,6 +69,7 @@
 | Analytics country names and A/B variant chart labels | Pack 22 |
 | Scan simulation confidence/decoded copy, QR preview alt; localized analytics CSV/PDF dimension values | Pack 23 |
 | Analytics city labels, scan notification email i18n, API key JSON example | Pack 24 |
+| Verification and password-reset transactional emails TR/EN | Pack 25 |
 
 ### Remaining (low impact / operational)
 

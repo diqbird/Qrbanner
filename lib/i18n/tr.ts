@@ -179,6 +179,40 @@ export const tr: TranslationTree = {
     metaDescription:
       'Menü, kartvizit, Wi‑Fi, Instagram, PDF ve daha fazlası için QR kod oluşturun. Linkleri istediğiniz zaman düzenleyin, taramaları izleyin, lead toplayın ve baskıya hazır tasarım indirin. Analitikli ücretsiz QR kod oluşturucu — QRbanner.',
   },
+  authEmail: {
+    footerRights: '© {{year}} QRbanner. Tüm hakları saklıdır.',
+    verification: {
+      subject: 'QRbanner doğrulama kodunuz',
+      greeting: 'Merhaba {{name}},',
+      greetingNoName: 'Merhaba,',
+      intro: 'E-posta adresinizi onaylamak ve QRbanner hesabınızı etkinleştirmek için aşağıdaki kodu kullanın:',
+      expiryNote:
+        'Bu kod 30 dakika içinde geçerliliğini yitirir. QRbanner hesabı oluşturmadıysanız bu e-postayı yok sayabilirsiniz.',
+      text: 'QRbanner doğrulama kodunuz: {{code}}. 30 dakika içinde geçerliliğini yitirir.',
+    },
+    passwordReset: {
+      subject: 'QRbanner şifre sıfırlama kodunuz',
+      greeting: 'Merhaba {{name}},',
+      greetingNoName: 'Merhaba,',
+      intro: 'Şifrenizi sıfırlama talebi aldık. Yeni şifrenizi belirlemek için aşağıdaki kodu kullanın:',
+      enterCode: 'Kodu gir',
+      expiryNote: 'Bu kod 15 dakika içinde geçerliliğini yitirir. Talep etmediyseniz bu e-postayı yok sayabilirsiniz.',
+      text: 'Şifre sıfırlama kodunuz: {{code}}. 15 dakika içinde geçerliliğini yitirir. Kodu burada girin: {{resetUrl}}',
+    },
+    passwordResetOAuth: {
+      subject: 'QRbanner şifre sıfırlama — sosyal giriş kullanın',
+      greeting: 'Merhaba {{name}},',
+      greetingNoName: 'Merhaba,',
+      defaultProvider: 'sosyal giriş sağlayıcınız',
+      intro:
+        'Hesabınız için şifre sıfırlama talebi aldık. Bu e-posta adresi {{providers}} ile giriş kullanıyor; sıfırlanacak bir QRbanner şifresi yok.',
+      signInPrompt: 'Lütfen bunun yerine {{providers}} ile giriş yapın:',
+      goToSignIn: 'Giriş sayfasına git',
+      footerHelp:
+        'Bu talebi siz yapmadıysanız e-postayı yok sayabilirsiniz. Yardım mı lazım? {{supportEmail}} adresine yanıtlayın.',
+      text: 'Hesabınız {{providers}} ile giriş kullanıyor. {{loginUrl}} adresinden giriş yapın. Şifre sıfırlamaya gerek yok.',
+    },
+  },
   auth: {
     welcomeBack: 'Tekrar hoş geldiniz',
     signInSubtitle: 'QRbanner hesabınıza giriş yapın',

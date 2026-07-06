@@ -14,7 +14,7 @@ import { AuthFormShell } from './auth-form-shell';
 import { TurnstileField, isTurnstileEnabledClient } from '@/components/security/turnstile-field';
 
 export function ForgotPasswordForm() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ export function ForgotPasswordForm() {
       const res = await fetch('/api/auth/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, turnstileToken }),
+        body: JSON.stringify({ email, turnstileToken, locale }),
       });
       const data = await res.json();
       if (!res.ok) {

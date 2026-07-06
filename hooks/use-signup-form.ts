@@ -9,7 +9,7 @@ import { isTurnstileEnabledClient } from '@/components/security/turnstile-field'
 import { useSignupSubmit } from '@/hooks/use-signup-submit';
 
 export function useSignupForm() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
   const rawCallback = searchParams.get('callbackUrl');
@@ -36,6 +36,7 @@ export function useSignupForm() {
     turnstileToken,
     referralCode: searchParams.get('ref'),
     callbackUrl,
+    locale,
     router,
     setLoading,
   });

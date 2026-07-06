@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { sendVerificationEmail } from '@/lib/email';
 import { EmailNotConfiguredError } from '@/lib/email-fallback';
+import { resolveEmailLocaleFromRequest } from '@/lib/i18n/resolve-email-locale';
 import { checkRateLimit, clientIp } from '@/lib/rate-limit';
 
 const RESEND_LIMIT = 3;
@@ -12,7 +13,8 @@ const RESEND_WINDOW_MS = 15 * 60 * 1000;
 
 export async function POST(req: NextRequest) {
   try {
-    const { email } = await req.json();
+    const { email, locale: bodyLocale } = await req.json();
+    const locale = resolveEmailLocaleFromRequest(req, bodyLocale);
 
     if (!email) {
       return NextResponse.json({ error: 'email_required' }, { status: 400 });
@@ -46,7 +48,7 @@ export async function POST(req: NextRequest) {
     });
 
     try {
-      await sendVerificationEmail(user.email, verificationCode, user.name);
+      await sendVerificationEmail(user.email, verificationCode, user.name, locale);
     } catch (err) {
       if (err instanceof EmailNotConfiguredError) {
         return NextResponse.json({ error: 'email_not_configured' }, { status: 503 });

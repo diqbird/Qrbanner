@@ -6,6 +6,7 @@ import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/db';
 import { sendVerificationEmail, isEmailConfigured } from '@/lib/email';
 import { EmailNotConfiguredError } from '@/lib/email-fallback';
+import { resolveEmailLocaleFromRequest } from '@/lib/i18n/resolve-email-locale';
 import { validatePassword } from '@/lib/password';
 import { clientIp } from '@/lib/rate-limit';
 import { enforcePublicRateLimit } from '@/lib/public-rate-limit';
@@ -23,7 +24,8 @@ export async function POST(req: NextRequest) {
     const blocked = await guardPublicPost(req, body, ip);
     if (blocked) return blocked;
 
-    const { email, password, name, referralCode, ref } = body;
+    const { email, password, name, referralCode, ref, locale: bodyLocale } = body;
+    const locale = resolveEmailLocaleFromRequest(req, bodyLocale);
 
     if (!email || !password) {
       return NextResponse.json({ error: 'missing_fields' }, { status: 400 });
@@ -62,6 +64,7 @@ export async function POST(req: NextRequest) {
         name: name ?? null,
         verificationCode,
         verificationExpiry,
+        brandingSettings: { preferredLocale: locale },
       },
     });
 
@@ -70,7 +73,7 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-      await sendVerificationEmail(user.email, verificationCode, user.name);
+      await sendVerificationEmail(user.email, verificationCode, user.name, locale);
     } catch (err) {
       if (err instanceof EmailNotConfiguredError) {
         return NextResponse.json({ error: 'email_not_configured' }, { status: 503 });

@@ -7,7 +7,7 @@ import { useLanguage } from '@/components/i18n/language-provider';
 import { useVerifySubmit, useVerifyResend } from '@/hooks/use-verify-form-actions';
 
 export function useVerifyForm() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = resolveCallbackUrl(searchParams?.get('callbackUrl'));
@@ -29,7 +29,7 @@ export function useVerifyForm() {
   }, [cooldown]);
 
   const { handleVerify } = useVerifySubmit({ t, email, code, callbackUrl, router, setLoading });
-  const { handleResend } = useVerifyResend({ t, email, setResending, setCooldown });
+  const { handleResend } = useVerifyResend({ t, email, locale, setResending, setCooldown });
 
   return {
     t,
