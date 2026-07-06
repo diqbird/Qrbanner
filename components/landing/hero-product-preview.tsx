@@ -1,4 +1,10 @@
+'use client';
+
+import { useLanguage } from '@/components/i18n/language-provider';
+
 export function HeroProductPreview() {
+  const { t } = useLanguage();
+
   return (
     <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card shadow-xl animate-fade-up">
       <div className="flex items-center gap-2 border-b border-border/50 bg-muted/40 px-4 py-2.5">
@@ -11,11 +17,11 @@ export function HeroProductPreview() {
       </div>
       <div className="grid gap-3 p-4 sm:grid-cols-2">
         <div className="rounded-xl bg-primary/10 p-4">
-          <p className="text-xs font-medium text-foreground/70">Scans today</p>
+          <p className="text-xs font-medium text-foreground/70">{t('landing.heroPreview.scansToday')}</p>
           <p className="font-display text-2xl font-bold text-primary">1,248</p>
         </div>
         <div className="rounded-xl bg-muted/50 p-4">
-          <p className="text-xs font-medium text-muted-foreground">Active QR codes</p>
+          <p className="text-xs font-medium text-muted-foreground">{t('landing.heroPreview.activeQrCodes')}</p>
           <p className="font-display text-2xl font-bold">86</p>
         </div>
         <div className="col-span-full flex items-center justify-center rounded-xl border border-dashed border-primary/30 bg-primary/5 py-8">
@@ -30,8 +36,10 @@ export function HeroProductPreview() {
                 ))}
               </div>
             </div>
-            <p className="text-sm font-medium">Summer Menu — Table 12</p>
-            <p className="text-xs text-muted-foreground">Dynamic · 342 scans</p>
+            <p className="text-sm font-medium">{t('landing.heroPreview.sampleQrName')}</p>
+            <p className="text-xs text-muted-foreground">
+              {t('landing.heroPreview.sampleQrMeta', { count: 342 })}
+            </p>
           </div>
         </div>
       </div>

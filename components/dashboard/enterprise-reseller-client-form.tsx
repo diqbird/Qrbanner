@@ -45,9 +45,9 @@ export function EnterpriseResellerClientForm({ enterprise }: EnterpriseResellerC
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="free">Free</SelectItem>
-          <SelectItem value="pro">Pro</SelectItem>
-          <SelectItem value="business">Business</SelectItem>
+          <SelectItem value="free">{t('enterpriseWorkspace.planFree')}</SelectItem>
+          <SelectItem value="pro">{t('enterpriseWorkspace.planPro')}</SelectItem>
+          <SelectItem value="business">{t('enterpriseWorkspace.planBusiness')}</SelectItem>
         </SelectContent>
       </Select>
       <Input

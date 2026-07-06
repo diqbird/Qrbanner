@@ -8,7 +8,7 @@ import type {
   BlockAlign,
 } from '@/lib/landing-page';
 import type { Locale } from '@/lib/i18n/types';
-import { resolveScanPageCopy } from '@/lib/i18n/resolve-scan-page-copy';
+import { resolveScanPageCopy, resolveScanLandingCopy } from '@/lib/i18n/resolve-scan-page-copy';
 
 export const MAX_BLOCKS = 30;
 export const MAX_LINKS_PER_BLOCK = 12;
@@ -134,7 +134,8 @@ function renderLeadFormBlock(
   ctx: RenderBlocksContext
 ): string {
   const copy = resolveScanPageCopy(ctx.locale ?? 'en');
-  const label = escapeHtml(submitLabel || 'Submit');
+  const landingCopy = resolveScanLandingCopy(ctx.locale ?? 'en');
+  const label = escapeHtml(submitLabel || landingCopy.leadSubmitDefault);
   return `<form class="lead-form"${ctx.preview ? ' onsubmit="event.preventDefault();return false"' : ''}>
       ${cfg.collectName ? `<input type="text" name="name" placeholder="${copy.leadNamePlaceholder}"/>` : ''}
       ${cfg.collectEmail ? `<input type="email" name="email" placeholder="${copy.leadEmailPlaceholder}" ${cfg.requiredEmail ? 'required' : ''}/>` : ''}
@@ -251,8 +252,9 @@ export function renderLandingBlocks(
       case 'video': {
         const embed = videoEmbed(block.url);
         if (!embed) break;
+        const landingCopy = resolveScanLandingCopy(ctx.locale ?? 'en');
         parts.push(
-          `<div class="blk-video"><iframe src="${escapeHtml(embed)}" title="Video" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`
+          `<div class="blk-video"><iframe src="${escapeHtml(embed)}" title="${landingCopy.videoEmbedTitle}" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`
         );
         break;
       }
@@ -264,7 +266,8 @@ export function renderLandingBlocks(
           collectMessage: Boolean(block.config?.collectMessage),
           requiredEmail: block.config?.requiredEmail !== false,
         };
-        parts.push(renderLeadFormBlock(cfg, block.submitLabel ?? 'Submit', ctx));
+        const landingCopy = resolveScanLandingCopy(ctx.locale ?? 'en');
+        parts.push(renderLeadFormBlock(cfg, block.submitLabel ?? landingCopy.leadSubmitDefault, ctx));
         hasLeadForm = true;
         break;
       }

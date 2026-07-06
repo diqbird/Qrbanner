@@ -12,55 +12,18 @@ export function googleMapsUrlFromGeo(schemeUrl: string): string | undefined {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(match[1])}`;
 }
 
-export function schemePageMeta(
-  category: string,
-  qrName?: string | null
-): { title: string; message: string; buttonLabel: string; secondaryUrl?: string; secondaryLabel?: string } {
-  const name = qrName?.trim() || 'QR Code';
-  switch (category) {
-    case 'email':
-      return {
-        title: 'Opening email…',
-        message: `Tap below to compose an email from “${name}”.`,
-        buttonLabel: 'Open email app',
-      };
-    case 'sms':
-      return {
-        title: 'Opening SMS…',
-        message: `Tap below to send a text message from “${name}”.`,
-        buttonLabel: 'Open messaging app',
-      };
-    case 'phone':
-      return {
-        title: 'Calling…',
-        message: `Tap below to call the number from “${name}”.`,
-        buttonLabel: 'Call now',
-      };
-    case 'location':
-      return {
-        title: 'Opening location…',
-        message: `View the location from “${name}”.`,
-        buttonLabel: 'Open in Maps',
-        secondaryLabel: 'Open in Google Maps',
-      };
-    case 'crypto':
-      return {
-        title: 'Crypto payment',
-        message: `Send payment using the address from “${name}”.`,
-        buttonLabel: 'Open wallet app',
-      };
-    default:
-      return {
-        title: 'Continue',
-        message: 'Tap below to continue.',
-        buttonLabel: 'Continue',
-      };
-  }
-}
+export { schemePageMeta, type SchemePageMeta } from '@/lib/i18n/resolve-scan-page-copy';
 
 export function renderSchemeRedirectPage(
   schemeUrl: string,
-  meta: ReturnType<typeof schemePageMeta> & { secondaryUrl?: string }
+  meta: {
+    title: string;
+    message: string;
+    buttonLabel: string;
+    secondaryUrl?: string;
+    secondaryLabel?: string;
+  },
+  locale: 'en' | 'tr' = 'en'
 ): string {
   const safeScheme = escapeHtml(schemeUrl);
   const secondary =
@@ -69,7 +32,7 @@ export function renderSchemeRedirectPage(
       : '';
 
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${locale}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">

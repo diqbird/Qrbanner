@@ -1,4 +1,6 @@
 import { renderGpsCaptureScript } from '@/lib/gps-heatmap';
+import { resolveScanLandingCopy } from '@/lib/i18n/resolve-scan-page-copy';
+import type { Locale } from '@/lib/i18n/types';
 
 export interface PixelAnalyticsConfig {
   ga4Enabled: boolean;
@@ -84,8 +86,8 @@ export function renderPixelHeadScripts(config: PixelAnalyticsConfig): string {
   return parts.join('\n  ');
 }
 
-export function renderCtaClickHandler(qrName: string): string {
-  const name = escapeJsString(qrName || 'QR Scan');
+export function renderCtaClickHandler(qrName: string, fallbackLabel = 'QR Scan'): string {
+  const name = escapeJsString(qrName || fallbackLabel);
   return `onclick="try{if(window.gtag)gtag('event','qr_cta_click',{event_category:'QRbanner',event_label:'${name}'});if(window.fbq)fbq('track','Lead',{content_name:'${name}'})}catch(e){}"`;
 }
 
@@ -93,22 +95,24 @@ export function renderPixelRedirectPage(
   redirectUrl: string,
   config: PixelAnalyticsConfig,
   qrName: string,
-  options?: { shortCode?: string; gpsHeatmapEnabled?: boolean }
+  options?: { shortCode?: string; gpsHeatmapEnabled?: boolean; locale?: Locale }
 ): string {
+  const locale = options?.locale ?? 'en';
+  const landingCopy = resolveScanLandingCopy(locale);
   const safeUrl = redirectUrl.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   const headScripts = renderPixelHeadScripts(config);
-  const name = escapeJsString(qrName || 'QR Scan');
+  const name = escapeJsString(qrName || landingCopy.qrScanFallback);
   const gpsScript =
     options?.shortCode && options?.gpsHeatmapEnabled
       ? renderGpsCaptureScript(options.shortCode, true)
       : '';
 
   return `<!DOCTYPE html>
-<html lang="en"><head>
+<html lang="${locale}"><head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <meta http-equiv="refresh" content="1;url=${safeUrl}"/>
-  <title>Redirecting…</title>
+  <title>${landingCopy.redirecting}</title>
   ${headScripts}
   <script>
     (function(){
@@ -120,5 +124,5 @@ export function renderPixelRedirectPage(
     })();
   </script>
   <style>body{font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;color:#64748b}</style>
-</head><body><p>Redirecting…</p>${gpsScript}</body></html>`;
+</head><body><p>${landingCopy.redirecting}</p>${gpsScript}</body></html>`;
 }

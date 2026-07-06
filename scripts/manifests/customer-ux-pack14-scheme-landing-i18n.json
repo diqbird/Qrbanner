@@ -1,0 +1,21 @@
+{
+  "upload": [
+    "lib/i18n/resolve-scan-page-copy.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/scan-redirect-page.ts",
+    "lib/scan/scan-redirect.ts",
+    "lib/landing-page.ts",
+    "lib/landing-blocks.ts",
+    "lib/pixel-analytics.ts",
+    "components/landing/hero-product-preview.tsx",
+    "components/dashboard/enterprise-reseller-client-form.tsx",
+    "components/ui/dialog.tsx",
+    "components/ui/command.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

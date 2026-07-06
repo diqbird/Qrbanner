@@ -6,7 +6,7 @@ import {
 import { renderHubLinkBeacon } from '@/lib/landing-cta-beacon';
 import { renderGpsCaptureScript } from '@/lib/gps-heatmap';
 import { renderLandingBlocks } from '@/lib/landing-blocks';
-import { resolveScanPageCopy } from '@/lib/i18n/resolve-scan-page-copy';
+import { resolveScanPageCopy, resolveScanLandingCopy } from '@/lib/i18n/resolve-scan-page-copy';
 import type { Locale } from '@/lib/i18n/types';
 
 export type LandingTemplate = 'minimal' | 'restaurant' | 'hotel' | 'event' | 'business';
@@ -217,36 +217,37 @@ export function renderLandingPage(
     preview = false,
     locale = 'en',
   } = options;
+  const leadCopy = resolveScanPageCopy(locale);
+  const landingCopy = resolveScanLandingCopy(locale);
   const tpl = TEMPLATE_STYLES[data.template] ?? TEMPLATE_STYLES.minimal;
   const accent = data.accentColor || '#0071e3';
-  const title = escapeHtml(data.title || 'Welcome');
+  const title = escapeHtml(data.title || landingCopy.defaultTitle);
   const subtitle = escapeHtml(data.subtitle || '');
-  const cta = escapeHtml(data.ctaLabel || 'Continue');
+  const cta = escapeHtml(data.ctaLabel || landingCopy.defaultCta);
   const banner = data.bannerImage ? escapeHtml(data.bannerImage) : '';
   const goUrl = preview ? '#' : `/s/${escapeHtml(shortCode)}?go=1`;
   const emoji = tpl.emoji;
   const pixelHead = preview || !pixels ? '' : renderPixelHeadScripts(pixels);
   const gpsScript = preview ? '' : renderGpsCaptureScript(shortCode, Boolean(gpsHeatmapEnabled));
-  const ctaClick = preview || !pixels ? '' : renderCtaClickHandler(qrName || data.title || 'QR');
+  const ctaClick = preview || !pixels ? '' : renderCtaClickHandler(qrName || data.title || landingCopy.qrNameFallback, landingCopy.qrScanFallback);
   const leadForm = data.leadForm ?? defaultLeadForm;
   const showLeadForm = Boolean(data.leadFormEnabled);
 
-  const leadCopy = resolveScanPageCopy(locale);
   const useBuilder = Boolean(data.builderMode && data.blocks && data.blocks.length > 0);
   const builder = useBuilder
     ? renderLandingBlocks(data.blocks!, { shortCode, accent, preview, goUrl, locale })
     : null;
 
   const seo = data.seo ?? {};
-  const metaTitle = escapeHtml(seo.metaTitle || data.title || 'Welcome');
+  const metaTitle = escapeHtml(seo.metaTitle || data.title || landingCopy.defaultTitle);
   const metaDesc = escapeHtml(
-    seo.metaDescription || data.subtitle || data.title || 'Scan to continue'
+    seo.metaDescription || data.subtitle || data.title || landingCopy.defaultMetaDesc
   );
   const ogImage = seo.ogImage ? escapeHtml(seo.ogImage) : banner;
   const favicon = seo.faviconUrl ? escapeHtml(seo.faviconUrl) : '';
   const robots = seo.indexable ? 'index,follow' : 'noindex,nofollow';
   const pageUrl = `https://qrbanner.com/s/${escapeHtml(shortCode)}`;
-  const bannerAlt = escapeHtml(data.title || 'Banner');
+  const bannerAlt = escapeHtml(data.title || landingCopy.bannerAlt);
 
   const hubLinks = (data.hubLinks ?? []).filter((l) => l.label?.trim() && l.url?.trim());
   const hubLinksHtml =
@@ -295,7 +296,7 @@ export function renderLandingPage(
 
   const footer = hidePoweredBy
     ? ''
-    : '<div class="footer">Powered by <a href="https://qrbanner.com">QRbanner</a></div>';
+    : `<div class="footer">${landingCopy.poweredBy} <a href="https://qrbanner.com">QRbanner</a></div>`;
 
   return `<!DOCTYPE html>
 <html lang="${locale}">

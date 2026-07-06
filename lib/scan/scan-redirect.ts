@@ -115,13 +115,18 @@ export function resolveRedirect(qrCode: ScanQrCode, req: NextRequest): NextRespo
   }
 
   if (redirectUrl && isSchemeScanCategory(qrCode.category)) {
-    const meta = schemePageMeta(qrCode.category, qrCode.name);
+    const locale = pickScanLocale(req.headers.get('accept-language'));
+    const meta = schemePageMeta(qrCode.category, qrCode.name, locale);
     const secondaryUrl =
       qrCode.category === 'location' ? googleMapsUrlFromGeo(redirectUrl) : undefined;
-    const html = renderSchemeRedirectPage(redirectUrl, {
-      ...meta,
-      secondaryUrl,
-    });
+    const html = renderSchemeRedirectPage(
+      redirectUrl,
+      {
+        ...meta,
+        secondaryUrl,
+      },
+      locale
+    );
     return withScanHeaders(
       attachAbCookie(
         new NextResponse(html, {
@@ -137,9 +142,11 @@ export function resolveRedirect(qrCode: ScanQrCode, req: NextRequest): NextRespo
 
   const pixels = getPixelConfig(qrCode);
   if (hasActivePixels(pixels) && redirectUrl) {
+    const locale = pickScanLocale(req.headers.get('accept-language'));
     const html = renderPixelRedirectPage(redirectUrl, pixels, qrCode.name, {
       shortCode: qrCode.shortCode,
       gpsHeatmapEnabled: qrCode.gpsHeatmapEnabled,
+      locale,
     });
     return withScanHeaders(
       attachAbCookie(
