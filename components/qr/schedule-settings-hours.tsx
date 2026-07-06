@@ -2,6 +2,7 @@
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useLanguage } from '@/components/i18n/language-provider';
 import { TIMEZONE_OPTIONS, DAY_LABELS, type ScheduleData } from '@/lib/schedule-utils';
 
 type ScheduleSettingsHoursProps = {
@@ -10,6 +11,7 @@ type ScheduleSettingsHoursProps = {
 };
 
 export function ScheduleSettingsHours({ data, onChange }: ScheduleSettingsHoursProps) {
+  const { t } = useLanguage();
   const set = (patch: Partial<ScheduleData>) => onChange({ ...data, ...patch });
 
   const toggleDay = (day: number) => {
@@ -19,10 +21,12 @@ export function ScheduleSettingsHours({ data, onChange }: ScheduleSettingsHoursP
     set({ days });
   };
 
+  const dayLabel = (value: number) => t(`qrFeatures.day${value}` as 'qrFeatures.day0');
+
   return (
     <>
       <div className="space-y-2">
-        <Label>Timezone</Label>
+        <Label>{t('qrFeatures.scheduleTimezone')}</Label>
         <select
           className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm"
           value={data.timezone}
@@ -36,17 +40,17 @@ export function ScheduleSettingsHours({ data, onChange }: ScheduleSettingsHoursP
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label>Open time</Label>
+          <Label>{t('qrFeatures.scheduleOpenTime')}</Label>
           <Input type="time" value={data.openTime} onChange={(e) => set({ openTime: e.target.value })} />
         </div>
         <div className="space-y-2">
-          <Label>Close time</Label>
+          <Label>{t('qrFeatures.scheduleCloseTime')}</Label>
           <Input type="time" value={data.closeTime} onChange={(e) => set({ closeTime: e.target.value })} />
         </div>
       </div>
 
       <div className="space-y-2">
-        <Label>Active days</Label>
+        <Label>{t('qrFeatures.scheduleActiveDays')}</Label>
         <div className="flex flex-wrap gap-2">
           {DAY_LABELS.map((d) => (
             <button
@@ -59,7 +63,7 @@ export function ScheduleSettingsHours({ data, onChange }: ScheduleSettingsHoursP
                   : 'bg-muted text-muted-foreground hover:bg-muted/80'
               }`}
             >
-              {d.label}
+              {dayLabel(d.value)}
             </button>
           ))}
         </div>
@@ -67,7 +71,7 @@ export function ScheduleSettingsHours({ data, onChange }: ScheduleSettingsHoursP
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label>URL during open hours</Label>
+          <Label>{t('qrFeatures.scheduleUrlOpen')}</Label>
           <Input
             placeholder="https://menu.example.com/lunch"
             value={data.openUrl}
@@ -75,7 +79,7 @@ export function ScheduleSettingsHours({ data, onChange }: ScheduleSettingsHoursP
           />
         </div>
         <div className="space-y-2">
-          <Label>URL outside hours</Label>
+          <Label>{t('qrFeatures.scheduleUrlClosed')}</Label>
           <Input
             placeholder="https://menu.example.com/closed"
             value={data.closedUrl}

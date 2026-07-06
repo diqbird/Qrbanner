@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
 import { COUNTRY_OPTIONS, type GeofenceData } from '@/lib/geofence-shared';
 
 export function GeofenceRuleRow({
@@ -17,10 +18,14 @@ export function GeofenceRuleRow({
   onUpdate: (patch: Partial<GeofenceData['rules'][0]>) => void;
   onRemove: () => void;
 }) {
+  const { t } = useLanguage();
+
   return (
     <div className="rounded-lg border p-4 space-y-3">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text-muted-foreground">Rule {index + 1}</span>
+        <span className="text-xs font-medium text-muted-foreground">
+          {t('qrFeatures.geofenceRule', { n: index + 1 })}
+        </span>
         <Button
           type="button"
           variant="ghost"
@@ -33,7 +38,7 @@ export function GeofenceRuleRow({
       </div>
       <div className="grid gap-3 sm:grid-cols-2">
         <div className="space-y-1">
-          <Label className="text-xs">Country</Label>
+          <Label className="text-xs">{t('qrFeatures.geofenceCountry')}</Label>
           <select
             className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm"
             value={rule.countryCode}
@@ -47,24 +52,24 @@ export function GeofenceRuleRow({
           </select>
         </div>
         <div className="space-y-1">
-          <Label className="text-xs">City (optional)</Label>
+          <Label className="text-xs">{t('qrFeatures.geofenceCity')}</Label>
           <Input
-            placeholder="e.g. Istanbul"
+            placeholder="Istanbul"
             value={rule.city}
             onChange={(e) => onUpdate({ city: e.target.value })}
           />
         </div>
       </div>
       <div className="space-y-1">
-        <Label className="text-xs">Label (optional)</Label>
+        <Label className="text-xs">{t('qrFeatures.geofenceLabel')}</Label>
         <Input
-          placeholder="e.g. Turkey store"
+          placeholder="Turkey store"
           value={rule.label ?? ''}
           onChange={(e) => onUpdate({ label: e.target.value })}
         />
       </div>
       <div className="space-y-1">
-        <Label className="text-xs">Redirect URL</Label>
+        <Label className="text-xs">{t('qrFeatures.geofenceRedirect')}</Label>
         <Input
           placeholder="https://example.com/tr"
           value={rule.url}

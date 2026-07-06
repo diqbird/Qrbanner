@@ -3,6 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Clock } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
 import {
   ScheduleData,
   emptyScheduleData,
@@ -21,19 +22,19 @@ export function ScheduleSettings({
   data: ScheduleData;
   onChange: (v: ScheduleData) => void;
 }) {
+  const { t } = useLanguage();
+
   return (
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="font-display flex items-center gap-2 text-base">
             <Clock className="h-5 w-5 text-primary" />
-            Time-Based Routing
+            {t('qrFeatures.scheduleTitle')}
           </CardTitle>
           <Switch checked={enabled} onCheckedChange={onEnabledChange} />
         </div>
-        <p className="text-sm text-muted-foreground">
-          Redirect to different URLs by time of day or day of week — perfect for menus & business hours.
-        </p>
+        <p className="text-sm text-muted-foreground">{t('qrFeatures.scheduleSubtitle')}</p>
       </CardHeader>
       {enabled && (
         <CardContent className="space-y-5">

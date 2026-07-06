@@ -93,6 +93,12 @@ export const HELP_SECTIONS: HelpSection[] = [
         href: '/qr/create?quick=1',
       },
       {
+        id: 'advanced-routing',
+        titleKey: 'help.topicAdvancedTitle',
+        descKey: 'help.topicAdvancedDesc',
+        href: '/qr/create?quick=1',
+      },
+      {
         id: 'security',
         titleKey: 'nav.security',
         descKey: 'help.topicSecurityDesc',

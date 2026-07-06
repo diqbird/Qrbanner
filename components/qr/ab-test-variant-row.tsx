@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
 import type { AbTestData, AbVariant } from '@/lib/ab-routing';
 
 type AbTestVariantRowProps = {
@@ -23,14 +24,16 @@ export function AbTestVariantRow({
   onUpdate,
   onRemove,
 }: AbTestVariantRowProps) {
+  const { t } = useLanguage();
+
   return (
     <div className="grid gap-3 rounded-lg border border-border/50 p-3 sm:grid-cols-[1fr_2fr_80px_36px]">
       <div className="space-y-1">
-        <Label className="text-xs">Label</Label>
+        <Label className="text-xs">{t('qrFeatures.abLabel')}</Label>
         <Input value={variant.label} onChange={(e) => onUpdate(index, { label: e.target.value })} />
       </div>
       <div className="space-y-1">
-        <Label className="text-xs">URL</Label>
+        <Label className="text-xs">{t('qrFeatures.abUrl')}</Label>
         <Input
           placeholder={defaultUrl || 'https://...'}
           value={variant.url}
@@ -38,7 +41,7 @@ export function AbTestVariantRow({
         />
       </div>
       <div className="space-y-1">
-        <Label className="text-xs">Weight %</Label>
+        <Label className="text-xs">{t('qrFeatures.abWeight')}</Label>
         <Input
           type="number"
           min={1}

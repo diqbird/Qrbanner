@@ -1,0 +1,29 @@
+{
+  "upload": [
+    "components/qr/advanced-settings.tsx",
+    "components/qr/advanced-settings-password-field.tsx",
+    "components/qr/advanced-settings-smart-routing.tsx",
+    "components/qr/advanced-settings-limits-fields.tsx",
+    "components/qr/advanced-settings-utm.tsx",
+    "components/qr/ab-test-settings.tsx",
+    "components/qr/ab-test-variant-row.tsx",
+    "components/qr/analytics-pixel-settings.tsx",
+    "components/qr/analytics-pixel-ga4-section.tsx",
+    "components/qr/analytics-pixel-meta-section.tsx",
+    "components/qr/geofence-settings.tsx",
+    "components/qr/geofence-rules-list.tsx",
+    "components/qr/geofence-rule-row.tsx",
+    "components/qr/schedule-settings.tsx",
+    "components/qr/schedule-settings-hours.tsx",
+    "components/qr/schedule-settings-daily-urls.tsx",
+    "components/qr/gps-heatmap-settings.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/help-content.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

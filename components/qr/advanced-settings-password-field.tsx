@@ -3,6 +3,7 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Lock } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
 import type { AdvancedValues } from '@/lib/advanced-settings-types';
 
 export function AdvancedSettingsPasswordField({
@@ -14,21 +15,27 @@ export function AdvancedSettingsPasswordField({
   onChange: (v: AdvancedValues) => void;
   hasExistingPassword?: boolean;
 }) {
+  const { t } = useLanguage();
+
   return (
     <div className="space-y-2">
       <Label className="flex items-center gap-2">
-        <Lock className="h-4 w-4 text-muted-foreground" /> Password protection
+        <Lock className="h-4 w-4 text-muted-foreground" /> {t('qrFeatures.passwordLabel')}
       </Label>
       <Input
         type="password"
         autoComplete="new-password"
-        placeholder={hasExistingPassword ? 'Password set — type to change, clear to remove' : 'Set a password (optional)'}
+        placeholder={
+          hasExistingPassword
+            ? t('qrFeatures.passwordPlaceholderChange')
+            : t('qrFeatures.passwordPlaceholderNew')
+        }
         value={values.password}
         onChange={(e) => onChange({ ...values, password: e.target.value })}
       />
       <p className="text-xs text-muted-foreground">
-        Scanners must enter this password before being redirected.
-        {hasExistingPassword ? ' A password is currently set.' : ''}
+        {t('qrFeatures.passwordHint')}
+        {hasExistingPassword ? t('qrFeatures.passwordCurrentlySet') : ''}
       </p>
     </div>
   );
