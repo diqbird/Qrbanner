@@ -2,7 +2,7 @@
 
 **Project:** QRbanner (`https://qrbanner.com`)  
 **Report generated:** 2026-07-05 08:02 UTC  
-**Last triage update:** 2026-07-06 (post customer-ux packs 1–26)  
+**Last triage update:** 2026-07-06 (post customer-ux packs 1–27)  
 **Methodology:** Sequential live probes — no code assumptions.
 
 ## Scope
@@ -71,6 +71,7 @@
 | Analytics city labels, scan notification email i18n, API key JSON example | Pack 24 |
 | Verification and password-reset transactional emails TR/EN | Pack 25 |
 | Automation default templates, SMTP test email, automation log errors | Pack 26 |
+| Automation template var labels; localized geo/device in dispatch output | Pack 27 |
 
 ### Remaining (low impact / operational)
 

@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { MAX_AUTOMATION_ACTIONS, TEMPLATE_VARS } from '@/lib/automation-types';
+import { MAX_AUTOMATION_ACTIONS, TEMPLATE_VAR_KEYS } from '@/lib/automation-types';
 import type { AutomationBuilderState } from '@/hooks/use-automation-builder';
 import { AutomationFlowActionRow } from './automation-flow-action-row';
 
@@ -30,7 +30,11 @@ export function AutomationFlowActionsSection({ builder }: AutomationFlowActionsS
         </Button>
       </div>
       <p className="text-xs text-muted-foreground">
-        {t('settings.automations.templateVars')}: {TEMPLATE_VARS.map((v) => `{{${v.key}}}`).join(', ')}
+        {t('settings.automations.templateVars')}:{' '}
+        {TEMPLATE_VAR_KEYS.map((key) => {
+          const label = t(`settings.automations.templateVar.${key}`);
+          return `{{${key}}} (${label})`;
+        }).join(', ')}
       </p>
       <div className="space-y-4">
         {draft.actions.map((_, i) => (

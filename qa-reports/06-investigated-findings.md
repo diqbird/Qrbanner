@@ -166,7 +166,8 @@ python scripts/configure-review-profiles.py \
 | 23 | `eb3ad38` | Scan simulation decoded/confidence i18n; localized analytics CSV/PDF values |
 | 24 | `506289b` | Analytics city labels; scan notification email TR/EN; API key example i18n |
 | 25 | `e4d9dd0` | Verification + password-reset email TR/EN; signup stores preferredLocale |
-| 26 | (this deploy) | Automation action defaults, SMTP test email, log error labels |
+| 26 | `4d54741` | Automation action defaults, SMTP test email, log error labels |
+| 27 | (this deploy) | Automation template var labels; localized values in Slack/email/webhook dispatch |
 
 ---
 

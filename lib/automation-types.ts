@@ -46,13 +46,19 @@ export type AutomationContext = {
   scannedAt?: string;
 };
 
-export const TEMPLATE_VARS: { key: string; label: string }[] = [
-  { key: 'qrName', label: 'QR name' },
-  { key: 'shortCode', label: 'Short code' },
-  { key: 'country', label: 'Country' },
-  { key: 'city', label: 'City' },
-  { key: 'device', label: 'Device' },
-  { key: 'email', label: 'Lead email' },
-  { key: 'leadName', label: 'Lead name' },
-  { key: 'ctaLabel', label: 'CTA label' },
-];
+export const TEMPLATE_VAR_KEYS = [
+  'qrName',
+  'shortCode',
+  'country',
+  'city',
+  'device',
+  'email',
+  'leadName',
+  'ctaLabel',
+] as const;
+
+/** @deprecated Use TEMPLATE_VAR_KEYS with i18n labels in the UI */
+export const TEMPLATE_VARS: { key: string; label: string }[] = TEMPLATE_VAR_KEYS.map((key) => ({
+  key,
+  label: key,
+}));

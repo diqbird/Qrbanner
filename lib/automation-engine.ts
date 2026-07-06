@@ -1,5 +1,7 @@
 import { prisma } from '@/lib/db';
 import { sendAutomationNotification } from '@/lib/email';
+import { localizeAutomationContext } from '@/lib/i18n/localize-automation-context';
+import { resolveUserEmailLocale } from '@/lib/referral';
 import type {
   AutomationAction,
   AutomationCondition,
@@ -142,6 +144,13 @@ async function runFlow(flow: FlowRow, ctx: AutomationContext): Promise<void> {
 /** Run all enabled automation flows for a user matching the trigger context. */
 export async function dispatchAutomations(ctx: AutomationContext): Promise<void> {
   try {
+    const user = await prisma.user.findUnique({
+      where: { id: ctx.userId },
+      select: { brandingSettings: true },
+    });
+    const locale = resolveUserEmailLocale(user?.brandingSettings);
+    const localizedCtx = localizeAutomationContext(ctx, locale);
+
     const flows = await prisma.automationFlow.findMany({
       where: { userId: ctx.userId, enabled: true, trigger: ctx.trigger },
       take: 20,
@@ -155,7 +164,7 @@ export async function dispatchAutomations(ctx: AutomationContext): Promise<void>
     });
     if (!flows.length) return;
 
-    await Promise.allSettled(flows.map((flow) => runFlow(flow, ctx)));
+    await Promise.allSettled(flows.map((flow) => runFlow(flow, localizedCtx)));
   } catch (err) {
     console.error('[automation] dispatch', err);
   }
