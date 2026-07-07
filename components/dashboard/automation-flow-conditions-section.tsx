@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { MAX_AUTOMATION_CONDITIONS } from '@/lib/automation-types';
 import type { AutomationBuilderState } from '@/hooks/use-automation-builder';
 import { AutomationFlowConditionRow } from './automation-flow-condition-row';
@@ -12,7 +13,7 @@ type AutomationFlowConditionsSectionProps = {
 };
 
 export function AutomationFlowConditionsSection({ builder }: AutomationFlowConditionsSectionProps) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const { draft, addCondition } = builder;
 
   return (
@@ -29,6 +30,12 @@ export function AutomationFlowConditionsSection({ builder }: AutomationFlowCondi
           <Plus className="mr-1 h-3 w-3" /> {t('settings.automations.addCondition')}
         </Button>
       </div>
+      <p className="text-xs text-muted-foreground">
+        {t('settings.automations.conditionQuota', {
+          count: formatLocaleNumber(draft.conditions.length, locale),
+          max: formatLocaleNumber(MAX_AUTOMATION_CONDITIONS, locale),
+        })}
+      </p>
       {draft.conditions.length === 0 ? (
         <p className="text-xs text-muted-foreground">{t('settings.automations.noConditions')}</p>
       ) : (

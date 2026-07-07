@@ -55,7 +55,7 @@ export function TopQrWidget() {
             className="group flex items-center gap-3 rounded-lg border border-transparent p-2 transition-colors hover:border-border/60 hover:bg-muted/40"
           >
             <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-bold text-muted-foreground">
-              {index + 1}
+              {formatLocaleNumber(index + 1, locale)}
             </span>
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-medium group-hover:text-primary">{qr.name}</p>

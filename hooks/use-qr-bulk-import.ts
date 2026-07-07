@@ -12,7 +12,7 @@ import { runQrBulkImport } from '@/hooks/use-qr-bulk-import-run';
 export type { CreatedQR, BulkResult, UsageInfo } from '@/lib/qr-bulk-import-types';
 
 export function useQrBulkImport() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const fileRef = useRef<HTMLInputElement>(null);
   const [batchLabel, setBatchLabel] = useState('');
   const [importing, setImporting] = useState(false);
@@ -28,7 +28,7 @@ export function useQrBulkImport() {
     onFileChange,
     onDrop,
     clearFile,
-  } = useQrBulkImportFile({ maxRows, t });
+  } = useQrBulkImportFile({ maxRows, t, locale });
 
   const handleImport = async () => {
     if (errors.length) {
@@ -45,6 +45,7 @@ export function useQrBulkImport() {
       setProgress,
       setImporting,
       t,
+      locale,
     });
   };
 

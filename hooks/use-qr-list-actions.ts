@@ -8,11 +8,13 @@ import {
 
 export function useQrListActions({
   t,
+  locale,
   scanBaseUrl,
   fetchQRCodes,
   refreshFoldersAndList,
 }: {
   t: (key: string, vars?: Record<string, string | number>) => string;
+  locale: import('@/lib/i18n/types').Locale;
   scanBaseUrl: string;
   fetchQRCodes: () => Promise<void>;
   refreshFoldersAndList: () => void;
@@ -22,6 +24,7 @@ export function useQrListActions({
   const itemActions = useQrListItemActions({ t, fetchQRCodes, refreshFoldersAndList });
   const bulkActions = useQrListBulkActions({
     t,
+    locale,
     scanBaseUrl,
     fetchQRCodes,
     selectedIds,

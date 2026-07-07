@@ -14,7 +14,7 @@ import {
 export type { ListMeta, ListTotals, ListPagination } from '@/lib/dashboard-qr-list-types';
 
 export function useDashboardQrList() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const scanBaseUrl = useScanBaseUrl();
   const filters = useDashboardQrFilters();
 
@@ -62,6 +62,7 @@ export function useDashboardQrList() {
     toggleFavorite,
   } = useQrListActions({
     t,
+    locale,
     scanBaseUrl,
     fetchQRCodes,
     refreshFoldersAndList,

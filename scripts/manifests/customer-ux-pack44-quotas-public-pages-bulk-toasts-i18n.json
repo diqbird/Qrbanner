@@ -1,0 +1,30 @@
+{
+  "upload": [
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "components/qr/qr-organize-labels-editor.tsx",
+    "components/qr/geofence-rules-list.tsx",
+    "components/dashboard/automation-flow-conditions-section.tsx",
+    "components/dashboard/automation-flow-actions-section.tsx",
+    "components/dashboard/onboarding-checklist.tsx",
+    "components/dashboard/top-qr-widget.tsx",
+    "components/analytics/analytics-funnel-panel.tsx",
+    "components/dashboard/team-saml-wizard.tsx",
+    "app/(public)/blog/page.tsx",
+    "app/(public)/geo/page.tsx",
+    "app/(public)/integrations/zapier/page.tsx",
+    "hooks/use-qr-bulk-import.ts",
+    "hooks/use-qr-bulk-import-file.ts",
+    "hooks/use-qr-bulk-import-run.ts",
+    "hooks/use-qr-list-bulk-actions.ts",
+    "hooks/use-qr-list-actions.ts",
+    "hooks/use-dashboard-qr-list.ts",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

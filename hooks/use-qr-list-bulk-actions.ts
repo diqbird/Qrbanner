@@ -3,17 +3,21 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { downloadBulkQrImagesZip, BULK_ZIP_MAX } from '@/lib/bulk-qr-zip-export';
+import type { Locale } from '@/lib/i18n/types';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 type Translate = (key: string, vars?: Record<string, string | number>) => string;
 
 export function useQrListBulkActions({
   t,
+  locale,
   scanBaseUrl,
   fetchQRCodes,
   selectedIds,
   setSelectedIds,
 }: {
   t: Translate;
+  locale: Locale;
   scanBaseUrl: string;
   fetchQRCodes: () => Promise<void>;
   selectedIds: string[];
@@ -23,7 +27,9 @@ export function useQrListBulkActions({
 
   const runBulk = async (action: string) => {
     if (!selectedIds.length) return;
-    if (action === 'delete' && !confirm(t('dashboard.deleteBulkConfirm', { count: selectedIds.length })))
+    if (action === 'delete' && !confirm(
+      t('dashboard.deleteBulkConfirm', { count: formatLocaleNumber(selectedIds.length, locale) }),
+    ))
       return;
     try {
       const res = await fetch('/api/qr/bulk-actions', {
@@ -55,7 +61,7 @@ export function useQrListBulkActions({
   const runBulkZip = async () => {
     if (!selectedIds.length) return;
     if (selectedIds.length > BULK_ZIP_MAX) {
-      toast.error(t('dashboard.bulkZipTooMany', { max: BULK_ZIP_MAX }));
+      toast.error(t('dashboard.bulkZipTooMany', { max: formatLocaleNumber(BULK_ZIP_MAX, locale) }));
       return;
     }
     setZipExporting(true);

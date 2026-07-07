@@ -584,6 +584,8 @@ export const en: TranslationTree = {
       triggerLabel: 'Trigger event',
       qrFilter: 'QR code filter',
       addCondition: 'Add condition',
+      conditionQuota: '{{count}} / {{max}} conditions',
+      actionQuota: '{{count}} / {{max}} actions',
       noConditions: 'No conditions — flow runs for every matching event.',
       field: 'Field',
       fieldCountry: 'Country',
@@ -926,6 +928,7 @@ export const en: TranslationTree = {
     geofenceAddRule: 'Add location rule',
     geofencePriority:
       'Priority: city match → country match → "All other countries" rule → default QR link. Works with schedule routing (time rules apply first). Max {{max}} rules.',
+    geofenceRuleQuota: '{{count}} / {{max}} rules',
     geofenceRule: 'Rule {{n}}',
     geofenceCountry: 'Country',
     geofenceCity: 'City (optional)',
@@ -1483,6 +1486,7 @@ export const en: TranslationTree = {
     addLabel: 'Add label...',
     add: 'Add',
     labelsHint: 'Up to {{max}} labels. Separate with comma or press Enter.',
+    labelQuota: '{{count}} / {{max}} labels',
   },
   scannability: {
     title: 'Scan reliability',

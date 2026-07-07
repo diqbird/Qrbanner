@@ -585,6 +585,8 @@ export const tr: TranslationTree = {
       triggerLabel: 'Tetikleyici olay',
       qrFilter: 'QR kod filtresi',
       addCondition: 'Koşul ekle',
+      conditionQuota: '{{count}} / {{max}} koşul',
+      actionQuota: '{{count}} / {{max}} eylem',
       noConditions: 'Koşul yok — eşleşen her olayda çalışır.',
       field: 'Alan',
       fieldCountry: 'Ülke',
@@ -927,6 +929,7 @@ export const tr: TranslationTree = {
     geofenceAddRule: 'Konum kuralı ekle',
     geofencePriority:
       'Öncelik: şehir eşleşmesi → ülke eşleşmesi → "Diğer tüm ülkeler" kuralı → varsayılan QR bağlantısı. Zaman routing ile birlikte çalışır (önce zaman kuralları). En fazla {{max}} kural.',
+    geofenceRuleQuota: '{{count}} / {{max}} kural',
     geofenceRule: 'Kural {{n}}',
     geofenceCountry: 'Ülke',
     geofenceCity: 'Şehir (isteğe bağlı)',
@@ -1484,6 +1487,7 @@ export const tr: TranslationTree = {
     addLabel: 'Etiket ekle...',
     add: 'Ekle',
     labelsHint: 'En fazla {{max}} etiket. Virgülle ayırın veya Enter\'a basın.',
+    labelQuota: '{{count}} / {{max}} etiket',
   },
   scannability: {
     title: 'Tarama güvenilirliği',

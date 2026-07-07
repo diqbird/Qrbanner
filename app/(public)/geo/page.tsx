@@ -8,6 +8,7 @@ import { pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 export const revalidate = 3600;
 
@@ -17,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return pageMetadata({
     locale,
     title: t('geoSeo.hubTitle'),
-    description: t('geoSeo.hubDescription', { count: countGeoPages() }),
+    description: t('geoSeo.hubDescription', { count: formatLocaleNumber(countGeoPages(), locale) }),
     path: '/geo',
     keywords: ['local QR code generator', 'city QR codes', 'industry QR by location'],
   });
@@ -45,7 +46,11 @@ export default async function GeoHubPage() {
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">{t('geoSeo.hubIntro')}</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              {t('geoSeo.hubStats', { cities: GEO_CITIES.length, sectors: GEO_SECTOR_SLUGS.length, pages: countGeoPages() })}
+              {t('geoSeo.hubStats', {
+                cities: formatLocaleNumber(GEO_CITIES.length, locale),
+                sectors: formatLocaleNumber(GEO_SECTOR_SLUGS.length, locale),
+                pages: formatLocaleNumber(countGeoPages(), locale),
+              })}
             </p>
           </header>
 

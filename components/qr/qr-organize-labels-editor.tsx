@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tag, X } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { MAX_LABELS_PER_QR, normalizeLabels } from '@/lib/organize-utils';
 
 export function QrOrganizeLabelsEditor({
@@ -16,7 +17,7 @@ export function QrOrganizeLabelsEditor({
   labels: string[];
   onLabelsChange: (labels: string[]) => void;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [labelInput, setLabelInput] = useState('');
 
   const addLabel = () => {
@@ -65,7 +66,12 @@ export function QrOrganizeLabelsEditor({
         </div>
       )}
       <p className="text-xs text-muted-foreground">
-        {t('organize.labelsHint', { max: MAX_LABELS_PER_QR })}
+        {t('organize.labelQuota', {
+          count: formatLocaleNumber(labels.length, locale),
+          max: formatLocaleNumber(MAX_LABELS_PER_QR, locale),
+        })}
+        {' · '}
+        {t('organize.labelsHint', { max: formatLocaleNumber(MAX_LABELS_PER_QR, locale) })}
       </p>
     </div>
   );

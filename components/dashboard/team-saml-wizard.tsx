@@ -10,6 +10,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle2, Copy, ExternalLink } from 'lucide-react';
 import { usePlanUsage } from '@/hooks/use-plan-usage';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { TeamWorkspaceState } from '@/hooks/use-team-workspace';
 
 const STEPS = [1, 2, 3, 4] as const;
@@ -61,6 +63,7 @@ export function TeamSamlWizard({ team }: TeamSamlWizardProps) {
     saveSsoSettings,
     toggleSso,
   } = team;
+  const { locale } = useLanguage();
   const { data: planData } = usePlanUsage();
   const [step, setStep] = useState<(typeof STEPS)[number]>(1);
 
@@ -98,7 +101,10 @@ export function TeamSamlWizard({ team }: TeamSamlWizardProps) {
           <p className="text-xs text-muted-foreground">{t('settings.team.samlWizardDesc')}</p>
         </div>
         <Badge variant="secondary">
-          {t('settings.team.samlWizardStep', { step, total: STEPS.length })}
+          {t('settings.team.samlWizardStep', {
+            step: formatLocaleNumber(step, locale),
+            total: formatLocaleNumber(STEPS.length, locale),
+          })}
         </Badge>
       </div>
 

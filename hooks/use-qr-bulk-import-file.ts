@@ -2,14 +2,18 @@
 
 import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
+import type { Locale } from '@/lib/i18n/types';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { parseBulkCSV, type BulkParsedRow, type BulkParseError } from '@/lib/bulk-csv';
 
 export function useQrBulkImportFile({
   maxRows,
   t,
+  locale,
 }: {
   maxRows: number;
   t: (key: string, vars?: Record<string, string | number>) => string;
+  locale: Locale;
 }) {
   const [fileName, setFileName] = useState<string | null>(null);
   const [rows, setRows] = useState<BulkParsedRow[]>([]);
@@ -25,9 +29,9 @@ export function useQrBulkImportFile({
         setRows(parsed.rows);
         setErrors(parsed.errors);
         if (parsed.errors.length) {
-          toast.error(t('bulk.rowsError', { count: parsed.errors.length }));
+          toast.error(t('bulk.rowsError', { count: formatLocaleNumber(parsed.errors.length, locale) }));
         } else if (parsed.rows.length) {
-          toast.success(t('bulk.rowsReady', { count: parsed.rows.length }));
+          toast.success(t('bulk.rowsReady', { count: formatLocaleNumber(parsed.rows.length, locale) }));
         } else {
           toast.error(t('bulk.noValidRows'));
         }
@@ -35,7 +39,7 @@ export function useQrBulkImportFile({
       reader.onerror = () => toast.error(t('bulk.readFileError'));
       reader.readAsText(file);
     },
-    [maxRows, t],
+    [maxRows, t, locale],
   );
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

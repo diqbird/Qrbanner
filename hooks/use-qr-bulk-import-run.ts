@@ -1,6 +1,8 @@
 'use client';
 
 import { toast } from 'sonner';
+import type { Locale } from '@/lib/i18n/types';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { BulkResult, UsageInfo } from '@/lib/qr-bulk-import-types';
 import type { BulkParsedRow } from '@/lib/bulk-csv';
 
@@ -16,6 +18,7 @@ export async function runQrBulkImport({
   setProgress,
   setImporting,
   t,
+  locale,
 }: {
   rows: BulkParsedRow[];
   batchLabel: string;
@@ -26,13 +29,19 @@ export async function runQrBulkImport({
   setProgress: (progress: number | ((p: number) => number)) => void;
   setImporting: (importing: boolean) => void;
   t: Translate;
+  locale: Locale;
 }): Promise<boolean> {
   if (!rows.length) {
     toast.error(t('bulk.uploadFirst'));
     return false;
   }
   if (rows.length > slotsLeft) {
-    toast.error(t('bulk.slotsLeft', { remaining: slotsLeft, limit: usage.qrLimit }));
+    toast.error(
+      t('bulk.slotsLeft', {
+        remaining: formatLocaleNumber(slotsLeft, locale),
+        limit: formatLocaleNumber(usage.qrLimit, locale),
+      }),
+    );
     return false;
   }
 
@@ -63,7 +72,9 @@ export async function runQrBulkImport({
 
     setResult(data);
     setProgress(100);
-    toast.success(t('bulk.createdSuccess', { count: data.summary.success }));
+    toast.success(
+      t('bulk.createdSuccess', { count: formatLocaleNumber(data.summary.success, locale) }),
+    );
     return true;
   } catch {
     toast.error(t('bulk.somethingWrong'));

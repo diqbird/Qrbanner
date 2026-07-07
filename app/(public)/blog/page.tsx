@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Clock, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 export const revalidate = 3600;
 
@@ -122,7 +123,10 @@ export default async function BlogIndexPage({
               )}
 
               <span className="text-sm text-muted-foreground">
-                {t('blogIndex.pageInfo', { page: currentPage, total: totalPages })}
+                {t('blogIndex.pageInfo', {
+                  page: formatLocaleNumber(currentPage, locale),
+                  total: formatLocaleNumber(totalPages, locale),
+                })}
               </span>
 
               {currentPage < totalPages ? (

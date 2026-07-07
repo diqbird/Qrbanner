@@ -6,6 +6,7 @@ import { pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
@@ -59,7 +60,9 @@ export default async function ZapierIntegrationPage() {
             <ol className="mt-6 space-y-4">
               {STEP_KEYS.map((step, i) => (
                 <li key={step.title} className="rounded-xl border border-border/50 bg-card p-5">
-                  <p className="text-xs font-medium text-primary">{t('zapierPage.step', { n: i + 1 })}</p>
+                  <p className="text-xs font-medium text-primary">
+                    {t('zapierPage.step', { n: formatLocaleNumber(i + 1, locale) })}
+                  </p>
                   <p className="mt-1 font-medium">{t(step.title)}</p>
                   <p className="mt-1 text-sm text-muted-foreground">{t(step.body)}</p>
                 </li>

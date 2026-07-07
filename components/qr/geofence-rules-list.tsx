@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { GeofenceRuleRow } from './geofence-rule-row';
 import { MAX_GEOFENCE_RULES, type GeofenceData } from '@/lib/geofence-shared';
 
@@ -17,7 +18,7 @@ export function GeofenceRulesList({
   onRemoveRule: (id: string) => void;
   onAddRule: () => void;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <div className="space-y-4">
@@ -51,7 +52,12 @@ export function GeofenceRulesList({
       </Button>
 
       <p className="text-xs text-muted-foreground">
-        {t('qrFeatures.geofencePriority', { max: MAX_GEOFENCE_RULES })}
+        {t('qrFeatures.geofenceRuleQuota', {
+          count: formatLocaleNumber(data.rules.length, locale),
+          max: formatLocaleNumber(MAX_GEOFENCE_RULES, locale),
+        })}
+        {' · '}
+        {t('qrFeatures.geofencePriority', { max: formatLocaleNumber(MAX_GEOFENCE_RULES, locale) })}
       </p>
     </div>
   );

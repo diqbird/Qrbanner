@@ -184,6 +184,7 @@ python scripts/configure-review-profiles.py \
 | 41 | (this deploy) | Scannability, SEO char counts, QR pagination, export sizes, and scan simulation |
 | 42 | (this deploy) | Analytics chart axes/tooltips, pie legends, ROI percent, landing block quota |
 | 43 | (this deploy) | Hub/social link quotas, scan notify milestones, A/B variant quota and traffic split |
+| 44 | (this deploy) | Organize/geofence/automation quotas, onboarding, blog/geo/zapier, bulk toasts |
 
 ---
 

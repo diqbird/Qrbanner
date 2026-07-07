@@ -3,11 +3,12 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { X } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { useOnboardingChecklist } from '@/hooks/use-onboarding-checklist';
 import { OnboardingChecklistItemRow } from './onboarding-checklist-item-row';
 
 export function OnboardingChecklist({ qrCount }: { qrCount: number }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const { visible, checked, dismiss, toggle, doneCount, items } = useOnboardingChecklist(qrCount);
 
   if (!visible) return null;
@@ -20,7 +21,10 @@ export function OnboardingChecklist({ qrCount }: { qrCount: number }) {
             <h2 className="font-display font-semibold">{t('onboarding.checklistTitle')}</h2>
             <p className="mt-1 text-sm text-muted-foreground">{t('onboarding.checklistSubtitle')}</p>
             <p className="mt-2 text-xs text-muted-foreground">
-              {t('onboarding.checklistProgress', { done: doneCount, total: items.length })}
+              {t('onboarding.checklistProgress', {
+                done: formatLocaleNumber(doneCount, locale),
+                total: formatLocaleNumber(items.length, locale),
+              })}
             </p>
           </div>
           <button type="button" onClick={dismiss} className="text-muted-foreground hover:text-foreground" aria-label={t('common.dismissAria')}>
