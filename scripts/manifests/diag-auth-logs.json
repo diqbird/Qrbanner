@@ -1,0 +1,13 @@
+{
+  "upload": [],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": false,
+  "restart": false,
+  "extra_commands": [
+    "echo '===== ERROR LOG mtime =====' && date -r ~/.pm2/logs/qrbanner-error.log '+%Y-%m-%d_%H:%M:%S' 2>&1 && echo 'now='$(date '+%Y-%m-%d_%H:%M:%S')",
+    "echo '===== ERROR LOG last 80 =====' && tail -n 80 ~/.pm2/logs/qrbanner-error.log 2>&1",
+    "echo '===== OUT LOG grep last 120 =====' && tail -n 1500 ~/.pm2/logs/qrbanner-out.log 2>&1 | grep -iE 'reset|login|authorize|verified|invalid|error|ytanlik|password' | tail -80"
+  ]
+}
