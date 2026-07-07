@@ -1,9 +1,9 @@
 import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
+import { PASSWORD_RESET_CODE_TTL_MS } from '@/lib/auth-code-policy';
 
 const RESET_TOKEN_BYTES = 32;
 const RESET_TOKEN_TTL_MS = 60 * 60 * 1000;
-const RESET_CODE_TTL_MS = 15 * 60 * 1000;
 
 export function createPasswordResetToken(): { token: string; tokenHash: string; expiry: Date } {
   const token = crypto.randomBytes(RESET_TOKEN_BYTES).toString('base64url');
@@ -34,7 +34,7 @@ export function createPasswordResetCode(email: string): {
   return {
     code,
     codeHash: hashPasswordResetCode(email, code),
-    expiry: new Date(Date.now() + RESET_CODE_TTL_MS),
+    expiry: new Date(Date.now() + PASSWORD_RESET_CODE_TTL_MS),
   };
 }
 

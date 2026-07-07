@@ -1,6 +1,7 @@
 import type { CompetitorPage } from '@/lib/competitor-pages';
 import { COMPETITOR_PAGES } from '@/lib/competitor-pages';
 import { localizeMarketingNumbers } from '@/lib/i18n/qr-type-count';
+import { localizePlanPricingInText } from '@/lib/i18n/plan-pricing-display';
 import type { Locale } from '@/lib/i18n/types';
 
 const BRAND_NAMES = Array.from(
@@ -23,7 +24,10 @@ export function sanitizeCompetitorBrands(text: string, locale?: Locale): string 
   out = out.replace(/\bvs [A-Z][A-Za-z0-9 .+'’-]+/g, 'vs other platforms');
   out = out.replace(/\bother platforms's\b/gi, "other platforms'");
   out = out.replace(/\s{2,}/g, ' ').trim();
-  if (locale) out = localizeMarketingNumbers(out, locale);
+  if (locale) {
+    out = localizeMarketingNumbers(out, locale);
+    out = localizePlanPricingInText(out, locale);
+  }
   return out;
 }
 

@@ -1,8 +1,10 @@
 import { translate, type Locale } from '@/lib/i18n';
+import { authEmailDurationVars } from '@/lib/i18n/policy-day-vars';
 import { SUPPORT_EMAIL } from '@/lib/site-contact';
 
 function t(locale: Locale, key: string, vars?: Record<string, string | number>) {
-  return translate(locale, key, vars);
+  const durationVars = authEmailDurationVars(locale);
+  return translate(locale, key, { ...durationVars, ...vars });
 }
 
 function emailShell(locale: Locale, body: string): string {

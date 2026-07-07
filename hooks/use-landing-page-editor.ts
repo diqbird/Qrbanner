@@ -67,6 +67,7 @@ export function useLandingPageEditor({
 
   return {
     t,
+    locale,
     data,
     set,
     builderMode,

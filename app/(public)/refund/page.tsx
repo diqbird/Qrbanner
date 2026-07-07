@@ -5,7 +5,7 @@ import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
-import { refundWindowDayVars } from '@/lib/i18n/policy-day-vars';
+import { refundPolicyVars } from '@/lib/i18n/policy-day-vars';
 import { SUPPORT_EMAIL, supportMailto } from '@/lib/site-contact';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RefundPage() {
   const locale = await getServerLocale();
-  const dayVars = refundWindowDayVars(locale);
+  const dayVars = refundPolicyVars(locale);
   const t = (key: string) => translate(locale, key, dayVars);
 
   return (

@@ -19,10 +19,7 @@ import { verifyMfaProofToken } from '@/lib/mfa-step-up';
 import { checkRateLimit, clientIpFromHeaders } from '@/lib/rate-limit-store';
 import { AUTH_LOGIN_EMAIL, AUTH_LOGIN_IP } from '@/lib/rate-limit-policies';
 
-/** 30 days when "Remember me" is checked. */
-const SESSION_REMEMBER_MAX_AGE = 30 * 24 * 60 * 60;
-/** 24 hours when "Remember me" is unchecked. */
-const SESSION_DEFAULT_MAX_AGE = 24 * 60 * 60;
+import { SESSION_DEFAULT_MAX_AGE_SEC, SESSION_REMEMBER_MAX_AGE_SEC } from '@/lib/session-policy';
 
 function parseRememberMe(value: string | undefined): boolean {
   return value !== 'false' && value !== '0';
@@ -286,7 +283,7 @@ export const authOptions: NextAuthOptions = {
         if (proof && userId && verifyMfaProofToken(proof, userId)) {
           token.mfaVerified = true;
           const rememberMe = token.rememberMe !== false;
-          const maxAge = rememberMe ? SESSION_REMEMBER_MAX_AGE : SESSION_DEFAULT_MAX_AGE;
+          const maxAge = rememberMe ? SESSION_REMEMBER_MAX_AGE_SEC : SESSION_DEFAULT_MAX_AGE_SEC;
           token.exp = Math.floor(Date.now() / 1000) + maxAge;
         }
       }
@@ -295,7 +292,7 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.role = (user as { role?: string })?.role ?? 'user';
         const rememberMe = (user as { rememberMe?: boolean }).rememberMe !== false;
-        const maxAge = rememberMe ? SESSION_REMEMBER_MAX_AGE : SESSION_DEFAULT_MAX_AGE;
+        const maxAge = rememberMe ? SESSION_REMEMBER_MAX_AGE_SEC : SESSION_DEFAULT_MAX_AGE_SEC;
         token.rememberMe = rememberMe;
         token.exp = Math.floor(Date.now() / 1000) + maxAge;
         const explicitMfa = (user as { mfaVerified?: boolean }).mfaVerified;

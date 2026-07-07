@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
+import { ogImageDimensionVars } from '@/lib/i18n/policy-day-vars';
 import type { LandingPageEditorState } from '@/hooks/use-landing-page-editor';
 
 type LandingEditorSeoSectionProps = {
@@ -11,7 +12,8 @@ type LandingEditorSeoSectionProps = {
 };
 
 export function LandingEditorSeoSection({ editor }: LandingEditorSeoSectionProps) {
-  const { t, data, set, qrName } = editor;
+  const { t, data, set, qrName, locale } = editor;
+  const ogVars = ogImageDimensionVars(locale);
 
   return (
     <div className="rounded-lg border border-dashed border-border/60 p-4 space-y-4">
@@ -38,7 +40,7 @@ export function LandingEditorSeoSection({ editor }: LandingEditorSeoSectionProps
         <div className="space-y-2">
           <Label>{t('landingEditor.ogImage')}</Label>
           <Input
-            placeholder={t('landingEditor.ogImagePlaceholder')}
+            placeholder={t('landingEditor.ogImagePlaceholder', ogVars)}
             value={data.seo?.ogImage ?? ''}
             onChange={(e) => set({ seo: { ...data.seo, ogImage: e.target.value } })}
           />

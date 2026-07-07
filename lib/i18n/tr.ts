@@ -189,8 +189,8 @@ export const tr: TranslationTree = {
       greetingNoName: 'Merhaba,',
       intro: 'E-posta adresinizi onaylamak ve QRbanner hesabınızı etkinleştirmek için aşağıdaki kodu kullanın:',
       expiryNote:
-        'Bu kod 30 dakika içinde geçerliliğini yitirir. QRbanner hesabı oluşturmadıysanız bu e-postayı yok sayabilirsiniz.',
-      text: 'QRbanner doğrulama kodunuz: {{code}}. 30 dakika içinde geçerliliğini yitirir.',
+        'Bu kod {{verifyMinutes}} dakika içinde geçerliliğini yitirir. QRbanner hesabı oluşturmadıysanız bu e-postayı yok sayabilirsiniz.',
+      text: 'QRbanner doğrulama kodunuz: {{code}}. {{verifyMinutes}} dakika içinde geçerliliğini yitirir.',
     },
     passwordReset: {
       subject: 'QRbanner şifre sıfırlama kodunuz',
@@ -198,8 +198,8 @@ export const tr: TranslationTree = {
       greetingNoName: 'Merhaba,',
       intro: 'Şifrenizi sıfırlama talebi aldık. Yeni şifrenizi belirlemek için aşağıdaki kodu kullanın:',
       enterCode: 'Kodu gir',
-      expiryNote: 'Bu kod 15 dakika içinde geçerliliğini yitirir. Talep etmediyseniz bu e-postayı yok sayabilirsiniz.',
-      text: 'Şifre sıfırlama kodunuz: {{code}}. 15 dakika içinde geçerliliğini yitirir. Kodu burada girin: {{resetUrl}}',
+      expiryNote: 'Bu kod {{resetMinutes}} dakika içinde geçerliliğini yitirir. Talep etmediyseniz bu e-postayı yok sayabilirsiniz.',
+      text: 'Şifre sıfırlama kodunuz: {{code}}. {{resetMinutes}} dakika içinde geçerliliğini yitirir. Kodu burada girin: {{resetUrl}}',
     },
     passwordResetOAuth: {
       subject: 'QRbanner şifre sıfırlama — sosyal giriş kullanın',
@@ -225,7 +225,7 @@ export const tr: TranslationTree = {
     forgotPassword: 'Şifremi unuttum?',
     showPassword: 'Şifreyi göster',
     hidePassword: 'Şifreyi gizle',
-    rememberMe: 'Beni 30 gün hatırla',
+    rememberMe: 'Beni {{days}} gün hatırla',
     noAccount: 'Hesabınız yok mu?',
     hasAccount: 'Zaten hesabınız var mı?',
     signUpFree: 'Ücretsiz kayıt ol',
@@ -660,7 +660,7 @@ export const tr: TranslationTree = {
       dnsTitle: 'DNS kurulumu (gerekli)',
       cname: 'CNAME → {{target}}',
       txtHost: 'TXT host: {{host}}',
-      dnsHint: 'DNS değişiklikleri 48 saate kadar sürebilir. HTTPS için Cloudflare proxy kullanın veya sunucunuzda SSL sertifikası isteyin.',
+      dnsHint: 'DNS değişiklikleri {{hours}} saate kadar sürebilir. HTTPS için Cloudflare proxy kullanın veya sunucunuzda SSL sertifikası isteyin.',
       empty: 'Henüz özel alan adı yok.',
       verifiedBadge: 'Doğrulandı',
       pending: 'Beklemede',
@@ -1157,7 +1157,7 @@ export const tr: TranslationTree = {
   pricing: {
     metaTitle: 'Fiyatlandırma',
     metaDescription:
-      'QRbanner fiyatlandırması — {{count}} dinamik QR kodlu ücretsiz plan. Pro $9.99/ay\'dan, güvenli Paddle faturalandırmalı Business planları. İptal sonrası kodlar aktif kalır.',
+      'QRbanner fiyatlandırması — {{count}} dinamik QR kodlu ücretsiz plan. Pro {{proPrice}}\'dan, güvenli Paddle faturalandırmalı Business planları. İptal sonrası kodlar aktif kalır.',
     launchBadge: 'Lansman fiyatları',
     title: 'Sizinle büyüyen planlar',
     mostPopular: 'En popüler',
@@ -2428,7 +2428,7 @@ export const tr: TranslationTree = {
     metaDescription: 'Meta açıklama',
     metaDescPlaceholder: 'Arama ve sosyal medya için kısa açıklama',
     ogImage: 'Open Graph görsel URL',
-    ogImagePlaceholder: 'https://…/share.jpg (1200×630)',
+    ogImagePlaceholder: 'https://…/share.jpg ({{width}}×{{height}})',
     favicon: 'Favicon URL',
     faviconPlaceholder: 'https://…/favicon.ico',
     indexable: 'Arama motorlarının bu sayfayı indekslemesine izin ver',
@@ -3038,7 +3038,7 @@ export const tr: TranslationTree = {
     howToTitle: 'Geri ödeme nasıl talep edilir',
     howToBefore: 'Bize şu adresten e-posta gönderin:',
     howToAfter:
-      'hesabınızdaki e-posta adresi ve Paddle sipariş veya fatura numaranızla birlikte. 2 iş günü içinde yanıt vermeyi ve onaylanan iadeleri Paddle üzerinden hızlıca işlemeyi hedefliyoruz.',
+      'hesabınızdaki e-posta adresi ve Paddle sipariş veya fatura numaranızla birlikte. {{responseDays}} iş günü içinde yanıt vermeyi ve onaylanan iadeleri Paddle üzerinden hızlıca işlemeyi hedefliyoruz.',
     cancelTitle: 'Aboneliğinizi iptal etme',
     cancelBefore: 'Hesap ayarlarınızdan istediğiniz zaman iptal edebilirsiniz. İptal, gelecekteki yenilemeleri durdurur; iptal sonrası planınıza ne olacağını',
     cancelAfter: 'sayfasında görebilirsiniz.',

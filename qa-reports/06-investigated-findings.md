@@ -192,6 +192,7 @@ python scripts/configure-review-profiles.py \
 | 49 | (this deploy) | Logo size guidance, vs comparisons, solution marketing counts |
 | 50 | (this deploy) | ROI currency, case study metrics, media bytes, review counts |
 | 51 | (this deploy) | API rate limits, blog read time, trial/refund days, SLA |
+| 52 | (this deploy) | Plan pricing display, policy durations, auth email expiry, DNS/OG dimensions |
 
 ---
 

@@ -6,6 +6,7 @@ import { prisma } from '@/lib/db';
 import { sendVerificationEmail } from '@/lib/email';
 import { EmailNotConfiguredError } from '@/lib/email-fallback';
 import { resolveEmailLocaleFromRequest } from '@/lib/i18n/resolve-email-locale';
+import { VERIFICATION_CODE_TTL_MS } from '@/lib/auth-code-policy';
 import { checkRateLimit, clientIp } from '@/lib/rate-limit';
 
 const RESEND_LIMIT = 3;
@@ -40,7 +41,7 @@ export async function POST(req: NextRequest) {
     }
 
     const verificationCode = crypto.randomInt(100000, 1000000).toString();
-    const verificationExpiry = new Date(Date.now() + 30 * 60 * 1000);
+    const verificationExpiry = new Date(Date.now() + VERIFICATION_CODE_TTL_MS);
 
     await prisma.user.update({
       where: { id: user.id },

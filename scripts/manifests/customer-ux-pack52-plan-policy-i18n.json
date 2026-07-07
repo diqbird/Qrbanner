@@ -1,0 +1,32 @@
+{
+  "upload": [
+    "lib/session-policy.ts",
+    "lib/auth-code-policy.ts",
+    "lib/site-media-policy.ts",
+    "lib/refund-policy.ts",
+    "lib/i18n/plan-pricing-display.ts",
+    "lib/i18n/policy-day-vars.ts",
+    "lib/i18n/pricing-content.ts",
+    "lib/i18n/auth-transactional-email.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/auth-options.ts",
+    "lib/password-reset.ts",
+    "lib/competitor-public.ts",
+    "app/(public)/pricing/page.tsx",
+    "app/(public)/refund/page.tsx",
+    "app/api/signup/route.ts",
+    "app/api/verify/resend/route.ts",
+    "hooks/use-login-form.ts",
+    "hooks/use-landing-page-editor.ts",
+    "components/dashboard/custom-domain-dns-panel.tsx",
+    "components/qr/landing-editor-seo-section.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

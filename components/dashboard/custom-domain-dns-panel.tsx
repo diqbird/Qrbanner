@@ -3,6 +3,8 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Plus, Copy } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { dnsPolicyVars } from '@/lib/i18n/policy-day-vars';
 import type { CustomDomainsState } from '@/hooks/use-custom-domains';
 
 export function CustomDomainAddPanel({ domains }: { domains: CustomDomainsState }) {
@@ -31,7 +33,9 @@ export function CustomDomainAddPanel({ domains }: { domains: CustomDomainsState 
 }
 
 export function CustomDomainDnsPanel({ domains }: { domains: CustomDomainsState }) {
-  const { t, domains: records, cnameTarget, pendingDns, copy } = domains;
+  const { t, locale } = useLanguage();
+  const dnsVars = dnsPolicyVars(locale);
+  const { domains: records, cnameTarget, pendingDns, copy } = domains;
 
   if (!pendingDns && !records.some((d) => d.status !== 'verified')) return null;
 
@@ -57,7 +61,7 @@ export function CustomDomainDnsPanel({ domains }: { domains: CustomDomainsState 
           </div>
         )}
       </div>
-      <p className="text-xs text-muted-foreground">{t('settings.customDomain.dnsHint')}</p>
+      <p className="text-xs text-muted-foreground">{t('settings.customDomain.dnsHint', dnsVars)}</p>
     </div>
   );
 }

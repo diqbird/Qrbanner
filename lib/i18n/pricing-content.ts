@@ -2,22 +2,24 @@ import { PLANS, type PlanId, type PlanLimits, annualMonthlyEquivalent, annualTot
 import { isBillingConfigured } from '@/lib/billing-provider';
 import { PRO_TRIAL_DAYS } from '@/lib/pro-trial';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { formatPlanPricePerMonth } from '@/lib/i18n/plan-pricing-display';
 import type { Locale } from './types';
 
 export function getLaunchBanner(locale: Locale, options?: { billingLive?: boolean }): string {
   const n = formatLocaleNumber(freePlanQrLimit(), locale);
   const trialDays = formatLocaleNumber(PRO_TRIAL_DAYS, locale);
   const billingLive = options?.billingLive ?? isBillingConfigured();
+  const proPrice = formatPlanPricePerMonth('pro', locale);
   if (locale === 'tr') {
     if (!billingLive) {
       return `Ücretsiz plan sonsuza kadar — ${n} dinamik QR kodu dahil. Ödeme geçici olarak kapalı — destekle iletişime geçin.`;
     }
-    return `Ücretsiz plan sonsuza kadar — ${n} dinamik QR kodu dahil. Yeni hesaplarda ${trialDays} gün Pro denemesi. Daha fazlası için Pro $9.99/ay.`;
+    return `Ücretsiz plan sonsuza kadar — ${n} dinamik QR kodu dahil. Yeni hesaplarda ${trialDays} gün Pro denemesi. Daha fazlası için Pro ${proPrice}.`;
   }
   if (!billingLive) {
     return `Free plan forever — ${n} dynamic QR codes included. Checkout is temporarily unavailable — contact support.`;
   }
-  return `Free plan forever — ${n} dynamic QR codes included. New accounts get a ${trialDays}-day Pro trial. Upgrade from $9.99/mo when you need more.`;
+  return `Free plan forever — ${n} dynamic QR codes included. New accounts get a ${trialDays}-day Pro trial. Upgrade from ${proPrice} when you need more.`;
 }
 
 function apiLimitFeature(plan: PlanLimits, locale: Locale): string | null {

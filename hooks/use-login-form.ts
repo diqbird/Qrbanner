@@ -1,16 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { resolveCallbackUrl } from '@/lib/auth-providers';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { sessionPolicyVars } from '@/lib/i18n/policy-day-vars';
 import { isTurnstileEnabledClient } from '@/components/security/turnstile-field';
 import { useLoginSsoEffects } from '@/hooks/use-login-sso-effects';
 import { useLoginFormSubmit } from '@/hooks/use-login-form-submit';
 import type { SamlInfo, SsoPolicy } from '@/lib/login-form-types';
 
 export function useLoginForm() {
-  const { t } = useLanguage();
+  const { t: translate, locale } = useLanguage();
+  const sessionVars = useMemo(() => sessionPolicyVars(locale), [locale]);
+  const t = useCallback(
+    (key: string, vars?: Record<string, string | number>) => translate(key, { ...sessionVars, ...vars }),
+    [translate, sessionVars],
+  );
   const searchParams = useSearchParams();
   const callbackUrl = resolveCallbackUrl(searchParams.get('callbackUrl'));
   const workspaceSlug = searchParams.get('workspace')?.trim() ?? '';

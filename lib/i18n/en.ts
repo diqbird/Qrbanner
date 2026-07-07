@@ -188,8 +188,8 @@ export const en: TranslationTree = {
       greetingNoName: 'Hi,',
       intro: 'Use the verification code below to confirm your email address and activate your QRbanner account:',
       expiryNote:
-        "This code expires in 30 minutes. If you didn't create a QRbanner account, you can safely ignore this email.",
-      text: 'Your QRbanner verification code is {{code}}. It expires in 30 minutes.',
+        "This code expires in {{verifyMinutes}} minutes. If you didn't create a QRbanner account, you can safely ignore this email.",
+      text: 'Your QRbanner verification code is {{code}}. It expires in {{verifyMinutes}} minutes.',
     },
     passwordReset: {
       subject: 'Your QRbanner password reset code',
@@ -197,8 +197,8 @@ export const en: TranslationTree = {
       greetingNoName: 'Hi,',
       intro: 'We received a request to reset your password. Use the code below to choose a new password:',
       enterCode: 'Enter code',
-      expiryNote: "This code expires in 15 minutes. If you didn't request a reset, you can ignore this email.",
-      text: 'Your password reset code is {{code}}. It expires in 15 minutes. Enter it at {{resetUrl}}',
+      expiryNote: "This code expires in {{resetMinutes}} minutes. If you didn't request a reset, you can ignore this email.",
+      text: 'Your password reset code is {{code}}. It expires in {{resetMinutes}} minutes. Enter it at {{resetUrl}}',
     },
     passwordResetOAuth: {
       subject: 'QRbanner password reset — use social sign-in',
@@ -224,7 +224,7 @@ export const en: TranslationTree = {
     forgotPassword: 'Forgot password?',
     showPassword: 'Show password',
     hidePassword: 'Hide password',
-    rememberMe: 'Remember me for 30 days',
+    rememberMe: 'Remember me for {{days}} days',
     noAccount: "Don't have an account?",
     hasAccount: 'Already have an account?',
     signUpFree: 'Sign up free',
@@ -659,7 +659,7 @@ export const en: TranslationTree = {
       dnsTitle: 'DNS setup (required)',
       cname: 'CNAME → {{target}}',
       txtHost: 'TXT host: {{host}}',
-      dnsHint: 'DNS changes can take up to 48 hours. For HTTPS, use Cloudflare proxy or request an SSL certificate for your domain on your server.',
+      dnsHint: 'DNS changes can take up to {{hours}} hours. For HTTPS, use Cloudflare proxy or request an SSL certificate for your domain on your server.',
       empty: 'No custom domains yet.',
       verifiedBadge: 'Verified',
       pending: 'Pending',
@@ -1156,7 +1156,7 @@ export const en: TranslationTree = {
   pricing: {
     metaTitle: 'Pricing',
     metaDescription:
-      'QRbanner pricing — Free plan with {{count}} dynamic QR codes. Pro from $9.99/mo and Business plans with secure Paddle billing. Codes stay active after cancel.',
+      'QRbanner pricing — Free plan with {{count}} dynamic QR codes. Pro from {{proPrice}} and Business plans with secure Paddle billing. Codes stay active after cancel.',
     launchBadge: 'Launch pricing',
     title: 'Plans that grow with you',
     mostPopular: 'Most popular',
@@ -2427,7 +2427,7 @@ export const en: TranslationTree = {
     metaDescription: 'Meta description',
     metaDescPlaceholder: 'Short description for search and social',
     ogImage: 'Open Graph image URL',
-    ogImagePlaceholder: 'https://…/share.jpg (1200×630)',
+    ogImagePlaceholder: 'https://…/share.jpg ({{width}}×{{height}})',
     favicon: 'Favicon URL',
     faviconPlaceholder: 'https://…/favicon.ico',
     indexable: 'Allow search engines to index this page',
@@ -3036,7 +3036,7 @@ export const en: TranslationTree = {
     howToTitle: 'How to request a refund',
     howToBefore: 'Email us at',
     howToAfter:
-      'with the email address on your account and your Paddle order or invoice number. We aim to respond within 2 business days and process approved refunds via Paddle promptly.',
+      'with the email address on your account and your Paddle order or invoice number. We aim to respond within {{responseDays}} business days and process approved refunds via Paddle promptly.',
     cancelTitle: 'Cancelling your subscription',
     cancelBefore: 'You can cancel anytime from your account settings. Cancelling stops future renewals; see our',
     cancelAfter: 'page for what happens to your plan after cancellation.',
