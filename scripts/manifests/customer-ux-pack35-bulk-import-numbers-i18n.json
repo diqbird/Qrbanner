@@ -1,0 +1,18 @@
+{
+  "upload": [
+    "components/qr/bulk-import-header.tsx",
+    "components/qr/bulk-import-upload-card.tsx",
+    "components/qr/bulk-import-error-list.tsx",
+    "components/qr/bulk-import-preview.tsx",
+    "components/qr/bulk-import-result.tsx",
+    "components/qr/bulk-import-result-failures.tsx",
+    "components/dashboard/plan-usage-card.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

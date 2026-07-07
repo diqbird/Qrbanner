@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { CreditCard, ArrowRight, ExternalLink } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolvePlanDisplayName } from '@/lib/i18n/resolve-plan-display-name';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { useBillingStatus } from '@/hooks/use-billing-status';
 import { usePlanUsage } from '@/hooks/use-plan-usage';
 import { PlanUsageMeter } from './plan-usage-meter';
@@ -85,7 +86,7 @@ export function PlanUsageCard({ refreshKey = 0 }: { refreshKey?: number }) {
         <PlanUsageMeter label={t('planUsage.automations')} used={data.usage.automations} limit={data.usage.automationLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} locale={locale} />
         <PlanUsageMeter label={t('planUsage.styleTemplates')} used={data.usage.styleTemplates} limit={data.usage.styleTemplateLimit} warningLabel={t('planUsage.meterWarning')} fullLabel={t('planUsage.meterFull')} locale={locale} />
         <p className="text-xs text-muted-foreground">
-          {t('planUsage.bulkHint', { limit: data.usage.bulkRowLimit })}
+          {t('planUsage.bulkHint', { limit: formatLocaleNumber(data.usage.bulkRowLimit, locale) })}
         </p>
         <Link href="/pricing">
           <Button variant="outline" size="sm" className="gap-2 w-full sm:w-auto">

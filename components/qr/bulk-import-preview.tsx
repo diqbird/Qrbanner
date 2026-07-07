@@ -8,6 +8,8 @@ import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table';
 import { Loader2 } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { resolveCategoryShortName } from '@/lib/i18n/resolve-qr-category-copy';
 import type { QrBulkImportState } from '@/hooks/use-qr-bulk-import';
 
@@ -16,6 +18,7 @@ type BulkImportPreviewProps = {
 };
 
 export function BulkImportPreview({ bulk }: BulkImportPreviewProps) {
+  const { locale } = useLanguage();
   const { t, rows, errors, importing, progress, slotsLeft, handleImport } = bulk;
 
   if (!rows.length) return null;
@@ -24,7 +27,9 @@ export function BulkImportPreview({ bulk }: BulkImportPreviewProps) {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
-          <CardTitle className="text-lg">{t('bulk.previewTitle', { count: rows.length })}</CardTitle>
+          <CardTitle className="text-lg">
+            {t('bulk.previewTitle', { count: formatLocaleNumber(rows.length, locale) })}
+          </CardTitle>
           <CardDescription>{t('bulk.previewDesc')}</CardDescription>
         </div>
         <Button
@@ -37,7 +42,9 @@ export function BulkImportPreview({ bulk }: BulkImportPreviewProps) {
               <Loader2 className="h-4 w-4 animate-spin" /> {t('bulk.creating')}
             </>
           ) : (
-            t(rows.length === 1 ? 'bulk.createBtn' : 'bulk.createBtnPlural', { count: rows.length })
+            t(rows.length === 1 ? 'bulk.createBtn' : 'bulk.createBtnPlural', {
+              count: formatLocaleNumber(rows.length, locale),
+            })
           )}
         </Button>
       </CardHeader>

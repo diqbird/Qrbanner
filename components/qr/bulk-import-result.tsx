@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle2, Download } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { QrBulkImportState } from '@/hooks/use-qr-bulk-import';
 import { BulkImportResultFailures } from './bulk-import-result-failures';
 import { BulkImportResultTable } from './bulk-import-result-table';
@@ -14,6 +16,7 @@ type BulkImportResultProps = {
 
 export function BulkImportResult({ bulk }: BulkImportResultProps) {
   const router = useRouter();
+  const { locale } = useLanguage();
   const { t, result, reset, exportResultCsv } = bulk;
 
   if (!result) return null;
@@ -27,8 +30,8 @@ export function BulkImportResult({ bulk }: BulkImportResultProps) {
         </CardTitle>
         <CardDescription>
           {t('bulk.importSummary', {
-            success: result.summary.success,
-            total: result.summary.total,
+            success: formatLocaleNumber(result.summary.success, locale),
+            total: formatLocaleNumber(result.summary.total, locale),
           })}
           {result.batchLabel ? ` · ${t('bulk.batch')}: ${result.batchLabel}` : ''}
         </CardDescription>

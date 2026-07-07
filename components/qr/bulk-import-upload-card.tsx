@@ -4,9 +4,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Upload } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { QrBulkImportState } from '@/hooks/use-qr-bulk-import';
 
 export function BulkImportUploadCard({ bulk }: { bulk: QrBulkImportState }) {
+  const { locale } = useLanguage();
   const {
     t,
     maxRows,
@@ -36,7 +39,9 @@ export function BulkImportUploadCard({ bulk }: { bulk: QrBulkImportState }) {
         >
           <Upload className="mb-2 h-8 w-8 text-muted-foreground" />
           <p className="text-sm font-medium">{fileName ?? t('bulk.dropHint')}</p>
-          <p className="text-xs text-muted-foreground">{t('bulk.csvOnly', { max: maxRows })}</p>
+          <p className="text-xs text-muted-foreground">
+            {t('bulk.csvOnly', { max: formatLocaleNumber(maxRows, locale) })}
+          </p>
           <input
             ref={fileRef}
             type="file"
