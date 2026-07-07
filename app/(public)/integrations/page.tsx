@@ -7,12 +7,14 @@ import { JsonLd } from '@/components/seo/json-ld';
 import { Button } from '@/components/ui/button';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { marketingCountVars } from '@/lib/i18n/qr-type-count';
 
 export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
-  const t = (key: string) => translate(locale, key);
+  const counts = marketingCountVars(locale);
+  const t = (key: string) => translate(locale, key, counts);
   return pageMetadata({
     locale,
     title: t('integrationsPage.metaTitle'),
@@ -31,7 +33,9 @@ const INTEGRATION_KEYS = [
 
 export default async function IntegrationsPage() {
   const locale = await getServerLocale();
-  const t = (key: string) => translate(locale, key);
+  const counts = marketingCountVars(locale);
+  const t = (key: string, vars?: Record<string, string | number>) =>
+    translate(locale, key, { ...counts, ...vars });
 
   return (
     <>

@@ -22,6 +22,14 @@ export function formatLocaleNumber(value: number, locale: Locale): string {
   return value.toLocaleString(resolveBcp47Locale(locale));
 }
 
+export function formatLocaleDecimal(
+  value: number,
+  locale: Locale,
+  maximumFractionDigits = 1,
+): string {
+  return value.toLocaleString(resolveBcp47Locale(locale), { maximumFractionDigits });
+}
+
 export function formatLocaleNumberList(
   values: number[],
   locale: Locale,

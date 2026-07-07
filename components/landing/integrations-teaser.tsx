@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowRight, Code2, Webhook, Zap } from 'lucide-react';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { marketingCountVars } from '@/lib/i18n/qr-type-count';
 import { Button } from '@/components/ui/button';
 
 const ITEMS = [
@@ -12,7 +13,8 @@ const ITEMS = [
 
 export async function LandingIntegrationsTeaser() {
   const locale = await getServerLocale();
-  const t = (key: string) => translate(locale, key);
+  const counts = marketingCountVars(locale);
+  const t = (key: string) => translate(locale, key, counts);
 
   return (
     <section className="cv-auto py-14 sm:py-16" aria-labelledby="integrations-teaser">

@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Gauge, Printer } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { formatLocaleNumber, resolveBcp47Locale } from '@/lib/i18n/format-locale';
+import { formatLocaleDecimal, formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { computeScannability, analyzePrintQuality, type ScannabilityFactorId } from '@/lib/scannability';
 import type { QRStyleConfig } from '@/lib/qr-style';
 
@@ -20,8 +20,6 @@ export function ScannabilityPanel({
   const { t, locale } = useLanguage();
   const result = computeScannability(style, { hasLogo, logoSize: style.logoSize, contentLength });
   const print = analyzePrintQuality(style, 1024, hasLogo);
-  const formatDecimal = (n: number) =>
-    n.toLocaleString(resolveBcp47Locale(locale), { maximumFractionDigits: 1 });
 
   const gradeColor =
     result.grade === 'A' ? 'bg-green-500' : result.grade === 'B' ? 'bg-emerald-500' : result.grade === 'C' ? 'bg-amber-500' : 'bg-red-500';
@@ -32,10 +30,10 @@ export function ScannabilityPanel({
   const printMessage = print.ok
     ? t('scannability.printOk', {
         dpi: formatLocaleNumber(print.printDpi, locale),
-        cm: formatDecimal(print.physicalCm),
+        cm: formatLocaleDecimal(print.physicalCm, locale),
       })
     : t('scannability.printWarn', {
-        minCm: formatDecimal(print.minPrintCm),
+        minCm: formatLocaleDecimal(print.minPrintCm, locale),
         dpi: formatLocaleNumber(print.printDpi, locale),
       });
 

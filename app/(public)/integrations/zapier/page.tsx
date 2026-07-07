@@ -7,10 +7,12 @@ import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { marketingCountVars } from '@/lib/i18n/qr-type-count';
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
-  const t = (key: string) => translate(locale, key);
+  const counts = marketingCountVars(locale);
+  const t = (key: string) => translate(locale, key, counts);
   return pageMetadata({
     locale,
     title: t('zapierPage.metaTitle'),
@@ -28,7 +30,9 @@ const STEP_KEYS = [
 
 export default async function ZapierIntegrationPage() {
   const locale = await getServerLocale();
-  const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
+  const counts = marketingCountVars(locale);
+  const t = (key: string, vars?: Record<string, string | number>) =>
+    translate(locale, key, { ...counts, ...vars });
 
   return (
     <>

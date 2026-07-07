@@ -188,6 +188,7 @@ python scripts/configure-review-profiles.py \
 | 45 | (this deploy) | QR wizard steps, scannability, webhooks, bulk lines, referral milestones |
 | 46 | (this deploy) | Status latency, scan sources, bulk preview lines, style margin, onboarding |
 | 47 | (this deploy) | Marketing QR type counts, features page, logo size, create page meta |
+| 48 | (this deploy) | QR types index, templates, Zapier, enterprise agency counts |
 
 ---
 

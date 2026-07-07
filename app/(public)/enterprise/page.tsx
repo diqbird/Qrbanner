@@ -7,6 +7,7 @@ import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { marketingCountVars } from '@/lib/i18n/qr-type-count';
 import { SalesInquiryForm } from '@/components/marketing/sales-inquiry-form';
 import { demoBookingUrl } from '@/lib/site-contact';
 
@@ -35,7 +36,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function EnterprisePage() {
   const locale = await getServerLocale();
-  const t = (key: string) => translate(locale, key);
+  const counts = marketingCountVars(locale);
+  const t = (key: string, vars?: Record<string, string | number>) =>
+    translate(locale, key, { ...counts, ...vars });
 
   return (
     <>
