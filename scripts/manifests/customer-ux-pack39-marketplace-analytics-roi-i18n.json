@@ -1,0 +1,24 @@
+{
+  "upload": [
+    "lib/i18n/resolve-marketplace-listing-labels.ts",
+    "lib/i18n/resolve-reseller-client-labels.ts",
+    "lib/analytics-view-utils.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "hooks/use-roi-calculator-state.ts",
+    "components/dashboard/dashboard-analytics-toolbar.tsx",
+    "components/qr/analytics-view-header.tsx",
+    "components/qr/analytics-recent-scans.tsx",
+    "components/dashboard/dashboard-analytics-live-scans.tsx",
+    "components/dashboard/enterprise-reseller-panel.tsx",
+    "components/dashboard/marketplace-seller-panel.tsx",
+    "app/(public)/marketplace/[id]/page.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

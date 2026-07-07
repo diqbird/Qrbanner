@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 import { DateRangePicker } from '@/components/ui/date-range-picker';
-import { ANALYTICS_RANGE_PRESETS, ANALYTICS_RANGE_PRESET_LABELS } from '@/lib/analytics-view-utils';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { ANALYTICS_RANGE_PRESETS, ANALYTICS_RANGE_PRESET_LABEL_KEY } from '@/lib/analytics-view-utils';
 import type { QrAnalyticsState } from '@/hooks/use-qr-analytics';
 
 type AnalyticsViewHeaderProps = {
@@ -13,7 +14,7 @@ type AnalyticsViewHeaderProps = {
 };
 
 export function AnalyticsViewHeader({ analytics, showExport = true }: AnalyticsViewHeaderProps) {
-  const { t, qrId, qrName, dateRange, setDateRange, applyPreset, handleExport, handleExportPdf } = analytics;
+  const { t, locale, qrId, qrName, dateRange, setDateRange, applyPreset, handleExport, handleExportPdf } = analytics;
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-3">
@@ -38,7 +39,7 @@ export function AnalyticsViewHeader({ analytics, showExport = true }: AnalyticsV
             className="h-8 text-xs"
             onClick={() => applyPreset(days)}
           >
-            {t(ANALYTICS_RANGE_PRESET_LABELS[days])}
+            {t(ANALYTICS_RANGE_PRESET_LABEL_KEY, { count: formatLocaleNumber(days, locale) })}
           </Button>
         ))}
         <DateRangePicker value={dateRange} onChange={(v) => setDateRange(v ?? {})} />

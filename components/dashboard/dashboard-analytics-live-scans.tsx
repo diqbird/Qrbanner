@@ -63,7 +63,7 @@ export function DashboardAnalyticsLiveScans({ analytics }: DashboardAnalyticsLiv
                 )}
               </div>
               <span className="shrink-0 font-mono text-xs text-muted-foreground">
-                {scan.scannedAt ? formatScanTimeAgo(t, scan.scannedAt) : ''}
+                {scan.scannedAt ? formatScanTimeAgo(t, scan.scannedAt, locale) : ''}
               </span>
             </div>
           ))}

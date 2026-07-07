@@ -9,6 +9,7 @@ import { pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { MARKETPLACE_PLATFORM_FEE_PERCENT } from '@/lib/marketplace-types';
 import { formatLocalizedListingPrice } from '@/lib/i18n/resolve-marketplace-listing-labels';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { MarketplacePurchaseButton } from '@/components/templates/marketplace-purchase-button';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
@@ -77,7 +78,7 @@ export default async function MarketplaceListingPage({ params }: { params: { id:
           </div>
 
           <p className="mt-6 text-xs text-muted-foreground">
-            {t('marketplaceSeller.feeNote', { fee: MARKETPLACE_PLATFORM_FEE_PERCENT })}
+            {t('marketplaceSeller.feeNote', { fee: formatLocaleNumber(MARKETPLACE_PLATFORM_FEE_PERCENT, locale) })}
           </p>
         </div>
       </div>

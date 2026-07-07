@@ -1762,6 +1762,7 @@ export const en: TranslationTree = {
     preset7d: '7 days',
     preset30d: '30 days',
     preset90d: '90 days',
+    presetDays: '{{count}} days',
     timeJustNow: 'just now',
     timeMinutesAgo: '{{n}}m ago',
     timeHoursAgo: '{{n}}h ago',

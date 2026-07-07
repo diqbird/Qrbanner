@@ -71,7 +71,7 @@ export function AnalyticsRecentScans({ analytics }: AnalyticsRecentScansProps) {
                   </div>
                 </div>
                 <span className="shrink-0 font-mono text-xs text-muted-foreground">
-                  {scan.scannedAt ? formatScanTimeAgo(t, String(scan.scannedAt)) : ''}
+                  {scan.scannedAt ? formatScanTimeAgo(t, String(scan.scannedAt), locale) : ''}
                 </span>
               </div>
             ))}

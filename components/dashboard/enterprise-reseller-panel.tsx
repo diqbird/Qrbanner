@@ -2,6 +2,8 @@
 
 import { Switch } from '@/components/ui/switch';
 import { Users } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { EnterpriseWorkspaceState } from '@/hooks/use-enterprise-workspace';
 import { EnterpriseResellerClientForm } from './enterprise-reseller-client-form';
 import { EnterpriseResellerClientList } from './enterprise-reseller-client-list';
@@ -11,6 +13,7 @@ type EnterpriseResellerPanelProps = {
 };
 
 export function EnterpriseResellerPanel({ enterprise }: EnterpriseResellerPanelProps) {
+  const { locale } = useLanguage();
   const { t, state, clients, clientLimit, toggleReseller } = enterprise;
 
   if (!state) return null;
@@ -30,9 +33,10 @@ export function EnterpriseResellerPanel({ enterprise }: EnterpriseResellerPanelP
       {workspace.resellerEnabled && (
         <>
           <p className="text-xs text-muted-foreground">
-            {t('enterpriseWorkspace.clientCount')
-              .replace('{{count}}', String(clients.length))
-              .replace('{{limit}}', String(clientLimit))}
+            {t('enterpriseWorkspace.clientCount', {
+              count: formatLocaleNumber(clients.length, locale),
+              limit: formatLocaleNumber(clientLimit, locale),
+            })}
           </p>
           <EnterpriseResellerClientForm enterprise={enterprise} />
           <EnterpriseResellerClientList enterprise={enterprise} />

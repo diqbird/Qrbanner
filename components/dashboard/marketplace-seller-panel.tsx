@@ -3,6 +3,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Store } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { MARKETPLACE_PAID_SALES_ENABLED, MARKETPLACE_PLATFORM_FEE_PERCENT } from '@/lib/marketplace-types';
 import { useMarketplaceSeller } from '@/hooks/use-marketplace-seller';
 import { MarketplaceSellerConnectBar, MarketplaceSellerUpgradeNotice } from './marketplace-seller-connect';
@@ -10,6 +12,7 @@ import { MarketplaceSellerListings } from './marketplace-seller-listings';
 
 export function MarketplaceSellerPanel() {
   const seller = useMarketplaceSeller();
+  const { locale } = useLanguage();
   const { t, loading, canSell } = seller;
 
   if (loading) {
@@ -34,7 +37,7 @@ export function MarketplaceSellerPanel() {
           )}
         </div>
         <CardDescription>
-          {t('marketplaceSeller.desc', { fee: MARKETPLACE_PLATFORM_FEE_PERCENT })}
+          {t('marketplaceSeller.desc', { fee: formatLocaleNumber(MARKETPLACE_PLATFORM_FEE_PERCENT, locale) })}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">

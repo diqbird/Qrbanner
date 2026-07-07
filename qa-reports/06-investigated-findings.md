@@ -179,6 +179,7 @@ python scripts/configure-review-profiles.py \
 | 36 | (this deploy) | Campaign wizard, dashboard bulk, referral, analytics, and marketplace counts |
 | 37 | (this deploy) | Free plan QR limit and landing preview numbers across marketing pages |
 | 38 | (this deploy) | Pricing plan feature numbers; referral reward days; trial days left |
+| 39 | (this deploy) | Marketplace/reseller currency; analytics presets and time-ago; ROI locale |
 
 ---
 

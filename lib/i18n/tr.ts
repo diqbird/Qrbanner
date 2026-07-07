@@ -1763,6 +1763,7 @@ export const tr: TranslationTree = {
     preset7d: '7 gün',
     preset30d: '30 gün',
     preset90d: '90 gün',
+    presetDays: '{{count}} gün',
     timeJustNow: 'az önce',
     timeMinutesAgo: '{{n}} dk önce',
     timeHoursAgo: '{{n}} sa önce',

@@ -1,4 +1,5 @@
 import type { Locale } from './types';
+import { resolveBcp47Locale } from './format-locale';
 import { resolveEnumLabel, type TranslateFn } from './resolve-enum-label';
 
 const RESELLER_PLAN_KEYS: Record<string, string> = {
@@ -24,7 +25,7 @@ export function formatResellerClientMonthlyFee(
   locale: Locale,
   t: TranslateFn
 ): string {
-  const amount = new Intl.NumberFormat(locale === 'tr' ? 'tr-TR' : 'en-US', {
+  const amount = new Intl.NumberFormat(resolveBcp47Locale(locale), {
     style: 'currency',
     currency: 'USD',
   }).format(monthlyFeeCents / 100);
