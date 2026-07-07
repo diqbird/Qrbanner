@@ -1,9 +1,10 @@
 'use client';
 
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 export function HeroProductPreview() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card shadow-xl animate-fade-up">
@@ -18,11 +19,11 @@ export function HeroProductPreview() {
       <div className="grid gap-3 p-4 sm:grid-cols-2">
         <div className="rounded-xl bg-primary/10 p-4">
           <p className="text-xs font-medium text-foreground/70">{t('landing.heroPreview.scansToday')}</p>
-          <p className="font-display text-2xl font-bold text-primary">1,248</p>
+          <p className="font-display text-2xl font-bold text-primary">{formatLocaleNumber(1248, locale)}</p>
         </div>
         <div className="rounded-xl bg-muted/50 p-4">
           <p className="text-xs font-medium text-muted-foreground">{t('landing.heroPreview.activeQrCodes')}</p>
-          <p className="font-display text-2xl font-bold">86</p>
+          <p className="font-display text-2xl font-bold">{formatLocaleNumber(86, locale)}</p>
         </div>
         <div className="col-span-full flex items-center justify-center rounded-xl border border-dashed border-primary/30 bg-primary/5 py-8">
           <div className="text-center">
@@ -38,7 +39,7 @@ export function HeroProductPreview() {
             </div>
             <p className="text-sm font-medium">{t('landing.heroPreview.sampleQrName')}</p>
             <p className="text-xs text-muted-foreground">
-              {t('landing.heroPreview.sampleQrMeta', { count: 342 })}
+              {t('landing.heroPreview.sampleQrMeta', { count: formatLocaleNumber(342, locale) })}
             </p>
           </div>
         </div>

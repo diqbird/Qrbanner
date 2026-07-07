@@ -1,9 +1,10 @@
 import { PLANS, type PlanId, type PlanLimits, annualMonthlyEquivalent, annualTotalPrice, type BillingInterval, freePlanQrLimit } from '@/lib/plans';
 import { isBillingConfigured } from '@/lib/billing-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { Locale } from './types';
 
 export function getLaunchBanner(locale: Locale, options?: { billingLive?: boolean }): string {
-  const n = freePlanQrLimit();
+  const n = formatLocaleNumber(freePlanQrLimit(), locale);
   const billingLive = options?.billingLive ?? isBillingConfigured();
   if (locale === 'tr') {
     if (!billingLive) {

@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Gift } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { freePlanQrLimit } from '@/lib/plans';
 
 export function ReferralSignupBanner() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const searchParams = useSearchParams();
   const ref = searchParams.get('ref')?.trim();
   const [state, setState] = useState<'loading' | 'valid' | 'hidden'>('loading');
@@ -49,7 +50,7 @@ export function ReferralSignupBanner() {
       <p className="text-muted-foreground leading-relaxed">
         {displayName
           ? t('auth.referralInvitedBy', { name: displayName })
-          : t('auth.referralInvitedGeneric', { count: freePlanQrLimit() })}
+          : t('auth.referralInvitedGeneric', { count: formatLocaleNumber(freePlanQrLimit(), locale) })}
       </p>
     </div>
   );

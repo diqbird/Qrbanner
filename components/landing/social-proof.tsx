@@ -1,6 +1,7 @@
 import { getPublicPlatformStats, shouldDisplayPublicStats } from '@/lib/public-stats';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { freePlanQrLimit } from '@/lib/plans';
 import { Shield, Zap, CheckCircle2 } from 'lucide-react';
 
@@ -23,7 +24,7 @@ export async function LandingSocialProof() {
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
   const stats = await getPublicPlatformStats();
   const showStats = shouldDisplayPublicStats(stats);
-  const freeQrCount = freePlanQrLimit();
+  const freeQrCount = formatLocaleNumber(freePlanQrLimit(), locale);
 
   return (
     <section className="border-y border-border/40 bg-muted/20 py-12 sm:py-16" aria-label={t('socialProof.sectionLabel')}>
@@ -40,7 +41,7 @@ export async function LandingSocialProof() {
                 className="rounded-xl border border-border/50 bg-card/80 px-6 py-5 text-center shadow-sm"
               >
                 <p className="font-display text-3xl font-bold tracking-tight text-foreground">
-                  {item.value.toLocaleString(locale === 'tr' ? 'tr-TR' : 'en-US')}+
+                  {formatLocaleNumber(item.value, locale)}+
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">{item.label}</p>
               </div>

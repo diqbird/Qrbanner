@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Zap, QrCode, Route, BarChart3 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { freePlanQrLimit } from '@/lib/plans';
 
 const HIGHLIGHT_ICONS = [QrCode, Route, BarChart3];
@@ -15,7 +16,7 @@ const HIGHLIGHT_KEYS = [
 ] as const;
 
 export function LandingHero() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-primary/5 via-background to-background py-20 sm:py-28 lg:py-36">
@@ -54,7 +55,7 @@ export function LandingHero() {
             </Link>
           </div>
           <p className="animate-fade-up mt-3 text-center text-xs text-muted-foreground [animation-delay:280ms]">
-            {t('hero.createQrHint', { count: freePlanQrLimit() })}
+            {t('hero.createQrHint', { count: formatLocaleNumber(freePlanQrLimit(), locale) })}
           </p>
 
           <div className="animate-fade-up mt-16 grid grid-cols-1 gap-4 sm:grid-cols-3 [animation-delay:320ms]">

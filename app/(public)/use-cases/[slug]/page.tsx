@@ -11,6 +11,7 @@ import { ProgrammaticPageShell } from '@/components/seo/programmatic-page-shell'
 import { ProgrammaticInternalLinks } from '@/components/seo/programmatic-internal-links';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { freePlanQrLimit } from '@/lib/plans';
 
 export const revalidate = 3600;
@@ -62,7 +63,7 @@ export default async function UseCaseDetailPage({ params }: { params: { slug: st
           { title: t('useCaseDetail.benefitsTitle'), items: page.benefits },
           { title: t('useCaseDetail.stepsTitle'), items: page.steps, ordered: true },
         ]}
-        ctaTitle={t('useCaseDetail.ctaTitle', { count: freePlanQrLimit() })}
+        ctaTitle={t('useCaseDetail.ctaTitle', { count: formatLocaleNumber(freePlanQrLimit(), locale) })}
         ctaBody={t('useCaseDetail.ctaBody')}
       />
       {relatedSolution && (

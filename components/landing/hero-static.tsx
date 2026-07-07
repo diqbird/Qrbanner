@@ -1,5 +1,6 @@
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { freePlanQrLimit } from '@/lib/plans';
 import { LandingHeroContent } from '@/components/landing/landing-hero-content';
 import { LandingHeroHighlights } from '@/components/landing/landing-hero-highlights';
@@ -7,7 +8,7 @@ import { LandingHeroHighlights } from '@/components/landing/landing-hero-highlig
 export async function LandingHeroStatic() {
   const locale = await getServerLocale();
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
-  const freeQrCount = freePlanQrLimit();
+  const freeQrCount = formatLocaleNumber(freePlanQrLimit(), locale);
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-primary/5 via-background to-background py-16 sm:py-24 lg:py-28">

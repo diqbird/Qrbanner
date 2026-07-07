@@ -11,6 +11,7 @@ import { ProgrammaticPageShell } from '@/components/seo/programmatic-page-shell'
 import { ProgrammaticInternalLinks } from '@/components/seo/programmatic-internal-links';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { freePlanQrLimit } from '@/lib/plans';
 
 export const revalidate = 3600;
@@ -40,7 +41,7 @@ export default async function QrTypeDetailPage({ params }: { params: { slug: str
   const locale = await getServerLocale();
   const page = localizeQrTypePage(raw, locale);
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
-  const freeQrCount = freePlanQrLimit();
+  const freeQrCount = formatLocaleNumber(freePlanQrLimit(), locale);
   const typeName = page.title.replace(' Generator', '');
   const createUrl = `/qr/create?category=${page.categoryId}`;
   const relatedUseCases = (USE_CASES_BY_QR_CATEGORY[page.categoryId] ?? [])

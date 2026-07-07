@@ -3,11 +3,12 @@
 import Link from 'next/link';
 import { Clock } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { freePlanQrLimit } from '@/lib/plans';
 import { Button } from '@/components/ui/button';
 
 export function BillingComingSoonBanner() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <div
@@ -19,7 +20,9 @@ export function BillingComingSoonBanner() {
           <Clock className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" aria-hidden />
           <div>
             <p className="font-medium text-sm">{t('pricing.billingSoonTitle')}</p>
-            <p className="mt-1 text-sm text-muted-foreground">{t('pricing.billingSoonDesc', { count: freePlanQrLimit() })}</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {t('pricing.billingSoonDesc', { count: formatLocaleNumber(freePlanQrLimit(), locale) })}
+            </p>
           </div>
         </div>
         <Link href="/contact" className="shrink-0">

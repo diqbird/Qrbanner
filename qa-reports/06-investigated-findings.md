@@ -177,6 +177,7 @@ python scripts/configure-review-profiles.py \
 | 34 | (this deploy) | Bulk CSV template examples; template quota badges; webhook/automation counts |
 | 35 | (this deploy) | Bulk import flow number formatting across header, preview, result, and plan usage |
 | 36 | (this deploy) | Campaign wizard, dashboard bulk, referral, analytics, and marketplace counts |
+| 37 | (this deploy) | Free plan QR limit and landing preview numbers across marketing pages |
 
 ---
 

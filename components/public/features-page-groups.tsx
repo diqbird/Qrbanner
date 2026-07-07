@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { getFeatureGroups } from '@/lib/i18n/feature-groups';
 import { freePlanQrLimit } from '@/lib/plans';
 
@@ -48,13 +49,13 @@ export function FeaturesPageGroups() {
 }
 
 export function FeaturesPageBottomCta() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <section className="mt-20 rounded-2xl border border-border/50 bg-card/60 p-8 text-center sm:p-12">
       <h2 className="font-display text-2xl font-bold">{t('features.bottomCtaTitle')}</h2>
       <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-        {t('features.bottomCtaDesc', { count: freePlanQrLimit() })}
+        {t('features.bottomCtaDesc', { count: formatLocaleNumber(freePlanQrLimit(), locale) })}
       </p>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
         <Link href="/solutions">

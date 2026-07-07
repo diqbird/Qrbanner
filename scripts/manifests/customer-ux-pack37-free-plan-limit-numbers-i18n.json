@@ -1,0 +1,27 @@
+{
+  "upload": [
+    "components/landing/hero.tsx",
+    "components/landing/landing-hero-content.tsx",
+    "components/landing/hero-static.tsx",
+    "components/landing/social-proof.tsx",
+    "components/landing/hero-video.tsx",
+    "components/landing/hero-product-preview.tsx",
+    "components/public/features-page-groups.tsx",
+    "components/qr/qr-quick-create.tsx",
+    "components/solutions/solution-detail-sections.tsx",
+    "components/auth/referral-signup-banner.tsx",
+    "components/billing/billing-coming-soon-banner.tsx",
+    "app/(public)/pricing/page.tsx",
+    "app/(public)/referral/page.tsx",
+    "app/(public)/qr-types/[slug]/page.tsx",
+    "app/(public)/use-cases/[slug]/page.tsx",
+    "lib/i18n/pricing-content.ts",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

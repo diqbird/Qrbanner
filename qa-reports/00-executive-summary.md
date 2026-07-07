@@ -2,7 +2,7 @@
 
 **Project:** QRbanner (`https://qrbanner.com`)  
 **Report generated:** 2026-07-05 08:02 UTC  
-**Last triage update:** 2026-07-07 (post customer-ux packs 1–36)  
+**Last triage update:** 2026-07-07 (post customer-ux packs 1–37)  
 **Methodology:** Sequential live probes — no code assumptions.
 
 ## Scope
@@ -81,6 +81,7 @@
 | Bulk CSV template examples; template quota badges; webhook/automation counts | Pack 34 |
 | Bulk import flow number formatting across header, preview, result, and plan usage | Pack 35 |
 | Campaign wizard, dashboard bulk, referral, analytics, and marketplace counts | Pack 36 |
+| Free plan QR limit and landing preview numbers across marketing pages | Pack 37 |
 
 ### Remaining (low impact / operational)
 

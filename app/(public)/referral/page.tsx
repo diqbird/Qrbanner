@@ -6,6 +6,7 @@ import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { Gift, Link2, Users, ArrowRight } from 'lucide-react';
 import { freePlanQrLimit } from '@/lib/plans';
 import { REFERRAL_REWARD_PRO_DAYS } from '@/lib/referral-rewards';
@@ -36,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ReferralLandingPage() {
   const locale = await getServerLocale();
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
-  const freeQrCount = freePlanQrLimit();
+  const freeQrCount = formatLocaleNumber(freePlanQrLimit(), locale);
 
   return (
     <>

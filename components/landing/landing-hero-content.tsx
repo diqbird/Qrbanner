@@ -12,7 +12,7 @@ export function LandingHeroContent({
   freeQrCount,
 }: {
   t: (key: string, vars?: Record<string, string | number>) => string;
-  freeQrCount: number;
+  freeQrCount: string;
 }) {
   const demoUrl = demoBookingUrl();
 
