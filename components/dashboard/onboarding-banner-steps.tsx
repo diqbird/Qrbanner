@@ -2,6 +2,7 @@
 
 import { LayoutTemplate, Sparkles, PlusCircle, BarChart3 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { ONBOARDING_CREATE_URL } from '@/lib/onboarding';
 
 export const ONBOARDING_STEP_ICONS = [LayoutTemplate, Sparkles, PlusCircle, BarChart3];
@@ -19,11 +20,17 @@ type OnboardingBannerStepsProps = {
 };
 
 export function OnboardingBannerSteps({ activeStep, onSelectStep }: OnboardingBannerStepsProps) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const progress = ((activeStep + 1) / ONBOARDING_STEP_KEYS.length) * 100;
 
   return (
     <>
+      <p className="mt-4 text-xs text-muted-foreground">
+        {t('onboarding.bannerStepProgress', {
+          current: formatLocaleNumber(activeStep + 1, locale),
+          total: formatLocaleNumber(ONBOARDING_STEP_KEYS.length, locale),
+        })}
+      </p>
       <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-muted">
         <div
           className="h-full rounded-full bg-primary transition-all duration-300"

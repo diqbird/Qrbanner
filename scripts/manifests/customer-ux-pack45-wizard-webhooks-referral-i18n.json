@@ -1,0 +1,24 @@
+{
+  "upload": [
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "components/qr/qr-create-step-indicator.tsx",
+    "components/qr/industry-template-guide-header.tsx",
+    "components/qr/scannability-panel.tsx",
+    "components/qr/bulk-import-error-list.tsx",
+    "components/qr/bulk-import-result-failures.tsx",
+    "components/dashboard/webhook-deliveries-panel.tsx",
+    "components/dashboard/onboarding-banner-steps.tsx",
+    "components/dashboard/referral-reward-progress.tsx",
+    "app/(public)/geo/[city]/page.tsx",
+    "app/(public)/referral/page.tsx",
+    "hooks/use-qr-list-bulk-actions.ts",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

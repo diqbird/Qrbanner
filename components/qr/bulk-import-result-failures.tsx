@@ -23,7 +23,7 @@ export function BulkImportResultFailures({
       <ul className="space-y-1 text-sm text-muted-foreground">
         {failed.map((err) => (
           <li key={`${err.line}-${err.message}`}>
-            {t('bulk.line')} {err.line}: {err.message}
+            {t('bulk.line')} {formatLocaleNumber(err.line, locale)}: {err.message}
           </li>
         ))}
       </ul>

@@ -77,7 +77,9 @@ export function useQrListBulkActions({
       }
       const { items } = await res.json();
       const count = await downloadBulkQrImagesZip(items ?? [], scanBaseUrl);
-      toast.success(t('dashboard.bulkZipDownloaded', { count }));
+      toast.success(
+        t('dashboard.bulkZipDownloaded', { count: formatLocaleNumber(count, locale) }),
+      );
     } catch {
       toast.error(t('dashboard.bulkZipFailed'));
     } finally {

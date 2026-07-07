@@ -2,7 +2,7 @@
 
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { formatLocaleDateTime } from '@/lib/i18n/format-locale';
+import { formatLocaleDateTime, formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { resolveWebhookEventLabel } from '@/lib/i18n/resolve-webhook-event-label';
 import type { WebhookSettingsState } from '@/hooks/use-webhook-settings';
 
@@ -31,13 +31,19 @@ export function WebhookDeliveriesPanel({ settings }: { settings: WebhookSettings
                 </p>
                 <p className="text-muted-foreground">
                   {resolveWebhookEventLabel(t, d.event)} · {formatLocaleDateTime(d.createdAt, locale)}
-                  {d.durationMs != null ? ` · ${t('settings.webhooks.deliveryDuration', { ms: d.durationMs })}` : ''}
+                  {d.durationMs != null
+                    ? ` · ${t('settings.webhooks.deliveryDuration', {
+                        ms: formatLocaleNumber(d.durationMs, locale),
+                      })}`
+                    : ''}
                 </p>
                 {d.error && <p className="text-destructive">{d.error}</p>}
               </div>
               <Badge variant={d.success ? 'default' : 'destructive'}>
                 {d.success
-                  ? `${t('settings.webhooks.deliverySuccess')}${d.statusCode ? ` ${d.statusCode}` : ''}`
+                  ? `${t('settings.webhooks.deliverySuccess')}${
+                      d.statusCode ? ` ${formatLocaleNumber(d.statusCode, locale)}` : ''
+                    }`
                   : t('settings.webhooks.deliveryFailed')}
               </Badge>
             </div>

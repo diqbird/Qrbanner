@@ -94,7 +94,10 @@ export default async function ReferralLandingPage() {
             <ul className="mt-6 space-y-3">
               {([1, 3, 5, 10] as const).map((m) => (
                 <li key={m} className="rounded-lg border border-border/50 bg-card px-4 py-3 text-sm text-muted-foreground">
-                  {t(`referral.milestone${m}` as 'referral.milestone1', { days: rewardDays })}
+                  {t(`referral.milestone${m}` as 'referral.milestone1', {
+                    n: formatLocaleNumber(m, locale),
+                    days: rewardDays,
+                  })}
                 </li>
               ))}
             </ul>

@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ScanLine, X } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { IndustryTemplateGuideCopy } from '@/lib/industry-template-guide-copy';
 import { resolveCategoryShortName } from '@/lib/i18n/resolve-qr-category-copy';
 import type { IndustryTemplate } from '@/lib/industry-templates';
@@ -17,7 +18,7 @@ export function IndustryTemplateGuideHeader({
   copy: IndustryTemplateGuideCopy;
   onDismiss?: () => void;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const { scan, displayName, tagline, designStyleLabel, visualPresetLabel } = copy;
 
   return (
@@ -43,7 +44,7 @@ export function IndustryTemplateGuideHeader({
             className="text-[10px] gap-0.5"
           >
             <ScanLine className="h-3 w-3" />
-            {scan.grade} · {scan.score}
+            {scan.grade} · {formatLocaleNumber(scan.score, locale)}/{formatLocaleNumber(100, locale)}
           </Badge>
         </div>
         <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">{tagline}</p>

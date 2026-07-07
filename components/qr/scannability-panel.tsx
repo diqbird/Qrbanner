@@ -53,7 +53,7 @@ export function ScannabilityPanel({
           </div>
           <div>
             <p className="text-2xl font-bold font-display">
-              {formatLocaleNumber(result.score, locale)}/100
+              {formatLocaleNumber(result.score, locale)}/{formatLocaleNumber(100, locale)}
             </p>
             <p className="text-xs text-muted-foreground">{t('scannability.scoreHint')}</p>
           </div>

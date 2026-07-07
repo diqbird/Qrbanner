@@ -24,6 +24,7 @@ export function ReferralRewardProgress({ signupCount }: { signupCount: number })
               )}
               <span className={done ? 'text-foreground' : ''}>
                 {t(`referral.milestone${m}` as 'referral.milestone1', {
+                  n: formatLocaleNumber(m, locale),
                   days: rewardDays,
                 })}
               </span>

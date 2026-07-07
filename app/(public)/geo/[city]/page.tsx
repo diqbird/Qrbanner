@@ -14,6 +14,7 @@ import { pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 export const revalidate = 3600;
 
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }: { params: { city: string } })
     description: t('geoSeo.cityMetaDescription')
       .replace('{{city}}', cityName)
       .replace('{{country}}', countryName)
-      .replace('{{count}}', String(GEO_SECTOR_SLUGS.length)),
+      .replace('{{count}}', formatLocaleNumber(GEO_SECTOR_SLUGS.length, locale)),
     path: `/geo/${city.slug}`,
     keywords: [`${cityName} QR code`, `QR codes ${cityName}`, `${countryName} QR generator`],
   });

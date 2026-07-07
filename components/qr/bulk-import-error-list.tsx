@@ -24,7 +24,7 @@ export function BulkImportErrorList({ bulk }: { bulk: QrBulkImportState }) {
         <ul className="space-y-1 text-sm">
           {errors.map((err) => (
             <li key={`${err.line}-${err.message}`} className="text-destructive">
-              {t('bulk.line')} {err.line}: {err.message}
+              {t('bulk.line')} {formatLocaleNumber(err.line, locale)}: {err.message}
             </li>
           ))}
         </ul>
