@@ -67,6 +67,11 @@ export async function POST(req: NextRequest) {
         passwordResetToken: null,
         passwordResetExpiry: null,
         sessionVersion: { increment: 1 },
+        // Entering the emailed reset code proves mailbox ownership, so treat
+        // the account as verified. Without this, users who never verified can
+        // reset their password but still get blocked at login by the
+        // email-verification gate.
+        ...(user.emailVerified ? {} : { emailVerified: new Date() }),
       },
     });
 
