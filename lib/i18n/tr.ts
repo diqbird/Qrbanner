@@ -547,6 +547,7 @@ export const tr: TranslationTree = {
       deliveryStatus: 'Durum',
       deliveryTime: 'Zaman',
       deliveryDuration: '{{ms}} ms',
+      eventScan: 'Tarama',
     },
     automations: {
       title: 'Otomasyon Akışları',

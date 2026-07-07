@@ -20,6 +20,7 @@ export function useQrAnalytics(qrId: string) {
 
   return {
     t,
+    locale,
     qrId,
     ...fetchState,
     handleExport,

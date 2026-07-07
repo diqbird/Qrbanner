@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { motion } from 'framer-motion';
 import { BarChart3, Clock, TrendingUp, Users } from 'lucide-react';
 import { PeriodChangeBadge } from '@/components/analytics/period-change-badge';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { QrAnalyticsState } from '@/hooks/use-qr-analytics';
 
 type AnalyticsStatsCardsProps = {
@@ -11,7 +12,7 @@ type AnalyticsStatsCardsProps = {
 };
 
 export function AnalyticsStatsCards({ analytics }: AnalyticsStatsCardsProps) {
-  const { t, data, periodComparison } = analytics;
+  const { t, locale, data, periodComparison } = analytics;
 
   const stats = [
     {
@@ -64,7 +65,7 @@ export function AnalyticsStatsCards({ analytics }: AnalyticsStatsCardsProps) {
                 <div className="min-w-0">
                   <p className="text-sm text-muted-foreground">{stat.label}</p>
                   <div className="flex flex-wrap items-center gap-2">
-                    <p className="font-display text-2xl font-bold">{stat.value}</p>
+                    <p className="font-display text-2xl font-bold">{formatLocaleNumber(stat.value, locale)}</p>
                     {'changePct' in stat ? <PeriodChangeBadge changePct={stat.changePct} /> : null}
                   </div>
                 </div>

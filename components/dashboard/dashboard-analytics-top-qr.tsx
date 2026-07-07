@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { BarChart3 } from 'lucide-react';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { DashboardAnalyticsState } from '@/hooks/use-dashboard-analytics';
 
 type DashboardAnalyticsTopQrProps = {
@@ -11,7 +12,7 @@ type DashboardAnalyticsTopQrProps = {
 };
 
 export function DashboardAnalyticsTopQr({ analytics }: DashboardAnalyticsTopQrProps) {
-  const { t, topQRCodes } = analytics;
+  const { t, locale, topQRCodes } = analytics;
   if (!topQRCodes.length) return null;
 
   return (
@@ -33,7 +34,7 @@ export function DashboardAnalyticsTopQr({ analytics }: DashboardAnalyticsTopQrPr
             <div className="flex items-center gap-2 shrink-0">
               <span className="text-xs text-muted-foreground">{t('analytics.allTime')}</span>
               <Badge variant="secondary" className="font-mono">
-                {qr.totalScans}
+                {formatLocaleNumber(qr.totalScans, locale)}
               </Badge>
             </div>
           </div>

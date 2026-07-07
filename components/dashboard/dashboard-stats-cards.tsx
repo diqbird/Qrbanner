@@ -3,6 +3,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { QrCode, TrendingUp, Eye, LucideIcon } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 type DashboardStatsCardsProps = {
   total: number;
@@ -11,7 +12,7 @@ type DashboardStatsCardsProps = {
 };
 
 export function DashboardStatsCards({ total, totalScans, active }: DashboardStatsCardsProps) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   const items: { label: string; value: number; icon: LucideIcon; color: string }[] = [
     { label: t('dashboard.totalQrCodes'), value: total, icon: QrCode, color: 'text-primary' },
@@ -31,7 +32,7 @@ export function DashboardStatsCards({ total, totalScans, active }: DashboardStat
             </div>
             <div>
               <p className="text-sm text-muted-foreground">{stat.label}</p>
-              <p className="font-display text-2xl font-bold">{stat.value}</p>
+              <p className="font-display text-2xl font-bold">{formatLocaleNumber(stat.value, locale)}</p>
             </div>
           </CardContent>
         </Card>

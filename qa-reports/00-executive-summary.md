@@ -2,7 +2,7 @@
 
 **Project:** QRbanner (`https://qrbanner.com`)  
 **Report generated:** 2026-07-05 08:02 UTC  
-**Last triage update:** 2026-07-07 (post customer-ux packs 1–32)  
+**Last triage update:** 2026-07-07 (post customer-ux packs 1–33)  
 **Methodology:** Sequential live probes — no code assumptions.
 
 ## Scope
@@ -77,6 +77,7 @@
 | Locale-aware dates/numbers; status/SEO labels; folder and workspace select labels | Pack 30 |
 | Analytics number formatting; empty-value labels; scannability OK; bulk category labels | Pack 31 |
 | Analytics PDF locale dates; brand kit dates; API cURL example; style preview label | Pack 32 |
+| Dashboard stat numbers; plan usage meters; webhook event label; PDF export counts | Pack 33 |
 
 ### Remaining (low impact / operational)
 

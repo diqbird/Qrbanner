@@ -1,5 +1,5 @@
 import type { AnalyticsPayload } from '@/lib/analytics-export';
-import { formatLocaleDateTime } from '@/lib/i18n/format-locale';
+import { formatLocaleDateTime, formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { Locale } from '@/lib/i18n/types';
 
 export type AnalyticsPdfLabels = {
@@ -61,13 +61,19 @@ function sectionTitle(doc: import('jspdf').jsPDF, title: string, y: number): num
   return y + 6;
 }
 
-function kvRow(doc: import('jspdf').jsPDF, label: string, value: string | number, y: number): number {
+function kvRow(
+  doc: import('jspdf').jsPDF,
+  label: string,
+  value: string | number,
+  y: number,
+  locale: Locale,
+): number {
   y = ensureSpace(doc, y, 6);
   doc.setFontSize(9);
   doc.setTextColor(80, 80, 80);
   doc.text(label, MARGIN, y);
   doc.setTextColor(20, 20, 20);
-  doc.text(String(value), MARGIN + 62, y);
+  doc.text(typeof value === 'number' ? formatLocaleNumber(value, locale) : String(value), MARGIN + 62, y);
   return y + 5;
 }
 
@@ -76,6 +82,7 @@ function twoColumnTable(
   rows: { name: string; value: number }[],
   headers: [string, string],
   y: number,
+  locale: Locale,
   maxRows = 12,
   moreRowsLabel?: string,
 ): number {
@@ -94,7 +101,7 @@ function twoColumnTable(
     const name = row.name.length > 42 ? `${row.name.slice(0, 39)}…` : row.name;
     doc.setTextColor(50, 50, 50);
     doc.text(name, MARGIN, y);
-    doc.text(String(row.value), MARGIN + CONTENT_W - 18, y, { align: 'right' });
+    doc.text(String(formatLocaleNumber(row.value, locale)), MARGIN + CONTENT_W - 18, y, { align: 'right' });
     y += 4.5;
   });
 
@@ -141,11 +148,11 @@ export async function downloadAnalyticsPdf(data: AnalyticsPayload, options: Anal
   y += 8;
 
   y = sectionTitle(doc, labels.summary, y);
-  y = kvRow(doc, labels.totalScans, data.totalScans, y);
-  y = kvRow(doc, labels.uniqueVisitors, data.uniqueScans ?? 0, y);
-  y = kvRow(doc, labels.today, data.todayScans ?? 0, y);
-  y = kvRow(doc, labels.last7Days, data.last7Days, y);
-  y = kvRow(doc, labels.last30Days, data.last30Days ?? 0, y);
+  y = kvRow(doc, labels.totalScans, data.totalScans, y, locale);
+  y = kvRow(doc, labels.uniqueVisitors, data.uniqueScans ?? 0, y, locale);
+  y = kvRow(doc, labels.today, data.todayScans ?? 0, y, locale);
+  y = kvRow(doc, labels.last7Days, data.last7Days, y, locale);
+  y = kvRow(doc, labels.last30Days, data.last30Days ?? 0, y, locale);
   y += 2;
 
   y = sectionTitle(doc, labels.scansByDay, y);
@@ -154,31 +161,32 @@ export async function downloadAnalyticsPdf(data: AnalyticsPayload, options: Anal
     data.scansByDay.map((d) => ({ name: d.date, value: d.count })),
     [labels.date, labels.value],
     y,
+    locale,
     14,
     labels.moreRows,
   );
 
   y = sectionTitle(doc, labels.countries, y);
-  y = twoColumnTable(doc, data.scansByCountry, [labels.country, labels.value], y, 12, labels.moreRows);
+  y = twoColumnTable(doc, data.scansByCountry, [labels.country, labels.value], y, locale, 12, labels.moreRows);
 
   if (data.scansByCity?.length) {
     y = sectionTitle(doc, labels.cities, y);
-    y = twoColumnTable(doc, data.scansByCity, [labels.name, labels.value], y, 12, labels.moreRows);
+    y = twoColumnTable(doc, data.scansByCity, [labels.name, labels.value], y, locale, 12, labels.moreRows);
   }
 
   if (data.scansByDevice?.length) {
     y = sectionTitle(doc, labels.devices, y);
-    y = twoColumnTable(doc, data.scansByDevice, [labels.device, labels.value], y, 12, labels.moreRows);
+    y = twoColumnTable(doc, data.scansByDevice, [labels.device, labels.value], y, locale, 12, labels.moreRows);
   }
 
   if (data.scansByBrowser?.length) {
     y = sectionTitle(doc, labels.browsers, y);
-    y = twoColumnTable(doc, data.scansByBrowser, [labels.browser, labels.value], y, 12, labels.moreRows);
+    y = twoColumnTable(doc, data.scansByBrowser, [labels.browser, labels.value], y, locale, 12, labels.moreRows);
   }
 
   if (data.scansByOS?.length) {
     y = sectionTitle(doc, labels.operatingSystems, y);
-    y = twoColumnTable(doc, data.scansByOS, [labels.name, labels.value], y, 12, labels.moreRows);
+    y = twoColumnTable(doc, data.scansByOS, [labels.name, labels.value], y, locale, 12, labels.moreRows);
   }
 
   if (data.recentScans?.length) {

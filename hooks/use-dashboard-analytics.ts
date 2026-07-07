@@ -21,6 +21,7 @@ export function useDashboardAnalytics() {
 
   return {
     t,
+    locale,
     ...fetchState,
     handleExportCsv,
     handleExportPdf,

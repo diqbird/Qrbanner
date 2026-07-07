@@ -546,6 +546,7 @@ export const en: TranslationTree = {
       deliveryStatus: 'Status',
       deliveryTime: 'Time',
       deliveryDuration: '{{ms}} ms',
+      eventScan: 'Scan',
     },
     automations: {
       title: 'Automation Flows',

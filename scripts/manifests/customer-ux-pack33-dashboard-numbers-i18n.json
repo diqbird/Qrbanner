@@ -1,0 +1,25 @@
+{
+  "upload": [
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/resolve-webhook-event-label.ts",
+    "lib/analytics-pdf-export.ts",
+    "hooks/use-dashboard-analytics.ts",
+    "hooks/use-qr-analytics.ts",
+    "components/dashboard/qr-list-row-scan-count.tsx",
+    "components/dashboard/dashboard-analytics-top-qr.tsx",
+    "components/dashboard/dashboard-stats-cards.tsx",
+    "components/dashboard/dashboard-analytics-stats.tsx",
+    "components/qr/analytics-stats-cards.tsx",
+    "components/dashboard/plan-usage-meter.tsx",
+    "components/dashboard/plan-usage-card.tsx",
+    "components/dashboard/webhook-deliveries-panel.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
