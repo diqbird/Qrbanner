@@ -18,7 +18,7 @@ export function DashboardMobileSidebar({ shell }: { shell: DashboardShellState }
     label: t(item.key),
   }));
   const navItemsWithAdmin = isAdmin
-    ? [...navItems, { href: '/admin', label: t('dashboard.siteAdmin'), icon: Shield }]
+    ? [...navItems, { href: '/admin', label: t('superAdmin.brand'), icon: Shield }]
     : navItems;
 
   return (
