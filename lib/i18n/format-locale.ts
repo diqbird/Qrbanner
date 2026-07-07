@@ -21,3 +21,19 @@ export function formatLocaleDate(
 export function formatLocaleNumber(value: number, locale: Locale): string {
   return value.toLocaleString(resolveBcp47Locale(locale));
 }
+
+export function formatChartAxisTick(value: number | string, locale: Locale): string {
+  const n = typeof value === 'number' ? value : Number(value);
+  if (Number.isFinite(n)) return formatLocaleNumber(n, locale);
+  return String(value);
+}
+
+export function formatChartTooltipValue(
+  value: number | string | Array<number | string>,
+  locale: Locale,
+): string {
+  const raw = Array.isArray(value) ? value[0] : value;
+  const n = typeof raw === 'number' ? raw : Number(raw);
+  if (Number.isFinite(n)) return formatLocaleNumber(n, locale);
+  return String(raw ?? '');
+}

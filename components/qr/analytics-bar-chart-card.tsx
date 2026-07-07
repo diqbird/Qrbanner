@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip,
 } from 'recharts';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatChartAxisTick, formatChartTooltipValue } from '@/lib/i18n/format-locale';
 import type { NamedValue } from '@/lib/analytics-distribution-data';
 
 export function AnalyticsBarChartCard({
@@ -26,6 +28,8 @@ export function AnalyticsBarChartCard({
   xAngle?: number;
   emptyMessage?: string;
 }) {
+  const { locale } = useLanguage();
+
   return (
     <Card className={className}>
       <CardHeader>
@@ -49,8 +53,16 @@ export function AnalyticsBarChartCard({
                   textAnchor={xAngle !== 0 ? 'end' : 'middle'}
                   height={xAngle !== 0 ? 50 : undefined}
                 />
-                <YAxis tickLine={false} tick={{ fontSize: 10 }} allowDecimals={false} />
-                <Tooltip contentStyle={{ fontSize: 11 }} />
+                <YAxis
+                  tickLine={false}
+                  tick={{ fontSize: 10 }}
+                  allowDecimals={false}
+                  tickFormatter={(v) => formatChartAxisTick(v, locale)}
+                />
+                <Tooltip
+                  contentStyle={{ fontSize: 11 }}
+                  formatter={(value) => formatChartTooltipValue(value, locale)}
+                />
                 <Bar dataKey="value" fill={fill} radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>

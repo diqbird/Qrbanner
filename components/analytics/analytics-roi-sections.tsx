@@ -64,7 +64,7 @@ export function AnalyticsRoiMetrics({ data, t }: { data: RoiMetrics; t: (key: st
             }`}
           >
             {data.roi > 0 ? '+' : ''}
-            {data.roi}%
+            {formatLocaleNumber(data.roi, locale)}%
           </p>
         </div>
       )}

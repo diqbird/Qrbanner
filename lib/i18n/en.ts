@@ -2339,6 +2339,7 @@ export const en: TranslationTree = {
     modeBuilder: 'Builder',
     desc: 'Drag blocks to reorder. Everything is escaped and safe to publish.',
     addBlock: 'Add block',
+    blockQuota: '{{count}} / {{max}} blocks',
     maxReached: 'Block limit reached',
     empty: 'No blocks yet — add your first block to start building.',
     align: 'Alignment',

@@ -6,6 +6,7 @@ import {
   ResponsiveContainer, PieChart, Pie, Cell, Tooltip,
 } from 'recharts';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatChartTooltipValue, formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { ANALYTICS_CHART_COLORS } from '@/lib/analytics-chart-constants';
 import type { NamedValue } from '@/lib/analytics-distribution-data';
 
@@ -22,7 +23,7 @@ export function AnalyticsPieChartCard({
   data: NamedValue[];
   colorOffset?: number;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <Card>
@@ -48,7 +49,10 @@ export function AnalyticsPieChartCard({
                   <Cell key={i} fill={COLORS[(i + colorOffset) % COLORS.length]} />
                 ))}
               </Pie>
-              <Tooltip contentStyle={{ fontSize: 11 }} />
+              <Tooltip
+                contentStyle={{ fontSize: 11 }}
+                formatter={(value) => formatChartTooltipValue(value, locale)}
+              />
             </PieChart>
           </ResponsiveContainer>
         </div>
@@ -59,7 +63,7 @@ export function AnalyticsPieChartCard({
                 className="h-2.5 w-2.5 rounded-full"
                 style={{ backgroundColor: COLORS[(i + colorOffset) % COLORS.length] }}
               />
-              <span>{d?.name ?? t('analytics.unknown')}: {d?.value ?? 0}</span>
+              <span>{d?.name ?? t('analytics.unknown')}: {formatLocaleNumber(d?.value ?? 0, locale)}</span>
             </div>
           ))}
         </div>

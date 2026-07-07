@@ -2340,6 +2340,7 @@ export const tr: TranslationTree = {
     modeBuilder: 'Yapıcı',
     desc: 'Blokları sürükleyerek sıralayın. Tüm içerik güvenli şekilde işlenir.',
     addBlock: 'Blok ekle',
+    blockQuota: '{{count}} / {{max}} blok',
     maxReached: 'Blok sınırına ulaşıldı',
     empty: 'Henüz blok yok — başlamak için ilk bloğunuzu ekleyin.',
     align: 'Hizalama',

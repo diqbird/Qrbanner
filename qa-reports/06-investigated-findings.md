@@ -182,6 +182,7 @@ python scripts/configure-review-profiles.py \
 | 39 | (this deploy) | Marketplace/reseller currency; analytics presets and time-ago; ROI locale |
 | 40 | (this deploy) | Plan upgrade, automation counts, funnel, pricing comparison, and template numbers |
 | 41 | (this deploy) | Scannability, SEO char counts, QR pagination, export sizes, and scan simulation |
+| 42 | (this deploy) | Analytics chart axes/tooltips, pie legends, ROI percent, landing block quota |
 
 ---
 

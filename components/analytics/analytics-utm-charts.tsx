@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { Tag } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatChartAxisTick, formatChartTooltipValue } from '@/lib/i18n/format-locale';
 
 type GroupRow = { name: string; value: number };
 
@@ -16,7 +17,7 @@ export function AnalyticsUtmCharts({
   scansByUtmMedium?: GroupRow[];
   scansByUtmCampaign?: GroupRow[];
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const hasData =
     scansByUtmSource.length > 0 ||
     scansByUtmMedium.length > 0 ||
@@ -46,7 +47,11 @@ export function AnalyticsUtmCharts({
               <div className="h-[200px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={section.data} layout="vertical" margin={{ left: 4, right: 8 }}>
-                    <XAxis type="number" tick={{ fontSize: 10 }} />
+                    <XAxis
+                      type="number"
+                      tick={{ fontSize: 10 }}
+                      tickFormatter={(v) => formatChartAxisTick(v, locale)}
+                    />
                     <YAxis
                       type="category"
                       dataKey="name"
@@ -54,7 +59,10 @@ export function AnalyticsUtmCharts({
                       tick={{ fontSize: 9 }}
                       tickFormatter={(v) => (String(v).length > 12 ? `${String(v).slice(0, 11)}…` : v)}
                     />
-                    <Tooltip contentStyle={{ fontSize: 11 }} />
+                    <Tooltip
+                      contentStyle={{ fontSize: 11 }}
+                      formatter={(value) => formatChartTooltipValue(value, locale)}
+                    />
                     <Bar dataKey="value" fill="#60B5FF" radius={[0, 4, 4, 0]} name={t('analytics.charts.scans')} />
                   </BarChart>
                 </ResponsiveContainer>

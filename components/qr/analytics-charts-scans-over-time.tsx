@@ -4,9 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from 'recharts';
 import { TrendingUp } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatChartAxisTick, formatChartTooltipValue } from '@/lib/i18n/format-locale';
 
 export function AnalyticsChartsScansOverTime({ scansByDay }: { scansByDay: { date: string; count: number }[] }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <Card className="lg:col-span-2">
@@ -34,8 +35,15 @@ export function AnalyticsChartsScansOverTime({ scansByDay }: { scansByDay: { dat
                 textAnchor="end"
                 height={50}
               />
-              <YAxis tickLine={false} tick={{ fontSize: 10 }} />
-              <Tooltip contentStyle={{ fontSize: 11 }} />
+              <YAxis
+                tickLine={false}
+                tick={{ fontSize: 10 }}
+                tickFormatter={(v) => formatChartAxisTick(v, locale)}
+              />
+              <Tooltip
+                contentStyle={{ fontSize: 11 }}
+                formatter={(value) => formatChartTooltipValue(value, locale)}
+              />
               <Area
                 type="monotone"
                 dataKey="count"

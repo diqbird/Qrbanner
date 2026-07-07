@@ -9,6 +9,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { LandingBlock, LandingBlockType } from '@/lib/landing-page';
 import { MAX_BLOCKS } from '@/lib/landing-blocks';
 import { LANDING_BLOCK_ADD_ORDER } from '@/lib/landing-block-factory';
@@ -21,10 +22,17 @@ export function LandingBlockAddMenu({
   blockCount: number;
   onAdd: (type: LandingBlockType) => void;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
-    <DropdownMenu>
+    <div className="space-y-2">
+      <p className="text-xs text-muted-foreground text-center">
+        {t('landingBuilder.blockQuota', {
+          count: formatLocaleNumber(blockCount, locale),
+          max: formatLocaleNumber(MAX_BLOCKS, locale),
+        })}
+      </p>
+      <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           type="button"
@@ -48,6 +56,7 @@ export function LandingBlockAddMenu({
         })}
       </DropdownMenuContent>
     </DropdownMenu>
+    </div>
   );
 }
 
