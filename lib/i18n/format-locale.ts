@@ -9,9 +9,13 @@ export function formatLocaleDateTime(value: string | number | Date, locale: Loca
   return date.toLocaleString(resolveBcp47Locale(locale));
 }
 
-export function formatLocaleDate(value: string | number | Date, locale: Locale): string {
+export function formatLocaleDate(
+  value: string | number | Date,
+  locale: Locale,
+  options?: Intl.DateTimeFormatOptions,
+): string {
   const date = value instanceof Date ? value : new Date(value);
-  return date.toLocaleDateString(resolveBcp47Locale(locale));
+  return date.toLocaleDateString(resolveBcp47Locale(locale), options);
 }
 
 export function formatLocaleNumber(value: number, locale: Locale): string {

@@ -495,6 +495,7 @@ export const tr: TranslationTree = {
       updateQr: 'QR kodunu güncelle',
       listFolders: 'Klasörleri listele',
       copyCurl: 'cURL örneğini kopyala',
+      curlExample: 'curl -H "Authorization: Bearer YOUR_API_KEY" {{baseUrl}}/api/v1/qr',
       usageTitle: 'Bu ayki API kullanımı',
       usageMonthly: '{used} / {quota} istek kullanıldı',
       usageRemaining: '{remaining} kaldı',
@@ -1055,6 +1056,7 @@ export const tr: TranslationTree = {
     saveBeforeExport: 'Önce QR kodunuzu kaydedin — dinamik kodlar hedef URL değil kısa bağlantınızı kullanmalıdır.',
     printTitle: 'QR Kodunu Yazdır',
     shareDefaultTitle: 'QRbanner QR Kodu',
+    qrAbbrev: 'QR',
   },
   quick: {
     title: 'Hızlı QR — Saniyeler içinde bağlantıdan koda',

@@ -1,4 +1,6 @@
 import type { AnalyticsPayload } from '@/lib/analytics-export';
+import { formatLocaleDateTime } from '@/lib/i18n/format-locale';
+import type { Locale } from '@/lib/i18n/types';
 
 export type AnalyticsPdfLabels = {
   reportTitle: string;
@@ -26,6 +28,7 @@ export type AnalyticsPdfLabels = {
   time: string;
   footer: string;
   moreRows: string;
+  emptyValue: string;
 };
 
 export type AnalyticsPdfOptions = {
@@ -33,6 +36,7 @@ export type AnalyticsPdfOptions = {
   subtitle?: string;
   periodLabel?: string;
   labels: AnalyticsPdfLabels;
+  locale: Locale;
 };
 
 const MARGIN = 14;
@@ -113,7 +117,7 @@ function twoColumnTable(
 export async function downloadAnalyticsPdf(data: AnalyticsPayload, options: AnalyticsPdfOptions) {
   const { jsPDF } = await import('jspdf');
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-  const { labels, subtitle, periodLabel } = options;
+  const { labels, subtitle, periodLabel, locale } = options;
   let y = MARGIN;
 
   doc.setFont('helvetica', 'bold');
@@ -133,7 +137,7 @@ export async function downloadAnalyticsPdf(data: AnalyticsPayload, options: Anal
     doc.text(`${labels.period}: ${periodLabel}`, MARGIN, y);
     y += 4;
   }
-  doc.text(`${labels.generatedAt}: ${new Date().toLocaleString()}`, MARGIN, y);
+  doc.text(`${labels.generatedAt}: ${formatLocaleDateTime(new Date(), locale)}`, MARGIN, y);
   y += 8;
 
   y = sectionTitle(doc, labels.summary, y);
@@ -192,8 +196,8 @@ export async function downloadAnalyticsPdf(data: AnalyticsPayload, options: Anal
     data.recentScans.slice(0, 25).forEach((scan) => {
       y = ensureSpace(doc, y, 5);
       const time = scan.scannedAt ? new Date(scan.scannedAt).toISOString().slice(0, 16).replace('T', ' ') : '';
-      const country = [scan.country, scan.city].filter(Boolean).join(', ') || '—';
-      const device = [scan.device, scan.browser].filter(Boolean).join(' · ') || '—';
+      const country = [scan.country, scan.city].filter(Boolean).join(', ') || labels.emptyValue;
+      const device = [scan.device, scan.browser].filter(Boolean).join(' · ') || labels.emptyValue;
       doc.setTextColor(50, 50, 50);
       doc.text(time, MARGIN, y);
       doc.text(country.length > 22 ? `${country.slice(0, 19)}…` : country, MARGIN + 42, y);
@@ -243,5 +247,6 @@ export function buildAnalyticsPdfLabels(
     time: t('analytics.pdfTime'),
     footer: t('analytics.pdfFooter'),
     moreRows: t('analytics.pdfMoreRows'),
+    emptyValue: t('common.emptyValue'),
   };
 }

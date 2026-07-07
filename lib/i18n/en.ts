@@ -494,6 +494,7 @@ export const en: TranslationTree = {
       updateQr: 'Update QR code',
       listFolders: 'List folders',
       copyCurl: 'Copy cURL example',
+      curlExample: 'curl -H "Authorization: Bearer YOUR_API_KEY" {{baseUrl}}/api/v1/qr',
       usageTitle: 'API usage this month',
       usageMonthly: '{used} / {quota} requests used',
       usageRemaining: '{remaining} remaining',
@@ -1054,6 +1055,7 @@ export const en: TranslationTree = {
     saveBeforeExport: 'Save your QR first — dynamic codes must use your short link, not the destination URL.',
     printTitle: 'Print QR Code',
     shareDefaultTitle: 'QR Code from QRbanner',
+    qrAbbrev: 'QR',
   },
   quick: {
     title: 'Quick QR — URL to code in seconds',

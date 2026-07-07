@@ -172,6 +172,7 @@ python scripts/configure-review-profiles.py \
 | 29 | (this deploy) | Landing builder, QR export size, reseller plan, and SSO provider select closed-state labels |
 | 30 | (this deploy) | Locale-aware dates/numbers; status/SEO labels; folder and workspace select labels |
 | 31 | (this deploy) | Analytics number formatting; empty-value labels; scannability OK; bulk category labels |
+| 32 | (this deploy) | Analytics PDF locale dates; brand kit dates; API cURL example; style preview label |
 
 ---
 

@@ -37,6 +37,7 @@ export function useDashboardAnalyticsExport(
         subtitle: t('dashboard.analyticsOverview'),
         periodLabel,
         labels: buildAnalyticsPdfLabels(t),
+        locale,
       });
       toast.success(t('analytics.pdfDownloaded'));
     } catch {

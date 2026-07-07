@@ -39,6 +39,7 @@ export function useQrAnalyticsExport(
         subtitle: qrName || undefined,
         periodLabel,
         labels: buildAnalyticsPdfLabels(t),
+        locale,
       });
       toast.success(t('analytics.pdfDownloaded'));
     } catch {

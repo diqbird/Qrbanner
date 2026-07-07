@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 import { StyleTemplatePreview } from '@/components/qr/style-template-preview';
+import { formatLocaleDate } from '@/lib/i18n/format-locale';
+import { useLanguage } from '@/components/i18n/language-provider';
 import type { BrandKitTemplate } from '@/lib/brand-kit-types';
 import type { BrandKitTemplatesState } from '@/hooks/use-brand-kit-templates';
 
@@ -13,7 +15,8 @@ type BrandKitTemplateCardProps = {
 };
 
 export function BrandKitTemplateCard({ template, brandKit }: BrandKitTemplateCardProps) {
-  const { t, deleteTemplate } = brandKit;
+  const { t, locale } = useLanguage();
+  const { deleteTemplate } = brandKit;
 
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-border/50 bg-card p-4 shadow-sm">
@@ -23,7 +26,7 @@ export function BrandKitTemplateCard({ template, brandKit }: BrandKitTemplateCar
           <p className="truncate font-medium">{template.name}</p>
           <p className="mt-0.5 text-xs text-muted-foreground">
             {t('settings.brandKit.updated')}{' '}
-            {new Date(template.updatedAt).toLocaleDateString(undefined, {
+            {formatLocaleDate(template.updatedAt, locale, {
               month: 'short',
               day: 'numeric',
               year: 'numeric',

@@ -65,7 +65,7 @@ export function useApiKeySettings() {
   };
 
   const copyCurl = () => {
-    const curl = `curl -H "Authorization: Bearer YOUR_API_KEY" ${API_BASE}/api/v1/qr`;
+    const curl = t('settings.apiKey.curlExample', { baseUrl: API_BASE });
     navigator.clipboard?.writeText(curl);
     toast.success(t('settings.apiKey.curlCopied'));
   };

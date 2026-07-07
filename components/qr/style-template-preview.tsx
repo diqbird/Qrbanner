@@ -19,7 +19,7 @@ export function StyleTemplatePreview({
   size?: number;
   className?: string;
 }) {
-  const { locale } = useLanguage();
+  const { locale, t } = useLanguage();
   const [src, setSrc] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
   const normalized = normalizeQRStyle(style);
@@ -58,7 +58,7 @@ export function StyleTemplatePreview({
         // eslint-disable-next-line @next/next/no-img-element
         <img src={src} alt="" className="h-full w-full rounded-lg object-contain p-1" />
       ) : failed ? (
-        <div className="text-xs text-muted-foreground">QR</div>
+        <div className="text-xs text-muted-foreground">{t('preview.qrAbbrev')}</div>
       ) : (
         <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
       )}
