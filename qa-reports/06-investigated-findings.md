@@ -196,6 +196,7 @@ python scripts/configure-review-profiles.py \
 | 53 | (this deploy) | Localized plan prices, annual billing, analytics periods, onboarding timing |
 | 54 | (this deploy) | Password min length policy and auth validation copy |
 | 55 | (this deploy) | Case study metric labels, duration units, campaign prompt max |
+| 56 | (this deploy) | Remove dead hardcoded pricing/comparison/hero site-content blocks |
 
 ---
 

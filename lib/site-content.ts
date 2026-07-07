@@ -32,7 +32,6 @@ import {
   ShieldCheck,
   FileJson,
 } from 'lucide-react';
-import { PLANS } from '@/lib/plans';
 
 export interface SiteFeature {
   icon: LucideIcon;
@@ -40,12 +39,6 @@ export interface SiteFeature {
   description: string;
   tag?: string;
 }
-
-export const HERO_HIGHLIGHTS = [
-  { icon: QrCode, label: '26+ QR Types', desc: 'Menus, Wi‑Fi, business cards, social links & more' },
-  { icon: Route, label: 'Smart Routing', desc: 'Show the right link by time, location or device' },
-  { icon: BarChart3, label: 'Scan Analytics', desc: 'See who scans, when and where — then improve results' },
-];
 
 export const FEATURE_GROUPS: { title: string; description: string; features: SiteFeature[] }[] = [
   {
@@ -280,49 +273,3 @@ export const HOW_IT_WORKS_STEPS = [
   },
 ];
 
-export const PRICING_PLANS = Object.values(PLANS).map((plan) => ({
-  ...plan,
-  features: [
-    `${plan.maxQrCodes.toLocaleString()} dynamic QR codes`,
-    `${plan.maxCustomDomains} custom scan domain${plan.maxCustomDomains === 1 ? '' : 's'}`,
-    `Bulk import up to ${plan.maxBulkRows} rows`,
-    plan.apiAccess ? 'REST API access' : 'No API access',
-    plan.analyticsRetentionDays
-      ? `${plan.analyticsRetentionDays}-day analytics history`
-      : 'Unlimited analytics history',
-    plan.codesActiveAfterCancel
-      ? 'QR codes stay active if you cancel'
-      : 'Codes pause when subscription ends',
-    'Smart routing (schedule, geofence, device)',
-    'GA4 & Meta Pixel support',
-    'Scan webhooks & lead capture',
-    'Brand style templates',
-    'Folders, labels & scan notifications',
-  ],
-}));
-
-export const COMPARISON_ROWS: { feature: string; qrbanner: string; typical: string }[] = [
-  { feature: 'Dynamic QR codes', qrbanner: 'Included', typical: 'Included' },
-  { feature: 'Codes active after cancel', qrbanner: 'Yes', typical: 'Often no' },
-  { feature: 'Geofence + schedule routing', qrbanner: 'Included', typical: 'Paid tier' },
-  { feature: 'Custom scan domain', qrbanner: 'Free plan', typical: 'Paid tier' },
-  { feature: 'REST API', qrbanner: 'Free plan', typical: 'Paid tier' },
-  { feature: 'Bulk CSV import', qrbanner: 'Included', typical: 'Paid tier' },
-  { feature: 'Print banner export', qrbanner: 'Included', typical: 'Rare' },
-  { feature: 'GA4 + Meta Pixel on scan', qrbanner: 'Included', typical: 'Partial' },
-  { feature: 'Scan webhooks (Zapier-ready)', qrbanner: 'Included', typical: 'Paid tier' },
-  { feature: 'Lead capture on landing pages', qrbanner: 'Included', typical: 'Paid tier' },
-  { feature: 'Analytics date range filter', qrbanner: 'Included', typical: 'Paid tier' },
-  { feature: 'Brand style templates', qrbanner: 'Included', typical: 'Rare' },
-  { feature: 'A/B variant routing', qrbanner: 'Included', typical: 'Paid tier' },
-  { feature: 'Team workspaces', qrbanner: 'Included', typical: 'Paid tier' },
-  { feature: 'NFC tag tracking', qrbanner: 'Included', typical: 'Rare' },
-  { feature: 'GPS scan heatmap', qrbanner: 'Included', typical: 'Paid tier' },
-  { feature: 'SSO (Google / Microsoft)', qrbanner: 'Included', typical: 'Enterprise' },
-  { feature: 'SAML SSO (Business)', qrbanner: 'Included', typical: 'Enterprise' },
-  { feature: 'TOTP two-factor auth', qrbanner: 'Included', typical: 'Rare' },
-  { feature: 'Landing CTA click analytics', qrbanner: 'Included', typical: 'Paid tier' },
-  { feature: 'AI landing page copy', qrbanner: 'Pro+', typical: 'Rare' },
-  { feature: 'OpenAPI specification', qrbanner: 'Included', typical: 'Rare' },
-  { feature: 'Webhook delivery logs', qrbanner: 'Included', typical: 'Rare' },
-];

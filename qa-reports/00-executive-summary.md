@@ -100,6 +100,7 @@
 | Localized plan prices, annual billing, analytics periods, onboarding timing | Pack 53 |
 | Password min length policy and auth validation copy | Pack 54 |
 | Case study metric labels, duration units, campaign prompt max | Pack 55 |
+| Remove dead hardcoded pricing/comparison/hero site-content blocks | Pack 56 |
 
 ### Remaining (low impact / operational)
 
