@@ -10,10 +10,11 @@ import {
   runPlanCheckout,
   type CheckoutResult,
 } from '@/lib/plan-checkout-api';
+import { proTrialDayVars } from '@/lib/i18n/policy-day-vars';
 import type { BillingInterval, PlanId } from '@/lib/plans';
 
 export function usePlanCheckout(initialBillingStatus?: PublicBillingStatus | null) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const { configured: billingConfigured, annualAvailable, loading: billingLoading, provider } =
     useBillingStatus(initialBillingStatus);
   const [loadingPlan, setLoadingPlan] = useState<PlanId | null>(null);
@@ -34,12 +35,14 @@ export function usePlanCheckout(initialBillingStatus?: PublicBillingStatus | nul
 
     setLoadingPlan(planId);
     try {
+      const trialVars = proTrialDayVars(locale);
+      const tp = (key: string, vars?: Record<string, string | number>) => t(key, { ...trialVars, ...vars });
       return await runPlanCheckout({
         planId,
         priceMonthly,
         interval,
         provider,
-        t,
+        t: tp,
         signInCallbackUrl: options?.signInCallbackUrl,
         isSignedIn: options?.isSignedIn,
       });

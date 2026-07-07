@@ -3,7 +3,7 @@ import { openPaddleCheckout, openPaddleCheckoutFromUrl } from '@/lib/paddle-clie
 import type { BillingInterval, PlanId } from '@/lib/plans';
 import { earlyAccessContactHref } from '@/lib/pricing-display';
 
-type Translate = (key: string) => string;
+type Translate = (key: string, vars?: Record<string, string | number>) => string;
 
 export type CheckoutResponse = {
   url?: string;

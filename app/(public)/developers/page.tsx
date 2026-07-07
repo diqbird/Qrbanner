@@ -7,6 +7,7 @@ import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { DEVELOPER_RATE_LIMIT_PLAN_IDS, formatDeveloperRateLimitLine } from '@/lib/i18n/api-rate-limits';
 import { ArrowRight, Code2, FileJson, Key, Webhook, Gauge } from 'lucide-react';
 
 export const revalidate = 3600;
@@ -149,10 +150,9 @@ X-API-Key: qb_live_...`}
                   {t('developersPage.rateLimitsBody')}
                 </p>
                 <ul className="mt-3 space-y-1 text-sm text-muted-foreground">
-                  <li>{t('developersPage.rateLimitsFree')}</li>
-                  <li>{t('developersPage.rateLimitsPro')}</li>
-                  <li>{t('developersPage.rateLimitsBusiness')}</li>
-                  <li>{t('developersPage.rateLimitsAgency')}</li>
+                  {DEVELOPER_RATE_LIMIT_PLAN_IDS.map((planId) => (
+                    <li key={planId}>{formatDeveloperRateLimitLine(planId, locale)}</li>
+                  ))}
                 </ul>
               </div>
               <div className="rounded-xl border border-border/50 bg-card/80 p-6 backdrop-blur-sm">

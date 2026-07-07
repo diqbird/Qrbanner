@@ -5,6 +5,7 @@ import { Check } from 'lucide-react';
 import { PricingPlanCardButton } from '@/components/billing/pricing-plan-card-button';
 import { isPaidCheckoutClosed, planCardPriceLabel } from '@/lib/pricing-display';
 import { getPricingPlans, planName } from '@/lib/i18n/pricing-content';
+import { proTrialDayVars } from '@/lib/i18n/policy-day-vars';
 import type { LandingPricingState } from '@/hooks/use-landing-pricing';
 
 export function LandingPricingPlanGrid({ pricing }: { pricing: LandingPricingState }) {
@@ -19,6 +20,8 @@ export function LandingPricingPlanGrid({ pricing }: { pricing: LandingPricingSta
     handlePlanClick,
   } = pricing;
   const plans = getPricingPlans(locale, interval);
+  const trialVars = proTrialDayVars(locale);
+  const tp = (key: string, vars?: Record<string, string | number>) => t(key, { ...trialVars, ...vars });
 
   return (
     <div className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
@@ -49,7 +52,7 @@ export function LandingPricingPlanGrid({ pricing }: { pricing: LandingPricingSta
             <p className="mt-1 text-xs text-muted-foreground">{t('pricing.paidCheckoutClosedNote')}</p>
           )}
           {plan.id === 'pro' && billingConfigured && (
-            <p className="mt-1 text-xs font-medium text-primary">{t('pricing.proTrialBadge')}</p>
+            <p className="mt-1 text-xs font-medium text-primary">{tp('pricing.proTrialBadge')}</p>
           )}
           <ul className="mt-6 space-y-2.5">
             {plan.features.slice(0, 6).map((f) => (
@@ -66,7 +69,7 @@ export function LandingPricingPlanGrid({ pricing }: { pricing: LandingPricingSta
             billingConfigured={billingConfigured}
             billingLoading={billingLoading}
             loadingPlan={loadingPlan}
-            t={t}
+            t={tp}
             onCheckout={() => handlePlanClick(plan.id, plan.priceMonthly)}
           />
         </div>

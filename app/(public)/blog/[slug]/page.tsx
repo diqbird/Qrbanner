@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Clock, ArrowLeft } from 'lucide-react';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 type Props = { params: { slug: string } };
 
@@ -98,7 +99,7 @@ export default async function BlogPostPage({ params }: Props) {
               <Badge variant="outline">{post.category}</Badge>
               <span className="flex items-center gap-1">
                 <Clock className="h-3.5 w-3.5" aria-hidden />
-                {t('blogPost.minRead', { minutes: post.readingMinutes })}
+                {t('blogPost.minRead', { minutes: formatLocaleNumber(post.readingMinutes, locale) })}
               </span>
               <time dateTime={post.publishedAt}>
                 {new Date(post.publishedAt).toLocaleDateString(dateLocale, {

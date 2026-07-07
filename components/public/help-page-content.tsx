@@ -5,10 +5,14 @@ import { ArrowRight, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { HELP_SECTIONS } from '@/lib/i18n/help-content';
+import { proTrialDayVars } from '@/lib/i18n/policy-day-vars';
 import { SUPPORT_EMAIL, supportMailto } from '@/lib/site-contact';
 
 export function HelpPageContent() {
-  const { t } = useLanguage();
+  const { t: translate, locale } = useLanguage();
+  const trialVars = proTrialDayVars(locale);
+  const t = (key: string, vars?: Record<string, string | number>) =>
+    translate(key, { ...trialVars, ...vars });
 
   return (
     <>

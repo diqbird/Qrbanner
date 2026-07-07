@@ -1,11 +1,12 @@
 import { PLANS, type PlanId, type PlanLimits, annualMonthlyEquivalent, annualTotalPrice, type BillingInterval, freePlanQrLimit } from '@/lib/plans';
 import { isBillingConfigured } from '@/lib/billing-provider';
+import { PRO_TRIAL_DAYS } from '@/lib/pro-trial';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { Locale } from './types';
 
 export function getLaunchBanner(locale: Locale, options?: { billingLive?: boolean }): string {
   const n = formatLocaleNumber(freePlanQrLimit(), locale);
-  const trialDays = formatLocaleNumber(14, locale);
+  const trialDays = formatLocaleNumber(PRO_TRIAL_DAYS, locale);
   const billingLive = options?.billingLive ?? isBillingConfigured();
   if (locale === 'tr') {
     if (!billingLive) {
@@ -220,7 +221,7 @@ export function planName(planId: PlanId, locale: Locale): string {
 export function planCtaLabel(
   planId: PlanId,
   priceMonthly: number | null,
-  t: (key: string) => string,
+  t: (key: string, vars?: Record<string, string | number>) => string,
   options?: { proTrialEligible?: boolean },
 ): string {
   if (!priceMonthly || priceMonthly <= 0) return t('pricing.startFree');

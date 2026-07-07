@@ -5,6 +5,7 @@ import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { SUPPORT_EMAIL } from '@/lib/site-contact';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { localizeEnterpriseOverviewItem } from '@/lib/i18n/api-rate-limits';
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
@@ -54,7 +55,7 @@ export default async function EnterpriseOverviewPage() {
                 <h2 className="font-display text-xl font-semibold">{t(section.title)}</h2>
                 <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-muted-foreground leading-relaxed">
                   {items.map((item) => (
-                    <li key={item}>{item}</li>
+                    <li key={item}>{localizeEnterpriseOverviewItem(item, locale)}</li>
                   ))}
                 </ul>
               </section>

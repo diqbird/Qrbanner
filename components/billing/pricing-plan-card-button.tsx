@@ -16,7 +16,7 @@ type Props = {
   loadingPlan: PlanId | null;
   proTrialEligible?: boolean;
   className?: string;
-  t: (key: string) => string;
+  t: (key: string, vars?: Record<string, string | number>) => string;
   onCheckout: () => void;
 };
 

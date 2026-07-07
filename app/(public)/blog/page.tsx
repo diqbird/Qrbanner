@@ -81,7 +81,7 @@ export default async function BlogIndexPage({
                   <Badge variant="outline">{post.category}</Badge>
                   <span className="flex items-center gap-1">
                     <Clock className="h-3.5 w-3.5" aria-hidden />
-                    {t('blogIndex.minRead', { minutes: post.readingMinutes })}
+                    {t('blogIndex.minRead', { minutes: formatLocaleNumber(post.readingMinutes, locale) })}
                   </span>
                   <time dateTime={post.publishedAt}>
                     {new Date(post.publishedAt).toLocaleDateString(dateLocale, {

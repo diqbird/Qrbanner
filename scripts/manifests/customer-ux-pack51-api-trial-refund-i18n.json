@@ -1,0 +1,28 @@
+{
+  "upload": [
+    "lib/refund-policy.ts",
+    "lib/i18n/api-rate-limits.ts",
+    "lib/i18n/policy-day-vars.ts",
+    "lib/i18n/pricing-content.ts",
+    "lib/plan-checkout-api.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "app/(public)/developers/page.tsx",
+    "app/(public)/blog/page.tsx",
+    "app/(public)/blog/[slug]/page.tsx",
+    "app/(public)/refund/page.tsx",
+    "app/(public)/downloads/enterprise-overview/page.tsx",
+    "components/public/help-page-content.tsx",
+    "components/public/pricing-plan-grid.tsx",
+    "components/landing/landing-pricing-plan-grid.tsx",
+    "components/billing/pricing-plan-card-button.tsx",
+    "hooks/use-plan-checkout.ts",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

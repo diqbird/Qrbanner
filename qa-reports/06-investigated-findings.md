@@ -191,6 +191,7 @@ python scripts/configure-review-profiles.py \
 | 48 | (this deploy) | QR types index, templates, Zapier, enterprise agency counts |
 | 49 | (this deploy) | Logo size guidance, vs comparisons, solution marketing counts |
 | 50 | (this deploy) | ROI currency, case study metrics, media bytes, review counts |
+| 51 | (this deploy) | API rate limits, blog read time, trial/refund days, SLA |
 
 ---
 

@@ -5,11 +5,14 @@ import { Check } from 'lucide-react';
 import { PricingPlanCardButton } from '@/components/billing/pricing-plan-card-button';
 import { isPaidCheckoutClosed, planCardPriceLabel } from '@/lib/pricing-display';
 import { getPricingPlans, planName } from '@/lib/i18n/pricing-content';
+import { proTrialDayVars } from '@/lib/i18n/policy-day-vars';
 import type { PricingPageState } from '@/hooks/use-pricing-page';
 
 export function PricingPlanGrid({ pricing }: { pricing: PricingPageState }) {
   const { t, locale, interval, billingConfigured, billingLoading, loadingPlan, proTrialEligible, handlePlanClick } = pricing;
   const plans = getPricingPlans(locale, interval);
+  const trialVars = proTrialDayVars(locale);
+  const tp = (key: string, vars?: Record<string, string | number>) => t(key, { ...trialVars, ...vars });
 
   return (
     <div className="mt-16 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
@@ -42,7 +45,7 @@ export function PricingPlanGrid({ pricing }: { pricing: PricingPageState }) {
             <p className="mt-1 text-xs text-muted-foreground">{t('pricing.billingNote')}</p>
           )}
           {plan.id === 'pro' && billingConfigured && (
-            <p className="mt-1 text-xs font-medium text-primary">{t('pricing.proTrialBadge')}</p>
+            <p className="mt-1 text-xs font-medium text-primary">{tp('pricing.proTrialBadge')}</p>
           )}
           {plan.id === 'pro' && billingConfigured && proTrialEligible && (
             <p className="mt-1 text-xs text-muted-foreground">{t('pricing.proTrialNote')}</p>
@@ -63,7 +66,7 @@ export function PricingPlanGrid({ pricing }: { pricing: PricingPageState }) {
             billingLoading={billingLoading}
             loadingPlan={loadingPlan}
             proTrialEligible={plan.id === 'pro' && proTrialEligible}
-            t={t}
+            t={tp}
             onCheckout={() => handlePlanClick(plan.id, plan.priceMonthly)}
           />
         </div>
