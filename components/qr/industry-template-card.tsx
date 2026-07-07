@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import {
   resolveTemplateFieldLabel,
   resolveTemplateName,
@@ -21,7 +22,7 @@ export function IndustryTemplateCard({
   template: IndustryTemplate;
   onApply: (t: IndustryTemplate) => void;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [open, setOpen] = useState(false);
   const displayName = resolveTemplateName(t, template.id, template.name);
   const tagline = resolveTemplateTagline(t, template.id, template.tagline);
@@ -48,7 +49,7 @@ export function IndustryTemplateCard({
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-center gap-1 border-t py-1.5 text-[10px] text-muted-foreground hover:bg-muted/50"
       >
-        {t('templates.picker.sectionsCount', { n: template.sections.length })}
+        {t('templates.picker.sectionsCount', { n: formatLocaleNumber(template.sections.length, locale) })}
         {open ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
       </button>
       {open && (

@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import {
   VISUAL_QR_PRESETS,
   VISUAL_PRESET_CATEGORIES,
@@ -25,7 +26,7 @@ export function VisualPresetPicker({
   onApply: (style: QRStyleConfig) => void;
   highlightPresetId?: string;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [category, setCategory] = useState<VisualPresetCategory | 'all'>('all');
 
   const filtered = useMemo(
@@ -45,7 +46,7 @@ export function VisualPresetPicker({
         <LayoutTemplate className="h-4 w-4 text-primary" />
         <Label className="text-sm font-medium">{t('templates.visualPresets.title')}</Label>
         <Badge variant="secondary" className="ml-auto text-[10px]">
-          {VISUAL_QR_PRESETS.length}
+          {formatLocaleNumber(VISUAL_QR_PRESETS.length, locale)}
         </Badge>
       </div>
       <p className="text-xs text-muted-foreground">{t('templates.visualPresets.subtitle')}</p>

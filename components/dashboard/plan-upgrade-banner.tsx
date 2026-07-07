@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { AlertTriangle, ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { resolvePlanDisplayName } from '@/lib/i18n/resolve-plan-display-name';
 
 interface UsagePayload {
@@ -59,11 +60,11 @@ export function PlanUpgradeBanner() {
           <p className="mt-0.5 text-sm text-muted-foreground">
             {atLimit
               ? t('planUpgrade.atLimitBody', {
-                  used: data.usage.qrCodes,
-                  limit: data.usage.qrLimit,
+                  used: formatLocaleNumber(data.usage.qrCodes, locale),
+                  limit: formatLocaleNumber(data.usage.qrLimit, locale),
                   plan: resolvePlanDisplayName(data.plan.id, locale),
                 })
-              : t('planUpgrade.nearLimitBody', { pct: Math.max(qrPct, domainPct) })}
+              : t('planUpgrade.nearLimitBody', { pct: formatLocaleNumber(Math.max(qrPct, domainPct), locale) })}
           </p>
         </div>
       </div>

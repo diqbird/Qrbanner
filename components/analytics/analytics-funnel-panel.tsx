@@ -30,7 +30,7 @@ export function AnalyticsFunnelPanel({ data }: { data: FunnelMetrics }) {
                 {formatLocaleNumber(stage.count, locale)}
                 {stage.rateFromPrevious != null && (
                   <span className="ml-2 text-xs">
-                    ({t('analytics.funnelFromPrev', { n: stage.rateFromPrevious })})
+                    ({t('analytics.funnelFromPrev', { n: formatLocaleNumber(stage.rateFromPrevious, locale) })})
                   </span>
                 )}
               </span>
@@ -46,7 +46,7 @@ export function AnalyticsFunnelPanel({ data }: { data: FunnelMetrics }) {
 
         {data.overallConversion != null && data.stages.length > 1 && (
           <p className="text-sm text-muted-foreground border-t border-border/50 pt-3">
-            {t('analytics.funnelOverall', { n: data.overallConversion })}
+            {t('analytics.funnelOverall', { n: formatLocaleNumber(data.overallConversion, locale) })}
           </p>
         )}
 

@@ -3,9 +3,10 @@
 import { HelpCircle } from 'lucide-react';
 import type { SolutionPage } from '@/lib/solutions';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 export function SolutionDetailSteps({ solution }: { solution: SolutionPage }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <section className="mt-12">
@@ -13,7 +14,7 @@ export function SolutionDetailSteps({ solution }: { solution: SolutionPage }) {
       <ol className="mt-4 space-y-4">
         {solution.steps.map((step, i) => (
           <li key={step.title} className="rounded-xl border border-border/50 bg-card/80 p-5">
-            <p className="text-xs font-medium text-primary">{t('solutionDetail.step', { n: i + 1 })}</p>
+            <p className="text-xs font-medium text-primary">{t('solutionDetail.step', { n: formatLocaleNumber(i + 1, locale) })}</p>
             <p className="mt-1 font-medium">{step.title}</p>
             <p className="mt-1 text-sm text-muted-foreground">{step.description}</p>
           </li>

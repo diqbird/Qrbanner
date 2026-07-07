@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Trash2, Pencil, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { AutomationAction, AutomationCondition, AutomationTrigger } from '@/lib/automation-types';
 import type { AutomationBuilderState } from '@/hooks/use-automation-builder';
 
@@ -23,7 +24,7 @@ export function AutomationFlowListRow({
   onEdit: (flow: Flow) => void;
   onRemove: (id: string) => void;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const triggerLabel = (trigger: AutomationTrigger) => t(`settings.automations.trigger.${trigger}`);
 
   return (
@@ -59,7 +60,7 @@ export function AutomationFlowListRow({
         <span>
           {(flow.conditions as AutomationCondition[])?.length
             ? t('settings.automations.conditionsCount', {
-                count: (flow.conditions as AutomationCondition[]).length,
+                count: formatLocaleNumber((flow.conditions as AutomationCondition[]).length, locale),
               })
             : t('settings.automations.always')}
         </span>
@@ -67,7 +68,7 @@ export function AutomationFlowListRow({
         <Badge variant="outline">{t('settings.automations.then')}</Badge>
         <span>
           {t('settings.automations.actionsCount', {
-            count: (flow.actions as AutomationAction[])?.length ?? 0,
+            count: formatLocaleNumber((flow.actions as AutomationAction[])?.length ?? 0, locale),
           })}
         </span>
       </div>

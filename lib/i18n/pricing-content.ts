@@ -133,14 +133,21 @@ export function getPricingPlans(locale: Locale, interval: BillingInterval = 'mon
   });
 }
 
+function formatApiLimitsComparison(locale: Locale): string {
+  const free = PLANS.free;
+  const agency = PLANS.agency;
+  return `${formatLocaleNumber(free.apiRateLimitPerMin, locale)} / ${formatLocaleNumber(free.apiMonthlyQuota, locale)} → ${formatLocaleNumber(agency.apiRateLimitPerMin, locale)} / ${formatLocaleNumber(agency.apiMonthlyQuota, locale)}`;
+}
+
 export function getComparisonRows(locale: Locale) {
+  const apiLimits = formatApiLimitsComparison(locale);
   const rows = [
     ['Dynamic QR codes', 'Included', 'Included'],
     ['Codes active after cancel', 'Yes', 'Often no'],
     ['Geofence + schedule routing', 'Included', 'Paid tier'],
     ['Custom scan domain', 'Free plan', 'Paid tier'],
     ['REST API + OpenAPI', 'Free plan', 'Paid tier'],
-    ['API rate limits (per min / month)', '60 / 1K → 600 / 500K', 'Often lower free tier'],
+    ['API rate limits (per min / month)', apiLimits, 'Often lower free tier'],
     ['Bulk CSV import', 'Included', 'Paid tier'],
     ['Print banner export', 'Included', 'Rare'],
     ['GA4 + Meta Pixel on scan', 'Included', 'Partial'],
@@ -186,7 +193,7 @@ export function getComparisonRows(locale: Locale) {
     'Türkçe site (/tr)',
   ];
   const trQr = [
-    'Dahil', 'Evet', 'Dahil', 'Ücretsiz plan', 'Ücretsiz plan', '60 / 1K → 600 / 500K', 'Dahil', 'Dahil', 'Dahil',
+    'Dahil', 'Evet', 'Dahil', 'Ücretsiz plan', 'Ücretsiz plan', apiLimits, 'Dahil', 'Dahil', 'Dahil',
     'Dahil', 'Dahil', 'Dahil', 'Pro+', 'Dahil', 'Dahil', 'Dahil', 'Business+', 'Dahil', 'Dahil',
     'Dahil', 'Dahil',
   ];

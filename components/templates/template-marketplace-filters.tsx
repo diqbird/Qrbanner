@@ -3,10 +3,13 @@
 import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { resolveCategoryShortName } from '@/lib/i18n/resolve-qr-category-copy';
 import type { TemplateMarketplaceState } from '@/hooks/use-template-marketplace';
 
 export function TemplateMarketplaceFilters({ market }: { market: TemplateMarketplaceState }) {
+  const { locale } = useLanguage();
   const { t, categories, query, setQuery, category, setCategory, filtered } = market;
 
   return (
@@ -48,7 +51,7 @@ export function TemplateMarketplaceFilters({ market }: { market: TemplateMarketp
         ))}
       </div>
       <p className="mt-3 text-xs text-muted-foreground">
-        {t('templateMarketplace.resultsCount', { n: filtered.length })}
+        {t('templateMarketplace.resultsCount', { n: formatLocaleNumber(filtered.length, locale) })}
       </p>
     </>
   );

@@ -3,10 +3,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Clock } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { AnalyticsChartsData } from '@/lib/analytics-chart-constants';
 
 export function AnalyticsChartsPeakActivity({ peakInsights }: { peakInsights: AnalyticsChartsData['peakInsights'] }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   if (!peakInsights?.peakDay && !peakInsights?.peakHour) return null;
 
@@ -24,7 +25,7 @@ export function AnalyticsChartsPeakActivity({ peakInsights }: { peakInsights: An
             <p className="text-lg font-semibold">
               {peakInsights.peakDay.name}{' '}
               <span className="text-sm text-muted-foreground">
-                ({t('analytics.charts.scanCount', { n: peakInsights.peakDay.count })})
+                ({t('analytics.charts.scanCount', { n: formatLocaleNumber(peakInsights.peakDay.count, locale) })})
               </span>
             </p>
           </div>
@@ -35,7 +36,7 @@ export function AnalyticsChartsPeakActivity({ peakInsights }: { peakInsights: An
             <p className="text-lg font-semibold">
               {peakInsights.peakHour.name}{' '}
               <span className="text-sm text-muted-foreground">
-                ({t('analytics.charts.scanCount', { n: peakInsights.peakHour.count })})
+                ({t('analytics.charts.scanCount', { n: formatLocaleNumber(peakInsights.peakHour.count, locale) })})
               </span>
             </p>
           </div>

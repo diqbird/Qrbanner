@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { COUNTRY_OPTIONS, type GeofenceData } from '@/lib/geofence-shared';
 import { resolveGeofenceCountryName } from '@/lib/i18n/resolve-geofence-country-name';
 
@@ -25,7 +26,7 @@ export function GeofenceRuleRow({
     <div className="rounded-lg border p-4 space-y-3">
       <div className="flex items-center justify-between">
         <span className="text-xs font-medium text-muted-foreground">
-          {t('qrFeatures.geofenceRule', { n: index + 1 })}
+          {t('qrFeatures.geofenceRule', { n: formatLocaleNumber(index + 1, locale) })}
         </span>
         <Button
           type="button"

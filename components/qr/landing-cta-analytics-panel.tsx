@@ -47,7 +47,9 @@ export function LandingCtaAnalyticsPanel({ data }: { data: LandingCtaAnalytics }
               {t('analytics.ctaConversion')}
             </div>
             <p className="mt-1 font-display text-2xl font-bold">
-              {data.conversionRate != null ? `${data.conversionRate}%` : t('common.emptyValue')}
+              {data.conversionRate != null
+                ? `${formatLocaleNumber(data.conversionRate, locale)}%`
+                : t('common.emptyValue')}
             </p>
           </div>
         </div>

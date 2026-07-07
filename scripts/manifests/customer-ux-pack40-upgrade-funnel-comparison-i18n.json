@@ -1,0 +1,23 @@
+{
+  "upload": [
+    "lib/i18n/pricing-content.ts",
+    "components/dashboard/plan-upgrade-banner.tsx",
+    "components/dashboard/automation-flow-list-row.tsx",
+    "components/analytics/period-change-badge.tsx",
+    "components/analytics/analytics-funnel-panel.tsx",
+    "components/qr/visual-preset-picker.tsx",
+    "components/qr/analytics-charts-peak-activity.tsx",
+    "components/qr/industry-template-card.tsx",
+    "components/templates/template-marketplace-filters.tsx",
+    "components/qr/geofence-rule-row.tsx",
+    "components/solutions/solution-detail-steps-faq.tsx",
+    "components/qr/landing-cta-analytics-panel.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
