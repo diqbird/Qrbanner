@@ -2,6 +2,8 @@
 
 import { Button } from '@/components/ui/button';
 import { Camera, Smartphone, X } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { ScanSimulationState } from '@/hooks/use-scan-simulation';
 
 type ScanSimulationCameraPanelProps = {
@@ -9,6 +11,7 @@ type ScanSimulationCameraPanelProps = {
 };
 
 export function ScanSimulationCameraPanel({ scan }: ScanSimulationCameraPanelProps) {
+  const { locale } = useLanguage();
   const { t, cameraOn, liveScanning, liveHits, videoRef, startCamera, stopCamera } = scan;
 
   return (
@@ -46,7 +49,7 @@ export function ScanSimulationCameraPanel({ scan }: ScanSimulationCameraPanelPro
       )}
       {liveHits > 0 && cameraOn && (
         <p className="text-center text-xs text-muted-foreground">
-          {t('scan.framesDecoded', { count: liveHits })}
+          {t('scan.framesDecoded', { count: formatLocaleNumber(liveHits, locale) })}
         </p>
       )}
     </div>

@@ -3,13 +3,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MapPin } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { HeatmapPoint } from '@/lib/gps-heatmap';
 import { GpsHeatmapGlobe } from './gps-heatmap-globe';
 import { GpsHeatmapFlatMap } from './gps-heatmap-flat-map';
 import { useWebglSupported } from '@/hooks/use-webgl-supported';
 
 export function GpsHeatmapChart({ points }: { points: HeatmapPoint[] }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const webgl = useWebglSupported();
   if (!points.length) return null;
 
@@ -23,7 +24,7 @@ export function GpsHeatmapChart({ points }: { points: HeatmapPoint[] }) {
       <CardContent>
         {webgl ? <GpsHeatmapGlobe points={points} /> : <GpsHeatmapFlatMap points={points} />}
         <p className="mt-2 text-xs text-muted-foreground">
-          {t('analytics.heatmap.hint', { count: String(points.length) })}
+          {t('analytics.heatmap.hint', { count: formatLocaleNumber(points.length, locale) })}
         </p>
       </CardContent>
     </Card>

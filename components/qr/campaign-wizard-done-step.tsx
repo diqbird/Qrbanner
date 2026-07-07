@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { CheckCircle2, Loader2 } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { CampaignWizardState } from '@/hooks/use-campaign-wizard';
 
 type CampaignWizardDoneStepProps = {
@@ -20,6 +22,7 @@ export function CampaignWizardCreatingStep({ t }: { t: (key: string) => string }
 }
 
 export function CampaignWizardDoneStep({ wizard }: CampaignWizardDoneStepProps) {
+  const { locale } = useLanguage();
   const { t, result } = wizard;
   if (!result) return null;
 
@@ -30,7 +33,9 @@ export function CampaignWizardDoneStep({ wizard }: CampaignWizardDoneStepProps) 
         <div>
           <h2 className="font-display text-xl font-bold">{t('campaign.successTitle')}</h2>
           <p className="mt-1 text-sm text-muted-foreground">{t('campaign.successSubtitle')}</p>
-          <p className="mt-2 text-sm font-medium">{t('campaign.itemsCount', { count: result.created.length })}</p>
+          <p className="mt-2 text-sm font-medium">
+            {t('campaign.itemsCount', { count: formatLocaleNumber(result.created.length, locale) })}
+          </p>
         </div>
         <div className="flex flex-wrap justify-center gap-3">
           <Button asChild>

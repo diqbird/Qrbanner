@@ -7,7 +7,7 @@ import { UserPlus, Mail, Phone, MessageSquare } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveAnalyticsCountryLabel } from '@/lib/i18n/resolve-analytics-country-label';
 import { resolveAnalyticsCityLabel } from '@/lib/i18n/resolve-analytics-city-label';
-import { formatLocaleDateTime } from '@/lib/i18n/format-locale';
+import { formatLocaleDateTime, formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 interface LeadRow {
   id: string;
@@ -55,7 +55,9 @@ export function LeadSubmissionsPanel({ qrId }: { qrId: string }) {
         <CardTitle className="font-display text-base flex items-center gap-2">
           <UserPlus className="h-4 w-4 text-primary" /> {t('analytics.leads.title')}
         </CardTitle>
-        <Badge variant="secondary">{t('analytics.leads.total', { count: String(total) })}</Badge>
+        <Badge variant="secondary">
+          {t('analytics.leads.total', { count: formatLocaleNumber(total, locale) })}
+        </Badge>
       </CardHeader>
       <CardContent className="space-y-2">
         {leads.map((lead) => (

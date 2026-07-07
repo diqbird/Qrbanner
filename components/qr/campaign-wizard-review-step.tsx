@@ -2,6 +2,8 @@
 
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { CampaignWizardState } from '@/hooks/use-campaign-wizard';
 import { CampaignWizardReviewItem } from './campaign-wizard-review-item';
 import { CampaignWizardReviewHeader } from './campaign-wizard-review-header';
@@ -12,6 +14,7 @@ type CampaignWizardReviewStepProps = {
 };
 
 export function CampaignWizardReviewStep({ wizard }: CampaignWizardReviewStepProps) {
+  const { locale } = useLanguage();
   const { t, plan, loading, enabledCount, setStep, updateItem, updateItemData, handleGenerate, handleCreate } =
     wizard;
 
@@ -45,7 +48,7 @@ export function CampaignWizardReviewStep({ wizard }: CampaignWizardReviewStepPro
           {t('campaign.regenerate')}
         </Button>
         <Button onClick={handleCreate} disabled={enabledCount === 0} className="gap-2">
-          {t('campaign.createAll', { count: enabledCount })}
+          {t('campaign.createAll', { count: formatLocaleNumber(enabledCount, locale) })}
           <ArrowRight className="h-4 w-4" />
         </Button>
       </div>

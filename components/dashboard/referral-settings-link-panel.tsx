@@ -5,12 +5,13 @@ import { Input } from '@/components/ui/input';
 import { Copy } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { ReferralRewardProgress } from './referral-reward-progress';
 import { ReferralRewardClaim } from './referral-reward-claim';
 import type { ReferralSettingsData } from '@/lib/referral-settings-utils';
 
 export function ReferralSettingsLinkPanel({ view }: { view: ReferralSettingsData }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   const copyLink = async () => {
     if (!view.link) return;
@@ -31,14 +32,15 @@ export function ReferralSettingsLinkPanel({ view }: { view: ReferralSettingsData
         </Button>
       </div>
       <p className="text-sm text-muted-foreground">
-        {t('referral.signups', { count: view.signupCount })}
+        {t('referral.signups', { count: formatLocaleNumber(view.signupCount, locale) })}
       </p>
       {view.rewards.nextMilestone !== null && (
         <div>
           <div className="flex justify-between text-xs text-muted-foreground">
             <span>{t('referral.progressLabel')}</span>
             <span>
-              {view.signupCount} / {view.rewards.nextMilestone}
+              {formatLocaleNumber(view.signupCount, locale)} /{' '}
+              {formatLocaleNumber(view.rewards.nextMilestone, locale)}
             </span>
           </div>
           <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-muted">

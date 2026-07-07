@@ -4,10 +4,13 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ExternalLink } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { MARKETPLACE_PAID_SALES_ENABLED } from '@/lib/marketplace-types';
 import type { MarketplaceSellerPanelState } from '@/hooks/use-marketplace-seller';
 
 export function MarketplaceSellerConnectBar({ seller }: { seller: MarketplaceSellerPanelState }) {
+  const { locale } = useLanguage();
   const { t, state, working, startConnect } = seller;
   const payoutsLive = MARKETPLACE_PAID_SALES_ENABLED;
 
@@ -15,8 +18,8 @@ export function MarketplaceSellerConnectBar({ seller }: { seller: MarketplaceSel
     <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
       <span className="text-muted-foreground">
         {t('marketplaceSeller.listingCount', {
-          count: state?.sellCheck.count ?? 0,
-          limit: state?.sellCheck.limit ?? 0,
+          count: formatLocaleNumber(state?.sellCheck.count ?? 0, locale),
+          limit: formatLocaleNumber(state?.sellCheck.limit ?? 0, locale),
         })}
       </span>
       {payoutsLive ? (

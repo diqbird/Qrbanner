@@ -2,18 +2,21 @@
 
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { useDashboardQrList } from '@/hooks/use-dashboard-qr-list';
 
 type DashboardList = ReturnType<typeof useDashboardQrList>;
 
 export function DashboardQrListBulkBar({ list }: { list: DashboardList }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   if (list.selectedIds.length === 0) return null;
 
   return (
     <div className="flex flex-wrap items-center gap-2 rounded-lg border bg-muted/40 p-3">
-      <span className="text-sm font-medium">{t('dashboard.selectedCount', { count: list.selectedIds.length })}</span>
+      <span className="text-sm font-medium">
+        {t('dashboard.selectedCount', { count: formatLocaleNumber(list.selectedIds.length, locale) })}
+      </span>
       <Button size="sm" variant="outline" onClick={() => list.runBulk('export')}>
         {t('dashboard.bulkExport')}
       </Button>

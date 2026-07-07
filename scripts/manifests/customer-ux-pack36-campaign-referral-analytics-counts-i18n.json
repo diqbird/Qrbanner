@@ -1,0 +1,21 @@
+{
+  "upload": [
+    "components/qr/campaign-wizard-review-step.tsx",
+    "components/qr/campaign-wizard-review-header.tsx",
+    "components/qr/campaign-wizard-done-step.tsx",
+    "components/dashboard/dashboard-qr-list-bulk-bar.tsx",
+    "components/dashboard/referral-settings-link-panel.tsx",
+    "components/qr/lead-submissions-panel.tsx",
+    "components/qr/scan-simulation-camera-panel.tsx",
+    "components/qr/gps-heatmap.tsx",
+    "components/qr/gps-heatmap-globe-inner.tsx",
+    "components/dashboard/marketplace-seller-connect.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

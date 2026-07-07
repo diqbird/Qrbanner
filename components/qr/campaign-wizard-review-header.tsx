@@ -2,9 +2,12 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { CampaignWizardState } from '@/hooks/use-campaign-wizard';
 
 export function CampaignWizardReviewHeader({ wizard }: { wizard: CampaignWizardState }) {
+  const { locale } = useLanguage();
   const { t, plan, llmConfigured, enabledCount } = wizard;
   if (!plan) return null;
 
@@ -21,7 +24,7 @@ export function CampaignWizardReviewHeader({ wizard }: { wizard: CampaignWizardS
               {plan.source === 'llm' ? t('campaign.sourceLlm') : t('campaign.sourceTemplate')}
             </Badge>
             <Badge variant="outline">
-              {t('campaign.itemsCount', { count: enabledCount })}
+              {t('campaign.itemsCount', { count: formatLocaleNumber(enabledCount, locale) })}
             </Badge>
           </div>
         </div>

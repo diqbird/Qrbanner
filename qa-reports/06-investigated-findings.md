@@ -176,6 +176,7 @@ python scripts/configure-review-profiles.py \
 | 33 | (this deploy) | Dashboard stat numbers; plan usage meters; webhook event label; PDF export counts |
 | 34 | (this deploy) | Bulk CSV template examples; template quota badges; webhook/automation counts |
 | 35 | (this deploy) | Bulk import flow number formatting across header, preview, result, and plan usage |
+| 36 | (this deploy) | Campaign wizard, dashboard bulk, referral, analytics, and marketplace counts |
 
 ---
 
