@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScanLine } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { useScanSimulation } from '@/hooks/use-scan-simulation';
 import type { QRStyleConfig } from '@/lib/qr-style';
 import { ScanSimulationDigitalPanel } from './scan-simulation-digital-panel';
@@ -26,6 +28,7 @@ export function ScanSimulation({
   contentLength?: number;
   defaultOpen?: boolean;
 }) {
+  const { locale } = useLanguage();
   const scan = useScanSimulation({
     qrDataUrl,
     expectedContent,
@@ -64,7 +67,7 @@ export function ScanSimulation({
             <ScanSimulationCameraPanel scan={scan} />
             {result && <ScanSimulationResult result={result} onDismiss={dismissResult} t={t} />}
             <ul className="space-y-1 text-[11px] text-muted-foreground">
-              <li>• {t('scan.tipPrint', { dpi: scannability.printDpiRecommendation })}</li>
+              <li>• {t('scan.tipPrint', { dpi: formatLocaleNumber(scannability.printDpiRecommendation, locale) })}</li>
               <li>• {t('scan.tipLogo')}</li>
               <li>• {t('scan.tipFail')}</li>
             </ul>

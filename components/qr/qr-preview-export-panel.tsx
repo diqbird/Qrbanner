@@ -8,6 +8,7 @@ import {
 import { Download, Printer, Share2 } from 'lucide-react';
 import { QR_EXPORT_SIZES, type QrExportFormat } from '@/lib/qr-export-actions';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 type QrPreviewExportPanelProps = {
   exportSize: number;
@@ -32,8 +33,10 @@ export function QrPreviewExportPanel({
   onPrint,
   onShare,
 }: QrPreviewExportPanelProps) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const disabled = loading || !!error || pendingDynamic;
+  const sizeLabel = (sz: number) =>
+    `${formatLocaleNumber(sz, locale)} × ${formatLocaleNumber(sz, locale)} px${sz >= 2048 ? ` (${t('preview.printQuality')})` : ''}`;
 
   return (
     <>
@@ -41,15 +44,12 @@ export function QrPreviewExportPanel({
         <Label className="text-xs text-muted-foreground">{t('preview.exportSize')}</Label>
         <Select value={String(exportSize)} onValueChange={(v) => onExportSizeChange(parseInt(v, 10))}>
           <SelectTrigger className="h-9">
-            <SelectValue>
-              {exportSize} × {exportSize} px
-              {exportSize >= 2048 ? ` (${t('preview.printQuality')})` : ''}
-            </SelectValue>
+            <SelectValue>{sizeLabel(exportSize)}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             {QR_EXPORT_SIZES.map((sz) => (
               <SelectItem key={sz} value={String(sz)}>
-                {sz} × {sz} px{sz >= 2048 ? ` (${t('preview.printQuality')})` : ''}
+                {sizeLabel(sz)}
               </SelectItem>
             ))}
           </SelectContent>

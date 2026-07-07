@@ -5,6 +5,7 @@ import { decodeQrFromDataUrlRobust } from '@/lib/qr-scan-decode';
 import { evaluateScanDecode } from '@/lib/scan-simulation-evaluate';
 import type { ScanResult } from '@/lib/scan-simulation-types';
 import type { ScannabilityResult } from '@/lib/scannability';
+import type { Locale } from '@/lib/i18n/types';
 
 type Translate = (key: string) => string;
 
@@ -14,6 +15,7 @@ export function useScanSimulationDigital({
   expectedContent,
   scannability,
   t,
+  locale,
   setResult,
   setDigitalRunning,
 }: {
@@ -22,6 +24,7 @@ export function useScanSimulationDigital({
   expectedContent?: string;
   scannability: ScannabilityResult;
   t: Translate;
+  locale: Locale;
   setResult: (result: ScanResult | null) => void;
   setDigitalRunning: (running: boolean) => void;
 }) {
@@ -29,8 +32,8 @@ export function useScanSimulationDigital({
 
   const evaluateDecode = useCallback(
     (decoded: string | null, source: 'digital' | 'camera', confidence?: import('@/lib/qr-scan-decode').DecodeConfidence) =>
-      evaluateScanDecode({ decoded, source, confidence, expectedContent, scannability, t }),
-    [expectedContent, scannability, t],
+      evaluateScanDecode({ decoded, source, confidence, expectedContent, scannability, t, locale }),
+    [expectedContent, scannability, t, locale],
   );
 
   const runDigitalTest = useCallback(

@@ -1,6 +1,8 @@
 import { payloadsMatch, type DecodeConfidence } from '@/lib/qr-scan-decode';
 import type { ScannabilityResult } from '@/lib/scannability';
 import type { ScanResult } from '@/lib/scan-simulation-types';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import type { Locale } from '@/lib/i18n/types';
 
 type Translate = (key: string, params?: Record<string, string | number>) => string;
 
@@ -11,6 +13,7 @@ export function evaluateScanDecode({
   expectedContent,
   scannability,
   t,
+  locale,
 }: {
   decoded: string | null;
   source: 'digital' | 'camera';
@@ -18,6 +21,7 @@ export function evaluateScanDecode({
   expectedContent?: string;
   scannability: ScannabilityResult;
   t: Translate;
+  locale: Locale;
 }): ScanResult {
   const confidenceNote = (c: DecodeConfidence) => {
     if (c === 'high') return t('scan.confidenceHigh');
@@ -49,7 +53,7 @@ export function evaluateScanDecode({
       ? t('scan.gradeGood')
       : t('scan.gradeWarn', { grade: scannability.grade });
 
-  const dpiNote = t('scan.minDpi', { dpi: scannability.printDpiRecommendation });
+  const dpiNote = t('scan.minDpi', { dpi: formatLocaleNumber(scannability.printDpiRecommendation, locale) });
   const confNote = confidence ? confidenceNote(confidence) : '';
 
   return {

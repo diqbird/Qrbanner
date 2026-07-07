@@ -1,0 +1,22 @@
+{
+  "upload": [
+    "components/qr/scannability-panel.tsx",
+    "components/seo/seo-preview-card.tsx",
+    "components/dashboard/dashboard-qr-list-pagination.tsx",
+    "components/qr/qr-preview-export-panel.tsx",
+    "components/qr/scan-simulation.tsx",
+    "lib/scan-simulation-evaluate.ts",
+    "hooks/use-scan-simulation.ts",
+    "hooks/use-scan-simulation-digital.ts",
+    "hooks/use-scan-simulation-camera.ts",
+    "hooks/use-scan-simulation-camera-loop.ts",
+    "components/onboarding/onboarding-progress.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

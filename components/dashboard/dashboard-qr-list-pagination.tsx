@@ -3,12 +3,13 @@
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { useDashboardQrList } from '@/hooks/use-dashboard-qr-list';
 
 type DashboardList = ReturnType<typeof useDashboardQrList>;
 
 export function DashboardQrListPagination({ list }: { list: DashboardList }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   if (list.pagination.totalPages <= 1) return null;
 
@@ -16,9 +17,9 @@ export function DashboardQrListPagination({ list }: { list: DashboardList }) {
     <div className="flex flex-col items-center justify-between gap-3 border-t border-border/50 pt-4 sm:flex-row">
       <p className="text-sm text-muted-foreground">
         {t('dashboard.showingRange', {
-          from: list.rangeFrom,
-          to: list.rangeTo,
-          total: list.pagination.total,
+          from: formatLocaleNumber(list.rangeFrom, locale),
+          to: formatLocaleNumber(list.rangeTo, locale),
+          total: formatLocaleNumber(list.pagination.total, locale),
         })}
       </p>
       <div className="flex items-center gap-2">
@@ -34,8 +35,8 @@ export function DashboardQrListPagination({ list }: { list: DashboardList }) {
         </Button>
         <span className="text-sm text-muted-foreground px-2">
           {t('dashboard.pageInfo', {
-            page: list.pagination.page,
-            totalPages: list.pagination.totalPages,
+            page: formatLocaleNumber(list.pagination.page, locale),
+            totalPages: formatLocaleNumber(list.pagination.totalPages, locale),
           })}
         </span>
         <Button

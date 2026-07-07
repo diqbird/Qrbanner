@@ -2,7 +2,7 @@
 
 **Project:** QRbanner (`https://qrbanner.com`)  
 **Report generated:** 2026-07-05 08:02 UTC  
-**Last triage update:** 2026-07-07 (post customer-ux packs 1–40)  
+**Last triage update:** 2026-07-07 (post customer-ux packs 1–41)  
 **Methodology:** Sequential live probes — no code assumptions.
 
 ## Scope
@@ -85,6 +85,7 @@
 | Pricing plan feature numbers; referral reward days; trial days left | Pack 38 |
 | Marketplace/reseller currency; analytics presets and time-ago; ROI locale | Pack 39 |
 | Plan upgrade, automation counts, funnel, pricing comparison, and template numbers | Pack 40 |
+| Scannability, SEO char counts, QR pagination, export sizes, and scan simulation | Pack 41 |
 
 ### Remaining (low impact / operational)
 

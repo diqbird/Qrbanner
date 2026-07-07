@@ -2,6 +2,7 @@
 
 import { CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 const STEP_KEYS = [
   'onboarding.flowStep1',
@@ -10,7 +11,7 @@ const STEP_KEYS = [
 ] as const;
 
 export function OnboardingProgress({ step }: { step: 1 | 2 | 3 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <div className="rounded-xl border border-primary/25 bg-primary/5 p-4">
@@ -42,7 +43,7 @@ export function OnboardingProgress({ step }: { step: 1 | 2 | 3 }) {
                     active ? 'bg-primary text-primary-foreground' : 'bg-muted'
                   }`}
                 >
-                  {n}
+                  {formatLocaleNumber(n, locale)}
                 </span>
               )}
               <span>{t(key)}</span>

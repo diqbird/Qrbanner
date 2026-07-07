@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Gauge, Printer } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber, resolveBcp47Locale } from '@/lib/i18n/format-locale';
 import { computeScannability, analyzePrintQuality, type ScannabilityFactorId } from '@/lib/scannability';
 import type { QRStyleConfig } from '@/lib/qr-style';
 
@@ -16,9 +17,11 @@ export function ScannabilityPanel({
   hasLogo?: boolean;
   contentLength?: number;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const result = computeScannability(style, { hasLogo, logoSize: style.logoSize, contentLength });
   const print = analyzePrintQuality(style, 1024, hasLogo);
+  const formatDecimal = (n: number) =>
+    n.toLocaleString(resolveBcp47Locale(locale), { maximumFractionDigits: 1 });
 
   const gradeColor =
     result.grade === 'A' ? 'bg-green-500' : result.grade === 'B' ? 'bg-emerald-500' : result.grade === 'C' ? 'bg-amber-500' : 'bg-red-500';
@@ -27,8 +30,14 @@ export function ScannabilityPanel({
     t(`scannability.factors.${id}` as 'scannability.factors.lowContrast');
 
   const printMessage = print.ok
-    ? t('scannability.printOk', { dpi: print.printDpi, cm: print.physicalCm.toFixed(1) })
-    : t('scannability.printWarn', { minCm: print.minPrintCm, dpi: print.printDpi });
+    ? t('scannability.printOk', {
+        dpi: formatLocaleNumber(print.printDpi, locale),
+        cm: formatDecimal(print.physicalCm),
+      })
+    : t('scannability.printWarn', {
+        minCm: formatDecimal(print.minPrintCm),
+        dpi: formatLocaleNumber(print.printDpi, locale),
+      });
 
   return (
     <Card>
@@ -43,7 +52,9 @@ export function ScannabilityPanel({
             {result.grade}
           </div>
           <div>
-            <p className="text-2xl font-bold font-display">{result.score}/100</p>
+            <p className="text-2xl font-bold font-display">
+              {formatLocaleNumber(result.score, locale)}/100
+            </p>
             <p className="text-xs text-muted-foreground">{t('scannability.scoreHint')}</p>
           </div>
         </div>
@@ -54,7 +65,7 @@ export function ScannabilityPanel({
           {result.factors.slice(0, 4).map((f) => (
             <li key={f.id} className="flex gap-2">
               <Badge variant={f.impact < 0 ? 'destructive' : 'secondary'} className="shrink-0 text-[10px]">
-                {f.impact < 0 ? f.impact : t('scannability.factorOk')}
+                {f.impact < 0 ? formatLocaleNumber(f.impact, locale) : t('scannability.factorOk')}
               </Badge>
               <span className="text-muted-foreground">{factorTip(f.id)}</span>
             </li>

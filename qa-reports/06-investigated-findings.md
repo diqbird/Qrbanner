@@ -181,6 +181,7 @@ python scripts/configure-review-profiles.py \
 | 38 | (this deploy) | Pricing plan feature numbers; referral reward days; trial days left |
 | 39 | (this deploy) | Marketplace/reseller currency; analytics presets and time-ago; ROI locale |
 | 40 | (this deploy) | Plan upgrade, automation counts, funnel, pricing comparison, and template numbers |
+| 41 | (this deploy) | Scannability, SEO char counts, QR pagination, export sizes, and scan simulation |
 
 ---
 

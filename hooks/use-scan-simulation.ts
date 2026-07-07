@@ -25,7 +25,7 @@ export function useScanSimulation({
   contentLength?: number;
   defaultOpen?: boolean;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   const [open, setOpen] = useState(defaultOpen);
   const [digitalRunning, setDigitalRunning] = useState(false);
@@ -41,6 +41,7 @@ export function useScanSimulation({
     expectedContent,
     scannability,
     t,
+    locale,
     setResult,
   });
 
@@ -50,6 +51,7 @@ export function useScanSimulation({
     expectedContent,
     scannability,
     t,
+    locale,
     setResult,
     setDigitalRunning,
   });

@@ -5,6 +5,7 @@ import { decodeQrFromVideoFrame, payloadsMatch } from '@/lib/qr-scan-decode';
 import type { ScanResult } from '@/lib/scan-simulation-types';
 import type { ScannabilityResult } from '@/lib/scannability';
 import { evaluateScanDecode } from '@/lib/scan-simulation-evaluate';
+import type { Locale } from '@/lib/i18n/types';
 
 type Translate = (key: string, params?: Record<string, string | number>) => string;
 
@@ -16,6 +17,7 @@ export function useScanSimulationCameraLoop({
   expectedContent,
   scannability,
   t,
+  locale,
   setResult,
   setLiveHits,
 }: {
@@ -26,6 +28,7 @@ export function useScanSimulationCameraLoop({
   expectedContent?: string;
   scannability: ScannabilityResult;
   t: Translate;
+  locale: Locale;
   setResult: (r: ScanResult | null) => void;
   setLiveHits: React.Dispatch<React.SetStateAction<number>>;
 }) {
@@ -39,7 +42,7 @@ export function useScanSimulationCameraLoop({
       decoded: string | null,
       source: 'digital' | 'camera',
       confidence?: import('@/lib/qr-scan-decode').DecodeConfidence,
-    ) => evaluateScanDecode({ decoded, source, confidence, expectedContent, scannability, t });
+    ) => evaluateScanDecode({ decoded, source, confidence, expectedContent, scannability, t, locale });
 
     const tick = async (ts: number) => {
       if (!videoRef.current || !liveScanning) return;

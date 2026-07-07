@@ -3,6 +3,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { SITE_NAME } from '@/lib/seo';
 import { useLanguage } from '@/components/i18n/language-provider';
+import type { Locale } from '@/lib/i18n/types';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 function truncate(text: string, max: number): string {
   if (text.length <= max) return text;
@@ -15,10 +17,13 @@ function charHint(
   warn: number,
   label: string,
   tooLongSuffix: string,
+  locale: Locale,
 ): string {
-  if (len > warn) return `${label}: ${len}/${ideal} ${tooLongSuffix}`;
-  if (len > ideal) return `${label}: ${len}/${ideal}`;
-  return `${label}: ${len}/${ideal}`;
+  const lenStr = formatLocaleNumber(len, locale);
+  const idealStr = formatLocaleNumber(ideal, locale);
+  if (len > warn) return `${label}: ${lenStr}/${idealStr} ${tooLongSuffix}`;
+  if (len > ideal) return `${label}: ${lenStr}/${idealStr}`;
+  return `${label}: ${lenStr}/${idealStr}`;
 }
 
 export function SeoPreviewCard({
@@ -32,7 +37,7 @@ export function SeoPreviewCard({
   url: string;
   image?: string;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const displayTitle = title.trim() || SITE_NAME;
   const displayDesc = description.trim() || t('seoPreview.defaultDescription');
   const displayUrl = url.startsWith('http') ? url : `qrbanner.com${url.startsWith('/') ? url : `/${url}`}`;
@@ -42,8 +47,8 @@ export function SeoPreviewCard({
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
-        <span>{charHint(displayTitle.length, 55, 65, t('seoPreview.titleChars'), t('seoPreview.tooLongSuffix'))}</span>
-        <span>{charHint(displayDesc.length, 150, 170, t('seoPreview.descChars'), t('seoPreview.tooLongSuffix'))}</span>
+        <span>{charHint(displayTitle.length, 55, 65, t('seoPreview.titleChars'), t('seoPreview.tooLongSuffix'), locale)}</span>
+        <span>{charHint(displayDesc.length, 150, 170, t('seoPreview.descChars'), t('seoPreview.tooLongSuffix'), locale)}</span>
       </div>
 
       <div className="grid gap-3 lg:grid-cols-2">

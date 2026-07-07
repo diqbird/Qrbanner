@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import type { ScanResult } from '@/lib/scan-simulation-types';
 import type { ScannabilityResult } from '@/lib/scannability';
+import type { Locale } from '@/lib/i18n/types';
 import { useScanSimulationCameraStream } from '@/hooks/use-scan-simulation-camera-stream';
 import { useScanSimulationCameraLoop } from '@/hooks/use-scan-simulation-camera-loop';
 
@@ -12,11 +13,13 @@ export function useScanSimulationCamera({
   expectedContent,
   scannability,
   t,
+  locale,
   setResult,
 }: {
   expectedContent?: string;
   scannability: ScannabilityResult;
   t: Translate;
+  locale: Locale;
   setResult: (r: ScanResult | null) => void;
 }) {
   const [liveHits, setLiveHits] = useState(0);
@@ -31,6 +34,7 @@ export function useScanSimulationCamera({
     expectedContent,
     scannability,
     t,
+    locale,
     setResult,
     setLiveHits,
   });
