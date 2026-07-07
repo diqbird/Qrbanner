@@ -62,7 +62,7 @@ export function useCampaignGenerate({
         toast.error(t('campaign.generateFailed'));
         return;
       }
-      handleCampaignGenerateResponse({ res, data, router, setPlan, setLlmConfigured, setStep, t });
+      handleCampaignGenerateResponse({ res, data, router, setPlan, setLlmConfigured, setStep, t, locale: loc });
     } catch {
       toast.error(t('campaign.generateFailed'));
     } finally {

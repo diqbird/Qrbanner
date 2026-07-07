@@ -99,6 +99,7 @@
 | Plan pricing display, policy durations, auth email expiry, DNS/OG dimensions | Pack 52 |
 | Localized plan prices, annual billing, analytics periods, onboarding timing | Pack 53 |
 | Password min length policy and auth validation copy | Pack 54 |
+| Case study metric labels, duration units, campaign prompt max | Pack 55 |
 
 ### Remaining (low impact / operational)
 

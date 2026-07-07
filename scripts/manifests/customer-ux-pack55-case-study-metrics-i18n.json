@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "lib/i18n/case-study-metric-labels.ts",
+    "lib/i18n/case-study-duration.ts",
+    "lib/i18n/case-study-numbers.ts",
+    "lib/i18n/campaign-prompt-vars.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/campaign-generate-api.ts",
+    "hooks/use-campaign-generate.ts",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

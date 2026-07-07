@@ -3073,7 +3073,7 @@ export const en: TranslationTree = {
     sourceTemplate: 'Smart template',
     noLlm: 'Add OPENAI_API_KEY for richer AI copy — rule-based kit used for now.',
     promptTooShort: 'Describe your business in at least a few words.',
-    promptTooLong: 'Prompt is too long — keep it under 500 characters.',
+    promptTooLong: 'Prompt is too long — keep it under {{max}} characters.',
     generateFailed: 'Could not generate campaign. Try again.',
     createFailed: 'Could not create QR codes.',
     rateLimited: 'Too many requests — wait a few minutes.',

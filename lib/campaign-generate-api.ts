@@ -2,8 +2,10 @@ import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.
 import { toast } from 'sonner';
 import type { CampaignPlan } from '@/lib/campaign-types';
 import type { CampaignWizardStep } from '@/lib/campaign-wizard-utils';
+import { campaignPromptMaxVars } from '@/lib/i18n/campaign-prompt-vars';
+import type { Locale } from '@/lib/i18n/types';
 
-type Translate = (key: string) => string;
+type Translate = (key: string, vars?: Record<string, string | number>) => string;
 
 type GeneratePayload = {
   prompt: string;
@@ -44,6 +46,7 @@ export function handleCampaignGenerateResponse({
   setLlmConfigured,
   setStep,
   t,
+  locale,
 }: {
   res: Response;
   data: GenerateResponse;
@@ -52,6 +55,7 @@ export function handleCampaignGenerateResponse({
   setLlmConfigured: (v: boolean) => void;
   setStep: (step: CampaignWizardStep) => void;
   t: Translate;
+  locale: Locale;
 }): boolean {
   if (res.status === 401) {
     router.push(`/signup?callbackUrl=${encodeURIComponent('/qr/campaign')}`);
@@ -64,7 +68,7 @@ export function handleCampaignGenerateResponse({
   if (res.status === 400) {
     toast.error(
       data.error === 'prompt_too_long'
-        ? t('campaign.promptTooLong')
+        ? t('campaign.promptTooLong', campaignPromptMaxVars(locale))
         : data.error === 'invalid_json'
           ? t('campaign.generateFailed')
           : t('campaign.promptTooShort'),

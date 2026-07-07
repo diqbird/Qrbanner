@@ -1,4 +1,10 @@
 import { formatLocaleCurrency, formatLocaleDecimal, formatLocaleNumber } from './format-locale';
+import {
+  formatCaseStudyDurationValue,
+  localizeCaseStudyDurationInText,
+  localizeCaseStudyDurationUnit,
+} from './case-study-duration';
+import { localizeCaseStudyMetricLabel } from './case-study-metric-labels';
 import type { Locale } from './types';
 
 export function formatCaseStudyMetricValue(raw: string, locale: Locale): string {
@@ -11,6 +17,25 @@ export function formatCaseStudyMetricValue(raw: string, locale: Locale): string 
       ? formatLocaleNumber(num, locale)
       : formatLocaleDecimal(num, locale, 1);
     return `${m[1]}${formatted}%`;
+  }
+
+  m = trimmed.match(/^<\s*(\d+(?:\.\d+)?)\s+([a-z]+)$/i);
+  if (m) {
+    const num = Number(m[1]);
+    const formatted = Number.isInteger(num)
+      ? formatLocaleNumber(num, locale)
+      : formatLocaleDecimal(num, locale, 1);
+    return `< ${formatCaseStudyDurationValue(formatted, m[2], locale)}`;
+  }
+
+  m = trimmed.match(/^(\d+(?:\.\d+)?)k(\+)?\/(mo)$/i);
+  if (m) {
+    const num = Number(m[1]);
+    const kPart = Number.isInteger(num)
+      ? formatLocaleNumber(num, locale)
+      : formatLocaleDecimal(num, locale, 1);
+    const unit = localizeCaseStudyDurationUnit(m[3], locale);
+    return `${kPart}k${m[2] ?? ''}/${unit}`;
   }
 
   m = trimmed.match(/^(\d+(?:\.\d+)?)k(\+)?$/i);
@@ -37,7 +62,8 @@ export function formatCaseStudyMetricValue(raw: string, locale: Locale): string 
     const formatted = Number.isInteger(num)
       ? formatLocaleNumber(num, locale)
       : formatLocaleDecimal(num, locale, 1);
-    return `${formatted} / ${m[2]}`;
+    const unit = localizeCaseStudyDurationUnit(m[2].trim(), locale);
+    return `${formatted} / ${unit}`;
   }
 
   m = trimmed.match(/^(\d+(?:\.\d+)?)\s+(.+)$/);
@@ -46,7 +72,7 @@ export function formatCaseStudyMetricValue(raw: string, locale: Locale): string 
     const formatted = Number.isInteger(num)
       ? formatLocaleNumber(num, locale)
       : formatLocaleDecimal(num, locale, 1);
-    return `${formatted} ${m[2]}`;
+    return formatCaseStudyDurationValue(formatted, m[2], locale);
   }
 
   return trimmed;
@@ -89,6 +115,8 @@ export function localizeCaseStudyProse(text: string, locale: Locale): string {
 
   out = out.replace(/\b(\d+)\+/g, (_, n) => `${formatLocaleNumber(Number(n), locale)}+`);
 
+  out = localizeCaseStudyDurationInText(out, locale);
+
   return out;
 }
 
@@ -110,7 +138,7 @@ export function localizeCaseStudyView<T extends CaseStudyLike>(study: T, locale:
     solution: localizeCaseStudyProse(study.solution, locale),
     results: study.results.map((r) => localizeCaseStudyProse(r, locale)),
     metrics: study.metrics.map((m) => ({
-      ...m,
+      label: localizeCaseStudyMetricLabel(m.label, locale),
       value: formatCaseStudyMetricValue(m.value, locale),
     })),
   };
