@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { localizeCaseStudyView } from '@/lib/i18n/case-study-numbers';
 import { CASE_STUDIES } from '@/lib/case-studies';
 import { Button } from '@/components/ui/button';
 
@@ -27,17 +28,20 @@ export async function LandingCaseStudiesTeaser() {
           </Link>
         </div>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((study) => (
+          {featured.map((study) => {
+            const view = localizeCaseStudyView(study, locale);
+            return (
             <Link
               key={study.slug}
               href={`/case-studies/${study.slug}`}
               className="rounded-2xl border border-border/50 bg-card p-6 shadow-sm transition-colors hover:border-primary/30"
             >
               <p className="text-xs font-medium uppercase tracking-wider text-primary">{study.industry}</p>
-              <h3 className="mt-2 font-display font-semibold leading-snug">{study.headline}</h3>
-              <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{study.challenge}</p>
+              <h3 className="mt-2 font-display font-semibold leading-snug">{view.headline}</h3>
+              <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{view.challenge}</p>
             </Link>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

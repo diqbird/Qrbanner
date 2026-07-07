@@ -6,7 +6,7 @@ import { formatMediaBytes } from '@/lib/media-library-types';
 import type { MediaLibraryState } from '@/hooks/use-media-library';
 
 export function MediaLibraryAssetGrid({ library }: { library: MediaLibraryState }) {
-  const { t, assets, copyUrl, deleteAsset } = library;
+  const { t, locale, assets, copyUrl, deleteAsset } = library;
 
   if (assets.length === 0) {
     return <p className="text-sm text-muted-foreground">{t('settings.mediaLibrary.empty')}</p>;
@@ -25,7 +25,7 @@ export function MediaLibraryAssetGrid({ library }: { library: MediaLibraryState 
             decoding="async"
           />
           <p className="mt-2 truncate text-xs font-medium">{a.filename}</p>
-          <p className="text-[10px] text-muted-foreground">{formatMediaBytes(a.sizeBytes)}</p>
+          <p className="text-[10px] text-muted-foreground">{formatMediaBytes(a.sizeBytes, locale)}</p>
           <div className="mt-1 flex gap-1">
             <Button
               variant="ghost"

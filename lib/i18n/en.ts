@@ -2772,7 +2772,7 @@ export const en: TranslationTree = {
     noProfilesYet: 'G2 and Capterra profiles are being set up. Early users — we would love your honest feedback via email below.',
     highlightsTitle: 'What reviewers mention most',
     highlight1: '"Finally a QR tool where the free plan includes API access — we tested routing rules before upgrading."',
-    highlight2: '"Bulk CSV import saved our agency weeks when migrating 400 client menu codes."',
+    highlight2: '"Bulk CSV import saved our agency weeks when migrating {{count}} client menu codes."',
     highlight3: '"Custom scan domains and white-label landing pages made client handoffs painless."',
     highlightsOnlyWhenLive: 'Verified review highlights will appear here once G2 or Capterra profiles are live.',
     stepsTitle: 'How to leave a review',

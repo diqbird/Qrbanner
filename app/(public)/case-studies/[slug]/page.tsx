@@ -7,6 +7,7 @@ import { pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { localizeCaseStudyView } from '@/lib/i18n/case-study-numbers';
 
 export const revalidate = 3600;
 
@@ -31,6 +32,7 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
 
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
+  const view = localizeCaseStudyView(study, locale);
 
   return (
     <>
@@ -46,11 +48,11 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
           <p className="mt-3 inline-block rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs text-amber-800 dark:text-amber-200">
             {t('caseStudyPage.scenarioBadge')}
           </p>
-          <h1 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">{study.headline}</h1>
-          <p className="mt-2 text-muted-foreground">{study.companyType}</p>
+          <h1 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">{view.headline}</h1>
+          <p className="mt-2 text-muted-foreground">{view.companyType}</p>
 
           <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {study.metrics.map((m) => (
+            {view.metrics.map((m) => (
               <div key={m.label} className="rounded-xl border border-border/50 bg-card p-4 text-center">
                 <p className="font-display text-2xl font-bold text-primary">{m.value}</p>
                 <p className="mt-1 text-xs text-muted-foreground">{m.label}</p>
@@ -61,16 +63,16 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
           <section className="mt-12 space-y-8 text-sm leading-relaxed text-muted-foreground">
             <div>
               <h2 className="font-display text-lg font-semibold text-foreground">{t('caseStudyPage.challenge')}</h2>
-              <p className="mt-2">{study.challenge}</p>
+              <p className="mt-2">{view.challenge}</p>
             </div>
             <div>
               <h2 className="font-display text-lg font-semibold text-foreground">{t('caseStudyPage.solution')}</h2>
-              <p className="mt-2">{study.solution}</p>
+              <p className="mt-2">{view.solution}</p>
             </div>
             <div>
               <h2 className="font-display text-lg font-semibold text-foreground">{t('caseStudyPage.results')}</h2>
               <ul className="mt-2 list-disc space-y-2 pl-5">
-                {study.results.map((r) => (
+                {view.results.map((r) => (
                   <li key={r}>{r}</li>
                 ))}
               </ul>

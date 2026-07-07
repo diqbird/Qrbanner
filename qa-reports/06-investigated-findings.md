@@ -190,6 +190,7 @@ python scripts/configure-review-profiles.py \
 | 47 | (this deploy) | Marketing QR type counts, features page, logo size, create page meta |
 | 48 | (this deploy) | QR types index, templates, Zapier, enterprise agency counts |
 | 49 | (this deploy) | Logo size guidance, vs comparisons, solution marketing counts |
+| 50 | (this deploy) | ROI currency, case study metrics, media bytes, review counts |
 
 ---
 

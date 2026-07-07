@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { BillingComingSoonBanner } from '@/components/billing/billing-coming-soon-banner';
 import { getLaunchBanner } from '@/lib/i18n/pricing-content';
 import { ANNUAL_DISCOUNT_PERCENT } from '@/lib/plans';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { PricingPageState } from '@/hooks/use-pricing-page';
 
 export function PricingPageHero({ pricing }: { pricing: PricingPageState }) {
@@ -40,7 +41,7 @@ export function PricingPageHero({ pricing }: { pricing: PricingPageState }) {
             }`}
           >
             {t('pricing.billingAnnual')}{' '}
-            <span className="text-primary">({t('pricing.savePercent', { percent: ANNUAL_DISCOUNT_PERCENT })})</span>
+            <span className="text-primary">({t('pricing.savePercent', { percent: formatLocaleNumber(ANNUAL_DISCOUNT_PERCENT, locale) })})</span>
           </button>
         </div>
       )}

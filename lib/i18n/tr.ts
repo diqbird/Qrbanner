@@ -2773,7 +2773,7 @@ export const tr: TranslationTree = {
     noProfilesYet: 'G2 ve Capterra profilleri hazırlanıyor. Erken kullanıcılar — dürüst geri bildiriminizi e-posta ile bekliyoruz.',
     highlightsTitle: 'Yorumlarda en çok geçenler',
     highlight1: '"Ücretsiz planda API olan nadir QR araçlarından — yükseltmeden önce routing kurallarını test ettik."',
-    highlight2: '"Toplu CSV import, 400 müşteri menü kodunu taşırken ajansımıza haftalar kazandırdı."',
+    highlight2: '"Toplu CSV import, {{count}} müşteri menü kodunu taşırken ajansımıza haftalar kazandırdı."',
     highlight3: '"Özel tarama alanları ve white-label açılış sayfaları müşteri teslimini kolaylaştırdı."',
     highlightsOnlyWhenLive: 'G2 veya Capterra profilleri canlı olduğunda doğrulanmış yorum özetleri burada görünecek.',
     stepsTitle: 'Yorum nasıl bırakılır',

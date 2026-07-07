@@ -30,6 +30,22 @@ export function formatLocaleDecimal(
   return value.toLocaleString(resolveBcp47Locale(locale), { maximumFractionDigits });
 }
 
+const TRY_PER_USD_ESTIMATE = 34;
+
+export function formatLocaleCurrency(
+  value: number,
+  locale: Locale,
+  options?: { maximumFractionDigits?: number; convertTry?: boolean },
+): string {
+  const currency = locale === 'tr' ? 'TRY' : 'USD';
+  const rate = options?.convertTry && locale === 'tr' ? TRY_PER_USD_ESTIMATE : 1;
+  return (value * rate).toLocaleString(resolveBcp47Locale(locale), {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: options?.maximumFractionDigits ?? 0,
+  });
+}
+
 export function formatLocaleNumberList(
   values: number[],
   locale: Locale,

@@ -16,6 +16,7 @@ import { CASE_STUDIES } from '@/lib/case-studies';
 import { getServerLocale } from '@/lib/i18n/server';
 
 import { translate } from '@/lib/i18n';
+import { localizeCaseStudyView } from '@/lib/i18n/case-study-numbers';
 
 export const revalidate = 3600;
 
@@ -79,8 +80,9 @@ export default async function CaseStudiesIndexPage() {
 
           <div className="mt-12 space-y-6">
 
-            {CASE_STUDIES.map((study) => (
-
+            {CASE_STUDIES.map((study) => {
+              const view = localizeCaseStudyView(study, locale);
+              return (
               <article
 
                 key={study.slug}
@@ -91,13 +93,13 @@ export default async function CaseStudiesIndexPage() {
 
                 <p className="text-xs font-medium uppercase tracking-wider text-primary">{study.industry}</p>
 
-                <h2 className="mt-2 font-display text-2xl font-bold">{study.headline}</h2>
+                <h2 className="mt-2 font-display text-2xl font-bold">{view.headline}</h2>
 
-                <p className="mt-2 text-sm text-muted-foreground">{study.companyType}</p>
+                <p className="mt-2 text-sm text-muted-foreground">{view.companyType}</p>
 
                 <div className="mt-4 flex flex-wrap gap-4">
 
-                  {study.metrics.slice(0, 2).map((m) => (
+                  {view.metrics.slice(0, 2).map((m) => (
 
                     <div key={m.label} className="flex items-center gap-2 text-sm">
 
@@ -124,8 +126,8 @@ export default async function CaseStudiesIndexPage() {
                 </Link>
 
               </article>
-
-            ))}
+              );
+            })}
 
           </div>
 

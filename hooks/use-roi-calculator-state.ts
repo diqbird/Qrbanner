@@ -2,9 +2,8 @@
 
 import { useMemo, useState } from 'react';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { resolveBcp47Locale } from '@/lib/i18n/format-locale';
-
-const PRO_ANNUAL = 9.99 * 12 * 0.8;
+import { formatLocaleCurrency } from '@/lib/i18n/format-locale';
+import { PLANS, annualTotalPrice } from '@/lib/plans';
 
 export function useRoiCalculatorState() {
   const { t, locale } = useLanguage();
@@ -17,7 +16,7 @@ export function useRoiCalculatorState() {
     const rep = Math.max(0, reprints);
     const cost = Math.max(0, costPerReprint);
     const staticTotal = loc * rep * cost;
-    const dynamicTotal = PRO_ANNUAL;
+    const dynamicTotal = annualTotalPrice(PLANS.pro.priceMonthly ?? 0);
     return {
       staticCost: staticTotal,
       dynamicCost: dynamicTotal,
@@ -25,15 +24,8 @@ export function useRoiCalculatorState() {
     };
   }, [locations, reprints, costPerReprint]);
 
-  const fmt = (n: number) => {
-    const currency = locale === 'tr' ? 'TRY' : 'USD';
-    const rate = locale === 'tr' ? 34 : 1;
-    return (n * rate).toLocaleString(resolveBcp47Locale(locale), {
-      style: 'currency',
-      currency,
-      maximumFractionDigits: 0,
-    });
-  };
+  const fmt = (n: number) =>
+    formatLocaleCurrency(n, locale, { maximumFractionDigits: 0, convertTry: true });
 
   return {
     t,

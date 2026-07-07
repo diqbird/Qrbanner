@@ -7,6 +7,8 @@ import { JsonLd } from '@/components/seo/json-ld';
 import { Button } from '@/components/ui/button';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { REVIEW_BULK_MIGRATION_EXAMPLE_COUNT } from '@/lib/i18n/case-study-numbers';
 import { CAPTERRA_REVIEW_URL, G2_REVIEW_URL } from '@/lib/marketing-config';
 import { supportMailto } from '@/lib/site-contact';
 
@@ -23,7 +25,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ReviewsPage() {
   const locale = await getServerLocale();
-  const t = (key: string) => translate(locale, key);
+  const reviewCounts = {
+    count: formatLocaleNumber(REVIEW_BULK_MIGRATION_EXAMPLE_COUNT, locale),
+  };
+  const t = (key: string, vars?: Record<string, string | number>) =>
+    translate(locale, key, { ...reviewCounts, ...vars });
   const hasG2 = Boolean(G2_REVIEW_URL);
   const hasCapterra = Boolean(CAPTERRA_REVIEW_URL);
   const hasReviewPlatforms = hasG2 || hasCapterra;
@@ -100,7 +106,7 @@ export default async function ReviewsPage() {
                   className="flex gap-4 rounded-xl border border-border/50 bg-muted/20 p-5 text-sm text-muted-foreground leading-relaxed"
                 >
                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/15 text-sm font-semibold text-primary">
-                    {i + 1}
+                    {formatLocaleNumber(i + 1, locale)}
                   </span>
                   {t(key)}
                 </li>

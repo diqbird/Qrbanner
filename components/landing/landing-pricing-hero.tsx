@@ -4,6 +4,7 @@ import { PricingReferralBanner } from '@/components/marketing/pricing-referral-b
 import { BillingComingSoonBanner } from '@/components/billing/billing-coming-soon-banner';
 import { getLaunchBanner } from '@/lib/i18n/pricing-content';
 import { ANNUAL_DISCOUNT_PERCENT } from '@/lib/plans';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { LandingPricingState } from '@/hooks/use-landing-pricing';
 
 export function LandingPricingHero({ pricing }: { pricing: LandingPricingState }) {
@@ -39,7 +40,7 @@ export function LandingPricingHero({ pricing }: { pricing: LandingPricingState }
           >
             {t('pricing.billingAnnual')}{' '}
             <span className="font-medium text-foreground">
-              ({t('pricing.savePercent', { percent: ANNUAL_DISCOUNT_PERCENT })})
+              ({t('pricing.savePercent', { percent: formatLocaleNumber(ANNUAL_DISCOUNT_PERCENT, locale) })})
             </span>
           </button>
         </div>

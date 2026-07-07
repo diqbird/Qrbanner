@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { getServerLocale } from '@/lib/i18n/server';
 
 import { translate } from '@/lib/i18n';
+import { localizeCaseStudyView } from '@/lib/i18n/case-study-numbers';
 
 import { CASE_STUDIES } from '@/lib/case-studies';
 
@@ -264,8 +265,9 @@ export default async function CustomersPage() {
 
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 
-              {CASE_STUDIES.slice(0, 9).map((study) => (
-
+              {CASE_STUDIES.slice(0, 9).map((study) => {
+                const view = localizeCaseStudyView(study, locale);
+                return (
                 <Link
 
                   key={study.slug}
@@ -278,13 +280,13 @@ export default async function CustomersPage() {
 
                   <p className="text-xs font-medium uppercase tracking-wider text-primary">{study.industry}</p>
 
-                  <h3 className="mt-2 font-display font-semibold leading-snug">{study.headline}</h3>
+                  <h3 className="mt-2 font-display font-semibold leading-snug">{view.headline}</h3>
 
-                  <p className="mt-2 text-sm text-muted-foreground">{study.companyType}</p>
+                  <p className="mt-2 text-sm text-muted-foreground">{view.companyType}</p>
 
                 </Link>
-
-              ))}
+                );
+              })}
 
             </div>
 

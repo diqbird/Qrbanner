@@ -6,7 +6,7 @@ import { useLanguage } from '@/components/i18n/language-provider';
 import type { MediaItem } from '@/lib/media-library-types';
 
 export function useMediaLibrary() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const fileRef = useRef<HTMLInputElement>(null);
   const [assets, setAssets] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -72,6 +72,7 @@ export function useMediaLibrary() {
 
   return {
     t,
+    locale,
     fileRef,
     assets,
     loading,
