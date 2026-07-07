@@ -80,7 +80,7 @@ export function useQrBulkImport() {
     usage,
     maxRows,
     slotsLeft,
-    downloadTemplate: downloadBulkCsvTemplate,
+    downloadTemplate: () => downloadBulkCsvTemplate(t),
     onFileChange: handleFileChange,
     onDrop: handleDrop,
     handleImport,

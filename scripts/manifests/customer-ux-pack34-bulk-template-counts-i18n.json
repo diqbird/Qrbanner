@@ -1,0 +1,22 @@
+{
+  "upload": [
+    "lib/i18n/build-bulk-csv-template.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/qr-bulk-import-utils.ts",
+    "lib/analytics-pdf-export.ts",
+    "hooks/use-qr-bulk-import.ts",
+    "components/qr/bulk-import-template-card.tsx",
+    "components/qr/style-template-list.tsx",
+    "components/dashboard/brand-kit-hub.tsx",
+    "components/dashboard/automation-flow-list-toolbar.tsx",
+    "components/dashboard/webhook-endpoints-panel.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

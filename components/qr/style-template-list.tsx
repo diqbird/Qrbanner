@@ -6,6 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Bookmark, Save, Trash2 } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { normalizeQRStyle, type QRStyleConfig } from '@/lib/qr-style';
 import type { StyleTemplateLibraryState } from '@/hooks/use-style-template-library';
 
@@ -16,6 +18,7 @@ export function StyleTemplateList({
   library: StyleTemplateLibraryState;
   onApply: (style: QRStyleConfig, logoPath: string | null) => void;
 }) {
+  const { locale } = useLanguage();
   const { t, templates, limit, name, setName, saving, saveTemplate, deleteTemplate } = library;
 
   return (
@@ -24,7 +27,7 @@ export function StyleTemplateList({
         <Bookmark className="h-4 w-4 text-primary" />
         <p className="text-sm font-medium">{t('settings.templates.title')}</p>
         <Badge variant="secondary" className="ml-auto text-xs">
-          {templates.length} / {limit}
+          {formatLocaleNumber(templates.length, locale)} / {formatLocaleNumber(limit, locale)}
         </Badge>
       </div>
 

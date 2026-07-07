@@ -1,8 +1,9 @@
-import { BULK_CSV_TEMPLATE } from '@/lib/bulk-csv';
+import { buildBulkCsvTemplate } from '@/lib/i18n/build-bulk-csv-template';
+import type { TranslateFn } from '@/lib/i18n/resolve-enum-label';
 import type { BulkResult } from '@/lib/qr-bulk-import-types';
 
-export function downloadBulkCsvTemplate() {
-  const blob = new Blob([BULK_CSV_TEMPLATE], { type: 'text/csv;charset=utf-8' });
+export function downloadBulkCsvTemplate(t: TranslateFn) {
+  const blob = new Blob([buildBulkCsvTemplate(t)], { type: 'text/csv;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;

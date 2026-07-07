@@ -5,10 +5,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Bookmark, Loader2, Plus } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { useBrandKitTemplates } from '@/hooks/use-brand-kit-templates';
 import { BrandKitTemplateCard } from './brand-kit-template-card';
 
 export function BrandKitHub() {
+  const { locale } = useLanguage();
   const brandKit = useBrandKitTemplates();
   const { t, templates, limit, loading } = brandKit;
 
@@ -34,7 +37,7 @@ export function BrandKitHub() {
             <CardDescription className="mt-1">{t('settings.brandKit.description')}</CardDescription>
           </div>
           <Badge variant="secondary" className="shrink-0">
-            {templates.length} / {limit}
+            {formatLocaleNumber(templates.length, locale)} / {formatLocaleNumber(limit, locale)}
           </Badge>
         </div>
       </CardHeader>

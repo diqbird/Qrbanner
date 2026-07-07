@@ -1,5 +1,6 @@
 import type { AnalyticsPayload } from '@/lib/analytics-export';
 import { formatLocaleDateTime, formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { interpolate } from '@/lib/i18n/types';
 import type { Locale } from '@/lib/i18n/types';
 
 export type AnalyticsPdfLabels = {
@@ -109,8 +110,9 @@ function twoColumnTable(
     y = ensureSpace(doc, y, 5);
     doc.setTextColor(120, 120, 120);
     doc.text(
-      moreRowsLabel?.replace('{{count}}', String(rows.length - maxRows)) ??
-        `+${rows.length - maxRows} more`,
+      interpolate(moreRowsLabel ?? '+{{count}}', {
+        count: formatLocaleNumber(rows.length - maxRows, locale),
+      }),
       MARGIN,
       y,
     );

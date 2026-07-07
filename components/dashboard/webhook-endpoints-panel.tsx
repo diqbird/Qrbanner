@@ -6,15 +6,23 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Plus, Trash2 } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { WebhookSettingsState } from '@/hooks/use-webhook-settings';
 
 export function WebhookEndpointList({ settings }: { settings: WebhookSettingsState }) {
+  const { locale } = useLanguage();
   const { t, webhooks, limit, toggleEnabled, removeWebhook } = settings;
 
   return (
     <>
       <div className="flex items-center justify-between text-sm text-muted-foreground">
-        <span>{t('settings.webhooks.count', { count: webhooks.length, limit })}</span>
+        <span>
+          {t('settings.webhooks.count', {
+            count: formatLocaleNumber(webhooks.length, locale),
+            limit: formatLocaleNumber(limit, locale),
+          })}
+        </span>
       </div>
       {webhooks.length > 0 && (
         <div className="space-y-3">
