@@ -49,6 +49,7 @@ export const en: TranslationTree = {
     loadingDashboardAria: 'Loading dashboard',
     securityCheckAria: 'Security check',
     closeAria: 'Close',
+    emptyValue: '—',
     searchAria: 'Search',
     emailPlaceholder: 'name@example.com',
     namePlaceholder: 'John Doe',
@@ -2005,6 +2006,7 @@ export const en: TranslationTree = {
     titleChars: 'Title',
     descChars: 'Description',
     defaultDescription: 'Page description will appear here in search results.',
+    tooLongSuffix: '— too long',
   },
   folders: {
     title: 'Folders',
@@ -2503,6 +2505,7 @@ export const en: TranslationTree = {
     checkDatabase: 'Database',
     checkSmtp: 'Email delivery (SMTP)',
     checkBilling: 'Billing checkout',
+    checkOk: 'OK',
     responseMs: 'API response: {{ms}} ms',
     needHelp: 'Need help?',
     backHome: 'Back to home',

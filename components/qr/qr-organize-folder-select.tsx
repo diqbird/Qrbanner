@@ -26,7 +26,11 @@ export function QrOrganizeFolderSelect({
         onValueChange={(v) => onFolderChange(v === '__none__' ? null : v)}
       >
         <SelectTrigger>
-          <SelectValue placeholder={t('organize.noFolder')} />
+          <SelectValue>
+            {folderId == null
+              ? t('organize.noFolder')
+              : folders.find((f) => f.id === folderId)?.name ?? t('organize.noFolder')}
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="__none__">{t('organize.noFolder')}</SelectItem>

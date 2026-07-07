@@ -3,9 +3,12 @@
 import { CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { HealthPayload } from '@/hooks/use-status-page-health';
+import { formatLocaleDateTime } from '@/lib/i18n/format-locale';
+import type { Locale } from '@/lib/i18n/types';
 
 type StatusPageStatusPanelProps = {
   t: (key: string, vars?: Record<string, string | number>) => string;
+  locale: Locale;
   health: HealthPayload | null;
   loading: boolean;
   error: boolean;
@@ -15,6 +18,7 @@ type StatusPageStatusPanelProps = {
 
 export function StatusPageStatusPanel({
   t,
+  locale,
   health,
   loading,
   error,
@@ -50,14 +54,16 @@ export function StatusPageStatusPanel({
               </p>
               <p className="text-sm text-muted-foreground">
                 {t('status.lastChecked', {
-                  time: health?.timestamp ? new Date(health.timestamp).toLocaleString() : '—',
+                  time: health?.timestamp
+                    ? formatLocaleDateTime(health.timestamp, locale)
+                    : t('common.emptyValue'),
                 })}
               </p>
             </div>
           </div>
 
           <ul className="mt-6 space-y-3 text-sm">
-            <StatusRow label={t('status.checkApplication')} ok={health?.ok ?? false} />
+            <StatusRow label={t('status.checkApplication')} ok={health?.ok ?? false} t={t} />
           </ul>
 
           <p className="mt-6 text-xs text-muted-foreground">
@@ -69,11 +75,21 @@ export function StatusPageStatusPanel({
   );
 }
 
-function StatusRow({ label, ok }: { label: string; ok: boolean }) {
+function StatusRow({
+  label,
+  ok,
+  t,
+}: {
+  label: string;
+  ok: boolean;
+  t: (key: string, vars?: Record<string, string | number>) => string;
+}) {
   return (
     <li className="flex items-center justify-between rounded-lg border border-border/40 px-4 py-3">
       <span>{label}</span>
-      <span className={ok ? 'text-emerald-600' : 'text-amber-600'}>{ok ? 'OK' : '—'}</span>
+      <span className={ok ? 'text-emerald-600' : 'text-amber-600'}>
+        {ok ? t('status.checkOk') : t('common.emptyValue')}
+      </span>
     </li>
   );
 }

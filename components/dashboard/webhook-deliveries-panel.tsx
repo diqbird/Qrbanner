@@ -1,10 +1,13 @@
 'use client';
 
 import { Badge } from '@/components/ui/badge';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleDateTime } from '@/lib/i18n/format-locale';
 import type { WebhookSettingsState } from '@/hooks/use-webhook-settings';
 
 export function WebhookDeliveriesPanel({ settings }: { settings: WebhookSettingsState }) {
-  const { t, deliveries } = settings;
+  const { t, locale } = useLanguage();
+  const { deliveries } = settings;
 
   return (
     <div className="space-y-3 border-t border-border/50 pt-4">
@@ -26,7 +29,7 @@ export function WebhookDeliveriesPanel({ settings }: { settings: WebhookSettings
                   {d.endpointLabel ?? d.endpointUrl ?? d.endpointId}
                 </p>
                 <p className="text-muted-foreground">
-                  {d.event} · {new Date(d.createdAt).toLocaleString()}
+                  {d.event} · {formatLocaleDateTime(d.createdAt, locale)}
                   {d.durationMs != null ? ` · ${t('settings.webhooks.deliveryDuration', { ms: d.durationMs })}` : ''}
                 </p>
                 {d.error && <p className="text-destructive">{d.error}</p>}

@@ -170,6 +170,7 @@ python scripts/configure-review-profiles.py \
 | 27 | (this deploy) | Automation template var labels; localized values in Slack/email/webhook dispatch |
 | 28 | (this deploy) | Dashboard sidebar account name fallback; automation builder select closed-state labels |
 | 29 | (this deploy) | Landing builder, QR export size, reseller plan, and SSO provider select closed-state labels |
+| 30 | (this deploy) | Locale-aware dates/numbers; status/SEO labels; folder and workspace select labels |
 
 ---
 

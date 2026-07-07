@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/components/i18n/language-provider';
 import type { AutomationTrigger } from '@/lib/automation-types';
 import { resolveAutomationLogError } from '@/lib/i18n/resolve-automation-log-error';
+import { formatLocaleDateTime } from '@/lib/i18n/format-locale';
 import type { AutomationBuilderState } from '@/hooks/use-automation-builder';
 
 type AutomationLogsPanelProps = {
@@ -11,7 +12,7 @@ type AutomationLogsPanelProps = {
 };
 
 export function AutomationLogsPanel({ builder }: AutomationLogsPanelProps) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const { logs } = builder;
 
   const triggerLabel = (trigger: AutomationTrigger) => t(`settings.automations.trigger.${trigger}`);
@@ -35,7 +36,7 @@ export function AutomationLogsPanel({ builder }: AutomationLogsPanelProps) {
                 <p className="font-medium">{log.flowName}</p>
                 <p className="text-muted-foreground">
                   {triggerLabel(log.trigger as AutomationTrigger)} ·{' '}
-                  {new Date(log.createdAt).toLocaleString()}
+                  {formatLocaleDateTime(log.createdAt, locale)}
                 </p>
                 {log.error && (
                   <p className="text-destructive">{resolveAutomationLogError(t, log.error)}</p>

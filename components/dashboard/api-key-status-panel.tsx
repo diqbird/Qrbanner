@@ -3,6 +3,8 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Key, RefreshCw, Trash2 } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleDate } from '@/lib/i18n/format-locale';
 import type { ApiKeySettingsState } from '@/hooks/use-api-key-settings';
 
 type ApiKeyStatusPanelProps = {
@@ -10,6 +12,7 @@ type ApiKeyStatusPanelProps = {
 };
 
 export function ApiKeyStatusPanel({ apiKey }: ApiKeyStatusPanelProps) {
+  const { locale } = useLanguage();
   const { t, hasKey, prefix, createdAt, working, generateKey, revokeKey } = apiKey;
 
   return (
@@ -23,7 +26,7 @@ export function ApiKeyStatusPanel({ apiKey }: ApiKeyStatusPanelProps) {
             <code className="rounded bg-muted px-2 py-1 text-xs">{prefix}</code>
             {createdAt && (
               <span className="text-xs text-muted-foreground">
-                {t('settings.apiKey.created', { date: new Date(createdAt).toLocaleDateString() })}
+                {t('settings.apiKey.created', { date: formatLocaleDate(createdAt, locale) })}
               </span>
             )}
           </>

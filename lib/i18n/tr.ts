@@ -50,6 +50,7 @@ export const tr: TranslationTree = {
     loadingDashboardAria: 'Panel yükleniyor',
     securityCheckAria: 'Güvenlik kontrolü',
     closeAria: 'Kapat',
+    emptyValue: '—',
     searchAria: 'Ara',
     emailPlaceholder: 'ornek@email.com',
     namePlaceholder: 'Ad Soyad',
@@ -2006,6 +2007,7 @@ export const tr: TranslationTree = {
     titleChars: 'Başlık',
     descChars: 'Açıklama',
     defaultDescription: 'Sayfa açıklaması arama sonuçlarında burada görünür.',
+    tooLongSuffix: '— çok uzun',
   },
   folders: {
     title: 'Klasörler',
@@ -2504,6 +2506,7 @@ export const tr: TranslationTree = {
     checkDatabase: 'Veritabanı',
     checkSmtp: 'E-posta gönderimi (SMTP)',
     checkBilling: 'Ödeme / faturalandırma',
+    checkOk: 'Tamam',
     responseMs: 'API yanıt süresi: {{ms}} ms',
     needHelp: 'Yardım mı lazım?',
     backHome: 'Ana sayfaya dön',

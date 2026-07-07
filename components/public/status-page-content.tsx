@@ -8,7 +8,7 @@ import { useStatusPageHealth } from '@/hooks/use-status-page-health';
 import { StatusPageStatusPanel } from './status-page-status-panel';
 
 export function StatusPageContent() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const { health, loading, error, reload, operational } = useStatusPageHealth();
 
   return (
@@ -20,6 +20,7 @@ export function StatusPageContent() {
 
       <StatusPageStatusPanel
         t={t}
+        locale={locale}
         health={health}
         loading={loading}
         error={error}

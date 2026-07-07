@@ -9,8 +9,14 @@ function truncate(text: string, max: number): string {
   return `${text.slice(0, max - 1).trim()}…`;
 }
 
-function charHint(len: number, ideal: number, warn: number, label: string): string {
-  if (len > warn) return `${label}: ${len}/${ideal} — too long`;
+function charHint(
+  len: number,
+  ideal: number,
+  warn: number,
+  label: string,
+  tooLongSuffix: string,
+): string {
+  if (len > warn) return `${label}: ${len}/${ideal} ${tooLongSuffix}`;
   if (len > ideal) return `${label}: ${len}/${ideal}`;
   return `${label}: ${len}/${ideal}`;
 }
@@ -36,8 +42,8 @@ export function SeoPreviewCard({
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
-        <span>{charHint(displayTitle.length, 55, 65, t('seoPreview.titleChars'))}</span>
-        <span>{charHint(displayDesc.length, 150, 170, t('seoPreview.descChars'))}</span>
+        <span>{charHint(displayTitle.length, 55, 65, t('seoPreview.titleChars'), t('seoPreview.tooLongSuffix'))}</span>
+        <span>{charHint(displayDesc.length, 150, 170, t('seoPreview.descChars'), t('seoPreview.tooLongSuffix'))}</span>
       </div>
 
       <div className="grid gap-3 lg:grid-cols-2">

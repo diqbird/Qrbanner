@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Gauge } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolvePlanDisplayName } from '@/lib/i18n/resolve-plan-display-name';
+import { formatLocaleDate, formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { ApiKeySettingsState } from '@/hooks/use-api-key-settings';
 
 type ApiKeyUsagePanelProps = {
@@ -38,19 +39,21 @@ export function ApiKeyUsagePanel({ apiKey }: ApiKeyUsagePanelProps) {
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-xs text-muted-foreground">
         <span>
           {t('settings.apiKey.usageMonthly', {
-            used: usage.monthlyUsed.toLocaleString(),
-            quota: usage.monthlyQuota.toLocaleString(),
+            used: formatLocaleNumber(usage.monthlyUsed, locale),
+            quota: formatLocaleNumber(usage.monthlyQuota, locale),
           })}
         </span>
         <span>
-          {t('settings.apiKey.usageRemaining', { remaining: usage.monthlyRemaining.toLocaleString() })}
+          {t('settings.apiKey.usageRemaining', {
+            remaining: formatLocaleNumber(usage.monthlyRemaining, locale),
+          })}
         </span>
       </div>
       <p className="text-xs text-muted-foreground">
-        {t('settings.apiKey.usagePerMinute', { limit: usage.perMinuteLimit.toLocaleString() })}
+        {t('settings.apiKey.usagePerMinute', { limit: formatLocaleNumber(usage.perMinuteLimit, locale) })}
         {' · '}
         {t('settings.apiKey.usageResets', {
-          date: new Date(usage.monthlyResetAt * 1000).toLocaleDateString(),
+          date: formatLocaleDate(usage.monthlyResetAt * 1000, locale),
         })}
       </p>
     </div>

@@ -22,7 +22,13 @@ export function TeamWorkspaceSwitcher({ team }: TeamWorkspaceSwitcherProps) {
         <Label>{t('settings.team.activeWorkspace')}</Label>
         <Select value={activeId} onValueChange={switchWorkspace}>
           <SelectTrigger>
-            <SelectValue placeholder={t('settings.team.selectWorkspace')} />
+            <SelectValue>
+              {(() => {
+                const workspace = workspaces.find((w) => w.id === activeId);
+                if (!workspace) return t('settings.team.selectWorkspace');
+                return `${workspace.name}${workspace.isPersonal ? ` ${t('settings.team.personal')}` : ''}`;
+              })()}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             {workspaces.map((w) => (

@@ -7,6 +7,7 @@ import { UserPlus, Mail, Phone, MessageSquare } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveAnalyticsCountryLabel } from '@/lib/i18n/resolve-analytics-country-label';
 import { resolveAnalyticsCityLabel } from '@/lib/i18n/resolve-analytics-city-label';
+import { formatLocaleDateTime } from '@/lib/i18n/format-locale';
 
 interface LeadRow {
   id: string;
@@ -91,7 +92,7 @@ export function LeadSubmissionsPanel({ qrId }: { qrId: string }) {
                   ? `${lead.country ? ', ' : ''}${resolveAnalyticsCityLabel(t, lead.city, locale)}`
                   : ''}
               </p>
-              <p>{new Date(lead.createdAt).toLocaleString()}</p>
+              <p>{formatLocaleDateTime(lead.createdAt, locale)}</p>
             </div>
           </div>
         ))}
