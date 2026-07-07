@@ -1,0 +1,14 @@
+{
+  "upload": [
+    "components/admin/admin-billing-panel.tsx",
+    "components/admin/admin-audit-table-row.tsx",
+    "components/admin/admin-users-table-row.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

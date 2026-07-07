@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { CreditCard, DollarSign, Users } from 'lucide-react';
 import { PLANS } from '@/lib/plans';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleCurrency } from '@/lib/i18n/format-locale';
 import type { AdminPlanCounts } from '@/lib/admin-billing-stats';
 
 interface AdminBillingPanelProps {
@@ -18,7 +19,7 @@ export function AdminBillingPanel({
   estimatedMrr,
   paddleSubscribers,
 }: AdminBillingPanelProps) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const manualPremium = Math.max(0, planCounts.pro + planCounts.business + planCounts.agency - paddleSubscribers);
 
   const tiers = (['pro', 'business', 'agency'] as const).map((id) => ({
@@ -44,7 +45,7 @@ export function AdminBillingPanel({
               <DollarSign className="h-3.5 w-3.5" />
               {t('admin.estimatedMrr')}
             </p>
-            <p className="mt-1 font-display text-2xl font-bold">${estimatedMrr.toFixed(2)}</p>
+            <p className="mt-1 font-display text-2xl font-bold">{formatLocaleCurrency(estimatedMrr, locale, { maximumFractionDigits: 2 })}</p>
             <p className="mt-1 text-[10px] text-muted-foreground">{t('admin.estimatedMrrHint')}</p>
           </div>
           <div className="rounded-lg border border-border/60 bg-muted/20 p-4">

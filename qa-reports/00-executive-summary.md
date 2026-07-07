@@ -101,6 +101,7 @@
 | Password min length policy and auth validation copy | Pack 54 |
 | Case study metric labels, duration units, campaign prompt max | Pack 55 |
 | Remove dead hardcoded pricing/comparison/hero site-content blocks | Pack 56 |
+| Admin billing MRR + audit/user dates locale-aware formatting | Pack 57 |
 
 ### Remaining (low impact / operational)
 

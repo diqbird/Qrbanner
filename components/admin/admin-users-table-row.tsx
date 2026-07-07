@@ -6,6 +6,8 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
 import { PLANS } from '@/lib/plans';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleDate } from '@/lib/i18n/format-locale';
 import type { AdminContentState } from '@/hooks/use-admin-content';
 
 type AdminUser = AdminContentState['users'][number];
@@ -17,6 +19,7 @@ type AdminUsersTableRowProps = {
 };
 
 export function AdminUsersTableRow({ user, t, updateUser }: AdminUsersTableRowProps) {
+  const { locale } = useLanguage();
   return (
     <TableRow key={user.id}>
       <TableCell>
@@ -69,7 +72,7 @@ export function AdminUsersTableRow({ user, t, updateUser }: AdminUsersTableRowPr
       </TableCell>
       <TableCell>{user.qrCount}</TableCell>
       <TableCell className="text-xs text-muted-foreground whitespace-nowrap">
-        {new Date(user.createdAt).toLocaleDateString()}
+        {formatLocaleDate(user.createdAt, locale)}
       </TableCell>
     </TableRow>
   );

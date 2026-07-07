@@ -2,6 +2,8 @@
 
 import { Badge } from '@/components/ui/badge';
 import { TableCell, TableRow } from '@/components/ui/table';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleDateTime } from '@/lib/i18n/format-locale';
 import type { AdminAuditState } from '@/hooks/use-admin-audit';
 
 type AuditEntry = AdminAuditState['entries'][number];
@@ -13,10 +15,11 @@ export function AdminAuditTableRow({
   entry: AuditEntry;
   actionLabel: (action: string) => string;
 }) {
+  const { locale } = useLanguage();
   return (
     <TableRow>
       <TableCell className="text-xs text-muted-foreground whitespace-nowrap">
-        {new Date(entry.createdAt).toLocaleString()}
+        {formatLocaleDateTime(entry.createdAt, locale)}
       </TableCell>
       <TableCell>
         <Badge variant="outline" className="text-[10px] font-normal">
