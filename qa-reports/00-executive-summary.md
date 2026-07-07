@@ -98,6 +98,7 @@
 | API rate limits, blog read time, trial/refund days, SLA | Pack 51 |
 | Plan pricing display, policy durations, auth email expiry, DNS/OG dimensions | Pack 52 |
 | Localized plan prices, annual billing, analytics periods, onboarding timing | Pack 53 |
+| Password min length policy and auth validation copy | Pack 54 |
 
 ### Remaining (low impact / operational)
 

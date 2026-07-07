@@ -194,6 +194,7 @@ python scripts/configure-review-profiles.py \
 | 51 | (this deploy) | API rate limits, blog read time, trial/refund days, SLA |
 | 52 | (this deploy) | Plan pricing display, policy durations, auth email expiry, DNS/OG dimensions |
 | 53 | (this deploy) | Localized plan prices, annual billing, analytics periods, onboarding timing |
+| 54 | (this deploy) | Password min length policy and auth validation copy |
 
 ---
 

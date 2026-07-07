@@ -2,6 +2,7 @@
 
 import { getPasswordStrength, type PasswordStrength } from '@/lib/password';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { passwordPolicyVars } from '@/lib/i18n/password-policy-vars';
 
 const STRENGTH_COLORS: Record<PasswordStrength, string> = {
   weak: 'bg-red-500',
@@ -25,9 +26,10 @@ const STRENGTH_KEYS: Record<PasswordStrength, string> = {
 };
 
 export function PasswordStrengthMeter({ password }: { password: string }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   if (!password) return null;
   const strength = getPasswordStrength(password);
+  const policyVars = passwordPolicyVars(locale);
   return (
     <div className="space-y-1">
       <div className="flex h-1.5 overflow-hidden rounded-full bg-muted">
@@ -37,7 +39,7 @@ export function PasswordStrengthMeter({ password }: { password: string }) {
         />
       </div>
       <p className="text-xs text-muted-foreground">
-        {t('auth.passwordStrengthHint', { strength: t(STRENGTH_KEYS[strength]) })}
+        {t('auth.passwordStrengthHint', { strength: t(STRENGTH_KEYS[strength]), ...policyVars })}
       </p>
     </div>
   );

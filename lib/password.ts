@@ -1,10 +1,12 @@
+import { PASSWORD_MIN_LENGTH, PASSWORD_STRONG_LENGTH } from '@/lib/password-policy';
+
 export type PasswordStrength = 'weak' | 'fair' | 'good' | 'strong';
 
 export function getPasswordStrength(password: string): PasswordStrength {
   if (!password) return 'weak';
   let score = 0;
-  if (password.length >= 8) score++;
-  if (password.length >= 12) score++;
+  if (password.length >= PASSWORD_MIN_LENGTH) score++;
+  if (password.length >= PASSWORD_STRONG_LENGTH) score++;
   if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score++;
   if (/\d/.test(password)) score++;
   if (/[^A-Za-z0-9]/.test(password)) score++;
@@ -15,7 +17,7 @@ export function getPasswordStrength(password: string): PasswordStrength {
 }
 
 export function validatePassword(password: string): { ok: true } | { ok: false; code: string } {
-  if (!password || password.length < 8) {
+  if (!password || password.length < PASSWORD_MIN_LENGTH) {
     return { ok: false, code: 'password_too_short' };
   }
   if (!/[a-zA-Z]/.test(password)) {

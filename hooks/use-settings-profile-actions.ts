@@ -2,8 +2,9 @@
 
 import { toast } from 'sonner';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
+import { PASSWORD_MIN_LENGTH } from '@/lib/password-policy';
 
-type Translate = (key: string) => string;
+type Translate = (key: string, vars?: Record<string, string | number>) => string;
 
 export function useSettingsProfileActions({
   t,
@@ -62,7 +63,7 @@ export function useSettingsProfileActions({
         setNewPassword('');
       } else {
         const data = await res.json();
-        toast.error(resolveApiError(t, data?.error, 'settings.passwordChangeFailed'));
+        toast.error(resolveApiError(t, data?.error, 'settings.passwordChangeFailed', { min: PASSWORD_MIN_LENGTH }));
       }
     } catch {
       toast.error(t('bulk.somethingWrong'));

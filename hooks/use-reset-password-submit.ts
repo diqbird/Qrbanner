@@ -2,9 +2,10 @@
 
 import { toast } from 'sonner';
 import { validatePassword } from '@/lib/password';
+import { PASSWORD_MIN_LENGTH } from '@/lib/password-policy';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 
-type Translate = (key: string) => string;
+type Translate = (key: string, vars?: Record<string, string | number>) => string;
 
 export function useResetPasswordSubmit({
   t,
@@ -39,7 +40,7 @@ export function useResetPasswordSubmit({
     }
     const check = validatePassword(password);
     if (!check.ok) {
-      toast.error(resolveApiError(t, check.code));
+      toast.error(resolveApiError(t, check.code, 'auth.somethingWrong', { min: PASSWORD_MIN_LENGTH }));
       return;
     }
 
