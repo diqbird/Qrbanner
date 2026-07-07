@@ -5,7 +5,8 @@ import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { Split, Plus } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { type AbTestData } from '@/lib/ab-routing';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { type AbTestData, MAX_AB_VARIANTS } from '@/lib/ab-routing';
 import {
   addAbTestVariant,
   getAbTestVariants,
@@ -27,8 +28,11 @@ export function AbTestSettings({
   onChange: (v: AbTestData) => void;
   defaultUrl?: string;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const variants = getAbTestVariants(data);
+  const trafficSplit = variants
+    .map((v) => `${v.label}: ${formatLocaleNumber(v.weight, locale)}%`)
+    .join(' · ');
 
   return (
     <Card>
@@ -61,7 +65,16 @@ export function AbTestSettings({
               onRemove={(index) => onChange(removeAbTestVariant(data, index))}
             />
           ))}
-          {variants.length < 5 && (
+          <p className="text-xs text-muted-foreground">
+            {t('qrFeatures.abVariantQuota', {
+              count: formatLocaleNumber(variants.length, locale),
+              max: formatLocaleNumber(MAX_AB_VARIANTS, locale),
+            })}
+          </p>
+          {variants.some((v) => v.url) && (
+            <p className="text-xs text-muted-foreground">{t('qrFeatures.abTrafficSplit', { parts: trafficSplit })}</p>
+          )}
+          {variants.length < MAX_AB_VARIANTS && (
             <Button
               type="button"
               variant="outline"

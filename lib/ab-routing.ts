@@ -1,3 +1,5 @@
+export const MAX_AB_VARIANTS = 5;
+
 export interface AbVariant {
   id: string;
   label: string;
@@ -24,7 +26,7 @@ export function parseAbTestData(raw: unknown): AbTestData {
   const variants = Array.isArray(d.variants)
     ? d.variants
         .filter((v) => v && typeof v === 'object' && v.url)
-        .slice(0, 5)
+        .slice(0, MAX_AB_VARIANTS)
         .map((v, i) => ({
           id: String(v.id ?? `v${i + 1}`),
           label: String(v.label ?? `Variant ${i + 1}`),
@@ -41,7 +43,7 @@ export function parseAbTestData(raw: unknown): AbTestData {
 export function sanitizeAbTestData(data: AbTestData): AbTestData {
   const variants = data.variants
     .filter((v) => v.url)
-    .slice(0, 5)
+    .slice(0, MAX_AB_VARIANTS)
     .map((v, i) => ({
       id: v.id || `v${i + 1}`,
       label: v.label || `Variant ${i + 1}`,

@@ -22,6 +22,14 @@ export function formatLocaleNumber(value: number, locale: Locale): string {
   return value.toLocaleString(resolveBcp47Locale(locale));
 }
 
+export function formatLocaleNumberList(
+  values: number[],
+  locale: Locale,
+  separator = ', ',
+): string {
+  return values.map((v) => formatLocaleNumber(v, locale)).join(separator);
+}
+
 export function formatChartAxisTick(value: number | string, locale: Locale): string {
   const n = typeof value === 'number' ? value : Number(value);
   if (Number.isFinite(n)) return formatLocaleNumber(n, locale);

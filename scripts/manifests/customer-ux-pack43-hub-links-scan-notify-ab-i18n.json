@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "lib/i18n/format-locale.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/ab-routing.ts",
+    "components/qr/scan-notify-settings.tsx",
+    "components/qr/landing-block-hub-links-layout.tsx",
+    "components/qr/landing-block-social-layout.tsx",
+    "components/qr/ab-test-settings.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

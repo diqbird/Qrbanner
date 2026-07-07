@@ -906,6 +906,8 @@ export const en: TranslationTree = {
     abUrl: 'URL',
     abUrlPlaceholder: 'https://...',
     abWeight: 'Weight %',
+    abVariantQuota: '{{count}} / {{max}} variants',
+    abTrafficSplit: 'Traffic split: {{parts}}',
     pixelTitle: 'GA4 & Meta Pixel',
     pixelSubtitle: 'Fire tracking pixels when users scan your QR — on the landing page or before redirect.',
     pixelEvents:
@@ -2355,6 +2357,7 @@ export const en: TranslationTree = {
     styleOutline: 'Outline',
     rounded: 'Rounded corners',
     addLink: 'Add link',
+    linkQuota: '{{count}} / {{max}} links',
     linkLabel: 'Label',
     drag: 'Drag to reorder',
     spacerSize: 'Spacing',

@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Bell, Mail } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumberList } from '@/lib/i18n/format-locale';
 import { SCAN_MILESTONES } from '@/lib/scan-notify-constants';
 
 export interface ScanNotifyValues {
@@ -30,7 +31,7 @@ export function ScanNotifySettings({
   onChange: (v: ScanNotifyValues) => void;
   emailConfigured?: boolean;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const set = (patch: Partial<ScanNotifyValues>) => onChange({ ...values, ...patch });
 
   return (
@@ -68,7 +69,9 @@ export function ScanNotifySettings({
             <div>
               <Label className="text-sm">{t('scanNotify.milestonesLabel')}</Label>
               <p className="text-xs text-muted-foreground">
-                {t('scanNotify.milestonesDesc', { counts: SCAN_MILESTONES.join(', ') })}
+                {t('scanNotify.milestonesDesc', {
+                  counts: formatLocaleNumberList(SCAN_MILESTONES, locale),
+                })}
               </p>
             </div>
             <Switch checked={values.milestones} onCheckedChange={(v) => set({ milestones: v })} />

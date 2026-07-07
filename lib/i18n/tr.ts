@@ -907,6 +907,8 @@ export const tr: TranslationTree = {
     abUrl: 'URL',
     abUrlPlaceholder: 'https://...',
     abWeight: 'Ağırlık %',
+    abVariantQuota: '{{count}} / {{max}} varyant',
+    abTrafficSplit: 'Trafik dağılımı: {{parts}}',
     pixelTitle: 'GA4 ve Meta Pixel',
     pixelSubtitle: 'Kullanıcılar QR kodunuzu taradığında izleme piksellerini tetikleyin — açılış sayfasında veya yönlendirmeden önce.',
     pixelEvents:
@@ -2356,6 +2358,7 @@ export const tr: TranslationTree = {
     styleOutline: 'Çerçeveli',
     rounded: 'Yuvarlak köşeler',
     addLink: 'Link ekle',
+    linkQuota: '{{count}} / {{max}} link',
     linkLabel: 'Etiket',
     drag: 'Sıralamak için sürükle',
     spacerSize: 'Boşluk',

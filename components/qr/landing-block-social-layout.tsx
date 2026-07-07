@@ -9,10 +9,13 @@ import { Plus, Trash2 } from 'lucide-react';
 import type { SocialPlatform } from '@/lib/landing-page';
 import { MAX_LINKS_PER_BLOCK } from '@/lib/landing-blocks';
 import { LANDING_SOCIAL_PLATFORMS } from '@/lib/landing-block-factory';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { LandingBlockFieldProps } from './landing-block-field-types';
 
-export function LandingBlockSocialLayout({ block, patch, t }: LandingBlockFieldProps) {
+export function LandingBlockSocialLayout({ block, patch }: LandingBlockFieldProps) {
   if (block.type !== 'social') return null;
+  const { t, locale } = useLanguage();
   const links = block.links ?? [];
   const setLink = (i: number, p: Partial<{ platform: SocialPlatform; url: string }>) =>
     patch({ links: links.map((l, idx) => (idx === i ? { ...l, ...p } : l)) });
@@ -54,6 +57,12 @@ export function LandingBlockSocialLayout({ block, patch, t }: LandingBlockFieldP
           </Button>
         </div>
       ))}
+      <p className="text-xs text-muted-foreground">
+        {t('landingBuilder.linkQuota', {
+          count: formatLocaleNumber(links.length, locale),
+          max: formatLocaleNumber(MAX_LINKS_PER_BLOCK, locale),
+        })}
+      </p>
       {links.length < MAX_LINKS_PER_BLOCK && (
         <Button
           type="button"
