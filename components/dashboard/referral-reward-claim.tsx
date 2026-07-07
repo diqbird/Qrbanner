@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { REFERRAL_REWARD_PRO_DAYS } from '@/lib/referral-rewards';
 
 export function ReferralRewardClaim({
@@ -15,9 +16,10 @@ export function ReferralRewardClaim({
   eligible: boolean;
   claimed: boolean;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const rewardDays = formatLocaleNumber(REFERRAL_REWARD_PRO_DAYS, locale);
 
   if (claimed) {
     return (
@@ -38,7 +40,7 @@ export function ReferralRewardClaim({
         toast.error(data?.error ?? t('referral.rewardClaimFailed'));
         return;
       }
-      toast.success(t('referral.rewardClaimSuccess', { days: REFERRAL_REWARD_PRO_DAYS }));
+      toast.success(t('referral.rewardClaimSuccess', { days: rewardDays }));
       if (data.redirect) {
         router.push(data.redirect);
         return;
@@ -58,7 +60,7 @@ export function ReferralRewardClaim({
         <div className="space-y-2">
           <p className="text-sm font-medium">{t('referral.rewardEligibleTitle')}</p>
           <p className="text-sm text-muted-foreground">
-            {t('referral.rewardEligibleDesc', { days: REFERRAL_REWARD_PRO_DAYS })}
+            {t('referral.rewardEligibleDesc', { days: rewardDays })}
           </p>
           <Button type="button" size="sm" onClick={claim} loading={loading}>
             {t('referral.claimReward')}

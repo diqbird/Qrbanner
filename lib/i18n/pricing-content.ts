@@ -5,23 +5,24 @@ import type { Locale } from './types';
 
 export function getLaunchBanner(locale: Locale, options?: { billingLive?: boolean }): string {
   const n = formatLocaleNumber(freePlanQrLimit(), locale);
+  const trialDays = formatLocaleNumber(14, locale);
   const billingLive = options?.billingLive ?? isBillingConfigured();
   if (locale === 'tr') {
     if (!billingLive) {
       return `Ücretsiz plan sonsuza kadar — ${n} dinamik QR kodu dahil. Ödeme geçici olarak kapalı — destekle iletişime geçin.`;
     }
-    return `Ücretsiz plan sonsuza kadar — ${n} dinamik QR kodu dahil. Yeni hesaplarda 14 gün Pro denemesi. Daha fazlası için Pro $9.99/ay.`;
+    return `Ücretsiz plan sonsuza kadar — ${n} dinamik QR kodu dahil. Yeni hesaplarda ${trialDays} gün Pro denemesi. Daha fazlası için Pro $9.99/ay.`;
   }
   if (!billingLive) {
     return `Free plan forever — ${n} dynamic QR codes included. Checkout is temporarily unavailable — contact support.`;
   }
-  return `Free plan forever — ${n} dynamic QR codes included. New accounts get a 14-day Pro trial. Upgrade from $9.99/mo when you need more.`;
+  return `Free plan forever — ${n} dynamic QR codes included. New accounts get a ${trialDays}-day Pro trial. Upgrade from $9.99/mo when you need more.`;
 }
 
 function apiLimitFeature(plan: PlanLimits, locale: Locale): string | null {
   if (!plan.apiAccess) return null;
-  const perMin = plan.apiRateLimitPerMin.toLocaleString(locale === 'tr' ? 'tr-TR' : 'en-US');
-  const monthly = plan.apiMonthlyQuota.toLocaleString(locale === 'tr' ? 'tr-TR' : 'en-US');
+  const perMin = formatLocaleNumber(plan.apiRateLimitPerMin, locale);
+  const monthly = formatLocaleNumber(plan.apiMonthlyQuota, locale);
   if (locale === 'tr') {
     return `API: ${perMin}/dk, ${monthly}/ay kota`;
   }
@@ -31,8 +32,8 @@ function apiLimitFeature(plan: PlanLimits, locale: Locale): string | null {
 function planFeatures(plan: PlanLimits, locale: Locale): string[] {
   const domains =
     locale === 'tr'
-      ? `${plan.maxCustomDomains} özel tarama alan adı`
-      : `${plan.maxCustomDomains} custom scan domain${plan.maxCustomDomains === 1 ? '' : 's'}`;
+      ? `${formatLocaleNumber(plan.maxCustomDomains, locale)} özel tarama alan adı`
+      : `${formatLocaleNumber(plan.maxCustomDomains, locale)} custom scan domain${plan.maxCustomDomains === 1 ? '' : 's'}`;
 
   const sharedTr = [
     'Akıllı yönlendirme (zaman, konum, cihaz)',
@@ -53,13 +54,13 @@ function planFeatures(plan: PlanLimits, locale: Locale): string[] {
 
   if (locale === 'tr') {
     const features = [
-      `${plan.maxQrCodes.toLocaleString('tr-TR')} dinamik QR kodu`,
+      `${formatLocaleNumber(plan.maxQrCodes, locale)} dinamik QR kodu`,
       domains,
-      `Toplu içe aktarma: ${plan.maxBulkRows} satıra kadar`,
+      `Toplu içe aktarma: ${formatLocaleNumber(plan.maxBulkRows, locale)} satıra kadar`,
       plan.apiAccess ? 'REST API + OpenAPI dokümantasyonu' : 'API erişimi yok',
       ...(apiLimitFeature(plan, locale) ? [apiLimitFeature(plan, locale)!] : []),
       plan.analyticsRetentionDays
-        ? `${plan.analyticsRetentionDays} günlük analitik geçmişi`
+        ? `${formatLocaleNumber(plan.analyticsRetentionDays, locale)} günlük analitik geçmişi`
         : 'Sınırsız analitik geçmişi',
       plan.codesActiveAfterCancel
         ? 'İptalde QR kodları aktif kalır'
@@ -79,13 +80,13 @@ function planFeatures(plan: PlanLimits, locale: Locale): string[] {
   }
 
   const features = [
-    `${plan.maxQrCodes.toLocaleString()} dynamic QR codes`,
+    `${formatLocaleNumber(plan.maxQrCodes, locale)} dynamic QR codes`,
     domains,
-    `Bulk import up to ${plan.maxBulkRows} rows`,
+    `Bulk import up to ${formatLocaleNumber(plan.maxBulkRows, locale)} rows`,
     plan.apiAccess ? 'REST API + OpenAPI spec' : 'No API access',
     ...(apiLimitFeature(plan, locale) ? [apiLimitFeature(plan, locale)!] : []),
     plan.analyticsRetentionDays
-      ? `${plan.analyticsRetentionDays}-day analytics history`
+      ? `${formatLocaleNumber(plan.analyticsRetentionDays, locale)}-day analytics history`
       : 'Unlimited analytics history',
     plan.codesActiveAfterCancel
       ? 'QR codes stay active if you cancel'

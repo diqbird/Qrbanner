@@ -3,9 +3,11 @@
 import { REFERRAL_MILESTONES, REFERRAL_REWARD_PRO_DAYS } from '@/lib/referral-rewards';
 import { CheckCircle2, Circle } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 export function ReferralRewardProgress({ signupCount }: { signupCount: number }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const rewardDays = formatLocaleNumber(REFERRAL_REWARD_PRO_DAYS, locale);
 
   return (
     <div className="space-y-3">
@@ -22,7 +24,7 @@ export function ReferralRewardProgress({ signupCount }: { signupCount: number })
               )}
               <span className={done ? 'text-foreground' : ''}>
                 {t(`referral.milestone${m}` as 'referral.milestone1', {
-                  days: REFERRAL_REWARD_PRO_DAYS,
+                  days: rewardDays,
                 })}
               </span>
             </li>
@@ -30,7 +32,7 @@ export function ReferralRewardProgress({ signupCount }: { signupCount: number })
         })}
       </ul>
       <p className="text-xs text-muted-foreground">
-        {t('referral.rewardsNote', { days: REFERRAL_REWARD_PRO_DAYS })}
+        {t('referral.rewardsNote', { days: rewardDays })}
       </p>
     </div>
   );

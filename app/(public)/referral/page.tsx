@@ -38,6 +38,7 @@ export default async function ReferralLandingPage() {
   const locale = await getServerLocale();
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
   const freeQrCount = formatLocaleNumber(freePlanQrLimit(), locale);
+  const rewardDays = formatLocaleNumber(REFERRAL_REWARD_PRO_DAYS, locale);
 
   return (
     <>
@@ -93,12 +94,12 @@ export default async function ReferralLandingPage() {
             <ul className="mt-6 space-y-3">
               {([1, 3, 5, 10] as const).map((m) => (
                 <li key={m} className="rounded-lg border border-border/50 bg-card px-4 py-3 text-sm text-muted-foreground">
-                  {t(`referral.milestone${m}` as 'referral.milestone1', { days: REFERRAL_REWARD_PRO_DAYS })}
+                  {t(`referral.milestone${m}` as 'referral.milestone1', { days: rewardDays })}
                 </li>
               ))}
             </ul>
             <p className="mt-4 text-xs text-muted-foreground">
-              {t('referral.rewardsNote', { days: REFERRAL_REWARD_PRO_DAYS })}
+              {t('referral.rewardsNote', { days: rewardDays })}
             </p>
           </section>
 

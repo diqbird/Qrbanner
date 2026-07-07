@@ -1,0 +1,16 @@
+{
+  "upload": [
+    "lib/i18n/pricing-content.ts",
+    "components/dashboard/plan-usage-card.tsx",
+    "components/dashboard/referral-reward-progress.tsx",
+    "components/dashboard/referral-reward-claim.tsx",
+    "app/(public)/referral/page.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

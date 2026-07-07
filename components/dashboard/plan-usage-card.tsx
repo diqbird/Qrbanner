@@ -67,14 +67,14 @@ export function PlanUsageCard({ refreshKey = 0 }: { refreshKey?: number }) {
             </Badge>
             {data.trial?.active && (
               <Badge variant="outline" className="text-primary border-primary/30">
-                {t('planUsage.trialDaysLeft', { days: data.trial.daysLeft })}
+                {t('planUsage.trialDaysLeft', { days: formatLocaleNumber(data.trial.daysLeft, locale) })}
               </Badge>
             )}
           </div>
         </div>
         {data.trial?.active && (
           <div className="rounded-lg border border-primary/20 bg-primary/5 p-3 text-sm text-muted-foreground">
-            {t('planUsage.trialActiveDesc', { days: data.trial.daysLeft })}
+            {t('planUsage.trialActiveDesc', { days: formatLocaleNumber(data.trial.daysLeft, locale) })}
             <Link href="/pricing" className="ml-1 text-primary hover:underline">
               {t('planUsage.trialUpgradeCta')}
             </Link>
