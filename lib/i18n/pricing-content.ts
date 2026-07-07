@@ -1,8 +1,8 @@
-import { PLANS, type PlanId, type PlanLimits, annualMonthlyEquivalent, annualTotalPrice, type BillingInterval, freePlanQrLimit } from '@/lib/plans';
+import { PLANS, type PlanId, type PlanLimits, annualMonthlyEquivalent, type BillingInterval, freePlanQrLimit } from '@/lib/plans';
 import { isBillingConfigured } from '@/lib/billing-provider';
 import { PRO_TRIAL_DAYS } from '@/lib/pro-trial';
-import { formatLocaleNumber } from '@/lib/i18n/format-locale';
-import { formatPlanPricePerMonth } from '@/lib/i18n/plan-pricing-display';
+import { formatLocaleCurrency, formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { formatPlanPriceLabel, formatPlanPricePerMonth, annualBilledNoteVars } from '@/lib/i18n/plan-pricing-display';
 import type { Locale } from './types';
 
 export function getLaunchBanner(locale: Locale, options?: { billingLive?: boolean }): string {
@@ -108,21 +108,24 @@ function planFeatures(plan: PlanLimits, locale: Locale): string[] {
   return features;
 }
 
-export function getPricingPlans(locale: Locale, interval: BillingInterval = 'monthly') {
+export function getPricingPlans(
+  locale: Locale,
+  interval: BillingInterval = 'monthly',
+  t?: (key: string, vars?: Record<string, string | number>) => string,
+) {
   return Object.values(PLANS).map((plan) => {
-    let priceLabel = plan.priceLabel;
+    let priceLabel = formatPlanPriceLabel(plan.id, locale);
     let priceMonthly = plan.priceMonthly;
     let billedNote: string | undefined;
 
     if (interval === 'annual' && plan.priceMonthly && plan.priceMonthly > 0) {
       const monthlyEq = annualMonthlyEquivalent(plan.priceMonthly);
-      const annualTotal = annualTotalPrice(plan.priceMonthly);
       priceMonthly = monthlyEq;
-      priceLabel = locale === 'tr' ? `$${monthlyEq}` : `$${monthlyEq}`;
-      billedNote =
-        locale === 'tr'
-          ? `Yıllık $${annualTotal} faturalandırılır (%20 indirim)`
-          : `Billed $${annualTotal}/year (save 20%)`;
+      priceLabel = formatLocaleCurrency(monthlyEq, locale, { maximumFractionDigits: 2, convertTry: true });
+      const annualVars = annualBilledNoteVars(plan.id, locale);
+      if (annualVars && t) {
+        billedNote = t('pricing.billedAnnually', annualVars);
+      }
     }
 
     return {

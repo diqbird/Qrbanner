@@ -10,7 +10,7 @@ import type { PricingPageState } from '@/hooks/use-pricing-page';
 
 export function PricingPlanGrid({ pricing }: { pricing: PricingPageState }) {
   const { t, locale, interval, billingConfigured, billingLoading, loadingPlan, proTrialEligible, handlePlanClick } = pricing;
-  const plans = getPricingPlans(locale, interval);
+  const plans = getPricingPlans(locale, interval, t);
   const trialVars = proTrialDayVars(locale);
   const tp = (key: string, vars?: Record<string, string | number>) => t(key, { ...trialVars, ...vars });
 

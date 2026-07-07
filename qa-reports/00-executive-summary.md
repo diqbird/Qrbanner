@@ -97,6 +97,7 @@
 | ROI currency, case study metrics, media bytes, review counts | Pack 50 |
 | API rate limits, blog read time, trial/refund days, SLA | Pack 51 |
 | Plan pricing display, policy durations, auth email expiry, DNS/OG dimensions | Pack 52 |
+| Localized plan prices, annual billing, analytics periods, onboarding timing | Pack 53 |
 
 ### Remaining (low impact / operational)
 

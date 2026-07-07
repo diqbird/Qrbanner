@@ -193,6 +193,7 @@ python scripts/configure-review-profiles.py \
 | 50 | (this deploy) | ROI currency, case study metrics, media bytes, review counts |
 | 51 | (this deploy) | API rate limits, blog read time, trial/refund days, SLA |
 | 52 | (this deploy) | Plan pricing display, policy durations, auth email expiry, DNS/OG dimensions |
+| 53 | (this deploy) | Localized plan prices, annual billing, analytics periods, onboarding timing |
 
 ---
 

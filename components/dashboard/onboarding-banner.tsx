@@ -4,13 +4,15 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { X } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { onboardingTimingVars } from '@/lib/i18n/onboarding-timing-vars';
 import { OnboardingBannerSteps } from './onboarding-banner-steps';
 import { OnboardingBannerActions } from './onboarding-banner-actions';
 
 const STORAGE_KEY = 'qrb_onboarding_dismissed';
 
 export function OnboardingBanner({ show }: { show: boolean }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const timingVars = onboardingTimingVars(locale);
   const [visible, setVisible] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
 
@@ -41,7 +43,7 @@ export function OnboardingBanner({ show }: { show: boolean }) {
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 className="font-display text-lg font-semibold">{t('onboarding.title')}</h2>
-            <p className="mt-1 text-sm text-muted-foreground">{t('onboarding.subtitle')}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{t('onboarding.subtitle', timingVars)}</p>
           </div>
           <button
             type="button"

@@ -11,7 +11,9 @@ import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { useBillingStatus } from '@/hooks/use-billing-status';
 import { usePlanUsage } from '@/hooks/use-plan-usage';
 import { PlanUsageMeter } from './plan-usage-meter';
+import { formatPlanPriceLabel } from '@/lib/i18n/plan-pricing-display';
 import { getLaunchBanner } from '@/lib/i18n/pricing-content';
+import type { PlanId } from '@/lib/plans';
 
 export function PlanUsageCard({ refreshKey = 0 }: { refreshKey?: number }) {
   const { locale } = useLanguage();
@@ -44,6 +46,9 @@ export function PlanUsageCard({ refreshKey = 0 }: { refreshKey?: number }) {
     );
   }
 
+  const planId = data.plan.id as PlanId;
+  const localizedPrice = formatPlanPriceLabel(planId, locale);
+
   return (
     <Card>
       <CardHeader>
@@ -61,9 +66,9 @@ export function PlanUsageCard({ refreshKey = 0 }: { refreshKey?: number }) {
           </div>
           <div className="flex flex-col items-end gap-1">
             <Badge variant="secondary">
-              {data.plan.priceLabel === '$0' || data.plan.id === 'free'
+              {data.plan.id === 'free'
                 ? t('planUsage.priceFree')
-                : t('planUsage.pricePerMonth', { price: data.plan.priceLabel })}
+                : t('planUsage.pricePerMonth', { price: localizedPrice })}
             </Badge>
             {data.trial?.active && (
               <Badge variant="outline" className="text-primary border-primary/30">

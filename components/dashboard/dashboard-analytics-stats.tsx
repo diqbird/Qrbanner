@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { BarChart3, Clock, TrendingUp, Users } from 'lucide-react';
 import { PeriodChangeBadge } from '@/components/analytics/period-change-badge';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { analyticsPeriodVars } from '@/lib/i18n/analytics-period-vars';
 import type { DashboardAnalyticsState } from '@/hooks/use-dashboard-analytics';
 
 type DashboardAnalyticsStatsProps = {
@@ -15,9 +16,11 @@ export function DashboardAnalyticsStats({ analytics }: DashboardAnalyticsStatsPr
   const { t, locale, data, periodComparison } = analytics;
   if (!data) return null;
 
+  const periodVars = analyticsPeriodVars(locale);
+
   const stats = [
     { label: t('analytics.today'), value: data.todayScans, icon: Clock, color: 'text-orange-500' },
-    { label: t('analytics.last7Days'), value: data.last7Days, icon: TrendingUp, color: 'text-green-500' },
+    { label: t('analytics.last7Days', { days: periodVars.days7 }), value: data.last7Days, icon: TrendingUp, color: 'text-green-500' },
     {
       label: t('analytics.uniqueVisitors'),
       value: data.uniqueScans,

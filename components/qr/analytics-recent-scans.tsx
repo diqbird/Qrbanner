@@ -10,6 +10,7 @@ import {
 } from '@/lib/i18n/resolve-analytics-scan-copy';
 import { resolveAnalyticsCountryLabel } from '@/lib/i18n/resolve-analytics-country-label';
 import { resolveAnalyticsCityLabel } from '@/lib/i18n/resolve-analytics-city-label';
+import { analyticsPeriodVars } from '@/lib/i18n/analytics-period-vars';
 import type { QrAnalyticsState } from '@/hooks/use-qr-analytics';
 
 type AnalyticsRecentScansProps = {
@@ -19,13 +20,14 @@ type AnalyticsRecentScansProps = {
 export function AnalyticsRecentScans({ analytics }: AnalyticsRecentScansProps) {
   const { locale } = useLanguage();
   const { t, data } = analytics;
+  const periodVars = analyticsPeriodVars(locale);
   const scans = data?.recentScans ?? [];
 
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="font-display text-base">{t('analytics.recentScans')}</CardTitle>
-        <span className="text-xs text-muted-foreground">{t('analytics.updatesEvery')}</span>
+        <span className="text-xs text-muted-foreground">{t('analytics.updatesEvery', periodVars)}</span>
       </CardHeader>
       <CardContent>
         {scans.length === 0 ? (

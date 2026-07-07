@@ -2,6 +2,7 @@
 
 import { CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { onboardingTimingVars } from '@/lib/i18n/onboarding-timing-vars';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 const STEP_KEYS = [
@@ -12,12 +13,13 @@ const STEP_KEYS = [
 
 export function OnboardingProgress({ step }: { step: 1 | 2 | 3 }) {
   const { t, locale } = useLanguage();
+  const timingVars = onboardingTimingVars(locale);
 
   return (
     <div className="rounded-xl border border-primary/25 bg-primary/5 p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-sm font-medium">{t('onboarding.flowTitle')}</p>
-        <span className="text-xs text-muted-foreground">{t('onboarding.flowEta')}</span>
+        <p className="text-sm font-medium">{t('onboarding.flowTitle', timingVars)}</p>
+        <span className="text-xs text-muted-foreground">{t('onboarding.flowEta', timingVars)}</span>
       </div>
       <ol className="mt-3 grid gap-2 sm:grid-cols-3">
         {STEP_KEYS.map((key, i) => {

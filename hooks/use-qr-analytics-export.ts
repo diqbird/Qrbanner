@@ -23,7 +23,7 @@ export function useQrAnalyticsExport(
   const handleExport = useCallback(() => {
     if (!data) return;
     const localized = localizeAnalyticsExportPayload(t, locale, data);
-    downloadAnalyticsCsv(localized, `qr-analytics-${qrId}`, buildAnalyticsCsvLabels(t));
+    downloadAnalyticsCsv(localized, `qr-analytics-${qrId}`, buildAnalyticsCsvLabels(t, locale));
   }, [data, qrId, t, locale]);
 
   const handleExportPdf = useCallback(async () => {
@@ -38,7 +38,7 @@ export function useQrAnalyticsExport(
         filename: `qr-analytics-${qrId}`,
         subtitle: qrName || undefined,
         periodLabel,
-        labels: buildAnalyticsPdfLabels(t),
+        labels: buildAnalyticsPdfLabels(t, locale),
         locale,
       });
       toast.success(t('analytics.pdfDownloaded'));

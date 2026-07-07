@@ -21,7 +21,7 @@ export function useDashboardAnalyticsExport(
   const handleExportCsv = useCallback(() => {
     if (!data) return;
     const localized = localizeAnalyticsExportPayload(t, locale, data);
-    downloadAnalyticsCsv(localized, 'dashboard-analytics', buildAnalyticsCsvLabels(t));
+    downloadAnalyticsCsv(localized, 'dashboard-analytics', buildAnalyticsCsvLabels(t, locale));
   }, [data, t, locale]);
 
   const handleExportPdf = useCallback(async () => {
@@ -36,7 +36,7 @@ export function useDashboardAnalyticsExport(
         filename: 'dashboard-analytics',
         subtitle: t('dashboard.analyticsOverview'),
         periodLabel,
-        labels: buildAnalyticsPdfLabels(t),
+        labels: buildAnalyticsPdfLabels(t, locale),
         locale,
       });
       toast.success(t('analytics.pdfDownloaded'));

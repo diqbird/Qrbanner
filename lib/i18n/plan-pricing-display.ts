@@ -1,7 +1,6 @@
-import { PLANS, type PlanId } from '@/lib/plans';
-import { formatLocaleCurrency } from './format-locale';
+import { PLANS, type PlanId, ANNUAL_DISCOUNT_PERCENT, annualTotalPrice } from '@/lib/plans';
+import { formatLocaleCurrency, formatLocaleNumber } from './format-locale';
 import type { Locale } from './types';
-
 export function formatPlanPriceLabel(planId: PlanId, locale: Locale): string {
   const monthly = PLANS[planId].priceMonthly ?? 0;
   return formatLocaleCurrency(monthly, locale, { maximumFractionDigits: 2, convertTry: true });
@@ -15,6 +14,16 @@ export function formatPlanPricePerMonth(planId: PlanId, locale: Locale): string 
 export function pricingMetaVars(locale: Locale): Record<string, string> {
   return {
     proPrice: formatPlanPricePerMonth('pro', locale),
+  };
+}
+
+export function annualBilledNoteVars(planId: PlanId, locale: Locale): Record<string, string> | null {
+  const monthly = PLANS[planId].priceMonthly;
+  if (!monthly || monthly <= 0) return null;
+  const total = annualTotalPrice(monthly);
+  return {
+    total: formatLocaleCurrency(total, locale, { maximumFractionDigits: 2, convertTry: true }),
+    percent: formatLocaleNumber(ANNUAL_DISCOUNT_PERCENT, locale),
   };
 }
 

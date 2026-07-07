@@ -11,6 +11,7 @@ import {
 } from '@/lib/i18n/resolve-analytics-scan-copy';
 import { resolveAnalyticsCountryLabel } from '@/lib/i18n/resolve-analytics-country-label';
 import { resolveAnalyticsCityLabel } from '@/lib/i18n/resolve-analytics-city-label';
+import { analyticsPeriodVars } from '@/lib/i18n/analytics-period-vars';
 import type { DashboardAnalyticsState } from '@/hooks/use-dashboard-analytics';
 
 type DashboardAnalyticsLiveScansProps = {
@@ -20,6 +21,7 @@ type DashboardAnalyticsLiveScansProps = {
 export function DashboardAnalyticsLiveScans({ analytics }: DashboardAnalyticsLiveScansProps) {
   const { locale } = useLanguage();
   const { t, data } = analytics;
+  const periodVars = analyticsPeriodVars(locale);
   const scans = data?.recentScans ?? [];
 
   return (
@@ -32,7 +34,7 @@ export function DashboardAnalyticsLiveScans({ analytics }: DashboardAnalyticsLiv
           </span>
           {t('analytics.liveScans')}
         </CardTitle>
-        <span className="text-xs text-muted-foreground">{t('analytics.updatesEvery')}</span>
+        <span className="text-xs text-muted-foreground">{t('analytics.updatesEvery', periodVars)}</span>
       </CardHeader>
       <CardContent>
         <div className="space-y-1">

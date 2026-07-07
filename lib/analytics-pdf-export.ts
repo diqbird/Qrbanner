@@ -2,6 +2,7 @@ import type { AnalyticsPayload } from '@/lib/analytics-export';
 import { formatLocaleDateTime, formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { interpolate } from '@/lib/i18n/types';
 import type { Locale } from '@/lib/i18n/types';
+import { analyticsPeriodVars } from '@/lib/i18n/analytics-period-vars';
 
 export type AnalyticsPdfLabels = {
   reportTitle: string;
@@ -230,7 +231,9 @@ export async function downloadAnalyticsPdf(data: AnalyticsPayload, options: Anal
 
 export function buildAnalyticsPdfLabels(
   t: (key: string, vars?: Record<string, string | number>) => string,
+  locale: Locale,
 ): AnalyticsPdfLabels {
+  const periodVars = analyticsPeriodVars(locale);
   return {
     reportTitle: t('analytics.pdfReportTitle'),
     generatedAt: t('analytics.pdfGeneratedAt'),
@@ -239,8 +242,8 @@ export function buildAnalyticsPdfLabels(
     totalScans: t('analytics.totalScans'),
     uniqueVisitors: t('analytics.uniqueVisitors'),
     today: t('analytics.today'),
-    last7Days: t('analytics.last7Days'),
-    last30Days: t('analytics.last30Days'),
+    last7Days: t('analytics.last7Days', { days: periodVars.days7 }),
+    last30Days: t('analytics.last30Days', { days: periodVars.days30 }),
     countries: t('analytics.countries'),
     cities: t('analytics.cities'),
     devices: t('analytics.pdfDevices'),

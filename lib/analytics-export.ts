@@ -1,4 +1,6 @@
 import type { buildAnalytics } from '@/lib/analytics-utils';
+import type { Locale } from '@/lib/i18n/types';
+import { analyticsPeriodVars } from '@/lib/i18n/analytics-period-vars';
 
 export type AnalyticsPayload = Partial<ReturnType<typeof buildAnalytics>> & {
   totalScans: number;
@@ -36,7 +38,9 @@ export type AnalyticsCsvLabels = {
 
 export function buildAnalyticsCsvLabels(
   t: (key: string, vars?: Record<string, string | number>) => string,
+  locale: Locale,
 ): AnalyticsCsvLabels {
+  const periodVars = analyticsPeriodVars(locale);
   return {
     summary: t('analytics.csvExport.summary'),
     metric: t('analytics.csvExport.metric'),
@@ -44,8 +48,8 @@ export function buildAnalyticsCsvLabels(
     totalScans: t('analytics.totalScans'),
     uniqueVisitors: t('analytics.uniqueVisitors'),
     today: t('analytics.today'),
-    last7Days: t('analytics.last7Days'),
-    last30Days: t('analytics.last30Days'),
+    last7Days: t('analytics.last7Days', { days: periodVars.days7 }),
+    last30Days: t('analytics.last30Days', { days: periodVars.days30 }),
     scansByDay: t('analytics.csvExport.scansByDay'),
     countries: t('analytics.countries'),
     cities: t('analytics.cities'),

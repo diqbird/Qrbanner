@@ -1,0 +1,32 @@
+{
+  "upload": [
+    "lib/analytics-period-policy.ts",
+    "lib/onboarding-timing-policy.ts",
+    "lib/i18n/analytics-period-vars.ts",
+    "lib/i18n/onboarding-timing-vars.ts",
+    "lib/i18n/plan-pricing-display.ts",
+    "lib/i18n/pricing-content.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/analytics-export.ts",
+    "lib/analytics-pdf-export.ts",
+    "components/public/pricing-plan-grid.tsx",
+    "components/landing/landing-pricing-plan-grid.tsx",
+    "components/dashboard/plan-usage-card.tsx",
+    "components/dashboard/onboarding-banner.tsx",
+    "components/onboarding/onboarding-progress.tsx",
+    "components/dashboard/dashboard-analytics-live-scans.tsx",
+    "components/dashboard/dashboard-analytics-stats.tsx",
+    "components/qr/analytics-recent-scans.tsx",
+    "components/qr/analytics-stats-cards.tsx",
+    "hooks/use-dashboard-analytics-export.ts",
+    "hooks/use-qr-analytics-export.ts",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

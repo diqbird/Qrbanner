@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { BarChart3, Clock, TrendingUp, Users } from 'lucide-react';
 import { PeriodChangeBadge } from '@/components/analytics/period-change-badge';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { analyticsPeriodVars } from '@/lib/i18n/analytics-period-vars';
 import type { QrAnalyticsState } from '@/hooks/use-qr-analytics';
 
 type AnalyticsStatsCardsProps = {
@@ -13,6 +14,7 @@ type AnalyticsStatsCardsProps = {
 
 export function AnalyticsStatsCards({ analytics }: AnalyticsStatsCardsProps) {
   const { t, locale, data, periodComparison } = analytics;
+  const periodVars = analyticsPeriodVars(locale);
 
   const stats = [
     {
@@ -36,7 +38,7 @@ export function AnalyticsStatsCards({ analytics }: AnalyticsStatsCardsProps) {
       color: 'text-orange-500',
     },
     {
-      label: t('analytics.last7Days'),
+      label: t('analytics.last7Days', { days: periodVars.days7 }),
       value: data?.last7Days ?? 0,
       icon: BarChart3,
       color: 'text-green-500',

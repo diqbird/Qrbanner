@@ -19,7 +19,7 @@ export function LandingPricingPlanGrid({ pricing }: { pricing: LandingPricingSta
     billingLoading,
     handlePlanClick,
   } = pricing;
-  const plans = getPricingPlans(locale, interval);
+  const plans = getPricingPlans(locale, interval, t);
   const trialVars = proTrialDayVars(locale);
   const tp = (key: string, vars?: Record<string, string | number>) => t(key, { ...trialVars, ...vars });
 
