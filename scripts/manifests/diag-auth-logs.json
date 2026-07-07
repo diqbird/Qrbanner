@@ -6,8 +6,8 @@
   "build": false,
   "restart": false,
   "extra_commands": [
-    "echo '===== ERROR LOG (last 200) =====' && tail -n 200 ~/.pm2/logs/qrbanner-error.log 2>&1 | tail -120",
-    "echo '===== OUT LOG grep (auth/reset/error) =====' && tail -n 800 ~/.pm2/logs/qrbanner-out.log 2>&1 | grep -iE 'error|reset-password|change-password|invalid_credentials|Reset password|Change password|Unhandled|TypeError|Prisma' | tail -60",
-    "echo '===== PM2 STATUS =====' && pm2 jlist 2>/dev/null | python3 -c \"import sys,json; d=json.load(sys.stdin); [print(p['name'], 'restarts=', p['pm2_env'].get('restart_time'), 'status=', p['pm2_env'].get('status')) for p in d]\" 2>&1 | tail -10"
+    "echo '===== BUILD INTEGRITY =====' && cd /var/www/qrbanner && (ls -la --time-style=+%Y-%m-%d_%H:%M .next/BUILD_ID .next/server/pages/_error.js 2>&1) && echo 'pages_error_exists='$(test -f .next/server/pages/_error.js && echo yes || echo no) && echo 'next_mtime='$(date -r .next '+%Y-%m-%d_%H:%M' 2>/dev/null)",
+    "echo '===== ERROR LOG last 30 with date =====' && tail -n 30 ~/.pm2/logs/qrbanner-error.log 2>&1",
+    "echo '===== ERROR LOG mtime =====' && date -r ~/.pm2/logs/qrbanner-error.log '+%Y-%m-%d_%H:%M:%S' 2>&1"
   ]
 }
