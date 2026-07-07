@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { RoiMetrics } from '@/lib/analytics-roi';
 
 export function useAnalyticsRoiSave(qrId: string, onSaved?: () => void) {
@@ -37,18 +38,21 @@ export function useAnalyticsRoiSave(qrId: string, onSaved?: () => void) {
 }
 
 export function AnalyticsRoiMetrics({ data, t }: { data: RoiMetrics; t: (key: string) => string }) {
+  const { locale } = useLanguage();
   if (data.estimatedRevenue == null && data.roi == null) return null;
 
   return (
     <div className="grid gap-4 sm:grid-cols-3 border-t border-border/50 pt-4">
       <div>
         <p className="text-xs text-muted-foreground">{t('analytics.roiLeads')}</p>
-        <p className="font-display text-xl font-bold">{data.leadsCount}</p>
+        <p className="font-display text-xl font-bold">{formatLocaleNumber(data.leadsCount, locale)}</p>
       </div>
       {data.estimatedRevenue != null && (
         <div>
           <p className="text-xs text-muted-foreground">{t('analytics.roiEstRevenue')}</p>
-          <p className="font-display text-xl font-bold">{data.estimatedRevenue.toLocaleString()}</p>
+          <p className="font-display text-xl font-bold">
+            {formatLocaleNumber(data.estimatedRevenue, locale)}
+          </p>
         </div>
       )}
       {data.roi != null && (

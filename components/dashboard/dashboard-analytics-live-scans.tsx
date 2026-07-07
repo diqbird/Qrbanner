@@ -46,15 +46,15 @@ export function DashboardAnalyticsLiveScans({ analytics }: DashboardAnalyticsLiv
                 <span className="truncate text-muted-foreground">
                   {scan.country
                     ? resolveAnalyticsCountryLabel(t, scan.country, locale)
-                    : '—'}
+                    : t('common.emptyValue')}
                   {scan.city
                     ? `, ${resolveAnalyticsCityLabel(t, scan.city, locale)}`
                     : ''}
                 </span>
                 <span className="hidden sm:flex items-center gap-1 text-muted-foreground/70">
                   <Smartphone className="h-3 w-3" />
-                  {scan.device ? resolveAnalyticsDeviceLabel(t, scan.device) : '—'} ·{' '}
-                  {scan.os ? resolveAnalyticsOsLabel(t, scan.os) : '—'}
+                  {scan.device ? resolveAnalyticsDeviceLabel(t, scan.device) : t('common.emptyValue')} ·{' '}
+                  {scan.os ? resolveAnalyticsOsLabel(t, scan.os) : t('common.emptyValue')}
                 </span>
                 {scan.qrName && (
                   <Badge variant="outline" className="hidden md:inline-flex text-xs truncate max-w-[120px]">

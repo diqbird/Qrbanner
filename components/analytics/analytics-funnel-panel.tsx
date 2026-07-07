@@ -3,10 +3,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Filter } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { FunnelMetrics } from '@/lib/analytics-funnel';
 
 export function AnalyticsFunnelPanel({ data }: { data: FunnelMetrics }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const maxCount = Math.max(...data.stages.map((s) => s.count), 1);
 
   return (
@@ -26,7 +27,7 @@ export function AnalyticsFunnelPanel({ data }: { data: FunnelMetrics }) {
                 {i + 1}. {t(`analytics.funnelStages.${stage.id}`)}
               </span>
               <span className="text-muted-foreground">
-                {stage.count.toLocaleString()}
+                {formatLocaleNumber(stage.count, locale)}
                 {stage.rateFromPrevious != null && (
                   <span className="ml-2 text-xs">
                     ({t('analytics.funnelFromPrev', { n: stage.rateFromPrevious })})

@@ -54,7 +54,7 @@ export function ScannabilityPanel({
           {result.factors.slice(0, 4).map((f) => (
             <li key={f.id} className="flex gap-2">
               <Badge variant={f.impact < 0 ? 'destructive' : 'secondary'} className="shrink-0 text-[10px]">
-                {f.impact < 0 ? f.impact : 'OK'}
+                {f.impact < 0 ? f.impact : t('scannability.factorOk')}
               </Badge>
               <span className="text-muted-foreground">{factorTip(f.id)}</span>
             </li>

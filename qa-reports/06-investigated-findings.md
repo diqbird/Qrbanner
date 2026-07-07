@@ -171,6 +171,7 @@ python scripts/configure-review-profiles.py \
 | 28 | (this deploy) | Dashboard sidebar account name fallback; automation builder select closed-state labels |
 | 29 | (this deploy) | Landing builder, QR export size, reseller plan, and SSO provider select closed-state labels |
 | 30 | (this deploy) | Locale-aware dates/numbers; status/SEO labels; folder and workspace select labels |
+| 31 | (this deploy) | Analytics number formatting; empty-value labels; scannability OK; bulk category labels |
 
 ---
 

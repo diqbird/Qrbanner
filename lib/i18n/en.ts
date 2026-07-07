@@ -1484,6 +1484,7 @@ export const en: TranslationTree = {
     scoreHint: 'How easy your QR is to scan on phones and in print',
     printOk: 'At {{dpi}} DPI this QR prints clearly at ~{{cm}} cm.',
     printWarn: 'Increase print size to at least {{minCm}} cm or export at higher resolution (recommended {{dpi}} DPI).',
+    factorOk: 'OK',
     factors: {
       lowContrast: 'Increase contrast between foreground and background (aim for 4.5:1 or higher).',
       moderateContrast: 'Consider darker dots or a lighter background for outdoor scanning.',

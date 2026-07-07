@@ -30,7 +30,7 @@ export function EnterpriseResellerClientList({ enterprise }: EnterpriseResellerC
         >
           <div>
             <p className="font-medium">{c.name}</p>
-            <p className="text-xs text-muted-foreground">{c.email ?? '—'}</p>
+            <p className="text-xs text-muted-foreground">{c.email ?? t('common.emptyValue')}</p>
           </div>
           <div className="flex items-center gap-2">
             <Badge variant="secondary">{resolveResellerClientPlanLabel(t, c.plan)}</Badge>

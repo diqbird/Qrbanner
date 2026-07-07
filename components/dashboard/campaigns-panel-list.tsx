@@ -5,9 +5,12 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { BarChart3, Loader2 } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { CampaignsPanelState } from '@/hooks/use-campaigns-panel';
 
 export function CampaignsPanelList({ panel }: { panel: CampaignsPanelState }) {
+  const { locale } = useLanguage();
   const { t, campaigns, creating, newName, setNewName, showForm, setShowForm, handleCreate } = panel;
 
   return (
@@ -45,7 +48,7 @@ export function CampaignsPanelList({ panel }: { panel: CampaignsPanelState }) {
                 <div className="flex shrink-0 items-center gap-2">
                   <Badge variant="secondary" className="gap-1 tabular-nums">
                     <BarChart3 className="h-3 w-3" />
-                    {c.totalScans.toLocaleString()}
+                    {formatLocaleNumber(c.totalScans, locale)}
                   </Badge>
                 </div>
               </Link>

@@ -2,7 +2,7 @@
 
 **Project:** QRbanner (`https://qrbanner.com`)  
 **Report generated:** 2026-07-05 08:02 UTC  
-**Last triage update:** 2026-07-07 (post customer-ux packs 1–30)  
+**Last triage update:** 2026-07-07 (post customer-ux packs 1–31)  
 **Methodology:** Sequential live probes — no code assumptions.
 
 ## Scope
@@ -75,6 +75,7 @@
 | Dashboard account fallback; automation builder select closed-state labels | Pack 28 |
 | Landing builder, QR export size, reseller plan, and SSO provider select labels | Pack 29 |
 | Locale-aware dates/numbers; status/SEO labels; folder and workspace select labels | Pack 30 |
+| Analytics number formatting; empty-value labels; scannability OK; bulk category labels | Pack 31 |
 
 ### Remaining (low impact / operational)
 

@@ -51,7 +51,7 @@ export function AnalyticsRecentScans({ analytics }: AnalyticsRecentScansProps) {
                     <span>
                       {scan.country
                         ? resolveAnalyticsCountryLabel(t, String(scan.country), locale)
-                        : '—'}
+                        : t('common.emptyValue')}
                       {scan.city
                         ? `, ${resolveAnalyticsCityLabel(t, String(scan.city), locale)}`
                         : ''}
@@ -62,11 +62,11 @@ export function AnalyticsRecentScans({ analytics }: AnalyticsRecentScansProps) {
                     <span>
                       {scan.device
                         ? resolveAnalyticsDeviceLabel(t, String(scan.device))
-                        : '—'}{' '}
+                        : t('common.emptyValue')}{' '}
                       ·{' '}
                       {scan.browser
                         ? resolveAnalyticsBrowserLabel(t, String(scan.browser))
-                        : '—'}
+                        : t('common.emptyValue')}
                     </span>
                   </div>
                 </div>

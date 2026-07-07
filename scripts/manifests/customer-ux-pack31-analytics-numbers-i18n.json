@@ -1,0 +1,23 @@
+{
+  "upload": [
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "components/qr/scannability-panel.tsx",
+    "components/analytics/analytics-funnel-panel.tsx",
+    "components/analytics/analytics-roi-sections.tsx",
+    "components/dashboard/top-qr-widget.tsx",
+    "components/dashboard/campaigns-panel-list.tsx",
+    "components/dashboard/dashboard-analytics-live-scans.tsx",
+    "components/dashboard/enterprise-reseller-client-list.tsx",
+    "components/qr/analytics-recent-scans.tsx",
+    "components/qr/bulk-import-preview.tsx",
+    "components/qr/landing-cta-analytics-panel.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

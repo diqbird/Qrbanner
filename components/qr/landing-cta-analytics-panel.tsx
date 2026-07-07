@@ -3,6 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { MousePointerClick, Percent, Eye } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 export interface LandingCtaAnalytics {
   totalClicks: number;
@@ -13,7 +14,7 @@ export interface LandingCtaAnalytics {
 }
 
 export function LandingCtaAnalyticsPanel({ data }: { data: LandingCtaAnalytics }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <Card>
@@ -31,14 +32,14 @@ export function LandingCtaAnalyticsPanel({ data }: { data: LandingCtaAnalytics }
               <Eye className="h-4 w-4" />
               {t('analytics.landingViews')}
             </div>
-            <p className="mt-1 font-display text-2xl font-bold">{data.landingViews}</p>
+            <p className="mt-1 font-display text-2xl font-bold">{formatLocaleNumber(data.landingViews, locale)}</p>
           </div>
           <div className="rounded-lg border border-border/50 p-4">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <MousePointerClick className="h-4 w-4" />
               {t('analytics.ctaClicks')}
             </div>
-            <p className="mt-1 font-display text-2xl font-bold">{data.totalClicks}</p>
+            <p className="mt-1 font-display text-2xl font-bold">{formatLocaleNumber(data.totalClicks, locale)}</p>
           </div>
           <div className="rounded-lg border border-border/50 p-4">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -46,7 +47,7 @@ export function LandingCtaAnalyticsPanel({ data }: { data: LandingCtaAnalytics }
               {t('analytics.ctaConversion')}
             </div>
             <p className="mt-1 font-display text-2xl font-bold">
-              {data.conversionRate != null ? `${data.conversionRate}%` : '—'}
+              {data.conversionRate != null ? `${data.conversionRate}%` : t('common.emptyValue')}
             </p>
           </div>
         </div>
@@ -60,7 +61,7 @@ export function LandingCtaAnalyticsPanel({ data }: { data: LandingCtaAnalytics }
                   key={row.type}
                   className="rounded-full border border-border/60 bg-muted/30 px-3 py-1 text-sm"
                 >
-                  {row.name}: <span className="font-semibold">{row.value}</span>
+                  {row.name}: <span className="font-semibold">{formatLocaleNumber(row.value, locale)}</span>
                 </div>
               ))}
             </div>

@@ -8,6 +8,7 @@ import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table';
 import { Loader2 } from 'lucide-react';
+import { resolveCategoryShortName } from '@/lib/i18n/resolve-qr-category-copy';
 import type { QrBulkImportState } from '@/hooks/use-qr-bulk-import';
 
 type BulkImportPreviewProps = {
@@ -58,10 +59,10 @@ export function BulkImportPreview({ bulk }: BulkImportPreviewProps) {
                   <TableCell className="text-muted-foreground">{row.line}</TableCell>
                   <TableCell className="font-medium">{row.name}</TableCell>
                   <TableCell>
-                    <Badge variant="secondary">{row.category}</Badge>
+                    <Badge variant="secondary">{resolveCategoryShortName(t, row.category)}</Badge>
                   </TableCell>
                   <TableCell className="max-w-[280px] truncate text-xs text-muted-foreground">
-                    {row.qrData.url ?? row.qrData.phone ?? row.qrData.ssid ?? row.qrData.email ?? '—'}
+                    {row.qrData.url ?? row.qrData.phone ?? row.qrData.ssid ?? row.qrData.email ?? t('common.emptyValue')}
                   </TableCell>
                 </TableRow>
               ))}

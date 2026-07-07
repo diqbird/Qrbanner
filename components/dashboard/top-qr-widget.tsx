@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveCategoryShortName } from '@/lib/i18n/resolve-qr-category-copy';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 interface TopQrItem {
   id: string;
@@ -18,7 +19,7 @@ interface TopQrItem {
 }
 
 export function TopQrWidget() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [top, setTop] = useState<TopQrItem[]>([]);
 
   useEffect(() => {
@@ -77,7 +78,7 @@ export function TopQrWidget() {
             </div>
             <div className="flex shrink-0 items-center gap-1 text-sm font-semibold tabular-nums">
               <BarChart3 className="h-3.5 w-3.5 text-muted-foreground" aria-hidden />
-              {qr.totalScans.toLocaleString()}
+              {formatLocaleNumber(qr.totalScans, locale)}
             </div>
           </Link>
         ))}

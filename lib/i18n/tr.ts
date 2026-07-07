@@ -1485,6 +1485,7 @@ export const tr: TranslationTree = {
     scoreHint: 'QR kodunuzun telefon ve baskıda ne kadar kolay tarandığı',
     printOk: '{{dpi}} DPI\'da bu QR ~{{cm}} cm boyutunda net basılır.',
     printWarn: 'Baskı boyutunu en az {{minCm}} cm yapın veya daha yüksek çözünürlükte dışa aktarın (önerilen {{dpi}} DPI).',
+    factorOk: 'Tamam',
     factors: {
       lowContrast: 'Ön plan ve arka plan arasındaki kontrastı artırın (4,5:1 veya üzeri hedefleyin).',
       moderateContrast: 'Açık hava taraması için daha koyu noktalar veya daha açık arka plan düşünün.',
