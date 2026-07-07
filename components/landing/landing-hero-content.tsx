@@ -10,9 +10,11 @@ const TRUST_KEYS = ['hero.trustTypes', 'hero.trustApi', 'hero.trustCancel'] as c
 export function LandingHeroContent({
   t,
   freeQrCount,
+  qrTypeCount,
 }: {
   t: (key: string, vars?: Record<string, string | number>) => string;
   freeQrCount: string;
+  qrTypeCount: string;
 }) {
   const demoUrl = demoBookingUrl();
 
@@ -55,7 +57,7 @@ export function LandingHeroContent({
           {TRUST_KEYS.map((key) => (
             <li key={key} className="inline-flex items-center gap-1.5">
               <CheckCircle2 className="h-4 w-4 text-foreground" aria-hidden />
-              {t(key)}
+              {key === 'hero.trustTypes' ? t(key, { count: qrTypeCount }) : t(key)}
             </li>
           ))}
         </ul>

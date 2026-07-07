@@ -1,0 +1,23 @@
+{
+  "upload": [
+    "lib/i18n/qr-type-count.ts",
+    "lib/i18n/how-it-works.ts",
+    "lib/i18n/feature-groups.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "components/landing/hero-static.tsx",
+    "components/landing/landing-hero-content.tsx",
+    "components/landing/landing-hero-highlights.tsx",
+    "components/landing/hero.tsx",
+    "components/qr/qr-quick-create-form.tsx",
+    "components/qr/style-editor-logo-tab.tsx",
+    "app/(public)/qr/create/page.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

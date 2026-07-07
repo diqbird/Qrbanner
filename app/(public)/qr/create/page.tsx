@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { pageMetadata } from '@/lib/seo';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { formatIndustryTemplateCount, formatQrTypeCount } from '@/lib/i18n/qr-type-count';
 
 function CreateWizardFallback() {
   return (
@@ -20,11 +21,14 @@ const QRCreateWizard = dynamic(
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
-  const t = (key: string) => translate(locale, key);
+  const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
   return pageMetadata({
     locale,
     title: t('qrCreatePage.metaTitle'),
-    description: t('qrCreatePage.metaDescription'),
+    description: t('qrCreatePage.metaDescription', {
+      types: formatQrTypeCount(locale),
+      templates: formatIndustryTemplateCount(locale),
+    }),
     path: '/qr/create',
     noIndex: true,
   });

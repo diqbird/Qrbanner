@@ -1,4 +1,5 @@
 import { HOW_IT_WORKS_STEPS } from '@/lib/site-content';
+import { localizeMarketingNumbers } from './qr-type-count';
 import type { Locale } from './types';
 
 const STEPS_TR = [
@@ -21,11 +22,17 @@ const STEPS_TR = [
 ] as const;
 
 export function getHowItWorksSteps(locale: Locale) {
-  if (locale === 'en') return HOW_IT_WORKS_STEPS;
+  const base =
+    locale === 'en'
+      ? HOW_IT_WORKS_STEPS
+      : HOW_IT_WORKS_STEPS.map((step, i) => ({
+          ...step,
+          title: STEPS_TR[i]?.title ?? step.title,
+          description: STEPS_TR[i]?.description ?? step.description,
+        }));
 
-  return HOW_IT_WORKS_STEPS.map((step, i) => ({
+  return base.map((step) => ({
     ...step,
-    title: STEPS_TR[i]?.title ?? step.title,
-    description: STEPS_TR[i]?.description ?? step.description,
+    description: localizeMarketingNumbers(step.description, locale),
   }));
 }

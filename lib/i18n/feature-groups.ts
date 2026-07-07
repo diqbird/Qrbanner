@@ -1,4 +1,5 @@
 import { FEATURE_GROUPS } from '@/lib/site-content';
+import { localizeMarketingNumbers } from './qr-type-count';
 import type { Locale } from './types';
 import type { SiteFeature } from '@/lib/site-content';
 
@@ -70,19 +71,19 @@ const GROUPS_TR: { title: string; description: string; features: { title: string
 ];
 
 export function getFeatureGroups(locale: Locale) {
-  if (locale === 'en') return FEATURE_GROUPS;
-
   return FEATURE_GROUPS.map((group, gi) => {
-    const tr = GROUPS_TR[gi];
+    const tr = locale === 'en' ? undefined : GROUPS_TR[gi];
     return {
       title: tr?.title ?? group.title,
       description: tr?.description ?? group.description,
       features: group.features.map((feature, fi) => {
         const trFeature = tr?.features[fi];
+        const title = trFeature?.title ?? feature.title;
+        const description = trFeature?.description ?? feature.description;
         return {
           ...feature,
-          title: trFeature?.title ?? feature.title,
-          description: trFeature?.description ?? feature.description,
+          title: localizeMarketingNumbers(title, locale),
+          description: localizeMarketingNumbers(description, locale),
           tag: feature.tag ? TAG_TR[feature.tag] ?? feature.tag : undefined,
         } satisfies SiteFeature;
       }),

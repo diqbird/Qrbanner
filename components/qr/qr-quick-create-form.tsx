@@ -6,6 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Save, Loader2 } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatQrTypeCount } from '@/lib/i18n/qr-type-count';
 import type { QrQuickCreateState } from '@/hooks/use-qr-quick-create';
 import { normalizeQRStyle } from '@/lib/qr-style';
 
@@ -16,7 +18,8 @@ export function QrQuickCreateForm({
   quick: QrQuickCreateState;
   onAdvanced: () => void;
 }) {
-  const { t, session, url, setUrl, name, setName, isValid, saving, handleSave } = quick;
+  const { t, locale } = useLanguage();
+  const { session, url, setUrl, name, setName, isValid, saving, handleSave } = quick;
 
   return (
     <Card>
@@ -75,7 +78,9 @@ export function QrQuickCreateForm({
             className="h-auto w-full gap-2 whitespace-normal px-4 py-2.5 text-sm leading-snug"
             onClick={onAdvanced}
           >
-            <span className="min-w-0 flex-1 text-center">{t('quick.advancedEditor')}</span>
+            <span className="min-w-0 flex-1 text-center">
+              {t('quick.advancedEditor', { count: formatQrTypeCount(locale) })}
+            </span>
             <ArrowRight className="h-4 w-4 shrink-0" />
           </Button>
         </div>

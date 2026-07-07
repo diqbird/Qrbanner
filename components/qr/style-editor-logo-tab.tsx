@@ -3,6 +3,7 @@
 import { Label } from '@/components/ui/label';
 import { Image as ImageIcon } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { StyleEditorTabProps } from './style-editor-tab-props';
 
 type StyleEditorLogoTabProps = StyleEditorTabProps & {
@@ -16,7 +17,7 @@ export function StyleEditorLogoTab({
   logoPreview,
   onLogoChange,
 }: StyleEditorLogoTabProps) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const logoPercent = Math.round((s.logoSize ?? 0.22) * 100);
 
   return (
@@ -39,7 +40,9 @@ export function StyleEditorLogoTab({
         </div>
         <p className="text-xs text-muted-foreground">{t('style.logoHint')}</p>
         <div className="space-y-2">
-          <Label className="text-xs">{t('style.logoSize', { percent: logoPercent })}</Label>
+          <Label className="text-xs">
+            {t('style.logoSize', { percent: formatLocaleNumber(logoPercent, locale) })}
+          </Label>
           <input
             type="range"
             min={0.1}

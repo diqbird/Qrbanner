@@ -165,10 +165,10 @@ export const en: TranslationTree = {
     createQrHint: 'No signup required · {{count}} free dynamic codes',
     trustApi: 'REST API on free plan',
     trustCancel: 'Codes stay active after cancel',
-    trustTypes: '26+ QR types included',
+    trustTypes: '{{count}} QR types included',
     videoLabel: 'QRbanner product tour',
     watchDemo: 'Watch product tour',
-    highlightTypes: '26+ QR Types',
+    highlightTypes: '{{count}} QR Types',
     highlightTypesDesc: 'Menus, Wi‑Fi, business cards, social links & more',
     highlightRouting: 'Smart Routing',
     highlightRoutingDesc: 'Show the right link by time, location or device',
@@ -1071,7 +1071,7 @@ export const en: TranslationTree = {
     urlPlaceholder: 'https://your-site.com',
     nameLabel: 'Label (optional)',
     namePlaceholder: 'My QR Code',
-    advancedEditor: 'Open full editor (26+ types, templates, analytics)',
+    advancedEditor: 'Open full editor ({{count}}, templates, analytics)',
     invalidUrl: 'Enter a valid URL starting with https://',
     saveToDashboard: 'Save to dashboard',
     saving: 'Saving...',
@@ -3099,7 +3099,7 @@ export const en: TranslationTree = {
   qrCreatePage: {
     metaTitle: 'Create QR Code',
     metaDescription:
-      'Create a QR code for your website, menu, business card, Wi‑Fi, Instagram or event. Choose from 26+ types and 10 industry templates.',
+      'Create a QR code for your website, menu, business card, Wi‑Fi, Instagram or event. Choose from {{types}} types and {{templates}} industry templates.',
   },
   salesForm: {
     company: 'Company',

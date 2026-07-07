@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Zap, QrCode, Route, BarChart3 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { formatQrTypeCount } from '@/lib/i18n/qr-type-count';
 import { freePlanQrLimit } from '@/lib/plans';
 
 const HIGHLIGHT_ICONS = [QrCode, Route, BarChart3];
@@ -17,6 +18,7 @@ const HIGHLIGHT_KEYS = [
 
 export function LandingHero() {
   const { t, locale } = useLanguage();
+  const qrTypeCount = formatQrTypeCount(locale);
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-primary/5 via-background to-background py-20 sm:py-28 lg:py-36">
@@ -64,7 +66,11 @@ export function LandingHero() {
               return (
                 <div key={item.label} className="rounded-2xl border border-border/40 bg-card/80 p-5 shadow-sm backdrop-blur-sm">
                   <Icon className="mb-2 h-6 w-6 text-foreground" aria-hidden />
-                  <h3 className="font-display text-sm font-semibold">{t(item.label)}</h3>
+                  <h3 className="font-display text-sm font-semibold">
+                    {item.label === 'hero.highlightTypes'
+                      ? t(item.label, { count: qrTypeCount })
+                      : t(item.label)}
+                  </h3>
                   <p className="mt-1 text-xs text-muted-foreground">{t(item.desc)}</p>
                 </div>
               );

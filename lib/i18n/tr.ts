@@ -166,10 +166,10 @@ export const tr: TranslationTree = {
     createQrHint: 'Kayıt gerekmez · {{count}} ücretsiz dinamik kod',
     trustApi: 'Ücretsiz planda REST API',
     trustCancel: 'İptalde kodlar aktif kalır',
-    trustTypes: '26+ QR tipi dahil',
+    trustTypes: '{{count}} QR tipi dahil',
     videoLabel: 'QRbanner ürün turu',
     watchDemo: 'Ürün turunu izle',
-    highlightTypes: '26+ QR Tipi',
+    highlightTypes: '{{count}} QR Tipi',
     highlightTypesDesc: 'Menü, Wi‑Fi, kartvizit, sosyal linkler ve daha fazlası',
     highlightRouting: 'Akıllı Yönlendirme',
     highlightRoutingDesc: 'Zaman, konum veya cihaza göre doğru linki gösterin',
@@ -1072,7 +1072,7 @@ export const tr: TranslationTree = {
     urlPlaceholder: 'https://siteniz.com',
     nameLabel: 'Etiket (isteğe bağlı)',
     namePlaceholder: 'QR Kodum',
-    advancedEditor: 'Tam editörü aç (26+ tip, şablonlar, analitik)',
+    advancedEditor: 'Tam editörü aç ({{count}}, şablonlar, analitik)',
     invalidUrl: 'https:// ile başlayan geçerli bir URL girin',
     saveToDashboard: 'Panele kaydet',
     saving: 'Kaydediliyor...',
@@ -3101,7 +3101,7 @@ export const tr: TranslationTree = {
   qrCreatePage: {
     metaTitle: 'QR Kod Oluştur',
     metaDescription:
-      'Web sitesi, menü, kartvizit, Wi‑Fi, Instagram veya etkinlik için QR kod oluşturun. 26+ tür ve 10 sektör şablonu arasından seçin.',
+      'Web sitesi, menü, kartvizit, Wi‑Fi, Instagram veya etkinlik için QR kod oluşturun. {{types}} tür ve {{templates}} sektör şablonu arasından seçin.',
   },
   salesForm: {
     company: 'Şirket',
