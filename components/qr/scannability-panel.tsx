@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Gauge, Printer } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { formatLocaleDecimal, formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { logoGuidanceVars } from '@/lib/qr-logo-guidance';
 import { computeScannability, analyzePrintQuality, type ScannabilityFactorId } from '@/lib/scannability';
 import type { QRStyleConfig } from '@/lib/qr-style';
 
@@ -18,14 +19,19 @@ export function ScannabilityPanel({
   contentLength?: number;
 }) {
   const { t, locale } = useLanguage();
+  const logoVars = logoGuidanceVars(locale);
   const result = computeScannability(style, { hasLogo, logoSize: style.logoSize, contentLength });
   const print = analyzePrintQuality(style, 1024, hasLogo);
 
   const gradeColor =
     result.grade === 'A' ? 'bg-green-500' : result.grade === 'B' ? 'bg-emerald-500' : result.grade === 'C' ? 'bg-amber-500' : 'bg-red-500';
 
-  const factorTip = (id: ScannabilityFactorId) =>
-    t(`scannability.factors.${id}` as 'scannability.factors.lowContrast');
+  const factorTip = (id: ScannabilityFactorId) => {
+    if (id === 'largeLogo') {
+      return t('scannability.factors.largeLogo', { percent: logoVars.warnMax });
+    }
+    return t(`scannability.factors.${id}` as 'scannability.factors.lowContrast');
+  };
 
   const printMessage = print.ok
     ? t('scannability.printOk', {

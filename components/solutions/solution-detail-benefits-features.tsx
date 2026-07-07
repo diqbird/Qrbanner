@@ -3,9 +3,10 @@
 import { CheckCircle2 } from 'lucide-react';
 import type { SolutionPage } from '@/lib/solutions';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { localizeMarketingNumbers } from '@/lib/i18n/qr-type-count';
 
 export function SolutionDetailBenefits({ solution }: { solution: SolutionPage }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <section className="mt-14">
@@ -14,7 +15,7 @@ export function SolutionDetailBenefits({ solution }: { solution: SolutionPage })
         {solution.benefits.map((b) => (
           <li key={b} className="flex gap-3 rounded-xl border border-border/50 bg-card/60 p-4 text-sm text-muted-foreground">
             <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />
-            {b}
+            {localizeMarketingNumbers(b, locale)}
           </li>
         ))}
       </ul>
@@ -23,7 +24,7 @@ export function SolutionDetailBenefits({ solution }: { solution: SolutionPage })
 }
 
 export function SolutionDetailFeatures({ solution }: { solution: SolutionPage }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   if (solution.features.length === 0) return null;
 
@@ -36,7 +37,7 @@ export function SolutionDetailFeatures({ solution }: { solution: SolutionPage })
         {solution.features.map((f) => (
           <li key={f} className="flex gap-2 text-sm text-muted-foreground">
             <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-            {f}
+            {localizeMarketingNumbers(f, locale)}
           </li>
         ))}
       </ul>

@@ -3,12 +3,13 @@
 import { useEffect, useState } from 'react';
 import { Lightbulb, X } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { logoGuidanceVars } from '@/lib/qr-logo-guidance';
 
 const STORAGE_KEY = 'qrb_create_tips_hidden';
 const TIP_KEYS = ['createTips.step0', 'createTips.step1', 'createTips.step2', 'createTips.step3'] as const;
 
 export function CreateStepTip({ step }: { step: number }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
@@ -30,6 +31,12 @@ export function CreateStepTip({ step }: { step: number }) {
 
   if (hidden || step < 0 || step >= TIP_KEYS.length) return null;
 
+  const logoVars = logoGuidanceVars(locale);
+  const tipText =
+    step === 2
+      ? t('createTips.step2', { percent: logoVars.wizardMax })
+      : t(TIP_KEYS[step]);
+
   return (
     <div
       className="flex items-start gap-3 rounded-lg border border-primary/25 bg-primary/5 px-4 py-3"
@@ -37,7 +44,7 @@ export function CreateStepTip({ step }: { step: number }) {
       aria-label={t('createTips.ariaLabel')}
     >
       <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-      <p className="flex-1 text-sm text-muted-foreground leading-relaxed">{t(TIP_KEYS[step])}</p>
+      <p className="flex-1 text-sm text-muted-foreground leading-relaxed">{tipText}</p>
       <button
         type="button"
         onClick={dismiss}

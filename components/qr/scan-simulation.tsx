@@ -7,6 +7,7 @@ import { ScanLine } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { logoGuidanceVars } from '@/lib/qr-logo-guidance';
 import { useScanSimulation } from '@/hooks/use-scan-simulation';
 import type { QRStyleConfig } from '@/lib/qr-style';
 import { ScanSimulationDigitalPanel } from './scan-simulation-digital-panel';
@@ -39,6 +40,7 @@ export function ScanSimulation({
   });
 
   const { t, open, setOpen, result, scannability, dismissResult } = scan;
+  const logoVars = logoGuidanceVars(locale);
 
   return (
     <Collapsible open={open} onOpenChange={setOpen}>
@@ -68,7 +70,7 @@ export function ScanSimulation({
             {result && <ScanSimulationResult result={result} onDismiss={dismissResult} t={t} />}
             <ul className="space-y-1 text-[11px] text-muted-foreground">
               <li>• {t('scan.tipPrint', { dpi: formatLocaleNumber(scannability.printDpiRecommendation, locale) })}</li>
-              <li>• {t('scan.tipLogo')}</li>
+              <li>• {t('scan.tipLogo', { percent: logoVars.scanTipMax })}</li>
               <li>• {t('scan.tipFail')}</li>
             </ul>
           </CardContent>

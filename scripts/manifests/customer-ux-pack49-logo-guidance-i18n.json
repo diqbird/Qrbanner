@@ -1,0 +1,22 @@
+{
+  "upload": [
+    "lib/qr-logo-guidance.ts",
+    "lib/scannability.ts",
+    "lib/competitor-public.ts",
+    "lib/i18n/qr-type-count.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "components/qr/create-step-tip.tsx",
+    "components/qr/scan-simulation.tsx",
+    "components/qr/scannability-panel.tsx",
+    "components/qr/ai-design-assistant-panels.tsx",
+    "components/solutions/solution-detail-benefits-features.tsx",
+    "qa-reports/00-executive-summary.md",
+    "qa-reports/06-investigated-findings.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

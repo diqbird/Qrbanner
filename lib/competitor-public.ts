@@ -1,5 +1,6 @@
 import type { CompetitorPage } from '@/lib/competitor-pages';
 import { COMPETITOR_PAGES } from '@/lib/competitor-pages';
+import { localizeMarketingNumbers } from '@/lib/i18n/qr-type-count';
 import type { Locale } from '@/lib/i18n/types';
 
 const BRAND_NAMES = Array.from(
@@ -11,7 +12,7 @@ const BRAND_NAMES = Array.from(
   )
 ).sort((a, b) => b.length - a.length);
 
-export function sanitizeCompetitorBrands(text: string): string {
+export function sanitizeCompetitorBrands(text: string, locale?: Locale): string {
   let out = text;
   for (const brand of BRAND_NAMES) {
     if (brand.length < 2) continue;
@@ -22,6 +23,7 @@ export function sanitizeCompetitorBrands(text: string): string {
   out = out.replace(/\bvs [A-Z][A-Za-z0-9 .+'’-]+/g, 'vs other platforms');
   out = out.replace(/\bother platforms's\b/gi, "other platforms'");
   out = out.replace(/\s{2,}/g, ' ').trim();
+  if (locale) out = localizeMarketingNumbers(out, locale);
   return out;
 }
 
@@ -63,7 +65,7 @@ export function getPublicComparisonMeta(page: CompetitorPage, locale: Locale) {
     locale === 'tr'
       ? `${topic} — QRbanner karşılaştırması`
       : `${topic} — QRbanner comparison`;
-  const description = sanitizeCompetitorBrands(page.metaDescription);
+  const description = sanitizeCompetitorBrands(page.metaDescription, locale);
   return { title, description };
 }
 
@@ -75,14 +77,14 @@ export function getPublicComparisonView(page: CompetitorPage, locale: Locale) {
   return {
     breadcrumbLabel: getComparisonTopic(page.slug, locale),
     listTitle: getPublicListTitle(page, locale),
-    headline: sanitizeCompetitorBrands(page.headline),
-    summary: sanitizeCompetitorBrands(page.summary),
-    qrbannerWins: page.qrbannerWins.map(sanitizeCompetitorBrands),
-    competitorWeaknesses: page.competitorWeaknesses.map(sanitizeCompetitorBrands),
+    headline: sanitizeCompetitorBrands(page.headline, locale),
+    summary: sanitizeCompetitorBrands(page.summary, locale),
+    qrbannerWins: page.qrbannerWins.map((w) => sanitizeCompetitorBrands(w, locale)),
+    competitorWeaknesses: page.competitorWeaknesses.map((w) => sanitizeCompetitorBrands(w, locale)),
     comparisonRows: page.comparisonRows.map((row) => ({
-      feature: sanitizeCompetitorBrands(row.feature),
-      qrbanner: sanitizeCompetitorBrands(row.qrbanner),
-      competitor: sanitizeCompetitorBrands(row.competitor),
+      feature: sanitizeCompetitorBrands(row.feature, locale),
+      qrbanner: sanitizeCompetitorBrands(row.qrbanner, locale),
+      competitor: sanitizeCompetitorBrands(row.competitor, locale),
     })),
     typicalLabel,
     considerationsTitle,

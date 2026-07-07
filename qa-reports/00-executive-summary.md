@@ -2,7 +2,7 @@
 
 **Project:** QRbanner (`https://qrbanner.com`)  
 **Report generated:** 2026-07-05 08:02 UTC  
-**Last triage update:** 2026-07-07 (post customer-ux packs 1–48)  
+**Last triage update:** 2026-07-07 (post customer-ux packs 1–49)  
 **Methodology:** Sequential live probes — no code assumptions.
 
 ## Scope
@@ -93,6 +93,7 @@
 | Status latency, scan sources, bulk preview lines, style margin, onboarding | Pack 46 |
 | Marketing QR type counts, features page, logo size, create page meta | Pack 47 |
 | QR types index, templates, Zapier, enterprise agency counts | Pack 48 |
+| Logo size guidance, vs comparisons, solution marketing counts | Pack 49 |
 
 ### Remaining (low impact / operational)
 

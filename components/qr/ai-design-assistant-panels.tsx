@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Sparkles, Wand2, Loader2 } from 'lucide-react';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { logoGuidanceVars } from '@/lib/qr-logo-guidance';
 import type { AiDesignAssistantState } from '@/hooks/use-ai-design-assistant';
 import type { QRStyleConfig } from '@/lib/qr-style';
 
@@ -51,6 +53,8 @@ type AiDesignSuggestionsPanelProps = {
 
 export function AiDesignSuggestionsPanel({ ai, onApplyStyle, onLogoSize }: AiDesignSuggestionsPanelProps) {
   const { t, suggestions, palette, applyPaletteColor } = ai;
+  const { locale } = useLanguage();
+  const logoVars = logoGuidanceVars(locale);
 
   return (
     <>
@@ -85,7 +89,9 @@ export function AiDesignSuggestionsPanel({ ai, onApplyStyle, onLogoSize }: AiDes
         ))}
       </div>
 
-      <p className="text-[10px] text-muted-foreground">{t('aiDesign.hint')}</p>
+      <p className="text-[10px] text-muted-foreground">
+        {t('aiDesign.hint', { min: logoVars.hintMin, max: logoVars.hintMax })}
+      </p>
     </>
   );
 }

@@ -1,4 +1,5 @@
 import type { QRStyleConfig } from '@/lib/qr-style';
+import { LOGO_SIZE_SCANNABILITY_WARN } from '@/lib/qr-logo-guidance';
 
 export interface ScannabilityResult {
   score: number;
@@ -72,7 +73,7 @@ export function computeScannability(
   }
 
   const logoSize = opts?.logoSize ?? style.logoSize ?? 0.22;
-  if (opts?.hasLogo && logoSize > 0.28) {
+  if (opts?.hasLogo && logoSize > LOGO_SIZE_SCANNABILITY_WARN) {
     const impact = -18;
     score += impact;
     factors.push({ id: 'largeLogo', impact });

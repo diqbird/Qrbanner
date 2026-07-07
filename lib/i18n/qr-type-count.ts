@@ -60,5 +60,6 @@ export function localizeMarketingNumbers(text: string, locale: Locale): string {
     .replace(/up to 100 QR codes/gi, `up to ${bulkMax} QR codes`)
     .replace(/100'e kadar QR/gi, `${bulkMax}'e kadar QR`)
     .replace(/\b10 industry templates\b/gi, `${formatIndustryTemplateCount(locale)} industry templates`)
-    .replace(/\b10 sektör şablonu\b/gi, `${formatIndustryTemplateCount(locale)} sektör şablonu`);
+    .replace(/\b50 custom scan domains\b/gi, `${formatAgencyCustomDomainCount(locale)} custom scan domains`)
+    .replace(/\b50 özel tarama alanı\b/gi, `${formatAgencyCustomDomainCount(locale)} özel tarama alanı`);
 }
