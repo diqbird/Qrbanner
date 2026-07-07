@@ -3,7 +3,7 @@
 import { CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { HealthPayload } from '@/hooks/use-status-page-health';
-import { formatLocaleDateTime } from '@/lib/i18n/format-locale';
+import { formatLocaleDateTime, formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { Locale } from '@/lib/i18n/types';
 
 type StatusPageStatusPanelProps = {
@@ -67,7 +67,9 @@ export function StatusPageStatusPanel({
           </ul>
 
           <p className="mt-6 text-xs text-muted-foreground">
-            {t('status.responseMs', { ms: health?.responseMs ?? 0 })}
+            {t('status.responseMs', {
+              ms: formatLocaleNumber(health?.responseMs ?? 0, locale),
+            })}
           </p>
         </>
       )}

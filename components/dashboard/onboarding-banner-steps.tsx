@@ -3,6 +3,7 @@
 import { LayoutTemplate, Sparkles, PlusCircle, BarChart3 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { formatQrTypeCount } from '@/lib/i18n/qr-type-count';
 import { ONBOARDING_CREATE_URL } from '@/lib/onboarding';
 
 export const ONBOARDING_STEP_ICONS = [LayoutTemplate, Sparkles, PlusCircle, BarChart3];
@@ -58,8 +59,15 @@ export function OnboardingBannerSteps({ activeStep, onSelectStep }: OnboardingBa
               }`}
             >
               <Icon className={`mb-2 h-5 w-5 ${isActive ? 'text-primary' : 'text-muted-foreground'}`} />
+              <p className="text-xs font-mono font-bold text-primary">
+                {formatLocaleNumber(i + 1, locale)}.
+              </p>
               <p className="text-sm font-medium">{t(step.title)}</p>
-              <p className="mt-1 text-xs text-muted-foreground">{t(step.desc)}</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {i === 0
+                  ? t(step.desc, { count: formatQrTypeCount(locale) })
+                  : t(step.desc)}
+              </p>
             </button>
           );
         })}

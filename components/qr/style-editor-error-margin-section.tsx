@@ -3,10 +3,11 @@
 import { Label } from '@/components/ui/label';
 import { ERROR_LEVELS } from '@/lib/qr-style';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { StyleEditorTabProps } from './style-editor-tab-props';
 
 export function StyleEditorErrorMarginSection({ style: s, update }: StyleEditorTabProps) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <>
@@ -34,7 +35,9 @@ export function StyleEditorErrorMarginSection({ style: s, update }: StyleEditorT
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <Label>{t('style.quietZone')}</Label>
-          <span className="font-mono text-xs text-muted-foreground">{s.margin}</span>
+          <span className="font-mono text-xs text-muted-foreground">
+            {formatLocaleNumber(s.margin, locale)}
+          </span>
         </div>
         <input
           type="range"

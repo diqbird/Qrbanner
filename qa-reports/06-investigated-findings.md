@@ -186,6 +186,7 @@ python scripts/configure-review-profiles.py \
 | 43 | (this deploy) | Hub/social link quotas, scan notify milestones, A/B variant quota and traffic split |
 | 44 | (this deploy) | Organize/geofence/automation quotas, onboarding, blog/geo/zapier, bulk toasts |
 | 45 | (this deploy) | QR wizard steps, scannability, webhooks, bulk lines, referral milestones |
+| 46 | (this deploy) | Status latency, scan sources, bulk preview lines, style margin, onboarding |
 
 ---
 

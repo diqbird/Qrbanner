@@ -2,7 +2,7 @@
 
 **Project:** QRbanner (`https://qrbanner.com`)  
 **Report generated:** 2026-07-05 08:02 UTC  
-**Last triage update:** 2026-07-07 (post customer-ux packs 1–45)  
+**Last triage update:** 2026-07-07 (post customer-ux packs 1–46)  
 **Methodology:** Sequential live probes — no code assumptions.
 
 ## Scope
@@ -90,6 +90,7 @@
 | Hub/social link quotas, scan notify milestones, A/B variant quota and traffic split | Pack 43 |
 | Organize/geofence/automation quotas, onboarding, blog/geo/zapier, bulk toasts | Pack 44 |
 | QR wizard steps, scannability, webhooks, bulk lines, referral milestones | Pack 45 |
+| Status latency, scan sources, bulk preview lines, style margin, onboarding | Pack 46 |
 
 ### Remaining (low impact / operational)
 

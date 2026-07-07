@@ -63,7 +63,9 @@ export function BulkImportPreview({ bulk }: BulkImportPreviewProps) {
             <TableBody>
               {rows.map((row) => (
                 <TableRow key={row.line}>
-                  <TableCell className="text-muted-foreground">{row.line}</TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {formatLocaleNumber(row.line, locale)}
+                  </TableCell>
                   <TableCell className="font-medium">{row.name}</TableCell>
                   <TableCell>
                     <Badge variant="secondary">{resolveCategoryShortName(t, row.category)}</Badge>

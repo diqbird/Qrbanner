@@ -3,6 +3,7 @@
 import { useInView } from 'react-intersection-observer';
 import { Layers, Palette, Rocket, BarChart3 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { getHowItWorksSteps } from '@/lib/i18n/how-it-works';
 
 const STEP_ICONS = [Layers, Palette, Rocket, BarChart3];
@@ -34,7 +35,9 @@ export function LandingHowItWorks() {
                 <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
                   <Icon className="h-8 w-8 text-primary" />
                 </div>
-                <span className="font-mono text-xs font-bold text-primary">{item.step}</span>
+                <span className="font-mono text-xs font-bold text-primary">
+                  {formatLocaleNumber(i + 1, locale).padStart(2, '0')}
+                </span>
                 <h3 className="mt-2 font-display text-lg font-semibold">{item.title}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{item.description}</p>
               </div>
