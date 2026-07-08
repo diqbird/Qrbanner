@@ -15,6 +15,8 @@ import {
   parseAllowedDomains,
   workspaceOwnerHasSsoPlan,
 } from '@/lib/workspace-sso';
+import { sendTeamInviteEmail } from '@/lib/email';
+import { resolveOutboundEmailLocaleFromRequest } from '@/lib/i18n/resolve-outbound-email-locale';
 
 export async function GET(req: NextRequest) {
   const auth = await requireUserId();
@@ -85,7 +87,7 @@ export async function POST(req: NextRequest) {
 
     const workspace = await prisma.workspace.findUnique({
       where: { id: workspaceId },
-      select: { ssoEnabled: true, allowedDomains: true },
+      select: { name: true, ssoEnabled: true, allowedDomains: true },
     });
     if (!workspace) return NextResponse.json({ error: 'Workspace not found' }, { status: 404 });
 
@@ -93,6 +95,11 @@ export async function POST(req: NextRequest) {
     if (!inviteCheck.ok) {
       return NextResponse.json({ error: inviteCheck.code }, { status: 400 });
     }
+
+    const inviter = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { name: true, email: true, brandingSettings: true },
+    });
 
     const token = generateInviteToken();
     const member = await prisma.workspaceMember.upsert({
@@ -108,6 +115,24 @@ export async function POST(req: NextRequest) {
     });
 
     const inviteUrl = `${process.env.NEXTAUTH_URL ?? 'https://qrbanner.com'}/invite/${token}`;
+    const locale = resolveOutboundEmailLocaleFromRequest(req, inviter?.brandingSettings, body.locale);
+    const inviterName = inviter?.name?.trim() || inviter?.email || 'QRbanner';
+
+    try {
+      await sendTeamInviteEmail(
+        email,
+        {
+          workspaceName: workspace.name,
+          inviterName,
+          role,
+          inviteUrl,
+        },
+        locale
+      );
+    } catch (err) {
+      console.error('[workspace/members] invite email failed:', err);
+    }
+
     return NextResponse.json({ member, inviteUrl });
   }
 

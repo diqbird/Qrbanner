@@ -217,6 +217,31 @@ export const tr: TranslationTree = {
       text: 'Hesabınız {{providers}} ile giriş kullanıyor. {{loginUrl}} adresinden giriş yapın. Şifre sıfırlamaya gerek yok.',
     },
   },
+  teamInviteEmail: {
+    subject: "QRbanner'da {{workspace}} çalışma alanına davet edildiniz",
+    greeting: 'Merhaba,',
+    intro: '{{inviter}}, sizi {{workspace}} çalışma alanına {{role}} olarak davet etti.',
+    cta: 'Daveti kabul et',
+    expiryNote:
+      'Bu davet linki size özeldir. Beklemiyorsanız bu e-postayı güvenle yok sayabilirsiniz.',
+    text: '{{inviter}} sizi {{workspace}} çalışma alanına {{role}} olarak davet etti. Kabul: {{inviteUrl}}',
+    roles: {
+      admin: 'Yönetici',
+      editor: 'Editör',
+      viewer: 'İzleyici',
+    },
+  },
+  salesInquiryEmail: {
+    typeEnterprise: 'Kurumsal',
+    typeDemo: 'Demo talebi',
+    typeGeneral: 'Genel',
+    subject: '[QRbanner {{type}}] {{companyOrName}}',
+    labelType: 'Tür',
+    labelName: 'Ad',
+    labelEmail: 'E-posta',
+    labelCompany: 'Şirket',
+    labelPhone: 'Telefon',
+  },
   auth: {
     welcomeBack: 'Tekrar hoş geldiniz',
     signInSubtitle: 'QRbanner hesabınıza giriş yapın',

@@ -66,7 +66,13 @@ async function executeAction(action: AutomationAction, ctx: AutomationContext): 
     case 'email': {
       const subject = interpolate(action.subject, ctx);
       const body = interpolate(action.body, ctx);
-      const sent = await sendAutomationNotification(action.to, subject, body, ctx.workspaceId);
+      const sent = await sendAutomationNotification(
+        action.to,
+        subject,
+        body,
+        ctx.workspaceId,
+        ctx.locale ?? 'en',
+      );
       if (!sent.sent) throw new Error('email_not_configured');
       return;
     }

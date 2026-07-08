@@ -1,0 +1,25 @@
+{
+  "upload": [
+    "lib/i18n/email-shell.ts",
+    "lib/i18n/resolve-outbound-email-locale.ts",
+    "lib/i18n/auth-transactional-email.ts",
+    "lib/i18n/team-invite-email.ts",
+    "lib/i18n/localize-automation-context.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/oauth-provider-labels.ts",
+    "lib/email.ts",
+    "lib/sales-inquiry-email.ts",
+    "lib/automation-engine.ts",
+    "lib/automation-types.ts",
+    "app/api/auth/forgot-password/route.ts",
+    "app/api/verify/resend/route.ts",
+    "app/api/workspace/members/route.ts",
+    "app/api/contact/inquiry/route.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

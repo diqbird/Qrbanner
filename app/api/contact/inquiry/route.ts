@@ -6,6 +6,7 @@ import { clientIp } from '@/lib/rate-limit';
 import { enforcePublicRateLimit } from '@/lib/public-rate-limit';
 import { sendSalesInquiryEmail } from '@/lib/sales-inquiry-email';
 import { guardPublicPost } from '@/lib/guard-public-post';
+import { resolveEmailLocaleFromRequest } from '@/lib/i18n/resolve-email-locale';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -51,6 +52,7 @@ export async function POST(req: NextRequest) {
       company: company || undefined,
       phone: phone || undefined,
       message,
+      locale: resolveEmailLocaleFromRequest(req, record.locale),
     });
 
     // Persist so support requests survive email issues and are visible in the

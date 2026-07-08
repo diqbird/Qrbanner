@@ -216,6 +216,31 @@ export const en: TranslationTree = {
       text: 'Your account uses {{providers}} sign-in. Sign in at {{loginUrl}}. No password reset is needed.',
     },
   },
+  teamInviteEmail: {
+    subject: "You're invited to {{workspace}} on QRbanner",
+    greeting: 'Hi,',
+    intro: '{{inviter}} invited you to join {{workspace}} as {{role}}.',
+    cta: 'Accept invitation',
+    expiryNote:
+      'This invitation link is unique to you. If you were not expecting this, you can safely ignore this email.',
+    text: '{{inviter}} invited you to join {{workspace}} as {{role}}. Accept: {{inviteUrl}}',
+    roles: {
+      admin: 'Admin',
+      editor: 'Editor',
+      viewer: 'Viewer',
+    },
+  },
+  salesInquiryEmail: {
+    typeEnterprise: 'Enterprise',
+    typeDemo: 'Demo request',
+    typeGeneral: 'General',
+    subject: '[QRbanner {{type}}] {{companyOrName}}',
+    labelType: 'Type',
+    labelName: 'Name',
+    labelEmail: 'Email',
+    labelCompany: 'Company',
+    labelPhone: 'Phone',
+  },
   auth: {
     welcomeBack: 'Welcome back',
     signInSubtitle: 'Sign in to your QRbanner account',

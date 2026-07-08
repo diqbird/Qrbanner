@@ -1,24 +1,11 @@
 import { translate, type Locale } from '@/lib/i18n';
 import { authEmailDurationVars } from '@/lib/i18n/policy-day-vars';
+import { buildEmailShell } from '@/lib/i18n/email-shell';
 import { SUPPORT_EMAIL } from '@/lib/site-contact';
 
 function t(locale: Locale, key: string, vars?: Record<string, string | number>) {
   const durationVars = authEmailDurationVars(locale);
   return translate(locale, key, { ...durationVars, ...vars });
-}
-
-function emailShell(locale: Locale, body: string): string {
-  const rights = t(locale, 'authEmail.footerRights', { year: new Date().getFullYear() });
-  return `
-  <div style="font-family:Arial,Helvetica,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;color:#0f172a">
-    <div style="text-align:center;margin-bottom:24px">
-      <div style="display:inline-block;width:48px;height:48px;line-height:48px;background:#4f46e5;color:#fff;border-radius:12px;font-size:24px">▣</div>
-      <h1 style="font-size:20px;margin:12px 0 0">QRbanner</h1>
-    </div>
-    ${body}
-    <hr style="border:none;border-top:1px solid #e2e8f0;margin:24px 0" />
-    <p style="font-size:12px;color:#94a3b8;text-align:center">${rights}</p>
-  </div>`;
 }
 
 export function buildVerificationEmailContent(
@@ -35,7 +22,7 @@ export function buildVerificationEmailContent(
   const expiryNote = t(locale, 'authEmail.verification.expiryNote');
   const text = t(locale, 'authEmail.verification.text', { code });
 
-  const html = emailShell(
+  const html = buildEmailShell(
     locale,
     `
     <p style="font-size:15px">${greeting}</p>
@@ -65,7 +52,7 @@ export function buildPasswordResetEmailContent(
   const expiryNote = t(locale, 'authEmail.passwordReset.expiryNote');
   const text = t(locale, 'authEmail.passwordReset.text', { code, resetUrl });
 
-  const html = emailShell(
+  const html = buildEmailShell(
     locale,
     `
     <p style="font-size:15px">${greeting}</p>
@@ -106,7 +93,7 @@ export function buildPasswordResetOAuthEmailContent(
   const footerHelp = t(locale, 'authEmail.passwordResetOAuth.footerHelp', { supportEmail: SUPPORT_EMAIL });
   const text = t(locale, 'authEmail.passwordResetOAuth.text', { providers: providerList, loginUrl });
 
-  const html = emailShell(
+  const html = buildEmailShell(
     locale,
     `
     <p style="font-size:15px">${greeting}</p>

@@ -44,6 +44,7 @@ export type AutomationContext = {
   leadMessage?: string | null;
   ctaLabel?: string | null;
   scannedAt?: string;
+  locale?: 'en' | 'tr';
 };
 
 export const TEMPLATE_VAR_KEYS = [

@@ -15,6 +15,7 @@ export function localizeAutomationContext(ctx: AutomationContext, locale: Locale
   const t: TranslateFn = (key, vars) => translate(locale, key, vars);
   return {
     ...ctx,
+    locale,
     country: ctx.country ? resolveAnalyticsCountryLabel(t, ctx.country, locale) : ctx.country,
     city: ctx.city ? resolveAnalyticsCityLabel(t, ctx.city, locale) : ctx.city,
     device: ctx.device ? resolveAnalyticsDeviceLabel(t, ctx.device) : ctx.device,

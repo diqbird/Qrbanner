@@ -1,5 +1,7 @@
 import { createSmtpTransport, smtpFromAddress } from '@/lib/smtp-transport';
 import { SUPPORT_EMAIL } from '@/lib/site-contact';
+import { translate, type Locale } from '@/lib/i18n';
+import { buildEmailShell } from '@/lib/i18n/email-shell';
 
 function getTransporter() {
   return createSmtpTransport();
@@ -12,6 +14,7 @@ export interface SalesInquiryPayload {
   company?: string;
   phone?: string;
   message: string;
+  locale?: Locale;
 }
 
 export type SalesInquirySendResult = {
@@ -19,28 +22,44 @@ export type SalesInquirySendResult = {
   fallback: boolean;
 };
 
+function typeLabel(locale: Locale, type: SalesInquiryPayload['type']): string {
+  const key =
+    type === 'enterprise'
+      ? 'salesInquiryEmail.typeEnterprise'
+      : type === 'demo'
+        ? 'salesInquiryEmail.typeDemo'
+        : 'salesInquiryEmail.typeGeneral';
+  return translate(locale, key);
+}
+
 export async function sendSalesInquiryEmail(
   payload: SalesInquiryPayload
 ): Promise<SalesInquirySendResult> {
   const transporter = getTransporter();
   const from = smtpFromAddress();
   const to = process.env.SALES_INBOX || SUPPORT_EMAIL;
+  const locale = payload.locale === 'tr' ? 'tr' : 'en';
+  const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
 
-  const typeLabel =
-    payload.type === 'enterprise' ? 'Enterprise' : payload.type === 'demo' ? 'Demo request' : 'General';
+  const type = typeLabel(locale, payload.type);
+  const companyOrName = payload.company || payload.name;
+  const subject = t('salesInquiryEmail.subject', { type, companyOrName });
 
-  const subject = `[QRbanner ${typeLabel}] ${payload.company || payload.name}`;
-  const text = [
-    `Type: ${typeLabel}`,
-    `Name: ${payload.name}`,
-    `Email: ${payload.email}`,
-    payload.company ? `Company: ${payload.company}` : null,
-    payload.phone ? `Phone: ${payload.phone}` : null,
+  const lines: string[] = [
+    `${t('salesInquiryEmail.labelType')}: ${type}`,
+    `${t('salesInquiryEmail.labelName')}: ${payload.name}`,
+    `${t('salesInquiryEmail.labelEmail')}: ${payload.email}`,
+    ...(payload.company ? [`${t('salesInquiryEmail.labelCompany')}: ${payload.company}`] : []),
+    ...(payload.phone ? [`${t('salesInquiryEmail.labelPhone')}: ${payload.phone}`] : []),
     '',
     payload.message,
-  ]
-    .filter(Boolean)
-    .join('\n');
+  ];
+
+  const text = lines.join('\n');
+  const htmlBody = lines
+    .map((line) => `<p style="font-size:14px;margin:0 0 8px;white-space:pre-wrap">${line.replace(/</g, '&lt;')}</p>`)
+    .join('');
+  const html = buildEmailShell(locale, htmlBody);
 
   const logFallback = () => {
     console.log(`[email] Sales inquiry logged (delivery fallback):\n${text}`);
@@ -58,6 +77,7 @@ export async function sendSalesInquiryEmail(
       replyTo: payload.email,
       subject,
       text,
+      html,
     });
     return { sent: true, fallback: false };
   } catch (err) {

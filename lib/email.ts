@@ -148,6 +148,32 @@ export async function sendPasswordResetOAuthEmail(
   }
 }
 
+export async function sendTeamInviteEmail(
+  to: string,
+  payload: import('@/lib/i18n/team-invite-email').TeamInviteEmailPayload,
+  locale: import('@/lib/i18n/types').Locale = 'en',
+) {
+  const { buildTeamInviteEmailContent } = await import('@/lib/i18n/team-invite-email');
+  const { subject, html, text } = buildTeamInviteEmailContent(locale, payload);
+
+  if (!getTransporter()) {
+    if (isDevEmailFallbackAllowed()) {
+      logDevEmailSkipped('team invite', to);
+      return { sent: false, fallback: true };
+    }
+    throw new EmailNotConfiguredError('team invite email');
+  }
+
+  try {
+    const result = await deliverMail({ to, subject, text, html });
+    console.log(`[email] Team invite sent to ${to}`, result);
+    return result;
+  } catch (error) {
+    console.error('[email] Team invite send failed:', error);
+    throw error;
+  }
+}
+
 export interface ScanNotificationPayload {
   userName?: string | null;
   qrName: string;
@@ -187,14 +213,21 @@ export async function sendAutomationNotification(
   to: string,
   subject: string,
   text: string,
-  workspaceId?: string | null
+  workspaceId?: string | null,
+  locale: import('@/lib/i18n/types').Locale = 'en',
 ): Promise<{ sent: boolean; fallback?: boolean }> {
+  const { buildEmailShell } = await import('@/lib/i18n/email-shell');
+  const escaped = text.replace(/</g, '&lt;');
+  const html = buildEmailShell(
+    locale,
+    `<p style="font-size:15px;white-space:pre-wrap;margin:0">${escaped}</p>`,
+  );
   const result = await sendTenantMail({
     workspaceId,
     to,
     subject,
     text,
-    html: `<div style="font-family:Arial,sans-serif;white-space:pre-wrap">${text.replace(/</g, '&lt;')}</div>`,
+    html,
     fromName: 'QRbanner',
   });
   return { sent: result.sent, fallback: result.fallback };
