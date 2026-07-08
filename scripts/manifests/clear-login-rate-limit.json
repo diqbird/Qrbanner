@@ -1,0 +1,11 @@
+{
+  "upload": ["scripts/clear-login-rate-limit.mjs"],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": false,
+  "restart": false,
+  "extra_commands": [
+    "cd /var/www/qrbanner && node scripts/clear-login-rate-limit.mjs 2>&1 | tail -5"
+  ]
+}
