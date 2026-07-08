@@ -296,6 +296,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.role = (user as { role?: string })?.role ?? 'user';
+        delete token.sessionInvalid;
         const rememberMe = (user as { rememberMe?: boolean }).rememberMe !== false;
         const maxAge = rememberMe ? SESSION_REMEMBER_MAX_AGE_SEC : SESSION_DEFAULT_MAX_AGE_SEC;
         token.rememberMe = rememberMe;
@@ -341,6 +342,7 @@ export const authOptions: NextAuthOptions = {
         if (!dbUser || (token.sessionVersion ?? 0) !== dbUser.sessionVersion) {
           token.sessionInvalid = true;
         } else {
+          delete token.sessionInvalid;
           token.role = dbUser.role;
           token.sessionVersion = dbUser.sessionVersion;
         }
