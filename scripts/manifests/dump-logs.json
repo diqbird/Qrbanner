@@ -1,0 +1,13 @@
+{
+  "upload": [],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": false,
+  "restart": false,
+  "extra_commands": [
+    "pm2 jlist 2>/dev/null | node -e \"let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{const a=JSON.parse(d);a.forEach(p=>console.log('PM2',p.name,'status=',p.pm2_env.status,'restarts=',p.pm2_env.restart_time))})\"",
+    "echo '=== ERROR LOG ==='",
+    "tail -n 100 ~/.pm2/logs/qrbanner-error.log 2>/dev/null"
+  ]
+}
