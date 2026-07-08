@@ -36,7 +36,7 @@ except urllib.error.HTTPError as e:
 
 # VPS env check
 HOST = "31.97.113.170"
-PW = os.environ.get("DEPLOY_PASSWORD", "112358Onrks..")
+PW = os.environ.get("DEPLOY_PASSWORD", "")
 c = paramiko.SSHClient()
 c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 c.connect(HOST, username="root", password=PW, timeout=30)

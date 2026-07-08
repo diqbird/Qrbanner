@@ -2,8 +2,9 @@
 """Scan VPS DB for suspicious QR redirect URLs and check site files."""
 import json
 import paramiko
+import os
 
-HOST, USER, PW = "31.97.113.170", "root", "112358Onrks.."
+HOST, USER, PW = "31.97.113.170", "root", os.environ["DEPLOY_PASSWORD"]
 REMOTE = "/var/www/qrbanner"
 
 SUSPICIOUS_PATTERNS = [

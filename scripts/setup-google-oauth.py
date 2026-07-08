@@ -7,7 +7,7 @@ import time
 
 HOST = "31.97.113.170"
 USER = "root"
-PASSWORD = "112358Onrks.."
+PASSWORD = os.environ["DEPLOY_PASSWORD"]
 LOCAL = r"C:\Users\ACRO Technology\qrbanner"
 REMOTE = "/var/www/qrbanner"
 GOOGLE_CLIENT_ID = "643750634751-gbh30snqbjfhorbe40gti27md4qhvh9k.apps.googleusercontent.com"

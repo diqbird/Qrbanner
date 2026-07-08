@@ -36,7 +36,7 @@ files = [
 
 c = paramiko.SSHClient()
 c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-c.connect("31.97.113.170", username="root", password="112358Onrks..", timeout=30)
+c.connect("31.97.113.170", username="root", password=os.environ["DEPLOY_PASSWORD"], timeout=30)
 sftp = c.open_sftp()
 
 for rel in files:

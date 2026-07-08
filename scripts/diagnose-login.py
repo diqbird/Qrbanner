@@ -2,10 +2,11 @@
 """Diagnose login issues on production."""
 import paramiko
 import json
+import os
 
 HOST = "31.97.113.170"
 USER = "root"
-PASSWORD = "112358Onrks.."
+PASSWORD = os.environ["DEPLOY_PASSWORD"]
 REMOTE = "/var/www/qrbanner"
 
 c = paramiko.SSHClient()

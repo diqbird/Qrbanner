@@ -8,7 +8,7 @@ pattern = sys.argv[1] if len(sys.argv) > 1 else "components"
 
 c = paramiko.SSHClient()
 c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-c.connect("31.97.113.170", username="root", password="112358Onrks..", timeout=20)
+c.connect("31.97.113.170", username="root", password=os.environ["DEPLOY_PASSWORD"], timeout=20)
 
 cmd = f'find {remote_base}/{pattern} -type f'
 stdin, stdout, stderr = c.exec_command(cmd)

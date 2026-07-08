@@ -8,7 +8,7 @@ import re
 import sys
 import paramiko
 
-HOST, USER, PW = "31.97.113.170", "root", "112358Onrks.."
+HOST, USER, PW = "31.97.113.170", "root", os.environ["DEPLOY_PASSWORD"]
 REMOTE = "/var/www/qrbanner"
 
 DEFAULTS = {

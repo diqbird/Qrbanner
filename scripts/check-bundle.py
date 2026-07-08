@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 import paramiko
+import os
 
 HOST = "31.97.113.170"
 USER = "root"
-PASSWORD = "112358Onrks.."
+PASSWORD = os.environ["DEPLOY_PASSWORD"]
 
 cmds = [
     "find /var/www/qrbanner/.next/server -name '*route*' -path '*s/*code*' 2>/dev/null | head -5",

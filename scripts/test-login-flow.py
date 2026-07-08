@@ -3,10 +3,11 @@
 import paramiko
 import json
 import re
+import os
 
 HOST = "31.97.113.170"
 USER = "root"
-PASSWORD = "112358Onrks.."
+PASSWORD = os.environ["DEPLOY_PASSWORD"]
 
 c = paramiko.SSHClient()
 c.set_missing_host_key_policy(paramiko.AutoAddPolicy())

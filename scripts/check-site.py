@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import paramiko
+import os
 c = paramiko.SSHClient()
 c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-c.connect("31.97.113.170", username="root", password="112358Onrks..", timeout=30)
+c.connect("31.97.113.170", username="root", password=os.environ["DEPLOY_PASSWORD"], timeout=30)
 for url in [
     "https://qrbanner.com/",
     "https://qrbanner.com/sitemap.xml",

@@ -10,8 +10,8 @@ import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { LandingBlockFieldProps } from './landing-block-field-types';
 
 export function LandingBlockHubLinksLayout({ block, patch }: LandingBlockFieldProps) {
-  if (block.type !== 'hubLinks') return null;
   const { t, locale } = useLanguage();
+  if (block.type !== 'hubLinks') return null;
   const links = block.links ?? [];
   const setLink = (i: number, p: Partial<HubLink>) =>
     patch({ links: links.map((l, idx) => (idx === i ? { ...l, ...p } : l)) });

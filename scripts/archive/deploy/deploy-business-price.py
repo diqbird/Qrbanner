@@ -8,7 +8,7 @@ import urllib.parse
 import urllib.request
 import paramiko
 
-HOST, USER, PW = "31.97.113.170", "root", "112358Onrks.."
+HOST, USER, PW = "31.97.113.170", "root", os.environ["DEPLOY_PASSWORD"]
 LOCAL, REMOTE = r"C:\Users\ACRO Technology\qrbanner", "/var/www/qrbanner"
 BUSINESS_CENTS = 2999
 

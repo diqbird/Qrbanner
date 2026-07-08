@@ -11,7 +11,7 @@ except Exception:
 
 HOST = os.environ.get("DEPLOY_HOST", "31.97.113.170")
 USER = os.environ.get("DEPLOY_USER", "root")
-PW = os.environ.get("DEPLOY_PASSWORD", "112358Onrks..")
+PW = os.environ.get("DEPLOY_PASSWORD", "")
 REMOTE = os.environ.get("DEPLOY_REMOTE", "/var/www/qrbanner")
 KEYS = ("SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_FROM", "SMTP_SECURE")
 

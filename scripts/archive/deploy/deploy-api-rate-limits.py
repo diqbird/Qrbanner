@@ -11,7 +11,7 @@ except Exception:
 
 HOST = "31.97.113.170"
 USER = "root"
-PW = os.environ.get("DEPLOY_PASSWORD", "112358Onrks..")
+PW = os.environ.get("DEPLOY_PASSWORD", "")
 LOCAL = r"C:\Users\ACRO Technology\qrbanner"
 REMOTE = "/var/www/qrbanner"
 

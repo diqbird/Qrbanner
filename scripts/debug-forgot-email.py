@@ -14,7 +14,7 @@ except Exception:
 
 EMAIL = sys.argv[1] if len(sys.argv) > 1 else "onur@admin.com"
 HOST = "31.97.113.170"
-PW = os.environ.get("DEPLOY_PASSWORD", "112358Onrks..")
+PW = os.environ.get("DEPLOY_PASSWORD", "")
 REMOTE = "/var/www/qrbanner"
 
 c = paramiko.SSHClient()

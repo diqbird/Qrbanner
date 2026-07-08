@@ -1,0 +1,14 @@
+{
+  "upload": [
+    "components/qr/landing-block-hub-links-layout.tsx",
+    "components/qr/landing-block-social-layout.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true,
+  "extra_commands": [
+    "test -f /var/www/qrbanner/.next/server/pages/_error.js && echo ERROR_JS_OK || echo ERROR_JS_MISSING"
+  ]
+}

@@ -14,8 +14,8 @@ import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { LandingBlockFieldProps } from './landing-block-field-types';
 
 export function LandingBlockSocialLayout({ block, patch }: LandingBlockFieldProps) {
-  if (block.type !== 'social') return null;
   const { t, locale } = useLanguage();
+  if (block.type !== 'social') return null;
   const links = block.links ?? [];
   const setLink = (i: number, p: Partial<{ platform: SocialPlatform; url: string }>) =>
     patch({ links: links.map((l, idx) => (idx === i ? { ...l, ...p } : l)) });
