@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "lib/industry-archetype-templates.ts",
+    "lib/i18n/industry-template-copy.ts",
+    "lib/i18n/template-meta-copy.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": false,
+  "restart": false,
+  "extra_commands": [
+    "cd /var/www/qrbanner && rm -rf .next && yarn build 2>&1 | tail -15",
+    "test -f /var/www/qrbanner/.next/server/pages/_error.js && echo ERROR_JS_OK || echo ERROR_JS_MISSING",
+    "pm2 restart qrbanner --update-env 2>&1 | tail -2",
+    "sleep 6",
+    "for slug in whatsapp-order google-review tiktok-profile linkedin-profile facebook-page; do curl -s -o /dev/null -w \"$slug:%{http_code}\\n\" http://127.0.0.1:3000/templates/$slug; done"
+  ]
+}

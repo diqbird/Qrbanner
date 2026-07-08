@@ -39,6 +39,11 @@ const namesEn: TranslationTree = {
   'family-community': 'Family & Community',
   'mobile-vendor': 'Mobile Vendor',
   'local-services-hub': 'Local Services',
+  'whatsapp-order': 'WhatsApp Orders',
+  'google-review': 'Google Reviews',
+  'tiktok-profile': 'TikTok Profile',
+  'linkedin-profile': 'LinkedIn Profile',
+  'facebook-page': 'Facebook Page',
 };
 
 const namesTr: TranslationTree = {
@@ -74,6 +79,11 @@ const namesTr: TranslationTree = {
   'family-community': 'Aile & Topluluk',
   'mobile-vendor': 'Mobil Satıcı',
   'local-services-hub': 'Yerel Hizmetler',
+  'whatsapp-order': 'WhatsApp Sipariş',
+  'google-review': 'Google Yorumları',
+  'tiktok-profile': 'TikTok Profili',
+  'linkedin-profile': 'LinkedIn Profili',
+  'facebook-page': 'Facebook Sayfası',
 };
 
 const coreSectionsEn: TranslationTree = {

@@ -439,6 +439,51 @@ export const templateMetaEn: TranslationTree = {
         '1': 'Lead form on landing page.',
       },
     },
+    'whatsapp-order': {
+      tagline: 'One scan opens a WhatsApp chat — orders and support with no app hunting',
+      useCases: { '0': 'Table tent', '1': 'Shop window', '2': 'Delivery packaging', '3': 'Flyer' },
+      tips: {
+        '0': 'Pre-fill the message with a menu link or "I want to order".',
+        '1': 'Use a business number with WhatsApp Business for auto-replies.',
+        '2': 'Print at least 3×3 cm on table tents and packaging.',
+      },
+    },
+    'google-review': {
+      tagline: 'Send happy customers straight to your Google review form',
+      useCases: { '0': 'Counter card', '1': 'Receipt footer', '2': 'Table tent', '3': 'Delivery insert' },
+      tips: {
+        '0': 'Ask at the moment of delight — after checkout or a great meal.',
+        '1': 'Pair with a short line: "Loved it? Scan to leave a review."',
+        '2': 'Track scan spikes to see which locations ask most.',
+      },
+    },
+    'tiktok-profile': {
+      tagline: 'Turn offline traffic into TikTok followers',
+      useCases: { '0': 'Product box', '1': 'Store window', '2': 'Event booth', '3': 'Flyer' },
+      tips: {
+        '0': 'Dynamic short link — repoint to a campaign later.',
+        '1': 'Add ?src=nfc on NFC stickers for source analytics.',
+        '2': 'Print on packaging to catch buyers post-purchase.',
+      },
+    },
+    'linkedin-profile': {
+      tagline: 'Professional networking from cards, badges and brochures',
+      useCases: { '0': 'Conference badge', '1': 'Business card', '2': 'Brochure', '3': 'Email signature' },
+      tips: {
+        '0': 'Find your slug in your LinkedIn public profile URL.',
+        '1': 'Pair with a vCard QR on networking cards.',
+        '2': 'High error correction with a center logo scans best.',
+      },
+    },
+    'facebook-page': {
+      tagline: 'Grow your Facebook page from print and packaging',
+      useCases: { '0': 'Store window', '1': 'Flyer', '2': 'Receipt footer', '3': 'Event poster' },
+      tips: {
+        '0': 'Use your page vanity URL, not the numeric ID.',
+        '1': 'Promote events and offers on the same page.',
+        '2': 'Track which print pieces drive the most follows.',
+      },
+    },
   };
 
 export const templateMetaTr: TranslationTree = {
@@ -877,6 +922,51 @@ export const templateMetaTr: TranslationTree = {
       tips: {
         '0': 'Aynı kamyon etiketinde mevsimlik promosyon değişimi.',
         '1': 'Landing sayfasında lead formu.',
+      },
+    },
+    'whatsapp-order': {
+      tagline: 'Tek tarama WhatsApp sohbetini açar — uygulama aramadan sipariş ve destek',
+      useCases: { '0': 'Masa kartı', '1': 'Vitrin', '2': 'Teslimat paketi', '3': 'El ilanı' },
+      tips: {
+        '0': 'Mesajı menü linki veya "Sipariş vermek istiyorum" ile önceden doldurun.',
+        '1': 'Otomatik yanıt için WhatsApp Business numarası kullanın.',
+        '2': 'Masa kartı ve pakette en az 3×3 cm basın.',
+      },
+    },
+    'google-review': {
+      tagline: 'Memnun müşterileri doğrudan Google yorum formuna gönderin',
+      useCases: { '0': 'Tezgah kartı', '1': 'Fiş altı', '2': 'Masa kartı', '3': 'Teslimat kartı' },
+      tips: {
+        '0': 'En keyifli anda isteyin — ödeme veya güzel bir yemekten sonra.',
+        '1': 'Kısa bir cümleyle eşleştirin: "Beğendiniz mi? Yorum için tarayın."',
+        '2': 'Hangi şubenin daha çok istediğini tarama artışından izleyin.',
+      },
+    },
+    'tiktok-profile': {
+      tagline: 'Çevrimdışı trafiği TikTok takipçisine dönüştürün',
+      useCases: { '0': 'Ürün kutusu', '1': 'Vitrin', '2': 'Etkinlik standı', '3': 'El ilanı' },
+      tips: {
+        '0': 'Dinamik kısa link — sonra bir kampanyaya yönlendirin.',
+        '1': 'NFC etiketlerinde kaynak analizi için ?src=nfc ekleyin.',
+        '2': 'Satın alma sonrası yakalamak için pakete basın.',
+      },
+    },
+    'linkedin-profile': {
+      tagline: 'Kartvizit, yaka kartı ve broşürlerden profesyonel networking',
+      useCases: { '0': 'Konferans yaka kartı', '1': 'Kartvizit', '2': 'Broşür', '3': 'E-posta imzası' },
+      tips: {
+        '0': 'Slug\'ınızı LinkedIn herkese açık profil adresinizde bulun.',
+        '1': 'Networking kartlarında vCard QR ile eşleştirin.',
+        '2': 'Merkez logoyla yüksek hata düzeltme en iyi taranır.',
+      },
+    },
+    'facebook-page': {
+      tagline: 'Baskı ve paketlemeden Facebook sayfanızı büyütün',
+      useCases: { '0': 'Vitrin', '1': 'El ilanı', '2': 'Fiş altı', '3': 'Etkinlik afişi' },
+      tips: {
+        '0': 'Sayısal ID değil, sayfa özel adını (vanity URL) kullanın.',
+        '1': 'Aynı sayfada etkinlik ve teklifleri tanıtın.',
+        '2': 'Hangi baskının en çok takip getirdiğini izleyin.',
       },
     },
   };

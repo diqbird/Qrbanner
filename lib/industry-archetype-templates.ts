@@ -412,4 +412,203 @@ export const ARCHETYPE_INDUSTRY_TEMPLATES: IndustryTemplate[] = [
       leadForm: { collectName: true, collectPhone: true, requiredEmail: false },
     },
   },
+
+  {
+    id: 'whatsapp-order',
+    name: 'WhatsApp Orders',
+    category: 'whatsapp',
+    tagline: 'One scan opens a WhatsApp chat — orders and support with no app hunting',
+    description: 'Menus, packaging and shop windows link straight to a WhatsApp conversation with a pre-written message.',
+    useCases: ['Table tent', 'Shop window', 'Delivery packaging', 'Flyer'],
+    suggestedQrName: 'WhatsApp — Orders',
+    qrData: { phone: '', message: '' },
+    style: {
+      fgColor: '#075e54',
+      bgColor: '#e7fce3',
+      dotStyle: 'rounded',
+      cornerStyle: 'extra-rounded',
+      frameStyle: 'badge',
+      frameText: 'CHAT ON WHATSAPP',
+      errorCorrection: 'H',
+    },
+    sections: [
+      {
+        id: 'number',
+        title: 'WhatsApp number',
+        description: 'Include country code — scanners open a chat with this number.',
+        fields: [
+          { key: 'phone', label: 'WhatsApp number', placeholder: '+90 532 000 00 00', required: true, type: 'phone' },
+        ],
+      },
+      {
+        id: 'message',
+        title: 'Pre-written message',
+        description: 'Optional — pre-fills the chat so customers start faster.',
+        fields: [
+          { key: 'message', label: 'Message', placeholder: 'Hi! I would like to order…', type: 'textarea' },
+        ],
+      },
+    ],
+    tips: [
+      'Pre-fill the message with a menu link or "I want to order".',
+      'Use a business number with WhatsApp Business for auto-replies.',
+      'Print at least 3×3 cm on table tents and packaging.',
+    ],
+  },
+
+  {
+    id: 'google-review',
+    name: 'Google Reviews',
+    category: 'google_review',
+    tagline: 'Send happy customers straight to your Google review form',
+    description: 'Counter cards, receipts and packaging that make leaving a 5-star review a one-scan action.',
+    useCases: ['Counter card', 'Receipt footer', 'Table tent', 'Delivery insert'],
+    suggestedQrName: 'Google Reviews — Main Location',
+    qrData: { url: '', placeId: '', _businessName: '' },
+    style: {
+      fgColor: '#1a73e8',
+      bgColor: '#ffffff',
+      dotStyle: 'rounded',
+      frameStyle: 'scan-me',
+      frameText: 'RATE US ON GOOGLE',
+      gradientEnabled: true,
+      gradientColor2: '#4285f4',
+      errorCorrection: 'H',
+    },
+    sections: [
+      {
+        id: 'review-link',
+        title: 'Google review link',
+        description: 'Paste your "write a review" short link from Google Business Profile.',
+        fields: [
+          {
+            key: 'url',
+            label: 'Review URL',
+            placeholder: 'https://g.page/r/…/review',
+            hint: 'Google Business Profile → Ask for reviews → copy link.',
+            type: 'url',
+            required: true,
+          },
+        ],
+      },
+      {
+        id: 'business',
+        title: 'Business name',
+        description: 'Shown on the card — not encoded in the link.',
+        fields: [
+          { key: '_businessName', label: 'Business name', placeholder: 'The Garden Bistro', type: 'text' },
+        ],
+      },
+    ],
+    tips: [
+      'Ask at the moment of delight — after checkout or a great meal.',
+      'Pair with a short line: "Loved it? Scan to leave a review."',
+      'Track scan spikes to see which locations ask most.',
+    ],
+  },
+
+  {
+    id: 'tiktok-profile',
+    name: 'TikTok Profile',
+    category: 'tiktok',
+    tagline: 'Turn offline traffic into TikTok followers',
+    description: 'Packaging, store windows and events that grow your TikTok audience in one scan.',
+    useCases: ['Product box', 'Store window', 'Event booth', 'Flyer'],
+    suggestedQrName: 'TikTok — @yourbrand',
+    qrData: { username: '' },
+    style: {
+      fgColor: '#010101',
+      bgColor: '#ffffff',
+      dotStyle: 'rounded',
+      frameStyle: 'badge',
+      frameText: 'FOLLOW ON TIKTOK',
+      gradientEnabled: true,
+      gradientColor2: '#25f4ee',
+      errorCorrection: 'H',
+    },
+    sections: [
+      {
+        id: 'profile',
+        title: 'TikTok username',
+        description: 'Without @ — opens tiktok.com/@username.',
+        fields: [
+          { key: 'username', label: 'Username', placeholder: 'yourbrand', required: true, type: 'text' },
+        ],
+      },
+    ],
+    tips: [
+      'Dynamic short link — repoint to a campaign later.',
+      'Add ?src=nfc on NFC stickers for source analytics.',
+      'Print on packaging to catch buyers post-purchase.',
+    ],
+  },
+
+  {
+    id: 'linkedin-profile',
+    name: 'LinkedIn Profile',
+    category: 'linkedin',
+    tagline: 'Professional networking from cards, badges and brochures',
+    description: 'One scan opens your LinkedIn profile — ideal beside a business card QR.',
+    useCases: ['Conference badge', 'Business card', 'Brochure', 'Email signature'],
+    suggestedQrName: 'LinkedIn — Your Name',
+    qrData: { username: '' },
+    style: {
+      fgColor: '#0a66c2',
+      bgColor: '#f3f9ff',
+      dotStyle: 'classy',
+      cornerStyle: 'classy',
+      frameStyle: 'rounded',
+      frameText: 'CONNECT ON LINKEDIN',
+      errorCorrection: 'H',
+    },
+    sections: [
+      {
+        id: 'profile',
+        title: 'LinkedIn profile',
+        description: 'Your public profile slug — opens linkedin.com/in/slug.',
+        fields: [
+          { key: 'username', label: 'Profile slug', placeholder: 'ayse-yilmaz', required: true, type: 'text' },
+        ],
+      },
+    ],
+    tips: [
+      'Find your slug in your LinkedIn public profile URL.',
+      'Pair with a vCard QR on networking cards.',
+      'High error correction with a center logo scans best.',
+    ],
+  },
+
+  {
+    id: 'facebook-page',
+    name: 'Facebook Page',
+    category: 'facebook',
+    tagline: 'Grow your Facebook page from print and packaging',
+    description: 'Storefronts, flyers and receipts that turn local customers into page followers.',
+    useCases: ['Store window', 'Flyer', 'Receipt footer', 'Event poster'],
+    suggestedQrName: 'Facebook — Your Page',
+    qrData: { username: '' },
+    style: {
+      fgColor: '#1877f2',
+      bgColor: '#ffffff',
+      dotStyle: 'rounded',
+      frameStyle: 'badge',
+      frameText: 'FOLLOW ON FACEBOOK',
+      errorCorrection: 'H',
+    },
+    sections: [
+      {
+        id: 'profile',
+        title: 'Facebook page',
+        description: 'Page username or vanity name — opens facebook.com/name.',
+        fields: [
+          { key: 'username', label: 'Page name', placeholder: 'yourbusiness', required: true, type: 'text' },
+        ],
+      },
+    ],
+    tips: [
+      'Use your page vanity URL, not the numeric ID.',
+      'Promote events and offers on the same page.',
+      'Track which print pieces drive the most follows.',
+    ],
+  },
 ];
