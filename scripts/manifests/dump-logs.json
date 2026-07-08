@@ -6,6 +6,8 @@
   "build": false,
   "restart": false,
   "extra_commands": [
-    "pm2 logs qrbanner --lines 120 --nostream 2>&1 | tail -120"
+    "pm2 jlist 2>/dev/null | node -e \"let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{const a=JSON.parse(d);a.forEach(p=>console.log('PM2',p.name,'status=',p.pm2_env.status,'restarts=',p.pm2_env.restart_time,'unstable=',p.pm2_env.unstable_restarts))})\"",
+    "echo '=== ERROR LOG ==='",
+    "tail -n 80 ~/.pm2/logs/qrbanner-error.log 2>/dev/null || find ~/.pm2/logs -name '*error*' -exec tail -n 80 {} +"
   ]
 }
