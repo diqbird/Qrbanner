@@ -1,8 +1,0 @@
-{
-  "upload": [],
-  "yarn_install": false,
-  "prisma_generate": false,
-  "prisma_migrate": false,
-  "build": false,
-  "restart": true
-}
