@@ -318,6 +318,7 @@ export const authOptions: NextAuthOptions = {
             select: { sessionVersion: true },
           });
           token.sessionVersion = dbUser?.sessionVersion ?? 0;
+          await ensurePersonalWorkspace(user.id);
         }
       } else if (token.id) {
         const dbUser = await prisma.user.findUnique({

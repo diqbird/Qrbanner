@@ -74,7 +74,19 @@ export function useLoginFormSubmit({
 
       if (result?.ok) {
         toast.success(t('auth.signedInSuccess'));
-        window.location.href = callbackUrl;
+        let dest = callbackUrl;
+        try {
+          const sessionRes = await fetch('/api/auth/session');
+          if (sessionRes.ok) {
+            const session = (await sessionRes.json()) as { user?: { role?: string } };
+            if (session.user?.role === 'admin' && !callbackUrl.startsWith('/admin')) {
+              dest = '/admin';
+            }
+          }
+        } catch {
+          /* keep callbackUrl */
+        }
+        window.location.href = dest;
         return;
       }
 

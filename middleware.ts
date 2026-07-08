@@ -103,7 +103,7 @@ export async function middleware(req: NextRequest) {
       secret: process.env.NEXTAUTH_SECRET,
     });
 
-    if (!token) {
+    if (!token || token.sessionInvalid) {
       const login = new URL('/login', req.url);
       login.searchParams.set('callbackUrl', path + req.nextUrl.search);
       return finish(req, NextResponse.redirect(login));
