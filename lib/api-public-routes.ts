@@ -29,11 +29,31 @@ export const PUBLIC_API_ROUTES: PublicApiRoute[] = [
 
 const PUBLIC_SET = new Set(PUBLIC_API_ROUTES.map((r) => `${r.method} ${r.path}`));
 
+const PUBLIC_AUTH_PREFIX = '/api/auth/';
+
+function isPublicNextAuthRoute(pathname: string): boolean {
+  if (!pathname.startsWith(PUBLIC_AUTH_PREFIX)) return false;
+  // Sensitive auth routes still require session/MFA in handlers
+  if (
+    pathname.startsWith('/api/auth/mfa/') &&
+    pathname !== '/api/auth/mfa/verify-session'
+  ) {
+    return false;
+  }
+  if (
+    pathname === '/api/auth/api-key' ||
+    pathname === '/api/auth/profile' ||
+    pathname === '/api/auth/change-password'
+  ) {
+    return false;
+  }
+  return true;
+}
+
 /** Dynamic segments: /api/marketplace/listings/[id] GET is public for published listings. */
 const PUBLIC_PREFIXES: { method: string; prefix: string }[] = [
   { method: 'GET', prefix: '/api/marketplace/listings/' },
   { method: 'GET', prefix: '/api/invite/' },
-  { method: 'GET', prefix: '/api/auth/' }, // NextAuth handlers
 ];
 
 export function hasApiCredentialHeaders(req: { headers: { get(name: string): string | null } }): boolean {
@@ -47,26 +67,11 @@ export function isPublicApiRoute(method: string, pathname: string): boolean {
   const normalizedMethod = method.toUpperCase() === 'HEAD' ? 'GET' : method.toUpperCase();
   const key = `${normalizedMethod} ${pathname}`;
   if (PUBLIC_SET.has(key)) return true;
+  if (isPublicNextAuthRoute(pathname)) return true;
 
   const m = normalizedMethod;
   for (const { method: pm, prefix } of PUBLIC_PREFIXES) {
     if (m === pm && pathname.startsWith(prefix)) {
-      if (prefix === '/api/auth/') {
-        // Sensitive auth routes still require session/MFA in handlers
-        if (
-          pathname.startsWith('/api/auth/mfa/') &&
-          pathname !== '/api/auth/mfa/verify-session'
-        ) {
-          return false;
-        }
-        if (
-          pathname === '/api/auth/api-key' ||
-          pathname === '/api/auth/profile' ||
-          pathname === '/api/auth/change-password'
-        ) {
-          return false;
-        }
-      }
       return true;
     }
   }
