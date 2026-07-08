@@ -13,7 +13,9 @@ export async function GET() {
   const auth = await requireApiAdmin();
   if (isAuthError(auth)) return auth;
 
-  const [totalUsers, byPlan, byRole, qrTotal, scanTotal, last7Days, paddleSubscribers, paddleByPlan] =
+  const fourteenDaysAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
+
+  const [totalUsers, byPlan, byRole, qrTotal, scanTotal, last7Days, paddleSubscribers, paddleByPlan, signupsByDayRaw] =
     await Promise.all([
       prisma.user.count(),
       prisma.user.groupBy({ by: ['plan'], _count: { id: true } }),
@@ -34,6 +36,12 @@ export async function GET() {
         },
         _count: { id: true },
       }),
+      prisma.$queryRaw<{ day: Date; count: bigint }[]>`
+        SELECT date_trunc('day', "createdAt") AS day, COUNT(*)::bigint AS count
+        FROM "User"
+        WHERE "createdAt" >= ${fourteenDaysAgo}
+        GROUP BY 1 ORDER BY 1
+      `,
     ]);
 
   const planCounts = planCountsFromGroupBy(byPlan);
@@ -49,5 +57,6 @@ export async function GET() {
     premiumUsers: premiumUserCount(planCounts),
     paddleSubscribers,
     estimatedMrr: estimatedMrr(paddlePlanCounts),
+    signupsByDay: signupsByDayRaw.map((r) => ({ day: r.day, count: Number(r.count) })),
   });
 }

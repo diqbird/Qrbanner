@@ -9,6 +9,7 @@ export interface AdminStats {
   premiumUsers: number;
   paddleSubscribers: number;
   estimatedMrr: number;
+  signupsByDay?: { day: string; count: number }[];
 }
 
 export interface AdminUser {

@@ -18,6 +18,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import { AdminStatsCards } from '@/components/admin/admin-stats-cards';
 import { AdminBillingPanel } from '@/components/admin/admin-billing-panel';
 import { AdminAuditPanel } from '@/components/admin/admin-audit-panel';
@@ -25,10 +26,73 @@ import { useAdminContent } from '@/hooks/use-admin-content';
 import { adminQueryKeys } from '@/lib/admin/query-keys';
 import { useAdminUiStore } from '@/stores/admin-ui-store';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { resolvePlanDisplayName } from '@/lib/i18n/resolve-plan-display-name';
 import { AdminPageHeader, AdminLoadingState } from '@/components/admin/shared/admin-states';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import type { AdminStats } from '@/lib/admin-content-types';
 import type { AdminWidgetId } from '@/lib/admin/types';
+
+const PLAN_CHART_COLORS = ['hsl(var(--muted-foreground))', 'hsl(var(--primary))', '#8b5cf6', '#f59e0b'];
+
+function SignupsChartCard({ stats }: { stats: AdminStats }) {
+  const { t, locale } = useLanguage();
+  const chartData = (stats.signupsByDay ?? []).map((d) => ({
+    day: new Date(d.day).toLocaleDateString(locale === 'tr' ? 'tr-TR' : 'en-US', {
+      day: 'numeric',
+      month: 'short',
+    }),
+    signups: d.count,
+  }));
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-base">{t('superAdmin.widgets.signupsChart')}</CardTitle>
+      </CardHeader>
+      <CardContent className="h-56">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={chartData}>
+            <XAxis dataKey="day" fontSize={11} />
+            <YAxis fontSize={11} allowDecimals={false} />
+            <Tooltip />
+            <Bar dataKey="signups" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </CardContent>
+    </Card>
+  );
+}
+
+function PlanChartCard({ stats }: { stats: AdminStats }) {
+  const { t, locale } = useLanguage();
+  const entries = Object.entries(stats.planCounts) as [string, number][];
+  const chartData = entries.map(([plan, count]) => ({
+    name: resolvePlanDisplayName(plan, locale),
+    value: count,
+  }));
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-base">{t('superAdmin.widgets.planChart')}</CardTitle>
+      </CardHeader>
+      <CardContent className="h-56">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie data={chartData} dataKey="value" nameKey="name" innerRadius={45} outerRadius={75} paddingAngle={2}>
+              {chartData.map((_, i) => (
+                <Cell key={i} fill={PLAN_CHART_COLORS[i % PLAN_CHART_COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
+        </ResponsiveContainer>
+      </CardContent>
+    </Card>
+  );
+}
 
 function SortableWidget({
   id,
@@ -141,6 +205,10 @@ export function AdminDashboardPage() {
             paddleSubscribers={admin.stats.paddleSubscribers}
           />
         ) : null;
+      case 'signups-chart':
+        return admin.stats ? <SignupsChartCard stats={admin.stats} /> : null;
+      case 'plan-chart':
+        return admin.stats ? <PlanChartCard stats={admin.stats} /> : null;
       case 'recent-audit':
         return <AdminAuditPanel />;
       case 'system-health':
