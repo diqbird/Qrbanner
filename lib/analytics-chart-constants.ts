@@ -4,6 +4,7 @@ export const ANALYTICS_CHART_COLORS = [
 
 export type AnalyticsChartsData = {
   scansByDay: { date: string; count: number }[];
+  scansByDayPrevious?: { date: string; count: number }[] | null;
   scansByDevice: { name: string; value: number }[];
   scansByBrowser: { name: string; value: number }[];
   scansByOS: { name: string; value: number }[];

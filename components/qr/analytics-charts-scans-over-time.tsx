@@ -1,13 +1,35 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from 'recharts';
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import { TrendingUp } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { formatChartAxisTick, formatChartTooltipValue } from '@/lib/i18n/format-locale';
+import { useMemo } from 'react';
 
-export function AnalyticsChartsScansOverTime({ scansByDay }: { scansByDay: { date: string; count: number }[] }) {
+type DayPoint = { date: string; count: number };
+
+function mergeTrendSeries(current: DayPoint[], previous?: DayPoint[] | null) {
+  return current.map((point, index) => ({
+    date: point.date,
+    count: point.count,
+    previousCount: previous?.[index]?.count ?? 0,
+  }));
+}
+
+export function AnalyticsChartsScansOverTime({
+  scansByDay,
+  scansByDayPrevious,
+}: {
+  scansByDay: DayPoint[];
+  scansByDayPrevious?: DayPoint[] | null;
+}) {
   const { t, locale } = useLanguage();
+  const chartData = useMemo(
+    () => mergeTrendSeries(scansByDay, scansByDayPrevious),
+    [scansByDay, scansByDayPrevious],
+  );
+  const showPrevious = Boolean(scansByDayPrevious?.some((d) => d.count > 0));
 
   return (
     <Card className="lg:col-span-2">
@@ -19,7 +41,7 @@ export function AnalyticsChartsScansOverTime({ scansByDay }: { scansByDay: { dat
       <CardContent>
         <div className="h-[280px] w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={scansByDay} margin={{ top: 5, right: 10, left: 0, bottom: 20 }}>
+            <AreaChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 20 }}>
               <defs>
                 <linearGradient id="colorScans" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#60B5FF" stopOpacity={0.3} />
@@ -42,8 +64,14 @@ export function AnalyticsChartsScansOverTime({ scansByDay }: { scansByDay: { dat
               />
               <Tooltip
                 contentStyle={{ fontSize: 11 }}
-                formatter={(value) => formatChartTooltipValue(value, locale)}
+                formatter={(value, name) => [
+                  formatChartTooltipValue(value, locale),
+                  name === 'previousCount'
+                    ? t('analytics.charts.previousPeriod')
+                    : t('analytics.charts.scans'),
+                ]}
               />
+              {showPrevious && <Legend wrapperStyle={{ fontSize: 11 }} />}
               <Area
                 type="monotone"
                 dataKey="count"
@@ -52,6 +80,17 @@ export function AnalyticsChartsScansOverTime({ scansByDay }: { scansByDay: { dat
                 fill="url(#colorScans)"
                 name={t('analytics.charts.scans')}
               />
+              {showPrevious && (
+                <Area
+                  type="monotone"
+                  dataKey="previousCount"
+                  stroke="#94a3b8"
+                  strokeWidth={2}
+                  strokeDasharray="6 4"
+                  fill="none"
+                  name={t('analytics.charts.previousPeriod')}
+                />
+              )}
             </AreaChart>
           </ResponsiveContainer>
         </div>

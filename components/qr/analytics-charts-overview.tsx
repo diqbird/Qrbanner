@@ -11,6 +11,7 @@ type AnalyticsChartsOverviewProps = {
 
 export function AnalyticsChartsOverview({ data }: AnalyticsChartsOverviewProps) {
   const scansByDay = data?.scansByDay ?? [];
+  const scansByDayPrevious = data?.scansByDayPrevious;
   const heatmapPoints = data?.heatmapPoints ?? [];
   const peakInsights = data?.peakInsights;
 
@@ -18,7 +19,7 @@ export function AnalyticsChartsOverview({ data }: AnalyticsChartsOverviewProps) 
     <>
       <GpsHeatmapChart points={heatmapPoints} />
       <AnalyticsChartsPeakActivity peakInsights={peakInsights} />
-      <AnalyticsChartsScansOverTime scansByDay={scansByDay} />
+      <AnalyticsChartsScansOverTime scansByDay={scansByDay} scansByDayPrevious={scansByDayPrevious} />
     </>
   );
 }

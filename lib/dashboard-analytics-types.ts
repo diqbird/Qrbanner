@@ -1,7 +1,7 @@
 import type { AnalyticsPayload } from '@/lib/analytics-export';
 import type { HeatmapPoint } from '@/lib/gps-heatmap';
 import type { PeriodComparison } from '@/lib/analytics-comparison';
-import type { FunnelMetrics } from '@/lib/analytics-funnel';
+import type { FunnelMetrics, FunnelComparison } from '@/lib/analytics-funnel';
 
 export interface DashboardAnalyticsData extends AnalyticsPayload {
   uniqueScans: number;
@@ -41,8 +41,10 @@ export interface TopQR {
 
 export type DashboardAnalyticsApiResult = {
   analytics: DashboardAnalyticsData | null;
+  scansByDayPrevious?: { date: string; count: number }[] | null;
   periodComparison: PeriodComparison | null;
   topQRCodes: TopQR[];
   funnel: FunnelMetrics | null;
+  funnelComparison: FunnelComparison | null;
   retentionCutoff: string | null;
 };

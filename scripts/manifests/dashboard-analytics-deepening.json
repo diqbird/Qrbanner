@@ -1,0 +1,28 @@
+{
+  "upload": [
+    "lib/analytics-aggregation.ts",
+    "lib/analytics-funnel.ts",
+    "lib/analytics-funnel-inputs.ts",
+    "lib/analytics-chart-constants.ts",
+    "lib/dashboard-analytics-types.ts",
+    "lib/qr-analytics-types.ts",
+    "app/api/dashboard/analytics/route.ts",
+    "app/api/qr/[id]/analytics/route.ts",
+    "hooks/use-dashboard-analytics-fetch.ts",
+    "hooks/use-qr-analytics-fetch.ts",
+    "components/qr/analytics-charts-scans-over-time.tsx",
+    "components/qr/analytics-charts-overview.tsx",
+    "components/qr/analytics-view-charts-section.tsx",
+    "components/analytics/analytics-funnel-panel.tsx",
+    "components/dashboard/dashboard-analytics.tsx",
+    "components/dashboard/dashboard-analytics-top-qr.tsx",
+    "components/dashboard/top-qr-widget.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

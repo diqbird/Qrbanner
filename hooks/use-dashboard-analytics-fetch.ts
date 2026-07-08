@@ -10,7 +10,7 @@ import type {
   TopQR,
 } from '@/lib/dashboard-analytics-types';
 import type { PeriodComparison } from '@/lib/analytics-comparison';
-import type { FunnelMetrics } from '@/lib/analytics-funnel';
+import type { FunnelMetrics, FunnelComparison } from '@/lib/analytics-funnel';
 import { useDashboardAnalyticsPlan } from '@/hooks/use-dashboard-analytics-plan';
 
 export function useDashboardAnalyticsFetch() {
@@ -20,6 +20,8 @@ export function useDashboardAnalyticsFetch() {
   const [periodComparison, setPeriodComparison] = useState<PeriodComparison | null>(null);
   const [topQRCodes, setTopQRCodes] = useState<TopQR[]>([]);
   const [funnel, setFunnel] = useState<FunnelMetrics | null>(null);
+  const [funnelComparison, setFunnelComparison] = useState<FunnelComparison | null>(null);
+  const [scansByDayPrevious, setScansByDayPrevious] = useState<{ date: string; count: number }[] | null>(null);
   const [retentionCutoff, setRetentionCutoff] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(false);
@@ -40,15 +42,19 @@ export function useDashboardAnalyticsFetch() {
       }
       const result = (await res.json()) as DashboardAnalyticsApiResult & {
         analytics?: DashboardAnalyticsData;
+        scansByDayPrevious?: { date: string; count: number }[] | null;
         periodComparison?: PeriodComparison;
         topQRCodes?: TopQR[];
         funnel?: FunnelMetrics;
+        funnelComparison?: FunnelComparison;
         retentionCutoff?: string;
       };
       setData(result?.analytics ?? null);
       setPeriodComparison(result?.periodComparison ?? null);
       setTopQRCodes(result?.topQRCodes ?? []);
       setFunnel(result?.funnel ?? null);
+      setFunnelComparison(result?.funnelComparison ?? null);
+      setScansByDayPrevious(result?.scansByDayPrevious ?? null);
       setRetentionCutoff(result?.retentionCutoff ?? null);
     } catch {
       setFetchError(true);
@@ -78,6 +84,8 @@ export function useDashboardAnalyticsFetch() {
     periodComparison,
     topQRCodes,
     funnel,
+    funnelComparison,
+    scansByDayPrevious,
     retentionCutoff,
     planName,
     loading,

@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { useLanguage } from '@/components/i18n/language-provider';
 import { formatLocaleDate } from '@/lib/date-locale';
 import { AnalyticsFunnelPanel } from '@/components/analytics/analytics-funnel-panel';
 import { AnalyticsUtmCharts } from '@/components/analytics/analytics-utm-charts';
@@ -21,8 +20,7 @@ const AnalyticsCharts = dynamic(() => import('@/components/qr/analytics-charts')
 
 export function DashboardAnalyticsPanel() {
   const analytics = useDashboardAnalytics();
-  const { locale } = useLanguage();
-  const { t, data, loading, fetchError, retentionCutoff, planName, funnel, retry } = analytics;
+  const { t, locale, data, loading, fetchError, retentionCutoff, planName, funnel, funnelComparison, scansByDayPrevious, retry } = analytics;
 
   if (loading) return <DashboardAnalyticsLoading />;
   if (fetchError) return <DashboardAnalyticsError onRetry={retry} />;
@@ -50,6 +48,7 @@ export function DashboardAnalyticsPanel() {
       <AnalyticsCharts
         data={{
           scansByDay: data.scansByDay,
+          scansByDayPrevious,
           scansByDevice: data.scansByDevice ?? [],
           scansByBrowser: data.scansByBrowser ?? [],
           scansByOS: data.scansByOS ?? [],
@@ -69,7 +68,7 @@ export function DashboardAnalyticsPanel() {
         scansByUtmCampaign={data.scansByUtmCampaign}
       />
 
-      {funnel && <AnalyticsFunnelPanel data={funnel} />}
+      {funnel && <AnalyticsFunnelPanel data={funnel} comparison={funnelComparison} />}
       <DashboardAnalyticsTopQr analytics={analytics} />
       <DashboardAnalyticsLiveScans analytics={analytics} />
     </div>

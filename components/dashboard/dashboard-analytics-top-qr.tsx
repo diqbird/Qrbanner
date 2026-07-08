@@ -32,7 +32,7 @@ export function DashboardAnalyticsTopQr({ analytics }: DashboardAnalyticsTopQrPr
               {qr.name}
             </Link>
             <div className="flex items-center gap-2 shrink-0">
-              <span className="text-xs text-muted-foreground">{t('analytics.allTime')}</span>
+              <span className="text-xs text-muted-foreground">{t('analytics.inSelectedPeriod')}</span>
               <Badge variant="secondary" className="font-mono">
                 {formatLocaleNumber(qr.totalScans, locale)}
               </Badge>

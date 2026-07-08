@@ -1,3 +1,5 @@
+import { percentChange } from '@/lib/analytics-comparison';
+
 export type FunnelStageId = 'scans' | 'cta' | 'leads';
 
 export type FunnelStage = {
@@ -9,6 +11,15 @@ export type FunnelStage = {
 export type FunnelMetrics = {
   stages: FunnelStage[];
   overallConversion: number | null;
+};
+
+export type FunnelStageComparison = {
+  id: FunnelStageId;
+  changePct: number | null;
+};
+
+export type FunnelComparison = {
+  stages: FunnelStageComparison[];
 };
 
 function rate(current: number, previous: number): number | null {
@@ -47,4 +58,19 @@ export function buildFunnelMetrics(opts: {
   const overallConversion = scans > 0 && last ? rate(last.count, scans) : null;
 
   return { stages, overallConversion };
+}
+
+export function buildFunnelComparison(
+  current: FunnelMetrics,
+  previous: FunnelMetrics,
+): FunnelComparison {
+  return {
+    stages: current.stages.map((stage) => {
+      const prev = previous.stages.find((s) => s.id === stage.id);
+      return {
+        id: stage.id,
+        changePct: prev ? percentChange(stage.count, prev.count) : null,
+      };
+    }),
+  };
 }

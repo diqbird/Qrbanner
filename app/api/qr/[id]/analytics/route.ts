@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { fetchAggregatedAnalytics } from '@/lib/analytics-aggregation';
 import { buildPeriodComparison } from '@/lib/analytics-comparison';
-import { requireUserId, isAuthError, getSessionUserId } from '@/lib/session-auth';
+import { requireUserId, isAuthError } from '@/lib/session-auth';
 import {
   earliestAnalyticsFetchDate,
   getPreviousPeriodRange,
@@ -12,14 +12,15 @@ import {
   parseAnalyticsRange,
 } from '@/lib/analytics-range';
 import { buildLandingCtaAnalytics, filterCtaClicksByRange } from '@/lib/landing-cta-analytics';
-import { buildFunnelMetrics } from '@/lib/analytics-funnel';
+import { buildFunnelMetrics, buildFunnelComparison } from '@/lib/analytics-funnel';
+import { fetchFunnelEventCounts } from '@/lib/analytics-funnel-inputs';
 import { buildRoiMetrics } from '@/lib/analytics-roi';
 import { assertQrAccess } from '@/lib/workspace';
 
-function eventDateWhere(
+function buildDateFilter(
   fetchFrom: Date | null,
   range: { from: Date | null; to: Date | null },
-  cutoff: Date | null
+  cutoff: Date | null,
 ) {
   if (fetchFrom || range.to) {
     return {
@@ -60,15 +61,16 @@ export async function GET(
       locale,
     });
 
-    const periodComparison = prevRange
-      ? buildPeriodComparison(
-          analytics,
-          await fetchAggregatedAnalytics({
-            qrCodeIds: [qrCode.id],
-            range: prevRange,
-            locale,
-          }),
-        )
+    const previousAnalytics = prevRange
+      ? await fetchAggregatedAnalytics({
+          qrCodeIds: [qrCode.id],
+          range: prevRange,
+          locale,
+        })
+      : null;
+
+    const periodComparison = previousAnalytics
+      ? buildPeriodComparison(analytics, previousAnalytics)
       : null;
 
     let landingCta = null;
@@ -101,29 +103,38 @@ export async function GET(
       landingCta = buildLandingCtaAnalytics(filteredClicks, analytics.totalScans, range, locale);
     }
 
-    const dateFilter = eventDateWhere(fetchFrom, range, cutoff);
-    const leadsCount = await prisma.leadSubmission.count({
-      where: {
-        qrCodeId: qrCode.id,
-        ...(dateFilter ? { createdAt: dateFilter } : {}),
-      },
-    });
+    const dateFilter = buildDateFilter(fetchFrom, range, cutoff);
+    const prevFetchFrom = prevRange ? earliestAnalyticsFetchDate(prevRange, cutoff) : null;
+    const prevDateFilter = prevRange
+      ? buildDateFilter(prevFetchFrom, prevRange, cutoff)
+      : undefined;
 
-    const ctaClicks =
-      landingCta?.totalClicks ??
-      (await prisma.landingCtaClick.count({
-        where: {
-          qrCodeId: qrCode.id,
-          ...(dateFilter ? { clickedAt: dateFilter } : {}),
-        },
-      }));
+    const [{ ctaClicks, leads: leadsCount }, prevFunnelEvents] = await Promise.all([
+      fetchFunnelEventCounts([qrCode.id], dateFilter),
+      prevRange
+        ? fetchFunnelEventCounts([qrCode.id], prevDateFilter)
+        : Promise.resolve({ ctaClicks: 0, leads: 0 }),
+    ]);
 
     const funnel = buildFunnelMetrics({
       scans: analytics.totalScans,
-      ctaClicks,
+      ctaClicks: landingCta?.totalClicks ?? ctaClicks,
       leads: leadsCount,
       landingEnabled: Boolean(qrCode.landingPageEnabled),
     });
+
+    const funnelComparison =
+      previousAnalytics && prevRange
+        ? buildFunnelComparison(
+            funnel,
+            buildFunnelMetrics({
+              scans: previousAnalytics.totalScans,
+              ctaClicks: prevFunnelEvents.ctaClicks,
+              leads: prevFunnelEvents.leads,
+              landingEnabled: Boolean(qrCode.landingPageEnabled),
+            }),
+          )
+        : null;
 
     const roi = buildRoiMetrics({
       leadsCount,
@@ -133,9 +144,11 @@ export async function GET(
 
     return NextResponse.json({
       analytics,
+      scansByDayPrevious: previousAnalytics?.scansByDay ?? null,
       periodComparison,
       landingCta,
       funnel,
+      funnelComparison,
       roi,
       qrName: qrCode.name,
       range: {

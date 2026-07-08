@@ -6,7 +6,7 @@ import { analyticsPresetRange } from '@/lib/analytics-view-utils';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { useQrAnalyticsPlan } from '@/hooks/use-qr-analytics-plan';
 import type { PeriodComparison } from '@/lib/analytics-comparison';
-import type { FunnelMetrics } from '@/lib/analytics-funnel';
+import type { FunnelMetrics, FunnelComparison } from '@/lib/analytics-funnel';
 import type { RoiMetrics } from '@/lib/analytics-roi';
 import type { LandingCtaAnalytics } from '@/components/qr/landing-cta-analytics-panel';
 import type { QrAnalyticsData, QrAnalyticsApiResult } from '@/lib/qr-analytics-types';
@@ -22,6 +22,8 @@ export function useQrAnalyticsFetch(qrId: string) {
   const [qrName, setQrName] = useState('');
   const [landingCta, setLandingCta] = useState<LandingCtaAnalytics | null>(null);
   const [funnel, setFunnel] = useState<FunnelMetrics | null>(null);
+  const [funnelComparison, setFunnelComparison] = useState<FunnelComparison | null>(null);
+  const [scansByDayPrevious, setScansByDayPrevious] = useState<{ date: string; count: number }[] | null>(null);
   const [roi, setRoi] = useState<RoiMetrics | null>(null);
   const [dateRange, setDateRange] = useState<DateRange>(() => analyticsPresetRange(30));
 
@@ -44,6 +46,8 @@ export function useQrAnalyticsFetch(qrId: string) {
       setQrName(result?.qrName ?? '');
       setLandingCta(result?.landingCta ?? null);
       setFunnel(result?.funnel ?? null);
+      setFunnelComparison(result?.funnelComparison ?? null);
+      setScansByDayPrevious(result?.scansByDayPrevious ?? null);
       setRoi(result?.roi ?? null);
       setRetentionCutoff(result?.retentionCutoff ?? null);
     } catch {
@@ -79,6 +83,8 @@ export function useQrAnalyticsFetch(qrId: string) {
     qrName,
     landingCta,
     funnel,
+    funnelComparison,
+    scansByDayPrevious,
     roi,
     dateRange,
     setDateRange,

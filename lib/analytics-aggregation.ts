@@ -107,6 +107,35 @@ async function scansByHourSql(
   return hours;
 }
 
+export async function fetchTopQrByPeriod(opts: {
+  qrCodes: { id: string; name: string; isActive: boolean }[];
+  range: { from: Date | null; to: Date | null };
+  limit?: number;
+}): Promise<{ id: string; name: string; totalScans: number; isActive: boolean }[]> {
+  const { qrCodes, range, limit = 5 } = opts;
+  if (qrCodes.length === 0) return [];
+
+  const from = range.from ?? new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  const to = range.to ?? new Date();
+  const qrIds = qrCodes.map((q) => q.id);
+
+  const rows = await prisma.qRScan.groupBy({
+    by: ['qrCodeId'],
+    where: scanWhere(qrIds, from, to),
+    _count: { _all: true },
+    orderBy: { _count: { qrCodeId: 'desc' } },
+    take: limit,
+  });
+
+  const meta = Object.fromEntries(qrCodes.map((q) => [q.id, q]));
+  return rows.map((row) => ({
+    id: row.qrCodeId,
+    name: meta[row.qrCodeId]?.name ?? 'Unknown',
+    totalScans: row._count?._all ?? 0,
+    isActive: meta[row.qrCodeId]?.isActive ?? true,
+  }));
+}
+
 function peakFromDailyAndHourly(
   daily: { date: string; count: number }[],
   hourly: { name: string; hour: number; value: number }[],

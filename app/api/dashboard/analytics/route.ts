@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { fetchAggregatedAnalytics } from '@/lib/analytics-aggregation';
+import { fetchAggregatedAnalytics, fetchTopQrByPeriod } from '@/lib/analytics-aggregation';
 import { buildPeriodComparison } from '@/lib/analytics-comparison';
 import { getActiveWorkspaceId } from '@/lib/workspace';
 import {
@@ -11,8 +11,24 @@ import {
   parseAnalyticsRange,
   earliestAnalyticsFetchDate,
 } from '@/lib/analytics-range';
-import { buildFunnelMetrics } from '@/lib/analytics-funnel';
+import { buildFunnelMetrics, buildFunnelComparison } from '@/lib/analytics-funnel';
+import { fetchFunnelEventCounts } from '@/lib/analytics-funnel-inputs';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
+
+function buildDateFilter(
+  fetchFrom: Date | null,
+  range: { from: Date | null; to: Date | null },
+  cutoff: Date | null,
+) {
+  if (fetchFrom || range.to) {
+    return {
+      ...(fetchFrom ? { gte: fetchFrom } : {}),
+      ...(range.to ? { lte: range.to } : {}),
+    };
+  }
+  if (cutoff) return { gte: cutoff };
+  return undefined;
+}
 
 export async function GET(req: NextRequest) {
   try {
@@ -45,45 +61,30 @@ export async function GET(req: NextRequest) {
       locale,
     });
 
-    const periodComparison = prevRange
-      ? buildPeriodComparison(
-          analytics,
-          await fetchAggregatedAnalytics({
-            qrCodeIds: qrIds,
-            range: prevRange,
-            nameMap,
-            locale,
-          }),
-        )
+    const previousAnalytics = prevRange
+      ? await fetchAggregatedAnalytics({
+          qrCodeIds: qrIds,
+          range: prevRange,
+          nameMap,
+          locale,
+        })
       : null;
 
-    const dateFilter =
-      fetchFrom || range.to
-        ? {
-            ...(fetchFrom ? { gte: fetchFrom } : {}),
-            ...(range.to ? { lte: range.to } : {}),
-          }
-        : cutoff
-          ? { gte: cutoff }
-          : undefined;
+    const periodComparison = previousAnalytics
+      ? buildPeriodComparison(analytics, previousAnalytics)
+      : null;
 
-    const [ctaClicks, leadsCount] = await Promise.all([
-      qrIds.length
-        ? prisma.landingCtaClick.count({
-            where: {
-              qrCodeId: { in: qrIds },
-              ...(dateFilter ? { clickedAt: dateFilter } : {}),
-            },
-          })
-        : Promise.resolve(0),
-      qrIds.length
-        ? prisma.leadSubmission.count({
-            where: {
-              qrCodeId: { in: qrIds },
-              ...(dateFilter ? { createdAt: dateFilter } : {}),
-            },
-          })
-        : Promise.resolve(0),
+    const dateFilter = buildDateFilter(fetchFrom, range, cutoff);
+    const prevFetchFrom = prevRange ? earliestAnalyticsFetchDate(prevRange, cutoff) : null;
+    const prevDateFilter = prevRange
+      ? buildDateFilter(prevFetchFrom, prevRange, cutoff)
+      : undefined;
+
+    const [{ ctaClicks, leads: leadsCount }, prevFunnelEvents] = await Promise.all([
+      fetchFunnelEventCounts(qrIds, dateFilter),
+      prevRange
+        ? fetchFunnelEventCounts(qrIds, prevDateFilter)
+        : Promise.resolve({ ctaClicks: 0, leads: 0 }),
     ]);
 
     const hasLandingQr = await prisma.qRCode.count({
@@ -97,13 +98,24 @@ export async function GET(req: NextRequest) {
       landingEnabled: hasLandingQr > 0,
     });
 
-    const topQRCodes = [...qrCodes]
-      .sort((a, b) => b.totalScans - a.totalScans)
-      .slice(0, 5)
-      .map((q) => ({ id: q.id, name: q.name, totalScans: q.totalScans, isActive: q.isActive }));
+    const funnelComparison =
+      previousAnalytics && prevRange
+        ? buildFunnelComparison(
+            funnel,
+            buildFunnelMetrics({
+              scans: previousAnalytics.totalScans,
+              ctaClicks: prevFunnelEvents.ctaClicks,
+              leads: prevFunnelEvents.leads,
+              landingEnabled: hasLandingQr > 0,
+            }),
+          )
+        : null;
+
+    const topQRCodes = await fetchTopQrByPeriod({ qrCodes, range });
 
     return NextResponse.json({
       analytics,
+      scansByDayPrevious: previousAnalytics?.scansByDay ?? null,
       summary: {
         totalQRCodes: qrCodes.length,
         activeQRCodes: qrCodes.filter((q) => q.isActive).length,
@@ -111,6 +123,7 @@ export async function GET(req: NextRequest) {
       },
       topQRCodes,
       funnel,
+      funnelComparison,
       periodComparison,
       range: {
         from: range.from?.toISOString() ?? null,

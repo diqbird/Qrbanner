@@ -10,7 +10,7 @@ import type { QrAnalyticsState } from '@/hooks/use-qr-analytics';
 const AnalyticsCharts = dynamic(() => import('./analytics-charts'), { ssr: false });
 
 export function AnalyticsViewChartsSection({ analytics }: { analytics: QrAnalyticsState }) {
-  const { data, funnel } = analytics;
+  const { data, funnel, funnelComparison, scansByDayPrevious } = analytics;
 
   if (!data) return null;
 
@@ -30,6 +30,7 @@ export function AnalyticsViewChartsSection({ analytics }: { analytics: QrAnalyti
       <AnalyticsCharts
         data={{
           scansByDay: data.scansByDay,
+          scansByDayPrevious,
           scansByDevice: data.scansByDevice ?? [],
           scansByBrowser: data.scansByBrowser ?? [],
           scansByOS: data.scansByOS ?? [],
@@ -49,7 +50,7 @@ export function AnalyticsViewChartsSection({ analytics }: { analytics: QrAnalyti
         scansByUtmCampaign={data.scansByUtmCampaign}
       />
 
-      {funnel && <AnalyticsFunnelPanel data={funnel} />}
+      {funnel && <AnalyticsFunnelPanel data={funnel} comparison={funnelComparison} />}
     </>
   );
 }

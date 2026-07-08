@@ -24,7 +24,7 @@ export function TopQrWidget() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch('/api/dashboard/analytics')
+    fetch('/api/dashboard/analytics?from=' + encodeURIComponent(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)))
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
         if (!cancelled) setTop(data?.topQRCodes ?? []);
