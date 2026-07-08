@@ -1,15 +1,13 @@
 {
-  "upload": [],
+  "upload": ["scripts/test-prod-login.mjs"],
   "yarn_install": false,
   "prisma_generate": false,
   "prisma_migrate": false,
   "build": false,
   "restart": false,
   "extra_commands": [
-    "pm2 show qrbanner 2>/dev/null | grep -E 'script path|exec mode|node env|status' || true",
-    "grep -E '^NEXTAUTH|^AUTH_TRUST' /var/www/qrbanner/.env | sed 's/=.*/=***masked***/'",
-    "grep -c '^NEXTAUTH_SECRET=' /var/www/qrbanner/.env || true",
-    "curl -sI 'https://qrbanner.com/api/auth/csrf' | grep -i 'set-cookie\\|HTTP/'",
-    "curl -sI 'https://www.qrbanner.com/login' | grep -i 'HTTP/\\|location' | head -3"
+    "curl -s 'https://qrbanner.com/api/auth/csrf' | head -c 120 ; echo",
+    "curl -s -D - 'https://qrbanner.com/api/auth/csrf' -o /dev/null | grep -i 'HTTP/\\|set-cookie' | head -5",
+    "cd /var/www/qrbanner && TEST_PASSWORD='112358Onrks..' node scripts/test-prod-login.mjs 2>&1 | tail -12"
   ]
 }
