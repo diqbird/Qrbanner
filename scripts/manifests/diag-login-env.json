@@ -1,0 +1,16 @@
+{
+  "upload": [],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": false,
+  "restart": false,
+  "extra_commands": [
+    "echo '=== ENV CHECK ==='",
+    "cd /var/www/qrbanner && node -e \"console.log('NEXTAUTH_URL',process.env.NEXTAUTH_URL||'MISSING');console.log('NEXTAUTH_SECRET',process.env.NEXTAUTH_SECRET?'set':'MISSING');console.log('GOOGLE_CLIENT_ID',process.env.GOOGLE_CLIENT_ID?'set':'MISSING');console.log('GOOGLE_CLIENT_SECRET',process.env.GOOGLE_CLIENT_SECRET?'set':'MISSING');console.log('AUTH_TRUST_HOST',process.env.AUTH_TRUST_HOST||'unset');\"",
+    "echo '=== ERROR LOG (last 40) ==='",
+    "tail -n 40 ~/.pm2/logs/qrbanner-error.log 2>/dev/null",
+    "echo '=== OUT LOG (last 30) ==='",
+    "tail -n 30 ~/.pm2/logs/qrbanner-out.log 2>/dev/null"
+  ]
+}
