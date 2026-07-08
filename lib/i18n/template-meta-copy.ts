@@ -340,16 +340,17 @@ export const templateMetaEn: TranslationTree = {
       },
     },
     'retail-grocery': {
-      tagline: 'Shelf promos, loyalty and weekly deals',
+      tagline: 'Weekly circular, loyalty signup and price checks from the aisle',
       useCases: {
-        '0': 'Shelf talker',
-        '1': 'Entrance sign',
-        '2': 'Product tag',
-        '3': 'Loyalty poster',
+        '0': 'Weekly flyer stand',
+        '1': 'Aisle shelf talker',
+        '2': 'Loyalty signup poster',
+        '3': 'Checkout counter',
       },
       tips: {
-        '0': 'Update Monday promos without reprinting.',
-        '1': 'UTM per store location.',
+        '0': 'Swap the weekly flyer link every Monday — same printed shelf QR.',
+        '1': 'Add a loyalty signup URL to grow your list from the aisle.',
+        '2': 'Use a separate QR per store location for footfall analytics.',
       },
     },
     'entertainment-venue': {
@@ -825,16 +826,17 @@ export const templateMetaTr: TranslationTree = {
       },
     },
     'retail-grocery': {
-      tagline: 'Raf promosyonları, sadakat ve haftalık fırsatlar',
+      tagline: 'Reyondan haftalık broşür, sadakat kaydı ve fiyat kontrolü',
       useCases: {
-        '0': 'Raf etiketi',
-        '1': 'Giriş tabelası',
-        '2': 'Ürün etiketi',
-        '3': 'Sadakat posteri',
+        '0': 'Haftalık broşür standı',
+        '1': 'Reyon raf etiketi',
+        '2': 'Sadakat kayıt posteri',
+        '3': 'Kasa önü',
       },
       tips: {
-        '0': 'Pazartesi promosyonlarını yeniden basmadan güncelleyin.',
-        '1': 'Mağaza konumu başına UTM.',
+        '0': 'Haftalık broşür linkini her Pazartesi değiştirin — aynı basılı raf QR\'ı.',
+        '1': 'Reyondan liste büyütmek için sadakat kayıt URL\'i ekleyin.',
+        '2': 'Ayak trafiği analizi için mağaza başına ayrı QR kullanın.',
       },
     },
     'entertainment-venue': {

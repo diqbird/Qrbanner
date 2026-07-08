@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "lib/industry-archetype-templates.ts",
+    "lib/i18n/industry-template-copy.ts",
+    "lib/i18n/template-meta-copy.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": false,
+  "restart": false,
+  "extra_commands": [
+    "cd /var/www/qrbanner && rm -rf .next && yarn build 2>&1 | tail -12",
+    "test -f /var/www/qrbanner/.next/server/pages/_error.js && echo ERROR_JS_OK || echo ERROR_JS_MISSING",
+    "pm2 restart qrbanner --update-env 2>&1 | tail -2",
+    "sleep 6",
+    "curl -s https://qrbanner.com/sitemap.xml | grep -oE '/templates/[a-z0-9-]+' | sort -u > /tmp/t.txt; F=0; while read -r p; do c=$(curl -s -o /dev/null -w '%{http_code}' \"http://127.0.0.1:3000$p\"); [ \"$c\" != \"200\" ] && { echo \"FAIL $p $c\"; F=$((F+1)); }; done < /tmp/t.txt; echo \"CHECKED $(wc -l < /tmp/t.txt)\"; [ $F -eq 0 ] && echo ALL_OK || echo \"FAILS $F\"; rm -f /tmp/t.txt"
+  ]
+}
