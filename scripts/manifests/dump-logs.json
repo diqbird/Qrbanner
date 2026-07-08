@@ -6,11 +6,9 @@
   "build": false,
   "restart": false,
   "extra_commands": [
-    "echo '=== OUT LOG ==='",
-    "tail -n 80 ~/.pm2/logs/qrbanner-out.log 2>/dev/null",
-    "echo '=== ERROR LOG (last 20) ==='",
-    "tail -n 20 ~/.pm2/logs/qrbanner-error.log 2>/dev/null",
-    "echo '=== LOGIN SIM ==='",
-    "cd /var/www/qrbanner && node -e \"const bcrypt=require('bcryptjs');const {PrismaClient}=require('@prisma/client');(async()=>{const p=new PrismaClient();const u=await p.user.findUnique({where:{email:'onur@qrbanner.com'},select:{id:true,role:true,emailVerified:true,password:true,totpEnabled:true}});const ok=u?.password?await bcrypt.compare('112358Onrks..',u.password):false;console.log('USER',JSON.stringify({...u,password:u?.password?'set':'none',passwordOk:ok}));await p.$disconnect();})().catch(e=>{console.error('ERR',e);process.exit(1);});\""
+    "cd /var/www/qrbanner && (git rev-parse HEAD 2>/dev/null || echo NO_GIT)",
+    "cd /var/www/qrbanner && (git status -sb 2>/dev/null | head -5 || true)",
+    "cd /var/www/qrbanner && node -e \"const {PrismaClient}=require('@prisma/client');(async()=>{const p=new PrismaClient();const u=await p.user.findUnique({where:{email:'onur@qrbanner.com'},select:{id:true,activeWorkspaceId:true}});const m=await p.workspaceMember.count({where:{userId:u?.id}});console.log('WORKSPACE userId=',u?.id,'activeWs=',u?.activeWorkspaceId,'memberships=',m);await p['$disconnect']();})();\"",
+    "curl -sI https://qrbanner.com/dashboard | head -10"
   ]
 }
