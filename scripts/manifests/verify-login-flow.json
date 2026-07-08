@@ -1,0 +1,17 @@
+{
+  "upload": [],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": false,
+  "restart": false,
+  "extra_commands": [
+    "pm2 jlist 2>/dev/null | node -e \"let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{const a=JSON.parse(d);a.forEach(p=>console.log('PM2_STATUS',p.pm2_env.status,'uptime_ms',Date.now()-p.pm2_env.pm_uptime))})\"",
+    "curl -s -o /dev/null -w 'HOME_HTTP:%{http_code}\\n' 'https://qrbanner.com/'",
+    "COOKIE_JAR=/tmp/qrb_vt2.txt && rm -f $COOKIE_JAR && CSRF=$(curl -s -c $COOKIE_JAR -b $COOKIE_JAR 'https://qrbanner.com/api/auth/csrf' | node -pe \"JSON.parse(require('fs').readFileSync(0,'utf8')).csrfToken\") && curl -s -c $COOKIE_JAR -b $COOKIE_JAR -o /dev/null -w 'LOGIN_HTTP:%{http_code}\\n' -X POST 'https://qrbanner.com/api/auth/callback/credentials' -H 'Content-Type: application/x-www-form-urlencoded' --data-urlencode \"csrfToken=$CSRF\" --data-urlencode 'email=onur@qrbanner.com' --data-urlencode 'password=112358Onrks..' --data-urlencode 'redirect=false' --data-urlencode 'json=true'",
+    "curl -s -b /tmp/qrb_vt2.txt 'https://qrbanner.com/api/auth/session' | node -pe \"const s=JSON.parse(require('fs').readFileSync(0,'utf8')); 'SESSION_USER='+(s.user?.email||'NONE')+' ROLE='+(s.user?.role||'NONE')\"",
+    "curl -s -b /tmp/qrb_vt2.txt -o /dev/null -w 'ADMIN_HTTP:%{http_code}\\n' 'https://qrbanner.com/admin'",
+    "curl -s -b /tmp/qrb_vt2.txt -o /dev/null -w 'DASH_HTTP:%{http_code}\\n' 'https://qrbanner.com/dashboard'",
+    "rm -f /tmp/qrb_vt2.txt"
+  ]
+}
