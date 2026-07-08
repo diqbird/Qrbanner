@@ -1,0 +1,11 @@
+{
+  "upload": ["scripts/test-login-dashboard.mjs"],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": false,
+  "restart": false,
+  "extra_commands": [
+    "cd /var/www/qrbanner && TEST_PASSWORD='112358Onrks..' node scripts/test-login-dashboard.mjs 2>&1 | tail -20"
+  ]
+}
