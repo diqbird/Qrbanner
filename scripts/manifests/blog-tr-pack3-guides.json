@@ -1,0 +1,15 @@
+{
+  "upload": [
+    "lib/blog/localize-post.ts",
+    "lib/blog/posts/tr/qr-analytics-guide.ts",
+    "lib/blog/posts/tr/bulk-qr-guide.ts",
+    "lib/blog/posts/tr/dynamic-vs-static-qr.ts",
+    "lib/blog/posts/tr/coffee-shop-loyalty-qr.ts",
+    "lib/blog/posts/tr/food-trucks-qr.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
