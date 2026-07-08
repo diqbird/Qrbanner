@@ -6,13 +6,11 @@
   "build": false,
   "restart": false,
   "extra_commands": [
-    "ls -la /var/www/qrbanner/.next/server/pages/_error.js 2>&1 || echo MISSING_ERROR_JS",
-    "ls -la /var/www/qrbanner/.next/BUILD_ID 2>&1",
-    "stat /var/www/qrbanner/.next/server/pages/_error.js 2>&1 | head -5",
-    "echo '=== RECENT ERRORS ==='",
-    "tail -n 30 ~/.pm2/logs/qrbanner-error.log 2>/dev/null",
-    "echo '=== CURL DASHBOARD ==='",
-    "curl -s -o /dev/null -w 'dashboard_status=%{http_code}\\n' http://127.0.0.1:3000/dashboard",
-    "curl -s -o /dev/null -w 'login_status=%{http_code}\\n' http://127.0.0.1:3000/login"
+    "echo '=== OUT LOG ==='",
+    "tail -n 80 ~/.pm2/logs/qrbanner-out.log 2>/dev/null",
+    "echo '=== ERROR LOG (last 20) ==='",
+    "tail -n 20 ~/.pm2/logs/qrbanner-error.log 2>/dev/null",
+    "echo '=== LOGIN SIM ==='",
+    "cd /var/www/qrbanner && node -e \"const bcrypt=require('bcryptjs');const {PrismaClient}=require('@prisma/client');(async()=>{const p=new PrismaClient();const u=await p.user.findUnique({where:{email:'onur@qrbanner.com'},select:{id:true,role:true,emailVerified:true,password:true,totpEnabled:true}});const ok=u?.password?await bcrypt.compare('112358Onrks..',u.password):false;console.log('USER',JSON.stringify({...u,password:u?.password?'set':'none',passwordOk:ok}));await p.$disconnect();})().catch(e=>{console.error('ERR',e);process.exit(1);});\""
   ]
 }
