@@ -1,0 +1,15 @@
+{
+  "upload": [
+    "lib/blog/localize-post.ts",
+    "lib/blog/posts/tr/hotel-qr-codes.ts",
+    "lib/blog/posts/tr/retail-qr-codes.ts",
+    "lib/blog/posts/tr/stadium-qr-codes.ts",
+    "lib/blog/posts/tr/real-estate-open-house-qr.ts",
+    "lib/blog/posts/tr/healthcare-qr-codes.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
