@@ -2489,6 +2489,7 @@ export const en: TranslationTree = {
     createCta: 'Create with this template',
     useCasesTitle: 'Best for',
     tipsTitle: 'Pro tips',
+    previewNote: 'Live preview with this template\'s style — fully customizable after you start.',
   },
   vsIndex: {
     metaTitle: 'QRbanner Comparisons — Feature & Pricing Guides',

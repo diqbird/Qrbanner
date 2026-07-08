@@ -164,7 +164,7 @@ export const ARCHETYPE_INDUSTRY_TEMPLATES: IndustryTemplate[] = [
     description: 'Dealerships, car wash and boating facilities.',
     useCases: ['Window sticker', 'Service lane', 'Marina dock', 'Detailing bay'],
     suggestedQrName: 'View Inventory',
-    qrData: { url: 'https://yourlot.com/inventory', _businessName: '' },
+    qrData: { url: 'https://yourlot.com/inventory', _businessName: '', _stockInfo: '', _servicePromo: '', _agentPhone: '' },
     style: {
       fgColor: '#1d4ed8',
       bgColor: '#eff6ff',
@@ -181,13 +181,31 @@ export const ARCHETYPE_INDUSTRY_TEMPLATES: IndustryTemplate[] = [
         title: 'Vehicle or service link',
         description: 'Inventory page, VDP or service booking.',
         fields: [
-          { key: 'url', label: 'URL', required: true, type: 'url' },
-          { key: '_businessName', label: 'Dealership / marina', type: 'text' },
+          { key: 'url', label: 'Listing / booking URL', placeholder: 'https://yourlot.com/inventory', required: true, type: 'url' },
+        ],
+      },
+      {
+        id: 'business',
+        title: 'Business details',
+        description: 'Shown on the landing page and print collateral.',
+        fields: [
+          { key: '_businessName', label: 'Dealership / marina', placeholder: 'Coastal Auto & Marine', type: 'text' },
+          { key: '_stockInfo', label: 'Stock / model info', placeholder: '2024 models · 45 in stock', type: 'text' },
+          { key: '_servicePromo', label: 'Service offer', placeholder: 'Free multi-point inspection', type: 'text' },
+          { key: '_agentPhone', label: 'Sales / service phone', placeholder: '+90 532 ...', type: 'phone' },
         ],
       },
     ],
-    tips: ['Geofence per lot location.', 'Update VDP links when inventory turns.'],
-    landingPage: { enabled: true, template: 'business', title: 'Details & Booking', accentColor: '#1d4ed8', ctaLabel: 'Continue' },
+    tips: ['Geofence per lot location.', 'Update VDP links when inventory turns.', 'Per-salesperson QR for lead attribution.'],
+    landingPage: {
+      enabled: true,
+      template: 'business',
+      title: 'Details & Booking',
+      accentColor: '#1d4ed8',
+      ctaLabel: 'Continue',
+      leadFormEnabled: true,
+      leadForm: { collectName: true, collectPhone: true, requiredEmail: false },
+    },
   },
   {
     id: 'property-facilities',
@@ -197,7 +215,7 @@ export const ARCHETYPE_INDUSTRY_TEMPLATES: IndustryTemplate[] = [
     description: 'Property management, flex offices and logistics.',
     useCases: ['Building lobby', 'Dock door', 'Member desk', 'Unit mailer'],
     suggestedQrName: 'Building Portal',
-    qrData: { url: 'https://yourproperty.com/portal', _buildingName: '' },
+    qrData: { url: 'https://yourproperty.com/portal', _buildingName: '', _unitInfo: '', _managerContact: '', _maintenanceUrl: '' },
     style: {
       fgColor: '#166534',
       bgColor: '#f0fdf4',
@@ -214,12 +232,22 @@ export const ARCHETYPE_INDUSTRY_TEMPLATES: IndustryTemplate[] = [
         title: 'Portal link',
         description: 'Tenant, member or warehouse operations portal.',
         fields: [
-          { key: 'url', label: 'Portal URL', required: true, type: 'url' },
-          { key: '_buildingName', label: 'Building / site', type: 'text' },
+          { key: 'url', label: 'Portal URL', placeholder: 'https://yourproperty.com/portal', required: true, type: 'url' },
+        ],
+      },
+      {
+        id: 'building',
+        title: 'Building details',
+        description: 'Shown on the landing page for tenants and members.',
+        fields: [
+          { key: '_buildingName', label: 'Building / site', placeholder: 'Harbor Point Tower', type: 'text' },
+          { key: '_unitInfo', label: 'Unit / floor info', placeholder: 'Floors 1–12 · 240 units', type: 'text' },
+          { key: '_managerContact', label: 'Management contact', placeholder: '+90 212 ... / office hours', type: 'text' },
+          { key: '_maintenanceUrl', label: 'Maintenance request URL', placeholder: 'https://yourproperty.com/maintenance', type: 'url' },
         ],
       },
     ],
-    tips: ['Per-building folders in dashboard.', 'Webhook to maintenance ticketing.'],
+    tips: ['Per-building folders in dashboard.', 'Webhook to maintenance ticketing.', 'Separate QR for tenants vs visitors.'],
     landingPage: { enabled: true, template: 'business', title: 'Building Services', accentColor: '#166534', ctaLabel: 'Open Portal' },
   },
   {
@@ -230,7 +258,7 @@ export const ARCHETYPE_INDUSTRY_TEMPLATES: IndustryTemplate[] = [
     description: 'Patient or pet intake and booking flows.',
     useCases: ['Reception poster', 'Appointment card', 'Waiting room'],
     suggestedQrName: 'Patient Intake',
-    qrData: { url: 'https://yourclinic.com/intake', _clinicName: '' },
+    qrData: { url: 'https://yourclinic.com/intake', _clinicName: '', _specialty: '', _bookingPhone: '', _hours: '' },
     style: {
       fgColor: '#0891b2',
       bgColor: '#ecfeff',
@@ -247,12 +275,22 @@ export const ARCHETYPE_INDUSTRY_TEMPLATES: IndustryTemplate[] = [
         title: 'Intake destination',
         description: 'Patient or pet intake and appointment booking.',
         fields: [
-          { key: 'url', label: 'Intake URL', required: true, type: 'url' },
-          { key: '_clinicName', label: 'Clinic name', type: 'text' },
+          { key: 'url', label: 'Intake URL', placeholder: 'https://yourclinic.com/intake', required: true, type: 'url' },
+        ],
+      },
+      {
+        id: 'clinic',
+        title: 'Clinic details',
+        description: 'Shown on the landing page — never encode PHI in the QR link.',
+        fields: [
+          { key: '_clinicName', label: 'Clinic name', placeholder: 'Bright Eyes Optometry', type: 'text' },
+          { key: '_specialty', label: 'Specialty', placeholder: 'Veterinary · Optometry · Dermatology', type: 'text' },
+          { key: '_bookingPhone', label: 'Booking phone', placeholder: '+90 532 ...', type: 'phone' },
+          { key: '_hours', label: 'Hours', placeholder: 'Mon–Fri 9:00–18:00', type: 'text' },
         ],
       },
     ],
-    tips: ['Link to compliant portal — no PHI in QR URL.'],
+    tips: ['Link to compliant portal — no PHI in QR URL.', 'Separate QR per department for triage analytics.'],
     landingPage: { enabled: true, template: 'business', title: 'Patient Resources', accentColor: '#0891b2', ctaLabel: 'Continue' },
   },
   {
@@ -263,7 +301,7 @@ export const ARCHETYPE_INDUSTRY_TEMPLATES: IndustryTemplate[] = [
     description: 'Childcare, senior living and churches.',
     useCases: ['Lobby sign', 'Bulletin insert', 'Family mailer', 'Event poster'],
     suggestedQrName: 'Community Portal',
-    qrData: { url: 'https://yourorg.com/portal', _orgName: '' },
+    qrData: { url: 'https://yourorg.com/portal', _orgName: '', _programType: '', _scheduleInfo: '', _contactInfo: '' },
     style: {
       fgColor: '#9333ea',
       bgColor: '#faf5ff',
@@ -280,8 +318,18 @@ export const ARCHETYPE_INDUSTRY_TEMPLATES: IndustryTemplate[] = [
         title: 'Community link',
         description: 'Enrollment, family portal or faith community hub.',
         fields: [
-          { key: 'url', label: 'Portal URL', required: true, type: 'url' },
-          { key: '_orgName', label: 'Organization', type: 'text' },
+          { key: 'url', label: 'Portal URL', placeholder: 'https://yourorg.com/portal', required: true, type: 'url' },
+        ],
+      },
+      {
+        id: 'org',
+        title: 'Organization details',
+        description: 'Shown on the landing page for families and members.',
+        fields: [
+          { key: '_orgName', label: 'Organization', placeholder: 'Sunshine Childcare', type: 'text' },
+          { key: '_programType', label: 'Program type', placeholder: 'Childcare · Senior living · Faith community', type: 'text' },
+          { key: '_scheduleInfo', label: 'Schedule / hours', placeholder: 'Services Sun 10:00 · Office Mon–Fri', type: 'text' },
+          { key: '_contactInfo', label: 'Contact', placeholder: '+90 212 ... / info@yourorg.com', type: 'text' },
         ],
       },
     ],
@@ -291,7 +339,7 @@ export const ARCHETYPE_INDUSTRY_TEMPLATES: IndustryTemplate[] = [
   {
     id: 'mobile-vendor',
     name: 'Mobile Vendor',
-    category: 'url',
+    category: 'menu',
     tagline: 'Food trucks and pop-ups — menu and orders on the go',
     description: 'Rotating locations with one printed QR.',
     useCases: ['Truck window', 'Festival booth', 'Social bio'],

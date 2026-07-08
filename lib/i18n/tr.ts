@@ -2490,6 +2490,7 @@ export const tr: TranslationTree = {
     createCta: 'Bu şablonla oluştur',
     useCasesTitle: 'En uygun kullanım',
     tipsTitle: 'Uzman ipuçları',
+    previewNote: 'Bu şablonun stiliyle canlı önizleme — başladıktan sonra tamamen özelleştirilebilir.',
   },
   vsIndex: {
     metaTitle: 'QRbanner Karşılaştırmaları — Özellik ve Fiyat Rehberleri',

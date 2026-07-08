@@ -11,19 +11,8 @@ import {
 } from '@/lib/i18n/resolve-template-copy';
 import { resolveCategoryShortName } from '@/lib/i18n/resolve-qr-category-copy';
 import { createUrlForTemplate } from '@/lib/template-marketplace';
+import { TemplateQrPreview } from '@/components/templates/template-qr-preview';
 import type { IndustryTemplate } from '@/lib/industry-templates';
-
-function TemplateSwatch({ template }: { template: IndustryTemplate }) {
-  const fg = template.style.fgColor ?? '#000000';
-  const bg = template.style.bgColor ?? '#ffffff';
-  return (
-    <div
-      className="h-10 w-10 shrink-0 rounded-lg border shadow-inner"
-      style={{ background: `linear-gradient(135deg, ${bg} 50%, ${fg} 50%)` }}
-      aria-hidden
-    />
-  );
-}
 
 export function TemplateMarketplaceCard({ template }: { template: IndustryTemplate }) {
   const { t } = useLanguage();
@@ -38,7 +27,7 @@ export function TemplateMarketplaceCard({ template }: { template: IndustryTempla
       data-testid={`marketplace-template-${template.id}`}
     >
       <div className="flex items-start gap-3">
-        <TemplateSwatch template={template} />
+        <TemplateQrPreview template={template} size={64} className="shrink-0" />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <Link href={`/templates/${template.id}`} className="font-display text-base font-semibold hover:text-primary">

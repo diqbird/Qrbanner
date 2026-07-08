@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { IndustryTemplateGuide } from '@/components/qr/industry-template-guide';
+import { TemplateQrPreview } from '@/components/templates/template-qr-preview';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveTemplateName, resolveTemplateTagline } from '@/lib/i18n/resolve-template-copy';
 import type { IndustryTemplate } from '@/lib/industry-templates';
@@ -38,7 +39,11 @@ export function TemplateDetailHeader({
         <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">{name}</h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">{tagline}</p>
         <p className="mx-auto mt-3 max-w-2xl text-sm text-muted-foreground">{template.description}</p>
-        <Link href={createUrl} className="mt-8 inline-block" data-testid="template-detail-create-cta">
+        <div className="mt-8 flex justify-center">
+          <TemplateQrPreview template={template} size={220} className="shadow-sm" />
+        </div>
+        <p className="mt-2 text-xs text-muted-foreground">{t('templateDetail.previewNote')}</p>
+        <Link href={createUrl} className="mt-6 inline-block" data-testid="template-detail-create-cta">
           <Button size="lg" className="gap-2 rounded-full px-8">
             {t('templateDetail.createCta')} <ArrowRight className="h-4 w-4" />
           </Button>

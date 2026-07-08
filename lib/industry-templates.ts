@@ -892,10 +892,10 @@ export const INDUSTRY_TEMPLATES: IndustryTemplate[] = [
       ctaLabel: 'Explore',
       hubMode: true,
       hubLinks: [
-        { label: 'Guest Wi‑Fi', url: 'https://yourhotel.com/wifi' },
-        { label: 'Room Service Menu', url: 'https://yourhotel.com/menu' },
-        { label: 'Spa & Amenities', url: 'https://yourhotel.com/spa' },
-        { label: 'Local Guide', url: 'https://yourhotel.com/guide' },
+        { label: 'Guest Wi‑Fi', url: '' },
+        { label: 'Room Service Menu', url: '' },
+        { label: 'Spa & Amenities', url: '' },
+        { label: 'Local Guide', url: '' },
       ],
     },
   },
@@ -1262,7 +1262,7 @@ export const INDUSTRY_TEMPLATES: IndustryTemplate[] = [
   {
     id: 'coffee-shops-cafes',
     name: 'Coffee Shop & Café',
-    category: 'url',
+    category: 'menu',
     tagline: 'Loyalty, menu and ordering from the counter',
     description: 'Cafés link table tents to loyalty signup and seasonal menus.',
     useCases: ['Counter tent', 'Table card', 'Takeaway cup sleeve', 'Loyalty poster'],
