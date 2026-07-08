@@ -57,7 +57,7 @@ export default async function DemoPage() {
             {embed ? (
               <HeroVideoEmbed embed={embed} label={t('demo.videoLabel')} />
             ) : (
-              <HeroProductPreview />
+              <HeroProductPreview t={t} locale={locale} />
             )}
             {!embed && (
               <p className="mt-4 text-center text-sm text-muted-foreground">{t('demo.noVideoHint')}</p>

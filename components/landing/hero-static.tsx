@@ -20,7 +20,7 @@ export async function LandingHeroStatic() {
       </div>
 
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6">
-        <LandingHeroContent t={t} freeQrCount={freeQrCount} qrTypeCount={qrTypeCount} />
+        <LandingHeroContent t={t} locale={locale} freeQrCount={freeQrCount} qrTypeCount={qrTypeCount} />
         <LandingHeroHighlights t={t} qrTypeCount={qrTypeCount} />
       </div>
     </section>

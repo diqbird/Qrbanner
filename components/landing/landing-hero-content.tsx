@@ -4,15 +4,18 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Zap, CheckCircle2 } from 'lucide-react';
 import { demoBookingUrl } from '@/lib/site-contact';
 import { HeroMedia } from '@/components/landing/hero-media';
+import type { Locale } from '@/lib/i18n';
 
 const TRUST_KEYS = ['hero.trustTypes', 'hero.trustApi', 'hero.trustCancel'] as const;
 
 export function LandingHeroContent({
   t,
+  locale,
   freeQrCount,
   qrTypeCount,
 }: {
   t: (key: string, vars?: Record<string, string | number>) => string;
+  locale: Locale;
   freeQrCount: string;
   qrTypeCount: string;
 }) {
@@ -65,6 +68,8 @@ export function LandingHeroContent({
 
       <div className="mx-auto w-full max-w-lg lg:max-w-none">
         <HeroMedia
+          t={t}
+          locale={locale}
           label={t('hero.videoLabel')}
           demoHref="/demo"
           demoLabel={t('hero.watchDemo')}

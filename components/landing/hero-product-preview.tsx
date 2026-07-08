@@ -1,10 +1,13 @@
-'use client';
-
-import { useLanguage } from '@/components/i18n/language-provider';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import type { Locale } from '@/lib/i18n';
 
-export function HeroProductPreview() {
-  const { t, locale } = useLanguage();
+export function HeroProductPreview({
+  t,
+  locale,
+}: {
+  t: (key: string, vars?: Record<string, string | number>) => string;
+  locale: Locale;
+}) {
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card shadow-xl animate-fade-up">
