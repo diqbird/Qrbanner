@@ -16,7 +16,9 @@ export function LandingPricingHero({ pricing }: { pricing: LandingPricingState }
         {t('landing.pricingTitle')}
       </h2>
       <p className="mt-4 text-muted-foreground">
-        {getLaunchBanner(locale, { billingLive: billingConfigured })}
+        {/* Optimistic while status loads so prerendered HTML never bakes in the
+            "checkout unavailable" wording when billing is actually live. */}
+        {getLaunchBanner(locale, { billingLive: billingConfigured || billingLoading })}
       </p>
       <PricingReferralBanner />
       {!billingLoading && !billingConfigured && <BillingComingSoonBanner />}

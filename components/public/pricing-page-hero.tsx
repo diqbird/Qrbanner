@@ -17,7 +17,7 @@ export function PricingPageHero({ pricing }: { pricing: PricingPageState }) {
         {t('pricing.title')}
       </h1>
       <p className="mt-4 text-lg text-muted-foreground">
-        {getLaunchBanner(locale, { billingLive: billingConfigured })}
+        {getLaunchBanner(locale, { billingLive: billingConfigured || billingLoading })}
       </p>
 
       {!billingLoading && !billingConfigured && <BillingComingSoonBanner />}

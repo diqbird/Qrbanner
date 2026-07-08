@@ -1,0 +1,23 @@
+{
+  "upload": [
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "components/landing/customer-logos.tsx",
+    "components/landing/landing-pricing-hero.tsx",
+    "components/landing/cta.tsx",
+    "components/public/pricing-page-hero.tsx",
+    "components/dashboard/plan-usage-card.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": false,
+  "restart": false,
+  "extra_commands": [
+    "cd /var/www/qrbanner && rm -rf .next && yarn build 2>&1 | tail -15",
+    "test -f /var/www/qrbanner/.next/server/pages/_error.js && echo ERROR_JS_OK || echo ERROR_JS_MISSING",
+    "pm2 restart qrbanner --update-env 2>&1 | tail -2",
+    "sleep 6",
+    "curl -s http://127.0.0.1:3000/ -o /tmp/qrb_home.html && node -e \"const h=require('fs').readFileSync('/tmp/qrb_home.html','utf8');console.log('RAW_HERO_KEY',h.includes('hero.badge'));console.log('UNAVAILABLE',h.includes('temporarily unavailable'));console.log('REPLACE_LOGOS',h.includes('Replace with real client logos'));console.log('REAL_TITLE',h.includes('Dynamic QR Codes That Never'));\" && rm -f /tmp/qrb_home.html"
+  ]
+}

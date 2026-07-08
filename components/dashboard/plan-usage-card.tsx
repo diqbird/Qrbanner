@@ -17,7 +17,7 @@ import type { PlanId } from '@/lib/plans';
 
 export function PlanUsageCard({ refreshKey = 0 }: { refreshKey?: number }) {
   const { locale } = useLanguage();
-  const { configured: billingConfigured } = useBillingStatus();
+  const { configured: billingConfigured, loading: billingStatusLoading } = useBillingStatus();
   const { data, loading, portalLoading, openBillingPortal, t } = usePlanUsage(refreshKey);
 
   if (loading) {
@@ -56,7 +56,7 @@ export function PlanUsageCard({ refreshKey = 0 }: { refreshKey?: number }) {
           <CreditCard className="h-5 w-5 text-primary" />
           {t('planUsage.title')}
         </CardTitle>
-        <CardDescription>{getLaunchBanner(locale, { billingLive: billingConfigured })}</CardDescription>
+        <CardDescription>{getLaunchBanner(locale, { billingLive: billingConfigured || billingStatusLoading })}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-5">
         <div className="flex items-center justify-between">

@@ -156,6 +156,8 @@ export const tr: TranslationTree = {
     getStarted: 'Başlayın',
     emailSupport: 'E-posta gönder',
     systemStatus: 'Sistem durumu',
+  },
+  hero: {
     badge: 'Dinamik QR · Ücretsiz plan · Kredi kartı gerekmez',
     title: 'Yeniden Basmaya Gerek Kalmayan Dinamik QR Kodlar',
     subtitle:
@@ -2599,7 +2601,7 @@ export const tr: TranslationTree = {
     ctaDemo: 'Bizimle konuşun',
     ctaTour: 'Ürün turunu izle',
     caseStudiesTitle: 'Detaylı vaka çalışmaları',
-    caseStudiesSubtitle: 'Örnek senaryolar — örnek metrikler ve iş akışları, doğrulanmış projeler değil.',
+    caseStudiesSubtitle: 'Ekiplerin dinamik QR ile neler başarabileceğini gösteren örnek iş akışları ve metrikler.',
     viewAllCaseStudies: 'Tüm vaka çalışmaları',
   },
   aboutPage: {
@@ -2851,8 +2853,7 @@ export const tr: TranslationTree = {
   customerLogos: {
     sectionLabel: 'Sektör örnekleri',
     title: 'Bu sektörlerdeki ekipler için tasarlandı',
-    disclaimer: 'Yalnızca sektör etiketleri — müşteri logosu değil. Hazır olunca gerçek müşteri logolarıyla değiştirin.',
-    swapGuide: 'Logo değiştirme rehberi',
+    disclaimer: 'Restoran menülerinden perakende kampanyalarına — QRbanner bu sektörlerdeki QR iş akışlarını destekler.',
   },
   brandLogos: {
     metaTitle: 'Müşteri Logolarını Değiştirme',
@@ -2923,7 +2924,7 @@ export const tr: TranslationTree = {
   },
   caseStudiesTeaser: {
     title: 'Örnek iş akışları',
-    subtitle: 'Dinamik QR\'ın nasıl kullanılabileceğini gösteren örnek senaryolar — doğrulanmış müşteri sonuçları değil.',
+    subtitle: 'Restoran, perakende ve etkinlik ekiplerinin dinamik QR\'ı nasıl kullandığını gösteren örnek kurgular.',
     viewAll: 'Tüm kullanım senaryoları',
   },
   caseStudiesIndex: {

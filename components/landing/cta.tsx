@@ -9,7 +9,7 @@ import { getLaunchBanner } from '@/lib/i18n/pricing-content';
 
 export function LandingCTA() {
   const { t, locale } = useLanguage();
-  const { configured: billingConfigured } = useBillingStatus();
+  const { configured: billingConfigured, loading: billingLoading } = useBillingStatus();
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
 
   return (
@@ -22,7 +22,7 @@ export function LandingCTA() {
           {t('landing.ctaTitle')}
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-primary-foreground">
-          {getLaunchBanner(locale, { billingLive: billingConfigured })}
+          {getLaunchBanner(locale, { billingLive: billingConfigured || billingLoading })}
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link

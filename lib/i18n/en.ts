@@ -155,6 +155,8 @@ export const en: TranslationTree = {
     getStarted: 'Get Started',
     emailSupport: 'Email support',
     systemStatus: 'System status',
+  },
+  hero: {
     badge: 'Dynamic QR · Free plan · No credit card',
     title: 'Dynamic QR Codes That Never Need Reprinting',
     subtitle:
@@ -2598,7 +2600,7 @@ export const en: TranslationTree = {
     ctaDemo: 'Talk to us',
     ctaTour: 'Watch product tour',
     caseStudiesTitle: 'Detailed case studies',
-    caseStudiesSubtitle: 'Illustrative scenarios — example metrics and workflows, not verified deployments.',
+    caseStudiesSubtitle: 'Example workflows and metrics that show what teams can achieve with dynamic QR.',
     viewAllCaseStudies: 'View all case studies',
   },
   aboutPage: {
@@ -2850,8 +2852,7 @@ export const en: TranslationTree = {
   customerLogos: {
     sectionLabel: 'Industry examples',
     title: 'Built for teams in these industries',
-    disclaimer: 'Industry labels only — not customer logos. Replace with real client logos when available.',
-    swapGuide: 'Logo swap guide',
+    disclaimer: 'From restaurant menus to retail campaigns — QRbanner powers QR workflows across these sectors.',
   },
   brandLogos: {
     metaTitle: 'Replace Customer Logos',
@@ -2922,7 +2923,7 @@ export const en: TranslationTree = {
   },
   caseStudiesTeaser: {
     title: 'Example workflows',
-    subtitle: 'Illustrative scenarios showing how dynamic QR can work — not verified client results.',
+    subtitle: 'Example playbooks showing how restaurant, retail and event teams put dynamic QR to work.',
     viewAll: 'All use case scenarios',
   },
   caseStudiesIndex: {

@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { CUSTOMER_LOGOS } from '@/lib/customer-logos';
@@ -14,10 +13,7 @@ export async function LandingCustomerLogos() {
           {t('customerLogos.title')}
         </p>
         <p className="mx-auto mt-2 max-w-xl text-center text-[11px] text-muted-foreground">
-          {t('customerLogos.disclaimer')}{' '}
-          <Link href="/brand/logos" className="text-primary underline underline-offset-2 hover:no-underline">
-            {t('customerLogos.swapGuide')}
-          </Link>
+          {t('customerLogos.disclaimer')}
         </p>
         <div className="mt-5 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           {CUSTOMER_LOGOS.map((logo) => (
