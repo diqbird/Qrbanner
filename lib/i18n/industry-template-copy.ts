@@ -207,6 +207,23 @@ const archetypeSectionsEn: TranslationTree = {
   'local-services-hub': {
     booking: { title: 'Service link', description: 'Online booking, quote request or service promo.' },
   },
+  'whatsapp-order': {
+    number: { title: 'WhatsApp number', description: 'Include country code — scanners open a chat with this number.' },
+    message: { title: 'Pre-written message', description: 'Optional — pre-fills the chat so customers start faster.' },
+  },
+  'google-review': {
+    'review-link': { title: 'Google review link', description: 'Paste your "write a review" short link from Google Business Profile.' },
+    business: { title: 'Business name', description: 'Shown on the card — not encoded in the link.' },
+  },
+  'tiktok-profile': {
+    profile: { title: 'TikTok username', description: 'Without @ — opens tiktok.com/@username.' },
+  },
+  'linkedin-profile': {
+    profile: { title: 'LinkedIn profile', description: 'Your public profile slug — opens linkedin.com/in/slug.' },
+  },
+  'facebook-page': {
+    profile: { title: 'Facebook page', description: 'Page username or vanity name — opens facebook.com/name.' },
+  },
 };
 
 const archetypeSectionsTr: TranslationTree = {
@@ -241,6 +258,23 @@ const archetypeSectionsTr: TranslationTree = {
   },
   'local-services-hub': {
     booking: { title: 'Hizmet linki', description: 'Online randevu, teklif talebi veya hizmet promosyonu.' },
+  },
+  'whatsapp-order': {
+    number: { title: 'WhatsApp numarası', description: 'Ülke kodunu ekleyin — tarayanlar bu numarayla sohbet açar.' },
+    message: { title: 'Hazır mesaj', description: 'İsteğe bağlı — sohbeti önceden doldurur, müşteri daha hızlı başlar.' },
+  },
+  'google-review': {
+    'review-link': { title: 'Google yorum linki', description: 'Google İşletme Profili\'ndeki "yorum yaz" kısa linkini yapıştırın.' },
+    business: { title: 'İşletme adı', description: 'Kartta gösterilir — linke kodlanmaz.' },
+  },
+  'tiktok-profile': {
+    profile: { title: 'TikTok kullanıcı adı', description: '@ olmadan — tiktok.com/@kullanıcıadı açılır.' },
+  },
+  'linkedin-profile': {
+    profile: { title: 'LinkedIn profili', description: 'Herkese açık profil slug\'ınız — linkedin.com/in/slug açılır.' },
+  },
+  'facebook-page': {
+    profile: { title: 'Facebook sayfası', description: 'Sayfa kullanıcı adı veya özel adı — facebook.com/ad açılır.' },
   },
 };
 
@@ -291,6 +325,23 @@ const archetypeFieldsEn: TranslationTree = {
     _businessName: { label: 'Business name' },
     _offer: { label: 'Current offer' },
   },
+  'whatsapp-order': {
+    phone: { label: 'WhatsApp number', placeholder: '+90 532 000 00 00' },
+    message: { label: 'Message', placeholder: 'Hi! I would like to order…' },
+  },
+  'google-review': {
+    url: { label: 'Review URL', placeholder: 'https://g.page/r/…/review' },
+    _businessName: { label: 'Business name', placeholder: 'The Garden Bistro' },
+  },
+  'tiktok-profile': {
+    username: { label: 'Username', placeholder: 'yourbrand' },
+  },
+  'linkedin-profile': {
+    username: { label: 'Profile slug', placeholder: 'ayse-yilmaz' },
+  },
+  'facebook-page': {
+    username: { label: 'Page name', placeholder: 'yourbusiness' },
+  },
 };
 
 const archetypeFieldsTr: TranslationTree = {
@@ -339,6 +390,23 @@ const archetypeFieldsTr: TranslationTree = {
     url: { label: 'Randevu URL' },
     _businessName: { label: 'İşletme adı' },
     _offer: { label: 'Güncel teklif' },
+  },
+  'whatsapp-order': {
+    phone: { label: 'WhatsApp numarası', placeholder: '+90 532 000 00 00' },
+    message: { label: 'Mesaj', placeholder: 'Merhaba! Sipariş vermek istiyorum…' },
+  },
+  'google-review': {
+    url: { label: 'Yorum URL', placeholder: 'https://g.page/r/…/review' },
+    _businessName: { label: 'İşletme adı', placeholder: 'The Garden Bistro' },
+  },
+  'tiktok-profile': {
+    username: { label: 'Kullanıcı adı', placeholder: 'markaniz' },
+  },
+  'linkedin-profile': {
+    username: { label: 'Profil slug', placeholder: 'ayse-yilmaz' },
+  },
+  'facebook-page': {
+    username: { label: 'Sayfa adı', placeholder: 'isletmeniz' },
   },
 };
 

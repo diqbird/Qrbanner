@@ -3,6 +3,7 @@ import {
   Globe, Contact, Wifi, Mail, MessageSquare, Phone,
   Calendar, FileText, Share2, Download, MapPin, Bitcoin, Type, Video,
   Music, MessageCircle, Instagram, Youtube, Linkedin, Facebook, Link2, Package,
+  Star, CreditCard,
 } from 'lucide-react';
 
 export const QR_CATEGORY_ICONS: Record<string, ComponentType<{ className?: string }>> = {
@@ -34,6 +35,8 @@ export const QR_CATEGORY_ICONS: Record<string, ComponentType<{ className?: strin
   crypto: Bitcoin,
   link_hub: Link2,
   gs1: Package,
+  google_review: Star,
+  paypal: CreditCard,
 };
 
 export const QR_CREATE_STEP_KEYS = [
