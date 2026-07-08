@@ -18,11 +18,14 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
   return pageMetadata({
-    locale: 'en',
+    locale,
     title: t('blogIndex.metaTitle'),
     description: t('blogIndex.metaDescription'),
     path: '/blog',
-    keywords: ['QR code blog', 'dynamic QR guide', 'QR marketing tips', 'QR code tutorial'],
+    keywords:
+      locale === 'tr'
+        ? ['QR kod blog', 'dinamik QR rehberi', 'QR pazarlama ipuçları', 'QR kod eğitimi']
+        : ['QR code blog', 'dynamic QR guide', 'QR marketing tips', 'QR code tutorial'],
   });
 }
 
@@ -33,7 +36,7 @@ export default async function BlogIndexPage({
 }) {
   const locale = await getServerLocale();
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
-  const allPosts = await getAllPosts();
+  const allPosts = await getAllPosts(locale);
   const dateLocale = locale === 'tr' ? 'tr-TR' : 'en-US';
 
   const { page: pageParam } = await searchParams;
@@ -54,7 +57,7 @@ export default async function BlogIndexPage({
           '@type': 'Blog',
           name: t('blogIndex.jsonLdName'),
           url: 'https://qrbanner.com/blog',
-          inLanguage: 'en-US',
+          inLanguage: locale === 'tr' ? 'tr-TR' : 'en-US',
           publisher: { '@type': 'Organization', name: 'QRbanner' },
         }}
       />

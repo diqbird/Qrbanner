@@ -1,0 +1,16 @@
+{
+  "upload": [
+    "lib/blog/localize-post.ts",
+    "lib/blog/posts-service.ts",
+    "lib/blog/index.ts",
+    "lib/blog/posts/tr/whatsapp-ordering-qr.ts",
+    "lib/blog/posts/tr/google-review-qr.ts",
+    "app/(public)/blog/page.tsx",
+    "app/(public)/blog/[slug]/page.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

@@ -23,10 +23,11 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props) {
-  const post = await getPostBySlug(params.slug);
+  const locale = await getServerLocale();
+  const post = await getPostBySlug(params.slug, locale);
   if (!post) return { title: 'Not found' };
   return pageMetadata({
-    locale: 'en',
+    locale,
     title: post.title,
     description: post.description,
     path: `/blog/${post.slug}`,
@@ -35,10 +36,9 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function BlogPostPage({ params }: Props) {
-  const post = await getPostBySlug(params.slug);
-  if (!post) notFound();
-
   const locale = await getServerLocale();
+  const post = await getPostBySlug(params.slug, locale);
+  if (!post) notFound();
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
   const dateLocale = locale === 'tr' ? 'tr-TR' : 'en-US';
 
@@ -54,7 +54,7 @@ export default async function BlogPostPage({ params }: Props) {
             '@type': 'Article',
             headline: post.title,
             description: post.description,
-            inLanguage: 'en-US',
+            inLanguage: locale === 'tr' ? 'tr-TR' : 'en-US',
             datePublished: post.publishedAt,
             dateModified: post.updatedAt,
             author: { '@type': 'Organization', name: post.author },

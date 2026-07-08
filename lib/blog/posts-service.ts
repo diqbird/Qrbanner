@@ -64,6 +64,8 @@ import { landingCtaAnalyticsGuide } from './posts/landing-cta-analytics-guide';
 import { aiLandingCopyGuide } from './posts/ai-landing-copy-guide';
 import { whatsappOrderingQr } from './posts/whatsapp-ordering-qr';
 import { googleReviewQr } from './posts/google-review-qr';
+import type { Locale } from '@/lib/i18n/types';
+import { localizeBlogPost } from './localize-post';
 import type { BlogPost, BlogSection } from './types';
 
 const STATIC_POSTS: BlogPost[] = [
@@ -160,7 +162,7 @@ function dbRowToPost(row: {
   };
 }
 
-export async function getPublishedPosts(): Promise<BlogPost[]> {
+export async function getPublishedPosts(locale: Locale = 'en'): Promise<BlogPost[]> {
   let dbPosts: BlogPost[] = [];
   try {
     const rows = await prisma.blogPost.findMany({
@@ -176,20 +178,23 @@ export async function getPublishedPosts(): Promise<BlogPost[]> {
   for (const p of STATIC_POSTS) bySlug.set(p.slug, p);
   for (const p of dbPosts) bySlug.set(p.slug, p);
 
-  return Array.from(bySlug.values()).sort(
-    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-  );
+  return Array.from(bySlug.values())
+    .map((p) => localizeBlogPost(p, locale))
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 }
 
-export async function getPostBySlug(slug: string): Promise<BlogPost | undefined> {
+export async function getPostBySlug(
+  slug: string,
+  locale: Locale = 'en'
+): Promise<BlogPost | undefined> {
   const staticPost = STATIC_POSTS.find((p) => p.slug === slug);
-  if (staticPost) return staticPost;
+  if (staticPost) return localizeBlogPost(staticPost, locale);
 
   try {
     const row = await prisma.blogPost.findFirst({
       where: { slug, published: true },
     });
-    if (row) return dbRowToPost(row);
+    if (row) return localizeBlogPost(dbRowToPost(row), locale);
   } catch {
     /* ignore */
   }
