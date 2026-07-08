@@ -1,7 +1,5 @@
-'use client';
-import { AdminModuleScaffold } from '@/components/admin/shared/admin-module-scaffold';
-import { useLanguage } from '@/components/i18n/language-provider';
+import { AdminBackupPage } from '@/components/admin/pages/admin-backup-page';
+
 export default function Page() {
-  const { t } = useLanguage();
-  return <AdminModuleScaffold title={t('superAdmin.nav.backup')} description={t('superAdmin.backup.desc')} status="planned" />;
+  return <AdminBackupPage />;
 }

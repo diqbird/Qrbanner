@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
+import { prisma } from '@/lib/db';
 import { clientIp } from '@/lib/rate-limit';
 import { enforcePublicRateLimit } from '@/lib/public-rate-limit';
 import { sendSalesInquiryEmail } from '@/lib/sales-inquiry-email';
@@ -51,6 +52,23 @@ export async function POST(req: NextRequest) {
       phone: phone || undefined,
       message,
     });
+
+    // Persist so support requests survive email issues and are visible in the
+    // Super Admin support module.
+    try {
+      await prisma.contactInquiry.create({
+        data: {
+          type,
+          name,
+          email,
+          company: company || null,
+          phone: phone || null,
+          message,
+        },
+      });
+    } catch (err) {
+      console.error('[contact/inquiry] persist failed', err);
+    }
 
     return NextResponse.json({ ok: true, delivered: delivery.sent });
   } catch (error) {

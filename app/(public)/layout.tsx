@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import { PublicHeader } from '@/components/public-header';
 import { PublicFooter } from '@/components/public-footer';
 import { SkipToMain } from '@/components/skip-to-main';
+import { AnnouncementBanner } from '@/components/marketing/announcement-banner';
 import { JsonLd } from '@/components/seo/json-ld';
 import {
   organizationJsonLd,
@@ -30,6 +31,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           aria-hidden
           className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.06),transparent_55%)]"
         />
+        <AnnouncementBanner />
         <PublicHeader />
         <main id="main-content" className="min-h-screen">
           {children}

@@ -1,7 +1,5 @@
-'use client';
-import { AdminModuleScaffold } from '@/components/admin/shared/admin-module-scaffold';
-import { useLanguage } from '@/components/i18n/language-provider';
+import { AdminNotificationsPage } from '@/components/admin/pages/admin-notifications-page';
+
 export default function Page() {
-  const { t } = useLanguage();
-  return <AdminModuleScaffold title={t('superAdmin.nav.notifications')} description={t('superAdmin.notifications.desc')} status="planned" />;
+  return <AdminNotificationsPage />;
 }

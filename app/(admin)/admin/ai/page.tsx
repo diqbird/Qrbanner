@@ -1,7 +1,5 @@
-'use client';
-import { AdminModuleScaffold } from '@/components/admin/shared/admin-module-scaffold';
-import { useLanguage } from '@/components/i18n/language-provider';
+import { AdminAiPage } from '@/components/admin/pages/admin-ai-page';
+
 export default function Page() {
-  const { t } = useLanguage();
-  return <AdminModuleScaffold title={t('superAdmin.nav.ai')} description={t('superAdmin.ai.desc')} status="beta" />;
+  return <AdminAiPage />;
 }

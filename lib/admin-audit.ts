@@ -11,7 +11,9 @@ export type AdminAuditAction =
   | 'site_settings.update'
   | 'blog.create'
   | 'blog.update'
-  | 'blog.delete';
+  | 'blog.delete'
+  | 'banners.announcement_update'
+  | 'support.inquiry_status';
 
 export async function recordAdminAudit(input: {
   actorId: string;

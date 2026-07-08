@@ -31,6 +31,10 @@ export function getSiteSettings(): SiteSettings {
       typeof fromFile?.showQrDescription === 'boolean'
         ? fromFile.showQrDescription
         : envDefaultShowQrDescription(),
+    announcementEnabled: fromFile?.announcementEnabled === true,
+    announcementText: typeof fromFile?.announcementText === 'string' ? fromFile.announcementText : '',
+    announcementTextTr: typeof fromFile?.announcementTextTr === 'string' ? fromFile.announcementTextTr : '',
+    announcementLink: typeof fromFile?.announcementLink === 'string' ? fromFile.announcementLink : '',
   };
   cache = { settings, at: now };
   return settings;

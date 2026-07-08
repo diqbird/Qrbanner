@@ -525,3 +525,19 @@ model BillingWebhookEvent {
   @@unique([provider, eventId])
   @@index([createdAt])
 }
+
+model ContactInquiry {
+  id        String   @id @default(cuid())
+  type      String   @default("general")
+  name      String
+  email     String
+  company   String?
+  phone     String?
+  message   String   @db.Text
+  status    String   @default("open")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([createdAt])
+}

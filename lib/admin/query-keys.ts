@@ -13,4 +13,13 @@ export const adminQueryKeys = {
   analytics: () => [...adminQueryKeys.all, 'analytics'] as const,
   audit: (params: Record<string, string | number | undefined>) =>
     [...adminQueryKeys.all, 'audit', params] as const,
+  menus: (params: Record<string, string | number | undefined>) =>
+    [...adminQueryKeys.all, 'menus', params] as const,
+  campaigns: () => [...adminQueryKeys.all, 'campaigns'] as const,
+  banners: () => [...adminQueryKeys.all, 'banners'] as const,
+  ai: () => [...adminQueryKeys.all, 'ai'] as const,
+  notifications: () => [...adminQueryKeys.all, 'notifications'] as const,
+  support: (params: Record<string, string | number | undefined>) =>
+    [...adminQueryKeys.all, 'support', params] as const,
+  backup: () => [...adminQueryKeys.all, 'backup'] as const,
 };

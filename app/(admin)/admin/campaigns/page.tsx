@@ -1,7 +1,5 @@
-'use client';
-import { AdminModuleScaffold } from '@/components/admin/shared/admin-module-scaffold';
-import { useLanguage } from '@/components/i18n/language-provider';
+import { AdminCampaignsPage } from '@/components/admin/pages/admin-campaigns-page';
+
 export default function Page() {
-  const { t } = useLanguage();
-  return <AdminModuleScaffold title={t('superAdmin.nav.campaigns')} description={t('superAdmin.campaigns.desc')} status="beta" />;
+  return <AdminCampaignsPage />;
 }
