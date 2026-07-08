@@ -23,6 +23,9 @@ const nextConfig = {
     outputFileTracingIncludes: {
       '/**': ['./node_modules/geoip-lite/data/**/*'],
     },
+    // Tree-shake heavy barrel imports so pages only ship the icons/helpers
+    // they actually use — smaller client bundles and faster LCP.
+    optimizePackageImports: ['lucide-react', 'recharts', 'date-fns'],
   },
   transpilePackages: ['react-globe.gl', 'globe.gl', 'three-globe'],
   poweredByHeader: false,

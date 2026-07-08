@@ -26,6 +26,12 @@ export function OnboardingChecklist({ qrCount }: { qrCount: number }) {
                 total: formatLocaleNumber(items.length, locale),
               })}
             </p>
+            <div className="mt-2 h-1.5 w-40 max-w-full overflow-hidden rounded-full bg-muted">
+              <div
+                className="h-full rounded-full bg-primary transition-all duration-500"
+                style={{ width: `${Math.round((doneCount / items.length) * 100)}%` }}
+              />
+            </div>
           </div>
           <button type="button" onClick={dismiss} className="text-muted-foreground hover:text-foreground" aria-label={t('common.dismissAria')}>
             <X className="h-5 w-5" />

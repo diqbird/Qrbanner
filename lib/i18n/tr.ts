@@ -1208,6 +1208,12 @@ export const tr: TranslationTree = {
     proTrialStarted: 'Pro denemesi başladı — {{days}} gün Pro özelliklerini keşfedin.',
     checkoutUnavailable: 'Ödeme geçici olarak kullanılamıyor. Tekrar deneyin veya destekle iletişime geçin.',
     checkoutLoading: 'Güvenli ödeme ekranı açılıyor…',
+    trust: {
+      guarantee: '{{days}} gün içinde para iade garantisi',
+      noCard: 'Ücretsiz planda kredi kartı gerekmez',
+      cancelAnytime: 'İstediğiniz zaman iptal — QR kodlarınız aktif kalır',
+      securePayment: 'Paddle ile güvenli ödeme',
+    },
   },
   demo: {
     metaTitle: 'Ürün Demosu',

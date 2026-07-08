@@ -6,6 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import { usePricingPage } from '@/hooks/use-pricing-page';
 import { PricingPageHero, PricingPlanGrid } from './pricing-plan-section';
 import { PricingComparisonTable } from './pricing-comparison-table';
+import { PricingTrustBar } from './pricing-trust-bar';
 import { EnterpriseCtaBand } from '@/components/marketing/enterprise-cta-band';
 import { PricingReferralBanner } from '@/components/marketing/pricing-referral-banner';
 import type { PublicBillingStatus } from '@/lib/public-billing-status';
@@ -23,6 +24,7 @@ export function PricingPageContent({ initialBillingStatus = null }: PricingPageC
       <PricingPageHero pricing={pricing} />
       <PricingReferralBanner />
       <PricingPlanGrid pricing={pricing} />
+      <PricingTrustBar />
       <PricingComparisonTable pricing={pricing} />
       <EnterpriseCtaBand />
       <div className="mt-16 text-center">

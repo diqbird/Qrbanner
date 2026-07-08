@@ -1207,6 +1207,12 @@ export const en: TranslationTree = {
     proTrialStarted: 'Pro trial started — explore Pro features for {{days}} days.',
     checkoutUnavailable: 'Checkout is temporarily unavailable. Try again or contact support.',
     checkoutLoading: 'Opening secure checkout…',
+    trust: {
+      guarantee: '{{days}}-day money-back guarantee',
+      noCard: 'No credit card for the free plan',
+      cancelAnytime: 'Cancel anytime — your QR codes stay active',
+      securePayment: 'Secure checkout via Paddle',
+    },
   },
   demo: {
     metaTitle: 'Product Demo',
