@@ -304,6 +304,19 @@ export const authOptions: NextAuthOptions = {
         const explicitMfa = (user as { mfaVerified?: boolean }).mfaVerified;
         if (explicitMfa === true) {
           token.mfaVerified = true;
+          // Must sync sessionVersion on every sign-in, otherwise accounts whose
+          // sessionVersion was ever incremented get flagged sessionInvalid on
+          // the very next request and are bounced back to /login.
+          const dbUser = await prisma.user.findUnique({
+            where: { id: user.id },
+            select: { sessionVersion: true },
+          });
+          token.sessionVersion = dbUser?.sessionVersion ?? 0;
+          try {
+            await ensurePersonalWorkspace(user.id);
+          } catch (err) {
+            console.error('[auth] ensurePersonalWorkspace failed', err);
+          }
         } else if (account?.provider && account.provider !== 'credentials') {
           const dbUser = await prisma.user.findUnique({
             where: { id: user.id },
