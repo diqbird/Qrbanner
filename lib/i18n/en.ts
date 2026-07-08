@@ -834,6 +834,9 @@ export const en: TranslationTree = {
     successDesc: '"{{name}}" is ready — download it or share the scan link.',
     successDownload: 'Download now',
     successDashboard: 'Go to dashboard',
+    successShare: 'Share',
+    successCopyLink: 'Copy',
+    successLinkCopied: 'Scan link copied',
   },
   checklist: {
     download: 'Download or print your QR code',
@@ -1213,6 +1216,8 @@ export const en: TranslationTree = {
       cancelAnytime: 'Cancel anytime — your QR codes stay active',
       securePayment: 'Secure checkout via Paddle',
     },
+    faqTitle: 'Pricing & billing questions',
+    faqSubtitle: 'Free plan, trial, refunds, payments and switching plans.',
   },
   demo: {
     metaTitle: 'Product Demo',

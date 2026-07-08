@@ -51,7 +51,7 @@ export function QREditView({ qrId }: { qrId: string }) {
         onSave={handleSave}
       />
 
-      <OnboardingSuccessCard qrId={qrId} qrName={qr.name} />
+      <OnboardingSuccessCard qrId={qrId} qrName={qr.name} shortCode={qr.shortCode} />
 
       <EditQrTips />
 

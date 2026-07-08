@@ -835,6 +835,9 @@ export const tr: TranslationTree = {
     successDesc: '"{{name}}" yayında — indirin veya tarama linkini paylaşın.',
     successDownload: 'Şimdi indir',
     successDashboard: 'Panele git',
+    successShare: 'Paylaş',
+    successCopyLink: 'Kopyala',
+    successLinkCopied: 'Tarama linki kopyalandı',
   },
   checklist: {
     download: 'QR kodunuzu indirin veya yazdırın',
@@ -1214,6 +1217,8 @@ export const tr: TranslationTree = {
       cancelAnytime: 'İstediğiniz zaman iptal — QR kodlarınız aktif kalır',
       securePayment: 'Paddle ile güvenli ödeme',
     },
+    faqTitle: 'Fiyatlandırma ve faturalama soruları',
+    faqSubtitle: 'Ücretsiz plan, deneme, iade, ödemeler ve plan değişimi.',
   },
   demo: {
     metaTitle: 'Ürün Demosu',

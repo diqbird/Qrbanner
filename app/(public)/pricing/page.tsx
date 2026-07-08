@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { pageMetadata, pricingJsonLd, webPageJsonLd } from '@/lib/seo';
+import { pageMetadata, pricingJsonLd, webPageJsonLd, faqJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { PricingPageContent } from '@/components/public/pricing-page-content';
+import { getPricingFaqItems } from '@/lib/i18n/pricing-faq-items';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
@@ -38,7 +39,7 @@ export default async function PricingPage() {
 
   return (
     <>
-      <JsonLd data={[pricingJsonLd(), webPageJsonLd({ title: pageTitle, description: pageDesc, path: '/pricing' })]} />
+      <JsonLd data={[pricingJsonLd(), webPageJsonLd({ title: pageTitle, description: pageDesc, path: '/pricing' }), faqJsonLd(getPricingFaqItems(locale))]} />
       <PublicBreadcrumbs items={[{ label: t('nav.pricing'), href: '/pricing' }]} />
       <div className="py-10 sm:py-16">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
