@@ -173,9 +173,23 @@ def build_post_commands(plan: DeployPlan, cfg: DeployConfig) -> list[str]:
             )
         cmds.append(f"{base} && yarn prisma migrate deploy 2>&1 | tail -20")
     if plan.build:
-        cmds.append(f"{base} && yarn build 2>&1 | tail -20")
+        # Zero-downtime build: compile into a fresh .next-build while the live
+        # .next keeps serving, verify the build is complete (_error.js is the
+        # canary that previously caused production crashes), then atomically
+        # swap and reload. Eliminates the ~90s window where the site served a
+        # half-built .next.
+        cmds.append(
+            f"{base} && rm -rf .next-build && NEXT_DIST_DIR=.next-build yarn build 2>&1 | tail -20"
+        )
+        cmds.append(
+            f"{base} && if [ -f .next-build/server/pages/_error.js ]; then "
+            f"rm -rf .next-old && (mv .next .next-old 2>/dev/null || true) && "
+            f"mv .next-build .next && echo BUILD_SWAP_OK; "
+            f"else echo BUILD_SWAP_FAILED_INCOMPLETE && exit 1; fi"
+        )
     if plan.restart:
-        cmds.append("pm2 restart qrbanner 2>&1 | tail -3")
+        # reload (not restart) keeps the old worker up until the new one is ready.
+        cmds.append("pm2 reload qrbanner --update-env 2>&1 | tail -3")
     cmds.extend(plan.extra_commands)
     return cmds
 
@@ -195,11 +209,15 @@ def execute_plan(cfg: DeployConfig, plan: DeployPlan) -> int:
     for cmd in build_post_commands(plan, cfg):
         combined, exit_code = run_ssh(client, cmd)
         output += combined
-        if exit_code != 0 and "yarn build" in cmd:
+        if exit_code != 0 and ("yarn build" in cmd or "BUILD_SWAP" in cmd):
             failed = True
 
     client.close()
-    if plan.build and ("Failed to compile" in output or failed):
+    if plan.build and (
+        "Failed to compile" in output
+        or "BUILD_SWAP_FAILED_INCOMPLETE" in output
+        or failed
+    ):
         print("BUILD FAILED", file=sys.stderr)
         return 1
     print("Deploy complete.")
