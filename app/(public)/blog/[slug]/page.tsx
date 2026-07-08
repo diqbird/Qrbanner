@@ -15,7 +15,7 @@ import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 type Props = { params: { slug: string } };
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export async function generateStaticParams() {
   const slugs = await getAllPostSlugs();

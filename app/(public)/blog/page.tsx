@@ -10,7 +10,7 @@ import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 const POSTS_PER_PAGE = 12;
 
