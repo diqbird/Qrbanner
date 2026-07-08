@@ -6,8 +6,13 @@
   "build": false,
   "restart": false,
   "extra_commands": [
-    "pm2 jlist 2>/dev/null | node -e \"let d='';process.stdin.on('data',c=>d+=c).on('end',()=>{const a=JSON.parse(d);a.forEach(p=>console.log('PM2',p.name,'status=',p.pm2_env.status,'restarts=',p.pm2_env.restart_time))})\"",
-    "echo '=== ERROR LOG ==='",
-    "tail -n 100 ~/.pm2/logs/qrbanner-error.log 2>/dev/null"
+    "ls -la /var/www/qrbanner/.next/server/pages/_error.js 2>&1 || echo MISSING_ERROR_JS",
+    "ls -la /var/www/qrbanner/.next/BUILD_ID 2>&1",
+    "stat /var/www/qrbanner/.next/server/pages/_error.js 2>&1 | head -5",
+    "echo '=== RECENT ERRORS ==='",
+    "tail -n 30 ~/.pm2/logs/qrbanner-error.log 2>/dev/null",
+    "echo '=== CURL DASHBOARD ==='",
+    "curl -s -o /dev/null -w 'dashboard_status=%{http_code}\\n' http://127.0.0.1:3000/dashboard",
+    "curl -s -o /dev/null -w 'login_status=%{http_code}\\n' http://127.0.0.1:3000/login"
   ]
 }
