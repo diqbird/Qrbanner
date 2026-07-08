@@ -6,6 +6,7 @@ import {
   isDevEmailFallbackAllowed,
   logDevEmailSkipped,
 } from '@/lib/email-fallback';
+import { recordEmailDelivery, type EmailDeliveryKind } from '@/lib/email-delivery-log';
 
 /**
  * SMTP email sending for QRbanner.
@@ -32,21 +33,54 @@ async function deliverMail(options: {
   subject: string;
   text: string;
   html: string;
+  kind?: EmailDeliveryKind;
+  actorId?: string | null;
 }) {
   const transporter = getTransporter();
   const from = smtpFromAddress();
+  const kind = options.kind ?? 'transactional';
+
   if (!transporter) {
+    await recordEmailDelivery({
+      kind,
+      to: options.to,
+      subject: options.subject,
+      success: false,
+      error: 'smtp_not_configured',
+      actorId: options.actorId,
+    });
     return { sent: false as const, fallback: true as const };
   }
-  await transporter.sendMail({
-    from: `QRbanner <${from}>`,
-    replyTo: SUPPORT_EMAIL,
-    to: options.to,
-    subject: options.subject,
-    text: options.text,
-    html: options.html,
-  });
-  return { sent: true as const, fallback: false as const };
+
+  try {
+    await transporter.sendMail({
+      from: `QRbanner <${from}>`,
+      replyTo: SUPPORT_EMAIL,
+      to: options.to,
+      subject: options.subject,
+      text: options.text,
+      html: options.html,
+    });
+    await recordEmailDelivery({
+      kind,
+      to: options.to,
+      subject: options.subject,
+      success: true,
+      actorId: options.actorId,
+    });
+    return { sent: true as const, fallback: false as const };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'send_failed';
+    await recordEmailDelivery({
+      kind,
+      to: options.to,
+      subject: options.subject,
+      success: false,
+      error: message,
+      actorId: options.actorId,
+    });
+    throw error;
+  }
 }
 
 export function isEmailConfigured(): boolean {
@@ -72,16 +106,33 @@ export async function sendVerificationEmail(
     throw new EmailNotConfiguredError('verification email');
   }
 
-  await transporter.sendMail({
-    from: `QRbanner <${from}>`,
-    replyTo: SUPPORT_EMAIL,
-    to,
-    subject,
-    text,
-    html,
-  });
-
-  return { sent: true, fallback: false };
+  try {
+    await transporter.sendMail({
+      from: `QRbanner <${from}>`,
+      replyTo: SUPPORT_EMAIL,
+      to,
+      subject,
+      text,
+      html,
+    });
+    await recordEmailDelivery({
+      kind: 'verification',
+      to,
+      subject,
+      success: true,
+    });
+    return { sent: true, fallback: false };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'send_failed';
+    await recordEmailDelivery({
+      kind: 'verification',
+      to,
+      subject,
+      success: false,
+      error: message,
+    });
+    throw error;
+  }
 }
 
 function siteBaseUrl(): string {
@@ -111,7 +162,7 @@ export async function sendPasswordResetEmail(
   }
 
   try {
-    const result = await deliverMail({ to, subject, text, html });
+    const result = await deliverMail({ to, subject, text, html, kind: 'password_reset' });
     console.log(`[email] Password reset sent to ${to}`, result);
     return result;
   } catch (error) {
@@ -139,8 +190,7 @@ export async function sendPasswordResetOAuthEmail(
   }
 
   try {
-    const result = await deliverMail({ to, subject, text, html });
-    console.log(`[email] OAuth reset notice sent to ${to}`, result);
+    const result = await deliverMail({ to, subject, text, html, kind: 'password_reset_oauth' });
     return result;
   } catch (error) {
     console.error('[email] OAuth reset notice failed:', error);
@@ -165,8 +215,7 @@ export async function sendTeamInviteEmail(
   }
 
   try {
-    const result = await deliverMail({ to, subject, text, html });
-    console.log(`[email] Team invite sent to ${to}`, result);
+    const result = await deliverMail({ to, subject, text, html, kind: 'team_invite' });
     return result;
   } catch (error) {
     console.error('[email] Team invite send failed:', error);
@@ -231,4 +280,30 @@ export async function sendAutomationNotification(
     fromName: 'QRbanner',
   });
   return { sent: result.sent, fallback: result.fallback };
+}
+
+export async function sendAdminTestEmail(
+  to: string,
+  locale: import('@/lib/i18n/types').Locale = 'en',
+  actorId?: string | null,
+) {
+  const { buildAdminSmtpTestEmailContent } = await import('@/lib/i18n/admin-test-email');
+  const { subject, html, text } = buildAdminSmtpTestEmailContent(locale);
+
+  if (!getTransporter()) {
+    if (isDevEmailFallbackAllowed()) {
+      logDevEmailSkipped('admin test', to);
+      return { sent: false, fallback: true };
+    }
+    throw new EmailNotConfiguredError('admin test email');
+  }
+
+  return deliverMail({
+    to,
+    subject,
+    text,
+    html,
+    kind: 'admin_test',
+    actorId,
+  });
 }

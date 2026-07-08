@@ -13,7 +13,8 @@ export type AdminAuditAction =
   | 'blog.update'
   | 'blog.delete'
   | 'banners.announcement_update'
-  | 'support.inquiry_status';
+  | 'support.inquiry_status'
+  | 'notifications.test_email';
 
 export async function recordAdminAudit(input: {
   actorId: string;

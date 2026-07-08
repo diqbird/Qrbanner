@@ -541,3 +541,18 @@ model ContactInquiry {
   @@index([status, createdAt])
   @@index([createdAt])
 }
+
+model EmailDeliveryLog {
+  id        String   @id @default(cuid())
+  kind      String
+  to        String
+  subject   String
+  success   Boolean  @default(false)
+  error     String?
+  actorId   String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([kind, createdAt])
+  @@index([success, createdAt])
+}

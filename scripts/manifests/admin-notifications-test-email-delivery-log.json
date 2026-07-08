@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "prisma/schema.prisma",
+    "prisma/migrations/0005_email_delivery_logs/migration.sql",
+    "lib/email-delivery-log.ts",
+    "lib/email.ts",
+    "lib/i18n/admin-test-email.ts",
+    "lib/admin-audit.ts",
+    "app/api/admin/notifications/route.ts",
+    "components/admin/pages/admin-notifications-page.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": true,
+  "prisma_migrate": true,
+  "build": true,
+  "restart": true
+}
