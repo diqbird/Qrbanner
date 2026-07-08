@@ -1,13 +1,12 @@
 {
-  "upload": [],
+  "upload": ["scripts/simulate-authorize.mjs"],
   "yarn_install": false,
   "prisma_generate": false,
   "prisma_migrate": false,
   "build": false,
   "restart": false,
   "extra_commands": [
-    "cd /var/www/qrbanner && node -e \"require('dotenv').config(); console.log('AUTH_TRUST_HOST', process.env.AUTH_TRUST_HOST||'MISSING');\"",
-    "COOKIE_JAR=/tmp/qrb_login_test.txt && rm -f $COOKIE_JAR && CSRF=$(curl -s -c $COOKIE_JAR -b $COOKIE_JAR 'https://qrbanner.com/api/auth/csrf' | node -pe \"JSON.parse(require('fs').readFileSync(0,'utf8')).csrfToken\") && echo CSRF_OK=${#CSRF} && curl -s -c $COOKIE_JAR -b $COOKIE_JAR -w '\\nLOGIN_HTTP:%{http_code}\\n' -X POST 'https://qrbanner.com/api/auth/callback/credentials' -H 'Content-Type: application/x-www-form-urlencoded' --data-urlencode \"csrfToken=$CSRF\" --data-urlencode 'email=onur@qrbanner.com' --data-urlencode 'password=112358Onrks..' --data-urlencode 'redirect=false' --data-urlencode 'json=true'",
-    "curl -s -b /tmp/qrb_login_test.txt 'https://qrbanner.com/api/auth/session'"
+    "cd /var/www/qrbanner && node scripts/simulate-authorize.mjs onur@qrbanner.com '112358Onrks..' 2>&1",
+    "tail -n 5 ~/.pm2/logs/qrbanner-error.log 2>/dev/null"
   ]
 }

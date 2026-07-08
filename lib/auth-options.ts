@@ -67,6 +67,7 @@ const providers: NextAuthOptions['providers'] = [
       }
 
       const email = credentials.email.toLowerCase();
+      console.log('[auth] credentials authorize', email);
 
       if (credentials.verifyToken) {
         const secret = process.env.NEXTAUTH_SECRET;
