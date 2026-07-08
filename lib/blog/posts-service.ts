@@ -62,6 +62,8 @@ import { landscapingLawnCareQr } from './posts/landscaping-lawn-care-qr';
 import { totpTwoFactorGuide } from './posts/totp-two-factor-guide';
 import { landingCtaAnalyticsGuide } from './posts/landing-cta-analytics-guide';
 import { aiLandingCopyGuide } from './posts/ai-landing-copy-guide';
+import { whatsappOrderingQr } from './posts/whatsapp-ordering-qr';
+import { googleReviewQr } from './posts/google-review-qr';
 import type { BlogPost, BlogSection } from './types';
 
 const STATIC_POSTS: BlogPost[] = [
@@ -128,6 +130,8 @@ const STATIC_POSTS: BlogPost[] = [
   totpTwoFactorGuide,
   landingCtaAnalyticsGuide,
   aiLandingCopyGuide,
+  whatsappOrderingQr,
+  googleReviewQr,
 ];
 
 function dbRowToPost(row: {
