@@ -12,13 +12,10 @@
   "build": false,
   "restart": false,
   "extra_commands": [
-    "grep -q '^AUTH_TRUST_HOST=' /var/www/qrbanner/.env || echo 'AUTH_TRUST_HOST=true' >> /var/www/qrbanner/.env",
+    "grep -q '^AUTH_TRUST_HOST=' /var/www/qrbanner/.env && sed -i 's/^AUTH_TRUST_HOST=.*/AUTH_TRUST_HOST=true/' /var/www/qrbanner/.env || echo 'AUTH_TRUST_HOST=true' >> /var/www/qrbanner/.env",
     "cd /var/www/qrbanner && node scripts/reset-admin-password.mjs onur@qrbanner.com '112358Onrks..' 2>&1 | tail -2",
     "cd /var/www/qrbanner && rm -rf .next && yarn build 2>&1 | tail -20",
     "test -f /var/www/qrbanner/.next/server/pages/_error.js && echo ERROR_JS_OK || echo ERROR_JS_MISSING",
-    "pm2 restart qrbanner --update-env 2>&1 | tail -2",
-    "sleep 4",
-    "COOKIE_JAR=/tmp/qrb_login_test.txt && rm -f $COOKIE_JAR && CSRF=$(curl -s -c $COOKIE_JAR -b $COOKIE_JAR 'https://qrbanner.com/api/auth/csrf' | node -pe \"JSON.parse(require('fs').readFileSync(0,'utf8')).csrfToken\") && curl -s -c $COOKIE_JAR -b $COOKIE_JAR -w '\\nLOGIN_HTTP:%{http_code}' -X POST 'https://qrbanner.com/api/auth/callback/credentials' -H 'Content-Type: application/x-www-form-urlencoded' --data-urlencode \"csrfToken=$CSRF\" --data-urlencode 'email=onur@qrbanner.com' --data-urlencode 'password=112358Onrks..' --data-urlencode 'redirect=false' --data-urlencode 'json=true' | tail -5",
-    "curl -s -b /tmp/qrb_login_test.txt 'https://qrbanner.com/api/auth/session' | node -pe \"const s=JSON.parse(require('fs').readFileSync(0,'utf8')); console.log('SESSION_EMAIL', s.user?.email||'none', 'ROLE', s.user?.role||'none')\""
+    "pm2 restart qrbanner --update-env 2>&1 | tail -2"
   ]
 }

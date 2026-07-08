@@ -245,7 +245,6 @@ if (process.env.AZURE_AD_CLIENT_ID && process.env.AZURE_AD_CLIENT_SECRET && proc
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers,
-  trustHost: true,
   session: {
     strategy: 'jwt',
     // Explicit session lifetime: sessions expire after 30 days of inactivity
