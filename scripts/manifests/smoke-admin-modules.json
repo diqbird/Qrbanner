@@ -1,0 +1,11 @@
+{
+  "upload": ["scripts/smoke-admin-modules.mjs"],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": false,
+  "restart": false,
+  "extra_commands": [
+    "cd /var/www/qrbanner && TEST_PASSWORD='112358Onrks..' node scripts/smoke-admin-modules.mjs 2>&1 | tail -20"
+  ]
+}
