@@ -69,6 +69,9 @@ export function useLoginFormSubmit({
           return;
         }
         toast.error(resolveApiError(t, result.error));
+        if (process.env.NODE_ENV === 'development') {
+          console.error('[login] signIn error:', result.error);
+        }
         return;
       }
 

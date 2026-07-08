@@ -294,6 +294,8 @@ export const tr: TranslationTree = {
       missing_fields: 'Lütfen gerekli tüm alanları doldurun.',
       email_required: 'Lütfen e-posta adresinizi girin.',
       invalid_credentials: 'Geçersiz e-posta veya şifre.',
+      CredentialsSignin: 'Geçersiz e-posta veya şifre.',
+      Unauthorized: 'Giriş başarısız. E-posta ve şifrenizi kontrol edin.',
       email_exists: 'Bu e-posta ile kayıtlı bir hesap zaten var.',
       password_too_short: 'Şifre en az {{min}} karakter olmalıdır.',
       password_needs_letter: 'Şifre en az bir harf içermelidir.',

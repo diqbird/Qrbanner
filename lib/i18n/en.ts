@@ -293,6 +293,8 @@ export const en: TranslationTree = {
       missing_fields: 'Please fill in all required fields.',
       email_required: 'Please enter your email address.',
       invalid_credentials: 'Invalid email or password.',
+      CredentialsSignin: 'Invalid email or password.',
+      Unauthorized: 'Sign in failed. Please check your email and password.',
       email_exists: 'An account with this email already exists.',
       password_too_short: 'Password must be at least {{min}} characters.',
       password_needs_letter: 'Password must include at least one letter.',

@@ -26,7 +26,12 @@ function parseRememberMe(value: string | undefined): boolean {
 }
 
 async function assertLoginNotRateLimited(email: string): Promise<void> {
-  const ip = await clientIpFromHeaders();
+  let ip = 'unknown';
+  try {
+    ip = await clientIpFromHeaders();
+  } catch (err) {
+    console.error('[auth] clientIpFromHeaders failed', err);
+  }
   const ipResult = await checkRateLimit(
     AUTH_LOGIN_IP.key(ip),
     AUTH_LOGIN_IP.limit,
@@ -240,6 +245,7 @@ if (process.env.AZURE_AD_CLIENT_ID && process.env.AZURE_AD_CLIENT_SECRET && proc
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers,
+  trustHost: true,
   session: {
     strategy: 'jwt',
     // Explicit session lifetime: sessions expire after 30 days of inactivity
@@ -310,7 +316,11 @@ export const authOptions: NextAuthOptions = {
             token.mfaVerified = true;
           }
           token.sessionVersion = dbUser?.sessionVersion ?? 0;
-          await ensurePersonalWorkspace(user.id);
+          try {
+            await ensurePersonalWorkspace(user.id);
+          } catch (err) {
+            console.error('[auth] ensurePersonalWorkspace failed', err);
+          }
         } else {
           token.mfaVerified = explicitMfa ?? true;
           const dbUser = await prisma.user.findUnique({
@@ -318,7 +328,11 @@ export const authOptions: NextAuthOptions = {
             select: { sessionVersion: true },
           });
           token.sessionVersion = dbUser?.sessionVersion ?? 0;
-          await ensurePersonalWorkspace(user.id);
+          try {
+            await ensurePersonalWorkspace(user.id);
+          } catch (err) {
+            console.error('[auth] ensurePersonalWorkspace failed', err);
+          }
         }
       } else if (token.id) {
         const dbUser = await prisma.user.findUnique({
