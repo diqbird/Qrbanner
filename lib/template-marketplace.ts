@@ -2,11 +2,11 @@ import { INDUSTRY_TEMPLATES, type IndustryTemplate } from '@/lib/industry-templa
 
 export const FEATURED_TEMPLATE_IDS = [
   'restaurant-menu',
+  'whatsapp-order',
+  'google-review',
   'business-card',
   'wifi-guest',
-  'hotels-hospitality',
   'event-registration',
-  'portfolio',
 ] as const;
 
 export function listMarketplaceTemplates(): IndustryTemplate[] {
