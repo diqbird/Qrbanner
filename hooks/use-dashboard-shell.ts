@@ -8,6 +8,7 @@ import { canUseWhiteLabel, parseBrandingSettings, type BrandingSettings } from '
 export type DashboardChromeBrand = {
   displayName: string;
   logoUrl?: string;
+  faviconUrl?: string;
   brandColor?: string;
   supportEmail?: string;
   whiteLabel: boolean;
@@ -62,6 +63,7 @@ export function useDashboardShell() {
         setChromeBrand({
           displayName: agencyName || 'QRbanner',
           logoUrl: branding.logoUrl,
+          faviconUrl: branding.faviconUrl,
           brandColor: branding.brandColor,
           supportEmail: branding.supportEmail?.trim() || undefined,
           whiteLabel: true,

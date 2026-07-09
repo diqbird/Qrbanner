@@ -10,6 +10,7 @@ import { hexToHslComponents } from '@/lib/color-utils';
 import { DashboardSidebar } from './dashboard-sidebar';
 import { DashboardMobileSidebar } from './dashboard-mobile-sidebar';
 import { DashboardTopHeader } from './dashboard-top-header';
+import { DashboardChromeHead } from './dashboard-chrome-head';
 
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const shell = useDashboardShell();
@@ -39,6 +40,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex min-h-screen bg-muted/20" style={rootStyle}>
+      <DashboardChromeHead brand={shell.chromeBrand} />
       <SkipToMain />
       <DashboardCommandPalette
         open={commandOpen}

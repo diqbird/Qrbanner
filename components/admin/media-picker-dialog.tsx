@@ -14,9 +14,15 @@ interface MediaPickerDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSelect: (url: string) => void;
+  titleKey?: string;
 }
 
-export function MediaPickerDialog({ open, onOpenChange, onSelect }: MediaPickerDialogProps) {
+export function MediaPickerDialog({
+  open,
+  onOpenChange,
+  onSelect,
+  titleKey = 'admin.blog.pickImage',
+}: MediaPickerDialogProps) {
   const { t } = useLanguage();
   const { assets, loading } = useMediaPickerAssets(open);
 
@@ -24,7 +30,7 @@ export function MediaPickerDialog({ open, onOpenChange, onSelect }: MediaPickerD
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{t('admin.blog.pickImage')}</DialogTitle>
+          <DialogTitle>{t(titleKey)}</DialogTitle>
         </DialogHeader>
         {loading ? (
           <p className="text-sm text-muted-foreground">{t('common.loading')}</p>

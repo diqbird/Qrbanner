@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "lib/referral.ts",
+    "lib/branding-settings-utils.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "app/api/referral/route.ts",
+    "hooks/use-dashboard-shell.ts",
+    "components/admin/media-picker-dialog.tsx",
+    "components/dashboard/branding-settings-form.tsx",
+    "components/dashboard/dashboard-chrome-head.tsx",
+    "components/dashboard/dashboard-shell.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

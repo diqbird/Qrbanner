@@ -68,11 +68,15 @@ export async function PATCH(req: Request) {
       ...(body.agencyName !== undefined ? { agencyName: String(body.agencyName).trim() || undefined } : {}),
       ...(body.supportEmail !== undefined ? { supportEmail: String(body.supportEmail).trim() || undefined } : {}),
       ...(body.logoUrl !== undefined ? { logoUrl: normalizeLogoUrl(body.logoUrl) } : {}),
+      ...(body.faviconUrl !== undefined ? { faviconUrl: normalizeLogoUrl(body.faviconUrl) } : {}),
       ...(body.brandColor !== undefined ? { brandColor: normalizeBrandColor(body.brandColor) } : {}),
     };
 
     const wantsWhiteLabelChrome =
-      Boolean(next.hidePoweredBy) || Boolean(next.logoUrl) || Boolean(next.brandColor);
+      Boolean(next.hidePoweredBy) ||
+      Boolean(next.logoUrl) ||
+      Boolean(next.faviconUrl) ||
+      Boolean(next.brandColor);
     if (wantsWhiteLabelChrome && !canUseWhiteLabel(user.plan)) {
       return NextResponse.json(
         { error: 'White-label branding requires Business or Agency plan' },
@@ -97,6 +101,7 @@ export async function PATCH(req: Request) {
           hidePoweredBy: next.hidePoweredBy,
           agencyName: next.agencyName ?? null,
           logoUrl: next.logoUrl ?? null,
+          faviconUrl: next.faviconUrl ?? null,
           brandColor: next.brandColor ?? null,
         },
       });

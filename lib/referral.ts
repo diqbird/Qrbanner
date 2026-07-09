@@ -63,6 +63,7 @@ export interface BrandingSettings {
   agencyName?: string;
   supportEmail?: string;
   logoUrl?: string;
+  faviconUrl?: string;
   brandColor?: string;
   referralRewardClaimed?: boolean;
   preferredLocale?: 'en' | 'tr';
@@ -101,6 +102,7 @@ export function parseBrandingSettings(raw: unknown): BrandingSettings {
     agencyName: typeof o.agencyName === 'string' ? o.agencyName : undefined,
     supportEmail: typeof o.supportEmail === 'string' ? o.supportEmail : undefined,
     logoUrl: normalizeLogoUrl(o.logoUrl),
+    faviconUrl: normalizeLogoUrl(o.faviconUrl),
     brandColor: normalizeBrandColor(o.brandColor),
     referralRewardClaimed: Boolean(o.referralRewardClaimed),
     preferredLocale,

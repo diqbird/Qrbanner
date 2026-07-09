@@ -3,6 +3,7 @@ export type BrandingForm = {
   agencyName: string;
   supportEmail: string;
   logoUrl: string;
+  faviconUrl: string;
   brandColor: string;
 };
 
@@ -14,6 +15,7 @@ export function parseBranding(json: unknown): BrandingForm {
     agencyName: String(b.agencyName ?? ''),
     supportEmail: String(b.supportEmail ?? ''),
     logoUrl: String(b.logoUrl ?? ''),
+    faviconUrl: String(b.faviconUrl ?? ''),
     brandColor: String(b.brandColor ?? ''),
   };
 }
