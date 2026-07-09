@@ -1,0 +1,15 @@
+{
+  "upload": [
+    "lib/blog/localize-post.ts",
+    "lib/blog/posts/tr/salon-spa-qr-codes.ts",
+    "lib/blog/posts/tr/dental-practice-qr-codes.ts",
+    "lib/blog/posts/tr/law-firm-qr-codes.ts",
+    "lib/blog/posts/tr/fitness-gym-qr.ts",
+    "lib/blog/posts/tr/university-qr-codes.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

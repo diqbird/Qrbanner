@@ -15,6 +15,11 @@ import { retailQrCodesTr } from './posts/tr/retail-qr-codes';
 import { stadiumQrCodesTr } from './posts/tr/stadium-qr-codes';
 import { realEstateOpenHouseQrTr } from './posts/tr/real-estate-open-house-qr';
 import { healthcareQrCodesTr } from './posts/tr/healthcare-qr-codes';
+import { salonSpaQrCodesTr } from './posts/tr/salon-spa-qr-codes';
+import { dentalPracticeQrTr } from './posts/tr/dental-practice-qr-codes';
+import { lawFirmQrCodesTr } from './posts/tr/law-firm-qr-codes';
+import { fitnessGymQrTr } from './posts/tr/fitness-gym-qr';
+import { universityQrCodesTr } from './posts/tr/university-qr-codes';
 
 /** Turkish content overrides keyed by slug (same URL, locale from cookie/header). */
 const TR_POSTS: Record<string, BlogPost> = {
@@ -33,6 +38,11 @@ const TR_POSTS: Record<string, BlogPost> = {
   [stadiumQrCodesTr.slug]: stadiumQrCodesTr,
   [realEstateOpenHouseQrTr.slug]: realEstateOpenHouseQrTr,
   [healthcareQrCodesTr.slug]: healthcareQrCodesTr,
+  [salonSpaQrCodesTr.slug]: salonSpaQrCodesTr,
+  [dentalPracticeQrTr.slug]: dentalPracticeQrTr,
+  [lawFirmQrCodesTr.slug]: lawFirmQrCodesTr,
+  [fitnessGymQrTr.slug]: fitnessGymQrTr,
+  [universityQrCodesTr.slug]: universityQrCodesTr,
 };
 
 export function localizeBlogPost(post: BlogPost, locale: Locale): BlogPost {
