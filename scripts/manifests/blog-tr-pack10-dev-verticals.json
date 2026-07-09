@@ -1,0 +1,15 @@
+{
+  "upload": [
+    "lib/blog/localize-post.ts",
+    "lib/blog/posts/tr/developers-api-getting-started.ts",
+    "lib/blog/posts/tr/totp-two-factor-guide.ts",
+    "lib/blog/posts/tr/ai-landing-copy-guide.ts",
+    "lib/blog/posts/tr/university-wayfinding-qr.ts",
+    "lib/blog/posts/tr/trade-show-booth-qr.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

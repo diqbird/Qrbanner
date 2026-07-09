@@ -40,6 +40,11 @@ import { webhookAutomationGuideTr } from './posts/tr/webhook-automation-guide';
 import { qrSecurityGuideTr } from './posts/tr/qr-security-guide';
 import { landingCtaAnalyticsGuideTr } from './posts/tr/landing-cta-analytics-guide';
 import { referralProgramGuideTr } from './posts/tr/referral-program-guide';
+import { developersApiGettingStartedTr } from './posts/tr/developers-api-getting-started';
+import { totpTwoFactorGuideTr } from './posts/tr/totp-two-factor-guide';
+import { aiLandingCopyGuideTr } from './posts/tr/ai-landing-copy-guide';
+import { universityWayfindingQrTr } from './posts/tr/university-wayfinding-qr';
+import { tradeShowBoothQrTr } from './posts/tr/trade-show-booth-qr';
 
 /** Turkish content overrides keyed by slug (same URL, locale from cookie/header). */
 const TR_POSTS: Record<string, BlogPost> = {
@@ -83,6 +88,11 @@ const TR_POSTS: Record<string, BlogPost> = {
   [qrSecurityGuideTr.slug]: qrSecurityGuideTr,
   [landingCtaAnalyticsGuideTr.slug]: landingCtaAnalyticsGuideTr,
   [referralProgramGuideTr.slug]: referralProgramGuideTr,
+  [developersApiGettingStartedTr.slug]: developersApiGettingStartedTr,
+  [totpTwoFactorGuideTr.slug]: totpTwoFactorGuideTr,
+  [aiLandingCopyGuideTr.slug]: aiLandingCopyGuideTr,
+  [universityWayfindingQrTr.slug]: universityWayfindingQrTr,
+  [tradeShowBoothQrTr.slug]: tradeShowBoothQrTr,
 };
 
 export function localizeBlogPost(post: BlogPost, locale: Locale): BlogPost {
