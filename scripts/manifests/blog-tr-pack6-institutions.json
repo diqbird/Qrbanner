@@ -1,0 +1,15 @@
+{
+  "upload": [
+    "lib/blog/localize-post.ts",
+    "lib/blog/posts/tr/agency-qr-codes.ts",
+    "lib/blog/posts/tr/government-qr-codes.ts",
+    "lib/blog/posts/tr/museum-qr-codes.ts",
+    "lib/blog/posts/tr/cinema-qr-codes.ts",
+    "lib/blog/posts/tr/pharmacy-qr-codes.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
