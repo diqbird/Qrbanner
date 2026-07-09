@@ -25,6 +25,11 @@ import { governmentQrCodesTr } from './posts/tr/government-qr-codes';
 import { museumQrCodesTr } from './posts/tr/museum-qr-codes';
 import { cinemaQrCodesTr } from './posts/tr/cinema-qr-codes';
 import { pharmacyQrCodesTr } from './posts/tr/pharmacy-qr-codes';
+import { civicEngagementQrTr } from './posts/tr/civic-engagement-qr';
+import { supermarketLoyaltyQrTr } from './posts/tr/supermarket-loyalty-qr';
+import { logisticsQrCodesTr } from './posts/tr/logistics-qr-codes';
+import { manufacturingQrCodesTr } from './posts/tr/manufacturing-qr-codes';
+import { automotiveDealershipQrTr } from './posts/tr/automotive-dealership-qr';
 
 /** Turkish content overrides keyed by slug (same URL, locale from cookie/header). */
 const TR_POSTS: Record<string, BlogPost> = {
@@ -53,6 +58,11 @@ const TR_POSTS: Record<string, BlogPost> = {
   [museumQrCodesTr.slug]: museumQrCodesTr,
   [cinemaQrCodesTr.slug]: cinemaQrCodesTr,
   [pharmacyQrCodesTr.slug]: pharmacyQrCodesTr,
+  [civicEngagementQrTr.slug]: civicEngagementQrTr,
+  [supermarketLoyaltyQrTr.slug]: supermarketLoyaltyQrTr,
+  [logisticsQrCodesTr.slug]: logisticsQrCodesTr,
+  [manufacturingQrCodesTr.slug]: manufacturingQrCodesTr,
+  [automotiveDealershipQrTr.slug]: automotiveDealershipQrTr,
 };
 
 export function localizeBlogPost(post: BlogPost, locale: Locale): BlogPost {

@@ -1,0 +1,15 @@
+{
+  "upload": [
+    "lib/blog/localize-post.ts",
+    "lib/blog/posts/tr/civic-engagement-qr.ts",
+    "lib/blog/posts/tr/supermarket-loyalty-qr.ts",
+    "lib/blog/posts/tr/logistics-qr-codes.ts",
+    "lib/blog/posts/tr/manufacturing-qr-codes.ts",
+    "lib/blog/posts/tr/automotive-dealership-qr.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
