@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { useLanguage } from '@/components/i18n/language-provider';
 
+/** Compact guest CTA above the sticky wizard footer (avoids eating the first viewport). */
 export function QrCreateGuestBanner({
   saveGuestDraft,
   redirectGuestToSignup,
@@ -15,24 +15,24 @@ export function QrCreateGuestBanner({
   const { t } = useLanguage();
 
   return (
-    <Card className="border-primary/30 bg-primary/5">
-      <CardContent className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm font-medium">{t('create.guestBannerTitle')}</p>
-          <p className="mt-0.5 text-xs text-muted-foreground">{t('create.guestBannerDesc')}</p>
-        </div>
-        <div className="flex shrink-0 gap-2">
-          <Link
-            href={`/login?callbackUrl=${encodeURIComponent('/qr/create?restore=1')}`}
-            onClick={saveGuestDraft}
-          >
-            <Button variant="outline" size="sm">{t('common.signIn')}</Button>
-          </Link>
-          <Button size="sm" onClick={redirectGuestToSignup}>
-            {t('common.signUp')}
+    <div className="flex flex-col gap-2 rounded-lg border border-primary/25 bg-primary/5 px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between">
+      <p className="text-xs text-muted-foreground sm:text-sm">
+        <span className="font-medium text-foreground">{t('create.guestBannerTitle')}</span>
+        <span className="hidden sm:inline"> — {t('create.guestBannerDesc')}</span>
+      </p>
+      <div className="flex shrink-0 gap-2">
+        <Link
+          href={`/login?callbackUrl=${encodeURIComponent('/qr/create?restore=1')}`}
+          onClick={saveGuestDraft}
+        >
+          <Button variant="outline" size="sm">
+            {t('common.signIn')}
           </Button>
-        </div>
-      </CardContent>
-    </Card>
+        </Link>
+        <Button size="sm" onClick={redirectGuestToSignup}>
+          {t('common.signUp')}
+        </Button>
+      </div>
+    </div>
   );
 }

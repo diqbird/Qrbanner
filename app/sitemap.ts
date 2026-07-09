@@ -28,6 +28,7 @@ const PUBLIC_PATHS = [
   { path: '/vs', priority: 0.85, changeFrequency: 'monthly' as const },
   { path: '/integrations', priority: 0.8, changeFrequency: 'monthly' as const },
   { path: '/integrations/zapier', priority: 0.75, changeFrequency: 'monthly' as const },
+  { path: '/integrations/make', priority: 0.7, changeFrequency: 'monthly' as const },
   { path: '/integrations/hubspot', priority: 0.7, changeFrequency: 'monthly' as const },
   { path: '/integrations/salesforce', priority: 0.7, changeFrequency: 'monthly' as const },
   { path: '/customers', priority: 0.75, changeFrequency: 'monthly' as const },

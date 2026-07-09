@@ -1,0 +1,20 @@
+{
+  "upload": [
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/site-search.ts",
+    "app/sitemap.ts",
+    "app/(public)/integrations/page.tsx",
+    "app/(public)/integrations/make/page.tsx",
+    "components/qr/qr-create-quota-banner.tsx",
+    "components/qr/qr-create-step-content.tsx",
+    "components/qr/qr-create-guest-banner.tsx",
+    "components/qr/qr-create-wizard.tsx",
+    "components/qr/qr-preview-export-panel.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, Code2, Webhook, Zap, BarChart3 } from 'lucide-react';
+import { ArrowRight, Code2, Webhook, Zap, BarChart3, Workflow } from 'lucide-react';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
@@ -26,6 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const INTEGRATION_KEYS = [
   { key: 'zapier', icon: Zap, href: '/integrations/zapier' },
+  { key: 'make', icon: Workflow, href: '/integrations/make' },
   { key: 'hubspot', icon: Webhook, href: '/integrations/hubspot' },
   { key: 'salesforce', icon: Webhook, href: '/integrations/salesforce' },
   { key: 'api', icon: Code2, href: '/developers' },

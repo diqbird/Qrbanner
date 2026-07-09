@@ -42,13 +42,6 @@ export function QRCreateWizard() {
         </div>
       )}
 
-      {isGuest && (
-        <QrCreateGuestBanner
-          saveGuestDraft={saveGuestDraft}
-          redirectGuestToSignup={redirectGuestToSignup}
-        />
-      )}
-
       <div>
         <h1 className="font-display text-2xl font-bold tracking-tight">{t('create.title')}</h1>
         <p className="mt-1 text-muted-foreground">{t('create.subtitle')}</p>
@@ -64,6 +57,13 @@ export function QRCreateWizard() {
         {step === 2 && <QrCreateDesignStep form={form} />}
         {step === 3 && <QrCreateStepReview form={form} />}
       </div>
+
+      {isGuest && (
+        <QrCreateGuestBanner
+          saveGuestDraft={saveGuestDraft}
+          redirectGuestToSignup={redirectGuestToSignup}
+        />
+      )}
 
       <QrCreateWizardFooter
         step={step}

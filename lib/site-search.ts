@@ -40,6 +40,13 @@ export const SITE_SEARCH_INDEX: SiteSearchItem[] = [
   { id: 'apps', titleKey: 'siteSearch.apps', href: '/apps', groupKey: 'siteSearch.groupPages' },
   { id: 'hubspot', titleKey: 'siteSearch.hubspot', href: '/integrations/hubspot', groupKey: 'siteSearch.groupPages' },
   { id: 'salesforce', titleKey: 'siteSearch.salesforce', href: '/integrations/salesforce', groupKey: 'siteSearch.groupPages' },
+  {
+    id: 'make',
+    titleKey: 'siteSearch.make',
+    href: '/integrations/make',
+    groupKey: 'siteSearch.groupPages',
+    keywords: ['make.com', 'integromat', 'webhook', 'automation'],
+  },
   { id: 'vs', titleKey: 'siteSearch.vs', href: '/vs', groupKey: 'siteSearch.groupPages' },
   { id: 'case-studies', titleKey: 'siteSearch.caseStudies', href: '/case-studies', groupKey: 'siteSearch.groupPages' },
   { id: 'geo', titleKey: 'siteSearch.geo', href: '/geo', groupKey: 'siteSearch.groupPages' },
