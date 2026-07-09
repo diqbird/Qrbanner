@@ -103,10 +103,15 @@ export default async function EnterprisePage() {
                 {t('enterprise.downloadOverview')}
               </Button>
             </Link>
-            <div className="mt-4">
+            <div className="mt-4 flex flex-wrap gap-3">
               <Link href="/settings?tab=saml">
                 <Button variant="secondary" className="gap-2 rounded-full">
                   {t('enterprise.ssoSelfServeCta')} <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
+              <Link href="/trust/procurement-request">
+                <Button variant="outline" className="gap-2 rounded-full">
+                  {t('enterprise.procurementCta')} <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
             </div>

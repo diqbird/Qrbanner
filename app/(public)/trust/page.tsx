@@ -18,6 +18,11 @@ const LINKS = [
     title: 'trustPage.linkOverview',
     desc: 'trustPage.linkOverviewDesc',
   },
+  {
+    href: '/trust/procurement-request',
+    title: 'trustPage.linkProcurement',
+    desc: 'trustPage.linkProcurementDesc',
+  },
   { href: '/privacy', title: 'trustPage.linkPrivacy', desc: 'trustPage.linkPrivacyDesc' },
   { href: '/dpa', title: 'trustPage.linkDpa', desc: 'trustPage.linkDpaDesc' },
   {
@@ -68,6 +73,13 @@ export default async function TrustPage() {
             <h2 className="font-display text-lg font-semibold">{t('trustPage.complianceTitle')}</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
               {t('trustPage.complianceBody')}
+            </p>
+          </section>
+
+          <section className="rounded-xl border border-border/60 bg-muted/30 p-5 space-y-2">
+            <h2 className="font-display text-lg font-semibold">{t('trustPage.supportTitle')}</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {t('trustPage.supportBody')}
             </p>
           </section>
 

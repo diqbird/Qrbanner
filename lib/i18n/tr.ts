@@ -87,6 +87,7 @@ export const tr: TranslationTree = {
     trust: 'Güven Merkezi',
     dpa: 'Veri İşleme Ek Sözleşmesi',
     subprocessors: 'Alt İşleyenler',
+    procurementRequest: 'Satın alma talebi',
     enterprise: 'Kurumsal',
     mobileApps: 'Mobil uygulama',
     caseStudies: 'Vaka çalışmaları',
@@ -122,6 +123,7 @@ export const tr: TranslationTree = {
     trust: 'Güven Merkezi',
     dpa: 'Veri İşleme Ek Sözleşmesi',
     subprocessors: 'Alt İşleyenler',
+    procurementRequest: 'Satın alma talebi',
     refund: 'Geri Ödeme Politikası',
     developers: 'Geliştiriciler ve API',
     apps: 'Mobil uygulamalar',
@@ -255,6 +257,9 @@ export const tr: TranslationTree = {
     labelNeedsSla: 'SLA istiyor',
     labelNeedsCsm: 'CSM istiyor',
     yes: 'Evet',
+    typeSecurityQuestionnaire: 'Güvenlik anketi',
+    typeBaa: 'BAA görüşmesi',
+    typeDpaRequest: 'İmzalı DPA talebi',
   },
   auth: {
     welcomeBack: 'Tekrar hoş geldiniz',
@@ -2288,9 +2293,15 @@ export const tr: TranslationTree = {
       filterEnterprise: 'Kurumsal',
       filterDemo: 'Demo',
       filterGeneral: 'Genel',
+      filterSecurityQuestionnaire: 'Güvenlik anketi',
+      filterBaa: 'BAA',
+      filterDpa: 'DPA talebi',
       typeEnterprise: 'Kurumsal',
       typeDemo: 'Demo',
       typeGeneral: 'Genel',
+      typeSecurityQuestionnaire: 'Güvenlik anketi',
+      typeBaa: 'BAA',
+      typeDpaRequest: 'DPA talebi',
       badgeSla: 'SLA',
       badgeCsm: 'CSM',
       open: 'Açık',
@@ -3074,6 +3085,7 @@ export const tr: TranslationTree = {
     account4: 'TOTP iki faktörlü kimlik doğrulama (Google Authenticator, 1Password vb.)',
     account5: 'Business ekip çalışma alanları için self-serve SAML sihirbazı (Okta, Azure AD)',
     contact: 'Güvenlik soruları?',
+    procurementCta: 'Güvenlik anketi, BAA veya imzalı DPA talep edin',
   },
   trustPage: {
     metaTitle: 'Güven Merkezi',
@@ -3084,6 +3096,9 @@ export const tr: TranslationTree = {
     complianceTitle: 'Uyumluluk yol haritası',
     complianceBody:
       'SOC 2 Type II ve HIPAA kurumsal yol haritamızdadır ve kurumsal anlaşmalarda görüşmeye açıktır. Denetimler tamamlanana kadar sertifika iddiasında bulunmayız. GDPR odaklı gizlilik uygulamaları, DPA ve alt işleyen detayları aşağıda yayınlanır.',
+    supportTitle: 'Özel destek ve SLA',
+    supportBody:
+      'Uygun kurumsal çalışma alanları, atanmış müşteri başarı yöneticisi, uptime hedefi ve yanıt süresi notlarıyla sözleşmeli destek katmanı alabilir — satış hesabı etkinleştirdikten sonra Ayarlar’da görünür.',
     linkSecurity: 'Güvenlik uygulamaları',
     linkSecurityDesc: 'Altyapı, hesap güvenliği ve veri işleme.',
     linkStatus: 'Sistem durumu',
@@ -3098,6 +3113,33 @@ export const tr: TranslationTree = {
     linkDpaDesc: 'Kontrolör/işleyen rolleri ve işleme koşulları.',
     linkSubprocessors: 'Alt işleyenler',
     linkSubprocessorsDesc: 'Hizmeti sunmaya yardımcı üçüncü taraflar.',
+    linkProcurement: 'Satın alma talebi',
+    linkProcurementDesc: 'Güvenlik anketi, BAA görüşmesi veya imzalı DPA talep edin.',
+  },
+  procurementRequest: {
+    metaTitle: 'Satın alma talebi — Güvenlik anketi, BAA ve DPA',
+    metaDescription:
+      'QRbanner güvenlik anketi talep edin, kurumsal anlaşmalar için HIPAA BAA görüşün veya karşılıklı imzalı Veri İşleme Ek Sözleşmesi isteyin.',
+    title: 'Satın alma talebi',
+    subtitle:
+      'Güvenlik veya hukuk ekibinizin ihtiyacını yazın. Genellikle bir iş günü içinde yanıtlarız.',
+    disclaimer:
+      'Denetimler tamamlanana kadar tamamlanmış SOC 2 veya HIPAA sertifikası iddiasında bulunmayız. Bu form, uygun kurumsal anlaşmalar için belge veya görüşme talebi başlatır — otomatik sertifika indirme değildir.',
+    requestType: 'Neye ihtiyacınız var?',
+    types: {
+      security_questionnaire: 'Güvenlik anketi / tedarikçi incelemesi',
+      baa: 'HIPAA BAA görüşmesi',
+      dpa_request: 'İmzalı Veri İşleme Ek Sözleşmesi',
+    },
+    typeHints: {
+      security_questionnaire:
+        'Uygun anlaşmalar için güncel güvenlik uygulamaları özetimizi paylaşır ve tedarikçi anketi maddelerini yanıtlarız.',
+      baa: 'HIPAA Business Associate Agreements, uygun kurumsal sağlık kullanım senaryolarında görüşülür — self-serve indirme olarak sunulmaz.',
+      dpa_request: 'Business, Agency veya kurumsal sözleşmeler için karşılıklı imzalı DPA talep edin.',
+    },
+    messagePlaceholder: 'Şirketinizi, zaman çizelgenizi ve anket portalı veya son tarihi paylaşın…',
+    submit: 'Talebi gönder',
+    success: 'Teşekkürler — satın alma talebinizi aldık, yakında yanıtlayacağız.',
   },
   dpaPage: {
     metaTitle: 'Veri İşleme Ek Sözleşmesi',
@@ -3343,7 +3385,8 @@ export const tr: TranslationTree = {
     pillar2Title: 'Ölçek ve API',
     pillar2Desc: 'Toplu CSV, REST API, webhook ve çok lokasyonlu kampanya batch\'leri.',
     pillar3Title: 'Öncelikli destek',
-    pillar3Desc: 'Onboarding, çözüm tasarımı görüşmeleri ve uygun hesaplar için SLA seçenekleri.',
+    pillar3Desc:
+      'Uygun hesaplar için atanmış CSM, sözleşmeli destek katmanı ve SLA hedefleri — belgeler için Güven Merkezi satın alma formunu kullanın.',
     includesTitle: 'Kurumsal pakette neler var',
     feature1: '{{codes}} dinamik QR (Agency plan tabanı)',
     feature2: '{{domains}} özel tarama alanı (DNS doğrulama)',
@@ -3358,9 +3401,10 @@ export const tr: TranslationTree = {
     ssoSectionDesc:
       'Business ve Agency ekipleri Ayarlar → Ekip bölümünden SAML\'i self-serve yapılandırabilir. Satın alma özeti PDF\'i kimlik doğrulama, veri işleme ve çalışma süresi hedeflerini kapsar.',
     ssoItems:
-      'Ayarlar → Ekip\'te self-serve SAML sihirbazı (Okta, Azure AD, Google Workspace)|Tüm planlarda Google ve e-posta ile giriş|HTTPS, hash API anahtarları ve tüm planlarda hız limitleri|DPA ve güvenlik anketi talep üzerine',
+      'Ayarlar → Ekip\'te self-serve SAML sihirbazı (Okta, Azure AD, Google Workspace)|Tüm planlarda Google ve e-posta ile giriş|HTTPS, hash API anahtarları ve tüm planlarda hız limitleri|Güvenlik anketi, BAA ve imzalı DPA Güven Merkezi satın alma formuyla',
     ssoSelfServeCta: 'SAML kurulum sihirbazını aç',
     downloadOverview: 'Kurumsal özeti indir',
+    procurementCta: 'Güvenlik anketi, BAA veya DPA talep edin',
   },
   mobileApps: {
     metaTitle: 'Mobil Uygulama ve PWA — QRbanner Kur',
@@ -3409,10 +3453,10 @@ export const tr: TranslationTree = {
       'Tüm trafikte TLS 1.2+|API anahtarları hash olarak saklanır — ikinci kez gösterilmez|Anahtar başına hız limitleri ve isteğe bağlı IP listeleri|Şifre korumalı QR kodlar ve tarama limitleri|Düzenli bağımlılık güncellemeleri',
     slaTitle: 'Hizmet seviyesi',
     slaItems:
-      'Üretim tarama ve panel uç noktaları için aylık %99,9 çalışma süresi hedefi|Herkese açık durum izleme|Planlı bakım önceden duyurulur|Agency ve kurumsal sözleşmelerde öncelikli destek|Kurumsal sözleşmeler: P1 kritik olaylarda 1 iş saati içinde yanıt hedefi; P2 için 4 iş saati',
+      'Üretim tarama ve panel uç noktaları için aylık %99,9 çalışma süresi hedefi|Herkese açık durum izleme|Planlı bakım önceden duyurulur|Uygun kurumsal çalışma alanları için atanmış CSM ve destek katmanı (Ayarlar’da görünür)|Kurumsal sözleşmeler: P1 kritik olaylarda 1 iş saati içinde yanıt hedefi; P2 için 4 iş saati',
     procurementTitle: 'Satın alma kontrol listesi',
     procurementItems:
-      'Fatura geçmişi ile Paddle faturalandırma|İstediğiniz zaman iptal — kodlar taranabilir kalır|API ve panel üzerinden veri dışa aktarma|GDPR odaklı gizlilik politikası ve talep üzerine DPA|Alt işleyici listesi talep üzerine',
+      'Fatura geçmişi ile Paddle faturalandırma|İstediğiniz zaman iptal — kodlar taranabilir kalır|API ve panel üzerinden veri dışa aktarma|Güvenlik anketi, BAA görüşmesi ve imzalı DPA Güven Merkezi formuyla|Yayınlanmış DPA özeti ve alt işleyen listesi',
     contact: 'Sorularınız mı var? İletişim:',
   },
   cookiesPage: {

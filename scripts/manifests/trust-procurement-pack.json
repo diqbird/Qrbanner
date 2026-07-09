@@ -1,0 +1,24 @@
+{
+  "upload": [
+    "lib/inquiry-types.ts",
+    "lib/sales-inquiry-email.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/site-search.ts",
+    "lib/public-footer-links.ts",
+    "app/api/contact/inquiry/route.ts",
+    "app/sitemap.ts",
+    "app/(public)/trust/page.tsx",
+    "app/(public)/trust/procurement-request/page.tsx",
+    "app/(public)/security/page.tsx",
+    "app/(public)/enterprise/page.tsx",
+    "app/(public)/downloads/enterprise-overview/page.tsx",
+    "components/marketing/procurement-request-form.tsx",
+    "components/admin/pages/admin-support-page.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

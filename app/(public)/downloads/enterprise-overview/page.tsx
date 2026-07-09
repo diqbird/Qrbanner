@@ -69,9 +69,12 @@ export default async function EnterpriseOverviewPage() {
                 {SUPPORT_EMAIL}
               </a>
             </p>
-            <p className="mt-4 print:hidden">
+            <p className="mt-4 print:hidden flex flex-wrap gap-x-4 gap-y-2">
               <Link href="/enterprise#contact-sales" className="text-primary hover:underline">
                 {t('enterprise.ctaSales')}
+              </Link>
+              <Link href="/trust/procurement-request" className="text-primary hover:underline">
+                {t('enterprise.procurementCta')}
               </Link>
             </p>
           </footer>

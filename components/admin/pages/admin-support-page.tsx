@@ -87,12 +87,17 @@ export function AdminSupportPage() {
         ? t('superAdmin.support.inProgress')
         : t('superAdmin.support.closed');
 
-  const typeLabel = (type: string) =>
-    type === 'enterprise'
-      ? t('superAdmin.support.typeEnterprise')
-      : type === 'demo'
-        ? t('superAdmin.support.typeDemo')
-        : t('superAdmin.support.typeGeneral');
+  const typeLabel = (type: string) => {
+    const keys: Record<string, string> = {
+      enterprise: 'superAdmin.support.typeEnterprise',
+      demo: 'superAdmin.support.typeDemo',
+      general: 'superAdmin.support.typeGeneral',
+      security_questionnaire: 'superAdmin.support.typeSecurityQuestionnaire',
+      baa: 'superAdmin.support.typeBaa',
+      dpa_request: 'superAdmin.support.typeDpaRequest',
+    };
+    return t(keys[type] ?? 'superAdmin.support.typeGeneral');
+  };
 
   return (
     <div className="space-y-6">
@@ -137,6 +142,11 @@ export function AdminSupportPage() {
             <SelectItem value="enterprise">{t('superAdmin.support.filterEnterprise')}</SelectItem>
             <SelectItem value="demo">{t('superAdmin.support.filterDemo')}</SelectItem>
             <SelectItem value="general">{t('superAdmin.support.filterGeneral')}</SelectItem>
+            <SelectItem value="security_questionnaire">
+              {t('superAdmin.support.filterSecurityQuestionnaire')}
+            </SelectItem>
+            <SelectItem value="baa">{t('superAdmin.support.filterBaa')}</SelectItem>
+            <SelectItem value="dpa_request">{t('superAdmin.support.filterDpa')}</SelectItem>
           </SelectContent>
         </Select>
       </div>

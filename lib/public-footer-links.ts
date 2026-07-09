@@ -71,6 +71,7 @@ export function buildPublicFooterSections(
         { href: '/affiliates', label: t('nav.affiliates') },
         { href: '/enterprise', label: t('nav.enterprise') },
         { href: '/trust', label: t('nav.trust') },
+        { href: '/trust/procurement-request', label: t('nav.procurementRequest') },
         { href: '/contact', label: t('footer.contact') },
         { href: '/demo', label: t('nav.demo') },
         { href: '/security', label: t('nav.security') },

@@ -77,12 +77,22 @@ export default async function SecurityPage() {
             </section>
           ))}
 
-          <p className="text-sm text-muted-foreground">
-            {t('securityPage.contact')}{' '}
-            <Link href={supportMailto('QRbanner Security')} className="text-primary hover:underline">
-              {SUPPORT_EMAIL}
-            </Link>
-          </p>
+          <div className="space-y-2 text-sm text-muted-foreground">
+            <p>
+              <Link
+                href="/trust/procurement-request"
+                className="font-medium text-primary hover:underline"
+              >
+                {t('securityPage.procurementCta')}
+              </Link>
+            </p>
+            <p>
+              {t('securityPage.contact')}{' '}
+              <Link href={supportMailto('QRbanner Security')} className="text-primary hover:underline">
+                {SUPPORT_EMAIL}
+              </Link>
+            </p>
+          </div>
         </article>
       </div>
     </>

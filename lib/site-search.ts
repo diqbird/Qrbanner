@@ -26,6 +26,13 @@ export const SITE_SEARCH_INDEX: SiteSearchItem[] = [
   { id: 'about', titleKey: 'siteSearch.about', href: '/about', groupKey: 'siteSearch.groupPages' },
   { id: 'security', titleKey: 'siteSearch.security', href: '/security', groupKey: 'siteSearch.groupPages' },
   { id: 'trust', titleKey: 'siteSearch.trust', href: '/trust', groupKey: 'siteSearch.groupPages' },
+  {
+    id: 'procurement-request',
+    titleKey: 'siteSearch.procurementRequest',
+    href: '/trust/procurement-request',
+    groupKey: 'siteSearch.groupPages',
+    keywords: ['baa', 'dpa', 'questionnaire', 'procurement', 'security'],
+  },
   { id: 'dpa', titleKey: 'siteSearch.dpa', href: '/dpa', groupKey: 'siteSearch.groupPages' },
   { id: 'subprocessors', titleKey: 'siteSearch.subprocessors', href: '/sub-processors', groupKey: 'siteSearch.groupPages' },
   { id: 'refund', titleKey: 'siteSearch.refund', href: '/refund', groupKey: 'siteSearch.groupPages' },

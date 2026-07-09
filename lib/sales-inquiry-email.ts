@@ -2,13 +2,14 @@ import { createSmtpTransport, smtpFromAddress } from '@/lib/smtp-transport';
 import { SUPPORT_EMAIL } from '@/lib/site-contact';
 import { translate, type Locale } from '@/lib/i18n';
 import { buildEmailShell } from '@/lib/i18n/email-shell';
+import type { SalesInquiryType } from '@/lib/inquiry-types';
 
 function getTransporter() {
   return createSmtpTransport();
 }
 
 export interface SalesInquiryPayload {
-  type: 'enterprise' | 'demo' | 'general';
+  type: SalesInquiryType;
   name: string;
   email: string;
   company?: string;
@@ -24,14 +25,17 @@ export type SalesInquirySendResult = {
   fallback: boolean;
 };
 
-function typeLabel(locale: Locale, type: SalesInquiryPayload['type']): string {
-  const key =
-    type === 'enterprise'
-      ? 'salesInquiryEmail.typeEnterprise'
-      : type === 'demo'
-        ? 'salesInquiryEmail.typeDemo'
-        : 'salesInquiryEmail.typeGeneral';
-  return translate(locale, key);
+const TYPE_LABEL_KEYS: Record<SalesInquiryType, string> = {
+  enterprise: 'salesInquiryEmail.typeEnterprise',
+  demo: 'salesInquiryEmail.typeDemo',
+  general: 'salesInquiryEmail.typeGeneral',
+  security_questionnaire: 'salesInquiryEmail.typeSecurityQuestionnaire',
+  baa: 'salesInquiryEmail.typeBaa',
+  dpa_request: 'salesInquiryEmail.typeDpaRequest',
+};
+
+function typeLabel(locale: Locale, type: SalesInquiryType): string {
+  return translate(locale, TYPE_LABEL_KEYS[type]);
 }
 
 export async function sendSalesInquiryEmail(

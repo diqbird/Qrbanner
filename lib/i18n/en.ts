@@ -86,6 +86,7 @@ export const en: TranslationTree = {
     trust: 'Trust Center',
     dpa: 'Data Processing Addendum',
     subprocessors: 'Sub-processors',
+    procurementRequest: 'Procurement request',
     enterprise: 'Enterprise',
     mobileApps: 'Mobile app',
     caseStudies: 'Case studies',
@@ -121,6 +122,7 @@ export const en: TranslationTree = {
     trust: 'Trust Center',
     dpa: 'Data Processing Addendum',
     subprocessors: 'Sub-processors',
+    procurementRequest: 'Procurement request',
     refund: 'Refund Policy',
     developers: 'Developers & API',
     apps: 'Mobile apps',
@@ -254,6 +256,9 @@ export const en: TranslationTree = {
     labelNeedsSla: 'Needs SLA',
     labelNeedsCsm: 'Needs CSM',
     yes: 'Yes',
+    typeSecurityQuestionnaire: 'Security questionnaire',
+    typeBaa: 'BAA discussion',
+    typeDpaRequest: 'Signed DPA request',
   },
   auth: {
     welcomeBack: 'Welcome back',
@@ -2287,9 +2292,15 @@ export const en: TranslationTree = {
       filterEnterprise: 'Enterprise',
       filterDemo: 'Demo',
       filterGeneral: 'General',
+      filterSecurityQuestionnaire: 'Security questionnaire',
+      filterBaa: 'BAA',
+      filterDpa: 'DPA request',
       typeEnterprise: 'Enterprise',
       typeDemo: 'Demo',
       typeGeneral: 'General',
+      typeSecurityQuestionnaire: 'Security questionnaire',
+      typeBaa: 'BAA',
+      typeDpaRequest: 'DPA request',
       badgeSla: 'SLA',
       badgeCsm: 'CSM',
       open: 'Open',
@@ -3073,6 +3084,7 @@ export const en: TranslationTree = {
     account4: 'TOTP two-factor authentication (Google Authenticator, 1Password, etc.)',
     account5: 'Self-serve SAML SSO wizard for Business team workspaces (Okta, Azure AD)',
     contact: 'Security questions?',
+    procurementCta: 'Request security questionnaire, BAA or signed DPA',
   },
   trustPage: {
     metaTitle: 'Trust Center',
@@ -3083,6 +3095,9 @@ export const en: TranslationTree = {
     complianceTitle: 'Compliance roadmap',
     complianceBody:
       'SOC 2 Type II and HIPAA are on our enterprise roadmap and available for discussion on enterprise deals. We do not claim completed certifications until audits are finished. GDPR-oriented privacy practices, DPA and sub-processor details are published below.',
+    supportTitle: 'Dedicated support & SLA',
+    supportBody:
+      'Qualified enterprise workspaces can receive a contractual support tier with an assigned customer success manager, uptime target and response-time notes — visible in Settings after sales enables the account.',
     linkSecurity: 'Security practices',
     linkSecurityDesc: 'Infrastructure, account safety and data handling.',
     linkStatus: 'System status',
@@ -3097,6 +3112,33 @@ export const en: TranslationTree = {
     linkDpaDesc: 'Controller/processor roles and processing terms.',
     linkSubprocessors: 'Sub-processors',
     linkSubprocessorsDesc: 'Third parties that help deliver the service.',
+    linkProcurement: 'Procurement request',
+    linkProcurementDesc: 'Request a security questionnaire, BAA discussion or signed DPA.',
+  },
+  procurementRequest: {
+    metaTitle: 'Procurement request — Security questionnaire, BAA & DPA',
+    metaDescription:
+      'Request a QRbanner security questionnaire, discuss a HIPAA BAA for enterprise deals, or ask for a countersigned Data Processing Addendum.',
+    title: 'Procurement request',
+    subtitle:
+      'Tell us what your security or legal team needs. We typically reply within one business day.',
+    disclaimer:
+      'We do not claim completed SOC 2 or HIPAA certifications until audits are finished. This form starts a document or discussion request for qualified enterprise deals — not an automatic certificate download.',
+    requestType: 'What do you need?',
+    types: {
+      security_questionnaire: 'Security questionnaire / vendor review',
+      baa: 'HIPAA BAA discussion',
+      dpa_request: 'Signed Data Processing Addendum',
+    },
+    typeHints: {
+      security_questionnaire:
+        'We will share our current security practices summary and answer vendor questionnaire items for qualified deals.',
+      baa: 'HIPAA Business Associate Agreements are discussed for eligible enterprise healthcare use cases — not available as a self-serve download.',
+      dpa_request: 'Request a countersigned DPA for Business, Agency or enterprise contracts.',
+    },
+    messagePlaceholder: 'Share your company, timeline, and any questionnaire portal or deadline…',
+    submit: 'Submit request',
+    success: 'Thanks — we received your procurement request and will reply soon.',
   },
   dpaPage: {
     metaTitle: 'Data Processing Addendum',
@@ -3341,7 +3383,8 @@ export const en: TranslationTree = {
     pillar2Title: 'Scale & API',
     pillar2Desc: 'Bulk CSV, REST API, webhooks and campaign batches for multi-location rollouts.',
     pillar3Title: 'Dedicated support',
-    pillar3Desc: 'Priority onboarding, solution design calls and SLA options for qualified accounts.',
+    pillar3Desc:
+      'Assigned CSM, contractual support tier and SLA targets for qualified accounts — request documents via Trust Center procurement.',
     includesTitle: 'What enterprise includes',
     feature1: '{{codes}} dynamic QR codes (Agency plan baseline)',
     feature2: '{{domains}} custom scan domains with DNS verification',
@@ -3356,9 +3399,10 @@ export const en: TranslationTree = {
     ssoSectionDesc:
       'Business and Agency teams can configure SAML self-serve in Settings → Team. Procurement overview PDF covers authentication, data handling and uptime targets.',
     ssoItems:
-      'Self-serve SAML wizard in Settings → Team (Okta, Azure AD, Google Workspace)|Google & email sign-in on all plans|HTTPS, hashed API keys and rate limits on all plans|DPA and security questionnaire available on request',
+      'Self-serve SAML wizard in Settings → Team (Okta, Azure AD, Google Workspace)|Google & email sign-in on all plans|HTTPS, hashed API keys and rate limits on all plans|Security questionnaire, BAA and signed DPA via Trust Center procurement form',
     ssoSelfServeCta: 'Open SAML setup wizard',
     downloadOverview: 'Download enterprise overview',
+    procurementCta: 'Request security questionnaire, BAA or DPA',
   },
   mobileApps: {
     metaTitle: 'Mobile App & PWA — Install QRbanner',
@@ -3407,10 +3451,10 @@ export const en: TranslationTree = {
       'TLS 1.2+ for all traffic|API keys stored as hashes — never shown twice|Per-key rate limits and optional IP allowlists|Password-protected QR codes and scan limits|Regular dependency updates',
     slaTitle: 'Service level',
     slaItems:
-      '99.9% monthly uptime target for production scan and dashboard endpoints|Public status monitoring|Scheduled maintenance announced in advance|Priority support channel for Agency and enterprise contracts|Enterprise contracts: P1 critical incidents target response within 1 business hour; P2 within 4 business hours',
+      '99.9% monthly uptime target for production scan and dashboard endpoints|Public status monitoring|Scheduled maintenance announced in advance|Assigned CSM and support tier for qualified enterprise workspaces (visible in Settings)|Enterprise contracts: P1 critical incidents target response within 1 business hour; P2 within 4 business hours',
     procurementTitle: 'Procurement checklist',
     procurementItems:
-      'Paddle billing with invoice history|Cancel anytime — codes remain scannable|Data export via API and dashboard|GDPR-oriented privacy policy and DPA on request|Sub-processors list available on request',
+      'Paddle billing with invoice history|Cancel anytime — codes remain scannable|Data export via API and dashboard|Security questionnaire, BAA discussion and signed DPA via Trust Center form|Published DPA summary and sub-processors list',
     contact: 'Questions? Contact',
   },
   cookiesPage: {

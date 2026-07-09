@@ -7,6 +7,7 @@ import { enforcePublicRateLimit } from '@/lib/public-rate-limit';
 import { sendSalesInquiryEmail } from '@/lib/sales-inquiry-email';
 import { guardPublicPost } from '@/lib/guard-public-post';
 import { resolveEmailLocaleFromRequest } from '@/lib/i18n/resolve-email-locale';
+import { parseInquiryType } from '@/lib/inquiry-types';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -28,7 +29,7 @@ export async function POST(req: NextRequest) {
     const blocked = await guardPublicPost(req, record, ip);
     if (blocked) return blocked;
 
-    const type = record.type === 'enterprise' || record.type === 'demo' ? record.type : 'general';
+    const type = parseInquiryType(record.type);
     const name = String(record.name ?? '').trim();
     const email = String(record.email ?? '').trim().toLowerCase();
     const company = String(record.company ?? '').trim();
@@ -59,8 +60,6 @@ export async function POST(req: NextRequest) {
       locale: resolveEmailLocaleFromRequest(req, record.locale),
     });
 
-    // Persist so support requests survive email issues and are visible in the
-    // Super Admin support module.
     try {
       await prisma.contactInquiry.create({
         data: {
