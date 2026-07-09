@@ -1,0 +1,15 @@
+{
+  "upload": [
+    "lib/blog/localize-post.ts",
+    "lib/blog/posts/tr/nonprofit-fundraising-qr.ts",
+    "lib/blog/posts/tr/nonprofit-gala-qr.ts",
+    "lib/blog/posts/tr/affiliate-qr-marketing.ts",
+    "lib/blog/posts/tr/brewery-taproom-qr.ts",
+    "lib/blog/posts/tr/print-shop-banner-qr.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
