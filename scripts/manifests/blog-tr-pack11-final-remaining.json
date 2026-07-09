@@ -1,0 +1,30 @@
+{
+  "upload": [
+    "lib/blog/localize-post.ts",
+    "lib/blog/posts/tr/bakery-pastry-qr.ts",
+    "lib/blog/posts/tr/florist-gift-shop-qr.ts",
+    "lib/blog/posts/tr/car-wash-detailing-qr.ts",
+    "lib/blog/posts/tr/pet-grooming-salon-qr.ts",
+    "lib/blog/posts/tr/farmers-market-qr.ts",
+    "lib/blog/posts/tr/accounting-firm-qr.ts",
+    "lib/blog/posts/tr/childcare-enrollment-qr.ts",
+    "lib/blog/posts/tr/coworking-space-qr.ts",
+    "lib/blog/posts/tr/home-services-contractor-qr.ts",
+    "lib/blog/posts/tr/insurance-agency-qr.ts",
+    "lib/blog/posts/tr/landscaping-lawn-care-qr.ts",
+    "lib/blog/posts/tr/marina-harbor-qr.ts",
+    "lib/blog/posts/tr/optometry-practice-qr.ts",
+    "lib/blog/posts/tr/property-management-tenant-qr.ts",
+    "lib/blog/posts/tr/recruitment-hiring-qr.ts",
+    "lib/blog/posts/tr/senior-living-facility-qr.ts",
+    "lib/blog/posts/tr/tourist-attraction-qr.ts",
+    "lib/blog/posts/tr/veterinary-clinic-qr.ts",
+    "lib/blog/posts/tr/wine-tasting-room-qr.ts",
+    "lib/blog/posts/tr/logistics-warehouse-qr.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

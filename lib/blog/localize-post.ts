@@ -45,6 +45,26 @@ import { totpTwoFactorGuideTr } from './posts/tr/totp-two-factor-guide';
 import { aiLandingCopyGuideTr } from './posts/tr/ai-landing-copy-guide';
 import { universityWayfindingQrTr } from './posts/tr/university-wayfinding-qr';
 import { tradeShowBoothQrTr } from './posts/tr/trade-show-booth-qr';
+import { bakeryPastryQrTr } from './posts/tr/bakery-pastry-qr';
+import { floristGiftShopQrTr } from './posts/tr/florist-gift-shop-qr';
+import { carWashDetailingQrTr } from './posts/tr/car-wash-detailing-qr';
+import { petGroomingSalonQrTr } from './posts/tr/pet-grooming-salon-qr';
+import { farmersMarketQrTr } from './posts/tr/farmers-market-qr';
+import { accountingFirmQrTr } from './posts/tr/accounting-firm-qr';
+import { childcareEnrollmentQrTr } from './posts/tr/childcare-enrollment-qr';
+import { coworkingSpaceQrTr } from './posts/tr/coworking-space-qr';
+import { homeServicesContractorQrTr } from './posts/tr/home-services-contractor-qr';
+import { insuranceAgencyQrTr } from './posts/tr/insurance-agency-qr';
+import { landscapingLawnCareQrTr } from './posts/tr/landscaping-lawn-care-qr';
+import { marinaHarborQrTr } from './posts/tr/marina-harbor-qr';
+import { optometryPracticeQrTr } from './posts/tr/optometry-practice-qr';
+import { propertyManagementTenantQrTr } from './posts/tr/property-management-tenant-qr';
+import { recruitmentHiringQrTr } from './posts/tr/recruitment-hiring-qr';
+import { seniorLivingFacilityQrTr } from './posts/tr/senior-living-facility-qr';
+import { touristAttractionQrTr } from './posts/tr/tourist-attraction-qr';
+import { veterinaryClinicQrTr } from './posts/tr/veterinary-clinic-qr';
+import { wineTastingRoomQrTr } from './posts/tr/wine-tasting-room-qr';
+import { logisticsWarehouseQrTr } from './posts/tr/logistics-warehouse-qr';
 
 /** Turkish content overrides keyed by slug (same URL, locale from cookie/header). */
 const TR_POSTS: Record<string, BlogPost> = {
@@ -93,6 +113,26 @@ const TR_POSTS: Record<string, BlogPost> = {
   [aiLandingCopyGuideTr.slug]: aiLandingCopyGuideTr,
   [universityWayfindingQrTr.slug]: universityWayfindingQrTr,
   [tradeShowBoothQrTr.slug]: tradeShowBoothQrTr,
+  [bakeryPastryQrTr.slug]: bakeryPastryQrTr,
+  [floristGiftShopQrTr.slug]: floristGiftShopQrTr,
+  [carWashDetailingQrTr.slug]: carWashDetailingQrTr,
+  [petGroomingSalonQrTr.slug]: petGroomingSalonQrTr,
+  [farmersMarketQrTr.slug]: farmersMarketQrTr,
+  [accountingFirmQrTr.slug]: accountingFirmQrTr,
+  [childcareEnrollmentQrTr.slug]: childcareEnrollmentQrTr,
+  [coworkingSpaceQrTr.slug]: coworkingSpaceQrTr,
+  [homeServicesContractorQrTr.slug]: homeServicesContractorQrTr,
+  [insuranceAgencyQrTr.slug]: insuranceAgencyQrTr,
+  [landscapingLawnCareQrTr.slug]: landscapingLawnCareQrTr,
+  [marinaHarborQrTr.slug]: marinaHarborQrTr,
+  [optometryPracticeQrTr.slug]: optometryPracticeQrTr,
+  [propertyManagementTenantQrTr.slug]: propertyManagementTenantQrTr,
+  [recruitmentHiringQrTr.slug]: recruitmentHiringQrTr,
+  [seniorLivingFacilityQrTr.slug]: seniorLivingFacilityQrTr,
+  [touristAttractionQrTr.slug]: touristAttractionQrTr,
+  [veterinaryClinicQrTr.slug]: veterinaryClinicQrTr,
+  [wineTastingRoomQrTr.slug]: wineTastingRoomQrTr,
+  [logisticsWarehouseQrTr.slug]: logisticsWarehouseQrTr,
 };
 
 export function localizeBlogPost(post: BlogPost, locale: Locale): BlogPost {
