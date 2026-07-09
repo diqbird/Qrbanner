@@ -12,6 +12,8 @@ export function useSalesInquiryForm(type: 'enterprise' | 'demo' | 'general' = 'g
   const [company, setCompany] = useState('');
   const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
+  const [needsSla, setNeedsSla] = useState(false);
+  const [needsCsm, setNeedsCsm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const turnstileRequired = isTurnstileEnabledClient();
@@ -27,7 +29,17 @@ export function useSalesInquiryForm(type: 'enterprise' | 'demo' | 'general' = 'g
       const res = await fetch('/api/contact/inquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type, name, email, company, phone, message, turnstileToken }),
+        body: JSON.stringify({
+          type,
+          name,
+          email,
+          company,
+          phone,
+          message,
+          needsSla: type === 'enterprise' ? needsSla : false,
+          needsCsm: type === 'enterprise' ? needsCsm : false,
+          turnstileToken,
+        }),
       });
       let data: { error?: string; ok?: boolean } = {};
       try {
@@ -48,6 +60,8 @@ export function useSalesInquiryForm(type: 'enterprise' | 'demo' | 'general' = 'g
       setCompany('');
       setPhone('');
       setMessage('');
+      setNeedsSla(false);
+      setNeedsCsm(false);
     } catch {
       toast.error(t('salesForm.error'));
     } finally {
@@ -68,6 +82,10 @@ export function useSalesInquiryForm(type: 'enterprise' | 'demo' | 'general' = 'g
     setPhone,
     message,
     setMessage,
+    needsSla,
+    setNeedsSla,
+    needsCsm,
+    setNeedsCsm,
     loading,
     setTurnstileToken,
     handleSubmit,

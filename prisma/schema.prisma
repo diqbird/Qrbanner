@@ -366,6 +366,11 @@ model Workspace {
   scimTokenHash    String?  @unique
   scimTokenPrefix  String?
   resellerEnabled  Boolean  @default(false)
+  supportTier      String   @default("standard")
+  assignedCsmName  String?
+  assignedCsmEmail String?
+  slaUptimePercent Float?
+  slaNotes         String?  @db.Text
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   owner            User     @relation("WorkspaceOwner", fields: [ownerId], references: [id], onDelete: Cascade)
@@ -376,6 +381,7 @@ model Workspace {
   auditLogs        WorkspaceAuditLog[]
 
   @@index([ownerId])
+  @@index([supportTier])
 }
 
 model WorkspaceAuditLog {
@@ -549,6 +555,8 @@ model ContactInquiry {
   company   String?
   phone     String?
   message   String   @db.Text
+  needsSla  Boolean  @default(false)
+  needsCsm  Boolean  @default(false)
   status    String   @default("open")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

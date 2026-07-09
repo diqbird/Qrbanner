@@ -12,6 +12,11 @@ export interface EnterpriseState {
     scimEnabled: boolean;
     scimTokenPrefix: string | null;
     resellerEnabled: boolean;
+    supportTier: string;
+    assignedCsmName: string | null;
+    assignedCsmEmail: string | null;
+    slaUptimePercent: number | null;
+    slaNotes: string | null;
   };
   features: { enterprise: boolean; reseller: boolean };
   scimBaseUrl: string;

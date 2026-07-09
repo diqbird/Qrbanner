@@ -12,7 +12,24 @@ export function SalesInquiryContactFields({
   form: SalesInquiryFormState;
   compact?: boolean;
 }) {
-  const { t, type, name, setName, email, setEmail, company, setCompany, phone, setPhone, message, setMessage } = form;
+  const {
+    t,
+    type,
+    name,
+    setName,
+    email,
+    setEmail,
+    company,
+    setCompany,
+    phone,
+    setPhone,
+    message,
+    setMessage,
+    needsSla,
+    setNeedsSla,
+    needsCsm,
+    setNeedsCsm,
+  } = form;
 
   return (
     <>
@@ -51,6 +68,29 @@ export function SalesInquiryContactFields({
           placeholder={t(`salesForm.placeholder.${type}`)}
         />
       </div>
+      {type === 'enterprise' ? (
+        <div className="space-y-2 rounded-lg border border-border/50 p-3">
+          <p className="text-sm font-medium">{t('salesForm.enterpriseNeedsTitle')}</p>
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={needsSla}
+              onChange={(e) => setNeedsSla(e.target.checked)}
+              className="rounded border-border"
+            />
+            {t('salesForm.needsSla')}
+          </label>
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={needsCsm}
+              onChange={(e) => setNeedsCsm(e.target.checked)}
+              className="rounded border-border"
+            />
+            {t('salesForm.needsCsm')}
+          </label>
+        </div>
+      ) : null}
     </>
   );
 }

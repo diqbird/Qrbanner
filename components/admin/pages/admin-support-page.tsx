@@ -26,6 +26,8 @@ type Inquiry = {
   company: string | null;
   phone: string | null;
   message: string;
+  needsSla?: boolean;
+  needsCsm?: boolean;
   status: string;
   createdAt: string;
 };
@@ -157,6 +159,16 @@ export function AdminSupportPage() {
                     >
                       {typeLabel(inq.type)}
                     </Badge>
+                    {inq.needsSla ? (
+                      <Badge variant="outline" className="text-xs">
+                        {t('superAdmin.support.badgeSla')}
+                      </Badge>
+                    ) : null}
+                    {inq.needsCsm ? (
+                      <Badge variant="outline" className="text-xs">
+                        {t('superAdmin.support.badgeCsm')}
+                      </Badge>
+                    ) : null}
                     <Badge variant={STATUS_VARIANTS[inq.status] ?? 'secondary'}>{statusLabel(inq.status)}</Badge>
                   </div>
                   {inq.company ? (

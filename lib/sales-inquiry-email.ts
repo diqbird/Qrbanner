@@ -14,6 +14,8 @@ export interface SalesInquiryPayload {
   company?: string;
   phone?: string;
   message: string;
+  needsSla?: boolean;
+  needsCsm?: boolean;
   locale?: Locale;
 }
 
@@ -51,6 +53,8 @@ export async function sendSalesInquiryEmail(
     `${t('salesInquiryEmail.labelEmail')}: ${payload.email}`,
     ...(payload.company ? [`${t('salesInquiryEmail.labelCompany')}: ${payload.company}`] : []),
     ...(payload.phone ? [`${t('salesInquiryEmail.labelPhone')}: ${payload.phone}`] : []),
+    ...(payload.needsSla ? [`${t('salesInquiryEmail.labelNeedsSla')}: ${t('salesInquiryEmail.yes')}`] : []),
+    ...(payload.needsCsm ? [`${t('salesInquiryEmail.labelNeedsCsm')}: ${t('salesInquiryEmail.yes')}`] : []),
     '',
     payload.message,
   ];

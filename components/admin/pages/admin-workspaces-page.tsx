@@ -10,6 +10,10 @@ import { AdminDataToolbar } from '@/components/admin/shared/admin-data-toolbar';
 import { AdminPageHeader, AdminEmptyState, AdminErrorState, AdminLoadingState } from '@/components/admin/shared/admin-states';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import {
+  AdminWorkspaceSupportEditor,
+  type AdminWorkspaceRow,
+} from '@/components/admin/admin-workspace-support-editor';
 
 export function AdminWorkspacesPage() {
   const { t, locale } = useLanguage();
@@ -25,7 +29,7 @@ export function AdminWorkspacesPage() {
     },
   });
 
-  const items = data?.items ?? [];
+  const items = (data?.items ?? []) as AdminWorkspaceRow[];
 
   return (
     <div className="space-y-6">
@@ -39,9 +43,16 @@ export function AdminWorkspacesPage() {
         onExport={() =>
           exportRowsToCsv(
             'workspaces.csv',
-            ['Name', 'Slug', 'Owner', 'Plan', 'Members', 'QRs', 'Created'],
-            items.map((w: { name: string; slug: string; ownerEmail: string; ownerPlan: string; memberCount: number; qrCount: number; createdAt: string }) => [
-              w.name, w.slug, w.ownerEmail, w.ownerPlan, w.memberCount, w.qrCount, w.createdAt,
+            ['Name', 'Slug', 'Owner', 'Plan', 'Support', 'Members', 'QRs', 'Created'],
+            items.map((w) => [
+              w.name,
+              w.slug,
+              w.ownerEmail,
+              w.ownerPlan,
+              w.supportTier,
+              w.memberCount,
+              w.qrCount,
+              w.createdAt,
             ]),
           )
         }
@@ -66,18 +77,27 @@ export function AdminWorkspacesPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {items.map((w: { id: string; name: string; slug: string; ownerEmail: string; ownerPlan: string; memberCount: number; qrCount: number; ssoEnabled: boolean; createdAt: string }) => (
+              {items.map((w) => (
                 <TableRow key={w.id}>
                   <TableCell>
                     <p className="font-medium">{w.name}</p>
                     <p className="text-xs text-muted-foreground">{w.slug}</p>
-                    {w.ssoEnabled ? <Badge variant="outline" className="mt-1 text-[10px]">SSO</Badge> : null}
+                    {w.ssoEnabled ? (
+                      <Badge variant="outline" className="mt-1 text-[10px]">
+                        SSO
+                      </Badge>
+                    ) : null}
+                    <AdminWorkspaceSupportEditor workspace={w} t={t} />
                   </TableCell>
                   <TableCell className="text-sm">{w.ownerEmail}</TableCell>
-                  <TableCell><Badge variant="secondary">{w.ownerPlan}</Badge></TableCell>
+                  <TableCell>
+                    <Badge variant="secondary">{w.ownerPlan}</Badge>
+                  </TableCell>
                   <TableCell>{w.memberCount}</TableCell>
                   <TableCell>{w.qrCount}</TableCell>
-                  <TableCell className="text-xs text-muted-foreground">{formatLocaleDateTime(w.createdAt, locale)}</TableCell>
+                  <TableCell className="text-xs text-muted-foreground">
+                    {formatLocaleDateTime(w.createdAt, locale)}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

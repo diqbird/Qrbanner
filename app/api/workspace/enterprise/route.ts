@@ -28,6 +28,11 @@ const enterpriseSelect = {
   scimEnabled: true,
   scimTokenPrefix: true,
   resellerEnabled: true,
+  supportTier: true,
+  assignedCsmName: true,
+  assignedCsmEmail: true,
+  slaUptimePercent: true,
+  slaNotes: true,
 } as const;
 
 export async function GET(req: NextRequest) {

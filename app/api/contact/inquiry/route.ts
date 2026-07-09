@@ -34,6 +34,8 @@ export async function POST(req: NextRequest) {
     const company = String(record.company ?? '').trim();
     const phone = String(record.phone ?? '').trim();
     const message = String(record.message ?? '').trim();
+    const needsSla = type === 'enterprise' && Boolean(record.needsSla);
+    const needsCsm = type === 'enterprise' && Boolean(record.needsCsm);
 
     if (!name || !email || !message) {
       return NextResponse.json({ error: 'missing_fields' }, { status: 400 });
@@ -52,6 +54,8 @@ export async function POST(req: NextRequest) {
       company: company || undefined,
       phone: phone || undefined,
       message,
+      needsSla,
+      needsCsm,
       locale: resolveEmailLocaleFromRequest(req, record.locale),
     });
 
@@ -66,6 +70,8 @@ export async function POST(req: NextRequest) {
           company: company || null,
           phone: phone || null,
           message,
+          needsSla,
+          needsCsm,
         },
       });
     } catch (err) {

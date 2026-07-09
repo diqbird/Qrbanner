@@ -251,6 +251,9 @@ export const en: TranslationTree = {
     labelEmail: 'Email',
     labelCompany: 'Company',
     labelPhone: 'Phone',
+    labelNeedsSla: 'Needs SLA',
+    labelNeedsCsm: 'Needs CSM',
+    yes: 'Yes',
   },
   auth: {
     welcomeBack: 'Welcome back',
@@ -1104,6 +1107,7 @@ export const en: TranslationTree = {
   invite: {
     title: 'Team invite',
     joinWorkspace: 'Join {{name}} on QRbanner',
+    joinWorkspaceBrand: 'Join {{workspace}} on {{brand}}',
     invitedAs: 'Invited as {{email}}',
     accept: 'Accept invite',
     signInToAccept: 'Sign in to accept',
@@ -2161,7 +2165,21 @@ export const en: TranslationTree = {
     },
     empty: { workspaces: 'No workspaces found', qr: 'No QR codes found' },
     users: { desc: 'Search, filter and manage all platform members.' },
-    workspaces: { desc: 'Team workspaces, SSO and client accounts.' },
+    workspaces: {
+      desc: 'Team workspaces, SSO and client accounts.',
+      editSupport: 'Edit SLA / CSM',
+      supportSaved: 'Support settings saved',
+      supportFailed: 'Could not save support settings',
+      csmName: 'CSM name',
+      csmEmail: 'CSM email',
+      uptime: 'Uptime % (e.g. 99.9)',
+      slaNotes: 'SLA notes (response times, channel)',
+      tier: {
+        standard: 'Standard',
+        priority: 'Priority',
+        enterprise: 'Enterprise',
+      },
+    },
     plans: { desc: 'Plan limits and subscriber distribution.' },
     payments: { desc: 'Paddle billing and webhook events.', webhooks: 'Billing webhook events' },
     qr: { desc: 'All QR codes across the platform.' },
@@ -2272,6 +2290,8 @@ export const en: TranslationTree = {
       typeEnterprise: 'Enterprise',
       typeDemo: 'Demo',
       typeGeneral: 'General',
+      badgeSla: 'SLA',
+      badgeCsm: 'CSM',
       open: 'Open',
       inProgress: 'In progress',
       closed: 'Closed',
@@ -2587,6 +2607,17 @@ export const en: TranslationTree = {
     confirmDeleteClient: 'Remove this client record?',
     clientDeleted: 'Client removed',
     saveFailed: 'Could not save enterprise settings',
+  },
+  enterpriseSupport: {
+    title: 'Dedicated support & SLA',
+    desc: 'Your contractual support tier for this workspace.',
+    csmTitle: 'Your customer success manager',
+    slaNotes: 'Service commitments',
+    uptime: '{{percent}} monthly uptime target',
+    tier: {
+      priority: 'Priority support',
+      enterprise: 'Enterprise support',
+    },
   },
   marketplaceSeller: {
     title: 'Sell templates',
@@ -3376,7 +3407,7 @@ export const en: TranslationTree = {
       'TLS 1.2+ for all traffic|API keys stored as hashes — never shown twice|Per-key rate limits and optional IP allowlists|Password-protected QR codes and scan limits|Regular dependency updates',
     slaTitle: 'Service level',
     slaItems:
-      '99.9% monthly uptime target for production scan and dashboard endpoints|Public status monitoring|Scheduled maintenance announced in advance|Priority support channel for Agency and enterprise contracts',
+      '99.9% monthly uptime target for production scan and dashboard endpoints|Public status monitoring|Scheduled maintenance announced in advance|Priority support channel for Agency and enterprise contracts|Enterprise contracts: P1 critical incidents target response within 1 business hour; P2 within 4 business hours',
     procurementTitle: 'Procurement checklist',
     procurementItems:
       'Paddle billing with invoice history|Cancel anytime — codes remain scannable|Data export via API and dashboard|GDPR-oriented privacy policy and DPA on request|Sub-processors list available on request',
@@ -3559,6 +3590,9 @@ export const en: TranslationTree = {
       demo: 'What industry and use case? How many team members?',
       general: 'How can we help?',
     },
+    enterpriseNeedsTitle: 'Enterprise requirements',
+    needsSla: 'We need a contractual SLA / uptime commitment',
+    needsCsm: 'We need a dedicated customer success manager',
     submit: {
       enterprise: 'Send to sales',
       demo: 'Request demo',

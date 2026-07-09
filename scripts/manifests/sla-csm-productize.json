@@ -1,0 +1,28 @@
+{
+  "upload": [
+    "prisma/schema.prisma",
+    "prisma/migrations/0007_workspace_support_sla/migration.sql",
+    "lib/enterprise-workspace-types.ts",
+    "lib/sales-inquiry-email.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "app/api/workspace/enterprise/route.ts",
+    "app/api/admin/workspaces/route.ts",
+    "app/api/admin/workspaces/[id]/support/route.ts",
+    "app/api/contact/inquiry/route.ts",
+    "app/api/invite/[token]/route.ts",
+    "app/(auth)/invite/[token]/page.tsx",
+    "components/admin/admin-workspace-support-editor.tsx",
+    "components/admin/pages/admin-workspaces-page.tsx",
+    "components/admin/pages/admin-support-page.tsx",
+    "components/dashboard/enterprise-support-card.tsx",
+    "components/dashboard/enterprise-workspace-settings.tsx",
+    "components/marketing/sales-inquiry-contact-fields.tsx",
+    "hooks/use-sales-inquiry-form.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": true,
+  "prisma_migrate": true,
+  "build": true,
+  "restart": true
+}

@@ -252,6 +252,9 @@ export const tr: TranslationTree = {
     labelEmail: 'E-posta',
     labelCompany: 'Şirket',
     labelPhone: 'Telefon',
+    labelNeedsSla: 'SLA istiyor',
+    labelNeedsCsm: 'CSM istiyor',
+    yes: 'Evet',
   },
   auth: {
     welcomeBack: 'Tekrar hoş geldiniz',
@@ -1105,6 +1108,7 @@ export const tr: TranslationTree = {
   invite: {
     title: 'Takım daveti',
     joinWorkspace: '{{name}} takımına QRbanner\'da katıl',
+    joinWorkspaceBrand: '{{brand}} üzerinde {{workspace}} takımına katıl',
     invitedAs: '{{email}} olarak davet edildiniz',
     accept: 'Daveti kabul et',
     signInToAccept: 'Kabul etmek için giriş yap',
@@ -2162,7 +2166,21 @@ export const tr: TranslationTree = {
     },
     empty: { workspaces: 'Çalışma alanı bulunamadı', qr: 'QR kod bulunamadı' },
     users: { desc: 'Tüm platform üyelerini arayın, filtreleyin ve yönetin.' },
-    workspaces: { desc: 'Ekip çalışma alanları, SSO ve müşteri hesapları.' },
+    workspaces: {
+      desc: 'Ekip çalışma alanları, SSO ve müşteri hesapları.',
+      editSupport: 'SLA / CSM düzenle',
+      supportSaved: 'Destek ayarları kaydedildi',
+      supportFailed: 'Destek ayarları kaydedilemedi',
+      csmName: 'CSM adı',
+      csmEmail: 'CSM e-posta',
+      uptime: 'Uptime % (örn. 99,9)',
+      slaNotes: 'SLA notları (yanıt süreleri, kanal)',
+      tier: {
+        standard: 'Standart',
+        priority: 'Öncelikli',
+        enterprise: 'Kurumsal',
+      },
+    },
     plans: { desc: 'Plan limitleri ve abone dağılımı.' },
     payments: { desc: 'Paddle faturalama ve webhook olayları.', webhooks: 'Faturalama webhook olayları' },
     qr: { desc: 'Platform genelindeki tüm QR kodlar.' },
@@ -2273,6 +2291,8 @@ export const tr: TranslationTree = {
       typeEnterprise: 'Kurumsal',
       typeDemo: 'Demo',
       typeGeneral: 'Genel',
+      badgeSla: 'SLA',
+      badgeCsm: 'CSM',
       open: 'Açık',
       inProgress: 'İşlemde',
       closed: 'Kapalı',
@@ -2588,6 +2608,17 @@ export const tr: TranslationTree = {
     confirmDeleteClient: 'Bu müşteri kaydı silinsin mi?',
     clientDeleted: 'Müşteri silindi',
     saveFailed: 'Kurumsal ayarlar kaydedilemedi',
+  },
+  enterpriseSupport: {
+    title: 'Özel destek ve SLA',
+    desc: 'Bu çalışma alanı için sözleşmeli destek seviyeniz.',
+    csmTitle: 'Müşteri başarı yöneticiniz',
+    slaNotes: 'Hizmet taahhütleri',
+    uptime: 'Aylık {{percent}} uptime hedefi',
+    tier: {
+      priority: 'Öncelikli destek',
+      enterprise: 'Kurumsal destek',
+    },
   },
   marketplaceSeller: {
     title: 'Şablon satışı',
@@ -3378,7 +3409,7 @@ export const tr: TranslationTree = {
       'Tüm trafikte TLS 1.2+|API anahtarları hash olarak saklanır — ikinci kez gösterilmez|Anahtar başına hız limitleri ve isteğe bağlı IP listeleri|Şifre korumalı QR kodlar ve tarama limitleri|Düzenli bağımlılık güncellemeleri',
     slaTitle: 'Hizmet seviyesi',
     slaItems:
-      'Üretim tarama ve panel uç noktaları için aylık %99,9 çalışma süresi hedefi|Herkese açık durum izleme|Planlı bakım önceden duyurulur|Agency ve kurumsal sözleşmelerde öncelikli destek',
+      'Üretim tarama ve panel uç noktaları için aylık %99,9 çalışma süresi hedefi|Herkese açık durum izleme|Planlı bakım önceden duyurulur|Agency ve kurumsal sözleşmelerde öncelikli destek|Kurumsal sözleşmeler: P1 kritik olaylarda 1 iş saati içinde yanıt hedefi; P2 için 4 iş saati',
     procurementTitle: 'Satın alma kontrol listesi',
     procurementItems:
       'Fatura geçmişi ile Paddle faturalandırma|İstediğiniz zaman iptal — kodlar taranabilir kalır|API ve panel üzerinden veri dışa aktarma|GDPR odaklı gizlilik politikası ve talep üzerine DPA|Alt işleyici listesi talep üzerine',
@@ -3561,6 +3592,9 @@ export const tr: TranslationTree = {
       demo: 'Sektör ve kullanım alanı? Ekip büyüklüğü?',
       general: 'Size nasıl yardımcı olabiliriz?',
     },
+    enterpriseNeedsTitle: 'Kurumsal gereksinimler',
+    needsSla: 'Sözleşmeli SLA / uptime taahhüdü istiyoruz',
+    needsCsm: 'Özel müşteri başarı yöneticisi istiyoruz',
     submit: {
       enterprise: 'Satışa gönder',
       demo: 'Demo talep et',

@@ -26,13 +26,35 @@ export async function GET(
 
   const member = await prisma.workspaceMember.findFirst({
     where: { inviteToken: params.token, status: 'pending' },
-    include: { workspace: { select: { id: true, name: true } } },
+    include: {
+      workspace: {
+        select: {
+          id: true,
+          name: true,
+          owner: { select: { plan: true, brandingSettings: true } },
+        },
+      },
+    },
   });
   if (!member) return NextResponse.json({ error: 'Invite not found' }, { status: 404 });
+
+  const { canUseWhiteLabel, parseBrandingSettings } = await import('@/lib/referral');
+  const owner = member.workspace.owner;
+  const branding = parseBrandingSettings(owner?.brandingSettings);
+  const whiteLabel = owner ? canUseWhiteLabel(owner.plan) : false;
+  const agencyName = branding.agencyName?.trim();
+
   return NextResponse.json({
     email: member.email,
     role: member.role,
-    workspace: member.workspace,
+    workspace: { id: member.workspace.id, name: member.workspace.name },
+    branding: whiteLabel
+      ? {
+          agencyName: agencyName || null,
+          logoUrl: branding.logoUrl || null,
+          brandColor: branding.brandColor || null,
+        }
+      : null,
   });
 }
 
