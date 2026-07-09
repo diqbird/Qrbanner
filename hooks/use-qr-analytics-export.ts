@@ -5,7 +5,11 @@ import { format } from 'date-fns';
 import { DateRange } from 'react-day-picker';
 import { toast } from 'sonner';
 import { downloadAnalyticsCsv, buildAnalyticsCsvLabels } from '@/lib/analytics-export';
-import { buildAnalyticsPdfLabels, downloadAnalyticsPdf } from '@/lib/analytics-pdf-export';
+import {
+  buildAnalyticsPdfLabels,
+  downloadAnalyticsPdf,
+  loadAnalyticsPdfBranding,
+} from '@/lib/analytics-pdf-export';
 import { localizeAnalyticsExportPayload } from '@/lib/i18n/localize-analytics-export-payload';
 import type { Locale } from '@/lib/i18n/types';
 import type { QrAnalyticsData } from '@/lib/qr-analytics-types';
@@ -34,12 +38,14 @@ export function useQrAnalyticsExport(
           ? `${format(dateRange.from, 'yyyy-MM-dd')} – ${format(dateRange.to, 'yyyy-MM-dd')}`
           : undefined;
       const localized = localizeAnalyticsExportPayload(t, locale, data);
+      const branding = await loadAnalyticsPdfBranding();
       await downloadAnalyticsPdf(localized, {
         filename: `qr-analytics-${qrId}`,
         subtitle: qrName || undefined,
         periodLabel,
         labels: buildAnalyticsPdfLabels(t, locale),
         locale,
+        branding,
       });
       toast.success(t('analytics.pdfDownloaded'));
     } catch {

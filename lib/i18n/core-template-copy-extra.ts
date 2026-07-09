@@ -46,6 +46,10 @@ export const extraCoreSectionsEn: TranslationTree = {
   },
   'hotels-hospitality': {
     property: { title: 'Property identity', description: 'Shown on the guest hub landing page.' },
+    'guest-services': {
+      title: 'Guest hub links',
+      description: 'Pre-fills landing hub buttons — edit URLs per season.',
+    },
   },
   'healthcare-clinics': {
     portal: { title: 'Patient destination', description: 'Intake form, booking page or education PDF on your portal.' },
@@ -130,6 +134,10 @@ export const extraCoreSectionsTr: TranslationTree = {
   },
   'hotels-hospitality': {
     property: { title: 'Tesis kimliği', description: 'Misafir merkezi açılış sayfasında gösterilir.' },
+    'guest-services': {
+      title: 'Misafir merkezi linkleri',
+      description: 'Açılış hub düğmelerini ön doldurur — sezonluk URL’leri düzenleyin.',
+    },
   },
   'healthcare-clinics': {
     portal: { title: 'Hasta hedefi', description: 'Kayıt formu, randevu sayfası veya portalınızdaki eğitim PDF.' },
@@ -234,6 +242,12 @@ export const extraCoreFieldsEn: TranslationTree = {
   },
   'hotels-hospitality': {
     _propertyName: { label: 'Property name', placeholder: 'Harbor Bay Hotel' },
+    _conciergePhone: { label: 'Concierge phone', placeholder: '+90 212 000 00 00' },
+    _wifiPageUrl: { label: 'Guest Wi‑Fi page', placeholder: 'https://yourhotel.com/wifi' },
+    _roomServiceUrl: { label: 'Room service menu', placeholder: 'https://yourhotel.com/room-service' },
+    _spaUrl: { label: 'Spa & amenities', placeholder: 'https://yourhotel.com/spa' },
+    _localGuideUrl: { label: 'Local guide', placeholder: 'https://yourhotel.com/local-guide' },
+    _checkInUrl: { label: 'Mobile check-in', placeholder: 'https://yourhotel.com/check-in' },
   },
   'healthcare-clinics': {
     url: { label: 'Portal URL' },
@@ -348,6 +362,12 @@ export const extraCoreFieldsTr: TranslationTree = {
   },
   'hotels-hospitality': {
     _propertyName: { label: 'Tesis adı', placeholder: 'Liman Körfez Otel' },
+    _conciergePhone: { label: 'Concierge telefonu', placeholder: '+90 212 000 00 00' },
+    _wifiPageUrl: { label: 'Misafir Wi‑Fi sayfası', placeholder: 'https://oteliniz.com/wifi' },
+    _roomServiceUrl: { label: 'Oda servisi menüsü', placeholder: 'https://oteliniz.com/oda-servisi' },
+    _spaUrl: { label: 'Spa ve olanaklar', placeholder: 'https://oteliniz.com/spa' },
+    _localGuideUrl: { label: 'Yerel rehber', placeholder: 'https://oteliniz.com/yerel-rehber' },
+    _checkInUrl: { label: 'Mobil check-in', placeholder: 'https://oteliniz.com/check-in' },
   },
   'healthcare-clinics': {
     url: { label: 'Portal URL' },

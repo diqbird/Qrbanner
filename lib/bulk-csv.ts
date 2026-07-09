@@ -3,7 +3,7 @@ import { QR_CATEGORIES, buildQRPayload } from '@/lib/qr-utils';
 
 const VALID_CATEGORIES = new Set(QR_CATEGORIES.map((c) => c.id));
 /** Absolute ceiling — per-plan limits enforced in API/UI */
-export const BULK_ABSOLUTE_MAX_ROWS = 2000;
+export const BULK_ABSOLUTE_MAX_ROWS = 10000;
 
 export const BULK_CSV_TEMPLATE = `name,category,url,phone,email,ssid,wifi_password,qr_password,expires_at,scan_limit
 Store Istanbul,url,https://example.com/istanbul,,,,,,,

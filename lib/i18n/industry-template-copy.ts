@@ -102,6 +102,13 @@ const coreSectionsEn: TranslationTree = {
     venue: { title: 'Venue label', description: 'Printed name on your Wi‑Fi sign — not encoded in the QR.' },
     network: { title: 'Guest network', description: 'SSID, password and security type for automatic join.' },
   },
+  'hotels-hospitality': {
+    property: { title: 'Property identity', description: 'Shown on the guest hub landing page.' },
+    'guest-services': {
+      title: 'Guest hub links',
+      description: 'Pre-fills landing hub buttons — edit URLs per season.',
+    },
+  },
 };
 
 const coreSectionsTr: TranslationTree = {
@@ -120,6 +127,13 @@ const coreSectionsTr: TranslationTree = {
     venue: { title: 'Mekan etiketi', description: 'Wi‑Fi tabelasında basılı ad — QR içinde kodlanmaz.' },
     network: { title: 'Misafir ağı', description: 'Otomatik bağlantı için SSID, şifre ve güvenlik türü.' },
   },
+  'hotels-hospitality': {
+    property: { title: 'Tesis kimliği', description: 'Misafir merkezi açılış sayfasında gösterilir.' },
+    'guest-services': {
+      title: 'Misafir merkezi linkleri',
+      description: 'Açılış hub düğmelerini ön doldurur — sezonluk URL’leri düzenleyin.',
+    },
+  },
 };
 
 const coreFieldsEn: TranslationTree = {
@@ -128,6 +142,8 @@ const coreFieldsEn: TranslationTree = {
     url: { label: 'Menu URL', placeholder: 'https://yourrestaurant.com/menu' },
     _wifiNote: { label: 'Wi‑Fi note (optional)' },
     _reservationUrl: { label: 'Reservations link (optional)' },
+    _hours: { label: 'Opening hours (optional)', placeholder: 'Mon–Sun 11:00–23:00' },
+    _dietaryNote: { label: 'Dietary note (optional)', placeholder: 'Gluten-free options available' },
   },
   'business-card': {
     title: { label: 'Job title', placeholder: 'Sales Director' },
@@ -135,6 +151,11 @@ const coreFieldsEn: TranslationTree = {
   },
   'wifi-guest': {
     _venueName: { label: 'Venue name', placeholder: 'e.g. Harbor Hotel Lobby' },
+    _instructions: {
+      label: 'Connection instructions (print subtitle)',
+      placeholder: 'Scan to join automatically. Accept the certificate if prompted.',
+    },
+    _supportExt: { label: 'Support / front desk', placeholder: 'Dial 0' },
     ssid: { label: 'Network name (SSID)', placeholder: 'Guest_WiFi' },
     password: { label: 'Password', placeholder: 'guest2026' },
     encryption: {
@@ -146,6 +167,15 @@ const coreFieldsEn: TranslationTree = {
       },
     },
   },
+  'hotels-hospitality': {
+    _propertyName: { label: 'Property name', placeholder: 'Harbor Bay Hotel' },
+    _conciergePhone: { label: 'Concierge phone', placeholder: '+90 212 000 00 00' },
+    _wifiPageUrl: { label: 'Guest Wi‑Fi page', placeholder: 'https://yourhotel.com/wifi' },
+    _roomServiceUrl: { label: 'Room service menu', placeholder: 'https://yourhotel.com/room-service' },
+    _spaUrl: { label: 'Spa & amenities', placeholder: 'https://yourhotel.com/spa' },
+    _localGuideUrl: { label: 'Local guide', placeholder: 'https://yourhotel.com/local-guide' },
+    _checkInUrl: { label: 'Mobile check-in', placeholder: 'https://yourhotel.com/check-in' },
+  },
 };
 
 const coreFieldsTr: TranslationTree = {
@@ -154,6 +184,8 @@ const coreFieldsTr: TranslationTree = {
     url: { label: 'Menü linki', placeholder: 'https://restoraniniz.com/menu' },
     _wifiNote: { label: 'Wi‑Fi notu (isteğe bağlı)' },
     _reservationUrl: { label: 'Rezervasyon linki (isteğe bağlı)' },
+    _hours: { label: 'Çalışma saatleri (isteğe bağlı)', placeholder: 'Pzt–Paz 11:00–23:00' },
+    _dietaryNote: { label: 'Diyet notu (isteğe bağlı)', placeholder: 'Glutensiz seçenekler mevcut' },
   },
   'business-card': {
     title: { label: 'Ünvan', placeholder: 'Satış Müdürü' },
@@ -161,6 +193,11 @@ const coreFieldsTr: TranslationTree = {
   },
   'wifi-guest': {
     _venueName: { label: 'Mekan adı', placeholder: 'ör. Liman Otel Lobisi' },
+    _instructions: {
+      label: 'Bağlantı talimatları (baskı alt başlığı)',
+      placeholder: 'Otomatik bağlanmak için tarayın. İstenirse sertifikayı kabul edin.',
+    },
+    _supportExt: { label: 'Destek / resepsiyon', placeholder: '0’ı çevirin' },
     ssid: { label: 'Ağ adı (SSID)', placeholder: 'Misafir_WiFi' },
     password: { label: 'Şifre', placeholder: 'misafir2026' },
     encryption: {
@@ -171,6 +208,15 @@ const coreFieldsTr: TranslationTree = {
         nopass: 'Açık (şifresiz)',
       },
     },
+  },
+  'hotels-hospitality': {
+    _propertyName: { label: 'Tesis adı', placeholder: 'Liman Körfez Otel' },
+    _conciergePhone: { label: 'Concierge telefonu', placeholder: '+90 212 000 00 00' },
+    _wifiPageUrl: { label: 'Misafir Wi‑Fi sayfası', placeholder: 'https://oteliniz.com/wifi' },
+    _roomServiceUrl: { label: 'Oda servisi menüsü', placeholder: 'https://oteliniz.com/oda-servisi' },
+    _spaUrl: { label: 'Spa ve olanaklar', placeholder: 'https://oteliniz.com/spa' },
+    _localGuideUrl: { label: 'Yerel rehber', placeholder: 'https://oteliniz.com/yerel-rehber' },
+    _checkInUrl: { label: 'Mobil check-in', placeholder: 'https://oteliniz.com/check-in' },
   },
 };
 

@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "hooks/use-qr-preview-render.ts",
+    "hooks/use-dashboard-analytics-export.ts",
+    "hooks/use-qr-analytics-export.ts",
+    "lib/plans.ts",
+    "lib/bulk-csv.ts",
+    "lib/qr-bulk-import-types.ts",
+    "lib/color-utils.ts",
+    "lib/analytics-pdf-export.ts",
+    "lib/i18n/industry-template-copy.ts",
+    "lib/i18n/core-template-copy-extra.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

@@ -5,6 +5,8 @@ import { renderStyledQR } from '@/lib/qr-render';
 import { normalizeQRStyle, type QRStyleConfig } from '@/lib/qr-style';
 import type { Locale } from '@/lib/i18n';
 
+const PREVIEW_DEBOUNCE_MS = 160;
+
 export function useQrPreviewRender({
   previewContent,
   normalized,
@@ -34,6 +36,7 @@ export function useQrPreviewRender({
     let cancelled = false;
 
     const generateQR = async () => {
+      // Keep previous frame visible during debounce — only show spinner after delay starts render.
       setLoading(true);
       setError(null);
 
@@ -56,7 +59,12 @@ export function useQrPreviewRender({
           canvas.style.maxWidth = '100%';
           canvas.style.height = 'auto';
           canvas.style.display = 'block';
+          canvas.style.opacity = '0';
+          canvas.style.transition = 'opacity 120ms ease-out';
           containerRef.current.appendChild(canvas);
+          requestAnimationFrame(() => {
+            canvas.style.opacity = '1';
+          });
         }
       } catch (e) {
         console.error('QR generation error:', e);
@@ -71,9 +79,13 @@ export function useQrPreviewRender({
       }
     };
 
-    generateQR();
+    const timer = window.setTimeout(() => {
+      void generateQR();
+    }, PREVIEW_DEBOUNCE_MS);
+
     return () => {
       cancelled = true;
+      window.clearTimeout(timer);
     };
   }, [previewContent, styleKey, logoPreview, onStyleChange, containerRef, renderErrorMessage, locale]);
 

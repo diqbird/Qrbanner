@@ -21,7 +21,7 @@ export interface UsageInfo {
 }
 
 export const defaultBulkUsage: UsageInfo = {
-  maxBulkRows: 100,
+  maxBulkRows: 250,
   qrLimit: 25,
   qrCodes: 0,
   planId: 'free',

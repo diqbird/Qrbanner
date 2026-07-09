@@ -1,8 +1,10 @@
 import type { AnalyticsPayload } from '@/lib/analytics-export';
+import { hexToRgbBytes } from '@/lib/color-utils';
 import { formatLocaleDateTime, formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { interpolate } from '@/lib/i18n/types';
 import type { Locale } from '@/lib/i18n/types';
 import { analyticsPeriodVars } from '@/lib/i18n/analytics-period-vars';
+import { canUseWhiteLabel, parseBrandingSettings } from '@/lib/referral';
 
 export type AnalyticsPdfLabels = {
   reportTitle: string;
@@ -33,13 +35,58 @@ export type AnalyticsPdfLabels = {
   emptyValue: string;
 };
 
+export type AnalyticsPdfBranding = {
+  displayName?: string;
+  logoUrl?: string;
+  brandColor?: string;
+};
+
 export type AnalyticsPdfOptions = {
   filename: string;
   subtitle?: string;
   periodLabel?: string;
   labels: AnalyticsPdfLabels;
   locale: Locale;
+  branding?: AnalyticsPdfBranding;
 };
+
+/** Load WL branding for client-side PDF export (no-op when plan is not WL). */
+export async function loadAnalyticsPdfBranding(): Promise<AnalyticsPdfBranding | undefined> {
+  try {
+    const res = await fetch('/api/referral');
+    if (!res.ok) return undefined;
+    const json = (await res.json()) as { plan?: string; branding?: unknown };
+    if (!canUseWhiteLabel(json.plan ?? 'free')) return undefined;
+    const branding = parseBrandingSettings(json.branding);
+    const displayName = branding.agencyName?.trim();
+    const logoUrl = branding.logoUrl?.trim();
+    const brandColor = branding.brandColor?.trim();
+    if (!displayName && !logoUrl && !brandColor) return undefined;
+    return {
+      displayName: displayName || undefined,
+      logoUrl: logoUrl || undefined,
+      brandColor: brandColor || undefined,
+    };
+  } catch {
+    return undefined;
+  }
+}
+
+async function fetchImageDataUrl(url: string): Promise<string | null> {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const blob = await res.blob();
+    return await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(typeof reader.result === 'string' ? reader.result : null);
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(blob);
+    });
+  } catch {
+    return null;
+  }
+}
 
 const MARGIN = 14;
 const PAGE_W = 210;
@@ -127,14 +174,53 @@ function twoColumnTable(
 export async function downloadAnalyticsPdf(data: AnalyticsPayload, options: AnalyticsPdfOptions) {
   const { jsPDF } = await import('jspdf');
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-  const { labels, subtitle, periodLabel, locale } = options;
+  const { labels, subtitle, periodLabel, locale, branding } = options;
   let y = MARGIN;
 
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(16);
-  doc.setTextColor(20, 20, 20);
-  doc.text(labels.reportTitle, MARGIN, y);
-  y += 7;
+  const accent = branding?.brandColor ? hexToRgbBytes(branding.brandColor) : null;
+  if (accent) {
+    doc.setFillColor(accent[0], accent[1], accent[2]);
+    doc.rect(0, 0, PAGE_W, 3.5, 'F');
+    y = MARGIN + 2;
+  }
+
+  const logoDataUrl = branding?.logoUrl ? await fetchImageDataUrl(branding.logoUrl) : null;
+  if (logoDataUrl) {
+    try {
+      const format = logoDataUrl.includes('image/jpeg') || logoDataUrl.includes('image/jpg') ? 'JPEG' : 'PNG';
+      doc.addImage(logoDataUrl, format, MARGIN, y - 2, 18, 18);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(16);
+      doc.setTextColor(20, 20, 20);
+      doc.text(labels.reportTitle, MARGIN + 22, y + 5);
+      if (branding?.displayName) {
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(90, 90, 90);
+        doc.text(branding.displayName, MARGIN + 22, y + 11);
+      }
+      y += 20;
+    } catch {
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(16);
+      doc.setTextColor(20, 20, 20);
+      doc.text(labels.reportTitle, MARGIN, y);
+      y += 7;
+    }
+  } else {
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    doc.setTextColor(20, 20, 20);
+    doc.text(labels.reportTitle, MARGIN, y);
+    y += 7;
+    if (branding?.displayName) {
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(90, 90, 90);
+      doc.text(branding.displayName, MARGIN, y);
+      y += 5;
+    }
+  }
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
@@ -218,11 +304,17 @@ export async function downloadAnalyticsPdf(data: AnalyticsPayload, options: Anal
   }
 
   const pageCount = doc.getNumberOfPages();
+  const footerBrand = branding?.displayName?.trim();
+  const footerLeft = footerBrand ? `${footerBrand} · ${labels.footer}` : labels.footer;
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
+    if (accent) {
+      doc.setFillColor(accent[0], accent[1], accent[2]);
+      doc.rect(0, 294.5, PAGE_W, 2.5, 'F');
+    }
     doc.setFontSize(7);
     doc.setTextColor(140, 140, 140);
-    doc.text(labels.footer, MARGIN, 292);
+    doc.text(footerLeft, MARGIN, 292);
     doc.text(`${i} / ${pageCount}`, PAGE_W - MARGIN, 292, { align: 'right' });
   }
 

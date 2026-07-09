@@ -1,5 +1,5 @@
-/** Convert #rgb / #rrggbb to CSS HSL components for Tailwind `hsl(var(--primary))`. */
-export function hexToHslComponents(hex: string): string | null {
+/** Parse #rgb / #rrggbb to 0–255 RGB. Returns null if invalid. */
+export function hexToRgbBytes(hex: string): [number, number, number] | null {
   const normalized = hex.trim().replace(/^#/, '');
   let r = 0;
   let g = 0;
@@ -16,6 +16,14 @@ export function hexToHslComponents(hex: string): string | null {
     return null;
   }
   if ([r, g, b].some((n) => Number.isNaN(n))) return null;
+  return [r, g, b];
+}
+
+/** Convert #rgb / #rrggbb to CSS HSL components for Tailwind `hsl(var(--primary))`. */
+export function hexToHslComponents(hex: string): string | null {
+  const rgb = hexToRgbBytes(hex);
+  if (!rgb) return null;
+  const [r, g, b] = rgb;
 
   const rn = r / 255;
   const gn = g / 255;
