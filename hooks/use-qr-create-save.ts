@@ -9,11 +9,12 @@ import {
   toastCreateQrError,
   toastCreateQrUnexpected,
 } from '@/lib/qr-create-save-api';
+import { useStudioCreateConfig } from '@/components/studio/studio-create-context';
 import type { QrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import type { AdvancedValues } from '@/lib/advanced-settings-types';
 import type { QRStyleConfig } from '@/lib/qr-style';
 
-type Translate = (key: string) => string;
+type Translate = (key: string, vars?: Record<string, string | number>) => string;
 
 export function useQrCreateSave({
   name,
@@ -50,6 +51,8 @@ export function useQrCreateSave({
   setSaving: (v: boolean) => void;
   isActive?: boolean;
 }) {
+  const studio = useStudioCreateConfig();
+
   const handleSave = useCallback(async () => {
     if (!name.trim()) {
       toast.error(t('create.nameRequired'));
@@ -78,10 +81,17 @@ export function useQrCreateSave({
         advanced,
         featureFields,
         isActive,
+        studioEntitlementId: studio?.entitlementId,
       });
 
       if (result.ok) {
-        router.replace(`/qr/${result.id}`);
+        if (studio) {
+          const remaining = Math.max(0, studio.qrRemaining - 1);
+          studio.onQrCreated(result.id, remaining);
+          toast.success(t('studio.qrCreated', { n: studio.maxQr - remaining, max: studio.maxQr }));
+        } else {
+          router.replace(`/qr/${result.id}`);
+        }
       } else if (result.status === 401) {
         redirectGuestToSignup();
       } else {
@@ -107,6 +117,7 @@ export function useQrCreateSave({
     advanced,
     featureFields,
     isActive,
+    studio,
     router,
     t,
   ]);

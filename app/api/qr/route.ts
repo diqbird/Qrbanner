@@ -7,6 +7,7 @@ import { stripMetaFields } from '@/lib/industry-templates';
 import { normalizeLabels } from '@/lib/organize-utils';
 import { sanitizeGeofenceData } from '@/lib/geofence-shared';
 import { assertCanCreateQr } from '@/lib/plan-usage';
+import { consumeStudioQr } from '@/lib/studio-entitlement';
 import { assertQrUrlsAllowed } from '@/lib/validate-qr-urls';
 import { sanitizeStoredLandingPage } from '@/lib/landing-blocks';
 import { normalizeGa4Id, normalizeMetaPixelId } from '@/lib/pixel-analytics';
@@ -139,7 +140,7 @@ export async function POST(req: NextRequest) {
             gpsHeatmapEnabled, nfcEnabled,
             scanNotifyEnabled, scanNotifyFirst, scanNotifyMilestones, scanNotifyEvery,
             ga4Enabled, ga4MeasurementId, metaPixelEnabled, metaPixelId,
-            folderId, labels, isActive } = body;
+            folderId, labels, isActive, studioEntitlementId } = body;
 
     if (!name || !category) {
       return NextResponse.json({ error: 'Name and category are required' }, { status: 400 });
@@ -163,7 +164,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: wsAccess.error }, { status: 403 });
     }
 
-    const planCheck = await assertCanCreateQr(userId);
+    const studioId =
+      typeof studioEntitlementId === 'string' && studioEntitlementId.trim()
+        ? studioEntitlementId.trim()
+        : undefined;
+
+    const planCheck = await assertCanCreateQr(userId, {
+      studioEntitlementId: studioId,
+    });
     if (!planCheck.ok) {
       return NextResponse.json({ error: planCheck.error }, { status: 403 });
     }
@@ -227,6 +235,10 @@ export async function POST(req: NextRequest) {
         folderId: folderId || null,
         labels: normalizeLabels(labels ?? []),
     });
+
+    if (planCheck.studio && studioId) {
+      await consumeStudioQr(studioId);
+    }
 
     return NextResponse.json({ qrCode });
   } catch (error: unknown) {

@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/db';
 import { getPlanLimits, normalizePlanId, type PlanLimits } from '@/lib/plans';
 import { syncPlanGrantExpiry } from '@/lib/pro-trial';
+import { assertStudioCanCreate } from '@/lib/studio-entitlement';
 
 export interface PlanUsage {
   plan: PlanLimits;
@@ -37,7 +38,16 @@ export async function getUserPlanUsage(userId: string): Promise<PlanUsage> {
   };
 }
 
-export async function assertCanCreateQr(userId: string): Promise<{ ok: true } | { ok: false; error: string }> {
+export async function assertCanCreateQr(
+  userId: string,
+  opts?: { studioEntitlementId?: string },
+): Promise<{ ok: true; studio?: true } | { ok: false; error: string }> {
+  if (opts?.studioEntitlementId) {
+    const studioCheck = await assertStudioCanCreate(userId, opts.studioEntitlementId);
+    if (studioCheck.ok) return { ok: true, studio: true };
+    return { ok: false, error: studioCheck.error };
+  }
+
   const usage = await getUserPlanUsage(userId);
   if (!usage.canCreateQr) {
     return {

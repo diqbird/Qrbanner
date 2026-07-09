@@ -15,15 +15,18 @@ import { QrCreateStepIndicator } from './qr-create-step-indicator';
 import { QrCreateWizardFooter } from './qr-create-wizard-footer';
 import { QrCreateDesignStep } from './qr-create-design-step';
 import { QrCreateTrustStrip } from './qr-create-trust-strip';
+import { useStudioCreateConfig } from '@/components/studio/studio-create-context';
+import { StudioQuotaBanner } from '@/components/studio/studio-quota-banner';
 
 export function QRCreateWizard() {
   const { t } = useLanguage();
   const searchParams = useSearchParams();
+  const studio = useStudioCreateConfig();
   const onboarding = isOnboardingQuery(searchParams?.get('onboarding'));
   const form = useQrCreateForm();
   const { session, isGuest, mode, step, enterWizardFromQuick, saveGuestDraft, redirectGuestToSignup } = form;
 
-  if (mode === 'quick') {
+  if (mode === 'quick' && !studio) {
     return (
       <QRQuickCreate
         onboarding={onboarding}
@@ -34,7 +37,7 @@ export function QRCreateWizard() {
 
   return (
     <div className="space-y-6">
-      {session && (
+      {session && !studio && (
         <div className="flex items-center gap-2 text-sm">
           <Link href="/dashboard" className="text-muted-foreground hover:text-foreground">
             ← {t('common.dashboard')}
@@ -43,11 +46,16 @@ export function QRCreateWizard() {
       )}
 
       <div>
-        <h1 className="font-display text-2xl font-bold tracking-tight">{t('create.title')}</h1>
-        <p className="mt-1 text-muted-foreground">{t('create.subtitle')}</p>
+        <h1 className="font-display text-2xl font-bold tracking-tight">
+          {studio ? t('studio.createTitle') : t('create.title')}
+        </h1>
+        <p className="mt-1 text-muted-foreground">
+          {studio ? t('studio.createSubtitle') : t('create.subtitle')}
+        </p>
       </div>
 
-      <QrCreateTrustStrip />
+      {studio ? <StudioQuotaBanner remaining={studio.qrRemaining} max={studio.maxQr} /> : null}
+      {!studio ? <QrCreateTrustStrip /> : null}
       <QrCreateStepIndicator step={step} />
       <CreateStepTip step={step} />
 
@@ -58,7 +66,7 @@ export function QRCreateWizard() {
         {step === 3 && <QrCreateStepReview form={form} />}
       </div>
 
-      {isGuest && (
+      {isGuest && !studio && (
         <QrCreateGuestBanner
           saveGuestDraft={saveGuestDraft}
           redirectGuestToSignup={redirectGuestToSignup}

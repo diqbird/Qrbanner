@@ -14,7 +14,9 @@ export type AdminAuditAction =
   | 'blog.delete'
   | 'banners.announcement_update'
   | 'support.inquiry_status'
-  | 'notifications.test_email';
+  | 'notifications.test_email'
+  | 'studio.entitlement_create'
+  | 'studio.entitlement_revoke';
 
 export async function recordAdminAudit(input: {
   actorId: string;

@@ -22,6 +22,7 @@ const NON_LOCALIZED_PREFIXES = [
   '/verify',
   '/qr/create',
   '/qr/bulk',
+  '/studio',
   '/s/',
 ];
 

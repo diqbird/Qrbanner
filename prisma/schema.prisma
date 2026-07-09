@@ -50,6 +50,7 @@ model User {
   styleTemplates QRStyleTemplate[]
   marketplaceSeller MarketplaceSeller?
   marketplacePurchases MarketplacePurchase[]
+  studioEntitlements   StudioEntitlement[]
   ownedWorkspaces Workspace[] @relation("WorkspaceOwner")
   workspaceMembers WorkspaceMember[]
 
@@ -545,6 +546,30 @@ model BillingWebhookEvent {
 
   @@unique([provider, eventId])
   @@index([createdAt])
+}
+
+/// External channel purchase (Etsy, etc.) — one-time link claim, limited dynamic QR quota.
+model StudioEntitlement {
+  id              String    @id @default(cuid())
+  token           String    @unique
+  buyerEmail      String
+  maxQr           Int       @default(1)
+  qrRemaining     Int
+  status          String    @default("pending")
+  source          String    @default("etsy")
+  externalOrderId String?
+  notes           String?
+  userId          String?
+  claimedAt       DateTime?
+  expiresAt       DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  user            User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([buyerEmail])
+  @@index([userId])
+  @@index([status])
+  @@index([externalOrderId])
 }
 
 model ContactInquiry {

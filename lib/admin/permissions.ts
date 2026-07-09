@@ -15,6 +15,7 @@ const ADMIN_PERMISSIONS: AdminPermission[] = [
   'admin.blog',
   'admin.notifications',
   'admin.support',
+  'admin.studio',
   'admin.analytics',
   'admin.webhooks',
   'admin.settings',

@@ -75,6 +75,10 @@ export function isPublicApiRoute(method: string, pathname: string): boolean {
       return true;
     }
   }
+
+  if (m === 'GET' && /^\/api\/studio\/[^/]+$/.test(pathname)) return true;
+  if (m === 'POST' && /^\/api\/studio\/[^/]+\/claim$/.test(pathname)) return true;
+
   return false;
 }
 
