@@ -1,0 +1,15 @@
+{
+  "upload": [
+    "lib/blog/localize-post.ts",
+    "lib/blog/posts/tr/custom-scan-domain-guide.ts",
+    "lib/blog/posts/tr/webhook-automation-guide.ts",
+    "lib/blog/posts/tr/qr-security-guide.ts",
+    "lib/blog/posts/tr/landing-cta-analytics-guide.ts",
+    "lib/blog/posts/tr/referral-program-guide.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

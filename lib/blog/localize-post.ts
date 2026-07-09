@@ -35,6 +35,11 @@ import { nonprofitGalaQrTr } from './posts/tr/nonprofit-gala-qr';
 import { affiliateQrMarketingTr } from './posts/tr/affiliate-qr-marketing';
 import { breweryTaproomQrTr } from './posts/tr/brewery-taproom-qr';
 import { printShopBannerQrTr } from './posts/tr/print-shop-banner-qr';
+import { customScanDomainGuideTr } from './posts/tr/custom-scan-domain-guide';
+import { webhookAutomationGuideTr } from './posts/tr/webhook-automation-guide';
+import { qrSecurityGuideTr } from './posts/tr/qr-security-guide';
+import { landingCtaAnalyticsGuideTr } from './posts/tr/landing-cta-analytics-guide';
+import { referralProgramGuideTr } from './posts/tr/referral-program-guide';
 
 /** Turkish content overrides keyed by slug (same URL, locale from cookie/header). */
 const TR_POSTS: Record<string, BlogPost> = {
@@ -73,6 +78,11 @@ const TR_POSTS: Record<string, BlogPost> = {
   [affiliateQrMarketingTr.slug]: affiliateQrMarketingTr,
   [breweryTaproomQrTr.slug]: breweryTaproomQrTr,
   [printShopBannerQrTr.slug]: printShopBannerQrTr,
+  [customScanDomainGuideTr.slug]: customScanDomainGuideTr,
+  [webhookAutomationGuideTr.slug]: webhookAutomationGuideTr,
+  [qrSecurityGuideTr.slug]: qrSecurityGuideTr,
+  [landingCtaAnalyticsGuideTr.slug]: landingCtaAnalyticsGuideTr,
+  [referralProgramGuideTr.slug]: referralProgramGuideTr,
 };
 
 export function localizeBlogPost(post: BlogPost, locale: Locale): BlogPost {
