@@ -1,8 +1,11 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import { Download } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { formatLocaleDateTime } from '@/lib/i18n/format-locale';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { exportWorkspaceAuditCsv } from '@/lib/workspace-audit-export';
 
 type AuditEntry = {
   id: string;
@@ -34,7 +37,9 @@ export function TeamWorkspaceAuditPanel({ workspaceId, canView }: TeamWorkspaceA
     queryKey: ['workspace-audit', workspaceId],
     enabled: Boolean(workspaceId) && canView,
     queryFn: async () => {
-      const res = await fetch(`/api/workspace/audit-log?workspaceId=${encodeURIComponent(workspaceId)}&limit=20`);
+      const res = await fetch(
+        `/api/workspace/audit-log?workspaceId=${encodeURIComponent(workspaceId)}&limit=100`,
+      );
       if (!res.ok) throw new Error('audit');
       return res.json() as Promise<{ entries: AuditEntry[]; total: number }>;
     },
@@ -46,8 +51,24 @@ export function TeamWorkspaceAuditPanel({ workspaceId, canView }: TeamWorkspaceA
 
   return (
     <div className="space-y-2 border-t border-border/50 pt-4">
-      <p className="text-sm font-medium">{t('settings.team.auditTitle')}</p>
-      <p className="text-xs text-muted-foreground">{t('settings.team.auditDesc')}</p>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <p className="text-sm font-medium">{t('settings.team.auditTitle')}</p>
+          <p className="text-xs text-muted-foreground">{t('settings.team.auditDesc')}</p>
+        </div>
+        {entries.length > 0 ? (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="gap-1"
+            onClick={() => exportWorkspaceAuditCsv(entries, t)}
+          >
+            <Download className="h-3.5 w-3.5" />
+            {t('settings.team.auditExport')}
+          </Button>
+        ) : null}
+      </div>
       {isLoading ? (
         <p className="text-xs text-muted-foreground">{t('common.loading')}</p>
       ) : entries.length === 0 ? (

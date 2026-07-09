@@ -18,8 +18,8 @@ export const DEMO_BOOKING_URL =
 /** E.g. https://wa.me/15551234567 — leave empty to hide WhatsApp button */
 export const WHATSAPP_URL = process.env.NEXT_PUBLIC_WHATSAPP_URL?.trim() || '';
 
-export const supportMailto = (subject = 'QRbanner Support') =>
-  `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(subject)}`;
+export const supportMailto = (subject = 'QRbanner Support', email = SUPPORT_EMAIL) =>
+  `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 
 export const demoBookingUrl = () => DEMO_BOOKING_URL;
 

@@ -2,14 +2,15 @@
 
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
-import { QrCode, LogOut, X, Shield } from 'lucide-react';
+import { LogOut, X, Shield } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { DASHBOARD_NAV_ITEMS } from '@/lib/dashboard-nav-items';
 import type { DashboardShellState } from '@/hooks/use-dashboard-shell';
+import { DashboardBrandMark } from './dashboard-brand-mark';
 
 export function DashboardMobileSidebar({ shell }: { shell: DashboardShellState }) {
   const { t } = useLanguage();
-  const { pathname, sidebarOpen, setSidebarOpen, isAdmin } = shell;
+  const { pathname, sidebarOpen, setSidebarOpen, isAdmin, chromeBrand } = shell;
 
   if (!sidebarOpen) return null;
 
@@ -26,16 +27,7 @@ export function DashboardMobileSidebar({ shell }: { shell: DashboardShellState }
       <div className="fixed inset-0 bg-black/50" onClick={() => setSidebarOpen(false)} />
       <div className="fixed inset-y-0 left-0 w-64 bg-card shadow-lg">
         <div className="flex h-16 items-center justify-between border-b border-border/40 px-6">
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-2 rounded-lg transition-opacity hover:opacity-80"
-            onClick={() => setSidebarOpen(false)}
-          >
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-              <QrCode className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="font-display text-lg font-bold">QRbanner</span>
-          </Link>
+          <DashboardBrandMark brand={chromeBrand} onNavigate={() => setSidebarOpen(false)} />
           <button onClick={() => setSidebarOpen(false)} aria-label={t('dashboard.closeMenu')}>
             <X className="h-5 w-5" />
           </button>

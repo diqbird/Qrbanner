@@ -127,7 +127,8 @@ export async function POST(req: NextRequest) {
           role,
           inviteUrl,
         },
-        locale
+        locale,
+        workspaceId,
       );
     } catch (err) {
       console.error('[workspace/members] invite email failed:', err);

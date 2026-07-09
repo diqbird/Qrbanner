@@ -6,6 +6,7 @@ import {
   useDashboardCommandShortcut,
 } from '@/components/dashboard/dashboard-command-palette';
 import { useDashboardShell } from '@/hooks/use-dashboard-shell';
+import { hexToHslComponents } from '@/lib/color-utils';
 import { DashboardSidebar } from './dashboard-sidebar';
 import { DashboardMobileSidebar } from './dashboard-mobile-sidebar';
 import { DashboardTopHeader } from './dashboard-top-header';
@@ -26,8 +27,18 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
 
   if (status === 'unauthenticated') return null;
 
+  const brandColor = shell.chromeBrand.brandColor;
+  const hsl = brandColor ? hexToHslComponents(brandColor) : null;
+  const rootStyle = hsl
+    ? ({
+        ['--primary' as string]: hsl,
+        ['--ring' as string]: hsl,
+        ['--brand' as string]: brandColor,
+      } as React.CSSProperties)
+    : undefined;
+
   return (
-    <div className="flex min-h-screen bg-muted/20">
+    <div className="flex min-h-screen bg-muted/20" style={rootStyle}>
       <SkipToMain />
       <DashboardCommandPalette
         open={commandOpen}

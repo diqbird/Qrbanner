@@ -14,6 +14,7 @@ export type TenantMailOptions = {
   text: string;
   html: string;
   fromName?: string;
+  replyTo?: string;
 };
 
 function getGlobalTransporter(): Transporter | null {
@@ -83,6 +84,7 @@ export async function sendTenantMail(
     subject: opts.subject,
     text: opts.text,
     html: opts.html,
+    ...(opts.replyTo ? { replyTo: opts.replyTo } : {}),
   });
 
   return { sent: true, fallback: false, tenant: usedTenant };
@@ -103,6 +105,7 @@ export async function testWorkspaceSmtp(
     text,
     html,
     fromName: brand.fromName,
+    replyTo: brand.supportEmail,
   });
   return { sent: result.sent };
 }

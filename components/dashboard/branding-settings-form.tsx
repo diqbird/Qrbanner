@@ -40,6 +40,35 @@ export function BrandingSettingsForm({
         />
       </div>
       <div className="space-y-2">
+        <Label>{t('referral.logoUrl')}</Label>
+        <Input
+          type="url"
+          value={form.logoUrl}
+          onChange={(e) => setForm((prev) => (prev ? { ...prev, logoUrl: e.target.value } : prev))}
+          placeholder={t('referral.logoUrlPlaceholder')}
+        />
+        <p className="text-xs text-muted-foreground">{t('referral.logoUrlDesc')}</p>
+      </div>
+      <div className="space-y-2">
+        <Label>{t('referral.brandColor')}</Label>
+        <div className="flex flex-wrap items-center gap-2">
+          <Input
+            type="color"
+            value={/^#[0-9a-fA-F]{6}$/.test(form.brandColor) ? form.brandColor : '#4f46e5'}
+            onChange={(e) => setForm((prev) => (prev ? { ...prev, brandColor: e.target.value } : prev))}
+            className="h-10 w-14 cursor-pointer p-1"
+            aria-label={t('referral.brandColor')}
+          />
+          <Input
+            value={form.brandColor}
+            onChange={(e) => setForm((prev) => (prev ? { ...prev, brandColor: e.target.value } : prev))}
+            placeholder={t('referral.brandColorPlaceholder')}
+            className="max-w-[140px] font-mono text-sm"
+          />
+        </div>
+        <p className="text-xs text-muted-foreground">{t('referral.brandColorDesc')}</p>
+      </div>
+      <div className="space-y-2">
         <Label>{t('referral.supportEmail')}</Label>
         <Input
           type="email"

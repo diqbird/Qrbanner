@@ -5,6 +5,8 @@ import type { EmailShellOptions } from '@/lib/i18n/email-shell';
 export type TenantEmailBrand = {
   fromName: string;
   shell: EmailShellOptions;
+  brandColor?: string;
+  supportEmail?: string;
 };
 
 const DEFAULT_BRAND: TenantEmailBrand = {
@@ -25,13 +27,23 @@ export async function resolveWorkspaceEmailBrand(
 
   const branding = parseBrandingSettings(workspace.owner.brandingSettings);
   const agencyName = branding.agencyName?.trim();
-  if (!agencyName) return DEFAULT_BRAND;
-
+  const supportEmail = branding.supportEmail?.trim() || undefined;
+  const brandColor = branding.brandColor;
   const canWhiteLabel =
     workspace.owner.plan === 'agency' || workspace.owner.plan === 'business';
 
+  if (!agencyName) {
+    return {
+      ...DEFAULT_BRAND,
+      supportEmail,
+      brandColor: canWhiteLabel ? brandColor : undefined,
+    };
+  }
+
   return {
     fromName: agencyName,
+    supportEmail,
+    brandColor: canWhiteLabel ? brandColor : undefined,
     shell: {
       brandName: agencyName,
       hidePoweredBy: canWhiteLabel && Boolean(branding.hidePoweredBy),

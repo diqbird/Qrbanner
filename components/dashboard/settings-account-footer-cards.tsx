@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { signOut } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -9,6 +10,25 @@ import type { SettingsAccountState } from '@/hooks/use-settings-account';
 
 export function SettingsAccountFooterCards({ account }: { account: SettingsAccountState }) {
   const { t } = account;
+  const [helpEmail, setHelpEmail] = useState(SUPPORT_EMAIL);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch('/api/referral');
+        if (!res.ok) return;
+        const json = (await res.json()) as { branding?: { supportEmail?: string } };
+        const custom = json.branding?.supportEmail?.trim();
+        if (!cancelled && custom) setHelpEmail(custom);
+      } catch {
+        /* keep default */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <>
@@ -20,9 +40,9 @@ export function SettingsAccountFooterCards({ account }: { account: SettingsAccou
             </h3>
             <p className="text-sm text-muted-foreground mt-1">{t('dashboard.helpSupportDesc')}</p>
           </div>
-          <a href={supportMailto('QRbanner Account Help')}>
+          <a href={supportMailto('QRbanner Account Help', helpEmail)}>
             <Button variant="outline" className="gap-2">
-              <Mail className="h-4 w-4" /> {SUPPORT_EMAIL}
+              <Mail className="h-4 w-4" /> {helpEmail}
             </Button>
           </a>
         </CardContent>

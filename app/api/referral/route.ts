@@ -2,7 +2,13 @@ export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { ensureReferralCode, parseBrandingSettings } from '@/lib/referral';
+import {
+  canUseWhiteLabel,
+  ensureReferralCode,
+  normalizeBrandColor,
+  normalizeLogoUrl,
+  parseBrandingSettings,
+} from '@/lib/referral';
 import { canClaimReferralReward, getReferralRewardProgress } from '@/lib/referral-rewards';
 import { siteBaseUrl } from '@/lib/billing-provider';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
@@ -61,9 +67,13 @@ export async function PATCH(req: Request) {
       ...(body.hidePoweredBy !== undefined ? { hidePoweredBy: Boolean(body.hidePoweredBy) } : {}),
       ...(body.agencyName !== undefined ? { agencyName: String(body.agencyName).trim() || undefined } : {}),
       ...(body.supportEmail !== undefined ? { supportEmail: String(body.supportEmail).trim() || undefined } : {}),
+      ...(body.logoUrl !== undefined ? { logoUrl: normalizeLogoUrl(body.logoUrl) } : {}),
+      ...(body.brandColor !== undefined ? { brandColor: normalizeBrandColor(body.brandColor) } : {}),
     };
 
-    if (next.hidePoweredBy && user.plan !== 'agency' && user.plan !== 'business') {
+    const wantsWhiteLabelChrome =
+      Boolean(next.hidePoweredBy) || Boolean(next.logoUrl) || Boolean(next.brandColor);
+    if (wantsWhiteLabelChrome && !canUseWhiteLabel(user.plan)) {
       return NextResponse.json(
         { error: 'White-label branding requires Business or Agency plan' },
         { status: 403 }
@@ -86,6 +96,8 @@ export async function PATCH(req: Request) {
         meta: {
           hidePoweredBy: next.hidePoweredBy,
           agencyName: next.agencyName ?? null,
+          logoUrl: next.logoUrl ?? null,
+          brandColor: next.brandColor ?? null,
         },
       });
     }

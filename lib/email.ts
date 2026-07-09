@@ -202,25 +202,38 @@ export async function sendTeamInviteEmail(
   to: string,
   payload: import('@/lib/i18n/team-invite-email').TeamInviteEmailPayload,
   locale: import('@/lib/i18n/types').Locale = 'en',
+  workspaceId?: string | null,
 ) {
+  const { resolveWorkspaceEmailBrand } = await import('@/lib/email-branding');
+  const brand = await resolveWorkspaceEmailBrand(workspaceId);
   const { buildTeamInviteEmailContent } = await import('@/lib/i18n/team-invite-email');
-  const { subject, html, text } = buildTeamInviteEmailContent(locale, payload);
+  const { subject, html, text } = buildTeamInviteEmailContent(locale, payload, {
+    ...brand.shell,
+    brandColor: brand.brandColor,
+  });
 
-  if (!getTransporter()) {
+  const { sendTenantMail } = await import('@/lib/tenant-email');
+  const result = await sendTenantMail({
+    workspaceId,
+    to,
+    subject,
+    text,
+    html,
+    fromName: brand.fromName,
+    replyTo: brand.supportEmail,
+  });
+
+  if (!result.sent && !result.fallback) {
+    throw new EmailNotConfiguredError('team invite email');
+  }
+  if (!result.sent && result.fallback) {
     if (isDevEmailFallbackAllowed()) {
       logDevEmailSkipped('team invite', to);
       return { sent: false, fallback: true };
     }
     throw new EmailNotConfiguredError('team invite email');
   }
-
-  try {
-    const result = await deliverMail({ to, subject, text, html, kind: 'team_invite' });
-    return result;
-  } catch (error) {
-    console.error('[email] Team invite send failed:', error);
-    throw error;
-  }
+  return { sent: true, fallback: false };
 }
 
 export interface ScanNotificationPayload {
@@ -256,6 +269,7 @@ export async function sendScanNotificationEmail(
     text,
     html,
     fromName: brand.fromName,
+    replyTo: brand.supportEmail,
   });
   return { sent: result.sent, fallback: result.fallback };
 }
@@ -283,6 +297,7 @@ export async function sendAutomationNotification(
     text,
     html,
     fromName: brand.fromName,
+    replyTo: brand.supportEmail,
   });
   return { sent: result.sent, fallback: result.fallback };
 }

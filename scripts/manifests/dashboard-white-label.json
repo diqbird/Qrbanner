@@ -1,0 +1,31 @@
+{
+  "upload": [
+    "lib/referral.ts",
+    "lib/branding-settings-utils.ts",
+    "lib/color-utils.ts",
+    "lib/email-branding.ts",
+    "lib/workspace-audit-export.ts",
+    "lib/site-contact.ts",
+    "lib/tenant-email.ts",
+    "lib/email.ts",
+    "lib/i18n/email-shell.ts",
+    "lib/i18n/team-invite-email.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "app/api/referral/route.ts",
+    "app/api/workspace/members/route.ts",
+    "hooks/use-dashboard-shell.ts",
+    "components/dashboard/dashboard-brand-mark.tsx",
+    "components/dashboard/dashboard-shell.tsx",
+    "components/dashboard/dashboard-sidebar.tsx",
+    "components/dashboard/dashboard-mobile-sidebar.tsx",
+    "components/dashboard/branding-settings-form.tsx",
+    "components/dashboard/settings-account-footer-cards.tsx",
+    "components/dashboard/team-workspace-audit-panel.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

@@ -62,8 +62,34 @@ export interface BrandingSettings {
   hidePoweredBy?: boolean;
   agencyName?: string;
   supportEmail?: string;
+  logoUrl?: string;
+  brandColor?: string;
   referralRewardClaimed?: boolean;
   preferredLocale?: 'en' | 'tr';
+}
+
+const HEX_COLOR_RE = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
+
+export function normalizeBrandColor(value: unknown): string | undefined {
+  if (typeof value !== 'string') return undefined;
+  const trimmed = value.trim();
+  if (!HEX_COLOR_RE.test(trimmed)) return undefined;
+  return trimmed.length === 4
+    ? `#${trimmed[1]}${trimmed[1]}${trimmed[2]}${trimmed[2]}${trimmed[3]}${trimmed[3]}`.toLowerCase()
+    : trimmed.toLowerCase();
+}
+
+export function normalizeLogoUrl(value: unknown): string | undefined {
+  if (typeof value !== 'string') return undefined;
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+  try {
+    const url = new URL(trimmed);
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return undefined;
+    return trimmed.slice(0, 500);
+  } catch {
+    return undefined;
+  }
 }
 
 export function parseBrandingSettings(raw: unknown): BrandingSettings {
@@ -74,6 +100,8 @@ export function parseBrandingSettings(raw: unknown): BrandingSettings {
     hidePoweredBy: Boolean(o.hidePoweredBy),
     agencyName: typeof o.agencyName === 'string' ? o.agencyName : undefined,
     supportEmail: typeof o.supportEmail === 'string' ? o.supportEmail : undefined,
+    logoUrl: normalizeLogoUrl(o.logoUrl),
+    brandColor: normalizeBrandColor(o.brandColor),
     referralRewardClaimed: Boolean(o.referralRewardClaimed),
     preferredLocale,
   };

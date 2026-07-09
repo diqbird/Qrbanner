@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
-import { QrCode, Settings, LogOut, ChevronDown, Shield } from 'lucide-react';
+import { Settings, LogOut, ChevronDown, Shield } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,11 +13,12 @@ import {
 import { useLanguage } from '@/components/i18n/language-provider';
 import { DASHBOARD_NAV_ITEMS } from '@/lib/dashboard-nav-items';
 import type { DashboardShellState } from '@/hooks/use-dashboard-shell';
+import { DashboardBrandMark } from './dashboard-brand-mark';
 
 export function DashboardSidebar({ shell }: { shell: DashboardShellState }) {
   const { t } = useLanguage();
   const router = useRouter();
-  const { session, pathname, isAdmin } = shell;
+  const { session, pathname, isAdmin, chromeBrand } = shell;
 
   const navItems = DASHBOARD_NAV_ITEMS.map((item) => ({
     ...item,
@@ -30,12 +31,7 @@ export function DashboardSidebar({ shell }: { shell: DashboardShellState }) {
   return (
     <aside className="hidden w-64 flex-col border-r border-border/40 bg-card lg:flex">
       <div className="flex h-16 items-center gap-2 border-b border-border/40 px-6">
-        <Link href="/dashboard" className="flex items-center gap-2 rounded-lg transition-opacity hover:opacity-80">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-            <QrCode className="h-5 w-5 text-primary-foreground" />
-          </div>
-          <span className="font-display text-lg font-bold">QRbanner</span>
-        </Link>
+        <DashboardBrandMark brand={chromeBrand} />
       </div>
       <nav className="flex-1 space-y-1 p-4">
         {navItemsWithAdmin.map((item) => {
