@@ -13,6 +13,7 @@
     "lib/admin/modules.ts",
     "lib/admin/types.ts",
     "lib/admin/permissions.ts",
+    "lib/admin-audit.ts",
     "app/api/studio/[token]/route.ts",
     "app/api/studio/[token]/claim/route.ts",
     "app/api/studio/active/route.ts",
