@@ -62,6 +62,18 @@ export async function POST() {
       },
     });
 
+    const { getActiveWorkspaceId } = await import('@/lib/workspace');
+    const { recordWorkspaceAudit } = await import('@/lib/workspace-audit');
+    const workspaceId = await getActiveWorkspaceId(userId);
+    if (workspaceId) {
+      await recordWorkspaceAudit({
+        workspaceId,
+        actorUserId: userId,
+        action: 'api_key.create',
+        meta: { prefix },
+      });
+    }
+
     return NextResponse.json({
       api_key: rawKey,
       prefix,
@@ -87,6 +99,17 @@ export async function DELETE() {
         apiKeyCreatedAt: null,
       },
     });
+
+    const { getActiveWorkspaceId } = await import('@/lib/workspace');
+    const { recordWorkspaceAudit } = await import('@/lib/workspace-audit');
+    const workspaceId = await getActiveWorkspaceId(userId);
+    if (workspaceId) {
+      await recordWorkspaceAudit({
+        workspaceId,
+        actorUserId: userId,
+        action: 'api_key.revoke',
+      });
+    }
 
     return NextResponse.json({ message: 'API key revoked' });
   } catch (error) {

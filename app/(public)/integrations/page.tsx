@@ -20,12 +20,14 @@ export async function generateMetadata(): Promise<Metadata> {
     title: t('integrationsPage.metaTitle'),
     description: t('integrationsPage.metaDescription'),
     path: '/integrations',
-    keywords: ['QR code API', 'QR webhook', 'Zapier QR integration', 'QRbanner integrations'],
+    keywords: ['QR code API', 'QR webhook', 'Zapier QR integration', 'HubSpot QR', 'Salesforce QR', 'QRbanner integrations'],
   });
 }
 
 const INTEGRATION_KEYS = [
   { key: 'zapier', icon: Zap, href: '/integrations/zapier' },
+  { key: 'hubspot', icon: Webhook, href: '/integrations/hubspot' },
+  { key: 'salesforce', icon: Webhook, href: '/integrations/salesforce' },
   { key: 'api', icon: Code2, href: '/developers' },
   { key: 'webhooks', icon: Webhook, href: '/developers#webhooks' },
   { key: 'analytics', icon: BarChart3, href: '/features' },

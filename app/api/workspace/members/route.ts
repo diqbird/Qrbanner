@@ -133,6 +133,14 @@ export async function POST(req: NextRequest) {
       console.error('[workspace/members] invite email failed:', err);
     }
 
+    const { recordWorkspaceAudit } = await import('@/lib/workspace-audit');
+    await recordWorkspaceAudit({
+      workspaceId,
+      actorUserId: userId,
+      action: 'member.invite',
+      meta: { email, role, memberId: member.id },
+    });
+
     return NextResponse.json({ member, inviteUrl });
   }
 
@@ -149,7 +157,51 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Cannot remove workspace owner' }, { status: 400 });
     }
     await prisma.workspaceMember.delete({ where: { id: memberId } });
+
+    const { recordWorkspaceAudit } = await import('@/lib/workspace-audit');
+    await recordWorkspaceAudit({
+      workspaceId,
+      actorUserId: userId,
+      action: 'member.remove',
+      meta: { email: target.email, role: target.role, memberId },
+    });
+
     return NextResponse.json({ ok: true });
+  }
+
+  if (action === 'update_role') {
+    const access = await assertWorkspaceRole(userId, workspaceId, 'admin');
+    if (!access.ok) return NextResponse.json({ error: access.error }, { status: 403 });
+
+    const memberId = String(body.memberId ?? '');
+    const role = String(body.role ?? '');
+    if (!['admin', 'editor', 'viewer'].includes(role)) {
+      return NextResponse.json({ error: 'Invalid role' }, { status: 400 });
+    }
+
+    const target = await prisma.workspaceMember.findFirst({
+      where: { id: memberId, workspaceId },
+    });
+    if (!target) return NextResponse.json({ error: 'Member not found' }, { status: 404 });
+    if (target.role === 'owner') {
+      return NextResponse.json({ error: 'Cannot change owner role' }, { status: 400 });
+    }
+
+    const previousRole = target.role;
+    const member = await prisma.workspaceMember.update({
+      where: { id: memberId },
+      data: { role },
+    });
+
+    const { recordWorkspaceAudit } = await import('@/lib/workspace-audit');
+    await recordWorkspaceAudit({
+      workspaceId,
+      actorUserId: userId,
+      action: 'member.update_role',
+      meta: { email: target.email, memberId, previousRole, role },
+    });
+
+    return NextResponse.json({ member });
   }
 
   if (action === 'update_sso') {
@@ -200,6 +252,18 @@ export async function POST(req: NextRequest) {
         idpCertificate,
       },
     });
+
+    const { recordWorkspaceAudit } = await import('@/lib/workspace-audit');
+    await recordWorkspaceAudit({
+      workspaceId,
+      actorUserId: userId,
+      action: 'sso.update',
+      meta: {
+        ssoEnabled: Boolean(body.ssoEnabled),
+        ssoProvider,
+      },
+    });
+
     return NextResponse.json({ workspace: updated });
   }
 

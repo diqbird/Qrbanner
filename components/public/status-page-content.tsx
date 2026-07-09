@@ -18,6 +18,17 @@ export function StatusPageContent() {
         <p className="mt-3 text-muted-foreground">{t('status.pageSubtitle')}</p>
       </header>
 
+      <div className="mt-8 rounded-xl border border-border/60 bg-muted/30 p-5 text-center">
+        <p className="font-medium">{t('status.slaTitle')}</p>
+        <p className="mt-2 text-sm text-muted-foreground">{t('status.slaBody')}</p>
+        <Link
+          href="/downloads/enterprise-overview"
+          className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
+        >
+          {t('status.slaLink')} →
+        </Link>
+      </div>
+
       <StatusPageStatusPanel
         t={t}
         locale={locale}

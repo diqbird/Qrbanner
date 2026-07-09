@@ -40,15 +40,22 @@ export function AdminSupportPage() {
   const { t, locale } = useLanguage();
   const queryClient = useQueryClient();
   const [statusFilter, setStatusFilter] = useState('all');
+  const [typeFilter, setTypeFilter] = useState('all');
 
   const { data, isLoading, refetch } = useQuery({
-    queryKey: adminQueryKeys.support({ status: statusFilter }),
+    queryKey: adminQueryKeys.support({ status: statusFilter, type: typeFilter }),
     queryFn: async () => {
       const params = new URLSearchParams();
       if (statusFilter !== 'all') params.set('status', statusFilter);
+      if (typeFilter !== 'all') params.set('type', typeFilter);
       const res = await fetch(`/api/admin/support?${params}`);
       if (!res.ok) throw new Error('support');
-      return res.json() as Promise<{ items: Inquiry[]; openCount: number; total: number }>;
+      return res.json() as Promise<{
+        items: Inquiry[];
+        openCount: number;
+        total: number;
+        enterpriseOpenCount: number;
+      }>;
     },
   });
 
@@ -78,6 +85,13 @@ export function AdminSupportPage() {
         ? t('superAdmin.support.inProgress')
         : t('superAdmin.support.closed');
 
+  const typeLabel = (type: string) =>
+    type === 'enterprise'
+      ? t('superAdmin.support.typeEnterprise')
+      : type === 'demo'
+        ? t('superAdmin.support.typeDemo')
+        : t('superAdmin.support.typeGeneral');
+
   return (
     <div className="space-y-6">
       <AdminPageHeader
@@ -85,9 +99,17 @@ export function AdminSupportPage() {
         description={t('superAdmin.support.desc')}
         actions={
           data ? (
-            <Badge variant="secondary">
-              {t('superAdmin.support.openCount', { count: formatLocaleNumber(data.openCount, locale) })}
-            </Badge>
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="secondary">
+                {t('superAdmin.support.openCount', { count: formatLocaleNumber(data.openCount, locale) })}
+              </Badge>
+              {data.enterpriseOpenCount > 0 ? (
+                <Badge variant="default">
+                  {t('superAdmin.support.filterEnterprise')}:{' '}
+                  {formatLocaleNumber(data.enterpriseOpenCount, locale)}
+                </Badge>
+              ) : null}
+            </div>
           ) : null
         }
       />
@@ -103,6 +125,19 @@ export function AdminSupportPage() {
         onRefresh={() => refetch()}
         refreshLabel={t('admin.refresh')}
       />
+      <div className="flex flex-wrap gap-2">
+        <Select value={typeFilter} onValueChange={setTypeFilter}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{t('superAdmin.support.filterTypeAll')}</SelectItem>
+            <SelectItem value="enterprise">{t('superAdmin.support.filterEnterprise')}</SelectItem>
+            <SelectItem value="demo">{t('superAdmin.support.filterDemo')}</SelectItem>
+            <SelectItem value="general">{t('superAdmin.support.filterGeneral')}</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
       {isLoading ? <AdminLoadingState /> : null}
       {!isLoading && items.length === 0 ? (
         <AdminEmptyState title={t('superAdmin.support.empty')} description={t('superAdmin.support.emptyHint')} />
@@ -116,7 +151,12 @@ export function AdminSupportPage() {
                   <div className="flex flex-wrap items-center gap-2">
                     <p className="font-medium">{inq.name}</p>
                     <span className="text-sm text-muted-foreground">{inq.email}</span>
-                    <Badge variant="outline" className="text-xs">{inq.type}</Badge>
+                    <Badge
+                      variant={inq.type === 'enterprise' ? 'default' : 'outline'}
+                      className="text-xs"
+                    >
+                      {typeLabel(inq.type)}
+                    </Badge>
                     <Badge variant={STATUS_VARIANTS[inq.status] ?? 'secondary'}>{statusLabel(inq.status)}</Badge>
                   </div>
                   {inq.company ? (

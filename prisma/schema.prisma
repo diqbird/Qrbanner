@@ -373,8 +373,23 @@ model Workspace {
   qrCodes          QRCode[]
   clients          WorkspaceClient[]
   folders          QRFolder[]
+  auditLogs        WorkspaceAuditLog[]
 
   @@index([ownerId])
+}
+
+model WorkspaceAuditLog {
+  id          String   @id @default(cuid())
+  workspaceId String
+  actorUserId String?
+  action      String
+  meta        Json?
+  createdAt   DateTime @default(now())
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, createdAt(sort: Desc)])
+  @@index([action])
+  @@index([actorUserId])
 }
 
 model WorkspaceClient {

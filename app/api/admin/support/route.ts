@@ -11,9 +11,12 @@ export async function GET(req: NextRequest) {
   if (isAuthError(auth)) return auth;
 
   const status = req.nextUrl.searchParams.get('status');
-  const where = status && status !== 'all' ? { status } : {};
+  const type = req.nextUrl.searchParams.get('type');
+  const where: { status?: string; type?: string } = {};
+  if (status && status !== 'all') where.status = status;
+  if (type && type !== 'all') where.type = type;
 
-  const [items, openCount, total] = await Promise.all([
+  const [items, openCount, total, enterpriseOpenCount] = await Promise.all([
     prisma.contactInquiry.findMany({
       where,
       orderBy: { createdAt: 'desc' },
@@ -21,9 +24,10 @@ export async function GET(req: NextRequest) {
     }),
     prisma.contactInquiry.count({ where: { status: 'open' } }),
     prisma.contactInquiry.count(),
+    prisma.contactInquiry.count({ where: { type: 'enterprise', status: 'open' } }),
   ]);
 
-  return NextResponse.json({ items, openCount, total });
+  return NextResponse.json({ items, openCount, total, enterpriseOpenCount });
 }
 
 const patchSchema = z.object({

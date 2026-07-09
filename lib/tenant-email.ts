@@ -93,6 +93,8 @@ export async function testWorkspaceSmtp(
   to: string,
   locale: Locale = 'en',
 ): Promise<{ sent: boolean }> {
+  const { resolveWorkspaceEmailBrand } = await import('@/lib/email-branding');
+  const brand = await resolveWorkspaceEmailBrand(workspaceId);
   const { subject, text, html } = buildSmtpTestEmailContent(locale);
   const result = await sendTenantMail({
     workspaceId,
@@ -100,7 +102,7 @@ export async function testWorkspaceSmtp(
     subject,
     text,
     html,
-    fromName: 'QRbanner',
+    fromName: brand.fromName,
   });
   return { sent: result.sent };
 }

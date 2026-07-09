@@ -6,6 +6,7 @@ import {
 } from '@/lib/i18n/resolve-analytics-scan-copy';
 import { resolveAnalyticsCityLabel } from '@/lib/i18n/resolve-analytics-city-label';
 import type { ScanNotificationPayload } from '@/lib/email';
+import type { EmailShellOptions } from '@/lib/i18n/email-shell';
 
 type TranslateFn = (key: string, vars?: Record<string, string | number>) => string;
 
@@ -16,9 +17,15 @@ function t(locale: Locale, key: string, vars?: Record<string, string | number>):
 export function buildScanNotificationEmailContent(
   locale: Locale,
   payload: ScanNotificationPayload,
+  shell?: EmailShellOptions,
 ): { subject: string; headline: string; html: string; text: string } {
   const tr = (key: string, vars?: Record<string, string | number>) => t(locale, key, vars);
   const tf = tr as TranslateFn;
+  const brandName = (shell?.brandName?.trim() || 'QRbanner').slice(0, 80);
+  const year = new Date().getFullYear();
+  const copyright = shell?.hidePoweredBy
+    ? tr('authEmail.footerRightsBrand', { year, brand: brandName })
+    : `© ${year} QRbanner`;
 
   const greeting = payload.userName
     ? tr('scanNotifyEmail.greeting', { name: payload.userName })
@@ -66,7 +73,7 @@ export function buildScanNotificationEmailContent(
   <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;max-width:520px;margin:0 auto;padding:32px 24px;color:#1d1d1f">
     <div style="text-align:center;margin-bottom:24px">
       <div style="display:inline-block;width:48px;height:48px;line-height:48px;background:#0071e3;color:#fff;border-radius:14px;font-size:22px">▣</div>
-      <h1 style="font-size:18px;margin:12px 0 0;font-weight:600">QRbanner</h1>
+      <h1 style="font-size:18px;margin:12px 0 0;font-weight:600">${brandName}</h1>
     </div>
     <h2 style="font-size:20px;font-weight:700;margin:0 0 16px;letter-spacing:-.02em">${headline}</h2>
     <p style="font-size:15px;line-height:1.5">${greeting}</p>
@@ -83,7 +90,7 @@ export function buildScanNotificationEmailContent(
     </div>
     <p style="font-size:12px;color:#86868b;text-align:center">${footer}</p>
     <hr style="border:none;border-top:1px solid #e5e5ea;margin:24px 0" />
-    <p style="font-size:11px;color:#aeaeb2;text-align:center">&copy; ${new Date().getFullYear()} QRbanner</p>
+    <p style="font-size:11px;color:#aeaeb2;text-align:center">${copyright}</p>
   </div>`;
 
   const text = [

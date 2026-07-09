@@ -6,6 +6,8 @@ import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 
 type Translate = (key: string, vars?: Record<string, string | number>) => string;
 
+export type InviteRole = 'viewer' | 'editor' | 'admin';
+
 export function useTeamWorkspaceMemberActions({
   activeId,
   t,
@@ -18,6 +20,7 @@ export function useTeamWorkspaceMemberActions({
   fetchMembers: (wsId: string) => Promise<void>;
 }) {
   const [inviteEmail, setInviteEmail] = useState('');
+  const [inviteRole, setInviteRole] = useState<InviteRole>('editor');
 
   const inviteMember = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +34,7 @@ export function useTeamWorkspaceMemberActions({
           action: 'invite',
           workspaceId: activeId,
           email: inviteEmail.trim(),
-          role: 'editor',
+          role: inviteRole,
         }),
       });
       const payload = await res.json();
@@ -58,5 +61,37 @@ export function useTeamWorkspaceMemberActions({
     }
   };
 
-  return { inviteEmail, setInviteEmail, inviteMember, removeMember };
+  const updateMemberRole = async (memberId: string, role: InviteRole) => {
+    setWorking(true);
+    try {
+      const res = await fetch('/api/workspace/members', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'update_role',
+          workspaceId: activeId,
+          memberId,
+          role,
+        }),
+      });
+      const payload = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        return toast.error(resolveApiError(t, payload.error, 'settings.team.roleUpdateFailed'));
+      }
+      toast.success(t('settings.team.roleUpdated'));
+      fetchMembers(activeId);
+    } finally {
+      setWorking(false);
+    }
+  };
+
+  return {
+    inviteEmail,
+    setInviteEmail,
+    inviteRole,
+    setInviteRole,
+    inviteMember,
+    removeMember,
+    updateMemberRole,
+  };
 }

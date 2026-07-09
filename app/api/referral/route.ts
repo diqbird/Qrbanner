@@ -75,6 +75,21 @@ export async function PATCH(req: Request) {
       data: { brandingSettings: next },
     });
 
+    const { getActiveWorkspaceId } = await import('@/lib/workspace');
+    const { recordWorkspaceAudit } = await import('@/lib/workspace-audit');
+    const workspaceId = await getActiveWorkspaceId(userId);
+    if (workspaceId) {
+      await recordWorkspaceAudit({
+        workspaceId,
+        actorUserId: userId,
+        action: 'branding.update',
+        meta: {
+          hidePoweredBy: next.hidePoweredBy,
+          agencyName: next.agencyName ?? null,
+        },
+      });
+    }
+
     return NextResponse.json({ branding: next });
   } catch (error) {
     console.error('[referral PATCH branding]', error);

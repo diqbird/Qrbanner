@@ -199,6 +199,8 @@ export interface RenderLandingPageOptions {
   qrName?: string;
   gpsHeatmapEnabled?: boolean;
   hidePoweredBy?: boolean;
+  /** When set, shown in the footer instead of (or beside) QRbanner */
+  agencyName?: string;
   /** Static iframe preview in the editor — disables tracking and navigation */
   preview?: boolean;
   locale?: Locale;
@@ -215,6 +217,7 @@ export function renderLandingPage(
     qrName,
     gpsHeatmapEnabled,
     hidePoweredBy,
+    agencyName,
     preview = false,
     locale = 'en',
   } = options;
@@ -295,9 +298,14 @@ export function renderLandingPage(
       ? hubLinksHtml
       : `<a class="cta" href="${goUrl}" ${ctaClick}>${cta}</a>`;
 
+  const agency = agencyName?.trim();
   const footer = hidePoweredBy
-    ? ''
-    : `<div class="footer">${landingCopy.poweredBy} <a href="https://qrbanner.com">QRbanner</a></div>`;
+    ? agency
+      ? `<div class="footer">${escapeHtml(agency)}</div>`
+      : ''
+    : agency
+      ? `<div class="footer">${escapeHtml(agency)} · ${landingCopy.poweredBy} <a href="https://qrbanner.com">QRbanner</a></div>`
+      : `<div class="footer">${landingCopy.poweredBy} <a href="https://qrbanner.com">QRbanner</a></div>`;
 
   return `<!DOCTYPE html>
 <html lang="${locale}">

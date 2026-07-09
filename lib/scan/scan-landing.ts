@@ -48,9 +48,9 @@ export async function landingPageResponse(
     select: { plan: true, brandingSettings: true },
   });
   const branding = parseBrandingSettings(owner?.brandingSettings);
-  const hidePoweredBy =
-    Boolean(branding.hidePoweredBy) &&
-    (owner?.plan === 'agency' || owner?.plan === 'business');
+  const canWhiteLabel = owner?.plan === 'agency' || owner?.plan === 'business';
+  const hidePoweredBy = Boolean(branding.hidePoweredBy) && canWhiteLabel;
+  const agencyName = canWhiteLabel ? branding.agencyName?.trim() || undefined : undefined;
 
   const locale = pickScanLocale(req.headers.get('accept-language'));
 
@@ -59,6 +59,7 @@ export async function landingPageResponse(
     qrName: qrCode.name,
     gpsHeatmapEnabled: qrCode.gpsHeatmapEnabled,
     hidePoweredBy,
+    agencyName,
     locale,
   });
   return withScanHeaders(

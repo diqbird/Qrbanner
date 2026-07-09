@@ -110,6 +110,15 @@ export async function PATCH(req: NextRequest) {
       data: { smtpEnabled, smtpHost, smtpPort, smtpUser, smtpFrom, smtpPasswordEnc },
       select: enterpriseSelect,
     });
+
+    const { recordWorkspaceAudit } = await import('@/lib/workspace-audit');
+    await recordWorkspaceAudit({
+      workspaceId,
+      actorUserId: userId,
+      action: 'smtp.update',
+      meta: { smtpEnabled, smtpHost, smtpPort, smtpUser, smtpFrom },
+    });
+
     return NextResponse.json({ workspace: updated });
   }
 
@@ -167,6 +176,15 @@ export async function PATCH(req: NextRequest) {
       data,
       select: enterpriseSelect,
     });
+
+    const { recordWorkspaceAudit } = await import('@/lib/workspace-audit');
+    await recordWorkspaceAudit({
+      workspaceId,
+      actorUserId: userId,
+      action: 'scim.update',
+      meta: { scimEnabled, regenerated: Boolean(body.regenerateToken) },
+    });
+
     return NextResponse.json({ workspace: updated, scimToken });
   }
 

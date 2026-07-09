@@ -3,13 +3,23 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Mail, Trash2 } from 'lucide-react';
 import { resolveEnumLabel } from '@/lib/i18n/resolve-enum-label';
 import type { TeamWorkspaceState } from '@/hooks/use-team-workspace';
+import type { InviteRole } from '@/hooks/use-team-workspace-member-actions';
 
 type TeamMembersPanelProps = {
   team: TeamWorkspaceState;
 };
+
+const INVITE_ROLES: InviteRole[] = ['viewer', 'editor', 'admin'];
 
 export function TeamMembersPanel({ team }: TeamMembersPanelProps) {
   const {
@@ -18,9 +28,12 @@ export function TeamMembersPanel({ team }: TeamMembersPanelProps) {
     canManage,
     inviteEmail,
     setInviteEmail,
+    inviteRole,
+    setInviteRole,
     working,
     inviteMember,
     removeMember,
+    updateMemberRole,
   } = team;
 
   return (
@@ -34,6 +47,18 @@ export function TeamMembersPanel({ team }: TeamMembersPanelProps) {
             onChange={(e) => setInviteEmail(e.target.value)}
             className="max-w-xs"
           />
+          <Select value={inviteRole} onValueChange={(v) => setInviteRole(v as InviteRole)}>
+            <SelectTrigger className="w-[130px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {INVITE_ROLES.map((role) => (
+                <SelectItem key={role} value={role}>
+                  {resolveEnumLabel(t, 'settings.team.roles', role)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <Button type="submit" loading={working} className="gap-1">
             <Mail className="h-4 w-4" /> {t('settings.team.invite')}
           </Button>
@@ -53,7 +78,26 @@ export function TeamMembersPanel({ team }: TeamMembersPanelProps) {
                 <p className="text-xs text-muted-foreground">{m.email}</p>
               </div>
               <div className="flex items-center gap-2">
-                <Badge variant="secondary">{resolveEnumLabel(t, 'settings.team.roles', m.role)}</Badge>
+                {canManage && m.role !== 'owner' ? (
+                  <Select
+                    value={m.role}
+                    onValueChange={(role) => updateMemberRole(m.id, role as InviteRole)}
+                    disabled={working}
+                  >
+                    <SelectTrigger className="h-8 w-[110px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {INVITE_ROLES.map((role) => (
+                        <SelectItem key={role} value={role}>
+                          {resolveEnumLabel(t, 'settings.team.roles', role)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <Badge variant="secondary">{resolveEnumLabel(t, 'settings.team.roles', m.role)}</Badge>
+                )}
                 <Badge variant={m.status === 'active' ? 'default' : 'outline'}>
                   {resolveEnumLabel(t, 'settings.team.statuses', m.status)}
                 </Badge>

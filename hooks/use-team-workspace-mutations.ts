@@ -25,7 +25,7 @@ export function useTeamWorkspaceMutations({
     fetchMembers,
   });
 
-  const { inviteEmail, setInviteEmail, inviteMember, removeMember } = useTeamWorkspaceMemberActions({
+  const memberActions = useTeamWorkspaceMemberActions({
     activeId,
     t,
     setWorking,
@@ -33,13 +33,10 @@ export function useTeamWorkspaceMutations({
   });
 
   return {
-    inviteEmail,
-    setInviteEmail,
+    ...memberActions,
     newTeamName,
     setNewTeamName,
     switchWorkspace,
     createTeam,
-    inviteMember,
-    removeMember,
   };
 }

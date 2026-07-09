@@ -244,8 +244,10 @@ export async function sendScanNotificationEmail(
   workspaceId?: string | null,
   locale: import('@/lib/i18n/types').Locale = 'en',
 ) {
+  const { resolveWorkspaceEmailBrand } = await import('@/lib/email-branding');
+  const brand = await resolveWorkspaceEmailBrand(workspaceId);
   const { buildScanNotificationEmailContent } = await import('@/lib/i18n/scan-notification-email');
-  const { subject, html, text } = buildScanNotificationEmailContent(locale, payload);
+  const { subject, html, text } = buildScanNotificationEmailContent(locale, payload, brand.shell);
 
   const result = await sendTenantMail({
     workspaceId,
@@ -253,7 +255,7 @@ export async function sendScanNotificationEmail(
     subject,
     text,
     html,
-    fromName: 'QRbanner',
+    fromName: brand.fromName,
   });
   return { sent: result.sent, fallback: result.fallback };
 }
@@ -265,11 +267,14 @@ export async function sendAutomationNotification(
   workspaceId?: string | null,
   locale: import('@/lib/i18n/types').Locale = 'en',
 ): Promise<{ sent: boolean; fallback?: boolean }> {
+  const { resolveWorkspaceEmailBrand } = await import('@/lib/email-branding');
+  const brand = await resolveWorkspaceEmailBrand(workspaceId);
   const { buildEmailShell } = await import('@/lib/i18n/email-shell');
   const escaped = text.replace(/</g, '&lt;');
   const html = buildEmailShell(
     locale,
     `<p style="font-size:15px;white-space:pre-wrap;margin:0">${escaped}</p>`,
+    brand.shell,
   );
   const result = await sendTenantMail({
     workspaceId,
@@ -277,7 +282,7 @@ export async function sendAutomationNotification(
     subject,
     text,
     html,
-    fromName: 'QRbanner',
+    fromName: brand.fromName,
   });
   return { sent: result.sent, fallback: result.fallback };
 }

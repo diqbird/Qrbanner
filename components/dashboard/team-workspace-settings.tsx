@@ -7,10 +7,11 @@ import { useTeamWorkspace } from '@/hooks/use-team-workspace';
 import { TeamWorkspaceSwitcher } from './team-workspace-switcher';
 import { TeamMembersPanel } from './team-members-panel';
 import { TeamSsoPanel } from './team-sso-panel';
+import { TeamWorkspaceAuditPanel } from './team-workspace-audit-panel';
 
 export function TeamWorkspaceSettings() {
   const team = useTeamWorkspace();
-  const { t, loading } = team;
+  const { t, loading, activeId, canManage } = team;
 
   if (loading) return <SettingsCardSkeleton />;
 
@@ -26,6 +27,7 @@ export function TeamWorkspaceSettings() {
         <TeamWorkspaceSwitcher team={team} />
         <TeamMembersPanel team={team} />
         <TeamSsoPanel team={team} />
+        <TeamWorkspaceAuditPanel workspaceId={activeId} canView={canManage} />
       </CardContent>
     </Card>
   );
