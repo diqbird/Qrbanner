@@ -22,6 +22,7 @@ export function useQrCreateCoreState() {
   const [activeTemplate, setActiveTemplate] = useState<IndustryTemplate | null>(null);
   const [templateGuideDismissed, setTemplateGuideDismissed] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [publishAsActive, setPublishAsActive] = useState(true);
   const [mode, setMode] = useState<'quick' | 'wizard'>(() =>
     searchParams?.get('quick') === '1' ? 'quick' : 'wizard',
   );
@@ -49,6 +50,8 @@ export function useQrCreateCoreState() {
     setTemplateGuideDismissed,
     saving,
     setSaving,
+    publishAsActive,
+    setPublishAsActive,
     mode,
     setMode,
   };

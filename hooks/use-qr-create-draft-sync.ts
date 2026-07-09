@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import {
   loadQrCreateDraft,
   saveQrCreateDraft,
+  markQrCreateAutosave,
   type QrCreateDraft,
 } from '@/lib/qr-create-draft';
 
@@ -32,6 +33,7 @@ export function useQrCreateDraftSync({
 
   const redirectGuestToSignup = useCallback(() => {
     saveQrCreateDraft({ ...buildCurrentDraft(), step: 3 });
+    markQrCreateAutosave();
     const callback = encodeURIComponent('/qr/create?restore=1');
     router.push(`/signup?callbackUrl=${callback}`);
   }, [buildCurrentDraft, router]);
@@ -49,7 +51,10 @@ export function useQrCreateDraftSync({
     draftRestored.current = true;
     applyDraft(draft);
     toast.success(t('create.draftRestored'));
-    router.replace('/qr/create');
+    // Let React commit draft state before soft-navigating (avoids remount wiping form).
+    window.setTimeout(() => {
+      router.replace('/qr/create?autosave=1');
+    }, 50);
   }, [authStatus, restoreParam, applyDraft, router, t]);
 
   useEffect(() => {

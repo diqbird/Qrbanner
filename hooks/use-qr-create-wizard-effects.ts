@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import type { IndustryTemplate } from '@/lib/industry-templates';
 import type { LandingPageData } from '@/lib/landing-page';
-import { canProceedCreateStep } from '@/lib/qr-create-can-proceed';
+import { canProceedCreateStep, getCreateStepBlockers } from '@/lib/qr-create-can-proceed';
 
 export function useQrCreateWizardEffects(step: number) {
   useEffect(() => {
@@ -17,15 +17,7 @@ export function useQrCreateWizardEffects(step: number) {
   }, [step]);
 }
 
-export function createCanProceedCreateStep({
-  step,
-  category,
-  name,
-  qrData,
-  payloadData,
-  activeTemplate,
-  landingPage,
-}: {
+type ProceedArgs = {
   step: number;
   category: string;
   name: string;
@@ -33,15 +25,12 @@ export function createCanProceedCreateStep({
   payloadData: () => Record<string, string>;
   activeTemplate: IndustryTemplate | null;
   landingPage: LandingPageData;
-}) {
-  return () =>
-    canProceedCreateStep({
-      step,
-      category,
-      name,
-      qrData,
-      payloadData,
-      activeTemplate,
-      landingPage,
-    });
+};
+
+export function createCanProceedCreateStep(args: ProceedArgs) {
+  return () => canProceedCreateStep(args);
+}
+
+export function createGetCreateStepBlockers(args: ProceedArgs) {
+  return () => getCreateStepBlockers(args);
 }

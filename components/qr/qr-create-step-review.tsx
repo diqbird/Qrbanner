@@ -3,6 +3,8 @@
 import dynamic from 'next/dynamic';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveCategoryDisplayName } from '@/lib/i18n/resolve-qr-category-copy';
 import { QRPreviewSkeleton } from '@/components/qr/qr-preview-skeleton';
@@ -19,7 +21,18 @@ type QrCreateStepReviewProps = {
 
 export function QrCreateStepReview({ form }: QrCreateStepReviewProps) {
   const { t } = useLanguage();
-  const { name, category, style, logoFile, qrData, logoPreview, activeTemplate, landingPage } = form;
+  const {
+    name,
+    category,
+    style,
+    logoFile,
+    qrData,
+    logoPreview,
+    activeTemplate,
+    landingPage,
+    publishAsActive,
+    setPublishAsActive,
+  } = form;
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
@@ -58,6 +71,22 @@ export function QrCreateStepReview({ form }: QrCreateStepReviewProps) {
             <div className="flex items-center gap-2">
               <div className="h-4 w-4 rounded border" style={{ backgroundColor: style?.bgColor ?? '#FFF' }} />
               <span className="font-mono text-xs">{style?.bgColor ?? '#FFF'}</span>
+            </div>
+          </div>
+
+          <div className="rounded-lg border border-border/60 bg-muted/20 p-3 space-y-2">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <Label htmlFor="publish-active">{t('create.publishActive')}</Label>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  {publishAsActive ? t('create.publishActiveHint') : t('create.publishDraftHint')}
+                </p>
+              </div>
+              <Switch
+                id="publish-active"
+                checked={publishAsActive}
+                onCheckedChange={setPublishAsActive}
+              />
             </div>
           </div>
         </CardContent>

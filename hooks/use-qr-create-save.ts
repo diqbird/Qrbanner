@@ -31,6 +31,7 @@ export function useQrCreateSave({
   router,
   t,
   setSaving,
+  isActive = true,
 }: {
   name: string;
   category: string;
@@ -47,6 +48,7 @@ export function useQrCreateSave({
   router: AppRouterInstance;
   t: Translate;
   setSaving: (v: boolean) => void;
+  isActive?: boolean;
 }) {
   const handleSave = useCallback(async () => {
     if (!name.trim()) {
@@ -75,6 +77,7 @@ export function useQrCreateSave({
         logoPath,
         advanced,
         featureFields,
+        isActive,
       });
 
       if (result.ok) {
@@ -103,6 +106,7 @@ export function useQrCreateSave({
     style,
     advanced,
     featureFields,
+    isActive,
     router,
     t,
   ]);

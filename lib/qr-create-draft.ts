@@ -8,6 +8,8 @@ import type { ScanNotifyValues } from '@/components/qr/scan-notify-settings';
 import type { PixelAnalyticsConfig } from '@/components/qr/analytics-pixel-settings';
 
 export const QR_CREATE_DRAFT_KEY = 'qrb_create_draft';
+/** Set when a guest is sent to signup from the final save CTA — triggers auto-save after restore. */
+export const QR_CREATE_AUTOSAVE_KEY = 'qrb_create_autosave';
 
 export interface QrCreateDraft {
   version: 1;
@@ -58,4 +60,21 @@ export function clearQrCreateDraft(): void {
   try {
     sessionStorage.removeItem(QR_CREATE_DRAFT_KEY);
   } catch {}
+}
+
+export function markQrCreateAutosave(): void {
+  try {
+    sessionStorage.setItem(QR_CREATE_AUTOSAVE_KEY, '1');
+  } catch {}
+}
+
+export function consumeQrCreateAutosave(): boolean {
+  try {
+    const v = sessionStorage.getItem(QR_CREATE_AUTOSAVE_KEY);
+    if (v !== '1') return false;
+    sessionStorage.removeItem(QR_CREATE_AUTOSAVE_KEY);
+    return true;
+  } catch {
+    return false;
+  }
 }

@@ -4,7 +4,10 @@ import { useCallback } from 'react';
 import type { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import type { QRStyleConfig } from '@/lib/qr-style';
 import { useQrCreateSave } from '@/hooks/use-qr-create-save';
-import { createCanProceedCreateStep } from '@/hooks/use-qr-create-wizard-effects';
+import {
+  createCanProceedCreateStep,
+  createGetCreateStepBlockers,
+} from '@/hooks/use-qr-create-wizard-effects';
 import type { QrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import type { useQrCreateCoreState } from '@/hooks/use-qr-create-core-state';
 
@@ -68,9 +71,10 @@ export function useQrCreateFormWizardSave({
     router,
     t,
     setSaving,
+    isActive: core.publishAsActive,
   });
 
-  const canProceed = createCanProceedCreateStep({
+  const proceedArgs = {
     step,
     category,
     name,
@@ -78,7 +82,10 @@ export function useQrCreateFormWizardSave({
     payloadData,
     activeTemplate,
     landingPage,
-  });
+  };
+
+  const canProceed = createCanProceedCreateStep(proceedArgs);
+  const getBlockers = createGetCreateStepBlockers(proceedArgs);
 
   const enterWizardFromQuick = useCallback(
     (data: { url?: string; name?: string; style?: Partial<QRStyleConfig> }) => {
@@ -88,5 +95,5 @@ export function useQrCreateFormWizardSave({
     [enterWizardFromQuickInner, setMode],
   );
 
-  return { goToStep, handleSave, canProceed, enterWizardFromQuick };
+  return { goToStep, handleSave, canProceed, getBlockers, enterWizardFromQuick };
 }

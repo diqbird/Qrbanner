@@ -14,6 +14,7 @@ import { QrCreateGuestBanner } from './qr-create-guest-banner';
 import { QrCreateStepIndicator } from './qr-create-step-indicator';
 import { QrCreateWizardFooter } from './qr-create-wizard-footer';
 import { QrCreateDesignStep } from './qr-create-design-step';
+import { QrCreateTrustStrip } from './qr-create-trust-strip';
 
 export function QRCreateWizard() {
   const { t } = useLanguage();
@@ -53,6 +54,7 @@ export function QRCreateWizard() {
         <p className="mt-1 text-muted-foreground">{t('create.subtitle')}</p>
       </div>
 
+      <QrCreateTrustStrip />
       <QrCreateStepIndicator step={step} />
       <CreateStepTip step={step} />
 
@@ -68,6 +70,7 @@ export function QRCreateWizard() {
         isGuest={isGuest}
         saving={form.saving}
         canProceed={form.canProceed}
+        getBlockers={form.getBlockers}
         goToStep={form.goToStep}
         handleSave={form.handleSave}
       />

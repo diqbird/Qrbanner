@@ -139,7 +139,7 @@ export async function POST(req: NextRequest) {
             gpsHeatmapEnabled, nfcEnabled,
             scanNotifyEnabled, scanNotifyFirst, scanNotifyMilestones, scanNotifyEvery,
             ga4Enabled, ga4MeasurementId, metaPixelEnabled, metaPixelId,
-            folderId, labels } = body;
+            folderId, labels, isActive } = body;
 
     if (!name || !category) {
       return NextResponse.json({ error: 'Name and category are required' }, { status: 400 });
@@ -192,6 +192,7 @@ export async function POST(req: NextRequest) {
         style: style ?? {},
         logoPath: logoPath ?? null,
         logoIsPublic: logoIsPublic ?? true,
+        isActive: isActive === false ? false : true,
         password: hashedPassword,
         expiresAt: expiresAt ? new Date(expiresAt) : null,
         scanLimit: scanLimit != null && scanLimit !== '' ? parseInt(String(scanLimit), 10) : null,

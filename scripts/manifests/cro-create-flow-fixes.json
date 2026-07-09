@@ -1,0 +1,27 @@
+{
+  "upload": [
+    "lib/qr-create-can-proceed.ts",
+    "lib/qr-create-draft.ts",
+    "lib/qr-create-save-api.ts",
+    "lib/qr-create-form-return.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "app/api/qr/route.ts",
+    "hooks/use-qr-create-wizard-effects.ts",
+    "hooks/use-qr-create-draft-sync.ts",
+    "hooks/use-qr-create-core-state.ts",
+    "hooks/use-qr-create-save.ts",
+    "hooks/use-qr-create-form-wizard-save.ts",
+    "hooks/use-qr-create-form-actions.ts",
+    "components/qr/qr-create-trust-strip.tsx",
+    "components/qr/qr-create-wizard.tsx",
+    "components/qr/qr-create-wizard-footer.tsx",
+    "components/qr/qr-create-step-review.tsx",
+    "components/qr/qr-create-step-indicator.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

@@ -20,7 +20,11 @@ export function QrCreateStepIndicator({ step }: { step: number }) {
           >
             {i < step ? <CheckCircle2 className="h-4 w-4" /> : formatLocaleNumber(i + 1, locale)}
           </div>
-          <span className={`hidden text-sm sm:block ${i <= step ? 'font-medium' : 'text-muted-foreground'}`}>
+          <span
+            className={`max-w-[4.5rem] truncate text-[10px] leading-tight sm:max-w-none sm:text-sm ${
+              i <= step ? 'font-medium' : 'text-muted-foreground'
+            }`}
+          >
             {s}
           </span>
           {i < steps.length - 1 && (

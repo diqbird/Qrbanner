@@ -15,6 +15,7 @@ export async function postCreateQr({
   logoPath,
   advanced,
   featureFields,
+  isActive = true,
 }: {
   name: string;
   category: string;
@@ -23,6 +24,7 @@ export async function postCreateQr({
   logoPath: string | null | undefined;
   advanced: AdvancedValues;
   featureFields: QrFeatureFields;
+  isActive?: boolean;
 }): Promise<{ ok: true; id: string } | { ok: false; status: number; error?: string }> {
   const res = await fetch('/api/qr', {
     method: 'POST',
@@ -35,6 +37,7 @@ export async function postCreateQr({
       logoPath,
       logoIsPublic: true,
       password: advanced.password || undefined,
+      isActive,
       ...buildQrFeaturePayload({ name, mode: 'create', fields: featureFields }),
     }),
   });

@@ -53,6 +53,7 @@ export function useQrCreateFormActions({
     applyTemplateLogo: templateLogo.applyTemplateLogo,
     handleSave: wizardSave.handleSave,
     canProceed: wizardSave.canProceed,
+    getBlockers: wizardSave.getBlockers,
     enterWizardFromQuick: wizardSave.enterWizardFromQuick,
   };
 }
