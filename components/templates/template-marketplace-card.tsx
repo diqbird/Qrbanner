@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/i18n/language-provider';
 import {
   resolveTemplateName,
@@ -19,7 +20,8 @@ export function TemplateMarketplaceCard({ template }: { template: IndustryTempla
   const name = resolveTemplateName(t, template.id, template.name);
   const tagline = resolveTemplateTagline(t, template.id, template.tagline);
   const useCases = resolveTemplateUseCases(t, template.id, template.useCases);
-  const href = createUrlForTemplate(template.id);
+  const createHref = createUrlForTemplate(template.id);
+  const detailHref = `/templates/${template.id}`;
 
   return (
     <article
@@ -30,9 +32,7 @@ export function TemplateMarketplaceCard({ template }: { template: IndustryTempla
         <TemplateQrPreview template={template} size={64} className="shrink-0" />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <Link href={`/templates/${template.id}`} className="font-display text-base font-semibold hover:text-primary">
-              {name}
-            </Link>
+            <h3 className="font-display text-base font-semibold">{name}</h3>
             <Badge variant="outline" className="text-[10px]">
               {resolveCategoryShortName(t, template.category)}
             </Badge>
@@ -47,12 +47,16 @@ export function TemplateMarketplaceCard({ template }: { template: IndustryTempla
           </Badge>
         ))}
       </div>
-      <Link
-        href={href}
-        className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary"
-      >
-        {t('templateMarketplace.useTemplate')} <ArrowRight className="h-4 w-4" />
-      </Link>
+      <div className="mt-4 flex flex-wrap items-center gap-3">
+        <Link href={createHref}>
+          <Button size="sm" className="gap-1.5">
+            {t('templateMarketplace.useTemplate')} <ArrowRight className="h-3.5 w-3.5" />
+          </Button>
+        </Link>
+        <Link href={detailHref} className="text-sm text-muted-foreground hover:text-foreground">
+          {t('templateMarketplace.viewDetails')}
+        </Link>
+      </div>
     </article>
   );
 }

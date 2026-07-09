@@ -9,7 +9,7 @@ import { useLanguage } from '@/components/i18n/language-provider';
 import { demoBookingUrl } from '@/lib/site-contact';
 import { cn } from '@/lib/utils';
 
-const HIDDEN_PREFIXES = ['/dashboard', '/admin', '/login', '/signup', '/settings'];
+const HIDDEN_PREFIXES = ['/dashboard', '/admin', '/login', '/signup', '/settings', '/qr'];
 
 export function LandingStickyCta() {
   const { t } = useLanguage();
