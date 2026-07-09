@@ -66,7 +66,12 @@ export const INDUSTRY_TEMPLATES: IndustryTemplate[] = [
     description: 'QR on tables, counters and takeaway bags linking to your live menu.',
     useCases: ['Table tents', 'Window stickers', 'Delivery packaging', 'Room service cards'],
     suggestedQrName: 'Table Menu — Main Dining',
-    qrData: { url: 'https://yourrestaurant.com/menu' },
+    qrData: {
+      url: 'https://yourrestaurant.com/menu',
+      _venueName: 'The Garden Bistro',
+      _hours: 'Mon–Sun 11:00–23:00',
+      _dietaryNote: 'Allergens listed on the menu page',
+    },
     style: {
       fgColor: '#b45309',
       bgColor: '#fffbeb',
@@ -126,6 +131,18 @@ export const INDUSTRY_TEMPLATES: IndustryTemplate[] = [
             hint: 'Add to landing page or use schedule routing for lunch vs dinner.',
             type: 'url',
           },
+          {
+            key: '_hours',
+            label: 'Opening hours (optional)',
+            placeholder: 'Mon–Sun 11:00–23:00',
+            type: 'text',
+          },
+          {
+            key: '_dietaryNote',
+            label: 'Dietary note (optional)',
+            placeholder: 'Gluten-free options available',
+            type: 'text',
+          },
         ],
       },
     ],
@@ -142,6 +159,14 @@ export const INDUSTRY_TEMPLATES: IndustryTemplate[] = [
       subtitle: 'Allergens, daily specials & drinks list',
       accentColor: '#b45309',
       ctaLabel: 'Open Menu',
+      leadFormEnabled: true,
+      leadForm: {
+        collectName: true,
+        collectEmail: true,
+        collectPhone: true,
+        collectMessage: true,
+        requiredEmail: true,
+      },
     },
   },
 
@@ -154,14 +179,14 @@ export const INDUSTRY_TEMPLATES: IndustryTemplate[] = [
     useCases: ['Conference badge', 'Email signature', 'Office door', 'LinkedIn banner'],
     suggestedQrName: 'Contact — Your Name',
     qrData: {
-      firstName: '',
-      lastName: '',
-      title: '',
-      org: '',
-      phone: '',
-      email: '',
-      website: '',
-      address: '',
+      firstName: 'Ayşe',
+      lastName: 'Yılmaz',
+      title: 'Sales Director',
+      org: 'Acme Teknoloji A.Ş.',
+      phone: '+90 532 000 00 00',
+      email: 'you@company.com',
+      website: 'https://company.com',
+      address: 'Levent, Istanbul',
     },
     style: {
       fgColor: '#1e293b',
@@ -760,7 +785,14 @@ export const INDUSTRY_TEMPLATES: IndustryTemplate[] = [
     description: 'Cafés, hotels, rentals and offices share guest network access in one scan.',
     useCases: ['Hotel room folder', 'Café counter tent', 'Co-working lobby', 'Airbnb welcome card'],
     suggestedQrName: 'Guest Wi‑Fi',
-    qrData: { ssid: '', password: '', encryption: 'WPA', _venueName: '' },
+    qrData: {
+      ssid: 'Guest_WiFi',
+      password: 'welcome2026',
+      encryption: 'WPA',
+      _venueName: 'Harbor Hotel Lobby',
+      _instructions: 'Select network, scan QR — no password typing.',
+      _supportExt: 'Dial 0 for front desk',
+    },
     style: {
       fgColor: '#0369a1',
       bgColor: '#f0f9ff',
@@ -776,6 +808,18 @@ export const INDUSTRY_TEMPLATES: IndustryTemplate[] = [
         description: 'Printed name on your Wi‑Fi sign — not encoded in the QR.',
         fields: [
           { key: '_venueName', label: 'Venue name', placeholder: 'e.g. Harbor Hotel Lobby', type: 'text' },
+          {
+            key: '_instructions',
+            label: 'Connection instructions (print subtitle)',
+            type: 'textarea',
+            placeholder: 'Scan to join automatically. Accept the certificate if prompted.',
+          },
+          {
+            key: '_supportExt',
+            label: 'Support / front desk',
+            type: 'text',
+            placeholder: 'Dial 0',
+          },
         ],
       },
       {
@@ -858,7 +902,16 @@ export const INDUSTRY_TEMPLATES: IndustryTemplate[] = [
     description: 'Guest hub for rooms, lobbies and pool areas.',
     useCases: ['Room tent card', 'Lobby directory', 'Pool signage', 'Spa menu stand'],
     suggestedQrName: 'Guest Hub — Main Lobby',
-    qrData: { url: '' },
+    qrData: {
+      url: 'https://yourhotel.com/guest',
+      _propertyName: 'Harbor Bay Hotel',
+      _wifiPageUrl: 'https://yourhotel.com/wifi',
+      _roomServiceUrl: 'https://yourhotel.com/room-service',
+      _spaUrl: 'https://yourhotel.com/spa',
+      _localGuideUrl: 'https://yourhotel.com/local-guide',
+      _checkInUrl: 'https://yourhotel.com/check-in',
+      _conciergePhone: '+90 212 000 00 00',
+    },
     style: {
       fgColor: '#1e40af',
       bgColor: '#eff6ff',
@@ -875,6 +928,50 @@ export const INDUSTRY_TEMPLATES: IndustryTemplate[] = [
         description: 'Shown on the guest hub landing page.',
         fields: [
           { key: '_propertyName', label: 'Property name', placeholder: 'Harbor Bay Hotel', type: 'text' },
+          {
+            key: '_conciergePhone',
+            label: 'Concierge phone',
+            placeholder: '+90 212 000 00 00',
+            type: 'phone',
+          },
+        ],
+      },
+      {
+        id: 'guest-services',
+        title: 'Guest hub links',
+        description: 'Pre-fills landing hub buttons — edit URLs per season.',
+        fields: [
+          {
+            key: '_wifiPageUrl',
+            label: 'Guest Wi‑Fi page',
+            type: 'url',
+            placeholder: 'https://yourhotel.com/wifi',
+          },
+          {
+            key: '_roomServiceUrl',
+            label: 'Room service menu',
+            type: 'url',
+            placeholder: 'https://yourhotel.com/room-service',
+            required: true,
+          },
+          {
+            key: '_spaUrl',
+            label: 'Spa & amenities',
+            type: 'url',
+            placeholder: 'https://yourhotel.com/spa',
+          },
+          {
+            key: '_localGuideUrl',
+            label: 'Local guide',
+            type: 'url',
+            placeholder: 'https://yourhotel.com/local-guide',
+          },
+          {
+            key: '_checkInUrl',
+            label: 'Mobile check-in',
+            type: 'url',
+            placeholder: 'https://yourhotel.com/check-in',
+          },
         ],
       },
     ],
@@ -892,10 +989,11 @@ export const INDUSTRY_TEMPLATES: IndustryTemplate[] = [
       ctaLabel: 'Explore',
       hubMode: true,
       hubLinks: [
-        { label: 'Guest Wi‑Fi', url: '' },
-        { label: 'Room Service Menu', url: '' },
-        { label: 'Spa & Amenities', url: '' },
-        { label: 'Local Guide', url: '' },
+        { label: 'Guest Wi‑Fi', url: 'https://yourhotel.com/wifi' },
+        { label: 'Room Service Menu', url: 'https://yourhotel.com/room-service' },
+        { label: 'Spa & Amenities', url: 'https://yourhotel.com/spa' },
+        { label: 'Local Guide', url: 'https://yourhotel.com/local-guide' },
+        { label: 'Mobile Check-in', url: 'https://yourhotel.com/check-in' },
       ],
     },
   },
@@ -1410,7 +1508,15 @@ export function buildLandingFromTemplate(
 } {
   const lp = template.landingPage ?? {};
   const metaTitle = qrData._headline ?? qrData._eventName ?? qrData._venueName ?? qrData._fullName ?? qrData._propertyName ?? qrData._clinicName ?? qrData._exhibitTitle ?? qrData._gymName ?? qrData._salonName ?? qrData._orgName ?? qrData._practiceName ?? qrData._companyName ?? qrData._cafeName ?? qrData._attractionName ?? qrData.title;
-  const metaSubtitle = [qrData._specialty, qrData._specs, qrData._price, qrData._eventDate, qrData._address]
+  const metaSubtitle = [
+    qrData._specialty,
+    qrData._specs,
+    qrData._price,
+    qrData._eventDate,
+    qrData._address,
+    qrData._hours,
+    qrData._dietaryNote,
+  ]
     .filter(Boolean)
     .join(' · ');
 

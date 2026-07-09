@@ -69,11 +69,24 @@ export default async function TrustPage() {
             <p className="mt-4 text-lg text-muted-foreground">{t('trustPage.subtitle')}</p>
           </header>
 
-          <section className="rounded-xl border border-border/60 bg-muted/30 p-5 space-y-2">
+          <section className="rounded-xl border border-border/60 bg-muted/30 p-5 space-y-3">
             <h2 className="font-display text-lg font-semibold">{t('trustPage.complianceTitle')}</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
               {t('trustPage.complianceBody')}
             </p>
+            <ol className="list-decimal space-y-2 pl-5 text-sm text-muted-foreground leading-relaxed">
+              <li>{t('trustPage.soc2Step1')}</li>
+              <li>{t('trustPage.soc2Step2')}</li>
+              <li>{t('trustPage.soc2Step3')}</li>
+              <li>{t('trustPage.soc2Step4')}</li>
+            </ol>
+            <p className="text-xs text-muted-foreground">{t('trustPage.soc2Disclaimer')}</p>
+            <Link
+              href="/trust/procurement-request"
+              className="inline-flex text-sm font-medium text-primary hover:underline"
+            >
+              {t('trustPage.linkProcurement')}
+            </Link>
           </section>
 
           <section className="rounded-xl border border-border/60 bg-muted/30 p-5 space-y-2">

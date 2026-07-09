@@ -1,0 +1,13 @@
+{
+  "upload": [
+    "lib/industry-templates.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "app/(public)/trust/page.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

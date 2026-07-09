@@ -3150,6 +3150,12 @@ export const tr: TranslationTree = {
     complianceTitle: 'Uyumluluk yol haritası',
     complianceBody:
       'SOC 2 Type II ve HIPAA kurumsal yol haritamızdadır ve kurumsal anlaşmalarda görüşmeye açıktır. Denetimler tamamlanana kadar sertifika iddiasında bulunmayız. GDPR odaklı gizlilik uygulamaları, DPA ve alt işleyen detayları aşağıda yayınlanır.',
+    soc2Step1: 'SOC 2 Trust Services Criteria’ya (güvenlik, erişilebilirlik, gizlilik) göre boşluk değerlendirmesi.',
+    soc2Step2: 'Kontrolleri güçlendir — erişim gözden geçirme, değişiklik yönetimi, tedarikçi riski, loglama.',
+    soc2Step3: 'Bağımsız denetçi ile Type I, ardından Type II gözlem dönemini tamamla.',
+    soc2Step4: 'Uygun kurumsal müşterilere satın alma formu üzerinden rapor erişimini yayınla.',
+    soc2Disclaimer:
+      'Takvim denetim kapsamına ve kanıt hazırlığına bağlıdır. Güncel hedef pencere için satışla görüşün — rapor çıkmadan “SOC 2 sertifikalı” iddiasında bulunmayız.',
     supportTitle: 'Özel destek ve SLA',
     supportBody:
       'Uygun kurumsal çalışma alanları, atanmış müşteri başarı yöneticisi, uptime hedefi ve yanıt süresi notlarıyla sözleşmeli destek katmanı alabilir — satış hesabı etkinleştirdikten sonra Ayarlar’da görünür.',

@@ -3148,6 +3148,12 @@ export const en: TranslationTree = {
     complianceTitle: 'Compliance roadmap',
     complianceBody:
       'SOC 2 Type II and HIPAA are on our enterprise roadmap and available for discussion on enterprise deals. We do not claim completed certifications until audits are finished. GDPR-oriented privacy practices, DPA and sub-processor details are published below.',
+    soc2Step1: 'Gap assessment against SOC 2 Trust Services Criteria (security, availability, confidentiality).',
+    soc2Step2: 'Remediate controls — access reviews, change management, vendor risk, logging.',
+    soc2Step3: 'Engage an independent auditor and complete Type I, then Type II observation period.',
+    soc2Step4: 'Publish report availability for qualified enterprise customers via procurement request.',
+    soc2Disclaimer:
+      'Timeline depends on audit scope and evidence readiness. Ask sales for the current target window — we will not claim “SOC 2 certified” until the report is issued.',
     supportTitle: 'Dedicated support & SLA',
     supportBody:
       'Qualified enterprise workspaces can receive a contractual support tier with an assigned customer success manager, uptime target and response-time notes — visible in Settings after sales enables the account.',
