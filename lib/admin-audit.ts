@@ -18,7 +18,8 @@ export type AdminAuditAction =
   | 'studio.entitlement_create'
   | 'studio.entitlement_revoke'
   | 'studio.etsy_register'
-  | 'studio.etsy_approve_send';
+  | 'studio.etsy_approve_send'
+  | 'studio.etsy_resend_email';
 
 export async function recordAdminAudit(input: {
   actorId: string;
