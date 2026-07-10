@@ -6,9 +6,7 @@ import { QrQuickCreateForm } from './qr-quick-create-form';
 import { useQrQuickCreate } from '@/hooks/use-qr-quick-create';
 import { normalizeQRStyle } from '@/lib/qr-style';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { formatLocaleNumber } from '@/lib/i18n/format-locale';
-import { OnboardingProgress } from '@/components/onboarding/onboarding-progress';
-import { freePlanQrLimit } from '@/lib/plans';
+import { formatFreePlanDynamicQrShortLabel } from '@/lib/i18n/dynamic-qr-label';
 import type { QRStyleConfig } from '@/lib/qr-style';
 
 export function QRQuickCreate({
@@ -28,7 +26,7 @@ export function QRQuickCreate({
       <div className="text-center sm:text-left">
         <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
           <Zap className="h-3.5 w-3.5" />
-          {t('hero.createQrHint', { count: formatLocaleNumber(freePlanQrLimit(), locale) })}
+          {t('hero.createQrHint', { qrLabel: formatFreePlanDynamicQrShortLabel(locale) })}
         </div>
         <h1 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
           {onboarding ? t('onboarding.quickTitle') : t('quick.title')}

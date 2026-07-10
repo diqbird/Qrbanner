@@ -8,8 +8,8 @@ import { getPricingFaqItems } from '@/lib/i18n/pricing-faq-items';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { formatFreePlanDynamicQrLabel } from '@/lib/i18n/dynamic-qr-label';
 import { pricingMetaVars } from '@/lib/i18n/plan-pricing-display';
-import { freePlanQrLimit } from '@/lib/plans';
 import { getPublicBillingStatus } from '@/lib/public-billing-status';
 
 export const dynamic = 'force-dynamic';
@@ -17,8 +17,8 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
-  const freeQrCount = formatLocaleNumber(freePlanQrLimit(), locale);
-  const metaVars = { count: freeQrCount, ...pricingMetaVars(locale) };
+  const qrLabel = formatFreePlanDynamicQrLabel(locale);
+  const metaVars = { qrLabel, ...pricingMetaVars(locale) };
   return pageMetadata({
     locale,
     title: t('pricing.metaTitle'),
@@ -31,8 +31,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PricingPage() {
   const locale = await getServerLocale();
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
-  const freeQrCount = formatLocaleNumber(freePlanQrLimit(), locale);
-  const metaVars = { count: freeQrCount, ...pricingMetaVars(locale) };
+  const qrLabel = formatFreePlanDynamicQrLabel(locale);
+  const metaVars = { qrLabel, ...pricingMetaVars(locale) };
   const pageTitle = t('pricing.metaTitle');
   const pageDesc = t('pricing.metaDescription', metaVars);
   const initialBillingStatus = getPublicBillingStatus();

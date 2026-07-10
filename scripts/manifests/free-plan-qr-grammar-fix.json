@@ -1,0 +1,28 @@
+{
+  "upload": [
+    "lib/i18n/dynamic-qr-label.ts",
+    "lib/i18n/pricing-content.ts",
+    "lib/i18n/pricing-faq-items.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "app/(public)/pricing/page.tsx",
+    "app/(public)/referral/page.tsx",
+    "app/(public)/use-cases/[slug]/page.tsx",
+    "app/(public)/qr-types/[slug]/page.tsx",
+    "components/landing/hero-static.tsx",
+    "components/landing/landing-hero-content.tsx",
+    "components/landing/hero.tsx",
+    "components/landing/social-proof.tsx",
+    "components/auth/referral-signup-banner.tsx",
+    "components/billing/billing-coming-soon-banner.tsx",
+    "components/public/features-page-groups.tsx",
+    "components/solutions/solution-detail-sections.tsx",
+    "components/qr/qr-quick-create.tsx",
+    "components/templates/template-marketplace-card.tsx",
+    "e2e/template-marketplace.spec.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "build": true,
+  "restart": true
+}

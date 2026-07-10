@@ -5,9 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Zap, QrCode, Route, BarChart3 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { formatLocaleNumber } from '@/lib/i18n/format-locale';
-import { formatQrTypeCount } from '@/lib/i18n/qr-type-count';
-import { freePlanQrLimit } from '@/lib/plans';
+import { formatFreePlanDynamicQrShortLabel } from '@/lib/i18n/dynamic-qr-label';
 
 const HIGHLIGHT_ICONS = [QrCode, Route, BarChart3];
 const HIGHLIGHT_KEYS = [
@@ -57,7 +55,7 @@ export function LandingHero() {
             </Link>
           </div>
           <p className="animate-fade-up mt-3 text-center text-xs text-muted-foreground [animation-delay:280ms]">
-            {t('hero.createQrHint', { count: formatLocaleNumber(freePlanQrLimit(), locale) })}
+            {t('hero.createQrHint', { qrLabel: formatFreePlanDynamicQrShortLabel(locale) })}
           </p>
 
           <div className="animate-fade-up mt-16 grid grid-cols-1 gap-4 sm:grid-cols-3 [animation-delay:320ms]">

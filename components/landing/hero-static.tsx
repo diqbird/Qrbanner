@@ -1,15 +1,13 @@
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
-import { formatLocaleNumber } from '@/lib/i18n/format-locale';
-import { formatQrTypeCount } from '@/lib/i18n/qr-type-count';
-import { freePlanQrLimit } from '@/lib/plans';
+import { formatFreePlanDynamicQrShortLabel } from '@/lib/i18n/dynamic-qr-label';
 import { LandingHeroContent } from '@/components/landing/landing-hero-content';
 import { LandingHeroHighlights } from '@/components/landing/landing-hero-highlights';
 
 export async function LandingHeroStatic() {
   const locale = await getServerLocale();
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
-  const freeQrCount = formatLocaleNumber(freePlanQrLimit(), locale);
+  const qrLabel = formatFreePlanDynamicQrShortLabel(locale);
   const qrTypeCount = formatQrTypeCount(locale);
 
   return (
@@ -20,7 +18,7 @@ export async function LandingHeroStatic() {
       </div>
 
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6">
-        <LandingHeroContent t={t} locale={locale} freeQrCount={freeQrCount} qrTypeCount={qrTypeCount} />
+        <LandingHeroContent t={t} locale={locale} qrLabel={qrLabel} qrTypeCount={qrTypeCount} />
         <LandingHeroHighlights t={t} qrTypeCount={qrTypeCount} />
       </div>
     </section>

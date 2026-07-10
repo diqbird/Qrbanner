@@ -48,11 +48,11 @@ export function TemplateMarketplaceCard({ template }: { template: IndustryTempla
         ))}
       </div>
       <div className="mt-4 flex flex-wrap items-center gap-3">
-        <Link href={createHref}>
-          <Button size="sm" className="gap-1.5">
+        <Button size="sm" className="gap-1.5" asChild>
+          <Link href={createHref}>
             {t('templateMarketplace.useTemplate')} <ArrowRight className="h-3.5 w-3.5" />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
         <Link href={detailHref} className="text-sm text-muted-foreground hover:text-foreground">
           {t('templateMarketplace.viewDetails')}
         </Link>

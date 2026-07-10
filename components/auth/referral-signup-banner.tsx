@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Gift } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { formatLocaleNumber } from '@/lib/i18n/format-locale';
-import { freePlanQrLimit } from '@/lib/plans';
+import { formatFreePlanReferralQrLabel } from '@/lib/i18n/dynamic-qr-label';
 
 export function ReferralSignupBanner() {
   const { t, locale } = useLanguage();
@@ -50,7 +49,7 @@ export function ReferralSignupBanner() {
       <p className="text-muted-foreground leading-relaxed">
         {displayName
           ? t('auth.referralInvitedBy', { name: displayName })
-          : t('auth.referralInvitedGeneric', { count: formatLocaleNumber(freePlanQrLimit(), locale) })}
+          : t('auth.referralInvitedGeneric', { qrLabel: formatFreePlanReferralQrLabel(locale) })}
       </p>
     </div>
   );

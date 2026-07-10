@@ -1,0 +1,13 @@
+{
+  "upload": [
+    "marketing/etsy-listing/LISTING_COPY_EN.md",
+    "marketing/etsy-listing/export/README.md",
+    "scripts/capture-etsy-site-screenshots.mjs",
+    "scripts/generate-etsy-listing-images.mjs",
+    "scripts/create-studio-test-link.py"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "build": false,
+  "restart": false
+}

@@ -7,8 +7,8 @@ import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { formatFreePlanReferralQrLabel } from '@/lib/i18n/dynamic-qr-label';
 import { Gift, Link2, Users, ArrowRight } from 'lucide-react';
-import { freePlanQrLimit } from '@/lib/plans';
 import { REFERRAL_REWARD_PRO_DAYS } from '@/lib/referral-rewards';
 
 const STEP_ICONS = [Link2, Users, Gift];
@@ -37,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ReferralLandingPage() {
   const locale = await getServerLocale();
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
-  const freeQrCount = formatLocaleNumber(freePlanQrLimit(), locale);
+  const qrLabel = formatFreePlanReferralQrLabel(locale);
   const rewardDays = formatLocaleNumber(REFERRAL_REWARD_PRO_DAYS, locale);
 
   return (
@@ -125,7 +125,7 @@ export default async function ReferralLandingPage() {
                   <dd className="mt-1 text-sm text-muted-foreground leading-relaxed">
                     {t(
                       FAQ_KEYS[i * 2 + 1],
-                      FAQ_KEYS[i * 2 + 1] === 'referralLanding.faq2a' ? { count: freeQrCount } : undefined
+                      FAQ_KEYS[i * 2 + 1] === 'referralLanding.faq2a' ? { qrLabel } : undefined
                     )}
                   </dd>
                 </div>

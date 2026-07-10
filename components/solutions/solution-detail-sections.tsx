@@ -5,8 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import type { SolutionPage } from '@/lib/solutions';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { formatLocaleNumber } from '@/lib/i18n/format-locale';
-import { freePlanQrLimit } from '@/lib/plans';
+import { formatFreePlanEditableQrLabel } from '@/lib/i18n/dynamic-qr-label';
 import { SolutionDetailBenefits, SolutionDetailFeatures } from './solution-detail-benefits-features';
 import { SolutionDetailSteps, SolutionDetailFaq } from './solution-detail-steps-faq';
 
@@ -33,7 +32,7 @@ export function SolutionDetailCta({ solution }: { solution: SolutionPage }) {
     <div className="mt-12 rounded-2xl border border-primary/20 bg-primary/5 p-8 text-center">
       <h2 className="font-display text-xl font-semibold">{t('solutionDetail.ctaTitle')}</h2>
       <p className="mt-2 text-sm text-muted-foreground">
-        {t('solutionDetail.ctaBody', { count: formatLocaleNumber(freePlanQrLimit(), locale) })}
+        {t('solutionDetail.ctaBody', { qrLabel: formatFreePlanEditableQrLabel(locale) })}
       </p>
       <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
         <Link href={createUrl}>

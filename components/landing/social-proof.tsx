@@ -1,8 +1,7 @@
 import { getPublicPlatformStats, shouldDisplayPublicStats } from '@/lib/public-stats';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
-import { formatLocaleNumber } from '@/lib/i18n/format-locale';
-import { freePlanQrLimit } from '@/lib/plans';
+import { formatFreePlanDynamicQrShortLabel } from '@/lib/i18n/dynamic-qr-label';
 import { Shield, Zap, CheckCircle2 } from 'lucide-react';
 
 const INDUSTRY_KEYS = [
@@ -24,7 +23,7 @@ export async function LandingSocialProof() {
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
   const stats = await getPublicPlatformStats();
   const showStats = shouldDisplayPublicStats(stats);
-  const freeQrCount = formatLocaleNumber(freePlanQrLimit(), locale);
+  const qrLabel = formatFreePlanDynamicQrShortLabel(locale);
 
   return (
     <section className="border-y border-border/40 bg-muted/20 py-12 sm:py-16" aria-label={t('socialProof.sectionLabel')}>
@@ -55,7 +54,7 @@ export async function LandingSocialProof() {
                 className="flex items-center gap-3 rounded-xl border border-border/50 bg-card/80 px-5 py-4 shadow-sm"
               >
                 <CheckCircle2 className="h-5 w-5 shrink-0 text-foreground" aria-hidden />
-                <p className="text-sm font-medium text-foreground">{t(key, key === 'socialProof.trustPillar1' ? { count: freeQrCount } : undefined)}</p>
+                <p className="text-sm font-medium text-foreground">{t(key, key === 'socialProof.trustPillar1' ? { qrLabel } : undefined)}</p>
               </div>
             ))}
           </div>

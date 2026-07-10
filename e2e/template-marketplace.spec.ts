@@ -7,7 +7,7 @@ test.describe('Template marketplace', () => {
     await expect(page.getByTestId('marketplace-template-restaurant-menu').first()).toBeVisible();
 
     const link = page.getByTestId('marketplace-template-restaurant-menu').first().getByRole('link', {
-      name: /use this template|bu şablonu kullan/i,
+      name: /create with this template|bu şablonla oluştur/i,
     });
     await expect(link).toHaveAttribute('href', '/qr/create?template=restaurant-menu');
   });

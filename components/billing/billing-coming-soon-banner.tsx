@@ -3,8 +3,7 @@
 import Link from 'next/link';
 import { Clock } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { formatLocaleNumber } from '@/lib/i18n/format-locale';
-import { freePlanQrLimit } from '@/lib/plans';
+import { formatFreePlanDynamicQrLabel } from '@/lib/i18n/dynamic-qr-label';
 import { Button } from '@/components/ui/button';
 
 export function BillingComingSoonBanner() {
@@ -21,7 +20,7 @@ export function BillingComingSoonBanner() {
           <div>
             <p className="font-medium text-sm">{t('pricing.billingSoonTitle')}</p>
             <p className="mt-1 text-sm text-muted-foreground">
-              {t('pricing.billingSoonDesc', { count: formatLocaleNumber(freePlanQrLimit(), locale) })}
+              {t('pricing.billingSoonDesc', { qrLabel: formatFreePlanDynamicQrLabel(locale) })}
             </p>
           </div>
         </div>

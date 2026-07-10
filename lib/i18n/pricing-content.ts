@@ -1,25 +1,26 @@
-import { PLANS, type PlanId, type PlanLimits, annualMonthlyEquivalent, type BillingInterval, freePlanQrLimit } from '@/lib/plans';
+import { PLANS, type PlanId, type PlanLimits, annualMonthlyEquivalent, type BillingInterval } from '@/lib/plans';
 import { isBillingConfigured } from '@/lib/billing-provider';
 import { PRO_TRIAL_DAYS } from '@/lib/pro-trial';
 import { formatLocaleCurrency, formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { formatDynamicQrLabel, formatFreePlanDynamicQrLabel } from '@/lib/i18n/dynamic-qr-label';
 import { formatPlanPriceLabel, formatPlanPricePerMonth, annualBilledNoteVars } from '@/lib/i18n/plan-pricing-display';
 import type { Locale } from './types';
 
 export function getLaunchBanner(locale: Locale, options?: { billingLive?: boolean }): string {
-  const n = formatLocaleNumber(freePlanQrLimit(), locale);
+  const qrLabel = formatFreePlanDynamicQrLabel(locale);
   const trialDays = formatLocaleNumber(PRO_TRIAL_DAYS, locale);
   const billingLive = options?.billingLive ?? isBillingConfigured();
   const proPrice = formatPlanPricePerMonth('pro', locale);
   if (locale === 'tr') {
     if (!billingLive) {
-      return `Ücretsiz plan sonsuza kadar — ${n} dinamik QR kodu dahil. Ödeme geçici olarak kapalı — destekle iletişime geçin.`;
+      return `Ücretsiz plan sonsuza kadar — ${qrLabel} dahil. Ödeme geçici olarak kapalı — destekle iletişime geçin.`;
     }
-    return `Ücretsiz plan sonsuza kadar — ${n} dinamik QR kodu dahil. Yeni hesaplarda ${trialDays} gün Pro denemesi. Daha fazlası için Pro ${proPrice}.`;
+    return `Ücretsiz plan sonsuza kadar — ${qrLabel} dahil. Yeni hesaplarda ${trialDays} gün Pro denemesi. Daha fazlası için Pro ${proPrice}.`;
   }
   if (!billingLive) {
-    return `Free plan forever — ${n} dynamic QR codes included. Checkout is temporarily unavailable — contact support.`;
+    return `Free plan forever — ${qrLabel} included. Checkout is temporarily unavailable — contact support.`;
   }
-  return `Free plan forever — ${n} dynamic QR codes included. New accounts get a ${trialDays}-day Pro trial. Upgrade from ${proPrice} when you need more.`;
+  return `Free plan forever — ${qrLabel} included. New accounts get a ${trialDays}-day Pro trial. Upgrade from ${proPrice} when you need more.`;
 }
 
 function apiLimitFeature(plan: PlanLimits, locale: Locale): string | null {
@@ -57,7 +58,7 @@ function planFeatures(plan: PlanLimits, locale: Locale): string[] {
 
   if (locale === 'tr') {
     const features = [
-      `${formatLocaleNumber(plan.maxQrCodes, locale)} dinamik QR kodu`,
+      formatDynamicQrLabel(plan.maxQrCodes, locale),
       domains,
       `Toplu içe aktarma: ${formatLocaleNumber(plan.maxBulkRows, locale)} satıra kadar`,
       plan.apiAccess ? 'REST API + OpenAPI dokümantasyonu' : 'API erişimi yok',
@@ -83,7 +84,7 @@ function planFeatures(plan: PlanLimits, locale: Locale): string[] {
   }
 
   const features = [
-    `${formatLocaleNumber(plan.maxQrCodes, locale)} dynamic QR codes`,
+    formatDynamicQrLabel(plan.maxQrCodes, locale),
     domains,
     `Bulk import up to ${formatLocaleNumber(plan.maxBulkRows, locale)} rows`,
     plan.apiAccess ? 'REST API + OpenAPI spec' : 'No API access',

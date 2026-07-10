@@ -1,13 +1,13 @@
 import type { Locale } from './types';
 import type { FaqItem } from './faq-items';
 import { formatLocaleNumber } from './format-locale';
-import { freePlanQrLimit } from '@/lib/plans';
+import { formatFreePlanDynamicQrLabel } from './dynamic-qr-label';
 import { PRO_TRIAL_DAYS } from '@/lib/pro-trial';
 import { REFUND_WINDOW_DAYS } from '@/lib/refund-policy';
 
 /** Pricing-page specific FAQ — billing, trial, refund, cancellation. */
 export function getPricingFaqItems(locale: Locale): FaqItem[] {
-  const free = formatLocaleNumber(freePlanQrLimit(), locale);
+  const freeQr = formatFreePlanDynamicQrLabel(locale);
   const trial = formatLocaleNumber(PRO_TRIAL_DAYS, locale);
   const refund = formatLocaleNumber(REFUND_WINDOW_DAYS, locale);
 
@@ -15,7 +15,7 @@ export function getPricingFaqItems(locale: Locale): FaqItem[] {
     return [
       {
         question: 'Ücretsiz plan gerçekten ücretsiz mi?',
-        answer: `Evet. Ücretsiz plan kalıcıdır ve ${free} dinamik QR kodu içerir — kredi kartı gerekmez, süre sınırı yoktur.`,
+        answer: `Evet. Ücretsiz plan kalıcıdır ve ${freeQr} içerir — kredi kartı gerekmez, süre sınırı yoktur.`,
       },
       {
         question: 'Pro deneme süresi nasıl işliyor?',
@@ -51,7 +51,7 @@ export function getPricingFaqItems(locale: Locale): FaqItem[] {
   return [
     {
       question: 'Is the free plan really free?',
-      answer: `Yes. The free plan is permanent and includes ${free} dynamic QR codes — no credit card required and no time limit.`,
+      answer: `Yes. The free plan is permanent and includes ${freeQr} — no credit card required and no time limit.`,
     },
     {
       question: 'How does the Pro trial work?',
