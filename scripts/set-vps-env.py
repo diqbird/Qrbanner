@@ -46,6 +46,11 @@ def main() -> int:
         help="Generate and set HEALTH_DETAIL_SECRET if missing",
     )
     parser.add_argument(
+        "--generate-etsy-secret",
+        action="store_true",
+        help="Generate and set ETSY_WEBHOOK_SECRET if missing",
+    )
+    parser.add_argument(
         "--force",
         action="store_true",
         help="Overwrite existing values",
@@ -85,6 +90,9 @@ def main() -> int:
 
     if args.generate_health_secret:
         updates["HEALTH_DETAIL_SECRET"] = secrets.token_urlsafe(32)
+
+    if args.generate_etsy_secret:
+        updates["ETSY_WEBHOOK_SECRET"] = secrets.token_urlsafe(32)
 
     if not updates:
         parser.print_help()
