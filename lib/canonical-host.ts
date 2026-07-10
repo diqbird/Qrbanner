@@ -8,8 +8,9 @@ export function wwwToApexRedirectUrl(requestUrl: URL, host: string | null | unde
   const normalized = normalizeDomain(host.split(':')[0]);
   if (normalized !== `www.${CANONICAL_SITE_HOST}`) return null;
 
-  const url = new URL(requestUrl);
-  url.protocol = 'https:';
-  url.host = CANONICAL_SITE_HOST;
-  return url;
+  // Build from a clean apex base — req.nextUrl behind nginx may still carry :3000.
+  return new URL(
+    `${requestUrl.pathname}${requestUrl.search}${requestUrl.hash}`,
+    `https://${CANONICAL_SITE_HOST}/`,
+  );
 }

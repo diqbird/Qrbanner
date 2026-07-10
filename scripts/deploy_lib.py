@@ -208,13 +208,12 @@ def build_post_commands(plan: DeployPlan, cfg: DeployConfig) -> list[str]:
         # Zero-downtime build: compile into a fresh .next-build while the live
         # .next keeps serving, verify the build is complete (_error.js is the
         # canary that previously caused production crashes), then atomically
-        # swap and reload. Eliminates the ~90s window where the site served a
-        # half-built .next.
+        # swap and reload. Use pipefail so a failed yarn build cannot be masked
+        # by `| tail`; chain swap with && so partial builds never go live.
         cmds.append(
-            f"{base} && rm -rf .next-build && NEXT_DIST_DIR=.next-build yarn build 2>&1 | tail -20"
-        )
-        cmds.append(
-            f"{base} && if [ -f .next-build/server/pages/_error.js ]; then "
+            f"{base} && rm -rf .next-build && set -o pipefail && "
+            f"NEXT_DIST_DIR=.next-build yarn build 2>&1 | tail -20 && "
+            f"if [ -f .next-build/server/pages/_error.js ]; then "
             f"rm -rf .next-old && (mv .next .next-old 2>/dev/null || true) && "
             f"mv .next-build .next && echo BUILD_SWAP_OK; "
             f"else echo BUILD_SWAP_FAILED_INCOMPLETE && exit 1; fi"
@@ -245,6 +244,7 @@ def execute_plan(cfg: DeployConfig, plan: DeployPlan) -> int:
         output += combined
         if exit_code != 0 and ("yarn build" in cmd or "BUILD_SWAP" in cmd):
             failed = True
+            break
 
     client.close()
     if plan.build and (

@@ -1,0 +1,10 @@
+{
+  "upload": [
+    "lib/canonical-host.ts",
+    "middleware.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "build": true,
+  "restart": true
+}
