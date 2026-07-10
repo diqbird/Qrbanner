@@ -18,6 +18,7 @@ import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 
 import { translate } from '@/lib/i18n';
+import { localizeSolutionPage } from '@/lib/i18n/solution-localize';
 
 export const revalidate = 3600;
 
@@ -38,11 +39,9 @@ export default async function SolutionsIndexPage() {
   const locale = await getServerLocale();
 
   const t = (key: string) => translate(locale, key);
-
-
+  const pages = SOLUTION_PAGES.map((s) => localizeSolutionPage(s, locale));
 
   return (
-
     <>
 
       <JsonLd
@@ -73,7 +72,7 @@ export default async function SolutionsIndexPage() {
 
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 
-            {SOLUTION_PAGES.map((s) => {
+            {pages.map((s) => {
 
               const Icon = solutionIcon(s.icon);
 

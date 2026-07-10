@@ -9,6 +9,7 @@ import {
   toastCreateQrError,
   toastCreateQrUnexpected,
 } from '@/lib/qr-create-save-api';
+import { trackFirstQrCreated } from '@/lib/site-analytics';
 import { useStudioCreateConfig } from '@/components/studio/studio-create-context';
 import type { QrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import type { AdvancedValues } from '@/lib/advanced-settings-types';
@@ -85,6 +86,7 @@ export function useQrCreateSave({
       });
 
       if (result.ok) {
+        if (result.firstQr) trackFirstQrCreated();
         if (studio) {
           const remaining = Math.max(0, studio.qrRemaining - 1);
           studio.onQrCreated(result.id, remaining);

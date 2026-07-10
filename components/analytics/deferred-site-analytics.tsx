@@ -2,14 +2,17 @@
 
 import { useEffect, useState } from 'react';
 import Script from 'next/script';
+import {
+  googleConsentGrantedScript,
+  CONSENT_STORAGE_KEY,
+} from '@/lib/google-consent-mode';
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim()?.toUpperCase();
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID?.trim()?.toUpperCase();
-const CONSENT_KEY = 'qrb-cookie-consent';
 
 function hasAnalyticsConsent(): boolean {
   try {
-    return localStorage.getItem(CONSENT_KEY) === 'accepted';
+    return localStorage.getItem(CONSENT_STORAGE_KEY) === 'accepted';
   } catch {
     return false;
   }
@@ -66,7 +69,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             strategy="lazyOnload"
           />
           <Script id="ga-config" strategy="lazyOnload">
-            {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+            {`${googleConsentGrantedScript()}
 gtag('js',new Date());gtag('config','${GA_ID}');`}
           </Script>
         </>

@@ -5,7 +5,7 @@ import type { QrFeatureFields } from '@/hooks/use-qr-feature-fields';
 import type { AdvancedValues } from '@/lib/advanced-settings-types';
 import type { QRStyleConfig } from '@/lib/qr-style';
 
-type CreateQrApiResult = { qrCode?: { id?: string }; error?: string };
+type CreateQrApiResult = { qrCode?: { id?: string }; firstQr?: boolean; error?: string };
 
 export async function postCreateQr({
   name,
@@ -27,7 +27,9 @@ export async function postCreateQr({
   featureFields: QrFeatureFields;
   isActive?: boolean;
   studioEntitlementId?: string;
-}): Promise<{ ok: true; id: string } | { ok: false; status: number; error?: string }> {
+}): Promise<
+  { ok: true; id: string; firstQr: boolean } | { ok: false; status: number; error?: string }
+> {
   const res = await fetch('/api/qr', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -48,7 +50,7 @@ export async function postCreateQr({
   if (res.ok) {
     const data = (await res.json()) as CreateQrApiResult;
     clearQrCreateDraft();
-    return { ok: true, id: data?.qrCode?.id ?? '' };
+    return { ok: true, id: data?.qrCode?.id ?? '', firstQr: Boolean(data?.firstQr) };
   }
 
   if (res.status === 401) {

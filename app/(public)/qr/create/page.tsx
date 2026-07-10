@@ -30,7 +30,6 @@ export async function generateMetadata(): Promise<Metadata> {
       templates: formatIndustryTemplateCount(locale),
     }),
     path: '/qr/create',
-    noIndex: true,
   });
 }
 

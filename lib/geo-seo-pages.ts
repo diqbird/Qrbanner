@@ -1,6 +1,7 @@
 import type { Locale } from '@/lib/i18n/types';
 import type { SolutionPage } from '@/lib/solutions';
 import { getSolutionBySlug } from '@/lib/solutions';
+import { solutionSectorLabel } from '@/lib/i18n/solution-localize';
 import { GEO_CITIES, getGeoCityBySlug, type GeoCity } from '@/lib/geo-seo-cities';
 
 export type { GeoCity };
@@ -47,8 +48,7 @@ export function buildGeoPagePath(citySlug: string, sectorSlug: string): string {
 }
 
 function sectorLabel(solution: SolutionPage, locale: Locale): string {
-  const base = solution.title.replace(/\s+QR Code$/i, '').replace(/\s+QR$/i, '');
-  return locale === 'tr' ? base : base;
+  return solutionSectorLabel(solution.slug, locale, solution.title);
 }
 
 export function buildGeoPageContent(

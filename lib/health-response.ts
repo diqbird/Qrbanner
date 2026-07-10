@@ -1,4 +1,8 @@
 import { isBillingConfigured } from '@/lib/billing-provider';
+import { isEtsyWebhookConfigured } from '@/lib/etsy-webhook';
+import { MARKETPLACE_PAID_SALES_ENABLED } from '@/lib/marketplace-types';
+import { isMarketplacePayoutConfigured } from '@/lib/marketplace-connect';
+import { isPaddleFullyConfigured } from '@/lib/paddle';
 import { isSmtpConfigured } from '@/lib/smtp-transport';
 
 export type PublicHealthResponse = {
@@ -13,6 +17,9 @@ export type DetailedHealthResponse = PublicHealthResponse & {
     database: boolean;
     smtp: boolean;
     billing: boolean;
+    paddleFullyConfigured: boolean;
+    marketplacePaidReady: boolean;
+    etsyWebhook: boolean;
   };
 };
 
@@ -39,6 +46,10 @@ export function buildDetailedHealthResponse(input: {
       database: input.dbOk,
       smtp: isSmtpConfigured(),
       billing: isBillingConfigured(),
+      paddleFullyConfigured: isPaddleFullyConfigured(),
+      marketplacePaidReady:
+        MARKETPLACE_PAID_SALES_ENABLED && isMarketplacePayoutConfigured(),
+      etsyWebhook: isEtsyWebhookConfigured(),
     },
   };
 }

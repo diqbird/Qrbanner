@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { validatePassword } from '@/lib/password';
 import { PASSWORD_MIN_LENGTH } from '@/lib/password-policy';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
+import { trackSignUp } from '@/lib/site-analytics';
 
 type Translate = (key: string, vars?: Record<string, string | number>) => string;
 
@@ -84,6 +85,7 @@ export function useSignupSubmit({
       }
 
       toast.success(t('auth.accountCreated'));
+      trackSignUp('email');
       const verifyQs = new URLSearchParams({ email });
       if (callbackUrl !== '/dashboard') verifyQs.set('callbackUrl', callbackUrl);
       router.replace(`/verify?${verifyQs.toString()}`);

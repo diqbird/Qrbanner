@@ -8,15 +8,19 @@ import { ReferralCookieSync } from './referral-cookie-sync';
 import { AuthFormShell } from './auth-form-shell';
 import { useSignupForm } from '@/hooks/use-signup-form';
 import { SignupFormFields } from './signup-form-fields';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { formatFreePlanReferralQrLabel } from '@/lib/i18n/dynamic-qr-label';
 
 export function SignupForm({ oauthProviders = [] }: { oauthProviders?: OAuthProviderId[] }) {
   const form = useSignupForm();
+  const { locale } = useLanguage();
   const { t, callbackUrl } = form;
+  const qrLabel = formatFreePlanReferralQrLabel(locale);
 
   return (
     <AuthFormShell
       title={t('auth.createAccount')}
-      subtitle={t('auth.createAccountSubtitle')}
+      subtitle={t('auth.createAccountSubtitle', { qrLabel })}
       homeAria={t('common.homeAria')}
       beforeContent={
         <>

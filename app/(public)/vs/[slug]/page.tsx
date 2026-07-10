@@ -4,8 +4,9 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { COMPETITOR_PAGES, getCompetitorBySlug } from '@/lib/competitor-pages';
 import { getPublicComparisonMeta, getPublicComparisonView, getPublicListTitle } from '@/lib/competitor-public';
-import { pageMetadata } from '@/lib/seo';
+import { pageMetadata, comparisonPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 
@@ -38,6 +39,17 @@ export default async function VsDetailPage({ params }: { params: { slug: string 
 
   return (
     <>
+      <JsonLd
+        data={comparisonPageJsonLd({
+          title: view.headline,
+          description: view.summary,
+          path: `/vs/${page.slug}`,
+          faq: page.comparisonRows.slice(0, 4).map((row) => ({
+            question: `${row.feature}?`,
+            answer: `QRbanner: ${row.qrbanner}. Typical alternative: ${row.competitor}.`,
+          })),
+        })}
+      />
       <PublicBreadcrumbs
         items={[
           { label: t('nav.comparisons'), href: '/vs' },

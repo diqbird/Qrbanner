@@ -3,14 +3,12 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import {
-  approveAndSendStudioDelivery,
   normalizeStudioEmail,
   registerEtsyStudioOrder,
   studioPublicUrl,
 } from '@/lib/studio-entitlement';
 import { requireApiAdmin, isAuthError } from '@/lib/api-route-auth';
 import { getAdminActorContext, recordAdminAudit } from '@/lib/admin-audit';
-import { sendStudioDeliveryEmail } from '@/lib/email';
 import { prisma } from '@/lib/db';
 
 const registerSchema = z.object({
@@ -66,7 +64,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'invalid_body' }, { status: 400 });
   }
 
-  const row = await registerEtsyStudioOrder({
+  const { row, created } = await registerEtsyStudioOrder({
     buyerEmail: normalizeStudioEmail(parsed.data.buyerEmail),
     externalOrderId: parsed.data.externalOrderId,
     notes: parsed.data.notes,
@@ -85,6 +83,7 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({
     ok: true,
     id: row.id,
+    created,
     deliveryStatus: row.deliveryStatus,
     url: studioPublicUrl(row.token),
   });

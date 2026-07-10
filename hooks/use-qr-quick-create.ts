@@ -9,6 +9,7 @@ import { normalizeQRStyle } from '@/lib/qr-style';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { onboardingQrUrl } from '@/lib/onboarding';
 import { normalizeQuickCreateUrl } from '@/lib/qr-quick-create-utils';
+import { trackFirstQrCreated } from '@/lib/site-analytics';
 import type { QRStyleConfig } from '@/lib/qr-style';
 
 export function useQrQuickCreate(onboarding = false) {
@@ -54,6 +55,7 @@ export function useQrQuickCreate(onboarding = false) {
         toast.error(data?.error ?? t('create.createFailed'));
         return;
       }
+      if (data?.firstQr) trackFirstQrCreated();
       toast.success(t('quick.saved'));
       router.push(onboarding ? onboardingQrUrl(data.qrCode.id) : `/qr/${data.qrCode.id}`);
     } catch {

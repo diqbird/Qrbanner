@@ -278,6 +278,46 @@ export function pricingJsonLd() {
   };
 }
 
+export function itemListJsonLd(items: { name: string; path: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      url: absoluteUrl(item.path),
+    })),
+  };
+}
+
+export function comparisonPageJsonLd({
+  title,
+  description,
+  path,
+  faq,
+}: {
+  title: string;
+  description: string;
+  path: string;
+  faq?: { question: string; answer: string }[];
+}) {
+  const graph: Record<string, unknown>[] = [
+    webPageJsonLd({ title, description, path }),
+    breadcrumbJsonLd([
+      { name: 'Comparisons', path: '/vs' },
+      { name: title, path },
+    ]),
+  ];
+  if (faq?.length) {
+    graph.push(faqJsonLd(faq));
+  }
+  return {
+    '@context': 'https://schema.org',
+    '@graph': graph,
+  };
+}
+
 export function webPageJsonLd({
   title,
   description,

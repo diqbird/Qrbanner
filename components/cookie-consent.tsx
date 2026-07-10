@@ -5,7 +5,9 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/i18n/language-provider';
 
-const STORAGE_KEY = 'qrb-cookie-consent';
+import { applyGoogleConsentUpdate, CONSENT_STORAGE_KEY } from '@/lib/google-consent-mode';
+
+const STORAGE_KEY = CONSENT_STORAGE_KEY;
 
 export function CookieConsent() {
   const { t } = useLanguage();
@@ -23,6 +25,7 @@ export function CookieConsent() {
     try {
       localStorage.setItem(STORAGE_KEY, value);
     } catch {}
+    applyGoogleConsentUpdate(value);
     window.dispatchEvent(new CustomEvent('cookie-consent', { detail: value }));
     setVisible(false);
   };

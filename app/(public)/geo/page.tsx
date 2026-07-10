@@ -8,6 +8,7 @@ import { pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { formatFreePlanDynamicQrLabel } from '@/lib/i18n/dynamic-qr-label';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 
 export const revalidate = 3600;
@@ -27,6 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function GeoHubPage() {
   const locale = await getServerLocale();
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
+  const qrLabel = formatFreePlanDynamicQrLabel(locale);
 
   const featuredSectors = GEO_SECTOR_SLUGS.slice(0, 6)
     .map((slug) => getSolutionBySlug(slug))
@@ -91,7 +93,7 @@ export default async function GeoHubPage() {
 
           <div className="mt-14 rounded-xl border border-primary/20 bg-primary/5 p-8 text-center">
             <h2 className="font-display text-xl font-semibold">{t('geoSeo.ctaTitle')}</h2>
-            <p className="mt-2 text-sm text-muted-foreground">{t('geoSeo.ctaBody')}</p>
+            <p className="mt-2 text-sm text-muted-foreground">{t('geoSeo.ctaBody', { qrLabel })}</p>
             <Link href="/qr/create" className="mt-4 inline-block">
               <Button className="gap-2">
                 {t('geoSeo.ctaBtn')} <ArrowRight className="h-4 w-4" />

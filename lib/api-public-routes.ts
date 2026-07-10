@@ -11,6 +11,7 @@ export const PUBLIC_API_ROUTES: PublicApiRoute[] = [
   { method: 'GET', path: '/api/scim/v2/Schemas' },
   { method: 'GET', path: '/api/scim/v2/ServiceProviderConfig' },
   { method: 'POST', path: '/api/billing/webhook' },
+  { method: 'POST', path: '/api/webhooks/etsy' },
   { method: 'POST', path: '/api/auth/forgot-password' },
   { method: 'POST', path: '/api/auth/reset-password' },
   { method: 'POST', path: '/api/signup' },

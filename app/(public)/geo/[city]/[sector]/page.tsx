@@ -15,6 +15,7 @@ import { ProgrammaticPageShell } from '@/components/seo/programmatic-page-shell'
 import { ProgrammaticInternalLinks } from '@/components/seo/programmatic-internal-links';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { formatFreePlanDynamicQrLabel } from '@/lib/i18n/dynamic-qr-label';
 
 export const revalidate = 3600;
 
@@ -55,7 +56,8 @@ export default async function GeoSectorPage({
   const page = buildGeoPageContent(city, params.sector, locale);
   if (!page) notFound();
 
-  const t = (key: string) => translate(locale, key);
+  const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
+  const qrLabel = formatFreePlanDynamicQrLabel(locale);
   const cityName = locale === 'tr' ? city.nameTr : city.name;
   const createUrl = page.solution.categoryId
     ? `/qr/create?category=${page.solution.categoryId}`
@@ -78,7 +80,7 @@ export default async function GeoSectorPage({
           { title: t('geoSeo.stepsTitle'), items: page.steps, ordered: true },
         ]}
         ctaTitle={t('geoSeo.detailCtaTitle').replace('{{city}}', cityName)}
-        ctaBody={t('geoSeo.detailCtaBody')}
+        ctaBody={t('geoSeo.detailCtaBody', { qrLabel })}
       />
       <div className="border-t border-border/40 bg-muted/20 py-8">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 text-center">

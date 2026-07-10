@@ -30,9 +30,12 @@ jobs:
   e2e:
     name: Playwright E2E
     runs-on: ubuntu-latest
-    # Runs on push when PLAYWRIGHT_BASE_URL or E2E_AGAINST_PROD is set (see setup-github-deploy-secrets.py)
+    needs: build
+    # Smoke E2E on main push; full run when PLAYWRIGHT_BASE_URL or workflow_dispatch is set.
     if: >-
       github.event_name == 'workflow_dispatch' ||
+      github.ref == 'refs/heads/main' ||
+      github.ref == 'refs/heads/master' ||
       vars.PLAYWRIGHT_BASE_URL != '' ||
       vars.E2E_AGAINST_PROD == 'true'
     steps:

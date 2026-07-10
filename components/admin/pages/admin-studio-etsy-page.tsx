@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { Copy, Send } from 'lucide-react';
+import { Copy, Send, Mail } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { AdminPageHeader, AdminEmptyState, AdminLoadingState } from '@/components/admin/shared/admin-states';
 import { Button } from '@/components/ui/button';
@@ -101,6 +101,35 @@ export function AdminStudioEtsyPage() {
         return;
       }
       toast.error(t('superAdmin.studioEtsy.approveFailed'));
+    },
+  });
+
+  const resendMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const res = await fetch(`/api/admin/studio/etsy/${id}/resend`, { method: 'POST' });
+      const json = (await res.json()) as { error?: string; emailSent?: boolean; url?: string };
+      if (!res.ok) {
+        if (json.error === 'email_failed' && json.url) {
+          await navigator.clipboard.writeText(json.url);
+          throw new Error('email_failed');
+        }
+        throw new Error(json.error ?? 'resend_failed');
+      }
+      return json;
+    },
+    onSuccess: (json) => {
+      if (json.emailSent) {
+        toast.success(t('superAdmin.studioEtsy.resent'));
+      } else {
+        toast.message(t('superAdmin.studioEtsy.emailFailed'));
+      }
+    },
+    onError: (err: Error) => {
+      if (err.message === 'email_failed') {
+        toast.error(t('superAdmin.studioEtsy.emailFailed'));
+        return;
+      }
+      toast.error(t('superAdmin.studioEtsy.resendFailed'));
     },
   });
 
@@ -212,7 +241,18 @@ export function AdminStudioEtsyPage() {
                               <Send className="h-3.5 w-3.5" />
                               {t('superAdmin.studioEtsy.approveSend')}
                             </Button>
-                          ) : null}
+                          ) : (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="gap-1"
+                              disabled={resendMutation.isPending}
+                              onClick={() => resendMutation.mutate(row.id)}
+                            >
+                              <Mail className="h-3.5 w-3.5" />
+                              {t('superAdmin.studioEtsy.resendEmail')}
+                            </Button>
+                          )}
                         </TableCell>
                       </TableRow>
                     ))}

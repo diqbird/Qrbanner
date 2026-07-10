@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { approveAndSendStudioDelivery } from '@/lib/studio-entitlement';
+import { resolveStudioDeliveryLocale } from '@/lib/studio-delivery-locale';
 import { requireApiAdmin, isAuthError } from '@/lib/api-route-auth';
 import { getAdminActorContext, recordAdminAudit } from '@/lib/admin-audit';
 import { sendStudioDeliveryEmail } from '@/lib/email';
@@ -36,7 +37,7 @@ export async function POST(
         maxQr: row.maxQr,
         buyerEmail: row.buyerEmail,
       },
-      'en',
+      resolveStudioDeliveryLocale(row.notes),
       adminId,
     );
   } catch (err) {

@@ -329,7 +329,7 @@ export async function createStudioEntitlement(input: {
       externalOrderId: input.externalOrderId?.trim() || null,
       expiresAt: input.expiresAt ?? null,
       notes: input.notes?.trim() || null,
-      source: input.source?.trim() || 'etsy',
+      source: input.source?.trim() || 'admin',
       status: 'pending',
       deliveryStatus,
       sentAt: deliveryStatus === 'sent' ? new Date() : null,
@@ -343,8 +343,16 @@ export async function registerEtsyStudioOrder(input: {
   externalOrderId?: string | null;
   notes?: string | null;
   maxQr?: number;
-}) {
-  return createStudioEntitlement({
+}): Promise<{ row: Awaited<ReturnType<typeof createStudioEntitlement>>; created: boolean }> {
+  const orderId = input.externalOrderId?.trim();
+  if (orderId) {
+    const existing = await prisma.studioEntitlement.findFirst({
+      where: { source: 'etsy', externalOrderId: orderId },
+    });
+    if (existing) return { row: existing, created: false };
+  }
+
+  const row = await createStudioEntitlement({
     buyerEmail: input.buyerEmail,
     maxQr: input.maxQr ?? 5,
     externalOrderId: input.externalOrderId,
@@ -352,6 +360,16 @@ export async function registerEtsyStudioOrder(input: {
     source: 'etsy',
     deliveryStatus: 'awaiting_approval',
   });
+  return { row, created: true };
+}
+
+export async function getStudioDeliveryForResend(id: string) {
+  const row = await prisma.studioEntitlement.findUnique({ where: { id } });
+  if (!row) return { ok: false as const, code: 'not_found' as const };
+  if (row.source !== 'etsy') return { ok: false as const, code: 'not_etsy' as const };
+  if (row.deliveryStatus !== 'sent') return { ok: false as const, code: 'not_sent' as const };
+  if (row.status === 'revoked') return { ok: false as const, code: 'revoked' as const };
+  return { ok: true as const, row, url: studioPublicUrl(row.token) };
 }
 
 export async function approveAndSendStudioDelivery(id: string) {

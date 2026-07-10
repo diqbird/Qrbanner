@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { COMPETITOR_PAGES } from '@/lib/competitor-pages';
 import { getPublicListTitle, sanitizeCompetitorBrands } from '@/lib/competitor-public';
-import { pageMetadata, webPageJsonLd } from '@/lib/seo';
+import { pageMetadata, itemListJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
@@ -30,11 +30,12 @@ export default async function VsIndexPage() {
   return (
     <>
       <JsonLd
-        data={webPageJsonLd({
-          title: t('vsIndex.title'),
-          description: t('vsIndex.subtitle'),
-          path: '/vs',
-        })}
+        data={itemListJsonLd(
+          COMPETITOR_PAGES.map((p) => ({
+            name: getPublicListTitle(p, locale),
+            path: `/vs/${p.slug}`,
+          }))
+        )}
       />
       <PublicBreadcrumbs items={[{ label: t('nav.comparisons'), href: '/vs' }]} />
       <div className="py-10 sm:py-16">
@@ -57,7 +58,7 @@ export default async function VsIndexPage() {
                       {getPublicListTitle(p, locale)}
                     </h2>
                     <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                      {sanitizeCompetitorBrands(p.summary)}
+                      {sanitizeCompetitorBrands(p.summary, locale)}
                     </p>
                   </div>
                   <ArrowRight className="h-5 w-5 shrink-0 text-muted-foreground group-hover:text-primary" />

@@ -4,6 +4,7 @@ import type { NextRequest } from 'next/server';
 
 import { getToken } from 'next-auth/jwt';
 
+import { wwwToApexRedirectUrl } from '@/lib/canonical-host';
 import { isAppHost } from '@/lib/custom-domain';
 import { applySecurityHeaders } from '@/lib/security-headers';
 import { hasApiCredentialHeaders, isPublicApiRoute } from '@/lib/api-public-routes';
@@ -84,6 +85,12 @@ function handleLocaleRouting(req: NextRequest): NextResponse | null {
 
 export async function middleware(req: NextRequest) {
   const host = req.headers.get('host');
+
+  const apexRedirect = wwwToApexRedirectUrl(req.nextUrl, host);
+  if (apexRedirect) {
+    return finish(req, NextResponse.redirect(apexRedirect, 301));
+  }
+
   if (!isAppHost(host)) {
     const path = req.nextUrl.pathname;
     if (path.startsWith('/s/')) {

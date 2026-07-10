@@ -3,6 +3,7 @@ const MFA_EXEMPT_API_PREFIXES = [
   '/api/signup',
   '/api/verify',
   '/api/billing/webhook',
+  '/api/webhooks/etsy',
   '/api/billing/status',
   '/api/public',
   '/api/leads',

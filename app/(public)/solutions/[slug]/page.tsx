@@ -4,6 +4,7 @@ import { SOLUTION_PAGES, getSolutionBySlug } from '@/lib/solutions';
 import { pageMetadata } from '@/lib/seo';
 import { SolutionDetailShell } from '@/components/solutions/solution-detail-shell';
 import { getServerLocale } from '@/lib/i18n/server';
+import { localizeSolutionPage } from '@/lib/i18n/solution-localize';
 
 export const revalidate = 3600;
 
@@ -19,17 +20,20 @@ export async function generateMetadata({
   const solution = getSolutionBySlug(params.slug);
   if (!solution) return {};
   const locale = await getServerLocale();
+  const localized = localizeSolutionPage(solution, locale);
   return pageMetadata({
     locale,
-    title: solution.title,
-    description: solution.metaDescription,
-    path: `/solutions/${solution.slug}`,
-    keywords: solution.keywords,
+    title: localized.title,
+    description: localized.metaDescription,
+    path: `/solutions/${localized.slug}`,
+    keywords: localized.keywords,
   });
 }
 
-export default function SolutionDetailPage({ params }: { params: { slug: string } }) {
+export default async function SolutionDetailPage({ params }: { params: { slug: string } }) {
   const solution = getSolutionBySlug(params.slug);
   if (!solution) notFound();
-  return <SolutionDetailShell solution={solution} />;
+  const locale = await getServerLocale();
+  const localized = localizeSolutionPage(solution, locale);
+  return <SolutionDetailShell solution={localized} />;
 }

@@ -23,5 +23,11 @@ PADDLE_PRICE_AGENCY=pri_xxxxxxxx
 #   https://qrbanner.com/api/billing/webhook
 # Subscribe to: subscription.created, subscription.updated, subscription.canceled
 
+# Etsy Premium Studio webhook (optional — auto-queue orders before admin approve):
+# ETSY_WEBHOOK_SECRET=your-long-random-secret
+# POST https://qrbanner.com/api/webhooks/etsy
+# Header: Authorization: Bearer <ETSY_WEBHOOK_SECRET>
+# Body: { "buyerEmail": "...", "externalOrderId": "..." }
+
 # When Paddle env vars are set, checkout uses Paddle instead of Stripe.
 # Remove or comment STRIPE_* keys if you are fully migrating to Paddle.

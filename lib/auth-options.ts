@@ -320,8 +320,11 @@ export const authOptions: NextAuthOptions = {
         } else if (account?.provider && account.provider !== 'credentials') {
           const dbUser = await prisma.user.findUnique({
             where: { id: user.id },
-            select: { totpEnabled: true, sessionVersion: true },
+            select: { totpEnabled: true, sessionVersion: true, createdAt: true },
           });
+          if (dbUser?.createdAt && Date.now() - dbUser.createdAt.getTime() < 120_000) {
+            token.pendingSignUp = account.provider;
+          }
           if (dbUser?.totpEnabled) {
             token.mfaVerified = false;
             token.exp = Math.floor(Date.now() / 1000) + MFA_PENDING_MAX_AGE;
@@ -370,6 +373,10 @@ export const authOptions: NextAuthOptions = {
         (session.user as { id?: string }).id = token.id as string;
         (session.user as { role?: string }).role = token.role as string;
         (session as { mfaVerified?: boolean }).mfaVerified = token.mfaVerified !== false;
+        if (token.pendingSignUp) {
+          session.pendingSignUp = token.pendingSignUp;
+          delete token.pendingSignUp;
+        }
       }
       return session;
     },

@@ -37,12 +37,39 @@ async function paddleRequest<T>(
   return json.data;
 }
 
+export const PADDLE_PRICE_ENV_KEYS = [
+  'PADDLE_PRICE_PRO',
+  'PADDLE_PRICE_BUSINESS',
+  'PADDLE_PRICE_AGENCY',
+  'PADDLE_PRICE_PRO_ANNUAL',
+  'PADDLE_PRICE_BUSINESS_ANNUAL',
+  'PADDLE_PRICE_AGENCY_ANNUAL',
+] as const;
+
+export const PADDLE_CORE_ENV_KEYS = [
+  'PADDLE_API_KEY',
+  'PADDLE_CLIENT_TOKEN',
+  'PADDLE_WEBHOOK_SECRET',
+  ...PADDLE_PRICE_ENV_KEYS,
+] as const;
+
+export function listPaddleEnvGaps(keys: readonly string[] = PADDLE_CORE_ENV_KEYS): string[] {
+  return keys.filter((key) => !process.env[key]?.trim());
+}
+
+/** Minimum env for checkout (Pro/Business monthly). */
 export function isPaddleConfigured(): boolean {
   return Boolean(
-    process.env.PADDLE_API_KEY &&
-      process.env.PADDLE_PRICE_PRO &&
-      process.env.PADDLE_PRICE_BUSINESS
+    process.env.PADDLE_API_KEY?.trim() &&
+      process.env.PADDLE_CLIENT_TOKEN?.trim() &&
+      process.env.PADDLE_PRICE_PRO?.trim() &&
+      process.env.PADDLE_PRICE_BUSINESS?.trim()
   );
+}
+
+/** All price IDs + webhook secret present (production audit). */
+export function isPaddleFullyConfigured(): boolean {
+  return listPaddleEnvGaps().length === 0;
 }
 
 export function paddleClientToken(): string | null {

@@ -7,6 +7,7 @@ import { SiteSettingsProvider } from '@/components/site-settings-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { ChunkLoadErrorHandler } from '@/components/chunk-load-error-handler';
 import { CookieConsent } from '@/components/cookie-consent';
+import { ConversionEvents } from '@/components/analytics/conversion-events';
 
 import { HtmlLangSync } from '@/components/i18n/html-lang-sync';
 
@@ -32,6 +33,7 @@ export function Providers({
         disableTransitionOnChange
       >
         {children}
+        <ConversionEvents />
         <CookieConsent />
         <Toaster />
         <ChunkLoadErrorHandler />

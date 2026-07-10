@@ -17,21 +17,21 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ['business', 'productivity', 'utilities'],
     icons: [
       { src: '/icon', sizes: '32x32', type: 'image/png' },
-      { src: '/icon', sizes: '192x192', type: 'image/png', purpose: 'any' },
-      { src: '/icon', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+      { src: '/icons/icon-192', sizes: '192x192', type: 'image/png', purpose: 'any' },
+      { src: '/icons/icon-512', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
     ],
     shortcuts: [
       {
         name: 'Dashboard',
         short_name: 'Dashboard',
         url: '/dashboard',
-        icons: [{ src: '/icon', sizes: '96x96' }],
+        icons: [{ src: '/icons/icon-192', sizes: '192x192' }],
       },
       {
         name: 'Create QR',
         short_name: 'Create',
         url: '/qr/create',
-        icons: [{ src: '/icon', sizes: '96x96' }],
+        icons: [{ src: '/icons/icon-192', sizes: '192x192' }],
       },
     ],
     related_applications: [],

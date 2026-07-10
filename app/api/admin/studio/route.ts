@@ -76,6 +76,7 @@ export async function POST(req: NextRequest) {
     externalOrderId: parsed.data.externalOrderId,
     expiresAt,
     notes: parsed.data.notes,
+    source: 'admin',
   });
 
   const actor = await getAdminActorContext(adminId, req);

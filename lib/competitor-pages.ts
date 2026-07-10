@@ -99,7 +99,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'No meaningful free tier',
     ],
     comparisonRows: [
-      { feature: 'Free plan', qrbanner: '25 QR codes', competitor: 'Limited/none' },
+      { feature: 'Free plan', qrbanner: FREE_QR_LABEL, competitor: 'Limited/none' },
       { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$49/mo' },
       { feature: 'Custom domain', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'SOC 2 / HIPAA', qrbanner: 'Roadmap', competitor: 'Enterprise' },

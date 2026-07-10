@@ -16,6 +16,8 @@ export function localizeQrTypePage(page: QrTypePage, locale: Locale): QrTypePage
   return tr ? { ...page, ...tr } : page;
 }
 
+export { localizeSolutionPage } from './solution-localize';
+
 export function useCaseTitleKey(slug: string): string {
   return `useCasesPages.${slug}.title`;
 }

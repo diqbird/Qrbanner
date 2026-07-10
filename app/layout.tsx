@@ -2,6 +2,7 @@ import { DM_Sans, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
 import { DeferredSiteAnalytics } from '@/components/analytics/deferred-site-analytics';
+import { ConsentModeBootstrap } from '@/components/analytics/consent-mode-bootstrap';
 import { LocaleHeadLinks } from '@/components/seo/locale-head-links';
 import { getServerLocale } from '@/lib/i18n/server';
 import {
@@ -63,7 +64,7 @@ export const metadata = {
   icons: {
     icon: [{ url: '/icon', type: 'image/png' }],
     shortcut: '/icon',
-    apple: '/icon',
+    apple: '/apple-icon',
   },
   verification: {
     google:
@@ -81,6 +82,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <LocaleHeadLinks />
       </head>
       <body className={`${dmSans.variable} ${jakartaSans.variable} font-sans antialiased`}>
+        <ConsentModeBootstrap />
         <Providers initialLocale={locale}>{children}</Providers>
         <DeferredSiteAnalytics />
       </body>

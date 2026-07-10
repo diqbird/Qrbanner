@@ -11,6 +11,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
+        // /qr/create is explicitly allowed (public wizard); /qr/ blocks authenticated edit URLs.
         allow: ['/', '/qr/create'],
         disallow: [
           '/api/',

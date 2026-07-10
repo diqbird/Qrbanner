@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { isBillingConfigured, siteBaseUrl } from '@/lib/billing-provider';
-import { createPaddleCheckout } from '@/lib/paddle';
+import { createPaddleCheckout, paddlePriceIdForPlan } from '@/lib/paddle';
 import type { PlanId } from '@/lib/plans';
 import { normalizePlanId, type BillingInterval } from '@/lib/plans';
 import { requireSessionContext, isAuthError } from '@/lib/session-auth';
@@ -19,6 +19,19 @@ export async function POST(req: Request) {
     if (!isBillingConfigured()) {
       return NextResponse.json(
         { error: 'billing_not_configured', message: 'Paid plans are not available yet.' },
+        { status: 503 }
+      );
+    }
+
+    if (!paddlePriceIdForPlan(plan, interval)) {
+      return NextResponse.json(
+        {
+          error: 'billing_not_configured',
+          message:
+            interval === 'annual'
+              ? 'Annual billing is not configured for this plan yet.'
+              : 'This plan is not available for checkout yet.',
+        },
         { status: 503 }
       );
     }

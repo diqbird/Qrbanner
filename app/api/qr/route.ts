@@ -20,6 +20,7 @@ import {
 } from '@/lib/workspace';
 import { QR_MUTATION_LIMIT, rateLimitRequest } from '@/lib/authenticated-rate-limit';
 import { parseQrListPagination } from '@/lib/qr-list-pagination';
+import { prisma } from '@/lib/db';
 import {
   buildQrListWhere,
   listWorkspaceQrs,
@@ -181,6 +182,10 @@ export async function POST(req: NextRequest) {
       if (!folderCheck.ok) return NextResponse.json({ error: 'Folder not found' }, { status: 400 });
     }
 
+    const existingQrCount = await prisma.qRCode.count({
+      where: { userId, isArchived: false },
+    });
+
     const shortCode = await allocateUniqueShortCode();
 
     const targetUrl = buildQRPayload(category, cleanQrData);
@@ -240,7 +245,7 @@ export async function POST(req: NextRequest) {
       await consumeStudioQr(studioId);
     }
 
-    return NextResponse.json({ qrCode });
+    return NextResponse.json({ qrCode, firstQr: existingQrCount === 0 });
   } catch (error: unknown) {
     console.error('QR create error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
