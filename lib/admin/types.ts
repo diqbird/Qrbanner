@@ -18,6 +18,7 @@ export type AdminModuleId =
   | 'notifications'
   | 'support'
   | 'studio'
+  | 'studio-etsy'
   | 'analytics'
   | 'webhooks'
   | 'settings'

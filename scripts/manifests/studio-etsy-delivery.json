@@ -1,0 +1,27 @@
+{
+  "upload": [
+    "prisma/schema.prisma",
+    "prisma/migrations/0009_studio_etsy_delivery/migration.sql",
+    "lib/studio-types.ts",
+    "lib/studio-entitlement.ts",
+    "lib/email.ts",
+    "lib/i18n/studio-delivery-email.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/admin/modules.ts",
+    "lib/admin/types.ts",
+    "lib/admin-audit.ts",
+    "lib/template-marketplace.ts",
+    "app/api/admin/studio/route.ts",
+    "app/api/admin/studio/etsy/route.ts",
+    "app/api/admin/studio/etsy/[id]/approve/route.ts",
+    "app/(admin)/admin/studio/etsy/page.tsx",
+    "components/admin/pages/admin-studio-etsy-page.tsx",
+    "components/studio/studio-token-page.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": true,
+  "prisma_migrate": true,
+  "build": true,
+  "restart": true
+}

@@ -120,6 +120,15 @@ export function StudioTokenPage({ token }: { token: string }) {
     );
   }
 
+  if (entitlement.deliveryStatus === 'awaiting_approval') {
+    return (
+      <StudioStatusCard
+        title={t('studio.errors.not_delivered')}
+        body={t('studio.errors.not_delivered_body')}
+      />
+    );
+  }
+
   if (entitlement.status === 'revoked') {
     return (
       <StudioStatusCard title={t('studio.errors.revoked')} body={t('studio.errors.revoked_body')} />

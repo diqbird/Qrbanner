@@ -57,6 +57,10 @@ function syncExpiredStatus(
   return status;
 }
 
+export function isStudioDeliveryActive(deliveryStatus: string): boolean {
+  return deliveryStatus === 'sent';
+}
+
 export function toStudioEntitlementView(
   row: {
     id: string;
@@ -65,18 +69,25 @@ export function toStudioEntitlementView(
     maxQr: number;
     qrRemaining: number;
     status: string;
+    deliveryStatus: string;
     source: string;
     externalOrderId: string | null;
     expiresAt: Date | null;
     claimedAt: Date | null;
+    sentAt: Date | null;
     userId: string | null;
   },
   viewerUserId?: string | null,
   now = new Date(),
 ): StudioEntitlementView {
   const status = syncExpiredStatus(row, now);
+  const deliveryStatus = (
+    row.deliveryStatus === 'awaiting_approval' ? 'awaiting_approval' : 'sent'
+  ) as StudioEntitlementView['deliveryStatus'];
   const isOwner = Boolean(viewerUserId && row.userId === viewerUserId);
+  const delivered = isStudioDeliveryActive(row.deliveryStatus);
   const canCreate =
+    delivered &&
     isOwner &&
     status === 'claimed' &&
     row.qrRemaining > 0 &&
@@ -90,10 +101,12 @@ export function toStudioEntitlementView(
     maxQr: row.maxQr,
     qrRemaining: row.qrRemaining,
     status,
+    deliveryStatus,
     source: row.source,
     externalOrderId: row.externalOrderId,
     expiresAt: row.expiresAt?.toISOString() ?? null,
     claimedAt: row.claimedAt?.toISOString() ?? null,
+    sentAt: row.sentAt?.toISOString() ?? null,
     isOwner,
     canCreate,
   };
@@ -145,6 +158,9 @@ export async function assertStudioCanCreate(
   if (view.status !== 'claimed') {
     return { ok: false, error: 'studio_entitlement_not_active' };
   }
+  if (!isStudioDeliveryActive(row.deliveryStatus)) {
+    return { ok: false, error: 'studio_entitlement_not_delivered' };
+  }
 
   return { ok: true, entitlementId: row.id };
 }
@@ -186,6 +202,10 @@ export async function claimStudioEntitlement({
   const normalizedEmail = normalizeStudioEmail(email);
   const row = await prisma.studioEntitlement.findUnique({ where: { token } });
   if (!row) return { ok: false, code: 'invalid_token' };
+
+  if (!isStudioDeliveryActive(row.deliveryStatus)) {
+    return { ok: false, code: 'not_delivered' };
+  }
 
   const status = syncExpiredStatus(row);
   if (status === 'revoked') return { ok: false, code: 'revoked' };
@@ -295,9 +315,11 @@ export async function createStudioEntitlement(input: {
   expiresAt?: Date | null;
   notes?: string | null;
   source?: string;
+  deliveryStatus?: 'awaiting_approval' | 'sent';
 }) {
   const maxQr = Math.max(1, Math.min(20, Math.floor(input.maxQr)));
   const token = generateStudioToken();
+  const deliveryStatus = input.deliveryStatus ?? 'sent';
   return prisma.studioEntitlement.create({
     data: {
       token,
@@ -309,8 +331,52 @@ export async function createStudioEntitlement(input: {
       notes: input.notes?.trim() || null,
       source: input.source?.trim() || 'etsy',
       status: 'pending',
+      deliveryStatus,
+      sentAt: deliveryStatus === 'sent' ? new Date() : null,
     },
   });
+}
+
+/** Register an Etsy order — link exists but buyer cannot claim until admin approves & sends email. */
+export async function registerEtsyStudioOrder(input: {
+  buyerEmail: string;
+  externalOrderId?: string | null;
+  notes?: string | null;
+  maxQr?: number;
+}) {
+  return createStudioEntitlement({
+    buyerEmail: input.buyerEmail,
+    maxQr: input.maxQr ?? 5,
+    externalOrderId: input.externalOrderId,
+    notes: input.notes,
+    source: 'etsy',
+    deliveryStatus: 'awaiting_approval',
+  });
+}
+
+export async function approveAndSendStudioDelivery(id: string) {
+  const row = await prisma.studioEntitlement.findUnique({ where: { id } });
+  if (!row) return { ok: false as const, code: 'not_found' };
+  if (row.deliveryStatus !== 'awaiting_approval') {
+    return { ok: false as const, code: 'already_sent' };
+  }
+  if (row.status === 'revoked') return { ok: false as const, code: 'revoked' };
+
+  const now = new Date();
+  const updated = await prisma.studioEntitlement.update({
+    where: { id },
+    data: {
+      deliveryStatus: 'sent',
+      approvedAt: now,
+      sentAt: now,
+    },
+  });
+
+  return {
+    ok: true as const,
+    row: updated,
+    url: studioPublicUrl(updated.token),
+  };
 }
 
 /** Claim a pending token for an already signed-in user (email must match buyerEmail). */
@@ -329,6 +395,10 @@ export async function claimStudioWithSession(
 
   const row = await prisma.studioEntitlement.findUnique({ where: { token } });
   if (!row) return { ok: false, code: 'invalid_token' };
+
+  if (!isStudioDeliveryActive(row.deliveryStatus)) {
+    return { ok: false, code: 'not_delivered' };
+  }
 
   const status = syncExpiredStatus(row);
   if (status === 'revoked') return { ok: false, code: 'revoked' };

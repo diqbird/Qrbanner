@@ -327,3 +327,31 @@ export async function sendAdminTestEmail(
     actorId,
   });
 }
+
+export async function sendStudioDeliveryEmail(
+  to: string,
+  input: { url: string; maxQr: number; buyerEmail: string },
+  locale: import('@/lib/i18n/types').Locale = 'en',
+  actorId?: string | null,
+) {
+  const { buildStudioDeliveryEmailContent } = await import('@/lib/i18n/studio-delivery-email');
+  const { subject, html, text } = buildStudioDeliveryEmailContent(locale, input);
+
+  if (!getTransporter()) {
+    if (isDevEmailFallbackAllowed()) {
+      logDevEmailSkipped('studio delivery', to);
+      return { sent: false, fallback: true, url: input.url };
+    }
+    throw new EmailNotConfiguredError('studio delivery email');
+  }
+
+  const result = await deliverMail({
+    to,
+    subject,
+    text,
+    html,
+    kind: 'transactional',
+    actorId,
+  });
+  return { ...result, url: input.url };
+}

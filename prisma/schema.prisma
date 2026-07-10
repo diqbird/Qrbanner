@@ -553,14 +553,17 @@ model StudioEntitlement {
   id              String    @id @default(cuid())
   token           String    @unique
   buyerEmail      String
-  maxQr           Int       @default(1)
+  maxQr           Int       @default(5)
   qrRemaining     Int
   status          String    @default("pending")
   source          String    @default("etsy")
+  deliveryStatus  String    @default("sent")
   externalOrderId String?
   notes           String?
   userId          String?
   claimedAt       DateTime?
+  sentAt          DateTime?
+  approvedAt      DateTime?
   expiresAt       DateTime?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
@@ -569,6 +572,7 @@ model StudioEntitlement {
   @@index([buyerEmail])
   @@index([userId])
   @@index([status])
+  @@index([deliveryStatus])
   @@index([externalOrderId])
 }
 

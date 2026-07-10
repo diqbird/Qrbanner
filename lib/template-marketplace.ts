@@ -13,6 +13,9 @@ export function listMarketplaceTemplates(): IndustryTemplate[] {
   return INDUSTRY_TEMPLATES;
 }
 
+/** Total industry templates available in the create wizard / marketplace. */
+export const MARKETPLACE_TEMPLATE_COUNT = INDUSTRY_TEMPLATES.length;
+
 export function marketplaceCategories(templates: IndustryTemplate[] = INDUSTRY_TEMPLATES): string[] {
   return Array.from(new Set(templates.map((t) => t.category))).sort();
 }
