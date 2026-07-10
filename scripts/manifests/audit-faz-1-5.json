@@ -40,6 +40,7 @@
     "lib/competitor-pages.ts",
     "lib/paddle.ts",
     "lib/health-response.ts",
+    "lib/admin-audit.ts",
     "lib/seo.ts",
     "lib/studio-entitlement.ts",
     "lib/studio-delivery-locale.ts",
