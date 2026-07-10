@@ -181,6 +181,96 @@ const FAQ_TR: FaqItem[] = [
   },
 ];
 
+const FAQ_DE: FaqItem[] = [
+  {
+    question: 'Was ist ein dynamischer QR-Code?',
+    answer:
+      'Ein dynamischer QR-Code verweist auf einen von Ihnen kontrollierten Kurzlink. Sie können Ziel-URL, Routing-Regeln und Analysen ändern, ohne den QR-Code neu zu drucken.',
+  },
+  {
+    question: 'Unterstützt QRbanner Geofencing?',
+    answer:
+      'Ja. Sie können Scanner nach Land und optional Stadt (per IP) auf unterschiedliche URLs leiten. Kombinieren Sie mit zeit- und gerätebasierten Regeln.',
+  },
+  {
+    question: 'Kann ich meine eigene Domain für Scan-Links nutzen?',
+    answer:
+      'Ja. Subdomain hinzufügen, DNS verifizieren und Scans über Ihre Marken-URL ausliefern — Codes im QRbanner-Dashboard verwalten.',
+  },
+  {
+    question: 'Gibt es eine REST-API?',
+    answer:
+      'Ja. QRbanner bietet eine v1 REST-API zum Erstellen und Verwalten von QR-Codes und Ordnern. API-Key unter Einstellungen erzeugen.',
+  },
+  {
+    question: 'Was passiert mit meinen QR-Codes bei Kündigung?',
+    answer:
+      'QRbanner ist so konzipiert, dass dynamische Codes nach Downgrade oder Kündigung im Free-Plan weiter funktionieren können — innerhalb der Planlimits. Gedruckte Codes werden nicht blockiert.',
+  },
+  {
+    question: 'Welche Analysen sind enthalten?',
+    answer:
+      'Gesamt- und Unique-Scans, Datumsbereiche, Land, Stadt, Gerät, Browser und OS, GPS-Heatmaps, A/B-Varianten, NFC vs. QR, Landingpage-CTA-Raten. CSV-Export aus dem Dashboard.',
+  },
+  {
+    question: 'Kann ich QR-Codes in Bulk erstellen?',
+    answer:
+      'Ja. CSV hochladen und viele QR-Codes auf einmal erstellen — ideal für Filialen, Events und Multi-Location-Kampagnen.',
+  },
+  {
+    question: 'Unterstützt ihr GA4 und Meta Pixel?',
+    answer:
+      'Ja. Google Analytics 4 und Meta Pixel IDs anbinden, um Scan- und CTA-Events auf Landingpages und Redirects auszulösen.',
+  },
+  {
+    question: 'Kann ich Webhooks bei Scans erhalten?',
+    answer:
+      'Ja. Webhook-Endpunkte unter Einstellungen hinzufügen. Jeder Scan sendet signiertes JSON für Zapier, Slack oder Ihr CRM.',
+  },
+  {
+    question: 'Können Landingpages Leads erfassen?',
+    answer:
+      'Ja. Lead-Erfassung auf Landingpages aktivieren — Name, E-Mail, Telefon oder Nachricht vor der Weiterleitung.',
+  },
+  {
+    question: 'Unterstützt QRbanner A/B-Tests?',
+    answer:
+      'Ja. Traffic zwischen mehreren Ziel-URLs mit gewichteten Varianten, Sticky Cookies und Analysen pro Variante aufteilen.',
+  },
+  {
+    question: 'Kann mein Team an QR-Codes zusammenarbeiten?',
+    answer:
+      'Ja. Team-Workspaces erstellen, Mitglieder per E-Mail einladen und Rollen zuweisen. Workspace unter Einstellungen wechseln.',
+  },
+  {
+    question: 'Unterstützt ihr SSO?',
+    answer:
+      'Ja. Anmeldung mit Google oder Microsoft Azure AD. Business-Workspaces können SSO erzwingen und SAML (Okta, Azure AD usw.) mit erlaubten E-Mail-Domains konfigurieren.',
+  },
+  {
+    question: 'Ist Zwei-Faktor-Authentifizierung verfügbar?',
+    answer:
+      'Ja. TOTP-Authenticator-Apps (Google Authenticator, 1Password usw.) unter Einstellungen für zusätzliche Kontosicherheit aktivieren.',
+  },
+  {
+    question: 'Kann KI Landingpage-Texte schreiben?',
+    answer:
+      'Ja. Im Landingpage-Editor „Mit KI generieren“ für Titel, Untertitel, CTAs und SEO-Metadaten. Optional OpenAI API-Key auf dem Server.',
+  },
+  {
+    question: 'Unterstützt QRbanner NFC-Tags?',
+    answer:
+      'Ja. NFC-Tags mit derselben dynamischen URL programmieren. Scans werden in Analysen separat als NFC erfasst.',
+  },
+  {
+    question: 'Wie kontaktiere ich den Support?',
+    answer:
+      'E-Mail an support@qrbanner.com bei Fragen zu Konto, Abrechnung, QR-Codes oder Technik. Antwort in der Regel innerhalb eines Werktags.',
+  },
+];
+
 export function getFaqItems(locale: Locale): FaqItem[] {
-  return locale === 'tr' ? FAQ_TR : FAQ_EN;
+  if (locale === 'tr') return FAQ_TR;
+  if (locale === 'de') return FAQ_DE;
+  return FAQ_EN;
 }
