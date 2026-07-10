@@ -1,0 +1,7 @@
+{
+  "upload": ["lib/site-analytics.ts"],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "build": true,
+  "restart": true
+}

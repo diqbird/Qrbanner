@@ -23,6 +23,10 @@ export function trackGaEvent(
 ): void {
   if (!hasAnalyticsConsent()) return;
   try {
+    if (typeof window !== 'undefined') {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: eventName, ...params });
+    }
     if (typeof window.gtag === 'function') {
       window.gtag('event', eventName, params);
     }
