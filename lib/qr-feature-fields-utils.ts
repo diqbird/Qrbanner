@@ -2,6 +2,7 @@ import { emptyAdvanced, type AdvancedValues } from '@/components/qr/advanced-set
 import { emptyLandingPage, type LandingPageData } from '@/components/qr/landing-page-editor';
 import { emptyScheduleData, type ScheduleData } from '@/components/qr/schedule-settings';
 import { emptyGeofenceData, type GeofenceData } from '@/components/qr/geofence-settings';
+import { emptyLanguageRedirectData, type LanguageRedirectData } from '@/lib/language-redirect';
 import { emptyAbTestData, parseAbTestData } from '@/lib/ab-routing';
 import { emptyScanNotify, type ScanNotifyValues } from '@/components/qr/scan-notify-settings';
 import { emptyPixelAnalytics } from '@/components/qr/analytics-pixel-settings';
@@ -25,6 +26,8 @@ export function emptyQrFeatureFieldState() {
     scheduleData: emptyScheduleData,
     geofenceEnabled: false,
     geofenceData: emptyGeofenceData,
+    languageRedirectEnabled: false,
+    languageRedirectData: emptyLanguageRedirectData,
     abTestEnabled: false,
     abTestData: emptyAbTestData,
     gpsHeatmapEnabled: false,
@@ -64,6 +67,13 @@ export function qrFeatureFieldStateFromRecord(record: QrFeatureRecord) {
       ...emptyGeofenceData,
       ...(record.geofenceData && typeof record.geofenceData === 'object' ? record.geofenceData : {}),
     } satisfies GeofenceData,
+    languageRedirectEnabled: Boolean(record.languageRedirectEnabled),
+    languageRedirectData: {
+      ...emptyLanguageRedirectData,
+      ...(record.languageRedirectData && typeof record.languageRedirectData === 'object'
+        ? record.languageRedirectData
+        : {}),
+    } satisfies LanguageRedirectData,
     abTestEnabled: Boolean(record.abTestEnabled),
     abTestData: parseAbTestData(record.abTestData),
     gpsHeatmapEnabled: Boolean(record.gpsHeatmapEnabled),
@@ -88,6 +98,8 @@ export function buildQrFeaturePayload({ name, mode, fields }: QrFeaturePayloadIn
     scheduleData,
     geofenceEnabled,
     geofenceData,
+    languageRedirectEnabled,
+    languageRedirectData,
     abTestEnabled,
     abTestData,
     gpsHeatmapEnabled,
@@ -117,6 +129,8 @@ export function buildQrFeaturePayload({ name, mode, fields }: QrFeaturePayloadIn
     scheduleData: scheduleEnabled ? scheduleData : empty,
     geofenceEnabled: geofenceEnabled,
     geofenceData: geofenceEnabled ? geofenceData : empty,
+    languageRedirectEnabled: languageRedirectEnabled,
+    languageRedirectData: languageRedirectEnabled ? languageRedirectData : empty,
     abTestEnabled,
     abTestData: abTestEnabled ? abTestData : empty,
     gpsHeatmapEnabled,

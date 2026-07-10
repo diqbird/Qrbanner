@@ -1,6 +1,5 @@
 import crypto from 'crypto';
-import { recordWebhookDelivery } from '@/lib/webhook-deliveries';
-import { assertSafeOutboundUrl } from '@/lib/outbound-url';
+import { deliverWebhookPayload } from '@/lib/webhook-dispatch';
 
 export interface ScanWebhookPayload {
   event: 'scan';
@@ -35,62 +34,15 @@ export async function dispatchScanWebhooks(
   const body = JSON.stringify(payload);
 
   await Promise.allSettled(
-    endpoints.map(async (ep) => {
-      const started = Date.now();
-      let statusCode: number | null = null;
-      let success = false;
-      let error: string | null = null;
-
-      try {
-        const urlCheck = assertSafeOutboundUrl(ep.url);
-        if (!urlCheck.ok) {
-          error = urlCheck.error;
-          console.warn(`Webhook ${ep.id} blocked: ${error}`);
-          await recordWebhookDelivery({
-            endpointId: ep.id,
-            userId,
-            event: 'scan',
-            statusCode: null,
-            success: false,
-            error,
-            durationMs: Date.now() - started,
-          });
-          return;
-        }
-
-        const signature = signWebhookPayload(ep.secret, body);
-        const res = await fetch(urlCheck.url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'User-Agent': 'QRbanner-Webhooks/1.0',
-            'X-QRbanner-Event': 'scan',
-            'X-QRbanner-Signature': `sha256=${signature}`,
-          },
-          body,
-          signal: AbortSignal.timeout(8000),
-        });
-        statusCode = res.status;
-        success = res.ok;
-        if (!res.ok) {
-          error = `HTTP ${res.status}`;
-          console.warn(`Webhook ${ep.id} failed: ${res.status}`);
-        }
-      } catch (err) {
-        error = err instanceof Error ? err.message : 'Request failed';
-        console.warn(`Webhook ${ep.id} error:`, error);
-      }
-
-      await recordWebhookDelivery({
-        endpointId: ep.id,
+    endpoints.map((ep) =>
+      deliverWebhookPayload({
+        endpoint: ep,
         userId,
         event: 'scan',
-        statusCode,
-        success,
-        error,
-        durationMs: Date.now() - started,
-      });
-    })
+        body,
+        payload,
+      })
+    )
   );
 }
 

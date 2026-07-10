@@ -27,6 +27,8 @@ export function useQrEditForm(qrId: string) {
     scheduleData: featureSlice.scheduleData,
     geofenceEnabled: featureSlice.geofenceEnabled,
     geofenceData: featureSlice.geofenceData,
+    languageRedirectEnabled: featureSlice.languageRedirectEnabled,
+    languageRedirectData: featureSlice.languageRedirectData,
     abTestEnabled: featureSlice.abTestEnabled,
     abTestData: featureSlice.abTestData,
     gpsHeatmapEnabled: featureSlice.gpsHeatmapEnabled,

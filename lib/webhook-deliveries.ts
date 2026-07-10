@@ -10,7 +10,9 @@ export type WebhookDeliveryRecord = {
   success: boolean;
   error: string | null;
   durationMs: number | null;
+  attempt: number;
   createdAt: Date;
+  payload?: unknown;
   endpoint?: { id: string; url: string; label: string | null };
 };
 
@@ -22,6 +24,8 @@ export async function recordWebhookDelivery(input: {
   success: boolean;
   error?: string | null;
   durationMs?: number | null;
+  payload?: object | null;
+  attempt?: number;
 }): Promise<void> {
   try {
     await prisma.webhookDelivery.create({
@@ -33,6 +37,8 @@ export async function recordWebhookDelivery(input: {
         success: input.success,
         error: input.error ?? null,
         durationMs: input.durationMs ?? null,
+        payload: input.payload ?? undefined,
+        attempt: input.attempt ?? 1,
       },
     });
 

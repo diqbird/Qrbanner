@@ -9,6 +9,7 @@ import {
   isSchemeScanCategory,
 } from '@/lib/qr-category-registry';
 import { isBlockedRedirectUrl } from '@/lib/url-safety';
+import { resolveLanguageRedirectUrl } from '@/lib/language-redirect';
 import { pickScanLocale } from '@/lib/i18n/resolve-scan-page-copy';
 import {
   getPixelConfig,
@@ -49,6 +50,14 @@ export function getRedirectUrl(
         scanGeo.city
       );
       if (geofenced) redirectUrl = geofenced;
+    }
+
+    if (qrCode.languageRedirectEnabled) {
+      const langUrl = resolveLanguageRedirectUrl(
+        qrCode.languageRedirectData,
+        req.headers.get('accept-language')
+      );
+      if (langUrl) redirectUrl = langUrl;
     }
 
     if (qrCode.abTestEnabled) {

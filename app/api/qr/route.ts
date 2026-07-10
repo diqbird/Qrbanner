@@ -6,6 +6,7 @@ import { buildQRPayload } from '@/lib/qr-utils';
 import { stripMetaFields } from '@/lib/industry-templates';
 import { normalizeLabels } from '@/lib/organize-utils';
 import { sanitizeGeofenceData } from '@/lib/geofence-shared';
+import { sanitizeLanguageRedirectData } from '@/lib/language-redirect';
 import { assertCanCreateQr } from '@/lib/plan-usage';
 import { consumeStudioQr } from '@/lib/studio-entitlement';
 import { assertQrUrlsAllowed } from '@/lib/validate-qr-urls';
@@ -137,6 +138,7 @@ export async function POST(req: NextRequest) {
             landingPageEnabled, landingPageData,
             scheduleEnabled, scheduleData,
             geofenceEnabled, geofenceData,
+            languageRedirectEnabled, languageRedirectData,
             abTestEnabled, abTestData,
             gpsHeatmapEnabled, nfcEnabled,
             scanNotifyEnabled, scanNotifyFirst, scanNotifyMilestones, scanNotifyEvery,
@@ -222,6 +224,10 @@ export async function POST(req: NextRequest) {
         geofenceEnabled: Boolean(geofenceEnabled),
         geofenceData: geofenceEnabled
           ? (sanitizeGeofenceData(geofenceData ?? { rules: [] }) as object)
+          : undefined,
+        languageRedirectEnabled: Boolean(languageRedirectEnabled),
+        languageRedirectData: languageRedirectEnabled
+          ? (sanitizeLanguageRedirectData(languageRedirectData ?? { rules: [] }) as object)
           : undefined,
         abTestEnabled: Boolean(abTestEnabled),
         abTestData: abTestEnabled

@@ -5,6 +5,7 @@ import type { AdvancedValues } from '@/components/qr/advanced-settings';
 import type { LandingPageData } from '@/components/qr/landing-page-editor';
 import type { ScheduleData } from '@/components/qr/schedule-settings';
 import type { GeofenceData } from '@/components/qr/geofence-settings';
+import type { LanguageRedirectData } from '@/lib/language-redirect';
 import type { AbTestData } from '@/lib/ab-routing';
 import type { ScanNotifyValues } from '@/components/qr/scan-notify-settings';
 import type { PixelAnalyticsConfig } from '@/components/qr/analytics-pixel-settings';
@@ -22,6 +23,8 @@ type FeatureFieldSetters = {
   setScheduleData: (data: ScheduleData) => void;
   setGeofenceEnabled: (enabled: boolean) => void;
   setGeofenceData: (data: GeofenceData) => void;
+  setLanguageRedirectEnabled: (enabled: boolean) => void;
+  setLanguageRedirectData: (data: LanguageRedirectData) => void;
   setAbTestEnabled: (enabled: boolean) => void;
   setAbTestData: (data: AbTestData) => void;
   setGpsHeatmapEnabled: (enabled: boolean) => void;
@@ -38,6 +41,8 @@ function applyFeatureFieldState(setters: FeatureFieldSetters, state: ReturnType<
   setters.setScheduleData(state.scheduleData);
   setters.setGeofenceEnabled(state.geofenceEnabled);
   setters.setGeofenceData(state.geofenceData);
+  setters.setLanguageRedirectEnabled(state.languageRedirectEnabled);
+  setters.setLanguageRedirectData(state.languageRedirectData);
   setters.setAbTestEnabled(state.abTestEnabled);
   setters.setAbTestData(state.abTestData);
   setters.setGpsHeatmapEnabled(state.gpsHeatmapEnabled);

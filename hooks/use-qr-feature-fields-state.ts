@@ -12,6 +12,7 @@ import { emptyAdvanced } from '@/components/qr/advanced-settings';
 import { emptyLandingPage } from '@/components/qr/landing-page-editor';
 import { emptyScheduleData } from '@/components/qr/schedule-settings';
 import { emptyGeofenceData } from '@/components/qr/geofence-settings';
+import { emptyLanguageRedirectData, type LanguageRedirectData } from '@/lib/language-redirect';
 import { emptyAbTestData } from '@/lib/ab-routing';
 import { emptyScanNotify } from '@/components/qr/scan-notify-settings';
 import { emptyPixelAnalytics } from '@/components/qr/analytics-pixel-settings';
@@ -25,6 +26,9 @@ export function useQrFeatureFieldsState() {
   const [scheduleData, setScheduleData] = useState<ScheduleData>(emptyScheduleData);
   const [geofenceEnabled, setGeofenceEnabled] = useState(false);
   const [geofenceData, setGeofenceData] = useState<GeofenceData>(emptyGeofenceData);
+  const [languageRedirectEnabled, setLanguageRedirectEnabled] = useState(false);
+  const [languageRedirectData, setLanguageRedirectData] =
+    useState<LanguageRedirectData>(emptyLanguageRedirectData);
   const [abTestEnabled, setAbTestEnabled] = useState(false);
   const [abTestData, setAbTestData] = useState<AbTestData>(emptyAbTestData);
   const [gpsHeatmapEnabled, setGpsHeatmapEnabled] = useState(false);
@@ -41,6 +45,8 @@ export function useQrFeatureFieldsState() {
       setScheduleData,
       setGeofenceEnabled,
       setGeofenceData,
+      setLanguageRedirectEnabled,
+      setLanguageRedirectData,
       setAbTestEnabled,
       setAbTestData,
       setGpsHeatmapEnabled,
@@ -68,6 +74,10 @@ export function useQrFeatureFieldsState() {
     setGeofenceEnabled,
     geofenceData,
     setGeofenceData,
+    languageRedirectEnabled,
+    setLanguageRedirectEnabled,
+    languageRedirectData,
+    setLanguageRedirectData,
     abTestEnabled,
     setAbTestEnabled,
     abTestData,

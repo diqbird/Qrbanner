@@ -24,6 +24,7 @@ export function useWebhookSettings() {
     webhooks,
     limit,
     deliveries,
+    fetchDeliveries,
     ...mutations,
   };
 }

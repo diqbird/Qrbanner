@@ -25,6 +25,8 @@ export async function GET(req: NextRequest) {
       success: row.success,
       error: row.error,
       durationMs: row.durationMs,
+      attempt: row.attempt,
+      canRetry: Boolean(row.payload),
       createdAt: row.createdAt.toISOString(),
     })),
   });

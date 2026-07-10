@@ -18,6 +18,8 @@ export type QrEditFormPersistenceFields = {
   scheduleData: QrFeatureFields['scheduleData'];
   geofenceEnabled: boolean;
   geofenceData: QrFeatureFields['geofenceData'];
+  languageRedirectEnabled: boolean;
+  languageRedirectData: QrFeatureFields['languageRedirectData'];
   abTestEnabled: boolean;
   abTestData: QrFeatureFields['abTestData'];
   gpsHeatmapEnabled: boolean;

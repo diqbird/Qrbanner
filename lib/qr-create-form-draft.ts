@@ -5,6 +5,7 @@ import type { IndustryTemplate } from '@/lib/industry-templates';
 import type { LandingPageData } from '@/lib/landing-page';
 import type { ScheduleData } from '@/components/qr/schedule-settings';
 import type { GeofenceData } from '@/components/qr/geofence-settings';
+import type { LanguageRedirectData } from '@/lib/language-redirect';
 import type { AbTestData } from '@/lib/ab-routing';
 import type { ScanNotifyValues } from '@/components/qr/scan-notify-settings';
 import type { PixelAnalyticsConfig } from '@/components/qr/analytics-pixel-settings';
@@ -26,6 +27,8 @@ export type QrCreateDraftState = {
   scheduleData: ScheduleData;
   geofenceEnabled: boolean;
   geofenceData: GeofenceData;
+  languageRedirectEnabled: boolean;
+  languageRedirectData: LanguageRedirectData;
   abTestEnabled: boolean;
   abTestData: AbTestData;
   gpsHeatmapEnabled: boolean;
@@ -52,6 +55,8 @@ export function buildQrCreateDraft(state: QrCreateDraftState): QrCreateDraft {
     scheduleData: state.scheduleData,
     geofenceEnabled: state.geofenceEnabled,
     geofenceData: state.geofenceData,
+    languageRedirectEnabled: state.languageRedirectEnabled,
+    languageRedirectData: state.languageRedirectData,
     abTestEnabled: state.abTestEnabled,
     abTestData: state.abTestData,
     gpsHeatmapEnabled: state.gpsHeatmapEnabled,
@@ -76,6 +81,8 @@ export type QrCreateDraftSetters = {
   setScheduleData: (data: ScheduleData) => void;
   setGeofenceEnabled: (enabled: boolean) => void;
   setGeofenceData: (data: GeofenceData) => void;
+  setLanguageRedirectEnabled: (enabled: boolean) => void;
+  setLanguageRedirectData: (data: LanguageRedirectData) => void;
   setAbTestEnabled: (enabled: boolean) => void;
   setAbTestData: (data: AbTestData) => void;
   setGpsHeatmapEnabled: (enabled: boolean) => void;
@@ -98,6 +105,8 @@ export function applyQrCreateDraft(draft: QrCreateDraft, setters: QrCreateDraftS
   setters.setScheduleData(draft.scheduleData);
   setters.setGeofenceEnabled(draft.geofenceEnabled);
   setters.setGeofenceData(draft.geofenceData);
+  setters.setLanguageRedirectEnabled(draft.languageRedirectEnabled ?? false);
+  setters.setLanguageRedirectData(draft.languageRedirectData ?? { rules: [] });
   setters.setAbTestEnabled(draft.abTestEnabled);
   setters.setAbTestData(draft.abTestData);
   setters.setGpsHeatmapEnabled(draft.gpsHeatmapEnabled);

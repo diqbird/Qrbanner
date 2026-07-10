@@ -6,6 +6,7 @@ import { buildQRPayload } from '@/lib/qr-utils';
 import { stripMetaFields } from '@/lib/industry-templates';
 import { normalizeLabels } from '@/lib/organize-utils';
 import { sanitizeGeofenceData } from '@/lib/geofence-shared';
+import { sanitizeLanguageRedirectData } from '@/lib/language-redirect';
 import { normalizeGa4Id, normalizeMetaPixelId } from '@/lib/pixel-analytics';
 import { sanitizeAbTestData, parseAbTestData } from '@/lib/ab-routing';
 import { assertQrAccess, assertFolderInWorkspace, getActiveWorkspaceId, assertWorkspaceRole } from '@/lib/workspace';
@@ -74,6 +75,7 @@ export async function PUT(
             landingPageEnabled, landingPageData,
             scheduleEnabled, scheduleData,
             geofenceEnabled, geofenceData,
+            languageRedirectEnabled, languageRedirectData,
             abTestEnabled, abTestData,
             gpsHeatmapEnabled, nfcEnabled,
             scanNotifyEnabled, scanNotifyFirst, scanNotifyMilestones, scanNotifyEvery,
@@ -119,6 +121,14 @@ export async function PUT(
     if (geofenceData !== undefined) {
       updateData.geofenceData = geofenceData
         ? (sanitizeGeofenceData(geofenceData) as object)
+        : null;
+    }
+    if (languageRedirectEnabled !== undefined) {
+      updateData.languageRedirectEnabled = Boolean(languageRedirectEnabled);
+    }
+    if (languageRedirectData !== undefined) {
+      updateData.languageRedirectData = languageRedirectData
+        ? (sanitizeLanguageRedirectData(languageRedirectData) as object)
         : null;
     }
     if (abTestEnabled !== undefined) updateData.abTestEnabled = Boolean(abTestEnabled);
@@ -256,6 +266,8 @@ export async function POST(
           scheduleData: original.scheduleData ?? undefined,
           geofenceEnabled: original.geofenceEnabled,
           geofenceData: original.geofenceData ?? undefined,
+          languageRedirectEnabled: original.languageRedirectEnabled,
+          languageRedirectData: original.languageRedirectData ?? undefined,
           abTestEnabled: original.abTestEnabled,
           abTestData: original.abTestData ?? undefined,
           gpsHeatmapEnabled: original.gpsHeatmapEnabled,

@@ -3,6 +3,7 @@ import { AdvancedValues } from '@/components/qr/advanced-settings';
 import type { LandingPageData } from '@/lib/landing-page';
 import type { ScheduleData } from '@/components/qr/schedule-settings';
 import type { GeofenceData } from '@/components/qr/geofence-settings';
+import type { LanguageRedirectData } from '@/lib/language-redirect';
 import type { AbTestData } from '@/lib/ab-routing';
 import type { ScanNotifyValues } from '@/components/qr/scan-notify-settings';
 import type { PixelAnalyticsConfig } from '@/components/qr/analytics-pixel-settings';
@@ -22,6 +23,8 @@ export function editFormSnapshot(input: {
   scheduleData: ScheduleData;
   geofenceEnabled: boolean;
   geofenceData: GeofenceData;
+  languageRedirectEnabled: boolean;
+  languageRedirectData: LanguageRedirectData;
   abTestEnabled: boolean;
   abTestData: AbTestData;
   gpsHeatmapEnabled: boolean;

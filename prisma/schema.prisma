@@ -135,6 +135,9 @@ model QRCode {
   // Geofencing (location-based routing)
   geofenceEnabled    Boolean @default(false)
   geofenceData       Json?
+  // Language-based redirect (Accept-Language)
+  languageRedirectEnabled Boolean @default(false)
+  languageRedirectData    Json?
   // A/B variant routing
   abTestEnabled      Boolean @default(false)
   abTestData         Json?
@@ -255,6 +258,8 @@ model WebhookDelivery {
   success    Boolean  @default(false)
   error      String?
   durationMs Int?
+  payload    Json?
+  attempt    Int      @default(1)
   createdAt  DateTime @default(now())
   endpoint   WebhookEndpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
 

@@ -3,6 +3,7 @@
 import { LandingPageEditor } from '@/components/qr/landing-page-editor';
 import { ScheduleSettings } from '@/components/qr/schedule-settings';
 import { GeofenceSettings } from '@/components/qr/geofence-settings';
+import { LanguageRedirectSettings } from '@/components/qr/language-redirect-settings';
 import { AbTestSettings } from '@/components/qr/ab-test-settings';
 import { GpsHeatmapSettings } from '@/components/qr/gps-heatmap';
 import type { QrEditFormColumnProps } from '@/lib/qr-edit-form-column-types';
@@ -23,6 +24,10 @@ export function QrEditDynamicFeatures({ form }: QrEditFormColumnProps) {
     setGeofenceEnabled,
     geofenceData,
     setGeofenceData,
+    languageRedirectEnabled,
+    setLanguageRedirectEnabled,
+    languageRedirectData,
+    setLanguageRedirectData,
     abTestEnabled,
     setAbTestEnabled,
     abTestData,
@@ -58,6 +63,12 @@ export function QrEditDynamicFeatures({ form }: QrEditFormColumnProps) {
         onEnabledChange={setGeofenceEnabled}
         data={geofenceData}
         onChange={setGeofenceData}
+      />
+      <LanguageRedirectSettings
+        enabled={languageRedirectEnabled}
+        onEnabledChange={setLanguageRedirectEnabled}
+        data={languageRedirectData}
+        onChange={setLanguageRedirectData}
       />
       <AbTestSettings
         enabled={abTestEnabled}

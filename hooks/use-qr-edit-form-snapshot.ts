@@ -5,6 +5,7 @@ import type { AdvancedValues } from '@/components/qr/advanced-settings';
 import type { LandingPageData } from '@/components/qr/landing-page-editor';
 import type { ScheduleData } from '@/components/qr/schedule-settings';
 import type { GeofenceData } from '@/components/qr/geofence-settings';
+import type { LanguageRedirectData } from '@/lib/language-redirect';
 import type { AbTestData } from '@/lib/ab-routing';
 import type { ScanNotifyValues } from '@/components/qr/scan-notify-settings';
 import type { PixelAnalyticsConfig } from '@/components/qr/analytics-pixel-settings';
@@ -23,6 +24,8 @@ export function useQrEditFormSnapshot(input: {
   scheduleData: ScheduleData;
   geofenceEnabled: boolean;
   geofenceData: GeofenceData;
+  languageRedirectEnabled: boolean;
+  languageRedirectData: LanguageRedirectData;
   abTestEnabled: boolean;
   abTestData: AbTestData;
   gpsHeatmapEnabled: boolean;
@@ -47,6 +50,8 @@ export function useQrEditFormSnapshot(input: {
       scheduleData: input.scheduleData,
       geofenceEnabled: input.geofenceEnabled,
       geofenceData: input.geofenceData,
+      languageRedirectEnabled: input.languageRedirectEnabled,
+      languageRedirectData: input.languageRedirectData,
       abTestEnabled: input.abTestEnabled,
       abTestData: input.abTestData,
       gpsHeatmapEnabled: input.gpsHeatmapEnabled,
@@ -70,6 +75,8 @@ export function useQrEditFormSnapshot(input: {
       input.scheduleData,
       input.geofenceEnabled,
       input.geofenceData,
+      input.languageRedirectEnabled,
+      input.languageRedirectData,
       input.abTestEnabled,
       input.abTestData,
       input.gpsHeatmapEnabled,

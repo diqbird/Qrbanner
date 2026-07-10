@@ -16,6 +16,8 @@ export interface DeliveryRow {
   success: boolean;
   error: string | null;
   durationMs: number | null;
+  attempt: number;
+  canRetry: boolean;
   createdAt: string;
 }
 

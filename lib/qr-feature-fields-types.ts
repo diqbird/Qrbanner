@@ -2,6 +2,7 @@ import type { AdvancedValues } from '@/components/qr/advanced-settings';
 import type { LandingPageData } from '@/components/qr/landing-page-editor';
 import type { ScheduleData } from '@/components/qr/schedule-settings';
 import type { GeofenceData } from '@/components/qr/geofence-settings';
+import type { LanguageRedirectData } from '@/lib/language-redirect';
 import type { AbTestData } from '@/lib/ab-routing';
 import type { ScanNotifyValues } from '@/components/qr/scan-notify-settings';
 import type { PixelAnalyticsConfig } from '@/components/qr/analytics-pixel-settings';
@@ -21,6 +22,8 @@ export type QrFeatureRecord = {
   scheduleData?: ScheduleData | null;
   geofenceEnabled?: boolean;
   geofenceData?: GeofenceData | null;
+  languageRedirectEnabled?: boolean;
+  languageRedirectData?: LanguageRedirectData | null;
   abTestEnabled?: boolean;
   abTestData?: AbTestData | null;
   gpsHeatmapEnabled?: boolean;
@@ -44,6 +47,8 @@ export type QrFeatureFieldState = {
   scheduleData: ScheduleData;
   geofenceEnabled: boolean;
   geofenceData: GeofenceData;
+  languageRedirectEnabled: boolean;
+  languageRedirectData: LanguageRedirectData;
   abTestEnabled: boolean;
   abTestData: AbTestData;
   gpsHeatmapEnabled: boolean;
