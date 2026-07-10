@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import re
 import sys
 from dataclasses import dataclass, field
 from typing import Iterable, Sequence
@@ -49,6 +50,7 @@ class DeployPlan:
     build: bool = True
     restart: bool = True
     extra_commands: list[str] = field(default_factory=list)
+    env: dict[str, str] = field(default_factory=dict)
 
 
 def ensure_remote_dir(sftp: paramiko.SFTPClient, remote_dir: str) -> None:
@@ -144,6 +146,36 @@ def remove_files(
             print("warn remove", rel_norm, exc)
 
 
+def set_env_line(content: str, key: str, value: str) -> str:
+    line = f'{key}="{value}"'
+    pattern = rf"^{re.escape(key)}=.*$"
+    if re.search(pattern, content, re.MULTILINE):
+        return re.sub(pattern, line, content, flags=re.MULTILINE)
+    if content and not content.endswith("\n"):
+        content += "\n"
+    return content + line + "\n"
+
+
+def apply_env_updates(
+    sftp: paramiko.SFTPClient,
+    cfg: DeployConfig,
+    updates: dict[str, str],
+) -> None:
+    if not updates:
+        return
+    env_path = f"{cfg.remote}/.env"
+    with sftp.open(env_path, "r") as f:
+        content = f.read().decode("utf-8", errors="replace")
+    for key, value in updates.items():
+        content = set_env_line(content, key, value)
+        if "SECRET" in key or "PASSWORD" in key or "KEY" in key:
+            print(f"SET {key}=*** ({len(value)} chars)")
+        else:
+            print(f"SET {key}={value}")
+    with sftp.open(env_path, "w") as f:
+        f.write(content)
+
+
 def run_ssh(client: paramiko.SSHClient, command: str, timeout: int = 900) -> tuple[str, int]:
     print("\n>>>", command)
     _, stdout, stderr = client.exec_command(command, timeout=timeout)
@@ -197,6 +229,8 @@ def build_post_commands(plan: DeployPlan, cfg: DeployConfig) -> list[str]:
 def execute_plan(cfg: DeployConfig, plan: DeployPlan) -> int:
     client, sftp = connect(cfg)
     try:
+        if plan.env:
+            apply_env_updates(sftp, cfg, plan.env)
         if plan.upload:
             upload_files(sftp, cfg, plan.upload)
         if plan.remove:

@@ -43,6 +43,7 @@ def load_manifest(path: Path) -> DeployPlan:
         build=bool(data.get("build", True)),
         restart=bool(data.get("restart", True)),
         extra_commands=list(data.get("extra_commands", [])),
+        env={str(k): str(v) for k, v in (data.get("env") or {}).items()},
     )
 
 

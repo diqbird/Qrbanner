@@ -1,0 +1,13 @@
+{
+  "env": {
+    "NEXT_PUBLIC_GA_MEASUREMENT_ID": "G-3LY6YZDDD2"
+  },
+  "upload": [
+    "components/analytics/deferred-site-analytics.tsx",
+    "app/layout.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "build": true,
+  "restart": true
+}
