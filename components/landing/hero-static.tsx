@@ -1,6 +1,7 @@
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { formatFreePlanDynamicQrShortLabel } from '@/lib/i18n/dynamic-qr-label';
+import { formatQrTypeCount } from '@/lib/i18n/qr-type-count';
 import { LandingHeroContent } from '@/components/landing/landing-hero-content';
 import { LandingHeroHighlights } from '@/components/landing/landing-hero-highlights';
 
