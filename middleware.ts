@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 import { wwwToApexRedirectUrl } from '@/lib/canonical-host';
-import { isAppHost } from '@/lib/custom-domain';
+import { isAppHost } from '@/lib/app-host';
 import { applySecurityHeaders } from '@/lib/security-headers';
 import { hasApiCredentialHeaders, isPublicApiRoute } from '@/lib/api-public-routes';
 import { LOCALE_HEADER, PATHNAME_HEADER, parseLocalePath, isEnglishOnlyPublicPath } from '@/lib/i18n/locale-path';
