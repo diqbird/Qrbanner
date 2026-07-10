@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Zap, QrCode, Route, BarChart3 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { formatFreePlanDynamicQrShortLabel } from '@/lib/i18n/dynamic-qr-label';
+import { formatQrTypeCount } from '@/lib/i18n/qr-type-count';
 
 const HIGHLIGHT_ICONS = [QrCode, Route, BarChart3];
 const HIGHLIGHT_KEYS = [
