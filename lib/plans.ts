@@ -33,7 +33,7 @@ export const PLANS: Record<PlanId, PlanLimits> = {
     name: 'Free',
     priceMonthly: 0,
     priceLabel: '$0',
-    maxQrCodes: 50,
+    maxQrCodes: 1,
     maxCustomDomains: 1,
     maxBulkRows: 250,
     maxWebhooks: 2,
@@ -130,4 +130,10 @@ export function getPlanLimits(planId: string | null | undefined): PlanLimits {
 /** Marketing + i18n — never hardcode free tier QR limits elsewhere. */
 export function freePlanQrLimit(): number {
   return PLANS.free.maxQrCodes;
+}
+
+/** Marketing label for free-tier QR count (competitor pages, etc.). */
+export function freePlanQrMarketingLabel(): string {
+  const n = PLANS.free.maxQrCodes;
+  return n === 1 ? '1 dynamic code' : `${n} dynamic codes`;
 }

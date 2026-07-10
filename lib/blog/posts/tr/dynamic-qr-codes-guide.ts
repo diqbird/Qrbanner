@@ -158,7 +158,7 @@ export const dynamicQrCodesGuideTr: BlogPost = {
     {
       type: 'p',
       content:
-        'Dinamik yönlendirme, routing kuralları, analitik, API erişimi ve baskıya hazır tasarımı tek yerde birleştiren platformları arayın. QRbanner cömert ücretsiz katman (50 dinamik kod), şeffaf fiyatlandırma ($9.99/ay Pro, $29.99/ay Business) ve iptal sonrası aktif kalan kodlar sunar. Değerlendirin: düşürmede kodların aktif kalması, toplu içe aktarma limitleri, özel alan adları, webhook entegrasyonları, kurumsal ekipler için SAML ve editörde tarama simülasyonu.',
+        'Dinamik yönlendirme, routing kuralları, analitik, API erişimi ve baskıya hazır tasarımı tek yerde birleştiren platformları arayın. QRbanner ücretsiz katman (1 dinamik kod), şeffaf fiyatlandırma ($9.99/ay Pro, $29.99/ay Business) ve iptal sonrası aktif kalan kodlar sunar. Değerlendirin: düşürmede kodların aktif kalması, toplu içe aktarma limitleri, özel alan adları, webhook entegrasyonları, kurumsal ekipler için SAML ve editörde tarama simülasyonu.',
     },
     {
       type: 'h2',

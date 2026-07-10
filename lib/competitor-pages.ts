@@ -1,6 +1,7 @@
-import { PLANS } from './plans';
+import { PLANS, freePlanQrMarketingLabel } from './plans';
 
 const FREE_QR = PLANS.free.maxQrCodes;
+const FREE_QR_LABEL = freePlanQrMarketingLabel();
 
 export interface CompetitorPage {
   slug: string;
@@ -234,7 +235,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Enterprise sales cycle for volume deals',
     ],
     comparisonRows: [
-      { feature: 'Self-serve free plan', qrbanner: '50 dynamic codes', competitor: 'Trial-focused' },
+      { feature: 'Self-serve free plan', qrbanner: FREE_QR_LABEL, competitor: 'Trial-focused' },
       { feature: 'QR-native workflow', qrbanner: 'Core product', competitor: 'Part of suite' },
       { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$49/mo' },
       { feature: 'Geofence routing', qrbanner: 'Included', competitor: 'Included' },
@@ -1002,7 +1003,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'BL.INK offers enterprise link management. QRbanner competes with transparent pricing, API on the free tier and tools built for marketing and multi-location rollouts.',
     qrbannerWins: [
-      'Free plan with 50 dynamic codes',
+      `Free plan with ${FREE_QR_LABEL}`,
       'REST API on free plan',
       '27+ QR content types',
       'Print banner export',

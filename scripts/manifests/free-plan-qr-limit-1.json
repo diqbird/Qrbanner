@@ -1,0 +1,12 @@
+{
+  "upload": [
+    "lib/plans.ts",
+    "lib/competitor-pages.ts",
+    "lib/blog/posts/dynamic-qr-codes-guide.ts",
+    "lib/blog/posts/tr/dynamic-qr-codes-guide.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "build": true,
+  "restart": true
+}

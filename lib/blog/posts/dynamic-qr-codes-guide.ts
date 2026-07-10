@@ -158,7 +158,7 @@ export const dynamicQrCodesGuide: BlogPost = {
     {
       type: 'p',
       content:
-        'Look for platforms that combine dynamic redirects, routing rules, analytics, API access, and print-ready design in one place. QRbanner offers a generous free tier (50 dynamic codes), transparent pricing at $9.99/mo Pro and $29.99/mo Business, and codes that stay active after cancel. Evaluate based on: codes staying active after downgrade, bulk import limits, custom domains, webhook integrations, SAML for enterprise teams, and whether scan simulation is built into the editor.',
+        'Look for platforms that combine dynamic redirects, routing rules, analytics, API access, and print-ready design in one place. QRbanner offers a free tier (1 dynamic code), transparent pricing at $9.99/mo Pro and $29.99/mo Business, and codes that stay active after cancel. Evaluate based on: codes staying active after downgrade, bulk import limits, custom domains, webhook integrations, SAML for enterprise teams, and whether scan simulation is built into the editor.',
     },
     {
       type: 'h2',
