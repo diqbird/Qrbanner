@@ -2,6 +2,9 @@ import { PLANS, freePlanQrMarketingLabel } from './plans';
 
 const FREE_QR = PLANS.free.maxQrCodes;
 const FREE_QR_LABEL = freePlanQrMarketingLabel();
+const FREE_QR_WIN = `${FREE_QR} free dynamic QR code${FREE_QR === 1 ? '' : 's'}`;
+const FREE_QR_WIN_WITH_API = `${FREE_QR} free dynamic QR code${FREE_QR === 1 ? '' : 's'} with API`;
+const FREE_QR_WIN_API = `${FREE_QR} free dynamic QR code${FREE_QR === 1 ? '' : 's'} + API`;
 
 export interface CompetitorPage {
   slug: string;
@@ -26,7 +29,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QR TIGER is a popular all-round QR platform. QRbanner competes on generous free limits, API on free tier, and codes that stay active after cancel.',
     qrbannerWins: [
-      '${FREE_QR} free dynamic QR codes vs 3 on QR TIGER',
+      `${FREE_QR_WIN} vs 3 on QR TIGER`,
       'REST API included on free plan',
       'Codes stay active after downgrade or cancel',
       'Pro from $9.99/mo',
@@ -38,7 +41,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'API typically on paid plans',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic QR codes', qrbanner: '25', competitor: '3' },
+      { feature: 'Free dynamic QR codes', qrbanner: String(FREE_QR), competitor: '3' },
       { feature: 'Codes active after cancel', qrbanner: 'Yes', competitor: 'Yes' },
       { feature: 'REST API (free plan)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Geofence + schedule routing', qrbanner: 'Included', competitor: 'Paid tiers' },
@@ -68,7 +71,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       '0 free dynamic codes on some tiers',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: '0–2' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: '0–2' },
       { feature: 'Entry paid plan', qrbanner: '$9.99/mo', competitor: '$25+/mo' },
       { feature: 'A/B testing', qrbanner: 'Included', competitor: 'Higher tiers' },
       { feature: 'API access', qrbanner: 'Free plan', competitor: 'Paid' },
@@ -86,7 +89,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Uniqode targets enterprise with compliance and deep integrations. QRbanner delivers 70% of the feature set at a fraction of the cost for growth teams.',
     qrbannerWins: [
       'Pro $9.99/mo vs Uniqode Core ~$49/mo',
-      `${FREE_QR} free dynamic codes`,
+      FREE_QR_WIN,
       'Team workspaces on all plans',
       'Custom scan domains on free tier',
     ],
@@ -124,7 +127,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     ],
     comparisonRows: [
       { feature: 'Dynamic QR + analytics', qrbanner: 'Core product', competitor: 'Paid platform' },
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Via upgrade' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Via upgrade' },
       { feature: 'Static design (free)', qrbanner: 'Yes', competitor: 'Excellent' },
       { feature: 'API', qrbanner: 'Free plan', competitor: 'Paid' },
     ],
@@ -153,7 +156,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'QR-first platform', qrbanner: 'Yes', competitor: 'Add-on' },
       { feature: 'QR types', qrbanner: '27+', competitor: 'URL-focused' },
       { feature: 'Scan geo analytics', qrbanner: 'Yes', competitor: 'Basic' },
-      { feature: 'Free dynamic QR', qrbanner: '25', competitor: 'Trial/limited' },
+      { feature: 'Free dynamic QR', qrbanner: String(FREE_QR), competitor: 'Trial/limited' },
     ],
   },
   {
@@ -166,7 +169,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Scanova is a design-forward dynamic QR platform. QRbanner competes with a generous free tier, API on free plan and built-in print banner export.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Geofence + schedule routing included',
       'Print-ready banner export',
@@ -178,7 +181,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Higher entry price for white-label features',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited trial' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited trial' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'Paid' },
       { feature: 'Custom scan domain', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Included' },
@@ -195,7 +198,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'ME-QR offers QR generation with branding options. QRbanner differentiates with routing rules, a generous free tier and API on the free plan.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'Geofence and schedule routing included',
       'REST API on free plan',
       'Print banner export',
@@ -206,7 +209,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'API and webhooks often require upgrades',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Routing rules', qrbanner: 'Geofence + schedule', competitor: 'Basic' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'Paid' },
       { feature: 'Custom scan domain', qrbanner: 'Free plan', competitor: 'Paid' },
@@ -263,7 +266,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Team and API features on higher plans',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Geo scan analytics', qrbanner: 'Yes', competitor: 'Paid tiers' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Limited' },
       { feature: 'API access', qrbanner: 'Free plan', competitor: 'Paid' },
@@ -280,7 +283,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Hovercode focuses on beautiful QR design and simple dynamic links. QRbanner adds routing rules, API on free tier and agency-scale tooling.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'Geofence and schedule routing',
       'REST API on free plan',
       'Campaign batches and folders',
@@ -291,7 +294,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'API and webhooks on higher tiers',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Basic' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'Paid' },
       { feature: 'Scan geo analytics', qrbanner: 'Yes', competitor: 'Varies' },
@@ -319,7 +322,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'API access typically paid',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Active after cancel', qrbanner: 'Yes', competitor: 'Varies' },
       { feature: 'Custom scan domain', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'API access', qrbanner: 'Free plan', competitor: 'Paid' },
@@ -336,7 +339,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QRFY offers QR pages and marketing templates. QRbanner competes with more free dynamic codes, routing rules, API on the free tier and codes that stay active after cancel.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'Geofence and schedule routing',
       'REST API on free plan',
       'Custom scan domain on free tier',
@@ -348,7 +351,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'API typically requires upgrade',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Paid tiers' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Active after cancel', qrbanner: 'Yes', competitor: 'Varies' },
@@ -394,7 +397,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QR Stuff is a long-running QR generator with design tools. QRbanner focuses on dynamic operations — routing, analytics, API on the free tier and codes that stay active after cancel.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'Geofence and schedule routing',
       'REST API on free plan',
       'Custom scan domain on free tier',
@@ -406,7 +409,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'API access typically paid',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Paid tiers' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Active after cancel', qrbanner: 'Yes', competitor: 'Varies' },
@@ -435,7 +438,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Less built for multi-location ops',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'Limited' },
@@ -452,7 +455,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Visualead emphasizes visual QR design and branded codes. QRbanner competes on operational scale — routing, analytics, API on the free tier and bulk multi-location tooling.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'Geofence and schedule routing',
       'REST API on free plan',
       'Bulk CSV and campaign batches',
@@ -464,7 +467,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Less focus on multi-location analytics',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Paid' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'Limited' },
@@ -483,7 +486,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     qrbannerWins: [
       'Dynamic QR — change destination after print',
       'Scan analytics and geo insights',
-      `${FREE_QR} free dynamic codes with API`,
+      FREE_QR_WIN_WITH_API,
       'Custom scan domains',
       'Print banner export',
     ],
@@ -511,7 +514,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Wix offers QR generation for site owners. QRbanner is built for teams running ongoing QR operations — dynamic destinations, analytics, routing rules and developer API across many codes.',
     qrbannerWins: [
       'Dynamic QR at scale with routing',
-      `${FREE_QR} free dynamic codes + API`,
+      FREE_QR_WIN_API,
       'Scan analytics and webhooks',
       'Bulk CSV and campaign batches',
       'Codes stay active after cancel',
@@ -539,7 +542,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Teams switch from Scanova to QRbanner for more free dynamic codes, API on the free tier, transparent pricing and print banner tooling built in.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Pro from $9.99/mo',
       'Print banner export',
@@ -551,7 +554,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Fewer free dynamic codes',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'Paid' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Paid tiers' },
       { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$15/mo' },
@@ -568,7 +571,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QR Planet offers QR pages and templates. QRbanner adds deeper routing, generous free API access, bulk tooling and codes that stay active after cancel.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -580,7 +583,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Less multi-location operations focus',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Paid' },
       { feature: 'Active after cancel', qrbanner: 'Yes', competitor: 'Varies' },
@@ -609,7 +612,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Fewer free dynamic codes',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Yes' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'Limited' },
@@ -638,7 +641,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Less multi-location signage tooling',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Menu & PDF QR types', qrbanner: 'Yes', competitor: 'Limited' },
       { feature: 'Bulk CSV import', qrbanner: 'Yes', competitor: 'No' },
@@ -667,7 +670,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Fewer free dynamic codes',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Scan webhooks', qrbanner: 'All plans', competitor: 'Limited' },
       { feature: 'Active after cancel', qrbanner: 'Yes', competitor: 'Varies' },
@@ -684,7 +687,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Canva embeds QR in design workflows. QRbanner is built for dynamic QR operations — routing, webhooks, API, bulk import and codes that stay active after cancel.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Scan webhooks on all plans',
@@ -696,7 +699,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'No developer API for QR ops',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
       { feature: 'Scan webhooks', qrbanner: 'All plans', competitor: 'No' },
@@ -725,7 +728,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Fewer free dynamic codes',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Active after cancel', qrbanner: 'Yes', competitor: 'Varies' },
@@ -754,7 +757,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'No bulk CSV import for QR codes',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Menu & PDF QR types', qrbanner: 'Yes', competitor: 'Limited' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'No' },
@@ -783,7 +786,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Fewer free dynamic codes',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Geofence routing', qrbanner: 'Included', competitor: 'No' },
@@ -812,7 +815,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Fewer free dynamic codes',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Menu & PDF QR types', qrbanner: 'Yes', competitor: 'Limited' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'Limited' },
@@ -841,7 +844,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'No bulk QR management',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Geofence routing', qrbanner: 'Included', competitor: 'No' },
       { feature: 'Print banner export', qrbanner: 'Yes', competitor: 'Limited' },
@@ -859,7 +862,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'TinyURL is a classic URL shortener. QRbanner is built for dynamic QR at scale — analytics, routing, webhooks, API and print-ready export for marketing teams.',
     qrbannerWins: [
       'Purpose-built dynamic QR platform',
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Print banner export',
@@ -870,7 +873,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'No bulk QR management',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Scan webhooks', qrbanner: 'All plans', competitor: 'No' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'No' },
@@ -899,7 +902,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Fewer free dynamic codes',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Limited' },
       { feature: 'Print banner export', qrbanner: 'Yes', competitor: 'Limited' },
@@ -916,7 +919,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Cutt.ly offers URL shortening with basic QR. QRbanner is built for dynamic QR operations — routing, webhooks, API, bulk import and analytics for marketing teams.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Print banner export',
@@ -928,7 +931,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Fewer free dynamic codes',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'No' },
@@ -957,7 +960,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'No bulk QR management',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Menu & PDF QR types', qrbanner: 'Yes', competitor: 'Limited' },
       { feature: 'Print banner export', qrbanner: 'Yes', competitor: 'Limited' },
@@ -975,7 +978,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Sniply adds CTAs to shared links. QRbanner is purpose-built for dynamic QR — analytics, routing, webhooks, API and print export for physical signage.',
     qrbannerWins: [
       'Purpose-built dynamic QR platform',
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Print banner export',
@@ -986,7 +989,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Fewer free dynamic codes',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Scan webhooks', qrbanner: 'All plans', competitor: 'No' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'No' },
@@ -1015,7 +1018,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Limited free tier',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Paid' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'Limited' },
@@ -1032,7 +1035,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Segno offers design-forward QR pages. QRbanner competes with deeper operations tooling — routing, webhooks, API on the free tier and bulk import for multi-location teams.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -1044,7 +1047,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'API on paid tiers',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Scan webhooks', qrbanner: 'All plans', competitor: 'Limited' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'No' },
@@ -1073,7 +1076,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Limited team features',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
@@ -1090,7 +1093,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QR Zebra offers QR generation with basic analytics. QRbanner adds routing rules, webhooks, REST API on the free tier and bulk import for multi-location teams.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -1102,7 +1105,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Less ops tooling for teams',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Limited' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'No' },
@@ -1131,7 +1134,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Fewer routing options',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Limited' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
@@ -1148,7 +1151,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'MyQRCode offers QR page creation with basic tracking. QRbanner adds routing rules, webhooks, REST API on the free tier and bulk import for growing teams.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -1160,7 +1163,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Fewer ops features for teams',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Limited' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'No' },
@@ -1189,7 +1192,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Basic team features',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
@@ -1206,7 +1209,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QRCodeKit offers branded QR pages with basic analytics. QRbanner adds routing rules, webhooks, REST API on the free tier and bulk import for multi-location teams.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -1218,7 +1221,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Less ops tooling for teams',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Limited' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'No' },
@@ -1247,7 +1250,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Basic team features',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Limited' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
@@ -1264,7 +1267,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'ScanTrust focuses on product authentication and supply-chain traceability. QRbanner offers broader marketing QR tooling, generous free limits, API on the free tier and print banner export.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Print banner export built in',
@@ -1276,7 +1279,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Less self-serve for SMB campaigns',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Marketing QR tooling', qrbanner: 'Full stack', competitor: 'Product focus' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'Enterprise' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Limited' },
@@ -1293,7 +1296,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'ScanQR offers quick QR generation for basic links. QRbanner adds deeper analytics, routing automation, API on the free tier and bulk import for multi-location operations.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -1305,7 +1308,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'API on paid tiers',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'No' },
@@ -1334,7 +1337,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'No multi-location ops tooling',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Very limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Very limited' },
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
@@ -1351,7 +1354,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QRCode Online provides web-based QR generation. QRbanner adds routing rules, webhooks, REST API on the free tier and bulk tooling for growing operations.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -1363,7 +1366,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'API on paid tiers',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'No' },
@@ -1380,7 +1383,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QR Code AI emphasizes AI-generated QR art and quick creation. QRbanner competes on routing depth, API on the free tier, bulk import and codes that stay active after cancel.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -1392,7 +1395,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'API on paid tiers',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
       { feature: 'AI QR art', qrbanner: 'Logo + color', competitor: 'Strong' },
@@ -1409,7 +1412,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'QRCode Pro targets professionals with branded QR pages. QRbanner offers more free dynamic codes, API on the free tier, routing automation and print banner export.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Print banner export',
@@ -1421,7 +1424,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Less bulk ops tooling',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'Paid' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Paid tiers' },
       { feature: 'Print export', qrbanner: 'Banner built in', competitor: 'PNG/SVG' },
@@ -1438,7 +1441,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Generic dynamic QR code tools focus on editable destinations. QRbanner adds scan analytics, routing, webhooks, API on the free tier and bulk import for multi-location teams.',
     qrbannerWins: [
-      `${FREE_QR} free dynamic QR codes`,
+      FREE_QR_WIN,
       'REST API on free plan',
       'Geofence and schedule routing',
       'Bulk CSV import',
@@ -1450,7 +1453,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Basic team features',
     ],
     comparisonRows: [
-      { feature: 'Free dynamic codes', qrbanner: '25', competitor: 'Limited' },
+      { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Limited' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
