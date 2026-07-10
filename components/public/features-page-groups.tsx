@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { formatFreePlanDynamicQrShortLabel } from '@/lib/i18n/dynamic-qr-label';
+import { getFeatureGroups } from '@/lib/i18n/feature-groups';
 
 export function FeaturesPageGroups() {
   const { locale } = useLanguage();

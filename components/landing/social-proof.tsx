@@ -2,6 +2,7 @@ import { getPublicPlatformStats, shouldDisplayPublicStats } from '@/lib/public-s
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { formatFreePlanDynamicQrShortLabel } from '@/lib/i18n/dynamic-qr-label';
+import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { Shield, Zap, CheckCircle2 } from 'lucide-react';
 
 const INDUSTRY_KEYS = [

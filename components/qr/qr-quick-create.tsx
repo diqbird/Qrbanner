@@ -7,6 +7,7 @@ import { useQrQuickCreate } from '@/hooks/use-qr-quick-create';
 import { normalizeQRStyle } from '@/lib/qr-style';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { formatFreePlanDynamicQrShortLabel } from '@/lib/i18n/dynamic-qr-label';
+import { OnboardingProgress } from '@/components/onboarding/onboarding-progress';
 import type { QRStyleConfig } from '@/lib/qr-style';
 
 export function QRQuickCreate({
