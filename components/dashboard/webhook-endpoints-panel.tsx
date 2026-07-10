@@ -5,14 +5,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, Zap } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { WebhookSettingsState } from '@/hooks/use-webhook-settings';
 
 export function WebhookEndpointList({ settings }: { settings: WebhookSettingsState }) {
   const { locale } = useLanguage();
-  const { t, webhooks, limit, toggleEnabled, removeWebhook } = settings;
+  const { t, webhooks, limit, toggleEnabled, removeWebhook, sendTestWebhook, working } = settings;
 
   return (
     <>
@@ -40,6 +40,17 @@ export function WebhookEndpointList({ settings }: { settings: WebhookSettingsSta
               {w.enabled ? t('settings.webhooks.active') : t('settings.webhooks.paused')}
             </Badge>
             <Switch checked={w.enabled} onCheckedChange={(v) => toggleEnabled(w.id, v)} />
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-8 gap-1 text-xs"
+              disabled={working || !w.enabled}
+              onClick={() => sendTestWebhook(w.id)}
+            >
+              <Zap className="h-3.5 w-3.5" />
+              {t('settings.webhooks.testBtn')}
+            </Button>
             <Button variant="ghost" size="icon-sm" onClick={() => removeWebhook(w.id)} aria-label={t('common.removeAria')}>
               <Trash2 className="h-4 w-4 text-destructive" />
             </Button>

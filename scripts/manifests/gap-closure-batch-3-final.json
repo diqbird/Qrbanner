@@ -1,0 +1,16 @@
+{
+  "upload": [
+    "lib/webhook-test-payload.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "app/api/webhooks/[id]/test/route.ts",
+    "app/(public)/developers/page.tsx",
+    "components/dashboard/webhook-endpoints-panel.tsx",
+    "hooks/use-webhook-mutations.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

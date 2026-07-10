@@ -8,6 +8,7 @@ import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { DEVELOPER_RATE_LIMIT_PLAN_IDS, formatDeveloperRateLimitLine } from '@/lib/i18n/api-rate-limits';
+import { WEBHOOK_VERIFY_NODE_EXAMPLE } from '@/lib/webhook-test-payload';
 import { ArrowRight, Code2, FileJson, Key, Webhook, Gauge } from 'lucide-react';
 
 export const revalidate = 3600;
@@ -127,6 +128,13 @@ X-API-Key: qb_live_...`}
                 <Link href="/integrations" className="mt-4 inline-block text-sm text-primary hover:underline">
                   {t('developersPage.integrationsLink')} →
                 </Link>
+                <h3 className="mt-6 font-display text-sm font-semibold">{t('developersPage.webhooksVerifyTitle')}</h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                  {t('developersPage.webhooksVerifyBody')}
+                </p>
+                <pre className="mt-3 overflow-x-auto rounded-lg bg-muted p-3 text-xs leading-relaxed">
+                  {WEBHOOK_VERIFY_NODE_EXAMPLE}
+                </pre>
               </div>
               <div className="rounded-xl border border-border/50 bg-card/80 p-6 backdrop-blur-sm">
                 <h2 className="font-display font-semibold flex items-center gap-2">

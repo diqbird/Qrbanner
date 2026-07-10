@@ -611,6 +611,9 @@ export const tr: TranslationTree = {
       retrySuccess: 'Webhook yeniden gönderildi',
       retryFailed: 'Yeniden deneme başarısız',
       deliveryAttempt: 'Deneme {{n}}',
+      testBtn: 'Test gönder',
+      testSuccess: 'Test olayı iletildi',
+      testFailed: 'Test iletimi başarısız',
     },
     integrations: {
       presetsTitle: 'Araç yığınınıza bağlayın',
@@ -3192,6 +3195,9 @@ export const tr: TranslationTree = {
     webhooksTitle: 'Tarama Webhook\'ları',
     webhooksBody:
       'Ayarlar → Tarama Webhook\'ları\'nda HTTPS uç noktaları ekleyin. Her tarama X-QRbanner-Signature (HMAC-SHA256) ile JSON POST gönderir. Zapier, Make, n8n ve özel backend\'lerle çalışır.',
+    webhooksVerifyTitle: 'İmza doğrulama',
+    webhooksVerifyBody:
+      'Ham istek gövdesini okuyun, imza gizli anahtarınızla HMAC-SHA256 hesaplayın ve X-QRbanner-Signature başlığı (sha256= öneki) ile karşılaştırın. Başarısız teslimatlar 3 kez otomatik yeniden denenir; uç noktanızı Ayarlar\'daki Test gönder ile doğrulayın.',
     baseUrlTitle: 'Temel URL',
     rateLimitsTitle: 'Hız limitleri',
     rateLimitsBody:

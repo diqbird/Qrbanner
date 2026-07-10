@@ -74,6 +74,26 @@ export function useWebhookMutations({
     }
   };
 
+  const sendTestWebhook = async (id: string) => {
+    setWorking(true);
+    try {
+      const res = await fetch(`/api/webhooks/${id}/test`, { method: 'POST' });
+      const json = await res.json();
+      if (!res.ok) {
+        toast.error(json.error ?? t('settings.webhooks.testFailed'));
+        return;
+      }
+      toast.success(
+        json.success ? t('settings.webhooks.testSuccess') : t('settings.webhooks.testFailed')
+      );
+      await fetchDeliveries();
+    } catch {
+      toast.error(t('settings.webhooks.testFailed'));
+    } finally {
+      setWorking(false);
+    }
+  };
+
   return {
     url,
     setUrl,
@@ -87,5 +107,6 @@ export function useWebhookMutations({
     toggleEnabled,
     removeWebhook,
     copySecret,
+    sendTestWebhook,
   };
 }
