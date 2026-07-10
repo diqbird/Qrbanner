@@ -3,6 +3,7 @@ import type { Locale } from './types';
 export function resolveBcp47Locale(locale: Locale): string {
   if (locale === 'tr') return 'tr-TR';
   if (locale === 'de') return 'de-DE';
+  if (locale === 'es') return 'es-ES';
   return 'en-US';
 }
 

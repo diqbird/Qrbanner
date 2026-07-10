@@ -66,7 +66,7 @@ export interface BrandingSettings {
   faviconUrl?: string;
   brandColor?: string;
   referralRewardClaimed?: boolean;
-  preferredLocale?: 'en' | 'tr' | 'de';
+  preferredLocale?: 'en' | 'tr' | 'de' | 'es';
 }
 
 const HEX_COLOR_RE = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
@@ -101,9 +101,11 @@ export function parseBrandingSettings(raw: unknown): BrandingSettings {
       ? 'tr'
       : o.preferredLocale === 'de'
         ? 'de'
-        : o.preferredLocale === 'en'
-          ? 'en'
-          : undefined;
+        : o.preferredLocale === 'es'
+          ? 'es'
+          : o.preferredLocale === 'en'
+            ? 'en'
+            : undefined;
   return {
     hidePoweredBy: Boolean(o.hidePoweredBy),
     agencyName: typeof o.agencyName === 'string' ? o.agencyName : undefined,

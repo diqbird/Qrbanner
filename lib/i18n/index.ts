@@ -1,10 +1,11 @@
 import { de } from './de';
 import { en } from './en';
+import { es } from './es';
 import { tr } from './tr';
 import type { Locale, TranslationTree } from './types';
 import { getNestedValue, interpolate } from './types';
 
-const dictionaries: Record<Locale, TranslationTree> = { en, tr, de };
+const dictionaries: Record<Locale, TranslationTree> = { en, tr, de, es };
 
 export function translate(
   locale: Locale,

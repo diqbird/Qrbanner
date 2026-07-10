@@ -51,7 +51,7 @@ export function absoluteUrl(path = '/'): string {
   return `${SITE_URL}${p}`;
 }
 
-/** hreflang alternates — English at canonical path, Turkish at /tr/..., German at /de/... */
+/** hreflang alternates — English at canonical path; TR/DE/ES under prefixed paths. */
 export function hreflangAlternates(path = '/'): Metadata['alternates'] {
   const normalized = path.startsWith('/') ? path : `/${path}`;
   const enUrl = absoluteUrl(normalized);
@@ -69,12 +69,14 @@ export function hreflangAlternates(path = '/'): Metadata['alternates'] {
 
   const trUrl = absoluteUrl(localizePath(normalized, 'tr'));
   const deUrl = absoluteUrl(localizePath(normalized, 'de'));
+  const esUrl = absoluteUrl(localizePath(normalized, 'es'));
   return {
     canonical: enUrl,
     languages: {
       en: enUrl,
       tr: trUrl,
       de: deUrl,
+      es: esUrl,
       'x-default': enUrl,
     },
   };
@@ -90,18 +92,21 @@ export function hreflangAlternatesForLocale(
   const enUrl = absoluteUrl(normalized);
   const trUrl = absoluteUrl(localizePath(normalized, 'tr'));
   const deUrl = absoluteUrl(localizePath(normalized, 'de'));
+  const esUrl = absoluteUrl(localizePath(normalized, 'es'));
 
   if (!localized) {
     return { canonical: enUrl, languages: { en: enUrl, 'x-default': enUrl } };
   }
 
-  const canonical = locale === 'tr' ? trUrl : locale === 'de' ? deUrl : enUrl;
+  const canonical =
+    locale === 'tr' ? trUrl : locale === 'de' ? deUrl : locale === 'es' ? esUrl : enUrl;
   return {
     canonical,
     languages: {
       en: enUrl,
       tr: trUrl,
       de: deUrl,
+      es: esUrl,
       'x-default': enUrl,
     },
   };
@@ -144,7 +149,7 @@ export function pageMetadata({
       : { index: true, follow: true, googleBot: { index: true, follow: true } },
     openGraph: {
       type: 'website',
-      locale: locale === 'tr' ? 'tr_TR' : locale === 'de' ? 'de_DE' : 'en_US',
+      locale: locale === 'tr' ? 'tr_TR' : locale === 'de' ? 'de_DE' : locale === 'es' ? 'es_ES' : 'en_US',
       url,
       siteName: SITE_NAME,
       title: normalized === '/' ? `${SITE_NAME} — ${title}` : title,
@@ -180,7 +185,7 @@ export function organizationJsonLd() {
       '@type': 'ContactPoint',
       contactType: 'customer support',
       email: SUPPORT_EMAIL,
-      availableLanguage: ['English', 'Turkish', 'German'],
+      availableLanguage: ['English', 'Turkish', 'German', 'Spanish'],
     },
   };
 }

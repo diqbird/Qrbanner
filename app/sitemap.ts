@@ -62,7 +62,7 @@ const PUBLIC_PATHS = [
   { path: '/cookies', priority: 0.3, changeFrequency: 'yearly' as const },
 ];
 
-const LOCALIZED_SITEMAP_LOCALES: Locale[] = ['tr', 'de'];
+const LOCALIZED_SITEMAP_LOCALES: Locale[] = ['tr', 'de', 'es'];
 
 function buildLocalizedSitemapEntries(locale: Locale, now: Date): MetadataRoute.Sitemap {
   const url = (path: string) => `${SITE_URL}${localizePath(path, locale)}`;

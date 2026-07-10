@@ -4,7 +4,7 @@ export const DEFAULT_LOCALE: Locale = 'en';
 export const LOCALE_HEADER = 'x-qrb-locale';
 export const PATHNAME_HEADER = 'x-qrb-pathname';
 
-const LOCALE_SEGMENT = /^\/(tr|en|de)(?=\/|$)/;
+const LOCALE_SEGMENT = /^\/(tr|en|de|es)(?=\/|$)/;
 
 /** Routes that stay on unprefixed URLs and have no Turkish content alternate. */
 const ENGLISH_ONLY_PREFIXES = ['/blog', '/case-studies'];

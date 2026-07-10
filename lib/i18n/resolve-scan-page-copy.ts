@@ -145,6 +145,7 @@ export function pickScanLocale(acceptLanguage: string | null | undefined): Local
   for (const tag of tags) {
     if (tag.startsWith('tr')) return 'tr';
     if (tag.startsWith('de')) return 'de';
+    if (tag.startsWith('es')) return 'es';
   }
   return 'en';
 }

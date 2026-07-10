@@ -269,8 +269,97 @@ const FAQ_DE: FaqItem[] = [
   },
 ];
 
+const FAQ_ES: FaqItem[] = [
+  {
+    question: '¿Qué es un código QR dinámico?',
+    answer:
+      'Un código QR dinámico apunta a un enlace corto que usted controla. Puede cambiar la URL de destino, reglas de enrutamiento y analíticas sin volver a imprimir el código.',
+  },
+  {
+    question: '¿QRbanner admite geovallas?',
+    answer:
+      'Sí. Puede enrutar escaneos a distintas URLs según país y ciudad opcional (por IP). Combínelo con reglas por horario y dispositivo.',
+  },
+  {
+    question: '¿Puedo usar mi propio dominio para enlaces de escaneo?',
+    answer:
+      'Sí. Añada un subdominio, verifique DNS y sirva escaneos desde su URL de marca mientras gestiona los códigos en el panel de QRbanner.',
+  },
+  {
+    question: '¿Hay API REST?',
+    answer:
+      'Sí. QRbanner ofrece API REST v1 para crear y gestionar códigos QR y carpetas. Genere una clave API en Ajustes.',
+  },
+  {
+    question: '¿Qué pasa con mis códigos QR si cancelo?',
+    answer:
+      'QRbanner está diseñado para que los códigos dinámicos sigan funcionando en el plan Free tras cancelar o bajar de plan, dentro de los límites — sus códigos impresos no quedan bloqueados.',
+  },
+  {
+    question: '¿Qué analíticas incluye?',
+    answer:
+      'Escaneos totales y únicos, rangos de fechas, país, ciudad, dispositivo, navegador y SO, mapas de calor GPS, variantes A/B, NFC vs QR y tasas de clic en CTA. Exporte CSV desde el panel.',
+  },
+  {
+    question: '¿Puedo crear códigos QR en masa?',
+    answer:
+      'Sí. Suba un CSV para crear muchos códigos a la vez — ideal para tiendas, eventos y campañas multilocal.',
+  },
+  {
+    question: '¿Admiten GA4 y Meta Pixel?',
+    answer:
+      'Sí. Conecte IDs de Google Analytics 4 y Meta Pixel para disparar eventos de escaneo y CTA en landing pages y redirecciones.',
+  },
+  {
+    question: '¿Puedo recibir webhooks al escanear?',
+    answer:
+      'Sí. Añada endpoints en Ajustes. Cada escaneo envía JSON firmado para Zapier, Slack o su CRM.',
+  },
+  {
+    question: '¿Las landing pages capturan leads?',
+    answer:
+      'Sí. Active captura de leads para recoger nombre, email, teléfono o mensaje antes de redirigir.',
+  },
+  {
+    question: '¿QRbanner admite pruebas A/B?',
+    answer:
+      'Sí. Divida tráfico entre varias URLs con variantes ponderadas, cookies persistentes y analíticas por variante.',
+  },
+  {
+    question: '¿Mi equipo puede colaborar en códigos QR?',
+    answer:
+      'Sí. Cree workspaces de equipo, invite miembros por email y asigne roles. Cambie de workspace en Ajustes.',
+  },
+  {
+    question: '¿Admiten SSO?',
+    answer:
+      'Sí. Inicio con Google o Microsoft Azure AD. Workspaces Business pueden exigir SSO y configurar SAML (Okta, Azure AD, etc.).',
+  },
+  {
+    question: '¿Hay autenticación de dos factores?',
+    answer:
+      'Sí. Active apps TOTP (Google Authenticator, 1Password, etc.) en Ajustes para mayor seguridad.',
+  },
+  {
+    question: '¿La IA puede escribir textos de landing?',
+    answer:
+      'Sí. En el editor de landing use Generar con IA para títulos, subtítulos, CTAs y metadatos SEO. Requiere clave OpenAI opcional en el servidor.',
+  },
+  {
+    question: '¿QRbanner admite etiquetas NFC?',
+    answer:
+      'Sí. Programe etiquetas NFC con la misma URL dinámica. Los escaneos se registran por separado como NFC en analíticas.',
+  },
+  {
+    question: '¿Cómo contacto con soporte?',
+    answer:
+      'Escriba a support@qrbanner.com para cuenta, facturación, códigos QR o temas técnicos. Respondemos normalmente en un día laborable.',
+  },
+];
+
 export function getFaqItems(locale: Locale): FaqItem[] {
   if (locale === 'tr') return FAQ_TR;
   if (locale === 'de') return FAQ_DE;
+  if (locale === 'es') return FAQ_ES;
   return FAQ_EN;
 }
