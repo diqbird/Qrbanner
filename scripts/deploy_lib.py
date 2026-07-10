@@ -29,7 +29,7 @@ class DeployConfig:
     known_hosts: str | None = os.environ.get("DEPLOY_KNOWN_HOSTS")
     local: str = os.environ.get("DEPLOY_LOCAL", r"C:\Users\ACRO Technology\qrbanner")
     remote: str = os.environ.get("DEPLOY_REMOTE", "/var/www/qrbanner")
-    timeout: int = int(os.environ.get("DEPLOY_TIMEOUT", "30"))
+    timeout: int = int(os.environ.get("DEPLOY_TIMEOUT", "90"))
 
     def require_host(self) -> str:
         if not self.host.strip():
@@ -86,8 +86,10 @@ def connect(cfg: DeployConfig) -> tuple[paramiko.SSHClient, paramiko.SFTPClient]
         "hostname": host,
         "username": cfg.user,
         "timeout": cfg.timeout,
-        "allow_agent": True,
-        "look_for_keys": not bool(cfg.key_path),
+        "banner_timeout": cfg.timeout,
+        "auth_timeout": cfg.timeout,
+        "allow_agent": False,
+        "look_for_keys": False,
     }
 
     if cfg.key_path:
@@ -101,12 +103,22 @@ def connect(cfg: DeployConfig) -> tuple[paramiko.SSHClient, paramiko.SFTPClient]
     elif cfg.password:
         print("WARN: Using DEPLOY_PASSWORD — prefer DEPLOY_SSH_KEY_PATH.", file=sys.stderr)
         connect_kwargs["password"] = cfg.password
+        connect_kwargs["allow_agent"] = True
+        connect_kwargs["look_for_keys"] = True
     else:
         print("ERROR: Set DEPLOY_SSH_KEY_PATH or DEPLOY_PASSWORD.", file=sys.stderr)
         raise SystemExit(1)
 
-    client.connect(**connect_kwargs)
-    return client, client.open_sftp()
+    last_err: Exception | None = None
+    for attempt in range(1, 4):
+        try:
+            client.connect(**connect_kwargs)
+            return client, client.open_sftp()
+        except Exception as err:
+            last_err = err
+            if attempt < 3:
+                print(f"WARN: SSH connect attempt {attempt} failed: {err}", file=sys.stderr)
+    raise last_err  # type: ignore[misc]
 
 
 def upload_files(

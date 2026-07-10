@@ -1,0 +1,7 @@
+{
+  "upload": ["scripts/deploy_lib.py"],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "build": false,
+  "restart": false
+}

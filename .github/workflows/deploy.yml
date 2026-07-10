@@ -25,8 +25,21 @@ jobs:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
         run: |
           mkdir -p ~/.ssh
-          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_SSH_KEY" | tr -d '\r' > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
+          ssh-keygen -y -f ~/.ssh/deploy_key > /dev/null
+      - name: Verify SSH connectivity
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+          ssh -i ~/.ssh/deploy_key \
+            -o BatchMode=yes \
+            -o ConnectTimeout=90 \
+            -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile=~/.ssh/known_hosts \
+            "$DEPLOY_USER@$DEPLOY_HOST" "echo SSH_OK"
       - name: Deploy via manifest
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
@@ -36,6 +49,6 @@ jobs:
           DEPLOY_STRICT_HOST_KEY: '1'
           DEPLOY_REMOTE: /var/www/qrbanner
           DEPLOY_LOCAL: ${{ github.workspace }}
+          DEPLOY_TIMEOUT: '90'
         run: |
-          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
           python scripts/deploy.py --manifest "scripts/manifests/${{ inputs.manifest }}"
