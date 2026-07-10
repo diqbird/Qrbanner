@@ -14,6 +14,8 @@ export function googleMapsUrlFromGeo(schemeUrl: string): string | undefined {
 
 export { schemePageMeta, type SchemePageMeta } from '@/lib/i18n/resolve-scan-page-copy';
 
+import type { Locale } from '@/lib/i18n/types';
+
 export function renderSchemeRedirectPage(
   schemeUrl: string,
   meta: {
@@ -23,7 +25,7 @@ export function renderSchemeRedirectPage(
     secondaryUrl?: string;
     secondaryLabel?: string;
   },
-  locale: 'en' | 'tr' = 'en'
+  locale: Locale = 'en'
 ): string {
   const safeScheme = escapeHtml(schemeUrl);
   const secondary =

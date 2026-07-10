@@ -3,6 +3,7 @@
 import { toast } from 'sonner';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import type { EnterpriseState } from '@/lib/enterprise-workspace-types';
+import type { Locale } from '@/lib/i18n/types';
 
 type Translate = (key: string) => string;
 type PatchEnterprise = (payload: Record<string, unknown>) => Promise<Record<string, unknown> | null>;
@@ -26,7 +27,7 @@ export function useEnterpriseSmtpActions({
   state: EnterpriseState | null;
   patchEnterprise: PatchEnterprise;
   t: Translate;
-  locale: 'en' | 'tr';
+  locale: Locale;
   setWorking: (v: boolean) => void;
   smtpHost: string;
   smtpPort: string;

@@ -1,7 +1,9 @@
 import type { Locale } from './types';
 
 export function resolveBcp47Locale(locale: Locale): string {
-  return locale === 'tr' ? 'tr-TR' : 'en-US';
+  if (locale === 'tr') return 'tr-TR';
+  if (locale === 'de') return 'de-DE';
+  return 'en-US';
 }
 
 export function formatLocaleDateTime(value: string | number | Date, locale: Locale): string {

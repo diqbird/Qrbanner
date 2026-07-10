@@ -2,6 +2,7 @@
 
 import { toast } from 'sonner';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
+import type { Locale } from '@/lib/i18n/types';
 
 type Translate = (key: string) => string;
 
@@ -13,7 +14,7 @@ export function useResetPasswordResend({
 }: {
   t: Translate;
   email: string;
-  locale: 'en' | 'tr';
+  locale: Locale;
   setResending: (v: boolean) => void;
 }) {
   const handleResend = async () => {

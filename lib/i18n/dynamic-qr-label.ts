@@ -6,6 +6,7 @@ import type { Locale } from './types';
 export function formatDynamicQrLabel(count: number, locale: Locale): string {
   const n = formatLocaleNumber(count, locale);
   if (locale === 'tr') return `${n} dinamik QR kodu`;
+  if (locale === 'de') return count === 1 ? `${n} dynamischer QR-Code` : `${n} dynamische QR-Codes`;
   return count === 1 ? `${n} dynamic QR code` : `${n} dynamic QR codes`;
 }
 
@@ -18,6 +19,7 @@ export function formatFreePlanDynamicQrShortLabel(locale: Locale): string {
   const count = freePlanQrLimit();
   const n = formatLocaleNumber(count, locale);
   if (locale === 'tr') return `${n} ücretsiz dinamik kod`;
+  if (locale === 'de') return count === 1 ? `${n} kostenloser dynamischer Code` : `${n} kostenlose dynamische Codes`;
   return count === 1 ? `${n} free dynamic code` : `${n} free dynamic codes`;
 }
 
@@ -25,6 +27,7 @@ export function formatFreePlanDynamicQrShortLabel(locale: Locale): string {
 export function formatEditableQrLabel(count: number, locale: Locale): string {
   const n = formatLocaleNumber(count, locale);
   if (locale === 'tr') return `${n} düzenlenebilir QR kodu`;
+  if (locale === 'de') return count === 1 ? `${n} bearbeitbarer QR-Code` : `${n} bearbeitbare QR-Codes`;
   return count === 1 ? `${n} editable QR code` : `${n} editable QR codes`;
 }
 
@@ -37,5 +40,6 @@ export function formatFreePlanReferralQrLabel(locale: Locale): string {
   const count = freePlanQrLimit();
   const n = formatLocaleNumber(count, locale);
   if (locale === 'tr') return `${n} ücretsiz dinamik QR kodu`;
+  if (locale === 'de') return count === 1 ? `${n} kostenloser dynamischer QR-Code` : `${n} kostenlose dynamische QR-Codes`;
   return count === 1 ? `${n} free dynamic QR code` : `${n} free dynamic QR codes`;
 }

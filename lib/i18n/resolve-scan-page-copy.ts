@@ -144,6 +144,7 @@ export function pickScanLocale(acceptLanguage: string | null | undefined): Local
   const tags = acceptLanguage.split(',').map((part) => part.trim().split(';')[0].toLowerCase());
   for (const tag of tags) {
     if (tag.startsWith('tr')) return 'tr';
+    if (tag.startsWith('de')) return 'de';
   }
   return 'en';
 }

@@ -11,7 +11,7 @@ export function formatOAuthProviderLabels(providers: string[], locale: Locale): 
   const unique = Array.from(new Set(providers.map((p) => p.toLowerCase())));
   return unique.map((provider) => {
     const labels = PROVIDER_LABELS[provider];
-    if (labels) return labels[locale];
+    if (labels) return labels[locale === 'tr' ? 'tr' : 'en'];
     return provider.charAt(0).toUpperCase() + provider.slice(1);
   });
 }

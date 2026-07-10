@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { parseBrandingSettings } from '@/lib/referral';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
-import type { Locale } from '@/lib/i18n/types';
+import { isLocale, type Locale } from '@/lib/i18n/types';
 
 export async function PATCH(req: Request) {
   try {
@@ -13,8 +13,9 @@ export async function PATCH(req: Request) {
     const userId = auth;
 
     const body = await req.json();
-    const preferredLocale: Locale | undefined =
-      body.preferredLocale === 'tr' ? 'tr' : body.preferredLocale === 'en' ? 'en' : undefined;
+    const preferredLocale: Locale | undefined = isLocale(body.preferredLocale)
+      ? body.preferredLocale
+      : undefined;
 
     if (!preferredLocale) {
       return NextResponse.json({ error: 'Invalid locale' }, { status: 400 });

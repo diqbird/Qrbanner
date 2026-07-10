@@ -8,7 +8,7 @@ export function formatPlanPriceLabel(planId: PlanId, locale: Locale): string {
 
 export function formatPlanPricePerMonth(planId: PlanId, locale: Locale): string {
   const price = formatPlanPriceLabel(planId, locale);
-  return locale === 'tr' ? `${price}/ay` : `${price}/mo`;
+  return locale === 'tr' ? `${price}/ay` : locale === 'de' ? `${price}/Mo.` : `${price}/mo`;
 }
 
 export function pricingMetaVars(locale: Locale): Record<string, string> {

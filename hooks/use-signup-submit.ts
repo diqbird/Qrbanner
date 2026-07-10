@@ -5,6 +5,7 @@ import { validatePassword } from '@/lib/password';
 import { PASSWORD_MIN_LENGTH } from '@/lib/password-policy';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { trackSignUp } from '@/lib/site-analytics';
+import type { Locale } from '@/lib/i18n/types';
 
 type Translate = (key: string, vars?: Record<string, string | number>) => string;
 
@@ -33,7 +34,7 @@ export function useSignupSubmit({
   turnstileToken: string | null;
   referralCode: string | null;
   callbackUrl: string;
-  locale: 'en' | 'tr';
+  locale: Locale;
   router: { replace: (url: string) => void };
   setLoading: (v: boolean) => void;
 }) {

@@ -1,9 +1,17 @@
-export type Locale = 'en' | 'tr';
+export type Locale = 'en' | 'tr' | 'de';
 
 export const LOCALES: { id: Locale; label: string }[] = [
   { id: 'en', label: 'EN' },
   { id: 'tr', label: 'TR' },
+  { id: 'de', label: 'DE' },
 ];
+
+/** Locales served under a URL prefix (/tr/, /de/). English stays unprefixed. */
+export const LOCALIZED_PATH_LOCALES: Locale[] = ['tr', 'de'];
+
+export function isLocale(value: unknown): value is Locale {
+  return value === 'en' || value === 'tr' || value === 'de';
+}
 
 export const LOCALE_STORAGE_KEY = 'qrb-locale';
 

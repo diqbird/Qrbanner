@@ -30,11 +30,13 @@ function detectInitialLocale(): Locale {
 
   try {
     const stored = localStorage.getItem(LOCALE_STORAGE_KEY);
-    if (stored === 'tr' || stored === 'en') return stored;
+    if (stored === 'tr' || stored === 'en' || stored === 'de') return stored;
   } catch {}
 
-  if (typeof navigator !== 'undefined' && navigator.language.toLowerCase().startsWith('tr')) {
-    return 'tr';
+  if (typeof navigator !== 'undefined') {
+    const lang = navigator.language.toLowerCase();
+    if (lang.startsWith('tr')) return 'tr';
+    if (lang.startsWith('de')) return 'de';
   }
   return 'en';
 }
@@ -67,7 +69,7 @@ export function LanguageProvider({
 
   useEffect(() => {
     if (!ready) return;
-    document.documentElement.lang = locale === 'tr' ? 'tr' : 'en';
+    document.documentElement.lang = locale === 'tr' ? 'tr' : locale === 'de' ? 'de' : 'en';
     try {
       localStorage.setItem(LOCALE_STORAGE_KEY, locale);
       document.cookie = `${LOCALE_STORAGE_KEY}=${locale};path=/;max-age=31536000;SameSite=Lax`;

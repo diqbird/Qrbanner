@@ -66,7 +66,7 @@ export interface BrandingSettings {
   faviconUrl?: string;
   brandColor?: string;
   referralRewardClaimed?: boolean;
-  preferredLocale?: 'en' | 'tr';
+  preferredLocale?: 'en' | 'tr' | 'de';
 }
 
 const HEX_COLOR_RE = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
@@ -96,7 +96,14 @@ export function normalizeLogoUrl(value: unknown): string | undefined {
 export function parseBrandingSettings(raw: unknown): BrandingSettings {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return {};
   const o = raw as Record<string, unknown>;
-  const preferredLocale = o.preferredLocale === 'tr' ? 'tr' : o.preferredLocale === 'en' ? 'en' : undefined;
+  const preferredLocale =
+    o.preferredLocale === 'tr'
+      ? 'tr'
+      : o.preferredLocale === 'de'
+        ? 'de'
+        : o.preferredLocale === 'en'
+          ? 'en'
+          : undefined;
   return {
     hidePoweredBy: Boolean(o.hidePoweredBy),
     agencyName: typeof o.agencyName === 'string' ? o.agencyName : undefined,

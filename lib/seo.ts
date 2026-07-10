@@ -51,7 +51,7 @@ export function absoluteUrl(path = '/'): string {
   return `${SITE_URL}${p}`;
 }
 
-/** hreflang alternates — English at canonical path, Turkish at /tr/... */
+/** hreflang alternates — English at canonical path, Turkish at /tr/..., German at /de/... */
 export function hreflangAlternates(path = '/'): Metadata['alternates'] {
   const normalized = path.startsWith('/') ? path : `/${path}`;
   const enUrl = absoluteUrl(normalized);
@@ -68,11 +68,13 @@ export function hreflangAlternates(path = '/'): Metadata['alternates'] {
   }
 
   const trUrl = absoluteUrl(localizePath(normalized, 'tr'));
+  const deUrl = absoluteUrl(localizePath(normalized, 'de'));
   return {
     canonical: enUrl,
     languages: {
       en: enUrl,
       tr: trUrl,
+      de: deUrl,
       'x-default': enUrl,
     },
   };
@@ -87,17 +89,19 @@ export function hreflangAlternatesForLocale(
   const localized = shouldLocalizePath(normalized);
   const enUrl = absoluteUrl(normalized);
   const trUrl = absoluteUrl(localizePath(normalized, 'tr'));
+  const deUrl = absoluteUrl(localizePath(normalized, 'de'));
 
   if (!localized) {
     return { canonical: enUrl, languages: { en: enUrl, 'x-default': enUrl } };
   }
 
-  const canonical = locale === 'tr' ? trUrl : enUrl;
+  const canonical = locale === 'tr' ? trUrl : locale === 'de' ? deUrl : enUrl;
   return {
     canonical,
     languages: {
       en: enUrl,
       tr: trUrl,
+      de: deUrl,
       'x-default': enUrl,
     },
   };
@@ -140,7 +144,7 @@ export function pageMetadata({
       : { index: true, follow: true, googleBot: { index: true, follow: true } },
     openGraph: {
       type: 'website',
-      locale: locale === 'tr' ? 'tr_TR' : 'en_US',
+      locale: locale === 'tr' ? 'tr_TR' : locale === 'de' ? 'de_DE' : 'en_US',
       url,
       siteName: SITE_NAME,
       title: normalized === '/' ? `${SITE_NAME} — ${title}` : title,
@@ -176,7 +180,7 @@ export function organizationJsonLd() {
       '@type': 'ContactPoint',
       contactType: 'customer support',
       email: SUPPORT_EMAIL,
-      availableLanguage: ['English', 'Turkish'],
+      availableLanguage: ['English', 'Turkish', 'German'],
     },
   };
 }

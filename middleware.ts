@@ -9,7 +9,7 @@ import { isAppHost } from '@/lib/app-host';
 import { applySecurityHeaders } from '@/lib/security-headers';
 import { hasApiCredentialHeaders, isPublicApiRoute } from '@/lib/api-public-routes';
 import { LOCALE_HEADER, PATHNAME_HEADER, parseLocalePath, isEnglishOnlyPublicPath } from '@/lib/i18n/locale-path';
-import { LOCALE_STORAGE_KEY } from '@/lib/i18n/types';
+import { LOCALE_STORAGE_KEY, isLocale, type Locale } from '@/lib/i18n/types';
 import { isMfaExemptApiPath } from '@/lib/api-mfa-exempt';
 
 const PROTECTED_PREFIXES = ['/dashboard', '/settings', '/qr/bulk', '/admin'];
@@ -23,7 +23,7 @@ function isProtectedPath(path: string): boolean {
   return false;
 }
 
-function applyLocaleCookie(res: NextResponse, locale: 'en' | 'tr') {
+function applyLocaleCookie(res: NextResponse, locale: Locale) {
   res.cookies.set(LOCALE_STORAGE_KEY, locale, {
     path: '/',
     maxAge: LOCALE_COOKIE_MAX_AGE,
@@ -37,9 +37,9 @@ function withSecurityHeaders<T extends NextResponse>(res: T): T {
   return res;
 }
 
-function resolveRequestLocale(req: NextRequest): 'en' | 'tr' {
+function resolveRequestLocale(req: NextRequest): Locale {
   const cookieLocale = req.cookies.get(LOCALE_STORAGE_KEY)?.value;
-  return cookieLocale === 'tr' ? 'tr' : 'en';
+  return isLocale(cookieLocale) ? cookieLocale : 'en';
 }
 
 function finish(req: NextRequest, res: NextResponse): NextResponse {
@@ -79,7 +79,7 @@ function handleLocaleRouting(req: NextRequest): NextResponse | null {
   const rewriteUrl = req.nextUrl.clone();
   rewriteUrl.pathname = pathname;
   const res = NextResponse.rewrite(rewriteUrl);
-  applyLocaleCookie(res, 'tr');
+  applyLocaleCookie(res, locale);
   return finish(req, res);
 }
 

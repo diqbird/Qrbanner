@@ -44,7 +44,7 @@ export type AutomationContext = {
   leadMessage?: string | null;
   ctaLabel?: string | null;
   scannedAt?: string;
-  locale?: 'en' | 'tr';
+  locale?: import('@/lib/i18n/types').Locale;
 };
 
 export const TEMPLATE_VAR_KEYS = [

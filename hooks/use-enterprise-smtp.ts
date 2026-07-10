@@ -3,6 +3,7 @@
 import { useEnterpriseSmtpState } from '@/hooks/use-enterprise-smtp-state';
 import { useEnterpriseSmtpActions } from '@/hooks/use-enterprise-smtp-actions';
 import type { EnterpriseState } from '@/lib/enterprise-workspace-types';
+import type { Locale } from '@/lib/i18n/types';
 
 type Translate = (key: string) => string;
 type PatchEnterprise = (payload: Record<string, unknown>) => Promise<Record<string, unknown> | null>;
@@ -19,7 +20,7 @@ export function useEnterpriseSmtp({
   state: EnterpriseState | null;
   patchEnterprise: PatchEnterprise;
   t: Translate;
-  locale: 'en' | 'tr';
+  locale: Locale;
   setWorking: (v: boolean) => void;
 }) {
   const smtpState = useEnterpriseSmtpState();

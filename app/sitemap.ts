@@ -7,6 +7,7 @@ import { STATIC_POSTS } from '@/lib/blog/posts-service';
 import { CASE_STUDIES } from '@/lib/case-studies';
 import { INDUSTRY_TEMPLATES } from '@/lib/industry-templates';
 import { localizePath, shouldLocalizePath } from '@/lib/i18n/locale-path';
+import type { Locale } from '@/lib/i18n/types';
 import type { BlogPost } from '@/lib/blog/types';
 import { listGeoComboParams } from '@/lib/geo-seo-pages';
 
@@ -60,6 +61,82 @@ const PUBLIC_PATHS = [
   { path: '/refund', priority: 0.3, changeFrequency: 'yearly' as const },
   { path: '/cookies', priority: 0.3, changeFrequency: 'yearly' as const },
 ];
+
+const LOCALIZED_SITEMAP_LOCALES: Locale[] = ['tr', 'de'];
+
+function buildLocalizedSitemapEntries(locale: Locale, now: Date): MetadataRoute.Sitemap {
+  const url = (path: string) => `${SITE_URL}${localizePath(path, locale)}`;
+  const adjustPriority = (priority: number) => Math.max(0.3, priority - 0.05);
+
+  const publicEntries = PUBLIC_PATHS.filter(({ path }) => shouldLocalizePath(path || '/')).map(
+    ({ path, priority, changeFrequency }) => ({
+      url: url(path || '/'),
+      lastModified: now,
+      changeFrequency,
+      priority: adjustPriority(priority),
+    }),
+  );
+
+  const solutionEntries = SOLUTION_PAGES.map((s) => ({
+    url: url(`/solutions/${s.slug}`),
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: locale === 'tr' ? 0.8 : 0.75,
+  }));
+
+  const qrTypeEntries = buildQrTypePages().map((p) => ({
+    url: url(`/qr-types/${p.slug}`),
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: locale === 'tr' ? 0.75 : 0.72,
+  }));
+
+  const useCaseEntries = USE_CASE_PAGES.map((p) => ({
+    url: url(`/use-cases/${p.slug}`),
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: locale === 'tr' ? 0.77 : 0.74,
+  }));
+
+  const vsEntries = COMPETITOR_PAGES.map((p) => ({
+    url: url(`/vs/${p.slug}`),
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: locale === 'tr' ? 0.7 : 0.68,
+  }));
+
+  const templateDetailEntries = INDUSTRY_TEMPLATES.map((tpl) => ({
+    url: url(`/templates/${tpl.id}`),
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: locale === 'tr' ? 0.75 : 0.72,
+  }));
+
+  const geoEntries = listGeoComboParams().map(({ city, sector }) => ({
+    url: url(`/geo/${city}/${sector}`),
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: locale === 'tr' ? 0.68 : 0.65,
+  }));
+
+  const geoCityEntries = Array.from(new Set(listGeoComboParams().map((p) => p.city))).map((city) => ({
+    url: url(`/geo/${city}`),
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: locale === 'tr' ? 0.74 : 0.71,
+  }));
+
+  return [
+    ...publicEntries,
+    ...solutionEntries,
+    ...qrTypeEntries,
+    ...useCaseEntries,
+    ...vsEntries,
+    ...templateDetailEntries,
+    ...geoEntries,
+    ...geoCityEntries,
+  ];
+}
 
 function safeDate(value: string | Date | undefined): Date {
   if (!value) return new Date();
@@ -136,79 +213,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  const trUrl = (path: string) => `${SITE_URL}${localizePath(path, 'tr')}`;
-
-  const trPublicEntries = PUBLIC_PATHS.filter(({ path }) =>
-    shouldLocalizePath(path || '/')
-  ).map(({ path, priority, changeFrequency }) => ({
-    url: trUrl(path || '/'),
-    lastModified: now,
-    changeFrequency,
-    priority: Math.max(0.3, priority - 0.05),
-  }));
-
-  const trSolutionEntries = SOLUTION_PAGES.map((s) => ({
-    url: trUrl(`/solutions/${s.slug}`),
-    lastModified: now,
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
-  }));
-
-  const trQrTypeEntries = buildQrTypePages().map((p) => ({
-    url: trUrl(`/qr-types/${p.slug}`),
-    lastModified: now,
-    changeFrequency: 'monthly' as const,
-    priority: 0.75,
-  }));
-
-  const trUseCaseEntries = USE_CASE_PAGES.map((p) => ({
-    url: trUrl(`/use-cases/${p.slug}`),
-    lastModified: now,
-    changeFrequency: 'monthly' as const,
-    priority: 0.77,
-  }));
-
-  const trVsEntries = COMPETITOR_PAGES.map((p) => ({
-    url: trUrl(`/vs/${p.slug}`),
-    lastModified: now,
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
-  }));
-
-  const trTemplateDetailEntries = INDUSTRY_TEMPLATES.map((tpl) => ({
-    url: trUrl(`/templates/${tpl.id}`),
-    lastModified: now,
-    changeFrequency: 'monthly' as const,
-    priority: 0.75,
-  }));
-
-  const geoEntries = listGeoComboParams().map(({ city, sector }) => ({
-    url: `${SITE_URL}/geo/${city}/${sector}`,
-    lastModified: now,
-    changeFrequency: 'monthly' as const,
-    priority: 0.72,
-  }));
-
-  const trGeoEntries = listGeoComboParams().map(({ city, sector }) => ({
-    url: trUrl(`/geo/${city}/${sector}`),
-    lastModified: now,
-    changeFrequency: 'monthly' as const,
-    priority: 0.68,
-  }));
-
-  const geoCityEntries = Array.from(new Set(listGeoComboParams().map((p) => p.city))).map((city) => ({
-    url: `${SITE_URL}/geo/${city}`,
-    lastModified: now,
-    changeFrequency: 'monthly' as const,
-    priority: 0.78,
-  }));
-
-  const trGeoCityEntries = Array.from(new Set(listGeoComboParams().map((p) => p.city))).map((city) => ({
-    url: trUrl(`/geo/${city}`),
-    lastModified: now,
-    changeFrequency: 'monthly' as const,
-    priority: 0.74,
-  }));
+  const localizedEntries = LOCALIZED_SITEMAP_LOCALES.flatMap((locale) =>
+    buildLocalizedSitemapEntries(locale, now),
+  );
 
   return [
     ...PUBLIC_PATHS.map(({ path, priority, changeFrequency }) => ({
@@ -224,15 +231,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...blogEntries,
     ...caseStudyEntries,
     ...templateDetailEntries,
-    ...trPublicEntries,
-    ...trSolutionEntries,
-    ...trQrTypeEntries,
-    ...trUseCaseEntries,
-    ...trVsEntries,
-    ...trTemplateDetailEntries,
-    ...geoEntries,
-    ...geoCityEntries,
-    ...trGeoEntries,
-    ...trGeoCityEntries,
+    ...localizedEntries,
+    ...listGeoComboParams().map(({ city, sector }) => ({
+      url: `${SITE_URL}/geo/${city}/${sector}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.72,
+    })),
+    ...Array.from(new Set(listGeoComboParams().map((p) => p.city))).map((city) => ({
+      url: `${SITE_URL}/geo/${city}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.78,
+    })),
   ];
 }
