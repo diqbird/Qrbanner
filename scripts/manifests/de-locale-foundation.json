@@ -13,7 +13,16 @@
     "lib/referral.ts",
     "app/sitemap.ts",
     "app/api/account/preferences/route.ts",
-    "components/i18n/language-provider.tsx"
+    "components/i18n/language-provider.tsx",
+    "hooks/use-enterprise-smtp-actions.ts",
+    "hooks/use-enterprise-smtp.ts",
+    "hooks/use-reset-password-resend.ts",
+    "hooks/use-signup-submit.ts",
+    "hooks/use-verify-resend.ts",
+    "lib/automation-types.ts",
+    "lib/i18n/resolve-scan-page-copy.ts",
+    "lib/oauth-provider-labels.ts",
+    "lib/scan-redirect-page.ts"
   ],
   "yarn_install": false,
   "prisma_generate": false,
