@@ -7,7 +7,20 @@ import {
   ONBOARDING_CHECKLIST_STORAGE_KEY,
 } from '@/lib/onboarding-checklist-items';
 
-export function useOnboardingChecklist(qrCount: number) {
+export type OnboardingChecklistHints = {
+  qrCount: number;
+  totalScans: number;
+};
+
+function autoCheckedKeys(hints: OnboardingChecklistHints): Record<string, boolean> {
+  const next: Record<string, boolean> = {};
+  if (hints.qrCount >= 1) next['checklist.download'] = true;
+  if (hints.totalScans > 0) next['checklist.analytics'] = true;
+  return next;
+}
+
+export function useOnboardingChecklist(hints: OnboardingChecklistHints) {
+  const { qrCount, totalScans } = hints;
   const [visible, setVisible] = useState(false);
   const [checked, setChecked] = useState<Record<string, boolean>>({});
 
@@ -16,12 +29,15 @@ export function useOnboardingChecklist(qrCount: number) {
     try {
       if (localStorage.getItem(ONBOARDING_CHECKLIST_STORAGE_KEY)) return;
       const saved = localStorage.getItem(ONBOARDING_CHECKLIST_PROGRESS_KEY);
-      if (saved) setChecked(JSON.parse(saved) as Record<string, boolean>);
+      const manual = saved ? (JSON.parse(saved) as Record<string, boolean>) : {};
+      const merged = { ...manual, ...autoCheckedKeys({ qrCount, totalScans }) };
+      setChecked(merged);
+      localStorage.setItem(ONBOARDING_CHECKLIST_PROGRESS_KEY, JSON.stringify(merged));
       setVisible(true);
     } catch {
       setVisible(true);
     }
-  }, [qrCount]);
+  }, [qrCount, totalScans]);
 
   const dismiss = () => {
     try {

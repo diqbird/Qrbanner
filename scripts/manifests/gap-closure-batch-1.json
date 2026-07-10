@@ -1,0 +1,23 @@
+{
+  "upload": [
+    "prisma/schema.prisma",
+    "prisma/migrations/0010_login_audit_log/migration.sql",
+    "lib/login-audit.ts",
+    "lib/integration-presets.ts",
+    "lib/auth-options.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "app/api/admin/login-audit/route.ts",
+    "components/admin/pages/admin-security-page.tsx",
+    "components/dashboard/integration-preset-cards.tsx",
+    "components/dashboard/webhook-settings.tsx",
+    "components/dashboard/onboarding-checklist.tsx",
+    "components/dashboard/dashboard-overview-section.tsx",
+    "hooks/use-onboarding-checklist.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": true,
+  "prisma_migrate": true,
+  "build": true,
+  "restart": true
+}

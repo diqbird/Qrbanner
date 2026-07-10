@@ -484,6 +484,22 @@ model AdminAuditLog {
   @@index([actorId])
 }
 
+model LoginAuditLog {
+  id        String   @id @default(cuid())
+  email     String
+  userId    String?
+  provider  String
+  outcome   String
+  reason    String?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt(sort: Desc)])
+  @@index([email])
+  @@index([outcome])
+}
+
 model MarketplaceSeller {
   id                    String   @id @default(cuid())
   userId                String   @unique

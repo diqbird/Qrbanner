@@ -6,11 +6,12 @@ import AzureADProvider from 'next-auth/providers/azure-ad';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import { prisma } from '@/lib/db';
 import { ensurePersonalWorkspace } from '@/lib/workspace';
 import { resolveReferrerByCode, recordReferralSignup } from '@/lib/referral';
 import { maybeStartProTrial } from '@/lib/pro-trial';
+import { recordLoginAudit } from '@/lib/login-audit';
 import { assertOAuthSignInAllowed, assertPasswordLoginAllowed, isEmailDomainAllowed, parseAllowedDomains } from '@/lib/workspace-sso';
 import { verifySamlSignInToken } from '@/lib/saml-auth';
 import { decryptTotpSecret, verifyTotpCode } from '@/lib/totp';
@@ -47,6 +48,46 @@ async function assertLoginNotRateLimited(email: string): Promise<void> {
   if (!emailResult.ok) throw new Error('rate_limited');
 }
 
+async function loginAuditContext(): Promise<{ ipAddress?: string; userAgent?: string }> {
+  let ipAddress: string | undefined;
+  try {
+    ipAddress = await clientIpFromHeaders();
+  } catch {
+    /* ignore */
+  }
+  let userAgent: string | undefined;
+  try {
+    userAgent = (await headers()).get('user-agent')?.slice(0, 240) ?? undefined;
+  } catch {
+    /* ignore */
+  }
+  return { ipAddress, userAgent };
+}
+
+async function logCredentialLoginFailure(email: string, reason: string, ctx: { ipAddress?: string; userAgent?: string }) {
+  await recordLoginAudit({
+    email,
+    provider: 'credentials',
+    outcome: reason === 'rate_limited' ? 'blocked' : 'failure',
+    reason,
+    ...ctx,
+  });
+}
+
+async function logCredentialLoginSuccess(
+  email: string,
+  userId: string,
+  ctx: { ipAddress?: string; userAgent?: string }
+) {
+  await recordLoginAudit({
+    email,
+    userId,
+    provider: 'credentials',
+    outcome: 'success',
+    ...ctx,
+  });
+}
+
 /** Incomplete MFA step-up window — OAuth users must verify within this TTL. */
 const MFA_PENDING_MAX_AGE = 15 * 60;
 
@@ -62,6 +103,10 @@ const providers: NextAuthOptions['providers'] = [
       totpCode: { label: 'TOTP Code', type: 'text' },
     },
     async authorize(credentials) {
+      const auditEmail = credentials?.email?.toLowerCase() ?? 'unknown';
+      const auditCtx = await loginAuditContext();
+
+      try {
       if (!credentials?.email) {
         throw new Error('email_required');
       }
@@ -113,6 +158,7 @@ const providers: NextAuthOptions['providers'] = [
 
           await ensurePersonalWorkspace(samlUser.id);
 
+          await logCredentialLoginSuccess(samlUser.email, samlUser.id, auditCtx);
           return {
             id: samlUser.id,
             email: samlUser.email,
@@ -132,6 +178,7 @@ const providers: NextAuthOptions['providers'] = [
           throw new Error('email_not_verified');
         }
 
+        await logCredentialLoginSuccess(verifiedUser.email, verifiedUser.id, auditCtx);
         return {
           id: verifiedUser.id,
           email: verifiedUser.email,
@@ -201,6 +248,7 @@ const providers: NextAuthOptions['providers'] = [
         }
       }
 
+      await logCredentialLoginSuccess(user.email, user.id, auditCtx);
       return {
         id: user.id,
         email: user.email,
@@ -210,6 +258,13 @@ const providers: NextAuthOptions['providers'] = [
         mfaVerified: true,
         rememberMe: parseRememberMe(credentials.rememberMe),
       };
+      } catch (err) {
+        const reason = err instanceof Error ? err.message : 'unknown';
+        if (auditEmail !== 'unknown') {
+          await logCredentialLoginFailure(auditEmail, reason, auditCtx);
+        }
+        throw err;
+      }
     },
   }),
 ];
@@ -385,6 +440,18 @@ export const authOptions: NextAuthOptions = {
     signIn: '/login',
   },
   events: {
+    async signIn({ user, account }) {
+      if (account?.provider && account.provider !== 'credentials' && user.email && user.id) {
+        const auditCtx = await loginAuditContext();
+        await recordLoginAudit({
+          email: user.email,
+          userId: user.id,
+          provider: account.provider,
+          outcome: 'success',
+          ...auditCtx,
+        });
+      }
+    },
     async createUser({ user }) {
       if (!user.id) return;
       try {

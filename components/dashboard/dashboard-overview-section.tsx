@@ -24,7 +24,7 @@ export function DashboardOverviewSection({ list }: { list: DashboardList }) {
       </div>
 
       <OnboardingBanner show={!list.loading && list.totals.accountQrCount === 0} />
-      <OnboardingChecklist qrCount={list.totals.accountQrCount} />
+      <OnboardingChecklist qrCount={list.totals.accountQrCount} totalScans={list.stats.totalScans} />
       <PlanUpgradeBanner />
       <PwaInstallBanner />
 

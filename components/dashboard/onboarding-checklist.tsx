@@ -7,9 +7,12 @@ import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { useOnboardingChecklist } from '@/hooks/use-onboarding-checklist';
 import { OnboardingChecklistItemRow } from './onboarding-checklist-item-row';
 
-export function OnboardingChecklist({ qrCount }: { qrCount: number }) {
+export function OnboardingChecklist({ qrCount, totalScans }: { qrCount: number; totalScans: number }) {
   const { t, locale } = useLanguage();
-  const { visible, checked, dismiss, toggle, doneCount, items } = useOnboardingChecklist(qrCount);
+  const { visible, checked, dismiss, toggle, doneCount, items } = useOnboardingChecklist({
+    qrCount,
+    totalScans,
+  });
 
   if (!visible) return null;
 

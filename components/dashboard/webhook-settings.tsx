@@ -6,6 +6,7 @@ import { useWebhookSettings } from '@/hooks/use-webhook-settings';
 import { WebhookEndpointList, WebhookAddForm } from './webhook-endpoints-panel';
 import { WebhookDeliveriesPanel } from './webhook-deliveries-panel';
 import { WebhookSecretDialog } from './webhook-secret-dialog';
+import { IntegrationPresetCards } from './integration-preset-cards';
 
 export function WebhookSettings() {
   const settings = useWebhookSettings();
@@ -27,6 +28,7 @@ export function WebhookSettings() {
             </div>
           ) : (
             <>
+              <IntegrationPresetCards />
               <WebhookEndpointList settings={settings} />
               <WebhookAddForm settings={settings} />
             </>
