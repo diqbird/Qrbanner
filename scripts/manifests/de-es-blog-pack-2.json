@@ -1,0 +1,31 @@
+{
+  "upload": [
+    "lib/blog/posts/de/registry.ts",
+    "lib/blog/posts/de/hotel-qr-codes.ts",
+    "lib/blog/posts/de/retail-qr-codes.ts",
+    "lib/blog/posts/de/healthcare-qr-codes.ts",
+    "lib/blog/posts/de/real-estate-open-house-qr.ts",
+    "lib/blog/posts/de/coffee-shop-loyalty-qr.ts",
+    "lib/blog/posts/de/salon-spa-qr-codes.ts",
+    "lib/blog/posts/de/webhook-automation-guide.ts",
+    "lib/blog/posts/de/referral-program-guide.ts",
+    "lib/blog/posts/de/trade-show-booth-qr.ts",
+    "lib/blog/posts/de/fitness-gym-qr.ts",
+    "lib/blog/posts/es/registry.ts",
+    "lib/blog/posts/es/hotel-qr-codes.ts",
+    "lib/blog/posts/es/retail-qr-codes.ts",
+    "lib/blog/posts/es/healthcare-qr-codes.ts",
+    "lib/blog/posts/es/real-estate-open-house-qr.ts",
+    "lib/blog/posts/es/coffee-shop-loyalty-qr.ts",
+    "lib/blog/posts/es/salon-spa-qr-codes.ts",
+    "lib/blog/posts/es/webhook-automation-guide.ts",
+    "lib/blog/posts/es/referral-program-guide.ts",
+    "lib/blog/posts/es/trade-show-booth-qr.ts",
+    "lib/blog/posts/es/fitness-gym-qr.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
