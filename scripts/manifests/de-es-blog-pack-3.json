@@ -1,0 +1,31 @@
+{
+  "upload": [
+    "lib/blog/posts/de/registry.ts",
+    "lib/blog/posts/de/ai-landing-copy-guide.ts",
+    "lib/blog/posts/de/developers-api-getting-started.ts",
+    "lib/blog/posts/de/landing-cta-analytics-guide.ts",
+    "lib/blog/posts/de/totp-two-factor-guide.ts",
+    "lib/blog/posts/de/food-trucks-qr.ts",
+    "lib/blog/posts/de/dental-practice-qr-codes.ts",
+    "lib/blog/posts/de/museum-qr-codes.ts",
+    "lib/blog/posts/de/nonprofit-fundraising-qr.ts",
+    "lib/blog/posts/de/university-qr-codes.ts",
+    "lib/blog/posts/de/automotive-dealership-qr.ts",
+    "lib/blog/posts/es/registry.ts",
+    "lib/blog/posts/es/ai-landing-copy-guide.ts",
+    "lib/blog/posts/es/developers-api-getting-started.ts",
+    "lib/blog/posts/es/landing-cta-analytics-guide.ts",
+    "lib/blog/posts/es/totp-two-factor-guide.ts",
+    "lib/blog/posts/es/food-trucks-qr.ts",
+    "lib/blog/posts/es/dental-practice-qr-codes.ts",
+    "lib/blog/posts/es/museum-qr-codes.ts",
+    "lib/blog/posts/es/nonprofit-fundraising-qr.ts",
+    "lib/blog/posts/es/university-qr-codes.ts",
+    "lib/blog/posts/es/automotive-dealership-qr.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

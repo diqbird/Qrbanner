@@ -19,6 +19,16 @@ import { webhookAutomationGuideEs } from './webhook-automation-guide';
 import { referralProgramGuideEs } from './referral-program-guide';
 import { tradeShowBoothQrEs } from './trade-show-booth-qr';
 import { fitnessGymQrEs } from './fitness-gym-qr';
+import { aiLandingCopyGuideEs } from './ai-landing-copy-guide';
+import { developersApiGettingStartedEs } from './developers-api-getting-started';
+import { landingCtaAnalyticsGuideEs } from './landing-cta-analytics-guide';
+import { totpTwoFactorGuideEs } from './totp-two-factor-guide';
+import { foodTrucksQrEs } from './food-trucks-qr';
+import { dentalPracticeQrCodesEs } from './dental-practice-qr-codes';
+import { museumQrCodesEs } from './museum-qr-codes';
+import { nonprofitFundraisingQrEs } from './nonprofit-fundraising-qr';
+import { universityQrCodesEs } from './university-qr-codes';
+import { automotiveDealershipQrEs } from './automotive-dealership-qr';
 
 /** Spanish (es-ES) content overrides keyed by slug (same URL, locale from cookie/header). */
 export const ES_POSTS: Record<string, BlogPost> = {
@@ -42,4 +52,14 @@ export const ES_POSTS: Record<string, BlogPost> = {
   [referralProgramGuideEs.slug]: referralProgramGuideEs,
   [tradeShowBoothQrEs.slug]: tradeShowBoothQrEs,
   [fitnessGymQrEs.slug]: fitnessGymQrEs,
+  [aiLandingCopyGuideEs.slug]: aiLandingCopyGuideEs,
+  [developersApiGettingStartedEs.slug]: developersApiGettingStartedEs,
+  [landingCtaAnalyticsGuideEs.slug]: landingCtaAnalyticsGuideEs,
+  [totpTwoFactorGuideEs.slug]: totpTwoFactorGuideEs,
+  [foodTrucksQrEs.slug]: foodTrucksQrEs,
+  [dentalPracticeQrCodesEs.slug]: dentalPracticeQrCodesEs,
+  [museumQrCodesEs.slug]: museumQrCodesEs,
+  [nonprofitFundraisingQrEs.slug]: nonprofitFundraisingQrEs,
+  [universityQrCodesEs.slug]: universityQrCodesEs,
+  [automotiveDealershipQrEs.slug]: automotiveDealershipQrEs,
 };

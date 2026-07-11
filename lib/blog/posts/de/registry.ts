@@ -19,6 +19,16 @@ import { webhookAutomationGuideDe } from './webhook-automation-guide';
 import { referralProgramGuideDe } from './referral-program-guide';
 import { tradeShowBoothQrDe } from './trade-show-booth-qr';
 import { fitnessGymQrDe } from './fitness-gym-qr';
+import { aiLandingCopyGuideDe } from './ai-landing-copy-guide';
+import { developersApiGettingStartedDe } from './developers-api-getting-started';
+import { landingCtaAnalyticsGuideDe } from './landing-cta-analytics-guide';
+import { totpTwoFactorGuideDe } from './totp-two-factor-guide';
+import { foodTrucksQrDe } from './food-trucks-qr';
+import { dentalPracticeQrCodesDe } from './dental-practice-qr-codes';
+import { museumQrCodesDe } from './museum-qr-codes';
+import { nonprofitFundraisingQrDe } from './nonprofit-fundraising-qr';
+import { universityQrCodesDe } from './university-qr-codes';
+import { automotiveDealershipQrDe } from './automotive-dealership-qr';
 
 /** German (de-DE) content overrides keyed by slug (same URL, locale from cookie/header). */
 export const DE_POSTS: Record<string, BlogPost> = {
@@ -42,4 +52,14 @@ export const DE_POSTS: Record<string, BlogPost> = {
   [referralProgramGuideDe.slug]: referralProgramGuideDe,
   [tradeShowBoothQrDe.slug]: tradeShowBoothQrDe,
   [fitnessGymQrDe.slug]: fitnessGymQrDe,
+  [aiLandingCopyGuideDe.slug]: aiLandingCopyGuideDe,
+  [developersApiGettingStartedDe.slug]: developersApiGettingStartedDe,
+  [landingCtaAnalyticsGuideDe.slug]: landingCtaAnalyticsGuideDe,
+  [totpTwoFactorGuideDe.slug]: totpTwoFactorGuideDe,
+  [foodTrucksQrDe.slug]: foodTrucksQrDe,
+  [dentalPracticeQrCodesDe.slug]: dentalPracticeQrCodesDe,
+  [museumQrCodesDe.slug]: museumQrCodesDe,
+  [nonprofitFundraisingQrDe.slug]: nonprofitFundraisingQrDe,
+  [universityQrCodesDe.slug]: universityQrCodesDe,
+  [automotiveDealershipQrDe.slug]: automotiveDealershipQrDe,
 };
