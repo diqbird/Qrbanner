@@ -1,0 +1,25 @@
+{
+  "upload": [
+    "lib/i18n/locale-dictionary.ts",
+    "lib/i18n/qr-category-copy-de.ts",
+    "lib/i18n/qr-category-copy-es.ts",
+    "lib/i18n/de.ts",
+    "lib/i18n/es.ts",
+    "lib/i18n/resolve-scan-page-copy.ts",
+    "lib/i18n/resolve-frame-label-text.ts",
+    "lib/i18n/resolve-schedule-timezone-label.ts",
+    "lib/i18n/resolve-geofence-country-name.ts",
+    "lib/i18n/resolve-social-platform-label.ts",
+    "lib/i18n/resolve-analytics-country-label.ts",
+    "lib/i18n/pricing-faq-items.ts",
+    "lib/i18n/pricing-content.ts",
+    "lib/i18n/case-study-metric-labels.ts",
+    "lib/i18n/case-study-duration.ts",
+    "lib/i18n/api-rate-limits.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

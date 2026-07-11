@@ -1,13 +1,12 @@
 import { en } from './en';
-import { tr } from './tr';
 import { getNestedValue } from './types';
 import type { Locale } from './types';
+import { dictionaryFor } from './locale-dictionary';
 
 const EN_SCAN_ME = getNestedValue(en, 'style.frameTextPresetText.scanMe') ?? 'Scan me';
 
 export function resolveDefaultFrameText(locale: Locale = 'en'): string {
-  const tree = locale === 'tr' ? tr : en;
-  return getNestedValue(tree, 'style.frameTextPresetText.scanMe') ?? EN_SCAN_ME;
+  return getNestedValue(dictionaryFor(locale), 'style.frameTextPresetText.scanMe') ?? EN_SCAN_ME;
 }
 
 /** Resolve frame label for canvas render — empty or English factory default → locale copy. */

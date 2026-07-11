@@ -1,7 +1,6 @@
-import { en } from './en';
-import { tr } from './tr';
 import type { Locale } from './types';
 import { interpolate } from './types';
+import { dictionaryFor } from './locale-dictionary';
 
 export type ScanPageCopy = {
   goHome: string;
@@ -76,18 +75,15 @@ export type SchemePageMeta = {
 };
 
 export function resolveScanPageCopy(locale: Locale = 'en'): ScanPageCopy {
-  const tree = locale === 'tr' ? tr : en;
-  return tree.scanPage as ScanPageCopy;
+  return dictionaryFor(locale).scanPage as ScanPageCopy;
 }
 
 export function resolveScanLandingCopy(locale: Locale = 'en'): ScanLandingCopy {
-  const tree = locale === 'tr' ? tr : en;
-  return tree.scanLanding as ScanLandingCopy;
+  return dictionaryFor(locale).scanLanding as ScanLandingCopy;
 }
 
 export function resolveSchemeScanCopy(locale: Locale = 'en'): SchemeScanCopy {
-  const tree = locale === 'tr' ? tr : en;
-  return tree.schemeScan as SchemeScanCopy;
+  return dictionaryFor(locale).schemeScan as SchemeScanCopy;
 }
 
 export function schemePageMeta(

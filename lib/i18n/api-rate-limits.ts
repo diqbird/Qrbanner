@@ -11,6 +11,12 @@ export function formatDeveloperRateLimitLine(planId: PlanId, locale: Locale): st
   if (locale === 'tr') {
     return `${plan.name} — ${perMin}/dk · ${monthly}/ay`;
   }
+  if (locale === 'de') {
+    return `${plan.name} — ${perMin}/Min. · ${monthly}/Mon.`;
+  }
+  if (locale === 'es') {
+    return `${plan.name} — ${perMin}/min · ${monthly}/mes`;
+  }
   return `${plan.name} — ${perMin}/min · ${monthly}/mo`;
 }
 

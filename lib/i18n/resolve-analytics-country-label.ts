@@ -1,5 +1,6 @@
 import { GEOIP_COUNTRY_EN_NAMES } from '@/lib/geoip-country-names';
 import type { Locale } from './types';
+import { intlLocaleTag } from './locale-dictionary';
 import { resolveEnumLabel, type TranslateFn } from './resolve-enum-label';
 
 const ENGLISH_NAME_TO_CODE: Record<string, string> = Object.fromEntries(
@@ -8,8 +9,7 @@ const ENGLISH_NAME_TO_CODE: Record<string, string> = Object.fromEntries(
 
 function regionDisplayName(code: string, locale: Locale): string | undefined {
   try {
-    const tag = locale === 'tr' ? 'tr' : 'en';
-    return new Intl.DisplayNames([tag], { type: 'region' }).of(code);
+    return new Intl.DisplayNames([intlLocaleTag(locale)], { type: 'region' }).of(code);
   } catch {
     return undefined;
   }

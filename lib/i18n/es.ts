@@ -1,6 +1,7 @@
 import type { TranslationTree } from './types';
 import { fieldsEs } from './fields';
 import { esLocaleGaps } from './es-locale-gaps';
+import { qrCategoryCopyEs } from './qr-category-copy-es';
 
 /** Partial Spanish dictionary — missing keys fall back to English via translate(). */
 export const es: TranslationTree = {
@@ -1527,5 +1528,6 @@ export const es: TranslationTree = {
     contactTitle: 'Contacto',
     pricingLink: 'Precios',
   },
+  qrCategories: qrCategoryCopyEs,
   ...esLocaleGaps,
 };

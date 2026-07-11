@@ -1,7 +1,6 @@
-import { en } from './en';
-import { tr } from './tr';
 import type { Locale, TranslationTree } from './types';
 import { TIMEZONE_OPTIONS } from '@/lib/schedule-utils';
+import { dictionaryFor } from './locale-dictionary';
 
 function scheduleTimezones(tree: TranslationTree): Record<string, string> | undefined {
   const qrFeatures = tree.qrFeatures;
@@ -12,8 +11,7 @@ function scheduleTimezones(tree: TranslationTree): Record<string, string> | unde
 }
 
 export function resolveScheduleTimezoneLabel(value: string, locale: Locale = 'en'): string {
-  const tree = locale === 'tr' ? tr : en;
-  const localized = scheduleTimezones(tree)?.[value];
+  const localized = scheduleTimezones(dictionaryFor(locale))?.[value];
   if (localized) return localized;
   return TIMEZONE_OPTIONS.find((tz) => tz.value === value)?.label ?? value;
 }

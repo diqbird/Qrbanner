@@ -1,16 +1,14 @@
 import type { Locale } from './types';
 import { getNestedValue } from './types';
-import { en } from './en';
-import { tr } from './tr';
+import { dictionaryFor, intlLocaleTag } from './locale-dictionary';
 
 export function resolveGeofenceCountryName(code: string, locale: Locale = 'en'): string {
-  const tree = locale === 'tr' ? tr : en;
+  const tree = dictionaryFor(locale);
   if (code === '*') {
     return getNestedValue(tree, 'qrFeatures.geofenceAllCountries') ?? 'All other countries';
   }
   try {
-    const displayNames = new Intl.DisplayNames([locale === 'tr' ? 'tr' : 'en'], { type: 'region' });
-    const name = displayNames.of(code);
+    const name = new Intl.DisplayNames([intlLocaleTag(locale)], { type: 'region' }).of(code);
     if (name) return name;
   } catch {
     // Intl unavailable — fall through
