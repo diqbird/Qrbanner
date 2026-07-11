@@ -65,6 +65,8 @@ import { touristAttractionQrTr } from './posts/tr/tourist-attraction-qr';
 import { veterinaryClinicQrTr } from './posts/tr/veterinary-clinic-qr';
 import { wineTastingRoomQrTr } from './posts/tr/wine-tasting-room-qr';
 import { logisticsWarehouseQrTr } from './posts/tr/logistics-warehouse-qr';
+import { DE_POSTS } from './posts/de/registry';
+import { ES_POSTS } from './posts/es/registry';
 
 /** Turkish content overrides keyed by slug (same URL, locale from cookie/header). */
 const TR_POSTS: Record<string, BlogPost> = {
@@ -135,21 +137,31 @@ const TR_POSTS: Record<string, BlogPost> = {
   [logisticsWarehouseQrTr.slug]: logisticsWarehouseQrTr,
 };
 
+const LOCALE_POSTS: Partial<Record<Locale, Record<string, BlogPost>>> = {
+  tr: TR_POSTS,
+  de: DE_POSTS,
+  es: ES_POSTS,
+};
+
 export function localizeBlogPost(post: BlogPost, locale: Locale): BlogPost {
-  if (locale !== 'tr') return post;
-  const tr = TR_POSTS[post.slug];
-  if (!tr) return post;
+  const override = LOCALE_POSTS[locale]?.[post.slug];
+  if (!override) return post;
   return {
     ...post,
-    title: tr.title,
-    description: tr.description,
-    keywords: tr.keywords,
-    category: tr.category,
-    sections: tr.sections,
-    readingMinutes: tr.readingMinutes,
+    title: override.title,
+    description: override.description,
+    keywords: override.keywords,
+    category: override.category,
+    sections: override.sections,
+    readingMinutes: override.readingMinutes,
   };
 }
 
 export function hasTurkishBlogPost(slug: string): boolean {
   return slug in TR_POSTS;
+}
+
+export function hasLocalizedBlogPost(slug: string, locale: Locale): boolean {
+  if (locale === 'en') return true;
+  return Boolean(LOCALE_POSTS[locale]?.[slug]);
 }

@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Clock, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
-import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { formatLocaleNumber, resolveBcp47Locale } from '@/lib/i18n/format-locale';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,7 +25,11 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords:
       locale === 'tr'
         ? ['QR kod blog', 'dinamik QR rehberi', 'QR pazarlama ipuçları', 'QR kod eğitimi']
-        : ['QR code blog', 'dynamic QR guide', 'QR marketing tips', 'QR code tutorial'],
+        : locale === 'de'
+          ? ['QR-Code Blog', 'dynamischer QR-Leitfaden', 'QR-Marketing-Tipps', 'QR-Code Tutorial']
+          : locale === 'es'
+            ? ['blog códigos QR', 'guía QR dinámico', 'consejos marketing QR', 'tutorial código QR']
+            : ['QR code blog', 'dynamic QR guide', 'QR marketing tips', 'QR code tutorial'],
   });
 }
 
@@ -37,7 +41,7 @@ export default async function BlogIndexPage({
   const locale = await getServerLocale();
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
   const allPosts = await getAllPosts(locale);
-  const dateLocale = locale === 'tr' ? 'tr-TR' : 'en-US';
+  const dateLocale = resolveBcp47Locale(locale);
 
   const { page: pageParam } = await searchParams;
   const totalPages = Math.max(1, Math.ceil(allPosts.length / POSTS_PER_PAGE));
@@ -57,7 +61,7 @@ export default async function BlogIndexPage({
           '@type': 'Blog',
           name: t('blogIndex.jsonLdName'),
           url: 'https://qrbanner.com/blog',
-          inLanguage: locale === 'tr' ? 'tr-TR' : 'en-US',
+          inLanguage: resolveBcp47Locale(locale),
           publisher: { '@type': 'Organization', name: 'QRbanner' },
         }}
       />

@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Clock, ArrowLeft } from 'lucide-react';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
-import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { formatLocaleNumber, resolveBcp47Locale } from '@/lib/i18n/format-locale';
 
 type Props = { params: { slug: string } };
 
@@ -40,7 +40,7 @@ export default async function BlogPostPage({ params }: Props) {
   const post = await getPostBySlug(params.slug, locale);
   if (!post) notFound();
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
-  const dateLocale = locale === 'tr' ? 'tr-TR' : 'en-US';
+  const dateLocale = resolveBcp47Locale(locale);
 
   const faqSection = post.sections.find((s) => s.type === 'faq');
   const faqItems = faqSection?.faq ?? [];
@@ -54,7 +54,7 @@ export default async function BlogPostPage({ params }: Props) {
             '@type': 'Article',
             headline: post.title,
             description: post.description,
-            inLanguage: locale === 'tr' ? 'tr-TR' : 'en-US',
+            inLanguage: resolveBcp47Locale(locale),
             datePublished: post.publishedAt,
             dateModified: post.updatedAt,
             author: { '@type': 'Organization', name: post.author },
