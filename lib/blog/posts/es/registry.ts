@@ -41,6 +41,29 @@ import { cinemaQrCodesEs } from './cinema-qr-codes';
 import { breweryTaproomQrEs } from './brewery-taproom-qr';
 import { homeServicesContractorQrEs } from './home-services-contractor-qr';
 import { touristAttractionQrEs } from './tourist-attraction-qr';
+import { marinaHarborQrEs } from './marina-harbor-qr';
+import { nonprofitGalaQrEs } from './nonprofit-gala-qr';
+import { optometryPracticeQrEs } from './optometry-practice-qr';
+import { petGroomingSalonQrEs } from './pet-grooming-salon-qr';
+import { printShopBannerQrEs } from './print-shop-banner-qr';
+import { propertyManagementTenantQrEs } from './property-management-tenant-qr';
+import { recruitmentHiringQrEs } from './recruitment-hiring-qr';
+import { seniorLivingFacilityQrEs } from './senior-living-facility-qr';
+import { universityWayfindingQrEs } from './university-wayfinding-qr';
+import { veterinaryClinicQrEs } from './veterinary-clinic-qr';
+import { wineTastingRoomQrEs } from './wine-tasting-room-qr';
+import { accountingFirmQrEs } from './accounting-firm-qr';
+import { affiliateQrMarketingEs } from './affiliate-qr-marketing';
+import { bakeryPastryQrEs } from './bakery-pastry-qr';
+import { carWashDetailingQrEs } from './car-wash-detailing-qr';
+import { childcareEnrollmentQrEs } from './childcare-enrollment-qr';
+import { civicEngagementQrEs } from './civic-engagement-qr';
+import { coworkingSpaceQrEs } from './coworking-space-qr';
+import { farmersMarketQrEs } from './farmers-market-qr';
+import { floristGiftShopQrEs } from './florist-gift-shop-qr';
+import { insuranceAgencyQrEs } from './insurance-agency-qr';
+import { landscapingLawnCareQrEs } from './landscaping-lawn-care-qr';
+import { logisticsWarehouseQrEs } from './logistics-warehouse-qr';
 
 /** Spanish (es-ES) content overrides keyed by slug (same URL, locale from cookie/header). */
 export const ES_POSTS: Record<string, BlogPost> = {
@@ -86,4 +109,27 @@ export const ES_POSTS: Record<string, BlogPost> = {
   [breweryTaproomQrEs.slug]: breweryTaproomQrEs,
   [homeServicesContractorQrEs.slug]: homeServicesContractorQrEs,
   [touristAttractionQrEs.slug]: touristAttractionQrEs,
+  [marinaHarborQrEs.slug]: marinaHarborQrEs,
+  [nonprofitGalaQrEs.slug]: nonprofitGalaQrEs,
+  [optometryPracticeQrEs.slug]: optometryPracticeQrEs,
+  [petGroomingSalonQrEs.slug]: petGroomingSalonQrEs,
+  [printShopBannerQrEs.slug]: printShopBannerQrEs,
+  [propertyManagementTenantQrEs.slug]: propertyManagementTenantQrEs,
+  [recruitmentHiringQrEs.slug]: recruitmentHiringQrEs,
+  [seniorLivingFacilityQrEs.slug]: seniorLivingFacilityQrEs,
+  [universityWayfindingQrEs.slug]: universityWayfindingQrEs,
+  [veterinaryClinicQrEs.slug]: veterinaryClinicQrEs,
+  [wineTastingRoomQrEs.slug]: wineTastingRoomQrEs,
+  [accountingFirmQrEs.slug]: accountingFirmQrEs,
+  [affiliateQrMarketingEs.slug]: affiliateQrMarketingEs,
+  [bakeryPastryQrEs.slug]: bakeryPastryQrEs,
+  [carWashDetailingQrEs.slug]: carWashDetailingQrEs,
+  [childcareEnrollmentQrEs.slug]: childcareEnrollmentQrEs,
+  [civicEngagementQrEs.slug]: civicEngagementQrEs,
+  [coworkingSpaceQrEs.slug]: coworkingSpaceQrEs,
+  [farmersMarketQrEs.slug]: farmersMarketQrEs,
+  [floristGiftShopQrEs.slug]: floristGiftShopQrEs,
+  [insuranceAgencyQrEs.slug]: insuranceAgencyQrEs,
+  [landscapingLawnCareQrEs.slug]: landscapingLawnCareQrEs,
+  [logisticsWarehouseQrEs.slug]: logisticsWarehouseQrEs,
 };
