@@ -12,8 +12,7 @@ import {
 } from '@/lib/workspace-enterprise';
 import { generateScimBearerToken } from '@/lib/scim';
 import { testWorkspaceSmtp } from '@/lib/tenant-email';
-import { resolveEmailLocaleFromRequest } from '@/lib/i18n/resolve-email-locale';
-import { resolveUserEmailLocale } from '@/lib/referral';
+import { resolveOutboundEmailLocaleFromRequest } from '@/lib/i18n/resolve-outbound-email-locale';
 
 const enterpriseSelect = {
   id: true,
@@ -137,9 +136,7 @@ export async function PATCH(req: NextRequest) {
       where: { id: userId },
       select: { brandingSettings: true },
     });
-    const fromRequest = resolveEmailLocaleFromRequest(req, body.locale);
-    const locale =
-      fromRequest === 'tr' ? 'tr' : resolveUserEmailLocale(user?.brandingSettings);
+    const locale = resolveOutboundEmailLocaleFromRequest(req, user?.brandingSettings, body.locale);
     const result = await testWorkspaceSmtp(workspaceId, to, locale);
     if (!result.sent) return NextResponse.json({ error: 'smtp_test_failed' }, { status: 400 });
     return NextResponse.json({ ok: true });

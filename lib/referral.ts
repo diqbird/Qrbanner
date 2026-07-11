@@ -118,9 +118,9 @@ export function parseBrandingSettings(raw: unknown): BrandingSettings {
   };
 }
 
-export function resolveUserEmailLocale(brandingSettings: unknown): 'en' | 'tr' {
+export function resolveUserEmailLocale(brandingSettings: unknown): import('@/lib/i18n/types').Locale {
   const branding = parseBrandingSettings(brandingSettings);
-  return branding.preferredLocale === 'tr' ? 'tr' : 'en';
+  return branding.preferredLocale ?? 'en';
 }
 
 export function canUseWhiteLabel(planId: string): boolean {
