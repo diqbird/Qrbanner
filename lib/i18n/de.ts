@@ -1406,4 +1406,110 @@ export const de: TranslationTree = {
       'Paddle-Abrechnung mit Rechnungshistorie|Jederzeit kündbar — Codes bleiben scannbar|Datenexport via API und Dashboard|Sicherheitsfragebogen, BAA-Gespräch und signierter DPA über Trust Center|Veröffentlichte DPA-Zusammenfassung und Unterauftragsverarbeiter-Liste',
     contact: 'Fragen? Kontakt',
   },
+  cookiesPage: {
+    metaTitle: 'Cookie-Richtlinie',
+    title: 'Cookie-Richtlinie',
+    metaDescription:
+      'Wie QRbanner Cookies und ähnliche Technologien für Analysen, Einstellungen und Sicherheit nutzt.',
+    lastUpdated: 'Zuletzt aktualisiert: Juni 2026',
+    whatTitle: 'Wofür wir Cookies nutzen',
+    essentialLabel: 'Essentiell:',
+    essentialBody: 'Sitzungsauthentifizierung und Sicherheit (NextAuth-Session-Cookies).',
+    preferencesLabel: 'Einstellungen:',
+    preferencesBody: 'Theme (hell/dunkel) und Sprachwahl in Ihrem Browser gespeichert.',
+    analyticsLabel: 'Analysen (optional):',
+    analyticsBody: 'Google Analytics / Tag Manager nur nach Annahme des Cookie-Banners.',
+    choicesTitle: 'Ihre Wahlmöglichkeiten',
+    choicesBody:
+      'Beim ersten Besuch können Sie nicht essentielle Analyse-Cookies annehmen oder ablehnen. Sie können Cookies jederzeit in den Browser-Einstellungen blockieren. Ablehnung von Analysen beeinträchtigt Kernfunktionen der QR-Erstellung nicht.',
+    moreTitle: 'Weitere Informationen',
+    moreBefore: 'Siehe unsere',
+    privacyLink: 'Datenschutzerklärung',
+    moreAfter: 'zur Verarbeitung personenbezogener Daten. Fragen:',
+  },
+  privacyPage: {
+    metaTitle: 'Datenschutzerklärung',
+    title: 'Datenschutzerklärung',
+    metaDescription:
+      'QRbanner Datenschutz — wie wir Ihre Daten erheben, nutzen und schützen, einschließlich Scan-Analysen, Webhooks und Team-Workspaces.',
+    lastUpdated: 'Zuletzt aktualisiert: Juni 2026',
+    overviewTitle: 'Überblick',
+    overviewBody:
+      'QRbanner betreibt qrbanner.com und zugehörige Dienste. Diese Richtlinie erklärt, welche Daten wir bei Nutzung der Plattform erheben und wie wir sie verwenden.',
+    collectTitle: 'Daten, die wir erheben',
+    collectAccountLabel: 'Kontodaten:',
+    collectAccountBody: 'Name, E-Mail und gehashtes Passwort.',
+    collectQrLabel: 'QR-Inhalt:',
+    collectQrBody: 'URLs, Styling, Routing-Regeln und hochgeladene Logos.',
+    collectScanLabel: 'Scan-Analysen:',
+    collectScanBody:
+      'IP (für Geo), optionale GPS-Koordinaten, User-Agent, Referrer, Zeitstempel, Gerät, Browser, OS, Land, Stadt, Scan-Quelle (QR/NFC) und A/B-Variante.',
+    collectLeadLabel: 'Lead-Formulare:',
+    collectLeadBody: 'Name, E-Mail, Telefon und Nachricht bei Landingpage-Einreichungen.',
+    collectTeamLabel: 'Team-Workspaces:',
+    collectTeamBody: 'Mitglieder-E-Mails und Rollen für Zusammenarbeit.',
+    collectLogsLabel: 'Technische Logs:',
+    collectLogsBody: 'für Sicherheit und Zuverlässigkeit.',
+    useTitle: 'Wie wir Daten nutzen',
+    useBody:
+      'Wir nutzen Ihre Daten zur Bereitstellung des Services, Anzeige von Analysen, optionalen Scan-Benachrichtigungen, Verifizierung eigener Domains und Sicherheit. Wir verkaufen keine personenbezogenen Daten.',
+    pixelsTitle: 'Drittanbieter-Pixel',
+    pixelsBody:
+      'Wenn Sie GA4 oder Meta Pixel aktivieren, können Ereignisse gemäß Ihrer Konfiguration an Google und Meta gesendet werden. Einwilligungsanforderungen in Ihrer Region liegen in Ihrer Verantwortung.',
+    contactTitle: 'Kontakt',
+  },
+  termsPage: {
+    metaTitle: 'Nutzungsbedingungen',
+    title: 'Nutzungsbedingungen',
+    metaDescription:
+      'QRbanner Nutzungsbedingungen — zulässige Nutzung, Konten, Team-Workspaces und Abonnements.',
+    lastUpdated: 'Zuletzt aktualisiert: Juni 2026',
+    agreementTitle: 'Vereinbarung',
+    agreementBody: 'Mit der Nutzung von QRbanner akzeptieren Sie diese Bedingungen.',
+    contentTitle: 'Ihre Inhalte',
+    contentBody:
+      'Sie sind für verlinkte URLs und Inhalte verantwortlich. Nutzen Sie QRbanner nicht für illegale Inhalte, Malware, Phishing oder Spam.',
+    billingTitle: 'Pläne & Abrechnung',
+    billingBefore: 'Pläne sind auf unserer',
+    billingAfter:
+      'Seite beschrieben. Bezahlpläne werden sicher über Paddle, unseren autorisierten Wiederverkäufer und Merchant of Record, verkauft und abgerechnet. Upgrade, Downgrade oder Kündigung in den Kontoeinstellungen.',
+    cancelTitle: 'QR-Codes nach Kündigung',
+    cancelBefore:
+      'QRbanner ist so konzipiert, dass dynamische Codes nach Downgrade oder Kündigung im Free-Plan aktiv bleiben können. Details siehe',
+    cancelAfter: '.',
+    contactTitle: 'Kontakt',
+    pricingLink: 'Preise',
+  },
+  refundPage: {
+    metaTitle: 'Rückerstattungsrichtlinie',
+    title: 'Rückerstattungsrichtlinie',
+    metaDescription:
+      'QRbanner Rückerstattungsrichtlinie — Frist, Berechtigung und Anfrage für bezahlte Abos über Paddle.',
+    lastUpdated: 'Zuletzt aktualisiert: Juli 2026',
+    overviewTitle: 'Überblick',
+    overviewBody:
+      'Diese Richtlinie erklärt Rückerstattungen für bezahlte QRbanner-Abonnements. Zahlungen werden von Paddle.com als Merchant of Record verarbeitet. Rückerstattungen erfolgen über Paddle auf die ursprüngliche Zahlungsmethode.',
+    windowTitle: '{{days}}-Tage-Rückerstattungsfenster',
+    windowBody:
+      'Sie können innerhalb von {{days}} Tagen nach Erstkauf oder Verlängerungsgebühr eine volle Rückerstattung anfordern. Danach sind Zahlungen in der Regel nicht erstattungsfähig; wir prüfen jede Anfrage dennoch fair.',
+    eligibilityTitle: 'Berechtigt für Rückerstattung',
+    eligibility1: 'Erster Kauf eines bezahlten Plans in den letzten {{days}} Tagen.',
+    eligibility2: 'Versehentliche oder doppelte Abbuchung.',
+    eligibility3: 'Verlängerung in den letzten {{days}} Tagen, die Sie nicht behalten wollten.',
+    nonRefundableTitle: 'Nicht erstattungsfähig',
+    nonRefundable1: 'Abbuchungen älter als {{days}} Tage oder teilweise genutzte Perioden außerhalb des Fensters.',
+    nonRefundable2: 'Konten wegen Verstoß gegen unsere Nutzungsbedingungen gesperrt oder beendet.',
+    howToTitle: 'Rückerstattung anfordern',
+    howToBefore: 'E-Mail an',
+    howToAfter:
+      'mit der E-Mail Ihres Kontos und Ihrer Paddle-Bestell- oder Rechnungsnummer. Antwort innerhalb von {{responseDays}} Werktagen; genehmigte Rückerstattungen über Paddle.',
+    cancelTitle: 'Abonnement kündigen',
+    cancelBefore: 'Jederzeit in den Kontoeinstellungen kündbar. Kündigung stoppt Verlängerungen; siehe unsere',
+    cancelAfter: 'Seite für Details nach Kündigung.',
+    merchantTitle: 'Merchant of Record',
+    merchantBody:
+      'Paddle.com Market Ltd ist Merchant of Record für alle QRbanner-Bestellungen. Paddle übernimmt Zahlung, Abrechnung, Steuern und Rückerstattungen. Auf Kontoauszügen kann Paddle erscheinen.',
+    contactTitle: 'Kontakt',
+    pricingLink: 'Preise',
+  },
 };
