@@ -3,6 +3,8 @@ import type { Prisma } from '@prisma/client';
 import type { ScanRecord } from '@/lib/analytics-utils';
 import { daysBetween } from '@/lib/analytics-utils';
 import { buildHeatmapPoints } from '@/lib/gps-heatmap';
+import { resolveBcp47Locale } from '@/lib/i18n/format-locale';
+import type { Locale } from '@/lib/i18n/types';
 
 type GroupRow = { name: string; value: number };
 
@@ -139,9 +141,9 @@ export async function fetchTopQrByPeriod(opts: {
 function peakFromDailyAndHourly(
   daily: { date: string; count: number }[],
   hourly: { name: string; hour: number; value: number }[],
-  locale: 'en' | 'tr',
+  locale: Locale,
 ) {
-  const localeTag = locale === 'tr' ? 'tr-TR' : 'en-US';
+  const localeTag = resolveBcp47Locale(locale);
   const peakHour = [...hourly].sort((a, b) => b.value - a.value)[0];
   const peakDay = daily.length
     ? daily.reduce((best, d) => (d.count > best.count ? d : best), daily[0])
@@ -162,7 +164,7 @@ export async function fetchAggregatedAnalytics(opts: {
   qrCodeIds: string[];
   range: { from: Date | null; to: Date | null };
   nameMap?: Record<string, string>;
-  locale?: 'en' | 'tr';
+  locale?: Locale;
 }) {
   const { qrCodeIds, range, nameMap = {}, locale = 'en' } = opts;
   const from = range.from ?? new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);

@@ -4,6 +4,16 @@ import { localizeMarketingNumbers } from '@/lib/i18n/qr-type-count';
 import { localizePlanPricingInText } from '@/lib/i18n/plan-pricing-display';
 import type { Locale } from '@/lib/i18n/types';
 
+function pickLocaleText(
+  locale: Locale,
+  texts: { en: string; tr: string; de: string; es: string },
+): string {
+  if (locale === 'tr') return texts.tr;
+  if (locale === 'de') return texts.de;
+  if (locale === 'es') return texts.es;
+  return texts.en;
+}
+
 const BRAND_NAMES = Array.from(
   new Set(
     COMPETITOR_PAGES.flatMap((p) => {
@@ -41,42 +51,88 @@ export function getComparisonTopic(slug: string, locale: Locale): string {
   const enterprise = new Set(['uniqode', 'beaconstac', 'scantrust', 'scanova', 'scanova-alternative']);
 
   if (linkBio.has(slug)) {
-    return locale === 'tr' ? 'Link-in-bio araçları' : 'Link-in-bio tools';
+    return pickLocaleText(locale, {
+      en: 'Link-in-bio tools',
+      tr: 'Link-in-bio araçları',
+      de: 'Link-in-Bio-Tools',
+      es: 'Herramientas link-in-bio',
+    });
   }
   if (shorteners.has(slug)) {
-    return locale === 'tr' ? 'URL kısaltıcılar' : 'URL shorteners';
+    return pickLocaleText(locale, {
+      en: 'URL shorteners',
+      tr: 'URL kısaltıcılar',
+      de: 'URL-Kürzer',
+      es: 'Acortadores de URL',
+    });
   }
   if (design.has(slug)) {
-    return locale === 'tr' ? 'Tasarım platformları' : 'Design platforms';
+    return pickLocaleText(locale, {
+      en: 'Design platforms',
+      tr: 'Tasarım platformları',
+      de: 'Design-Plattformen',
+      es: 'Plataformas de diseño',
+    });
   }
   if (visual.has(slug)) {
-    return locale === 'tr' ? 'Görsel QR araçları' : 'Visual QR tools';
+    return pickLocaleText(locale, {
+      en: 'Visual QR tools',
+      tr: 'Görsel QR araçları',
+      de: 'Visuelle QR-Tools',
+      es: 'Herramientas QR visuales',
+    });
   }
   if (enterprise.has(slug)) {
-    return locale === 'tr' ? 'Kurumsal QR paketleri' : 'Enterprise QR suites';
+    return pickLocaleText(locale, {
+      en: 'Enterprise QR suites',
+      tr: 'Kurumsal QR paketleri',
+      de: 'Enterprise-QR-Suiten',
+      es: 'Suites QR empresariales',
+    });
   }
-  return locale === 'tr' ? 'QR kod platformu' : 'QR code platform';
+  return pickLocaleText(locale, {
+    en: 'QR code platform',
+    tr: 'QR kod platformu',
+    de: 'QR-Code-Plattform',
+    es: 'Plataforma de códigos QR',
+  });
 }
 
 export function getPublicListTitle(page: CompetitorPage, locale: Locale): string {
   const topic = getComparisonTopic(page.slug, locale);
-  return locale === 'tr' ? `${topic} karşılaştırması` : `${topic} comparison`;
+  return pickLocaleText(locale, {
+    en: `${topic} comparison`,
+    tr: `${topic} karşılaştırması`,
+    de: `${topic}-Vergleich`,
+    es: `Comparativa de ${topic}`,
+  });
 }
 
 export function getPublicComparisonMeta(page: CompetitorPage, locale: Locale) {
   const topic = getComparisonTopic(page.slug, locale);
-  const title =
-    locale === 'tr'
-      ? `${topic} — QRbanner karşılaştırması`
-      : `${topic} — QRbanner comparison`;
+  const title = pickLocaleText(locale, {
+    en: `${topic} — QRbanner comparison`,
+    tr: `${topic} — QRbanner karşılaştırması`,
+    de: `${topic} — QRbanner-Vergleich`,
+    es: `${topic} — comparativa QRbanner`,
+  });
   const description = sanitizeCompetitorBrands(page.metaDescription, locale);
   return { title, description };
 }
 
 export function getPublicComparisonView(page: CompetitorPage, locale: Locale) {
-  const typicalLabel = locale === 'tr' ? 'Tipik alternatif' : 'Typical alternative';
-  const considerationsTitle =
-    locale === 'tr' ? 'Alternatif değerlendirmesi' : 'Alternative considerations';
+  const typicalLabel = pickLocaleText(locale, {
+    en: 'Typical alternative',
+    tr: 'Tipik alternatif',
+    de: 'Typische Alternative',
+    es: 'Alternativa típica',
+  });
+  const considerationsTitle = pickLocaleText(locale, {
+    en: 'Alternative considerations',
+    tr: 'Alternatif değerlendirmesi',
+    de: 'Alternative Überlegungen',
+    es: 'Consideraciones sobre alternativas',
+  });
 
   return {
     breadcrumbLabel: getComparisonTopic(page.slug, locale),

@@ -1,4 +1,6 @@
 import { buildHeatmapPoints } from '@/lib/gps-heatmap';
+import { resolveBcp47Locale } from '@/lib/i18n/format-locale';
+import type { Locale } from '@/lib/i18n/types';
 
 export interface ScanRecord {
   ip?: string | null;
@@ -109,8 +111,8 @@ export function buildScansByHour(scans: ScanRecord[]) {
   return hours;
 }
 
-export function findPeakDayHour(scans: ScanRecord[], locale: 'en' | 'tr' = 'en') {
-  const localeTag = locale === 'tr' ? 'tr-TR' : 'en-US';
+export function findPeakDayHour(scans: ScanRecord[], locale: Locale = 'en') {
+  const localeTag = resolveBcp47Locale(locale);
   const dayMap: Record<string, number> = {};
   const hourMap: Record<number, number> = {};
   scans.forEach((s) => {
@@ -132,7 +134,7 @@ export function buildAnalytics(
   scans: ScanRecord[],
   days = 30,
   range?: AnalyticsRange,
-  locale: 'en' | 'tr' = 'en',
+  locale: Locale = 'en',
 ) {
   const now = new Date();
   const last7 = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);

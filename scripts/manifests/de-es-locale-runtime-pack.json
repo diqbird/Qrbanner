@@ -1,0 +1,15 @@
+{
+  "upload": [
+    "lib/i18n/case-study-metric-labels.ts",
+    "lib/date-locale.ts",
+    "lib/analytics-utils.ts",
+    "lib/analytics-aggregation.ts",
+    "lib/geo-seo-pages.ts",
+    "lib/competitor-public.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
