@@ -1,0 +1,20 @@
+{
+  "upload": [
+    "lib/i18n/de.ts",
+    "lib/i18n/es.ts",
+    "lib/i18n/de-locale-gaps.ts",
+    "lib/i18n/es-locale-gaps.ts",
+    "lib/i18n/solution-sector-de.ts",
+    "lib/i18n/solution-sector-es.ts",
+    "lib/i18n/programmatic-copy-de.ts",
+    "lib/i18n/programmatic-copy-es.ts",
+    "lib/i18n/solution-localize.ts",
+    "lib/i18n/resolve-programmatic-copy.ts",
+    "scripts/build-locale-gaps.mts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

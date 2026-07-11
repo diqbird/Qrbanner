@@ -1,5 +1,6 @@
 import type { TranslationTree } from './types';
 import { fieldsDe } from './fields';
+import { deLocaleGaps } from './de-locale-gaps';
 
 /** Partial German dictionary — missing keys fall back to English via translate(). */
 export const de: TranslationTree = {
@@ -1526,16 +1527,5 @@ export const de: TranslationTree = {
     contactTitle: 'Kontakt',
     pricingLink: 'Preise',
   },
-  superAdmin: {
-    notifications: {
-      testEmailSubject: 'QRbanner SMTP-Test — Zustellung OK',
-      testEmailBody:
-        'Dies ist eine Test-E-Mail aus dem QRbanner Super-Admin-Panel. Wenn Sie sie erhalten haben, funktioniert der ausgehende SMTP-Versand.',
-      testEmailText: 'QRbanner SMTP-Test — Ihre E-Mail-Zustellung funktioniert.',
-    },
-  },
-  enterpriseWorkspace: {
-    smtpTestSubject: 'QRbanner SMTP-Test',
-    smtpTestBody: 'Ihre Workspace-SMTP-Konfiguration funktioniert.',
-  },
+  ...deLocaleGaps,
 };
