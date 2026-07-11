@@ -262,6 +262,20 @@ export const en: TranslationTree = {
     typeBaa: 'BAA discussion',
     typeDpaRequest: 'Signed DPA request',
   },
+  studioDeliveryEmail: {
+    subject: 'Your Premium QR Studio pack ({{maxQr}} QR codes)',
+    greeting: 'Hello,',
+    intro:
+      'Your Etsy order has been approved. Use your private Premium Studio link to create {{maxQr}} dynamic QR codes:',
+    cta: 'Open Premium Studio',
+    importantTitle: 'Important:',
+    bullet1: 'This link is for one-time activation per purchase.',
+    bullet2: 'Sign in or register with {{buyerEmail}} (your order email).',
+    bullet3: 'Includes 35+ industry templates, full design tools & scan analytics.',
+    footer: 'Reply to this email or message us on Etsy if you need help.',
+    text:
+      'Your Etsy order is approved.\n\nStudio link: {{url}}\n\n{{maxQr}} dynamic QR codes. Use email: {{buyerEmail}}\nOne-time activation.',
+  },
   auth: {
     welcomeBack: 'Welcome back',
     signInSubtitle: 'Sign in to your QRbanner account',

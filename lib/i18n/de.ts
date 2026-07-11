@@ -365,6 +365,20 @@ export const de: TranslationTree = {
     typeBaa: 'BAA-Gespräch',
     typeDpaRequest: 'Signierter DPA',
   },
+  studioDeliveryEmail: {
+    subject: 'Ihr Premium QR Studio Paket ({{maxQr}} Codes)',
+    greeting: 'Hallo,',
+    intro:
+      'Ihre Etsy-Bestellung wurde bestätigt. Nutzen Sie Ihren privaten Premium-Studio-Link für {{maxQr}} dynamische QR-Codes:',
+    cta: 'Premium Studio öffnen',
+    importantTitle: 'Wichtig:',
+    bullet1: 'Dieser Link ist für die einmalige Aktivierung pro Kauf.',
+    bullet2: 'Anmelden/Registrieren mit {{buyerEmail}} (Ihre Bestell-E-Mail).',
+    bullet3: 'Enthält 35+ Branchenvorlagen, Design-Tools und Scan-Analysen.',
+    footer: 'Antworten Sie auf diese E-Mail oder schreiben Sie uns auf Etsy bei Fragen.',
+    text:
+      'Ihre Etsy-Bestellung wurde bestätigt.\n\nStudio-Link: {{url}}\n\n{{maxQr}} dynamische QR-Codes. E-Mail: {{buyerEmail}}\nEinmalige Aktivierung.',
+  },
   auth: {
     welcomeBack: 'Willkommen zurück',
     signInSubtitle: 'Melden Sie sich bei Ihrem QRbanner-Konto an',
@@ -1511,5 +1525,17 @@ export const de: TranslationTree = {
       'Paddle.com Market Ltd ist Merchant of Record für alle QRbanner-Bestellungen. Paddle übernimmt Zahlung, Abrechnung, Steuern und Rückerstattungen. Auf Kontoauszügen kann Paddle erscheinen.',
     contactTitle: 'Kontakt',
     pricingLink: 'Preise',
+  },
+  superAdmin: {
+    notifications: {
+      testEmailSubject: 'QRbanner SMTP-Test — Zustellung OK',
+      testEmailBody:
+        'Dies ist eine Test-E-Mail aus dem QRbanner Super-Admin-Panel. Wenn Sie sie erhalten haben, funktioniert der ausgehende SMTP-Versand.',
+      testEmailText: 'QRbanner SMTP-Test — Ihre E-Mail-Zustellung funktioniert.',
+    },
+  },
+  enterpriseWorkspace: {
+    smtpTestSubject: 'QRbanner SMTP-Test',
+    smtpTestBody: 'Ihre Workspace-SMTP-Konfiguration funktioniert.',
   },
 };

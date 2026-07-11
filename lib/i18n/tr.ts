@@ -263,6 +263,20 @@ export const tr: TranslationTree = {
     typeBaa: 'BAA görüşmesi',
     typeDpaRequest: 'İmzalı DPA talebi',
   },
+  studioDeliveryEmail: {
+    subject: 'Premium QR Studio paketiniz ({{maxQr}} kod)',
+    greeting: 'Merhaba,',
+    intro:
+      'Etsy siparişiniz onaylandı. {{maxQr}} dinamik QR kodu oluşturmak için Premium Studio linkiniz:',
+    cta: "Studio'yu aç",
+    importantTitle: 'Önemli:',
+    bullet1: 'Bu link tek seferlik aktivasyon içindir.',
+    bullet2: 'Kayıt/giriş için {{buyerEmail}} e-postasını kullanın.',
+    bullet3: '35+ sektör şablonu, tasarım araçları ve analitik dahildir.',
+    footer: 'Sorularınız için bu e-postaya yanıt verebilir veya Etsy üzerinden yazabilirsiniz.',
+    text:
+      'Etsy siparişiniz onaylandı.\n\nStudio linki: {{url}}\n\n{{maxQr}} dinamik QR kodu. E-posta: {{buyerEmail}}\nTek seferlik aktivasyon.',
+  },
   auth: {
     welcomeBack: 'Tekrar hoş geldiniz',
     signInSubtitle: 'QRbanner hesabınıza giriş yapın',
