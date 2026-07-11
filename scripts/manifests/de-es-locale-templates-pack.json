@@ -1,0 +1,25 @@
+{
+  "upload": [
+    "lib/i18n/core-template-copy-extra-de.ts",
+    "lib/i18n/core-template-copy-extra-es.ts",
+    "lib/i18n/industry-template-copy-de.ts",
+    "lib/i18n/industry-template-copy-es.ts",
+    "lib/i18n/template-meta-copy-de.ts",
+    "lib/i18n/template-meta-copy-es.ts",
+    "lib/i18n/template-cta-copy-de.ts",
+    "lib/i18n/template-cta-copy-es.ts",
+    "lib/i18n/template-print-copy-de.ts",
+    "lib/i18n/template-print-copy-es.ts",
+    "lib/i18n/print-template-copy-de.ts",
+    "lib/i18n/print-template-copy-es.ts",
+    "lib/i18n/visual-preset-copy-de.ts",
+    "lib/i18n/visual-preset-copy-es.ts",
+    "lib/i18n/de-locale-gaps.ts",
+    "lib/i18n/es-locale-gaps.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

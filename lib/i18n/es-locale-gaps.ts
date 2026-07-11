@@ -1,12 +1,12 @@
 /** Locale gap sections for ES. */
 import type { TranslationTree } from './types';
 
-import { industryTemplateCopyEn } from './industry-template-copy';
-import { templateMetaEn } from './template-meta-copy';
-import { templateCtaEn } from './template-cta-copy';
-import { templatePrintCopyEn } from './template-print-copy';
-import { printTemplateCopyEn } from './print-template-copy';
-import { visualPresetCopyEn } from './visual-preset-copy';
+import { industryTemplateCopyEs } from './industry-template-copy-es';
+import { templateMetaEs } from './template-meta-copy-es';
+import { templateCtaEs } from './template-cta-copy-es';
+import { templatePrintCopyEs } from './template-print-copy-es';
+import { printTemplateCopyEs } from './print-template-copy-es';
+import { visualPresetCopyEs } from './visual-preset-copy-es';
 
 export const esLocaleGaps: TranslationTree = {
   admin: {
@@ -1553,15 +1553,15 @@ export const esLocaleGaps: TranslationTree = {
     docsLink: "Documentación completa de API y webhooks"
   },
   templates: {
-    ...industryTemplateCopyEn,
-    meta: templateMetaEn,
-    ctaSuggestions: templateCtaEn,
-    printLayouts: templatePrintCopyEn,
-    printFormats: printTemplateCopyEn,
+    ...industryTemplateCopyEs,
+    meta: templateMetaEs,
+    ctaSuggestions: templateCtaEs,
+    printLayouts: templatePrintCopyEs,
+    printFormats: printTemplateCopyEs,
     visualPresets: {
-      ...(industryTemplateCopyEn.visualPresets as Record<string, unknown>),
-      presets: visualPresetCopyEn.presets,
-      designStyles: visualPresetCopyEn.designStyles,
+      ...(industryTemplateCopyEs.visualPresets as Record<string, unknown>),
+      presets: visualPresetCopyEs.presets,
+      designStyles: visualPresetCopyEs.designStyles,
     },
   },
 };
