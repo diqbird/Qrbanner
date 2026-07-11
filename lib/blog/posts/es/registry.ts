@@ -29,6 +29,18 @@ import { museumQrCodesEs } from './museum-qr-codes';
 import { nonprofitFundraisingQrEs } from './nonprofit-fundraising-qr';
 import { universityQrCodesEs } from './university-qr-codes';
 import { automotiveDealershipQrEs } from './automotive-dealership-qr';
+import { agencyQrCodesEs } from './agency-qr-codes';
+import { lawFirmQrCodesEs } from './law-firm-qr-codes';
+import { pharmacyQrCodesEs } from './pharmacy-qr-codes';
+import { stadiumQrCodesEs } from './stadium-qr-codes';
+import { supermarketLoyaltyQrEs } from './supermarket-loyalty-qr';
+import { logisticsQrCodesEs } from './logistics-qr-codes';
+import { manufacturingQrCodesEs } from './manufacturing-qr-codes';
+import { governmentQrCodesEs } from './government-qr-codes';
+import { cinemaQrCodesEs } from './cinema-qr-codes';
+import { breweryTaproomQrEs } from './brewery-taproom-qr';
+import { homeServicesContractorQrEs } from './home-services-contractor-qr';
+import { touristAttractionQrEs } from './tourist-attraction-qr';
 
 /** Spanish (es-ES) content overrides keyed by slug (same URL, locale from cookie/header). */
 export const ES_POSTS: Record<string, BlogPost> = {
@@ -62,4 +74,16 @@ export const ES_POSTS: Record<string, BlogPost> = {
   [nonprofitFundraisingQrEs.slug]: nonprofitFundraisingQrEs,
   [universityQrCodesEs.slug]: universityQrCodesEs,
   [automotiveDealershipQrEs.slug]: automotiveDealershipQrEs,
+  [agencyQrCodesEs.slug]: agencyQrCodesEs,
+  [lawFirmQrCodesEs.slug]: lawFirmQrCodesEs,
+  [pharmacyQrCodesEs.slug]: pharmacyQrCodesEs,
+  [stadiumQrCodesEs.slug]: stadiumQrCodesEs,
+  [supermarketLoyaltyQrEs.slug]: supermarketLoyaltyQrEs,
+  [logisticsQrCodesEs.slug]: logisticsQrCodesEs,
+  [manufacturingQrCodesEs.slug]: manufacturingQrCodesEs,
+  [governmentQrCodesEs.slug]: governmentQrCodesEs,
+  [cinemaQrCodesEs.slug]: cinemaQrCodesEs,
+  [breweryTaproomQrEs.slug]: breweryTaproomQrEs,
+  [homeServicesContractorQrEs.slug]: homeServicesContractorQrEs,
+  [touristAttractionQrEs.slug]: touristAttractionQrEs,
 };
