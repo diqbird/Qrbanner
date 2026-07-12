@@ -10,18 +10,27 @@ import { useSignupForm } from '@/hooks/use-signup-form';
 import { SignupFormFields } from './signup-form-fields';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { formatFreePlanReferralQrLabel } from '@/lib/i18n/dynamic-qr-label';
+import { useInviteAuthBrand } from '@/hooks/use-invite-auth-brand';
 
 export function SignupForm({ oauthProviders = [] }: { oauthProviders?: OAuthProviderId[] }) {
   const form = useSignupForm();
   const { locale } = useLanguage();
   const { t, callbackUrl } = form;
   const qrLabel = formatFreePlanReferralQrLabel(locale);
+  const inviteBrand = useInviteAuthBrand(callbackUrl);
+  const brandName = inviteBrand?.agencyName?.trim();
+  const workspaceName = inviteBrand?.workspaceName?.trim();
+  const subtitle =
+    brandName && workspaceName
+      ? t('auth.inviteSignUpSubtitle', { workspace: workspaceName, brand: brandName })
+      : t('auth.createAccountSubtitle', { qrLabel });
 
   return (
     <AuthFormShell
       title={t('auth.createAccount')}
-      subtitle={t('auth.createAccountSubtitle', { qrLabel })}
+      subtitle={subtitle}
       homeAria={t('common.homeAria')}
+      inviteBrand={inviteBrand}
       beforeContent={
         <>
           <ReferralCookieSync />

@@ -52,6 +52,7 @@ export async function GET(
       ? {
           agencyName: agencyName || null,
           logoUrl: branding.logoUrl || null,
+          faviconUrl: branding.faviconUrl || null,
           brandColor: branding.brandColor || null,
         }
       : null,

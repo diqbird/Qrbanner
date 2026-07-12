@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useSession, signIn } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -10,10 +10,12 @@ import { Users } from 'lucide-react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
+import { LanguageSwitcher } from '@/components/i18n/language-switcher';
 
 type InviteBranding = {
   agencyName: string | null;
   logoUrl: string | null;
+  faviconUrl: string | null;
   brandColor: string | null;
 } | null;
 
@@ -40,6 +42,21 @@ export default function InvitePage() {
       .then((data) => setInvite(data))
       .finally(() => setLoading(false));
   }, [token]);
+
+  useEffect(() => {
+    if (!invite?.branding) return;
+    const brandName = invite.branding.agencyName?.trim();
+    const faviconUrl = invite.branding.faviconUrl || invite.branding.logoUrl;
+    const prevTitle = document.title;
+    const prevIcon = document.querySelector<HTMLLinkElement>("link[rel='icon']");
+    const prevHref = prevIcon?.href;
+    if (brandName) document.title = `${brandName} — ${t('invite.title')}`;
+    if (faviconUrl && prevIcon) prevIcon.href = faviconUrl;
+    return () => {
+      document.title = prevTitle;
+      if (prevIcon && prevHref) prevIcon.href = prevHref;
+    };
+  }, [invite, t]);
 
   const acceptInvite = async () => {
     if (!session?.user) {
@@ -106,6 +123,9 @@ export default function InvitePage() {
     <div className="flex min-h-screen items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
+          <div className="mb-2 flex justify-end">
+            <LanguageSwitcher />
+          </div>
           {logoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={logoUrl} alt="" className="mx-auto mb-2 h-12 w-12 rounded-lg object-contain" />
@@ -149,7 +169,9 @@ export default function InvitePage() {
             <Button
               className="w-full"
               style={brandColor ? { backgroundColor: brandColor } : undefined}
-              onClick={() => signIn(undefined, { callbackUrl: `/invite/${token}` })}
+              onClick={() =>
+                router.push(`/login?callbackUrl=${encodeURIComponent(`/invite/${token}`)}`)
+              }
             >
               {t('invite.signInToAccept')}
             </Button>

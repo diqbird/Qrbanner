@@ -12,12 +12,14 @@ import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import { resolveCallbackUrl } from '@/lib/auth-providers';
 import { AuthFormShell } from './auth-form-shell';
+import { useInviteAuthBrand } from '@/hooks/use-invite-auth-brand';
 
 export function MfaVerifyForm() {
   const { t } = useLanguage();
   const searchParams = useSearchParams();
   const { update } = useSession();
   const callbackUrl = resolveCallbackUrl(searchParams.get('callbackUrl'));
+  const inviteBrand = useInviteAuthBrand(callbackUrl);
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -57,6 +59,7 @@ export function MfaVerifyForm() {
       subtitle={t('settings.mfa.verifyDesc')}
       homeAria={t('common.homeAria')}
       showLanguageSwitcher={false}
+      inviteBrand={inviteBrand}
     >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">

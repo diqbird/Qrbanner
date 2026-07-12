@@ -1,0 +1,21 @@
+{
+  "upload": [
+    "lib/invite-brand.ts",
+    "hooks/use-invite-auth-brand.ts",
+    "components/auth/auth-form-shell.tsx",
+    "components/auth/login-form.tsx",
+    "components/auth/signup-form.tsx",
+    "components/auth/mfa-verify-form.tsx",
+    "app/api/invite/[token]/route.ts",
+    "app/(auth)/invite/[token]/page.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/de.ts",
+    "lib/i18n/es.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

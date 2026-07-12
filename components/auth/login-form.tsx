@@ -11,6 +11,7 @@ import { AuthFormShell } from './auth-form-shell';
 import { useLoginForm } from '@/hooks/use-login-form';
 import { LoginFormCredentials } from './login-form-credentials';
 import { LoginFormSsoButtons } from './login-form-sso-buttons';
+import { useInviteAuthBrand } from '@/hooks/use-invite-auth-brand';
 
 export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProviderId[] }) {
   const login = useLoginForm();
@@ -23,6 +24,13 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
     passwordAllowed,
     checkSsoPolicy,
   } = login;
+  const inviteBrand = useInviteAuthBrand(callbackUrl);
+  const brandName = inviteBrand?.agencyName?.trim();
+  const workspaceName = inviteBrand?.workspaceName?.trim();
+  const subtitle =
+    brandName && workspaceName
+      ? t('auth.inviteSignInSubtitle', { workspace: workspaceName, brand: brandName })
+      : t('auth.signInSubtitle');
 
   const visibleOAuthProviders = (oauthProviders as OAuthProviderId[]).filter((provider) => {
     if (!ssoPolicy?.required) return true;
@@ -32,8 +40,9 @@ export function LoginForm({ oauthProviders = [] }: { oauthProviders?: OAuthProvi
   return (
     <AuthFormShell
       title={t('auth.welcomeBack')}
-      subtitle={t('auth.signInSubtitle')}
+      subtitle={subtitle}
       homeAria={t('common.homeAria')}
+      inviteBrand={inviteBrand}
       beforeContent={<ReferralCookieSync />}
       footer={
         <p className="mt-4 text-center text-sm text-muted-foreground">

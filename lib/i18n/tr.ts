@@ -280,6 +280,8 @@ export const tr: TranslationTree = {
   auth: {
     welcomeBack: 'Tekrar hoş geldiniz',
     signInSubtitle: 'QRbanner hesabınıza giriş yapın',
+    inviteSignInSubtitle: '{{brand}} üzerinde {{workspace}} alanına katılmak için giriş yapın',
+    inviteSignUpSubtitle: '{{brand}} üzerinde {{workspace}} alanına katılmak için hesap oluşturun',
     createAccount: 'Hesap oluşturun',
     createAccountSubtitle: 'Ücretsiz hesap oluşturun — {{qrLabel}}, API erişimi dahil',
     fullName: 'Ad Soyad',

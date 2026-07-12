@@ -279,6 +279,8 @@ export const en: TranslationTree = {
   auth: {
     welcomeBack: 'Welcome back',
     signInSubtitle: 'Sign in to your QRbanner account',
+    inviteSignInSubtitle: 'Sign in to join {{workspace}} on {{brand}}',
+    inviteSignUpSubtitle: 'Create an account to join {{workspace}} on {{brand}}',
     createAccount: 'Create your account',
     createAccountSubtitle: 'Create your free account — {{qrLabel}} with API access',
     fullName: 'Full Name',
