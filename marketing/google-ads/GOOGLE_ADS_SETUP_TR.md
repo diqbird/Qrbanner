@@ -31,16 +31,17 @@ Bu adımlar konsolda yapılır; deploy gerekmez.
 3. İlk QR’ı kaydet → `first_qr_created`.
 4. (Opsiyonel) `/enterprise` veya `/trust/procurement-request` form gönder → `generate_lead`.
 
-## D. Kampanya iskeleti (sonra)
+## D. Kampanya iskeleti (dönüşümler hazır olunca)
 
-Dokümantasyon: `marketing/google-ads/GOOGLE_ADS_SETUP_EN.md` §2.
+Yapıştırma paketi: [`ADS_EDITOR_PASTE.md`](./ADS_EDITOR_PASTE.md)
 
 | Kampanya | Günlük | Landing |
 |----------|--------|---------|
-| QRB \| Search \| Create | $4–6 | `/qr/create` |
-| QRB \| Search \| Competitor | $2–4 | `/vs/qr-tiger` |
-| QRB \| Search \| Use cases | $2–4 | `/qr-types/url` |
+| QRB \| Search \| Create | ~$5 | `/qr/create?quick=1` |
+| QRB \| Search \| Competitor | ~$3 | `/vs/qr-tiger` (+ scanova/bitly) |
+| QRB \| Search \| Use cases | ~$3 | `/templates/restaurant-menu` |
 
+Sıra: önce Create, sonra Competitor, sonra Use cases.  
 Başlangıç teklifi: Maximize clicks + max CPC ~$1.50. Ayda 15+ dönüşümden sonra Maximize conversions.
 
 **Bid etme:** tek başına geniş `qr code`.
