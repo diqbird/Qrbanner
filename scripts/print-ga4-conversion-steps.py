@@ -42,7 +42,7 @@ def main() -> int:
 
     print("Steps:")
     print("1. GA4 Admin -> Data display -> Events")
-    print("2. Wait for sign_up / first_qr_created after a test signup + first QR (with cookies accepted)")
+    print("2. Wait for sign_up / first_qr_created / generate_lead after tests (with cookies accepted)")
     print("3. Toggle 'Mark as conversion' for each event\n")
 
     print("Events to mark:")
@@ -53,6 +53,7 @@ def main() -> int:
     print("  - Accept cookies on qrbanner.com")
     print("  - Sign up -> check GA4 Realtime -> Events for sign_up")
     print("  - Create first QR -> check first_qr_created")
+    print("  - Submit sales or procurement form -> check generate_lead")
     return 0
 
 

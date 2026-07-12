@@ -661,6 +661,95 @@ function bodyTemplates(locale: Locale, topic: string): {
   };
 }
 
+type BodyFields = {
+  title: string;
+  metaDescription: string;
+  headline: string;
+  summary: string;
+};
+
+/** Curated DE/ES/TR bodies for Ads sitelink / high-traffic /vs pages. */
+const SLUG_BODY_OVERRIDES: Record<string, Partial<Record<'tr' | 'de' | 'es', BodyFields>>> = {
+  'qr-tiger': {
+    tr: {
+      title: 'QRbanner vs QR TIGER — karşılaştırma',
+      headline: 'QR TIGER alternatifi: daha cömert ücretsiz plan',
+      summary:
+        'QR TIGER popüler bir QR platformu. QRbanner ücretsiz planda daha fazla dinamik kod, REST API ve iptal sonrası aktif kalan kodlarla öne çıkar.',
+      metaDescription:
+        'QRbanner ve QR TIGER: ücretsiz limitler, API, iptal sonrası kodlar ve fiyat. Ekibiniz için doğru QR platformunu seçin.',
+    },
+    de: {
+      title: 'QRbanner vs QR TIGER — Vergleich',
+      headline: 'QR-TIGER-Alternative mit großzügigerem Free-Plan',
+      summary:
+        'QR TIGER ist eine bekannte Allround-QR-Plattform. QRbanner punktet mit mehr Free-Dynamik-Codes, REST-API im Free-Plan und Codes, die nach Kündigung aktiv bleiben.',
+      metaDescription:
+        'QRbanner und QR TIGER vergleichen: Free-Limits, API, Codes nach Kündigung und Preise. Welche QR-Plattform passt zu Ihrem Team?',
+    },
+    es: {
+      title: 'QRbanner vs QR TIGER — comparativa',
+      headline: 'Alternativa a QR TIGER con plan gratuito más generoso',
+      summary:
+        'QR TIGER es una plataforma QR popular. QRbanner destaca con más códigos dinámicos gratis, API REST en el plan gratuito y códigos que siguen activos tras cancelar.',
+      metaDescription:
+        'Compara QRbanner y QR TIGER: límites gratis, API, códigos tras cancelar y precios. Elige la plataforma QR para tu equipo.',
+    },
+  },
+  scanova: {
+    tr: {
+      title: 'QRbanner vs Scanova — karşılaştırma',
+      headline: 'Scanova alternatifi: self-serve dinamik QR',
+      summary:
+        'Scanova kurumsal odaklı olabilir. QRbanner self-serve ücretsiz plan, API ve baskı banner dışa aktarma ile hızlı başlamanızı sağlar.',
+      metaDescription:
+        'QRbanner ve Scanova karşılaştırması: fiyat, API, ücretsiz dinamik kodlar ve tarama analitiği.',
+    },
+    de: {
+      title: 'QRbanner vs Scanova — Vergleich',
+      headline: 'Scanova-Alternative für self-serve dynamische QR',
+      summary:
+        'Scanova kann enterprise-lastig sein. QRbanner startet self-serve mit Free-Plan, API und Druckbanner-Export — ohne langen Procurement-Zyklus.',
+      metaDescription:
+        'QRbanner und Scanova vergleichen: Preis, API, kostenlose dynamische Codes und Scan-Analysen.',
+    },
+    es: {
+      title: 'QRbanner vs Scanova — comparativa',
+      headline: 'Alternativa a Scanova para QR dinámico self-serve',
+      summary:
+        'Scanova puede orientarse a enterprise. QRbanner arranca self-serve con plan gratuito, API y exportación de banner de impresión.',
+      metaDescription:
+        'Compara QRbanner y Scanova: precio, API, códigos dinámicos gratis y analítica de escaneos.',
+    },
+  },
+  bitly: {
+    tr: {
+      title: 'QRbanner vs Bitly — QR odaklı karşılaştırma',
+      headline: 'Bitly QR alternatifi: dinamik kod + yönlendirme',
+      summary:
+        'Bitly kısaltma ve marka linkleriyle güçlüdür. QRbanner coğrafi/zaman yönlendirme, baskı export ve ücretsiz planda API ile QR operasyonuna odaklanır.',
+      metaDescription:
+        'QRbanner ve Bitly QR: dinamik kodlar, analitik, API ve yönlendirme özellikleri yan yana.',
+    },
+    de: {
+      title: 'QRbanner vs Bitly — QR-fokussierter Vergleich',
+      headline: 'Bitly-QR-Alternative mit Routing und Print-Export',
+      summary:
+        'Bitly ist stark bei Short Links. QRbanner fokussiert dynamische QR mit Geo-/Zeit-Routing, Druckexport und API im Free-Plan.',
+      metaDescription:
+        'QRbanner und Bitly QR vergleichen: dynamische Codes, Analysen, API und Routing-Funktionen.',
+    },
+    es: {
+      title: 'QRbanner vs Bitly — comparativa centrada en QR',
+      headline: 'Alternativa a Bitly QR con enrutado y exportación de impresión',
+      summary:
+        'Bitly destaca en acortado de enlaces. QRbanner se centra en QR dinámico con geovalla/horario, exportación de impresión y API en el plan gratuito.',
+      metaDescription:
+        'Compara QRbanner y Bitly QR: códigos dinámicos, analítica, API y funciones de enrutado.',
+    },
+  },
+};
+
 export function localizeCompetitorBody(
   page: CompetitorPage,
   locale: Locale,
@@ -669,6 +758,11 @@ export function localizeCompetitorBody(
   if (locale === 'en') return page;
 
   const templates = bodyTemplates(locale, topic);
+  const override =
+    locale === 'tr' || locale === 'de' || locale === 'es'
+      ? SLUG_BODY_OVERRIDES[page.slug]?.[locale]
+      : undefined;
+  const body = override ? { ...templates, ...override } : templates;
   const genericsKey = locale === 'tr' || locale === 'de' || locale === 'es' ? locale : 'de';
   const wins = localizeBulletList(
     page.qrbannerWins,
@@ -685,10 +779,10 @@ export function localizeCompetitorBody(
 
   return {
     ...page,
-    title: templates.title,
-    metaDescription: templates.metaDescription,
-    headline: templates.headline,
-    summary: templates.summary,
+    title: body.title,
+    metaDescription: body.metaDescription,
+    headline: body.headline,
+    summary: body.summary,
     qrbannerWins: wins,
     competitorWeaknesses: weaknesses,
     comparisonRows: page.comparisonRows.map((row) => ({

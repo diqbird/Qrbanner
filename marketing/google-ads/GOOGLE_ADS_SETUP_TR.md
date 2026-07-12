@@ -33,7 +33,12 @@ Bu adımlar konsolda yapılır; deploy gerekmez.
 
 ## D. Kampanya iskeleti (dönüşümler hazır olunca)
 
-Yapıştırma paketi: [`ADS_EDITOR_PASTE.md`](./ADS_EDITOR_PASTE.md)
+Yapıştırma paketleri:
+- EN: [`ADS_EDITOR_PASTE.md`](./ADS_EDITOR_PASTE.md)
+- DE: [`ADS_EDITOR_PASTE_DE.md`](./ADS_EDITOR_PASTE_DE.md)
+- ES: [`ADS_EDITOR_PASTE_ES.md`](./ADS_EDITOR_PASTE_ES.md)
+
+URL smoke: `python scripts/verify-ads-paste-urls.py`
 
 | Kampanya | Günlük | Landing |
 |----------|--------|---------|

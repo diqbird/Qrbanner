@@ -1,6 +1,8 @@
 import type { SolutionPage } from '@/lib/solutions';
 import type { Locale } from './types';
 import { SOLUTION_COPY_TR } from './solution-copy-tr';
+import { SOLUTION_COPY_DE } from './solution-copy-de';
+import { SOLUTION_COPY_ES } from './solution-copy-es';
 import { SOLUTION_PLATFORM_FEATURES_TR, SOLUTION_SECTOR_TR } from './solution-sector-tr';
 import { SOLUTION_PLATFORM_FEATURES_DE, SOLUTION_SECTOR_DE } from './solution-sector-de';
 import { SOLUTION_PLATFORM_FEATURES_ES, SOLUTION_SECTOR_ES } from './solution-sector-es';
@@ -171,8 +173,16 @@ export function localizeSolutionPage(page: SolutionPage, locale: Locale): Soluti
     if (custom) return { ...page, ...custom };
     return buildSolutionTrTemplate(page);
   }
-  if (locale === 'de') return buildSolutionDeTemplate(page);
-  if (locale === 'es') return buildSolutionEsTemplate(page);
+  if (locale === 'de') {
+    const custom = SOLUTION_COPY_DE[page.slug];
+    if (custom) return { ...page, ...custom };
+    return buildSolutionDeTemplate(page);
+  }
+  if (locale === 'es') {
+    const custom = SOLUTION_COPY_ES[page.slug];
+    if (custom) return { ...page, ...custom };
+    return buildSolutionEsTemplate(page);
+  }
   return page;
 }
 

@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "lib/i18n/solution-copy-de.ts",
+    "lib/i18n/solution-copy-es.ts",
+    "lib/i18n/solution-localize.ts",
+    "lib/i18n/competitor-localize.ts",
+    "e2e/invite-brand.spec.ts",
+    "scripts/verify-ads-paste-urls.py",
+    "scripts/print-ga4-conversion-steps.py",
+    "marketing/google-ads/ADS_EDITOR_PASTE_DE.md",
+    "marketing/google-ads/ADS_EDITOR_PASTE_ES.md",
+    "marketing/google-ads/GOOGLE_ADS_SETUP_TR.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
