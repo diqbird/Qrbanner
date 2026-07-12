@@ -33,7 +33,7 @@ export function useDashboardAnalyticsFetch() {
       const params = new URLSearchParams();
       if (dateRange.from) params.set('from', dateRange.from.toISOString().slice(0, 10));
       if (dateRange.to) params.set('to', dateRange.to.toISOString().slice(0, 10));
-      params.set('locale', locale === 'tr' ? 'tr' : 'en');
+      params.set('locale', locale);
       const qs = params.toString();
       const res = await fetch(`/api/dashboard/analytics${qs ? `?${qs}` : ''}`);
       if (!res.ok) {

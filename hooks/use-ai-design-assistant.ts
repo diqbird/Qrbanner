@@ -32,7 +32,7 @@ export function useAiDesignAssistant({
         body: JSON.stringify({
           category,
           qrName: brandSeed || qrName,
-          locale: locale === 'tr' ? 'tr' : 'en',
+          locale,
           currentStyle: style,
         }),
       });

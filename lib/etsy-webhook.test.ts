@@ -40,8 +40,11 @@ describe('etsy webhook', () => {
 });
 
 describe('resolveStudioDeliveryLocale', () => {
-  it('detects Turkish from notes', () => {
+  it('detects locales from notes', () => {
     expect(resolveStudioDeliveryLocale('Etsy TR buyer locale:tr')).toBe('tr');
     expect(resolveStudioDeliveryLocale('locale=en')).toBe('en');
+    expect(resolveStudioDeliveryLocale('locale:de')).toBe('de');
+    expect(resolveStudioDeliveryLocale('lang=es')).toBe('es');
+    expect(resolveStudioDeliveryLocale('no locale marker')).toBe('en');
   });
 });

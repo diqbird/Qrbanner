@@ -19,7 +19,7 @@ export function LandingPagePreview({
       renderLandingPage('preview', data, '#', {
         qrName,
         preview: true,
-        locale: locale === 'tr' ? 'tr' : 'en',
+        locale,
       }),
     [data, qrName, locale],
   );

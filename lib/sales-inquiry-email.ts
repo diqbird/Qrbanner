@@ -1,6 +1,7 @@
 import { createSmtpTransport, smtpFromAddress } from '@/lib/smtp-transport';
 import { SUPPORT_EMAIL } from '@/lib/site-contact';
 import { translate, type Locale } from '@/lib/i18n';
+import { isLocale } from '@/lib/i18n/types';
 import { buildEmailShell } from '@/lib/i18n/email-shell';
 import type { SalesInquiryType } from '@/lib/inquiry-types';
 
@@ -44,7 +45,7 @@ export async function sendSalesInquiryEmail(
   const transporter = getTransporter();
   const from = smtpFromAddress();
   const to = process.env.SALES_INBOX || SUPPORT_EMAIL;
-  const locale = payload.locale === 'tr' ? 'tr' : 'en';
+  const locale: Locale = isLocale(payload.locale) ? payload.locale : 'en';
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
 
   const type = typeLabel(locale, payload.type);

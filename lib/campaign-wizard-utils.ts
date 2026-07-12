@@ -2,14 +2,20 @@ export const CAMPAIGN_EXAMPLES = {
   restaurant: {
     en: 'I am opening an Italian restaurant next Friday',
     tr: "Önümüzdeki cuma İstanbul'da İtalyan restoranı açıyorum",
+    de: 'Ich eröffne nächsten Freitag ein italienisches Restaurant',
+    es: 'Abro un restaurante italiano el próximo viernes',
   },
   hotel: {
     en: 'We are launching a boutique hotel with spa and room service',
     tr: 'Spa ve oda servisi olan butik bir otel açıyoruz',
+    de: 'Wir eröffnen ein Boutique-Hotel mit Spa und Zimmerservice',
+    es: 'Lanzamos un hotel boutique con spa y servicio de habitaciones',
   },
   event: {
     en: 'Tech conference registration opens next month',
     tr: 'Gelecek ay teknoloji konferansı kayıtları başlıyor',
+    de: 'Die Anmeldung zur Tech-Konferenz startet nächsten Monat',
+    es: 'El registro de la conferencia tech abre el próximo mes',
   },
 } as const;
 

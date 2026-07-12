@@ -1,0 +1,24 @@
+{
+  "upload": [
+    "lib/studio-delivery-locale.ts",
+    "lib/sales-inquiry-email.ts",
+    "lib/oauth-provider-labels.ts",
+    "lib/campaign-wizard-utils.ts",
+    "lib/campaign-generate-api.ts",
+    "lib/etsy-webhook.test.ts",
+    "hooks/use-campaign-wizard.ts",
+    "hooks/use-campaign-generate.ts",
+    "hooks/use-campaign-plan-editing.ts",
+    "hooks/use-ai-design-assistant.ts",
+    "hooks/use-landing-page-editor.ts",
+    "hooks/use-qr-analytics-fetch.ts",
+    "hooks/use-dashboard-analytics-fetch.ts",
+    "components/qr/landing-page-preview.tsx",
+    "app/api/dashboard/analytics/route.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

@@ -15,7 +15,7 @@ export function useCampaignWizard() {
   const router = useRouter();
   const { status } = useSession();
   const isGuest = status === 'unauthenticated';
-  const loc = locale === 'tr' ? 'tr' : 'en';
+  const loc = locale;
 
   const [step, setStep] = useState<CampaignWizardStep>('prompt');
   const [prompt, setPrompt] = useState('');

@@ -9,7 +9,7 @@ type Translate = (key: string, vars?: Record<string, string | number>) => string
 
 type GeneratePayload = {
   prompt: string;
-  locale: 'tr' | 'en';
+  locale: Locale;
   businessName?: string;
   websiteUrl?: string;
 };

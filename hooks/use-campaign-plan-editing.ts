@@ -3,11 +3,12 @@
 import { useCallback } from 'react';
 import type { CampaignPlan, CampaignQrItem } from '@/lib/campaign-types';
 import { CAMPAIGN_EXAMPLES, type CampaignExampleKey } from '@/lib/campaign-wizard-utils';
+import type { Locale } from '@/lib/i18n/types';
 
 export function useCampaignPlanEditing(
   plan: CampaignPlan | null,
   setPlan: React.Dispatch<React.SetStateAction<CampaignPlan | null>>,
-  loc: 'tr' | 'en',
+  loc: Locale,
 ) {
   const applyExample = (key: CampaignExampleKey) => {
     return CAMPAIGN_EXAMPLES[key][loc];

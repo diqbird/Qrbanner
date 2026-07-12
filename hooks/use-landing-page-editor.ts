@@ -44,7 +44,7 @@ export function useLandingPageEditor({
           category: category ?? 'url',
           qrName,
           targetUrl,
-          locale: locale === 'tr' ? 'tr' : 'en',
+          locale,
         }),
       });
       const payload = await res.json();

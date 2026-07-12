@@ -9,6 +9,7 @@ import {
   handleCampaignGenerateResponse,
   postCampaignGenerate,
 } from '@/lib/campaign-generate-api';
+import type { Locale } from '@/lib/i18n/types';
 
 type Translate = (key: string) => string;
 
@@ -29,7 +30,7 @@ export function useCampaignGenerate({
   prompt: string;
   businessName: string;
   websiteUrl: string;
-  loc: 'tr' | 'en';
+  loc: Locale;
   isGuest: boolean;
   loading: boolean;
   setLoading: (v: boolean) => void;
