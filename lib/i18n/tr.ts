@@ -2282,6 +2282,8 @@ export const tr: TranslationTree = {
       enableHint: 'Herkese açık sayfalarda tüm ziyaretçilere görünür.',
       textEn: 'Metin (İngilizce)',
       textTr: 'Metin (Türkçe)',
+      textDe: 'Metin (Almanca)',
+      textEs: 'Metin (İspanyolca)',
       link: 'Link (isteğe bağlı)',
       linkHint: 'Göreli yol (/features) veya tam https:// adresi.',
       save: 'Banner\'ı kaydet',

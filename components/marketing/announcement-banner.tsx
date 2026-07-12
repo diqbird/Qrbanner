@@ -8,11 +8,16 @@ export async function AnnouncementBanner() {
   if (!settings.announcementEnabled) return null;
 
   const locale = await getServerLocale();
-  const text =
-    locale === 'tr' && settings.announcementTextTr
+  const localized =
+    locale === 'tr'
       ? settings.announcementTextTr
-      : settings.announcementText;
-  if (!text.trim()) return null;
+      : locale === 'de'
+        ? settings.announcementTextDe
+        : locale === 'es'
+          ? settings.announcementTextEs
+          : '';
+  const text = (localized || settings.announcementText).trim();
+  if (!text) return null;
 
   const inner = <span className="line-clamp-2">{text}</span>;
 

@@ -6,23 +6,30 @@ import { requireApiAdmin, isAuthError } from '@/lib/api-route-auth';
 import { getSiteSettings, writeSiteSettings } from '@/lib/site-settings-server';
 import { getAdminActorContext, recordAdminAudit } from '@/lib/admin-audit';
 
+function bannerPayload(settings: ReturnType<typeof getSiteSettings>) {
+  return {
+    announcementEnabled: settings.announcementEnabled,
+    announcementText: settings.announcementText,
+    announcementTextTr: settings.announcementTextTr,
+    announcementTextDe: settings.announcementTextDe,
+    announcementTextEs: settings.announcementTextEs,
+    announcementLink: settings.announcementLink,
+  };
+}
+
 export async function GET() {
   const auth = await requireApiAdmin();
   if (isAuthError(auth)) return auth;
 
-  const settings = getSiteSettings();
-  return NextResponse.json({
-    announcementEnabled: settings.announcementEnabled,
-    announcementText: settings.announcementText,
-    announcementTextTr: settings.announcementTextTr,
-    announcementLink: settings.announcementLink,
-  });
+  return NextResponse.json(bannerPayload(getSiteSettings()));
 }
 
 const patchSchema = z.object({
   announcementEnabled: z.boolean().optional(),
   announcementText: z.string().max(200).optional(),
   announcementTextTr: z.string().max(200).optional(),
+  announcementTextDe: z.string().max(200).optional(),
+  announcementTextEs: z.string().max(200).optional(),
   announcementLink: z
     .string()
     .max(300)
@@ -54,10 +61,5 @@ export async function PATCH(req: NextRequest) {
     metadata: parsed.data,
   });
 
-  return NextResponse.json({
-    announcementEnabled: settings.announcementEnabled,
-    announcementText: settings.announcementText,
-    announcementTextTr: settings.announcementTextTr,
-    announcementLink: settings.announcementLink,
-  });
+  return NextResponse.json(bannerPayload(settings));
 }

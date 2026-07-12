@@ -34,6 +34,8 @@ export function getSiteSettings(): SiteSettings {
     announcementEnabled: fromFile?.announcementEnabled === true,
     announcementText: typeof fromFile?.announcementText === 'string' ? fromFile.announcementText : '',
     announcementTextTr: typeof fromFile?.announcementTextTr === 'string' ? fromFile.announcementTextTr : '',
+    announcementTextDe: typeof fromFile?.announcementTextDe === 'string' ? fromFile.announcementTextDe : '',
+    announcementTextEs: typeof fromFile?.announcementTextEs === 'string' ? fromFile.announcementTextEs : '',
     announcementLink: typeof fromFile?.announcementLink === 'string' ? fromFile.announcementLink : '',
   };
   cache = { settings, at: now };

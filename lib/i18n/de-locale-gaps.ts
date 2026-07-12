@@ -1287,6 +1287,8 @@ export const deLocaleGaps: TranslationTree = {
       enableHint: "Für alle Besucher auf öffentlichen Seiten sichtbar.",
       textEn: "Text (Englisch)",
       textTr: "Text (Türkisch)",
+      textDe: "Text (Deutsch)",
+      textEs: "Text (Spanisch)",
       link: "Link (optional)",
       linkHint: "Relativer Pfad (/features) oder vollständige https://-URL.",
       save: "Banner speichern",

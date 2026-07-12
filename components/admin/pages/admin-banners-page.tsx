@@ -17,7 +17,18 @@ type BannerSettings = {
   announcementEnabled: boolean;
   announcementText: string;
   announcementTextTr: string;
+  announcementTextDe: string;
+  announcementTextEs: string;
   announcementLink: string;
+};
+
+const emptyForm: BannerSettings = {
+  announcementEnabled: false,
+  announcementText: '',
+  announcementTextTr: '',
+  announcementTextDe: '',
+  announcementTextEs: '',
+  announcementLink: '',
 };
 
 export function AdminBannersPage() {
@@ -32,15 +43,10 @@ export function AdminBannersPage() {
     },
   });
 
-  const [form, setForm] = useState<BannerSettings>({
-    announcementEnabled: false,
-    announcementText: '',
-    announcementTextTr: '',
-    announcementLink: '',
-  });
+  const [form, setForm] = useState<BannerSettings>(emptyForm);
 
   useEffect(() => {
-    if (data) setForm(data);
+    if (data) setForm({ ...emptyForm, ...data });
   }, [data]);
 
   const mutation = useMutation({
@@ -114,6 +120,26 @@ export function AdminBannersPage() {
               value={form.announcementTextTr}
               onChange={(e) => setForm((f) => ({ ...f, announcementTextTr: e.target.value }))}
               placeholder="🎉 Yeni: toplu QR içe aktarma yayında — ücretsiz deneyin"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="banner-de">{t('superAdmin.banners.textDe')}</Label>
+            <Input
+              id="banner-de"
+              maxLength={200}
+              value={form.announcementTextDe}
+              onChange={(e) => setForm((f) => ({ ...f, announcementTextDe: e.target.value }))}
+              placeholder="🎉 Neu: CSV-Massenimport ist live — kostenlos testen"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="banner-es">{t('superAdmin.banners.textEs')}</Label>
+            <Input
+              id="banner-es"
+              maxLength={200}
+              value={form.announcementTextEs}
+              onChange={(e) => setForm((f) => ({ ...f, announcementTextEs: e.target.value }))}
+              placeholder="🎉 Nuevo: importación masiva CSV disponible — pruébala gratis"
             />
           </div>
           <div className="space-y-2">

@@ -2281,6 +2281,8 @@ export const en: TranslationTree = {
       enableHint: 'Visible to all visitors on public pages.',
       textEn: 'Text (English)',
       textTr: 'Text (Turkish)',
+      textDe: 'Text (German)',
+      textEs: 'Text (Spanish)',
       link: 'Link (optional)',
       linkHint: 'Relative path (/features) or full https:// URL.',
       save: 'Save banner',

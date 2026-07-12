@@ -4,5 +4,7 @@ export type SiteSettings = {
   announcementEnabled: boolean;
   announcementText: string;
   announcementTextTr: string;
+  announcementTextDe: string;
+  announcementTextEs: string;
   announcementLink: string;
 };

@@ -1284,6 +1284,8 @@ export const esLocaleGaps: TranslationTree = {
       enableHint: "Visible para todos los visitantes en páginas públicas.",
       textEn: "Texto (inglés)",
       textTr: "Texto (turco)",
+      textDe: "Texto (alemán)",
+      textEs: "Texto (español)",
       link: "Enlace (opcional)",
       linkHint: "Ruta relativa (/features) o URL https:// completa.",
       save: "Guardar banner",
