@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { checkRateLimit } from '@/lib/rate-limit-store';
 import { generateCampaignPlan, isCampaignLlmConfigured } from '@/lib/campaign-ai';
 import { MAX_CAMPAIGN_PROMPT_LEN } from '@/lib/campaign-types';
+import { parseAiLocale } from '@/lib/i18n/ai-locale';
 import { requireUserId, isAuthError, getSessionUserId } from '@/lib/session-auth';
 
 const RATE_LIMIT = 20;
@@ -45,7 +46,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'prompt_too_short' }, { status: 400 });
   }
 
-  const locale = body.locale === 'tr' ? 'tr' : 'en';
+  const locale = parseAiLocale(body.locale);
   const businessName = body.businessName ? String(body.businessName).trim().slice(0, 80) : undefined;
   const websiteUrl = body.websiteUrl ? String(body.websiteUrl).trim().slice(0, 300) : undefined;
 

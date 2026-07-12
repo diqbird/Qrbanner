@@ -8,6 +8,7 @@ import {
   isQrStyleLlmConfigured,
   type QrStyleLlmLocale,
 } from '@/lib/qr-style-llm';
+import { parseAiLocale } from '@/lib/i18n/ai-locale';
 
 const RATE_LIMIT = 30;
 const RATE_WINDOW_MS = 60 * 60 * 1000;
@@ -23,7 +24,7 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json().catch(() => ({}));
-  const locale: QrStyleLlmLocale = body.locale === 'tr' ? 'tr' : 'en';
+  const locale: QrStyleLlmLocale = parseAiLocale(body.locale);
   const category = String(body.category ?? 'url').trim() || 'url';
   const qrName = body.qrName ? String(body.qrName).trim().slice(0, 80) : undefined;
   const businessContext = body.businessContext

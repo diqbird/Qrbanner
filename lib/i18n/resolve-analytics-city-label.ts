@@ -1,4 +1,8 @@
-import { ANALYTICS_CITY_EN_TO_TR } from '@/lib/analytics-city-names';
+import {
+  ANALYTICS_CITY_EN_TO_DE,
+  ANALYTICS_CITY_EN_TO_ES,
+  ANALYTICS_CITY_EN_TO_TR,
+} from '@/lib/analytics-city-names';
 import type { Locale } from './types';
 
 type TranslateFn = (key: string, vars?: Record<string, string | number>) => string;
@@ -14,8 +18,9 @@ export function resolveAnalyticsCityLabel(
     const unknown = t('analytics.unknown');
     return unknown === 'analytics.unknown' ? 'Unknown' : unknown;
   }
-  if (locale === 'tr') {
-    return ANALYTICS_CITY_EN_TO_TR[value.toLowerCase()] ?? value;
-  }
+  const key = value.toLowerCase();
+  if (locale === 'tr') return ANALYTICS_CITY_EN_TO_TR[key] ?? value;
+  if (locale === 'de') return ANALYTICS_CITY_EN_TO_DE[key] ?? value;
+  if (locale === 'es') return ANALYTICS_CITY_EN_TO_ES[key] ?? value;
   return value;
 }

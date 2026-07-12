@@ -1,9 +1,12 @@
 import type { LandingPageData } from '@/lib/landing-page';
 import { emptyLandingPage } from '@/lib/landing-page';
+import type { AiLocale } from '@/lib/i18n/ai-locale';
 
-type Locale = 'en' | 'tr';
+type Locale = AiLocale;
 
-const COPY: Record<string, Record<Locale, { title: string; subtitle: string; cta: string; seoTitle: string }>> = {
+type CopyPack = { title: string; subtitle: string; cta: string; seoTitle: string };
+
+const COPY: Record<string, Record<Locale, CopyPack>> = {
   menu: {
     en: {
       title: 'View our menu',
@@ -16,6 +19,18 @@ const COPY: Record<string, Record<Locale, { title: string; subtitle: string; cta
       subtitle: 'Tarama başarılı — güncel menü ve kampanyalarımıza göz atın.',
       cta: 'Menüyü aç',
       seoTitle: 'Restoran menüsü',
+    },
+    de: {
+      title: 'Speisekarte ansehen',
+      subtitle: 'Scan erfolgreich — entdecken Sie Gerichte und Specials.',
+      cta: 'Speisekarte öffnen',
+      seoTitle: 'Restaurantspeisekarte',
+    },
+    es: {
+      title: 'Ver nuestro menú',
+      subtitle: 'Escaneo correcto — consulta platos y especiales de hoy.',
+      cta: 'Abrir menú',
+      seoTitle: 'Menú del restaurante',
     },
   },
   restaurant: {
@@ -31,6 +46,18 @@ const COPY: Record<string, Record<Locale, { title: string; subtitle: string; cta
       cta: 'Devam et',
       seoTitle: 'Hoş geldiniz',
     },
+    de: {
+      title: 'Willkommen',
+      subtitle: 'Danke für den Scan — entdecken Sie Speisekarte und Angebote.',
+      cta: 'Weiter',
+      seoTitle: 'Willkommen',
+    },
+    es: {
+      title: 'Bienvenido',
+      subtitle: 'Gracias por escanear — explora nuestro menú y ofertas.',
+      cta: 'Continuar',
+      seoTitle: 'Bienvenido',
+    },
   },
   event: {
     en: {
@@ -44,6 +71,18 @@ const COPY: Record<string, Record<Locale, { title: string; subtitle: string; cta
       subtitle: 'Etkinlik detayları, program ve kayıt tek dokunuşla.',
       cta: 'Etkinliği gör',
       seoTitle: 'Etkinlik detayları',
+    },
+    de: {
+      title: 'Sie sind eingeladen',
+      subtitle: 'Event-Details, Programm und Anmeldung mit einem Tippen.',
+      cta: 'Event ansehen',
+      seoTitle: 'Event-Details',
+    },
+    es: {
+      title: 'Estás invitado',
+      subtitle: 'Detalles, agenda y registro del evento en un toque.',
+      cta: 'Ver evento',
+      seoTitle: 'Detalles del evento',
     },
   },
   vcard: {
@@ -59,6 +98,18 @@ const COPY: Record<string, Record<Locale, { title: string; subtitle: string; cta
       cta: 'Kişiyi kaydet',
       seoTitle: 'Dijital kartvizit',
     },
+    de: {
+      title: 'Kontakt speichern',
+      subtitle: 'Fügen Sie meine Daten in Sekunden Ihrem Handy hinzu.',
+      cta: 'Kontakt speichern',
+      seoTitle: 'Digitale Visitenkarte',
+    },
+    es: {
+      title: 'Guarda mi contacto',
+      subtitle: 'Añade mis datos a tu teléfono en segundos.',
+      cta: 'Guardar contacto',
+      seoTitle: 'Tarjeta de visita digital',
+    },
   },
   url: {
     en: {
@@ -72,6 +123,18 @@ const COPY: Record<string, Record<Locale, { title: string; subtitle: string; cta
       subtitle: 'Sayfamıza devam etmek için aşağıya dokunun.',
       cta: 'Devam et',
       seoTitle: 'Hoş geldiniz',
+    },
+    de: {
+      title: 'Danke für den Scan',
+      subtitle: 'Tippen Sie unten, um zu unserer Seite zu gelangen.',
+      cta: 'Weiter',
+      seoTitle: 'Willkommen',
+    },
+    es: {
+      title: 'Gracias por escanear',
+      subtitle: 'Toca abajo para continuar a nuestra página.',
+      cta: 'Continuar',
+      seoTitle: 'Bienvenido',
     },
   },
 };
@@ -89,7 +152,7 @@ export function generateLandingPageCopy(
   locale: Locale = 'en'
 ): Partial<LandingPageData> {
   const key = pickCategory(category);
-  const pack = COPY[key]?.[locale] ?? COPY.url[locale];
+  const pack = COPY[key]?.[locale] ?? COPY.url[locale] ?? COPY.url.en;
   const name = qrName?.trim();
 
   return {

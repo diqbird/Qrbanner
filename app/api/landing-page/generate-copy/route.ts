@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { checkRateLimit } from '@/lib/rate-limit-store';
 import { generateLandingCopyWithLlm, type LandingLlmLocale } from '@/lib/landing-llm';
+import { parseAiLocale } from '@/lib/i18n/ai-locale';
 import { requireUserId, isAuthError, getSessionUserId } from '@/lib/session-auth';
 
 const RATE_LIMIT = 30;
@@ -19,7 +20,7 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json().catch(() => ({}));
-  const locale: LandingLlmLocale = body.locale === 'tr' ? 'tr' : 'en';
+  const locale: LandingLlmLocale = parseAiLocale(body.locale);
   const category = String(body.category ?? 'url').trim() || 'url';
   const qrName = body.qrName ? String(body.qrName).trim() : undefined;
   const targetUrl = body.targetUrl ? String(body.targetUrl).trim() : undefined;

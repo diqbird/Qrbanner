@@ -1,8 +1,9 @@
 import type { QRStyleConfig, DotStyle, CornerStyle, FrameStyle } from '@/lib/qr-style';
 import { normalizeQRStyle, DOT_STYLES, CORNER_STYLES, FRAME_STYLES } from '@/lib/qr-style';
 import { suggestStyleForCategory } from '@/lib/qr-ai';
+import { aiLanguageName, type AiLocale } from '@/lib/i18n/ai-locale';
 
-export type QrStyleLlmLocale = 'en' | 'tr';
+export type QrStyleLlmLocale = AiLocale;
 
 export type QrStyleLlmInput = {
   category: string;
@@ -77,7 +78,7 @@ function sanitizePayload(raw: LlmPayload, fallback: Partial<QRStyleConfig>): Par
 }
 
 function buildSystemPrompt(locale: QrStyleLlmLocale): string {
-  const lang = locale === 'tr' ? 'Turkish frame text when frameText is set' : 'English frame text when frameText is set';
+  const lang = `${aiLanguageName(locale)} frame text when frameText is set`;
   return `You are a QR code brand designer for QRbanner. Return ONLY valid JSON with optional keys:
 fgColor, bgColor, dotStyle, cornerStyle, cornerDotStyle, gradientEnabled, gradientColor2,
 frameStyle, frameColor, frameText, frameTextColor, errorCorrection.

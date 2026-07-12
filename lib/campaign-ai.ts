@@ -5,6 +5,7 @@ import { DEFAULT_QR_STYLE, normalizeQRStyle } from '@/lib/qr-style';
 import { generateCampaignFallback } from '@/lib/campaign-fallback';
 import type { CampaignGenerateInput, CampaignPlan, CampaignQrItem } from '@/lib/campaign-types';
 import { MAX_CAMPAIGN_ITEMS as MAX_ITEMS } from '@/lib/campaign-types';
+import { aiLanguageName, pickAiText, type AiLocale } from '@/lib/i18n/ai-locale';
 
 const VALID_CATEGORIES = new Set(QR_CATEGORIES.map((c) => c.id));
 const LANDING_TEMPLATES = new Set(['minimal', 'restaurant', 'hotel', 'event', 'business']);
@@ -92,9 +93,9 @@ function sanitizeItem(raw: LlmItem, index: number, accent: string): CampaignQrIt
   };
 }
 
-function buildSystemPrompt(locale: 'en' | 'tr'): string {
+function buildSystemPrompt(locale: AiLocale): string {
   const categories = QR_CATEGORIES.map((c) => c.id).join(', ');
-  const lang = locale === 'tr' ? 'Turkish' : 'English';
+  const lang = aiLanguageName(locale);
   return `You are a QR marketing strategist for QRbanner (${lang}).
 Given a one-sentence business goal, design a practical QR campaign kit (3–6 QR codes).
 Return ONLY valid JSON with keys:
@@ -139,7 +140,7 @@ export async function generateCampaignPlan(input: CampaignGenerateInput): Promis
       `Goal: ${prompt}`,
       input.businessName ? `Business name: ${input.businessName}` : null,
       input.websiteUrl ? `Website: ${input.websiteUrl}` : null,
-      `Language: ${locale === 'tr' ? 'Turkish' : 'English'}`,
+      `Language: ${aiLanguageName(locale)}`,
     ].filter(Boolean);
 
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -188,7 +189,14 @@ export async function generateCampaignPlan(input: CampaignGenerateInput): Promis
     return {
       businessName: clip(parsed.businessName, 80) ?? input.businessName ?? items[0].name,
       industry: clip(parsed.industry, 40) ?? 'general',
-      summary: clip(parsed.summary, 220) ?? (locale === 'tr' ? 'AI kampanya önerisi' : 'AI campaign suggestion'),
+      summary:
+        clip(parsed.summary, 220) ??
+        pickAiText(locale, {
+          en: 'AI campaign suggestion',
+          tr: 'AI kampanya önerisi',
+          de: 'KI-Kampagnenvorschlag',
+          es: 'Sugerencia de campaña con IA',
+        }),
       accentColor: accent,
       items,
       printSuggestions: (parsed.printSuggestions ?? [])

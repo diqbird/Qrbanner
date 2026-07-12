@@ -1,7 +1,8 @@
 import type { LandingPageData } from '@/lib/landing-page';
 import { generateLandingPageCopy } from '@/lib/landing-ai';
+import { aiLanguageName, pickAiText, type AiLocale } from '@/lib/i18n/ai-locale';
 
-export type LandingLlmLocale = 'en' | 'tr';
+export type LandingLlmLocale = AiLocale;
 
 export type LandingLlmInput = {
   category: string;
@@ -54,18 +55,20 @@ function sanitizePayload(raw: LlmPayload, locale: LandingLlmLocale): Partial<Lan
     },
   };
 
-  if (!copy.title && locale === 'tr') {
-    copy.title = 'Hoş geldiniz';
-  }
   if (!copy.title) {
-    copy.title = 'Welcome';
+    copy.title = pickAiText(locale, {
+      en: 'Welcome',
+      tr: 'Hoş geldiniz',
+      de: 'Willkommen',
+      es: 'Bienvenido',
+    });
   }
 
   return copy;
 }
 
 function buildSystemPrompt(locale: LandingLlmLocale): string {
-  const lang = locale === 'tr' ? 'Turkish' : 'English';
+  const lang = aiLanguageName(locale);
   return `You write concise QR scan landing page copy for QRbanner (${lang}).
 Return ONLY valid JSON with keys: title, subtitle, ctaLabel, metaTitle, metaDescription, template.
 template must be one of: minimal, restaurant, hotel, event, business.
@@ -79,7 +82,7 @@ function buildUserPrompt(input: LandingLlmInput): string {
     input.qrName ? `QR name: ${input.qrName}` : null,
     input.targetUrl ? `Destination URL: ${input.targetUrl}` : null,
     input.businessContext ? `Extra context: ${input.businessContext}` : null,
-    `Language: ${input.locale === 'tr' ? 'Turkish' : 'English'}`,
+    `Language: ${aiLanguageName(input.locale)}`,
   ].filter(Boolean);
 
   return parts.join('\n');

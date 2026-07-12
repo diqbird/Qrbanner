@@ -16,6 +16,7 @@ import { buildFunnelMetrics, buildFunnelComparison } from '@/lib/analytics-funne
 import { fetchFunnelEventCounts } from '@/lib/analytics-funnel-inputs';
 import { buildRoiMetrics } from '@/lib/analytics-roi';
 import { assertQrAccess } from '@/lib/workspace';
+import { parseAiLocale } from '@/lib/i18n/ai-locale';
 
 function buildDateFilter(
   fetchFrom: Date | null,
@@ -52,8 +53,7 @@ export async function GET(
 
     const prevRange = getPreviousPeriodRange(range);
     const fetchFrom = earliestAnalyticsFetchDate(range, cutoff);
-    const localeParam = req.nextUrl.searchParams.get('locale');
-    const locale = localeParam === 'tr' ? 'tr' : 'en';
+    const locale = parseAiLocale(req.nextUrl.searchParams.get('locale'));
 
     const analytics = await fetchAggregatedAnalytics({
       qrCodeIds: [qrCode.id],

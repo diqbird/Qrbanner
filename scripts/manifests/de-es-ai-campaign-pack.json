@@ -1,0 +1,23 @@
+{
+  "upload": [
+    "lib/i18n/ai-locale.ts",
+    "lib/campaign-types.ts",
+    "lib/campaign-fallback.ts",
+    "lib/campaign-ai.ts",
+    "lib/landing-ai.ts",
+    "lib/landing-llm.ts",
+    "lib/landing-cta-analytics.ts",
+    "lib/qr-style-llm.ts",
+    "lib/analytics-city-names.ts",
+    "lib/i18n/resolve-analytics-city-label.ts",
+    "app/api/campaign/generate/route.ts",
+    "app/api/landing-page/generate-copy/route.ts",
+    "app/api/qr/ai-restyle/route.ts",
+    "app/api/qr/[id]/analytics/route.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

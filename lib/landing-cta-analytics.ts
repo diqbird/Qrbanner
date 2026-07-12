@@ -4,6 +4,7 @@ import { parseUserAgent } from '@/lib/qr-utils';
 import { lookupGeo, countryName } from '@/lib/geoip';
 import type { AnalyticsRange } from '@/lib/analytics-utils';
 import { buildScansByDayForRange } from '@/lib/analytics-utils';
+import { pickAiText, type AiLocale } from '@/lib/i18n/ai-locale';
 
 export type LandingCtaType = 'primary' | 'hub' | 'lead';
 
@@ -65,7 +66,7 @@ export function buildLandingCtaAnalytics(
   clicks: LandingCtaClickRecord[],
   landingViews: number,
   range: AnalyticsRange,
-  locale: 'en' | 'tr' = 'en'
+  locale: AiLocale = 'en'
 ) {
   const byType: Record<string, number> = {};
   clicks.forEach((c) => {
@@ -82,10 +83,26 @@ export function buildLandingCtaAnalytics(
   const conversionRate =
     landingViews > 0 ? Math.round((totalClicks / landingViews) * 1000) / 10 : null;
 
-  const typeLabels: Record<string, string> =
-    locale === 'tr'
-      ? { primary: 'Ana CTA', hub: 'Hub bağlantısı', lead: 'Form gönderimi' }
-      : { primary: 'Primary CTA', hub: 'Hub link', lead: 'Form submit' };
+  const typeLabels: Record<string, string> = {
+    primary: pickAiText(locale, {
+      en: 'Primary CTA',
+      tr: 'Ana CTA',
+      de: 'Primärer CTA',
+      es: 'CTA principal',
+    }),
+    hub: pickAiText(locale, {
+      en: 'Hub link',
+      tr: 'Hub bağlantısı',
+      de: 'Hub-Link',
+      es: 'Enlace del hub',
+    }),
+    lead: pickAiText(locale, {
+      en: 'Form submit',
+      tr: 'Form gönderimi',
+      de: 'Formularabsendung',
+      es: 'Envío de formulario',
+    }),
+  };
 
   return {
     totalClicks,

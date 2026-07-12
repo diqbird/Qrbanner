@@ -1,7 +1,8 @@
 import type { LandingPageData } from '@/lib/landing-page';
 import type { QRStyleConfig } from '@/lib/qr-style';
+import type { AiLocale } from '@/lib/i18n/ai-locale';
 
-export type CampaignLocale = 'en' | 'tr';
+export type CampaignLocale = AiLocale;
 
 export type CampaignQrItem = {
   /** Client-side key for list editing */
