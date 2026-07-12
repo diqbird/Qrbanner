@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { COMPETITOR_PAGES } from '@/lib/competitor-pages';
-import { getPublicListTitle, sanitizeCompetitorBrands } from '@/lib/competitor-public';
+import { getPublicComparisonSummary, getPublicListTitle } from '@/lib/competitor-public';
 import { pageMetadata, itemListJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
@@ -58,7 +58,7 @@ export default async function VsIndexPage() {
                       {getPublicListTitle(p, locale)}
                     </h2>
                     <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                      {sanitizeCompetitorBrands(p.summary, locale)}
+                      {getPublicComparisonSummary(p, locale)}
                     </p>
                   </div>
                   <ArrowRight className="h-5 w-5 shrink-0 text-muted-foreground group-hover:text-primary" />

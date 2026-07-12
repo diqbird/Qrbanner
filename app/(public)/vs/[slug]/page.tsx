@@ -44,9 +44,9 @@ export default async function VsDetailPage({ params }: { params: { slug: string 
           title: view.headline,
           description: view.summary,
           path: `/vs/${page.slug}`,
-          faq: page.comparisonRows.slice(0, 4).map((row) => ({
+          faq: view.comparisonRows.slice(0, 4).map((row) => ({
             question: `${row.feature}?`,
-            answer: `QRbanner: ${row.qrbanner}. Typical alternative: ${row.competitor}.`,
+            answer: `QRbanner: ${row.qrbanner}. ${view.typicalLabel}: ${row.competitor}.`,
           })),
         })}
       />

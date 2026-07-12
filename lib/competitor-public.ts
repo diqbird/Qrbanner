@@ -1,5 +1,6 @@
 import type { CompetitorPage } from '@/lib/competitor-pages';
 import { COMPETITOR_PAGES } from '@/lib/competitor-pages';
+import { localizeCompetitorBody } from '@/lib/i18n/competitor-localize';
 import { localizeMarketingNumbers } from '@/lib/i18n/qr-type-count';
 import { localizePlanPricingInText } from '@/lib/i18n/plan-pricing-display';
 import type { Locale } from '@/lib/i18n/types';
@@ -14,6 +15,15 @@ function pickLocaleText(
   return texts.en;
 }
 
+function otherPlatformsLabel(locale?: Locale): string {
+  return pickLocaleText(locale ?? 'en', {
+    en: 'other platforms',
+    tr: 'diğer platformlar',
+    de: 'andere Plattformen',
+    es: 'otras plataformas',
+  });
+}
+
 const BRAND_NAMES = Array.from(
   new Set(
     COMPETITOR_PAGES.flatMap((p) => {
@@ -24,15 +34,16 @@ const BRAND_NAMES = Array.from(
 ).sort((a, b) => b.length - a.length);
 
 export function sanitizeCompetitorBrands(text: string, locale?: Locale): string {
+  const platforms = otherPlatformsLabel(locale);
   let out = text;
   for (const brand of BRAND_NAMES) {
     if (brand.length < 2) continue;
     const escaped = brand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    out = out.replace(new RegExp(escaped, 'gi'), 'other platforms');
+    out = out.replace(new RegExp(escaped, 'gi'), platforms);
   }
-  out = out.replace(/QRbanner vs [^—–\n.]+/gi, 'QRbanner vs other platforms');
-  out = out.replace(/\bvs [A-Z][A-Za-z0-9 .+'’-]+/g, 'vs other platforms');
-  out = out.replace(/\bother platforms's\b/gi, "other platforms'");
+  out = out.replace(/QRbanner vs [^—–\n.]+/gi, `QRbanner vs ${platforms}`);
+  out = out.replace(/\bvs [A-Z][A-Za-z0-9 .+'’-]+/g, `vs ${platforms}`);
+  out = out.replace(new RegExp(`\\b${platforms.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}'s\\b`, 'gi'), `${platforms}'`);
   out = out.replace(/\s{2,}/g, ' ').trim();
   if (locale) {
     out = localizeMarketingNumbers(out, locale);
@@ -108,19 +119,26 @@ export function getPublicListTitle(page: CompetitorPage, locale: Locale): string
   });
 }
 
+function localizePublicPage(page: CompetitorPage, locale: Locale): CompetitorPage {
+  if (locale === 'en') return page;
+  return localizeCompetitorBody(page, locale, getComparisonTopic(page.slug, locale));
+}
+
 export function getPublicComparisonMeta(page: CompetitorPage, locale: Locale) {
   const topic = getComparisonTopic(page.slug, locale);
+  const localized = localizePublicPage(page, locale);
   const title = pickLocaleText(locale, {
     en: `${topic} — QRbanner comparison`,
     tr: `${topic} — QRbanner karşılaştırması`,
     de: `${topic} — QRbanner-Vergleich`,
     es: `${topic} — comparativa QRbanner`,
   });
-  const description = sanitizeCompetitorBrands(page.metaDescription, locale);
+  const description = sanitizeCompetitorBrands(localized.metaDescription, locale);
   return { title, description };
 }
 
 export function getPublicComparisonView(page: CompetitorPage, locale: Locale) {
+  const localized = localizePublicPage(page, locale);
   const typicalLabel = pickLocaleText(locale, {
     en: 'Typical alternative',
     tr: 'Tipik alternatif',
@@ -137,11 +155,13 @@ export function getPublicComparisonView(page: CompetitorPage, locale: Locale) {
   return {
     breadcrumbLabel: getComparisonTopic(page.slug, locale),
     listTitle: getPublicListTitle(page, locale),
-    headline: sanitizeCompetitorBrands(page.headline, locale),
-    summary: sanitizeCompetitorBrands(page.summary, locale),
-    qrbannerWins: page.qrbannerWins.map((w) => sanitizeCompetitorBrands(w, locale)),
-    competitorWeaknesses: page.competitorWeaknesses.map((w) => sanitizeCompetitorBrands(w, locale)),
-    comparisonRows: page.comparisonRows.map((row) => ({
+    headline: sanitizeCompetitorBrands(localized.headline, locale),
+    summary: sanitizeCompetitorBrands(localized.summary, locale),
+    qrbannerWins: localized.qrbannerWins.map((w) => sanitizeCompetitorBrands(w, locale)),
+    competitorWeaknesses: localized.competitorWeaknesses.map((w) =>
+      sanitizeCompetitorBrands(w, locale),
+    ),
+    comparisonRows: localized.comparisonRows.map((row) => ({
       feature: sanitizeCompetitorBrands(row.feature, locale),
       qrbanner: sanitizeCompetitorBrands(row.qrbanner, locale),
       competitor: sanitizeCompetitorBrands(row.competitor, locale),
@@ -150,4 +170,10 @@ export function getPublicComparisonView(page: CompetitorPage, locale: Locale) {
     considerationsTitle,
     meta: getPublicComparisonMeta(page, locale),
   };
+}
+
+/** Localized, brand-sanitized summary for /vs index cards. */
+export function getPublicComparisonSummary(page: CompetitorPage, locale: Locale): string {
+  const localized = localizePublicPage(page, locale);
+  return sanitizeCompetitorBrands(localized.summary, locale);
 }
