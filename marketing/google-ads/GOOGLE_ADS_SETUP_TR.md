@@ -1,0 +1,46 @@
+# QRbanner — Google Ads / GA4 dönüşüm checklist (TR)
+
+**Site:** https://qrbanner.com  
+**Measurement ID:** `G-3LY6YZDDD2`  
+**Kod hazır:** `sign_up`, `first_qr_created`, `generate_lead` (çerez onayı sonrası)
+
+Bu adımlar konsolda yapılır; deploy gerekmez.
+
+---
+
+## A. GA4 ↔ Google Ads bağlantısı
+
+1. [Google Ads](https://ads.google.com) → **Araçlar** → **Bağlı hesaplar** → **Google Analytics (GA4)**.
+2. Property’yi `G-3LY6YZDDD2` ile bağla.
+3. GA4 → **Yönetici** → **Google Ads bağlantıları** → bağlantıyı doğrula.
+4. Ads → **Ayarlar** → **Otomatik etiketleme**: AÇIK.
+
+## B. Dönüşüm import (önce bunu bitir)
+
+1. Ads → **Hedefler** → **Dönüşümler** → **Yeni** → **İçe aktar** → **Google Analytics 4**.
+2. Şunları seç:
+   - `sign_up` — **birincil**
+   - `first_qr_created` — **birincil**
+   - `generate_lead` — isteğe bağlı (sales / procurement form)
+3. GA4 → **Yönetici** → **Etkinlikler** → aynı olayları “dönüşüm olarak işaretle”.
+
+## C. Realtime smoke test (~5 dk)
+
+1. Gizli pencere → https://qrbanner.com → **çerezleri kabul et**.
+2. Yeni hesap aç → GA4 **Realtime** → Events’te `sign_up`.
+3. İlk QR’ı kaydet → `first_qr_created`.
+4. (Opsiyonel) `/enterprise` veya `/trust/procurement-request` form gönder → `generate_lead`.
+
+## D. Kampanya iskeleti (sonra)
+
+Dokümantasyon: `marketing/google-ads/GOOGLE_ADS_SETUP_EN.md` §2.
+
+| Kampanya | Günlük | Landing |
+|----------|--------|---------|
+| QRB \| Search \| Create | $4–6 | `/qr/create` |
+| QRB \| Search \| Competitor | $2–4 | `/vs/qr-tiger` |
+| QRB \| Search \| Use cases | $2–4 | `/qr-types/url` |
+
+Başlangıç teklifi: Maximize clicks + max CPC ~$1.50. Ayda 15+ dönüşümden sonra Maximize conversions.
+
+**Bid etme:** tek başına geniş `qr code`.

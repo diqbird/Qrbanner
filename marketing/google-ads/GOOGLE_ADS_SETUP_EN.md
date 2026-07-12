@@ -32,9 +32,9 @@ Site events already fire after cookie consent:
 
 1. Confirm GA4 measurement ID matches VPS `NEXT_PUBLIC_GA_MEASUREMENT_ID` (see `scripts/print-ga4-conversion-steps.py`).
 2. Google Ads → **Goals** → **Conversions** → **New** → **Import** → **Google Analytics 4**.
-3. Select `sign_up` and `first_qr_created` → import as primary conversions.
-4. In GA4 → **Admin** → **Events**, mark both as conversions if not already.
-5. Wait for Realtime test: accept cookies → sign up → create one QR.
+3. Select `sign_up`, `first_qr_created`, and optionally `generate_lead` → import as conversions (`sign_up` + `first_qr_created` as primary).
+4. In GA4 → **Admin** → **Events**, mark those events as conversions if not already.
+5. Wait for Realtime test: accept cookies → sign up → create one QR; optionally submit a sales form for `generate_lead`.
 
 **Option B — URL goal (quick start only):**  
 - **Category:** Sign-up  
