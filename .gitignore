@@ -55,3 +55,7 @@ prisma/*.db-journal
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# one-off i18n scrape artifacts (committed gaps live in *-locale-gaps.ts)
+lib/i18n/*-locale-gaps.generated.ts
+scripts/germanize-locale-gaps.mts

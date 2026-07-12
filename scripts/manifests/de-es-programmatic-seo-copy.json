@@ -1,0 +1,15 @@
+{
+  "upload": [
+    ".gitignore",
+    "lib/i18n/resolve-programmatic-copy.ts",
+    "lib/i18n/use-case-copy-de.ts",
+    "lib/i18n/use-case-copy-es.ts",
+    "lib/i18n/qr-type-copy-de.ts",
+    "lib/i18n/qr-type-copy-es.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
