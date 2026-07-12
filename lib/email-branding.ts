@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/db';
-import { parseBrandingSettings } from '@/lib/referral';
+import { canUseWhiteLabel, parseBrandingSettings } from '@/lib/referral';
 import type { EmailShellOptions } from '@/lib/i18n/email-shell';
 
 export type TenantEmailBrand = {
@@ -26,27 +26,26 @@ export async function resolveWorkspaceEmailBrand(
   if (!workspace?.owner) return DEFAULT_BRAND;
 
   const branding = parseBrandingSettings(workspace.owner.brandingSettings);
-  const agencyName = branding.agencyName?.trim();
   const supportEmail = branding.supportEmail?.trim() || undefined;
-  const brandColor = branding.brandColor;
-  const canWhiteLabel =
-    workspace.owner.plan === 'agency' || workspace.owner.plan === 'business';
+  const canWhiteLabel = canUseWhiteLabel(workspace.owner.plan);
+  const agencyName = canWhiteLabel ? branding.agencyName?.trim() : undefined;
+  const brandColor = canWhiteLabel ? branding.brandColor : undefined;
 
   if (!agencyName) {
     return {
       ...DEFAULT_BRAND,
       supportEmail,
-      brandColor: canWhiteLabel ? brandColor : undefined,
+      brandColor,
     };
   }
 
   return {
     fromName: agencyName,
     supportEmail,
-    brandColor: canWhiteLabel ? brandColor : undefined,
+    brandColor,
     shell: {
       brandName: agencyName,
-      hidePoweredBy: canWhiteLabel && Boolean(branding.hidePoweredBy),
+      hidePoweredBy: Boolean(branding.hidePoweredBy),
     },
   };
 }

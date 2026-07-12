@@ -2530,7 +2530,8 @@ export const en: TranslationTree = {
     brandingDesc:
       'Business and Agency plans can brand the dashboard (logo, favicon, tab title), emails and scan landing pages with your agency name.',
     hidePoweredBy: 'Hide “Powered by QRbanner”',
-    hidePoweredByDesc: 'Applies to scan landing pages and branded email footers on your account.',
+    hidePoweredByDesc:
+      'Applies to scan landing pages, the dashboard chrome, and branded email footers on your account.',
     agencyName: 'Agency / brand name',
     agencyNamePlaceholder: 'Your agency name',
     logoUrl: 'Logo (optional)',

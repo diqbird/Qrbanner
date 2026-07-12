@@ -826,7 +826,8 @@ export const deLocaleGaps: TranslationTree = {
     brandingTitle: "White-Label-Branding",
     brandingDesc: "Business- und Agency-Tarife können Dashboard (Logo, Favicon, Tab-Titel), E-Mails und Scan-Landingpages mit Ihrem Agenturnamen branden.",
     hidePoweredBy: "„Powered by QRbanner“ ausblenden",
-    hidePoweredByDesc: "Gilt für Scan-Landingpages und gebrandete E-Mail-Fußzeilen in Ihrem Konto.",
+    hidePoweredByDesc:
+      "Gilt für Scan-Landingpages, das Dashboard und gebrandete E-Mail-Fußzeilen in Ihrem Konto.",
     agencyName: "Agentur- / Markenname",
     agencyNamePlaceholder: "Ihr Agenturname",
     logoUrl: "Logo (optional)",

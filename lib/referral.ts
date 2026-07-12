@@ -93,6 +93,17 @@ export function normalizeLogoUrl(value: unknown): string | undefined {
   }
 }
 
+const SUPPORT_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/** Trim + basic format check; empty clears. Invalid non-empty → undefined (reject). */
+export function normalizeSupportEmail(value: unknown): string | undefined {
+  if (typeof value !== 'string') return undefined;
+  const trimmed = value.trim().toLowerCase().slice(0, 254);
+  if (!trimmed) return undefined;
+  if (!SUPPORT_EMAIL_RE.test(trimmed)) return undefined;
+  return trimmed;
+}
+
 export function parseBrandingSettings(raw: unknown): BrandingSettings {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return {};
   const o = raw as Record<string, unknown>;
@@ -109,7 +120,7 @@ export function parseBrandingSettings(raw: unknown): BrandingSettings {
   return {
     hidePoweredBy: Boolean(o.hidePoweredBy),
     agencyName: typeof o.agencyName === 'string' ? o.agencyName : undefined,
-    supportEmail: typeof o.supportEmail === 'string' ? o.supportEmail : undefined,
+    supportEmail: normalizeSupportEmail(o.supportEmail),
     logoUrl: normalizeLogoUrl(o.logoUrl),
     faviconUrl: normalizeLogoUrl(o.faviconUrl),
     brandColor: normalizeBrandColor(o.brandColor),

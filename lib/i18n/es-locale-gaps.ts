@@ -826,7 +826,8 @@ export const esLocaleGaps: TranslationTree = {
     brandingTitle: "Marca blanca",
     brandingDesc: "Los planes Business y Agency pueden personalizar el panel (logotipo, favicon, título de pestaña), correos y páginas de destino de escaneo con el nombre de su agencia.",
     hidePoweredBy: "Ocultar «Powered by QRbanner»",
-    hidePoweredByDesc: "Se aplica a las páginas de destino de escaneo y a los pies de correo con marca en su cuenta.",
+    hidePoweredByDesc:
+      "Se aplica a las páginas de destino de escaneo, al panel y a los pies de correo con marca en su cuenta.",
     agencyName: "Nombre de agencia / marca",
     agencyNamePlaceholder: "Nombre de su agencia",
     logoUrl: "Logotipo (opcional)",

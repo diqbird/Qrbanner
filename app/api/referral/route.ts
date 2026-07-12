@@ -7,6 +7,7 @@ import {
   ensureReferralCode,
   normalizeBrandColor,
   normalizeLogoUrl,
+  normalizeSupportEmail,
   parseBrandingSettings,
 } from '@/lib/referral';
 import { canClaimReferralReward, getReferralRewardProgress } from '@/lib/referral-rewards';
@@ -62,21 +63,29 @@ export async function PATCH(req: Request) {
 
     const body = await req.json();
     const current = parseBrandingSettings(user.brandingSettings);
+
+    if (body.supportEmail !== undefined) {
+      const raw = String(body.supportEmail).trim();
+      if (raw && !normalizeSupportEmail(raw)) {
+        return NextResponse.json({ error: 'Invalid support email' }, { status: 400 });
+      }
+    }
+
     const next = {
       ...current,
       ...(body.hidePoweredBy !== undefined ? { hidePoweredBy: Boolean(body.hidePoweredBy) } : {}),
       ...(body.agencyName !== undefined ? { agencyName: String(body.agencyName).trim() || undefined } : {}),
-      ...(body.supportEmail !== undefined ? { supportEmail: String(body.supportEmail).trim() || undefined } : {}),
+      ...(body.supportEmail !== undefined ? { supportEmail: normalizeSupportEmail(body.supportEmail) } : {}),
       ...(body.logoUrl !== undefined ? { logoUrl: normalizeLogoUrl(body.logoUrl) } : {}),
       ...(body.faviconUrl !== undefined ? { faviconUrl: normalizeLogoUrl(body.faviconUrl) } : {}),
       ...(body.brandColor !== undefined ? { brandColor: normalizeBrandColor(body.brandColor) } : {}),
     };
 
     const wantsWhiteLabelChrome =
-      Boolean(next.hidePoweredBy) ||
-      Boolean(next.logoUrl) ||
-      Boolean(next.faviconUrl) ||
-      Boolean(next.brandColor);
+      body.hidePoweredBy === true ||
+      (body.logoUrl !== undefined && Boolean(normalizeLogoUrl(body.logoUrl))) ||
+      (body.faviconUrl !== undefined && Boolean(normalizeLogoUrl(body.faviconUrl))) ||
+      (body.brandColor !== undefined && Boolean(normalizeBrandColor(body.brandColor)));
     if (wantsWhiteLabelChrome && !canUseWhiteLabel(user.plan)) {
       return NextResponse.json(
         { error: 'White-label branding requires Business or Agency plan' },
@@ -100,6 +109,7 @@ export async function PATCH(req: Request) {
         meta: {
           hidePoweredBy: next.hidePoweredBy,
           agencyName: next.agencyName ?? null,
+          supportEmail: next.supportEmail ?? null,
           logoUrl: next.logoUrl ?? null,
           faviconUrl: next.faviconUrl ?? null,
           brandColor: next.brandColor ?? null,

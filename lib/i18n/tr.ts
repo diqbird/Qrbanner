@@ -2531,7 +2531,8 @@ export const tr: TranslationTree = {
     brandingDesc:
       'Business ve Agency planlarında paneli (logo, favicon, sekme başlığı), e-postaları ve tarama açılış sayfalarını ajans adınızla markalayabilirsiniz.',
     hidePoweredBy: '"Powered by QRbanner" gizle',
-    hidePoweredByDesc: 'Hesabınızdaki tarama açılış sayfalarına ve markalı e-posta altbilgilerine uygulanır.',
+    hidePoweredByDesc:
+      'Hesabınızdaki tarama açılış sayfalarına, panoya ve markalı e-posta altbilgilerine uygulanır.',
     agencyName: 'Ajans / marka adı',
     agencyNamePlaceholder: 'Ajans adınız',
     logoUrl: 'Logo (isteğe bağlı)',

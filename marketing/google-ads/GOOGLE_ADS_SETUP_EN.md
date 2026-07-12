@@ -24,15 +24,23 @@
 
 ### Conversions (set up before scaling spend)
 
-**Option A — GA4 event (recommended after we add events):**  
-`sign_up`, `generate_lead`, or `first_qr_created`.
+**Option A — GA4 import (recommended):**  
+Site events already fire after cookie consent:
+- `sign_up` — email or OAuth registration
+- `first_qr_created` — first QR saved in the account
 
-**Option B — URL goal (quick start):**  
+1. Confirm GA4 measurement ID matches VPS `NEXT_PUBLIC_GA_MEASUREMENT_ID` (see `scripts/print-ga4-conversion-steps.py`).
+2. Google Ads → **Goals** → **Conversions** → **New** → **Import** → **Google Analytics 4**.
+3. Select `sign_up` and `first_qr_created` → import as primary conversions.
+4. In GA4 → **Admin** → **Events**, mark both as conversions if not already.
+5. Wait for Realtime test: accept cookies → sign up → create one QR.
+
+**Option B — URL goal (quick start only):**  
 - **Category:** Sign-up  
-- **URL contains:** `/dashboard` or thank-you page after signup  
+- **URL contains:** `/dashboard`  
 - Count: **One** per click  
 
-Import conversion from GA4 once events exist: Ads → **Goals** → **Conversions** → **New** → **Import** → GA4.
+Prefer Option A once GA4 is linked; switch bidding to Maximize conversions after ~15+/month.
 
 ---
 
