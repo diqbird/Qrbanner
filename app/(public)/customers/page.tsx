@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { getServerLocale } from '@/lib/i18n/server';
 
 import { translate } from '@/lib/i18n';
-import { localizeCaseStudyView } from '@/lib/i18n/case-study-numbers';
+import { localizeCaseStudyView } from '@/lib/i18n/case-study-localize';
 
 import { CASE_STUDIES } from '@/lib/case-studies';
 
@@ -278,7 +278,7 @@ export default async function CustomersPage() {
 
                 >
 
-                  <p className="text-xs font-medium uppercase tracking-wider text-primary">{study.industry}</p>
+                  <p className="text-xs font-medium uppercase tracking-wider text-primary">{view.industry}</p>
 
                   <h3 className="mt-2 font-display font-semibold leading-snug">{view.headline}</h3>
 

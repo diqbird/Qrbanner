@@ -4,7 +4,6 @@ import {
   localizeCaseStudyDurationInText,
   localizeCaseStudyDurationUnit,
 } from './case-study-duration';
-import { localizeCaseStudyMetricLabel } from './case-study-metric-labels';
 import type { Locale } from './types';
 
 export function formatCaseStudyMetricValue(raw: string, locale: Locale): string {
@@ -118,30 +117,6 @@ export function localizeCaseStudyProse(text: string, locale: Locale): string {
   out = localizeCaseStudyDurationInText(out, locale);
 
   return out;
-}
-
-export interface CaseStudyLike {
-  headline: string;
-  companyType: string;
-  challenge: string;
-  solution: string;
-  results: string[];
-  metrics: { label: string; value: string }[];
-}
-
-export function localizeCaseStudyView<T extends CaseStudyLike>(study: T, locale: Locale): T {
-  return {
-    ...study,
-    headline: localizeCaseStudyProse(study.headline, locale),
-    companyType: localizeCaseStudyProse(study.companyType, locale),
-    challenge: localizeCaseStudyProse(study.challenge, locale),
-    solution: localizeCaseStudyProse(study.solution, locale),
-    results: study.results.map((r) => localizeCaseStudyProse(r, locale)),
-    metrics: study.metrics.map((m) => ({
-      label: localizeCaseStudyMetricLabel(m.label, locale),
-      value: formatCaseStudyMetricValue(m.value, locale),
-    })),
-  };
 }
 
 /** Illustrative bulk-migration count cited in review marketing copy. */

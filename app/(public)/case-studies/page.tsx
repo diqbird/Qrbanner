@@ -11,12 +11,12 @@ import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 
 import { JsonLd } from '@/components/seo/json-ld';
 
+import { localizeCaseStudyView } from '@/lib/i18n/case-study-localize';
 import { CASE_STUDIES } from '@/lib/case-studies';
 
 import { getServerLocale } from '@/lib/i18n/server';
 
 import { translate } from '@/lib/i18n';
-import { localizeCaseStudyView } from '@/lib/i18n/case-study-numbers';
 
 export const revalidate = 3600;
 
@@ -24,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
   return pageMetadata({
-    locale: 'en',
+    locale,
     title: t('caseStudiesIndex.metaTitle'),
     description: t('caseStudiesIndex.metaDescription'),
     path: '/case-studies',
@@ -91,7 +91,7 @@ export default async function CaseStudiesIndexPage() {
 
               >
 
-                <p className="text-xs font-medium uppercase tracking-wider text-primary">{study.industry}</p>
+                <p className="text-xs font-medium uppercase tracking-wider text-primary">{view.industry}</p>
 
                 <h2 className="mt-2 font-display text-2xl font-bold">{view.headline}</h2>
 

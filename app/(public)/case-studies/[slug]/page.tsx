@@ -7,7 +7,7 @@ import { pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
-import { localizeCaseStudyView } from '@/lib/i18n/case-study-numbers';
+import { localizeCaseStudyView } from '@/lib/i18n/case-study-localize';
 
 export const revalidate = 3600;
 
@@ -18,10 +18,12 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const study = getCaseStudy(params.slug);
   if (!study) return {};
+  const locale = await getServerLocale();
+  const view = localizeCaseStudyView(study, locale);
   return pageMetadata({
-    locale: 'en',
-    title: study.title,
-    description: study.metaDescription,
+    locale,
+    title: view.title,
+    description: view.metaDescription,
     path: `/case-studies/${study.slug}`,
   });
 }
@@ -39,12 +41,12 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
       <PublicBreadcrumbs
         items={[
           { label: t('nav.caseStudies'), href: '/case-studies' },
-          { label: study.title, href: `/case-studies/${study.slug}` },
+          { label: view.title, href: `/case-studies/${study.slug}` },
         ]}
       />
       <article className="py-10 sm:py-16">
         <div className="mx-auto max-w-3xl px-4 sm:px-6">
-          <p className="text-xs font-medium uppercase tracking-wider text-primary">{study.industry}</p>
+          <p className="text-xs font-medium uppercase tracking-wider text-primary">{view.industry}</p>
           <p className="mt-3 inline-block rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs text-amber-800 dark:text-amber-200">
             {t('caseStudyPage.scenarioBadge')}
           </p>
@@ -80,8 +82,8 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
           </section>
 
           <blockquote className="mt-12 border-l-4 border-primary pl-4 italic text-foreground">
-            &ldquo;{study.quote}&rdquo;
-            <footer className="mt-2 text-sm not-italic text-muted-foreground">— {study.quoteRole}</footer>
+            &ldquo;{view.quote}&rdquo;
+            <footer className="mt-2 text-sm not-italic text-muted-foreground">— {view.quoteRole}</footer>
           </blockquote>
 
           <div className="mt-12 flex flex-col gap-3 sm:flex-row">

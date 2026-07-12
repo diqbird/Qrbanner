@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
-import { localizeCaseStudyView } from '@/lib/i18n/case-study-numbers';
+import { localizeCaseStudyView } from '@/lib/i18n/case-study-localize';
 import { CASE_STUDIES } from '@/lib/case-studies';
 import { Button } from '@/components/ui/button';
 
@@ -36,7 +36,7 @@ export async function LandingCaseStudiesTeaser() {
               href={`/case-studies/${study.slug}`}
               className="rounded-2xl border border-border/50 bg-card p-6 shadow-sm transition-colors hover:border-primary/30"
             >
-              <p className="text-xs font-medium uppercase tracking-wider text-primary">{study.industry}</p>
+              <p className="text-xs font-medium uppercase tracking-wider text-primary">{view.industry}</p>
               <h3 className="mt-2 font-display font-semibold leading-snug">{view.headline}</h3>
               <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{view.challenge}</p>
             </Link>

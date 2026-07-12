@@ -1,0 +1,16 @@
+{
+  "upload": [
+    "lib/i18n/case-study-localize.ts",
+    "lib/i18n/case-study-numbers.ts",
+    "lib/i18n/locale-path.ts",
+    "app/(public)/case-studies/page.tsx",
+    "app/(public)/case-studies/[slug]/page.tsx",
+    "app/(public)/customers/page.tsx",
+    "components/landing/case-studies-teaser.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
