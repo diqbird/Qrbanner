@@ -8,6 +8,8 @@ import {
   GEO_SECTOR_SLUGS,
   buildGeoPagePath,
   getGeoCityBySlug,
+  geoCityName,
+  geoCountryName,
 } from '@/lib/geo-seo-pages';
 import { getSolutionBySlug } from '@/lib/solutions';
 import { pageMetadata } from '@/lib/seo';
@@ -15,6 +17,7 @@ import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { solutionSectorLabel } from '@/lib/i18n/solution-localize';
 
 export const revalidate = 3600;
 
@@ -26,8 +29,8 @@ export async function generateMetadata({ params }: { params: { city: string } })
   const city = getGeoCityBySlug(params.city);
   if (!city) return {};
   const locale = await getServerLocale();
-  const cityName = locale === 'tr' ? city.nameTr : city.name;
-  const countryName = locale === 'tr' ? city.countryTr : city.country;
+  const cityName = geoCityName(city, locale);
+  const countryName = geoCountryName(city, locale);
   const t = (key: string) => translate(locale, key);
   return pageMetadata({
     locale,
@@ -47,8 +50,8 @@ export default async function GeoCityPage({ params }: { params: { city: string }
 
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
-  const cityName = locale === 'tr' ? city.nameTr : city.name;
-  const countryName = locale === 'tr' ? city.countryTr : city.country;
+  const cityName = geoCityName(city, locale);
+  const countryName = geoCountryName(city, locale);
 
   return (
     <>
@@ -73,7 +76,7 @@ export default async function GeoCityPage({ params }: { params: { city: string }
             {GEO_SECTOR_SLUGS.map((sectorSlug) => {
               const solution = getSolutionBySlug(sectorSlug);
               if (!solution) return null;
-              const sectorName = solution.title.replace(' QR Code', '');
+              const sectorName = solutionSectorLabel(solution.slug, locale, solution.title);
               return (
                 <li key={sectorSlug}>
                   <Link

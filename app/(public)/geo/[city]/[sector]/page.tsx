@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import {
   buildGeoPageContent,
   buildGeoPagePath,
+  geoCityName,
   getGeoCityBySlug,
   isGeoSectorSlug,
   listGeoComboParams,
@@ -16,6 +17,7 @@ import { ProgrammaticInternalLinks } from '@/components/seo/programmatic-interna
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { formatFreePlanDynamicQrLabel } from '@/lib/i18n/dynamic-qr-label';
+import { solutionSectorLabel, localizeSolutionPage } from '@/lib/i18n/solution-localize';
 
 export const revalidate = 3600;
 
@@ -58,7 +60,8 @@ export default async function GeoSectorPage({
 
   const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
   const qrLabel = formatFreePlanDynamicQrLabel(locale);
-  const cityName = locale === 'tr' ? city.nameTr : city.name;
+  const cityName = geoCityName(city, locale);
+  const sectorLabel = solutionSectorLabel(page.solution.slug, locale, page.solution.title);
   const createUrl = page.solution.categoryId
     ? `/qr/create?category=${page.solution.categoryId}`
     : '/qr/create';
@@ -69,7 +72,7 @@ export default async function GeoSectorPage({
         breadcrumbs={[
           { label: t('geoSeo.breadcrumb'), href: '/geo' },
           { label: cityName, href: `/geo/${city.slug}` },
-          { label: page.solution.title.replace(' QR Code', ''), href: page.path },
+          { label: sectorLabel, href: page.path },
         ]}
         headline={page.headline}
         description={page.description}
@@ -87,7 +90,7 @@ export default async function GeoSectorPage({
           <p className="text-sm text-muted-foreground">{t('geoSeo.relatedSolution')}</p>
           <Link href={`/solutions/${page.solution.slug}`} className="mt-3 inline-block">
             <Button variant="outline" className="gap-2">
-              {page.solution.title} <ArrowRight className="h-4 w-4" />
+              {localizeSolutionPage(page.solution, locale).title} <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>
         </div>

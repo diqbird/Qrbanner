@@ -1,0 +1,15 @@
+{
+  "upload": [
+    "lib/geo-seo-pages.ts",
+    "app/(public)/geo/page.tsx",
+    "app/(public)/geo/[city]/page.tsx",
+    "app/(public)/geo/[city]/[sector]/page.tsx",
+    "components/admin/pages/admin-dashboard-page.tsx",
+    "components/admin/pages/admin-analytics-page.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

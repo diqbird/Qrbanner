@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { adminQueryKeys } from '@/lib/admin/query-keys';
-import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { formatLocaleNumber, formatLocaleDate } from '@/lib/i18n/format-locale';
 import { AdminPageHeader, AdminLoadingState } from '@/components/admin/shared/admin-states';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -22,7 +22,7 @@ export function AdminAnalyticsPage() {
   if (isLoading) return <AdminLoadingState />;
 
   const chartData = (data?.scansByDay ?? []).map((d: { day: string; count: number }) => ({
-    day: new Date(d.day).toLocaleDateString(locale === 'tr' ? 'tr-TR' : 'en-US', { weekday: 'short' }),
+    day: formatLocaleDate(d.day, locale, { weekday: 'short' }),
     scans: d.count,
   }));
 

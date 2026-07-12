@@ -27,6 +27,7 @@ import { adminQueryKeys } from '@/lib/admin/query-keys';
 import { useAdminUiStore } from '@/stores/admin-ui-store';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolvePlanDisplayName } from '@/lib/i18n/resolve-plan-display-name';
+import { formatLocaleDate } from '@/lib/i18n/format-locale';
 import { AdminPageHeader, AdminLoadingState } from '@/components/admin/shared/admin-states';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -38,7 +39,7 @@ const PLAN_CHART_COLORS = ['hsl(var(--muted-foreground))', 'hsl(var(--primary))'
 function SignupsChartCard({ stats }: { stats: AdminStats }) {
   const { t, locale } = useLanguage();
   const chartData = (stats.signupsByDay ?? []).map((d) => ({
-    day: new Date(d.day).toLocaleDateString(locale === 'tr' ? 'tr-TR' : 'en-US', {
+    day: formatLocaleDate(d.day, locale, {
       day: 'numeric',
       month: 'short',
     }),

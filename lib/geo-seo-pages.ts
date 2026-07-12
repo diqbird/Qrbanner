@@ -3,6 +3,7 @@ import type { SolutionPage } from '@/lib/solutions';
 import { getSolutionBySlug } from '@/lib/solutions';
 import { solutionSectorLabel } from '@/lib/i18n/solution-localize';
 import { intlLocaleTag } from '@/lib/i18n/locale-dictionary';
+import { ANALYTICS_CITY_EN_TO_DE, ANALYTICS_CITY_EN_TO_ES } from '@/lib/analytics-city-names';
 import { GEO_CITIES, getGeoCityBySlug, type GeoCity } from '@/lib/geo-seo-cities';
 
 export type { GeoCity };
@@ -52,12 +53,15 @@ function sectorLabel(solution: SolutionPage, locale: Locale): string {
   return solutionSectorLabel(solution.slug, locale, solution.title);
 }
 
-function geoCityName(city: GeoCity, locale: Locale): string {
+export function geoCityName(city: GeoCity, locale: Locale): string {
   if (locale === 'tr') return city.nameTr;
+  const key = city.name.toLowerCase();
+  if (locale === 'de') return ANALYTICS_CITY_EN_TO_DE[key] ?? city.name;
+  if (locale === 'es') return ANALYTICS_CITY_EN_TO_ES[key] ?? city.name;
   return city.name;
 }
 
-function geoCountryName(city: GeoCity, locale: Locale): string {
+export function geoCountryName(city: GeoCity, locale: Locale): string {
   if (locale === 'tr') return city.countryTr;
   if (locale === 'de' || locale === 'es') {
     try {

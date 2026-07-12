@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { MapPin, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { GEO_CITIES, GEO_SECTOR_SLUGS, countGeoPages } from '@/lib/geo-seo-pages';
+import { GEO_CITIES, GEO_SECTOR_SLUGS, countGeoPages, geoCityName, geoCountryName } from '@/lib/geo-seo-pages';
 import { getSolutionBySlug } from '@/lib/solutions';
 import { pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
@@ -10,6 +10,7 @@ import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { formatFreePlanDynamicQrLabel } from '@/lib/i18n/dynamic-qr-label';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { solutionSectorLabel } from '@/lib/i18n/solution-localize';
 
 export const revalidate = 3600;
 
@@ -65,9 +66,9 @@ export default async function GeoHubPage() {
                   href={`/geo/${city.slug}`}
                   className="rounded-lg border border-border/50 p-4 transition-colors hover:border-primary/40 hover:bg-muted/30"
                 >
-                  <p className="font-medium">{locale === 'tr' ? city.nameTr : city.name}</p>
+                  <p className="font-medium">{geoCityName(city, locale)}</p>
                   <p className="text-xs text-muted-foreground">
-                    {locale === 'tr' ? city.countryTr : city.country}
+                    {geoCountryName(city, locale)}
                   </p>
                 </Link>
               ))}
@@ -84,7 +85,7 @@ export default async function GeoHubPage() {
                     href={`/solutions/${solution.slug}`}
                     className="rounded-full border border-border/60 bg-background px-3 py-1 text-xs font-medium hover:border-primary/40 hover:text-primary"
                   >
-                    {solution.title.replace(' QR Code', '')}
+                    {solutionSectorLabel(solution.slug, locale, solution.title)}
                   </Link>
                 ) : null
               )}
