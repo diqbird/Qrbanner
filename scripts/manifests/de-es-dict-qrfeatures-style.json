@@ -1,0 +1,11 @@
+{
+  "upload": [
+    "lib/i18n/de.ts",
+    "lib/i18n/es.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
