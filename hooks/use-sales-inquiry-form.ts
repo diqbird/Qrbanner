@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { isTurnstileEnabledClient } from '@/components/security/turnstile-field';
+import { trackGenerateLead } from '@/lib/site-analytics';
 
 export function useSalesInquiryForm(type: 'enterprise' | 'demo' | 'general' = 'general') {
   const { t } = useLanguage();
@@ -55,6 +56,7 @@ export function useSalesInquiryForm(type: 'enterprise' | 'demo' | 'general' = 'g
         return;
       }
       toast.success(t('salesForm.success'));
+      trackGenerateLead(type);
       setName('');
       setEmail('');
       setCompany('');

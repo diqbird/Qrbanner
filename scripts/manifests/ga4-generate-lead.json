@@ -1,0 +1,14 @@
+{
+  "upload": [
+    "lib/site-analytics.ts",
+    "hooks/use-sales-inquiry-form.ts",
+    "components/marketing/procurement-request-form.tsx",
+    "marketing/google-ads/GOOGLE_ADS_SETUP_EN.md",
+    "scripts/print-ga4-conversion-steps.py"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

@@ -12,6 +12,7 @@ from deploy_lib import DeployConfig, connect  # noqa: E402
 EVENTS = [
     ("sign_up", "Email or OAuth registration (cookie consent required)"),
     ("first_qr_created", "User creates their first QR code"),
+    ("generate_lead", "Sales / enterprise / procurement form submit"),
 ]
 
 

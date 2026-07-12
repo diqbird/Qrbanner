@@ -28,6 +28,7 @@
 Site events already fire after cookie consent:
 - `sign_up` — email or OAuth registration
 - `first_qr_created` — first QR saved in the account
+- `generate_lead` — sales / enterprise / procurement form success (`lead_type` param)
 
 1. Confirm GA4 measurement ID matches VPS `NEXT_PUBLIC_GA_MEASUREMENT_ID` (see `scripts/print-ga4-conversion-steps.py`).
 2. Google Ads → **Goals** → **Conversions** → **New** → **Import** → **Google Analytics 4**.

@@ -22,6 +22,7 @@ import {
   PROCUREMENT_INQUIRY_TYPES,
   type ProcurementInquiryType,
 } from '@/lib/inquiry-types';
+import { trackGenerateLead } from '@/lib/site-analytics';
 
 export function ProcurementRequestForm() {
   const { t } = useLanguage();
@@ -70,6 +71,7 @@ export function ProcurementRequestForm() {
         return;
       }
       toast.success(t('procurementRequest.success'));
+      trackGenerateLead(requestType);
       setName('');
       setEmail('');
       setCompany('');

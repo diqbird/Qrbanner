@@ -39,6 +39,10 @@ export function trackSignUp(method: string): void {
   trackGaEvent('sign_up', { method });
 }
 
+export function trackGenerateLead(type: string): void {
+  trackGaEvent('generate_lead', { lead_type: type });
+}
+
 export function trackFirstQrCreated(): void {
   if (typeof window === 'undefined') return;
   try {
