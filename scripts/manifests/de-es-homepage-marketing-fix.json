@@ -1,0 +1,11 @@
+{
+  "upload": [
+    "lib/i18n/feature-groups.ts",
+    "lib/i18n/how-it-works.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
