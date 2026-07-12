@@ -31,11 +31,16 @@ export async function resolveWorkspaceEmailBrand(
   const agencyName = canWhiteLabel ? branding.agencyName?.trim() : undefined;
   const brandColor = canWhiteLabel ? branding.brandColor : undefined;
 
+  const logoUrl = canWhiteLabel ? branding.logoUrl : undefined;
+  const shellChrome: EmailShellOptions =
+    brandColor || logoUrl ? { brandColor, logoUrl } : {};
+
   if (!agencyName) {
     return {
       ...DEFAULT_BRAND,
       supportEmail,
       brandColor,
+      shell: shellChrome,
     };
   }
 
@@ -46,6 +51,7 @@ export async function resolveWorkspaceEmailBrand(
     shell: {
       brandName: agencyName,
       hidePoweredBy: Boolean(branding.hidePoweredBy),
+      ...shellChrome,
     },
   };
 }

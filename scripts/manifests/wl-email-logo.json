@@ -1,0 +1,11 @@
+{
+  "upload": [
+    "lib/i18n/email-shell.ts",
+    "lib/email-branding.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
