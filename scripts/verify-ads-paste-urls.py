@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify every final URL referenced in ADS_EDITOR_PASTE.md returns HTTP < 400."""
+"""Verify Ads paste-pack final URLs (EN + DE + ES) return HTTP < 400."""
 from __future__ import annotations
 
 import os
@@ -14,19 +14,42 @@ except Exception:
     pass
 
 BASE = os.environ.get("SITE_URL", "https://qrbanner.com").rstrip("/")
-PASTE = os.path.join(os.path.dirname(__file__), "..", "marketing", "google-ads", "ADS_EDITOR_PASTE.md")
+ADS_DIR = os.path.join(os.path.dirname(__file__), "..", "marketing", "google-ads")
 
-# Paths/URLs that must resolve for the Ads paste pack (query strings allowed).
-REQUIRED = [
-    "/pricing",
-    "/features",
-    "/templates",
-    "/templates/restaurant-menu",
-    "/vs/qr-tiger",
-    "/vs/scanova",
-    "/vs/bitly",
-    "/qr/create?quick=1",
-]
+PACKS = {
+    "EN": {
+        "file": "ADS_EDITOR_PASTE.md",
+        "urls": [
+            "/pricing",
+            "/features",
+            "/templates",
+            "/templates/restaurant-menu",
+            "/vs/qr-tiger",
+            "/vs/scanova",
+            "/vs/bitly",
+            "/qr/create?quick=1",
+        ],
+        "needles": ("/templates/restaurant-menu", "/vs/qr-tiger", "/qr/create?quick=1"),
+    },
+    "DE": {
+        "file": "ADS_EDITOR_PASTE_DE.md",
+        "urls": [
+            "/de/qr/create?quick=1",
+            "/de/vs/qr-tiger",
+            "/de/templates/restaurant-menu",
+        ],
+        "needles": ("/de/qr/create?quick=1", "/de/vs/qr-tiger", "/de/templates/restaurant-menu"),
+    },
+    "ES": {
+        "file": "ADS_EDITOR_PASTE_ES.md",
+        "urls": [
+            "/es/qr/create?quick=1",
+            "/es/vs/qr-tiger",
+            "/es/templates/restaurant-menu",
+        ],
+        "needles": ("/es/qr/create?quick=1", "/es/vs/qr-tiger", "/es/templates/restaurant-menu"),
+    },
+}
 
 
 def fetch(url: str) -> int:
@@ -38,34 +61,37 @@ def fetch(url: str) -> int:
         return err.code
 
 
-def main() -> int:
-    paste_path = os.path.abspath(PASTE)
-    if not os.path.isfile(paste_path):
-        print(f"FAIL: missing {paste_path}")
-        return 1
-
-    text = open(paste_path, encoding="utf-8").read()
-    found = set(re.findall(r"https://qrbanner\.com(/[^\s)`]+)", text))
+def check_pack(label: str, cfg: dict) -> bool:
+    path = os.path.abspath(os.path.join(ADS_DIR, cfg["file"]))
     ok = True
-    print(f"Checking {len(REQUIRED)} required Ads URLs against {BASE}\n")
-    for path in REQUIRED:
-        url = f"{BASE}{path}"
+    print(f"=== {label}: {cfg['file']} ===")
+    if not os.path.isfile(path):
+        print(f"FAIL: missing {path}")
+        return False
+
+    text = open(path, encoding="utf-8").read()
+    for rel in cfg["urls"]:
+        url = f"{BASE}{rel}"
         code = fetch(url)
         mark = "PASS" if code < 400 else "FAIL"
         if code >= 400:
             ok = False
         print(f"{mark}: {code} {url}")
 
-    missing_docs = [p for p in REQUIRED if f"https://qrbanner.com{p.split('?')[0]}" not in text and p not in text]
-    # Soft check: restaurant-menu and vs slugs appear in paste
-    for needle in ("/templates/restaurant-menu", "/vs/qr-tiger", "/qr/create?quick=1"):
+    for needle in cfg["needles"]:
         if needle not in text:
             print(f"FAIL: paste doc missing {needle}")
             ok = False
         else:
             print(f"PASS: paste doc mentions {needle}")
+    print()
+    return ok
 
-    print(f"\nPaste doc absolute URLs found: {len(found)}")
+
+def main() -> int:
+    ok = True
+    for label, cfg in PACKS.items():
+        ok &= check_pack(label, cfg)
     return 0 if ok else 1
 
 
