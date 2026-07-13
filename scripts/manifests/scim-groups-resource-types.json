@@ -1,0 +1,18 @@
+{
+  "upload": [
+    "lib/scim.ts",
+    "lib/api-public-routes.ts",
+    "app/api/scim/v2/Groups/route.ts",
+    "app/api/scim/v2/Groups/[id]/route.ts",
+    "app/api/scim/v2/ResourceTypes/route.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/de-locale-gaps.ts",
+    "lib/i18n/es-locale-gaps.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

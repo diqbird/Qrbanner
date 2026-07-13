@@ -354,7 +354,7 @@ export const deLocaleGaps: TranslationTree = {
     smtpTestSubject: "QRbanner SMTP-Test",
     smtpTestBody: "Ihre Workspace-SMTP-Konfiguration funktioniert.",
     scimTitle: "SCIM-Bereitstellung",
-    scimDesc: "Benutzer von Okta, Azure AD oder jedem SCIM-2.0-IdP in diesen Workspace synchronisieren.",
+    scimDesc: "Benutzer von Okta, Azure AD oder jedem SCIM-2.0-IdP in diesen Workspace synchronisieren. Rollen entsprechen virtuellen Groups: admin, editor, viewer.",
     enableScim: "SCIM aktivieren",
     scimEnabled: "SCIM aktiviert",
     scimDisabled: "SCIM deaktiviert",

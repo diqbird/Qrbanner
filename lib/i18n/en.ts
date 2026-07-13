@@ -2773,7 +2773,7 @@ export const en: TranslationTree = {
     smtpTestSubject: 'QRbanner SMTP test',
     smtpTestBody: 'Your workspace SMTP configuration is working.',
     scimTitle: 'SCIM provisioning',
-    scimDesc: 'Sync users from Okta, Azure AD or any SCIM 2.0 IdP into this workspace.',
+    scimDesc: 'Sync users from Okta, Azure AD or any SCIM 2.0 IdP into this workspace. Roles map to virtual Groups: admin, editor, viewer.',
     enableScim: 'Enable SCIM',
     scimEnabled: 'SCIM enabled',
     scimDisabled: 'SCIM disabled',
