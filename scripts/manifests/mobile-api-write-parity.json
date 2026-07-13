@@ -1,0 +1,11 @@
+{
+  "upload": [
+    "app/api/mobile/v1/qr/route.ts",
+    "app/api/mobile/v1/qr/[id]/route.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
