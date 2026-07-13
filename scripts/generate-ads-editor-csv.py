@@ -455,6 +455,28 @@ def write_callouts(path: Path, campaigns: list, callouts: list[str]) -> None:
                 w.writerow({"Campaign": c["campaign"], "Callout Text": text})
 
 
+def write_structured_snippets(
+    path: Path,
+    campaigns: list,
+    *,
+    header: str,
+    values: list[str],
+) -> None:
+    cols = ["Campaign", "Structured Snippet Header", "Structured Snippet Values"]
+    joined = "; ".join(values)
+    with path.open("w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=cols)
+        w.writeheader()
+        for c in campaigns:
+            w.writerow(
+                {
+                    "Campaign": c["campaign"],
+                    "Structured Snippet Header": header,
+                    "Structured Snippet Values": joined,
+                }
+            )
+
+
 def emit_pack(
     out_dir: Path,
     *,
@@ -468,6 +490,8 @@ def emit_pack(
     readme_extra: str,
     sitelinks: list[dict],
     callouts: list[str],
+    snippet_header: str,
+    snippet_values: list[str],
 ) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     write_campaigns(out_dir / "01-campaigns.csv", campaigns, languages, locations)
@@ -477,6 +501,12 @@ def emit_pack(
     write_negatives(out_dir / "05-negatives.csv", campaigns, negatives)
     write_sitelinks(out_dir / "06-sitelinks.csv", campaigns, sitelinks)
     write_callouts(out_dir / "07-callouts.csv", campaigns, callouts)
+    write_structured_snippets(
+        out_dir / "08-structured-snippets.csv",
+        campaigns,
+        header=snippet_header,
+        values=snippet_values,
+    )
     (out_dir / "README.md").write_text(
         f"""# {title}
 
@@ -489,6 +519,7 @@ Import order in Google Ads Editor:
 5. `05-negatives.csv`
 6. `06-sitelinks.csv`
 7. `07-callouts.csv`
+8. `08-structured-snippets.csv`
 
 {readme_extra}
 """,
@@ -803,6 +834,8 @@ def main() -> int:
         readme_extra="Budgets: Create $5/day · Competitor $3/day · Use cases $3/day.\nEnable Create first after GA4 §A–C.",
         sitelinks=SITELINKS_EN,
         callouts=CALLOUTS_EN,
+        snippet_header="Types",
+        snippet_values=["Restaurant", "WiFi", "Business Card", "Events", "PDF", "Menu"],
     )
 
     emit_pack(
@@ -832,6 +865,8 @@ def main() -> int:
         readme_extra="Budgets: Create €5/Tag · Competitor €3 · Use cases €3.\nSprache DE · DE/AT/CH.",
         sitelinks=SITELINKS_DE,
         callouts=CALLOUTS_DE,
+        snippet_header="Typen",
+        snippet_values=["Restaurant", "WiFi", "Visitenkarte", "Events", "PDF", "Menü"],
     )
 
     emit_pack(
@@ -861,6 +896,8 @@ def main() -> int:
         readme_extra="Presupuestos: Create €5/día · Competitor €3 · Use cases €3.\nIdioma ES · ES/MX.",
         sitelinks=SITELINKS_ES,
         callouts=CALLOUTS_ES,
+        snippet_header="Tipos",
+        snippet_values=["Restaurante", "WiFi", "Tarjeta de visita", "Eventos", "PDF", "Menú"],
     )
     return 0
 

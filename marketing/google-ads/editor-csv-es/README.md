@@ -9,6 +9,7 @@ Import order in Google Ads Editor:
 5. `05-negatives.csv`
 6. `06-sitelinks.csv`
 7. `07-callouts.csv`
+8. `08-structured-snippets.csv`
 
 Presupuestos: Create €5/día · Competitor €3 · Use cases €3.
 Idioma ES · ES/MX.

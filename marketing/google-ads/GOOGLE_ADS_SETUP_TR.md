@@ -46,6 +46,9 @@ Import sırası (kampanyalar **Paused** gelir):
 3. `03-keywords.csv`
 4. `04-rsa.csv`
 5. `05-negatives.csv`
+6. `06-sitelinks.csv`
+7. `07-callouts.csv`
+8. `08-structured-snippets.csv`
 
 Sonra Create kampanyasını aç; Competitor / Use cases sonra.
 
