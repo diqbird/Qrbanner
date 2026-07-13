@@ -809,6 +809,138 @@ NEGATIVES_ES = [
     "wikipedia",
 ]
 
+SITELINKS_TR = [
+    {"text": "Fiyatlandırma", "url": "https://qrbanner.com/tr/pricing", "d1": "Ücretsiz plandan başla", "d2": "Pro $9.99/ay'dan"},
+    {"text": "Özellikler", "url": "https://qrbanner.com/tr/features", "d1": "Dinamik QR araçları", "d2": "Analitik ve yönlendirme"},
+    {"text": "Şablonlar", "url": "https://qrbanner.com/tr/templates", "d1": "35+ sektör şablonu", "d2": "Menü, WiFi, kart"},
+    {"text": "vs QR TIGER", "url": "https://qrbanner.com/tr/vs/qr-tiger", "d1": "Yan yana karşılaştır", "d2": "Ücretsiz ve API"},
+]
+
+CALLOUTS_TR = [
+    "1 ücretsiz dinamik QR",
+    "14 gün Pro deneme",
+    "Tarama analitikleri",
+    "Ücretsiz planda API",
+    "İptal sonrası aktif",
+    "35+ şablon",
+    "Kart gerekmez",
+]
+
+CAMPAIGNS_TR = [
+    {
+        "campaign": "QRB | Search | Create TR",
+        "budget": "5.00",
+        "groups": [
+            {
+                "ad_group": "Dinamik QR oluşturucu",
+                "final_url": "https://qrbanner.com/tr/qr/create?quick=1",
+                "path1": "Ucretsiz",
+                "path2": "",
+                "keywords": [
+                    ("[dinamik qr kod oluşturucu]", "Exact"),
+                    ("[dinamik qr kod oluştur]", "Exact"),
+                    ("[düzenlenebilir qr kod]", "Exact"),
+                    ('"takip özellikli qr kod"', "Phrase"),
+                    ('"ücretsiz dinamik qr kod"', "Phrase"),
+                    ('"baskı sonrası qr link değiştir"', "Phrase"),
+                ],
+                "headlines": [
+                    "Dinamik QR Kod Oluşturucu",
+                    "Ücretsiz başla — 1 QR",
+                    "Baskı sonrası link değiştir",
+                    "Tarama analitikleri dahil",
+                    "Ücretsiz planda API",
+                    "Baskıya hazır QR export",
+                    "14 gün Pro deneme",
+                    "Kredi kartı gerekmez",
+                    "QRbanner — Akıllı QR",
+                    "Menü, WiFi ve kart QR",
+                ],
+                "descriptions": [
+                    "Menü, WiFi ve kart için dinamik QR. Düzenleyin, taramaları izleyin. Ücretsiz başlayın.",
+                    "Coğrafi/zaman yönlendirme, API ve webhook. Ücretsiz plan + 14 gün Pro — kart yok.",
+                ],
+            },
+        ],
+    },
+    {
+        "campaign": "QRB | Search | Competitor TR",
+        "budget": "3.00",
+        "groups": [
+            {
+                "ad_group": "QR TIGER TR",
+                "final_url": "https://qrbanner.com/tr/vs/qr-tiger",
+                "path1": "Karsilastir",
+                "path2": "TIGER",
+                "keywords": [
+                    ("[qr tiger alternatif]", "Exact"),
+                    ("[qr tiger karşılaştırma]", "Exact"),
+                    ('"daha ucuz qr tiger alternatif"', "Phrase"),
+                ],
+                "headlines": [
+                    "QR TIGER Alternatifi",
+                    "Daha fazla ücretsiz özellik",
+                    "Ücretsiz planda API",
+                    "İptal sonrası kodlar aktif",
+                    "Pro $9.99/ay'dan",
+                    "QRbanner vs QR TIGER",
+                ],
+                "descriptions": [
+                    "QRbanner vs QR TIGER: ücretsiz limitler, API, iptal sonrası kodlar. Karşılaştırın.",
+                    "Dinamik QR ve analitik ile QR TIGER alternatifi. Bugün ücretsiz başlayın.",
+                ],
+            },
+        ],
+    },
+    {
+        "campaign": "QRB | Search | Use cases TR",
+        "budget": "3.00",
+        "groups": [
+            {
+                "ad_group": "Restoran menü TR",
+                "final_url": "https://qrbanner.com/tr/templates/restaurant-menu",
+                "path1": "Menu-QR",
+                "path2": "",
+                "keywords": [
+                    ("[restoran menü qr kod]", "Exact"),
+                    ("[dijital menü qr]", "Exact"),
+                    ('"menü qr kod oluşturucu"', "Phrase"),
+                ],
+                "headlines": [
+                    "Restoran menü QR kodu",
+                    "Menüyü yeniden basmadan",
+                    "Masa tarama analitikleri",
+                    "Ücretsiz menü QR",
+                ],
+                "descriptions": [
+                    "Kağıt menüyü dinamik QR ile değiştirin. Yemekleri istediğiniz zaman güncelleyin.",
+                    "Tarama analitikli menü QR ve landing. Şablon hazır — dakikalar içinde oluşturun.",
+                ],
+            },
+        ],
+    },
+]
+
+NEGATIVES_TR = [
+    "ücretsiz indir",
+    "sadece şablon",
+    "png",
+    "svg only",
+    "statik qr",
+    "qr okuyucu",
+    "qr tara",
+    "barkod",
+    "minecraft",
+    "fortnite",
+    "oyun",
+    "apk",
+    "crack",
+    "iş ilanı",
+    "maaş",
+    "qr nedir",
+    "wikipedia",
+]
+
 
 def main() -> int:
     root = Path(__file__).resolve().parents[1] / "marketing" / "google-ads"
@@ -898,6 +1030,37 @@ def main() -> int:
         callouts=CALLOUTS_ES,
         snippet_header="Tipos",
         snippet_values=["Restaurante", "WiFi", "Tarjeta de visita", "Eventos", "PDF", "Menú"],
+    )
+
+    emit_pack(
+        root / "editor-csv-tr",
+        title="Google Ads Editor CSV (TR — Türkiye)",
+        campaigns=CAMPAIGNS_TR,
+        negatives=NEGATIVES_TR,
+        languages="tr",
+        locations="Turkey",
+        headline_fillers=[
+            "Ücretsiz başla",
+            "Tarama analitikleri",
+            "Ücretsiz planda API",
+            "Kredi kartı gerekmez",
+            "QRbanner Akıllı QR",
+            "Ücretsiz dinamik QR",
+            "Baskı sonrası düzenle",
+            "14 gün Pro deneme",
+            "Baskıya hazır export",
+            "1 ücretsiz dinamik QR",
+            "Coğrafi yönlendirme",
+        ],
+        desc_fillers=[
+            "Analitik ve API’li dinamik QR kodlar. Ücretsiz plan mevcut. Bugün başlayın.",
+            "Baskı sonrası linki değiştirin. Taramaları izleyin. İhtiyaç olunca yükseltin.",
+        ],
+        readme_extra="Bütçe: Create ₺150/gün · Competitor ₺90 · Use cases ₺90 (veya eşdeğer USD).\nDil TR · Türkiye.",
+        sitelinks=SITELINKS_TR,
+        callouts=CALLOUTS_TR,
+        snippet_header="Türler",
+        snippet_values=["Restoran", "WiFi", "Kartvizit", "Etkinlik", "PDF", "Menü"],
     )
     return 0
 

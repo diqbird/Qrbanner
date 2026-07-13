@@ -1,0 +1,13 @@
+Campaign,Ad Group,Keyword,Criterion Type,Final URL,Keyword Status
+QRB | Search | Create TR,Dinamik QR oluşturucu,dinamik qr kod oluşturucu,Exact,https://qrbanner.com/tr/qr/create?quick=1,Enabled
+QRB | Search | Create TR,Dinamik QR oluşturucu,dinamik qr kod oluştur,Exact,https://qrbanner.com/tr/qr/create?quick=1,Enabled
+QRB | Search | Create TR,Dinamik QR oluşturucu,düzenlenebilir qr kod,Exact,https://qrbanner.com/tr/qr/create?quick=1,Enabled
+QRB | Search | Create TR,Dinamik QR oluşturucu,takip özellikli qr kod,Phrase,https://qrbanner.com/tr/qr/create?quick=1,Enabled
+QRB | Search | Create TR,Dinamik QR oluşturucu,ücretsiz dinamik qr kod,Phrase,https://qrbanner.com/tr/qr/create?quick=1,Enabled
+QRB | Search | Create TR,Dinamik QR oluşturucu,baskı sonrası qr link değiştir,Phrase,https://qrbanner.com/tr/qr/create?quick=1,Enabled
+QRB | Search | Competitor TR,QR TIGER TR,qr tiger alternatif,Exact,https://qrbanner.com/tr/vs/qr-tiger,Enabled
+QRB | Search | Competitor TR,QR TIGER TR,qr tiger karşılaştırma,Exact,https://qrbanner.com/tr/vs/qr-tiger,Enabled
+QRB | Search | Competitor TR,QR TIGER TR,daha ucuz qr tiger alternatif,Phrase,https://qrbanner.com/tr/vs/qr-tiger,Enabled
+QRB | Search | Use cases TR,Restoran menü TR,restoran menü qr kod,Exact,https://qrbanner.com/tr/templates/restaurant-menu,Enabled
+QRB | Search | Use cases TR,Restoran menü TR,dijital menü qr,Exact,https://qrbanner.com/tr/templates/restaurant-menu,Enabled
+QRB | Search | Use cases TR,Restoran menü TR,menü qr kod oluşturucu,Phrase,https://qrbanner.com/tr/templates/restaurant-menu,Enabled

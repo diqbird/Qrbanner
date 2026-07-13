@@ -37,6 +37,7 @@ Bu adımlar konsolda yapılır; deploy gerekmez.
 - EN: [`editor-csv/`](./editor-csv/)
 - DE: [`editor-csv-de/`](./editor-csv-de/)
 - ES: [`editor-csv-es/`](./editor-csv-es/)
+- TR: [`editor-csv-tr/`](./editor-csv-tr/) · paste: [`ADS_EDITOR_PASTE_TR.md`](./ADS_EDITOR_PASTE_TR.md)
 
 Üret: `python scripts/generate-ads-editor-csv.py`
 

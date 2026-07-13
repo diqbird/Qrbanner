@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify Ads paste-pack final URLs (EN + DE + ES) return HTTP < 400."""
+"""Verify Ads paste-pack final URLs (EN + DE + ES + TR) return HTTP < 400."""
 from __future__ import annotations
 
 import os
@@ -54,6 +54,18 @@ PACKS = {
             "/es/templates",
         ],
         "needles": ("/es/qr/create?quick=1", "/es/vs/qr-tiger", "/es/templates/restaurant-menu"),
+    },
+    "TR": {
+        "file": "ADS_EDITOR_PASTE_TR.md",
+        "urls": [
+            "/tr/qr/create?quick=1",
+            "/tr/vs/qr-tiger",
+            "/tr/templates/restaurant-menu",
+            "/tr/pricing",
+            "/tr/features",
+            "/tr/templates",
+        ],
+        "needles": ("/tr/qr/create?quick=1", "/tr/vs/qr-tiger", "/tr/templates/restaurant-menu"),
     },
 }
 

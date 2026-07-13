@@ -26,6 +26,7 @@ Editor CSV klasörleri (Paused):
 - EN: [editor-csv/](./editor-csv/)
 - DE: [editor-csv-de/](./editor-csv-de/)
 - ES: [editor-csv-es/](./editor-csv-es/)
+- TR: [editor-csv-tr/](./editor-csv-tr/)
 
 Import: `01` → `08`, sonra **Create** kampanyasını Enable.
 
