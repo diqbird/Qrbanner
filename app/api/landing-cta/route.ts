@@ -6,6 +6,7 @@ import { findQrByShortCodeSelect } from '@/lib/repositories/qr-repository';
 import { lookupGeo } from '@/lib/geoip';
 import { parseUserAgent } from '@/lib/qr-utils';
 import { dispatchAutomations, buildCtaAutomationContext } from '@/lib/automation-engine';
+import { dispatchCtaWebhooks } from '@/lib/webhooks';
 import { clientIp } from '@/lib/rate-limit';
 import { enforcePublicRateLimit } from '@/lib/public-rate-limit';
 
@@ -46,10 +47,25 @@ export async function POST(req: NextRequest) {
 
     const geo = lookupGeo(ip);
     const { device } = parseUserAgent(req.headers.get('user-agent'));
+    const clickedAt = new Date().toISOString();
 
     dispatchAutomations(
       buildCtaAutomationContext(qrCode, { ctaLabel, country: geo.country, device })
     ).catch((e) => console.error('[landing-cta] automation', e));
+
+    dispatchCtaWebhooks(qrCode.userId, {
+      event: 'cta_click',
+      qr_code_id: qrCode.id,
+      qr_name: qrCode.name,
+      short_code: qrCode.shortCode,
+      cta: {
+        label: ctaLabel,
+        country: geo.country,
+        city: geo.city,
+        device,
+        clicked_at: clickedAt,
+      },
+    }).catch((e) => console.error('[landing-cta] webhook', e));
 
     return NextResponse.json({ ok: true });
   } catch (error) {

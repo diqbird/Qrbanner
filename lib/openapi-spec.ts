@@ -127,6 +127,49 @@ export function buildOpenApiSpec() {
             },
           },
         },
+        LeadWebhookPayload: {
+          type: 'object',
+          required: ['event', 'qr_code_id', 'short_code', 'lead'],
+          properties: {
+            event: { type: 'string', enum: ['lead'] },
+            qr_code_id: { type: 'string' },
+            qr_name: { type: 'string' },
+            short_code: { type: 'string' },
+            lead: {
+              type: 'object',
+              properties: {
+                name: { type: 'string', nullable: true },
+                email: { type: 'string', nullable: true },
+                phone: { type: 'string', nullable: true },
+                message: { type: 'string', nullable: true },
+                country: { type: 'string', nullable: true },
+                city: { type: 'string', nullable: true },
+                device: { type: 'string', nullable: true },
+                submitted_at: { type: 'string', format: 'date-time' },
+              },
+            },
+          },
+        },
+        CtaClickWebhookPayload: {
+          type: 'object',
+          required: ['event', 'qr_code_id', 'short_code', 'cta'],
+          properties: {
+            event: { type: 'string', enum: ['cta_click'] },
+            qr_code_id: { type: 'string' },
+            qr_name: { type: 'string' },
+            short_code: { type: 'string' },
+            cta: {
+              type: 'object',
+              properties: {
+                label: { type: 'string', nullable: true },
+                country: { type: 'string', nullable: true },
+                city: { type: 'string', nullable: true },
+                device: { type: 'string', nullable: true },
+                clicked_at: { type: 'string', format: 'date-time' },
+              },
+            },
+          },
+        },
       },
     },
     security: [{ bearerAuth: [] }, { apiKeyHeader: [] }],
@@ -328,11 +371,41 @@ export function buildOpenApiSpec() {
         post: {
           summary: 'QR scan event (outbound)',
           description:
-            'Configured in Dashboard → Settings → Scan Webhooks. QRbanner POSTs to your HTTPS URL with HMAC-SHA256 signature in X-QRbanner-Signature.',
+            'Configured in Dashboard → Settings → Scan Webhooks. QRbanner POSTs to your HTTPS URL with HMAC-SHA256 signature in X-QRbanner-Signature. Header X-QRbanner-Event: scan.',
           requestBody: {
             content: {
               'application/json': {
                 schema: { $ref: '#/components/schemas/ScanWebhookPayload' },
+              },
+            },
+          },
+          responses: { '2XX': { description: 'Your server acknowledged the event' } },
+        },
+      },
+      lead: {
+        post: {
+          summary: 'Landing lead capture (outbound)',
+          description:
+            'Fired when a visitor submits a lead form on a QR landing page. Same HMAC headers; X-QRbanner-Event: lead.',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/LeadWebhookPayload' },
+              },
+            },
+          },
+          responses: { '2XX': { description: 'Your server acknowledged the event' } },
+        },
+      },
+      cta_click: {
+        post: {
+          summary: 'Landing CTA click (outbound)',
+          description:
+            'Fired when a visitor clicks a secondary landing CTA. Same HMAC headers; X-QRbanner-Event: cta_click.',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/CtaClickWebhookPayload' },
               },
             },
           },

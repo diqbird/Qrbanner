@@ -7,6 +7,7 @@ import { parseUserAgent } from '@/lib/qr-utils';
 import { lookupGeo } from '@/lib/geoip';
 import { logLandingCtaClick } from '@/lib/landing-cta-analytics';
 import { dispatchAutomations, buildLeadAutomationContext } from '@/lib/automation-engine';
+import { dispatchLeadWebhooks } from '@/lib/webhooks';
 import { clientIp } from '@/lib/rate-limit';
 import { enforcePublicRateLimit } from '@/lib/public-rate-limit';
 import { assertBrowserOrigin } from '@/lib/csrf-origin';
@@ -55,6 +56,7 @@ export async function POST(req: NextRequest) {
     const userAgent = req.headers.get('user-agent');
     const geo = lookupGeo(ip);
     const { device } = parseUserAgent(userAgent);
+    const submittedAt = new Date().toISOString();
 
     await prisma.leadSubmission.create({
       data: {
@@ -82,6 +84,23 @@ export async function POST(req: NextRequest) {
         device,
       })
     ).catch((e) => console.error('[leads] automation', e));
+
+    dispatchLeadWebhooks(qrCode.userId, {
+      event: 'lead',
+      qr_code_id: qrCode.id,
+      qr_name: qrCode.name,
+      short_code: qrCode.shortCode,
+      lead: {
+        name,
+        email,
+        phone,
+        message,
+        country: geo.country,
+        city: geo.city,
+        device,
+        submitted_at: submittedAt,
+      },
+    }).catch((e) => console.error('[leads] webhook', e));
 
     return NextResponse.json({ ok: true, redirect: `/s/${shortCode}?go=1` });
   } catch (error) {

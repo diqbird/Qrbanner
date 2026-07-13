@@ -728,7 +728,7 @@ export const es: TranslationTree = {
     authBody: 'Cree una clave API en Panel → Configuración. Envíela como:',
     webhooksTitle: 'Webhooks de escaneo',
     webhooksBody:
-      'Añada endpoints HTTPS en Configuración → Webhooks de escaneo. Cada escaneo envía un POST JSON con X-QRbanner-Signature (HMAC-SHA256).',
+      'Añada endpoints HTTPS en Configuración → Webhooks de escaneo. Escaneos, leads de landing y clics CTA envían POST JSON con X-QRbanner-Signature (HMAC-SHA256).',
     webhooksVerifyTitle: 'Verificar firmas',
     webhooksVerifyBody:
       'Lea el cuerpo de la solicitud sin procesar, calcule HMAC-SHA256 con el secreto de firma y compárelo con X-QRbanner-Signature (prefijo sha256=). Los fallos de entrega se reintentan hasta 3 veces; use Enviar prueba en Configuración.',
@@ -983,8 +983,10 @@ export const es: TranslationTree = {
       deliveryTime: 'Hora',
       deliveryDuration: '{{ms}} ms',
       eventScan: 'Escaneo',
+      eventLead: 'Lead',
+      eventCta: 'Clic en CTA',
       sampleTitle: 'Carga de escaneo de ejemplo',
-      sampleDesc: 'Cuerpo JSON enviado en cada escaneo. Verifique con X-QRbanner-Signature (HMAC-SHA256).',
+      sampleDesc: 'Cuerpo JSON en cada escaneo, lead o CTA. Verifique con X-QRbanner-Signature (HMAC-SHA256).',
       sampleCopy: 'Copiar JSON',
       sampleCopied: 'Carga de ejemplo copiada',
       retryBtn: 'Reintentar',

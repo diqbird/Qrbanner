@@ -618,8 +618,10 @@ export const en: TranslationTree = {
       deliveryTime: 'Time',
       deliveryDuration: '{{ms}} ms',
       eventScan: 'Scan',
+      eventLead: 'Lead',
+      eventCta: 'CTA click',
       sampleTitle: 'Sample scan payload',
-      sampleDesc: 'JSON body sent on each scan. Verify with X-QRbanner-Signature (HMAC-SHA256).',
+      sampleDesc: 'JSON body sent on each scan, lead or CTA. Verify with X-QRbanner-Signature (HMAC-SHA256).',
       sampleCopy: 'Copy JSON',
       sampleCopied: 'Sample payload copied',
       retryBtn: 'Retry',
@@ -3218,7 +3220,7 @@ export const en: TranslationTree = {
     authBody: 'Create an API key in Dashboard → Settings. Send it as:',
     webhooksTitle: 'Scan Webhooks',
     webhooksBody:
-      'Add HTTPS endpoints in Settings → Scan Webhooks. Each scan sends a JSON POST with X-QRbanner-Signature (HMAC-SHA256). Works with Zapier, Make, n8n and custom backends.',
+      'Add HTTPS endpoints in Settings → Scan Webhooks. Scans, landing leads and CTA clicks POST JSON with X-QRbanner-Signature (HMAC-SHA256). Works with Zapier, Make, n8n and custom backends.',
     webhooksVerifyTitle: 'Verify signatures',
     webhooksVerifyBody:
       'Read the raw request body, compute HMAC-SHA256 with your signing secret, and compare to the X-QRbanner-Signature header (prefix sha256=). Failed deliveries auto-retry up to 3 times; use Send test in Settings to validate your endpoint.',

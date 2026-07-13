@@ -5,7 +5,7 @@ import { prisma } from '@/lib/db';
 import { WEBHOOK_LIMIT, rateLimitRequest } from '@/lib/authenticated-rate-limit';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
 import { deliverWebhookPayload } from '@/lib/webhook-dispatch';
-import { buildTestScanWebhookPayload } from '@/lib/webhook-test-payload';
+import { buildTestWebhookPayload, parseWebhookTestEvent } from '@/lib/webhook-test-payload';
 
 export async function POST(
   req: NextRequest,
@@ -34,13 +34,17 @@ export async function POST(
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
 
-  const payload = buildTestScanWebhookPayload();
+  const bodyJson = await req.json().catch(() => ({}));
+  const event = parseWebhookTestEvent(
+    bodyJson.event ?? req.nextUrl.searchParams.get('event'),
+  );
+  const payload = buildTestWebhookPayload(event);
   const body = JSON.stringify(payload);
 
   const result = await deliverWebhookPayload({
     endpoint,
     userId,
-    event: 'scan.test',
+    event: `${event}.test`,
     body,
     payload: { ...payload, test: true },
   });
@@ -50,5 +54,6 @@ export async function POST(
     statusCode: result.statusCode,
     error: result.error,
     durationMs: result.durationMs,
+    event,
   });
 }

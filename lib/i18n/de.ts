@@ -728,7 +728,7 @@ export const de: TranslationTree = {
     authBody: 'API-Key im Dashboard → Einstellungen erstellen. Senden als:',
     webhooksTitle: 'Scan-Webhooks',
     webhooksBody:
-      'HTTPS-Endpunkte unter Einstellungen → Scan-Webhooks hinzufügen. Jeder Scan sendet JSON POST mit X-QRbanner-Signature (HMAC-SHA256).',
+      'HTTPS-Endpunkte unter Einstellungen → Scan-Webhooks hinzufügen. Scans, Landing-Leads und CTA-Klicks senden JSON POST mit X-QRbanner-Signature (HMAC-SHA256).',
     webhooksVerifyTitle: 'Signaturen prüfen',
     webhooksVerifyBody:
       'Raw Request Body lesen, HMAC-SHA256 mit Signing Secret berechnen und mit X-QRbanner-Signature vergleichen (Präfix sha256=). Fehlgeschlagene Zustellungen werden bis zu 3× wiederholt; Send test in Einstellungen nutzen.',
@@ -983,8 +983,10 @@ export const de: TranslationTree = {
       deliveryTime: 'Zeit',
       deliveryDuration: '{{ms}} ms',
       eventScan: 'Scan',
+      eventLead: 'Lead',
+      eventCta: 'CTA-Klick',
       sampleTitle: 'Beispiel-Scan-Payload',
-      sampleDesc: 'JSON-Body bei jedem Scan. Mit X-QRbanner-Signature (HMAC-SHA256) prüfen.',
+      sampleDesc: 'JSON-Body bei jedem Scan, Lead oder CTA. Mit X-QRbanner-Signature (HMAC-SHA256) prüfen.',
       sampleCopy: 'JSON kopieren',
       sampleCopied: 'Beispiel-Payload kopiert',
       retryBtn: 'Erneut versuchen',

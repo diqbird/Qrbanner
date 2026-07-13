@@ -619,8 +619,10 @@ export const tr: TranslationTree = {
       deliveryTime: 'Zaman',
       deliveryDuration: '{{ms}} ms',
       eventScan: 'Tarama',
+      eventLead: 'Lead',
+      eventCta: 'CTA tıklama',
       sampleTitle: 'Örnek tarama payload\'u',
-      sampleDesc: 'Her taramada gönderilen JSON gövdesi. X-QRbanner-Signature (HMAC-SHA256) ile doğrulayın.',
+      sampleDesc: 'Her taramada, lead veya CTA\'da gönderilen JSON gövdesi. X-QRbanner-Signature (HMAC-SHA256) ile doğrulayın.',
       sampleCopy: 'JSON kopyala',
       sampleCopied: 'Örnek payload kopyalandı',
       retryBtn: 'Yeniden dene',
@@ -3220,7 +3222,7 @@ export const tr: TranslationTree = {
     authBody: 'Panel → Ayarlar\'da API anahtarı oluşturun. Şu şekilde gönderin:',
     webhooksTitle: 'Tarama Webhook\'ları',
     webhooksBody:
-      'Ayarlar → Tarama Webhook\'ları\'nda HTTPS uç noktaları ekleyin. Her tarama X-QRbanner-Signature (HMAC-SHA256) ile JSON POST gönderir. Zapier, Make, n8n ve özel backend\'lerle çalışır.',
+      'Ayarlar → Tarama Webhook\'ları\'nda HTTPS uç noktaları ekleyin. Tarama, landing lead ve CTA tıklamaları X-QRbanner-Signature (HMAC-SHA256) ile JSON POST gönderir. Zapier, Make, n8n ve özel backend\'lerle çalışır.',
     webhooksVerifyTitle: 'İmza doğrulama',
     webhooksVerifyBody:
       'Ham istek gövdesini okuyun, imza gizli anahtarınızla HMAC-SHA256 hesaplayın ve X-QRbanner-Signature başlığı (sha256= öneki) ile karşılaştırın. Başarısız teslimatlar 3 kez otomatik yeniden denenir; uç noktanızı Ayarlar\'daki Test gönder ile doğrulayın.',
