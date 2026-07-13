@@ -127,6 +127,7 @@ export const tr: TranslationTree = {
     procurementRequest: 'Satın alma talebi',
     refund: 'Geri Ödeme Politikası',
     developers: 'Geliştiriciler ve API',
+    developersReference: 'API referansı (OpenAPI)',
     apps: 'Mobil uygulamalar',
     hubspot: 'HubSpot entegrasyonu',
     salesforce: 'Salesforce entegrasyonu',
@@ -3226,7 +3227,19 @@ export const tr: TranslationTree = {
     integrationsLink: 'Entegrasyonları gör',
     openapiTitle: 'OpenAPI spesifikasyonu',
     openapiBody: 'REST API v1 için makine tarafından okunabilir OpenAPI 3.0 belgesi — Postman, Insomnia veya API gateway\'e aktarın.',
+    openapiExplore: 'Etkileşimli API referansını keşfet',
     openapiLink: 'openapi.json indir',
+  },
+  developersReference: {
+    metaTitle: 'API referansı (OpenAPI)',
+    metaDescription:
+      'QRbanner REST API v1 için etkileşimli OpenAPI 3.0 referansı — uç noktaları, şemaları inceleyin ve kimlik doğrulamalı istekleri deneyin.',
+    title: 'API referansı',
+    subtitle:
+      'REST API v1 için etkileşimli Swagger UI. Panel → Ayarlar\'daki API anahtarıyla yetkilendirin, sonra istekleri canlı deneyin.',
+    back: 'Geliştiricilere dön',
+    loading: 'API gezgini yükleniyor…',
+    error: 'API gezgini yüklenemedi. Bunun yerine openapi.json indirin.',
   },
   securityPage: {
     metaTitle: 'Güvenlik ve Güven',

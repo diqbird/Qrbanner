@@ -54,6 +54,7 @@ const PUBLIC_PATHS = [
   { path: '/help', priority: 0.8, changeFrequency: 'monthly' as const },
   { path: '/status', priority: 0.5, changeFrequency: 'weekly' as const },
   { path: '/developers', priority: 0.8, changeFrequency: 'monthly' as const },
+  { path: '/developers/reference', priority: 0.75, changeFrequency: 'monthly' as const },
   { path: '/about', priority: 0.5, changeFrequency: 'monthly' as const },
   { path: '/contact', priority: 0.5, changeFrequency: 'monthly' as const },
   { path: '/privacy', priority: 0.3, changeFrequency: 'yearly' as const },

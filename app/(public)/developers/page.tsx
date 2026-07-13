@@ -141,14 +141,22 @@ X-API-Key: qb_live_...`}
                   <FileJson className="h-4 w-4 text-primary" /> {t('developersPage.openapiTitle')}
                 </h2>
                 <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{t('developersPage.openapiBody')}</p>
-                <Link
-                  href="/api/openapi.json"
-                  className="mt-4 inline-flex items-center gap-1 text-sm text-primary hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {t('developersPage.openapiLink')} →
-                </Link>
+                <div className="mt-4 flex flex-col gap-2">
+                  <Link
+                    href="/developers/reference"
+                    className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                  >
+                    {t('developersPage.openapiExplore')} →
+                  </Link>
+                  <Link
+                    href="/api/openapi.json"
+                    className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {t('developersPage.openapiLink')} →
+                  </Link>
+                </div>
               </div>
               <div className="rounded-xl border border-border/50 bg-card/80 p-6 backdrop-blur-sm">
                 <h2 className="font-display font-semibold flex items-center gap-2">

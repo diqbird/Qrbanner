@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "components/developers/swagger-explorer.tsx",
+    "app/(public)/developers/reference/page.tsx",
+    "app/(public)/developers/page.tsx",
+    "app/sitemap.ts",
+    "lib/security-headers.ts",
+    "lib/site-search.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/de.ts",
+    "lib/i18n/es.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

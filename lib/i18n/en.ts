@@ -126,6 +126,7 @@ export const en: TranslationTree = {
     procurementRequest: 'Procurement request',
     refund: 'Refund Policy',
     developers: 'Developers & API',
+    developersReference: 'API reference (OpenAPI)',
     apps: 'Mobile apps',
     hubspot: 'HubSpot integration',
     salesforce: 'Salesforce integration',
@@ -3224,7 +3225,18 @@ export const en: TranslationTree = {
     integrationsLink: 'View integrations',
     openapiTitle: 'OpenAPI specification',
     openapiBody: 'Machine-readable OpenAPI 3.0 document for REST API v1 — import into Postman, Insomnia or your API gateway.',
+    openapiExplore: 'Explore interactive API reference',
     openapiLink: 'Download openapi.json',
+  },
+  developersReference: {
+    metaTitle: 'API reference (OpenAPI)',
+    metaDescription:
+      'Interactive OpenAPI 3.0 reference for QRbanner REST API v1 — browse endpoints, schemas and try authenticated requests.',
+    title: 'API reference',
+    subtitle: 'Interactive Swagger UI for REST API v1. Authorize with an API key from Dashboard → Settings, then try requests live.',
+    back: 'Back to Developers',
+    loading: 'Loading API explorer…',
+    error: 'Could not load the API explorer. Download openapi.json instead.',
   },
   securityPage: {
     metaTitle: 'Security & Trust',

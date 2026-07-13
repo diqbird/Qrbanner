@@ -123,6 +123,7 @@ export const de: TranslationTree = {
     procurementRequest: 'Beschaffungsanfrage',
     refund: 'Rückerstattungsrichtlinie',
     developers: 'Entwickler & API',
+    developersReference: 'API-Referenz (OpenAPI)',
     apps: 'Mobile Apps',
     hubspot: 'HubSpot-Integration',
     salesforce: 'Salesforce-Integration',
@@ -739,7 +740,19 @@ export const de: TranslationTree = {
     integrationsLink: 'Integrationen ansehen',
     openapiTitle: 'OpenAPI-Spezifikation',
     openapiBody: 'Maschinenlesbares OpenAPI-3.0-Dokument für REST API v1 — in Postman, Insomnia oder API Gateway importieren.',
+    openapiExplore: 'Interaktive API-Referenz öffnen',
     openapiLink: 'openapi.json herunterladen',
+  },
+  developersReference: {
+    metaTitle: 'API-Referenz (OpenAPI)',
+    metaDescription:
+      'Interaktive OpenAPI-3.0-Referenz für QRbanner REST API v1 — Endpunkte und Schemas durchsuchen und authentifizierte Requests testen.',
+    title: 'API-Referenz',
+    subtitle:
+      'Interaktive Swagger UI für REST API v1. Mit API-Key aus Dashboard → Einstellungen autorisieren und Requests live testen.',
+    back: 'Zurück zu Entwickler',
+    loading: 'API-Explorer wird geladen…',
+    error: 'API-Explorer konnte nicht geladen werden. Laden Sie stattdessen openapi.json herunter.',
   },
   securityPage: {
     metaTitle: 'Sicherheit & Vertrauen',

@@ -37,6 +37,13 @@ export const SITE_SEARCH_INDEX: SiteSearchItem[] = [
   { id: 'subprocessors', titleKey: 'siteSearch.subprocessors', href: '/sub-processors', groupKey: 'siteSearch.groupPages' },
   { id: 'refund', titleKey: 'siteSearch.refund', href: '/refund', groupKey: 'siteSearch.groupPages' },
   { id: 'developers', titleKey: 'siteSearch.developers', href: '/developers', groupKey: 'siteSearch.groupPages' },
+  {
+    id: 'developers-reference',
+    titleKey: 'siteSearch.developersReference',
+    href: '/developers/reference',
+    groupKey: 'siteSearch.groupPages',
+    keywords: ['openapi', 'swagger', 'api reference', 'rest'],
+  },
   { id: 'apps', titleKey: 'siteSearch.apps', href: '/apps', groupKey: 'siteSearch.groupPages' },
   { id: 'hubspot', titleKey: 'siteSearch.hubspot', href: '/integrations/hubspot', groupKey: 'siteSearch.groupPages' },
   { id: 'salesforce', titleKey: 'siteSearch.salesforce', href: '/integrations/salesforce', groupKey: 'siteSearch.groupPages' },
