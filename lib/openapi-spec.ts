@@ -260,6 +260,90 @@ export function buildOpenApiSpec() {
           },
         },
       },
+      '/api/v1/qr/bulk': {
+        post: {
+          tags: ['QR Codes'],
+          summary: 'Bulk create QR codes',
+          description:
+            'Create many QR codes in one request. Accepts JSON `items` (same fields as POST /api/v1/qr) and/or dashboard-compatible `csv`. Partial success: valid rows are created; failures are listed. Counts as one API request against rate limits.',
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    batch_label: { type: 'string' },
+                    workspace_id: { type: 'string' },
+                    style: { type: 'object', additionalProperties: true },
+                    items: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        required: ['name', 'category'],
+                        properties: {
+                          name: { type: 'string' },
+                          category: { type: 'string', example: 'url' },
+                          url: { type: 'string', format: 'uri' },
+                          qr_data: { type: 'object', additionalProperties: true },
+                          folder_id: { type: 'string' },
+                          folder: { type: 'string', description: 'Folder name (find-or-create)' },
+                          labels: { type: 'array', items: { type: 'string' } },
+                          password: { type: 'string' },
+                          expires_at: { type: 'string', format: 'date-time' },
+                          scan_limit: { type: 'integer' },
+                          is_active: { type: 'boolean' },
+                        },
+                      },
+                    },
+                    csv: {
+                      type: 'string',
+                      description: 'CSV with name,category,url,... (same as dashboard bulk import)',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          responses: {
+            '200': {
+              description: 'Bulk result (created + failed)',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      batch_id: { type: 'string' },
+                      batch_label: { type: 'string', nullable: true },
+                      created: { type: 'array', items: { $ref: '#/components/schemas/QrCode' } },
+                      failed: {
+                        type: 'array',
+                        items: {
+                          type: 'object',
+                          properties: {
+                            line: { type: 'integer' },
+                            message: { type: 'string' },
+                          },
+                        },
+                      },
+                      summary: {
+                        type: 'object',
+                        properties: {
+                          total: { type: 'integer' },
+                          success: { type: 'integer' },
+                          failed: { type: 'integer' },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            '400': { description: 'Validation / CSV error' },
+            '403': { description: 'Plan or slot limit' },
+          },
+        },
+      },
       '/api/v1/qr/{id}': {
         get: {
           tags: ['QR Codes'],

@@ -34,6 +34,10 @@ export function ApiKeyQuickRefPanel({ apiKey }: ApiKeyQuickRefPanelProps) {
             <p className="text-muted-foreground">{t('settings.apiKey.createQr')}</p>
           </div>
           <div className="rounded border bg-background p-2">
+            <p className="font-semibold text-foreground mb-1">POST /qr/bulk</p>
+            <p className="text-muted-foreground">{t('settings.apiKey.bulkQr')}</p>
+          </div>
+          <div className="rounded border bg-background p-2">
             <p className="font-semibold text-foreground mb-1">PATCH /qr/:id</p>
             <p className="text-muted-foreground">{t('settings.apiKey.updateQr')}</p>
           </div>

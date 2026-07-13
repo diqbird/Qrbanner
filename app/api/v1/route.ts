@@ -22,6 +22,7 @@ export async function GET(req: NextRequest) {
     endpoints: [
       { method: 'GET', path: '/api/v1/qr', description: 'List QR codes' },
       { method: 'POST', path: '/api/v1/qr', description: 'Create QR code' },
+      { method: 'POST', path: '/api/v1/qr/bulk', description: 'Bulk create QR codes (items or csv)' },
       { method: 'GET', path: '/api/v1/qr/:id', description: 'Get QR code' },
       { method: 'GET', path: '/api/v1/qr/:id/analytics', description: 'QR scan analytics summary' },
       { method: 'PATCH', path: '/api/v1/qr/:id', description: 'Update QR code' },

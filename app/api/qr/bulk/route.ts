@@ -9,8 +9,9 @@ import { BULK_ABSOLUTE_MAX_ROWS, parseBulkCSV, type BulkParsedRow } from '@/lib/
 import { assertCanCreateQr, getUserPlanUsage } from '@/lib/plan-usage';
 import { getActiveWorkspaceId, assertWorkspaceRole } from '@/lib/workspace';
 import { BULK_LIMIT, rateLimitRequest } from '@/lib/authenticated-rate-limit';
+import { normalizeLabels } from '@/lib/organize-utils';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
-import { normalizeFolderName, FOLDER_COLORS, normalizeLabels } from '@/lib/organize-utils';
+import { resolveBulkFolderId } from '@/lib/bulk-folder';
 
 async function uniqueShortCode(): Promise<string> {
   for (let attempt = 0; attempt < 15; attempt++) {
@@ -22,39 +23,6 @@ async function uniqueShortCode(): Promise<string> {
     if (!exists) return shortCode;
   }
   throw new Error('Could not generate unique short code');
-}
-
-async function resolveFolderId(
-  userId: string,
-  workspaceId: string,
-  folderName: string | undefined,
-  cache: Map<string, string>,
-): Promise<string | null> {
-  if (!folderName) return null;
-  const name = normalizeFolderName(folderName);
-  if (!name) return null;
-  const cached = cache.get(name.toLowerCase());
-  if (cached) return cached;
-
-  const existing = await prisma.qRFolder.findFirst({
-    where: {
-      userId,
-      name,
-      OR: [{ workspaceId }, { workspaceId: null }],
-    },
-    select: { id: true },
-  });
-  if (existing) {
-    cache.set(name.toLowerCase(), existing.id);
-    return existing.id;
-  }
-
-  const created = await prisma.qRFolder.create({
-    data: { userId, workspaceId, name, color: FOLDER_COLORS[0] },
-    select: { id: true },
-  });
-  cache.set(name.toLowerCase(), created.id);
-  return created.id;
 }
 
 interface BulkCreateInput {
@@ -136,7 +104,7 @@ export async function POST(req: NextRequest) {
         const shortCode = await uniqueShortCode();
         const targetUrl = buildQRPayload(row.category, row.qrData);
         const hashedPassword = row.password ? await bcrypt.hash(String(row.password), 10) : null;
-        const folderId = await resolveFolderId(userId, workspaceId, row.folderName, folderCache);
+        const folderId = await resolveBulkFolderId(userId, workspaceId, row.folderName, folderCache);
         const labels = normalizeLabels(row.labels ?? []);
 
         const qrCode = await prisma.qRCode.create({

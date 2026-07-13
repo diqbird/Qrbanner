@@ -28,6 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
 const ENDPOINT_KEYS = [
   { method: 'GET', path: '/api/v1/qr', descKey: 'developersPage.epListQr' },
   { method: 'POST', path: '/api/v1/qr', descKey: 'developersPage.epCreateQr' },
+  { method: 'POST', path: '/api/v1/qr/bulk', descKey: 'developersPage.epBulkQr' },
   { method: 'GET', path: '/api/v1/qr/:id', descKey: 'developersPage.epGetQr' },
   { method: 'GET', path: '/api/v1/qr/:id/analytics', descKey: 'developersPage.epAnalyticsQr' },
   { method: 'PATCH', path: '/api/v1/qr/:id', descKey: 'developersPage.epUpdateQr' },
