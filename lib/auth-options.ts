@@ -14,7 +14,7 @@ import { maybeStartProTrial } from '@/lib/pro-trial';
 import { recordLoginAudit } from '@/lib/login-audit';
 import { assertOAuthSignInAllowed, assertPasswordLoginAllowed, isEmailDomainAllowed, parseAllowedDomains } from '@/lib/workspace-sso';
 import { verifySamlSignInToken } from '@/lib/saml-auth';
-import { decryptTotpSecret, verifyTotpCode } from '@/lib/totp';
+import { verifyTotpOrRecovery } from '@/lib/mfa-recovery';
 import { verifyTurnstileToken } from '@/lib/turnstile';
 import { verifyMfaProofToken } from '@/lib/mfa-step-up';
 import { checkRateLimit, clientIpFromHeaders } from '@/lib/rate-limit-store';
@@ -212,6 +212,7 @@ const providers: NextAuthOptions['providers'] = [
           emailVerified: true,
           totpEnabled: true,
           totpSecret: true,
+          totpRecoveryCodes: true,
         },
       });
 
@@ -238,12 +239,17 @@ const providers: NextAuthOptions['providers'] = [
       }
 
       if (user.totpEnabled) {
-        const totpCode = credentials.totpCode?.replace(/\s/g, '') ?? '';
+        const totpCode = credentials.totpCode?.trim() ?? '';
         if (!totpCode) {
           throw new Error('mfa_required');
         }
-        const secret = decryptTotpSecret(user.totpSecret);
-        if (!secret || !verifyTotpCode(secret, totpCode)) {
+        const verified = await verifyTotpOrRecovery({
+          userId: user.id,
+          code: totpCode,
+          totpSecretEncrypted: user.totpSecret,
+          recoveryCodes: user.totpRecoveryCodes,
+        });
+        if (!verified) {
           throw new Error('invalid_mfa_code');
         }
       }

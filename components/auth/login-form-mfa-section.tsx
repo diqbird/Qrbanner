@@ -5,6 +5,10 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { TurnstileField } from '@/components/security/turnstile-field';
 
+function sanitizeMfaInput(value: string): string {
+  return value.replace(/[^a-zA-Z0-9-]/g, '').toUpperCase().slice(0, 19);
+}
+
 export function LoginFormMfaSection({
   t,
   mfaStep,
@@ -42,16 +46,14 @@ export function LoginFormMfaSection({
       )}
       {mfaStep && (
         <div className="space-y-2">
-          <Label htmlFor="totp-code">{t('settings.mfa.codeLabel')}</Label>
+          <Label htmlFor="totp-code">{t('settings.mfa.codeOrRecoveryLabel')}</Label>
           <Input
             id="totp-code"
-            inputMode="numeric"
             autoComplete="one-time-code"
-            placeholder={t('settings.mfa.codePlaceholder')}
+            placeholder={t('settings.mfa.codeOrRecoveryPlaceholder')}
             value={totpCode}
-            onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+            onChange={(e) => setTotpCode(sanitizeMfaInput(e.target.value))}
             className="text-center font-mono tracking-widest"
-            maxLength={6}
             required
           />
         </div>

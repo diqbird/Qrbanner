@@ -1,6 +1,7 @@
 export type MfaStatus = {
   enabled: boolean;
   hasPassword: boolean;
+  recoveryCodesRemaining: number;
 };
 
 export type MfaSetupData = {
@@ -14,5 +15,7 @@ export function parseMfaStatus(json: unknown): MfaStatus {
   return {
     enabled: Boolean(data.enabled),
     hasPassword: Boolean(data.hasPassword),
+    recoveryCodesRemaining:
+      typeof data.recoveryCodesRemaining === 'number' ? data.recoveryCodesRemaining : 0,
   };
 }

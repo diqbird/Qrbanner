@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { recoveryCodesRemaining } from '@/lib/mfa-recovery';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
 
 export async function GET() {
@@ -11,7 +12,7 @@ export async function GET() {
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { totpEnabled: true, password: true },
+    select: { totpEnabled: true, password: true, totpRecoveryCodes: true },
   });
   if (!user) return NextResponse.json({ error: 'user_not_found' }, { status: 404 });
 
@@ -19,5 +20,6 @@ export async function GET() {
     enabled: user.totpEnabled,
     hasPassword: Boolean(user.password),
     pendingSetup: false,
+    recoveryCodesRemaining: user.totpEnabled ? recoveryCodesRemaining(user.totpRecoveryCodes) : 0,
   });
 }

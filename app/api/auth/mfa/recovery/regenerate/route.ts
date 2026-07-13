@@ -1,9 +1,10 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
+import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/db';
 import { generateRecoveryCodes } from '@/lib/mfa-recovery';
-import { decryptTotpSecret, encryptTotpSecret, verifyTotpCode } from '@/lib/totp';
+import { decryptTotpSecret, verifyTotpCode } from '@/lib/totp';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
 
 export async function POST(req: NextRequest) {
@@ -13,30 +14,34 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json().catch(() => ({}));
   const code = String(body.code ?? '').trim();
+  const password = typeof body.password === 'string' ? body.password : '';
   if (!code) return NextResponse.json({ error: 'mfa_code_required' }, { status: 400 });
+  if (!/^\d{6}$/.test(code.replace(/\s/g, ''))) {
+    return NextResponse.json({ error: 'invalid_mfa_code' }, { status: 400 });
+  }
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { totpEnabled: true, totpPendingSecret: true },
+    select: { totpEnabled: true, totpSecret: true, password: true },
   });
   if (!user) return NextResponse.json({ error: 'user_not_found' }, { status: 404 });
-  if (user.totpEnabled) return NextResponse.json({ error: 'mfa_already_enabled' }, { status: 400 });
+  if (!user.totpEnabled) return NextResponse.json({ error: 'mfa_not_enabled' }, { status: 400 });
 
-  const pending = decryptTotpSecret(user.totpPendingSecret);
-  if (!pending) return NextResponse.json({ error: 'mfa_setup_expired' }, { status: 400 });
-  if (!verifyTotpCode(pending, code)) {
+  if (user.password) {
+    if (!password) return NextResponse.json({ error: 'password_required' }, { status: 400 });
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) return NextResponse.json({ error: 'wrong_current_password' }, { status: 400 });
+  }
+
+  const secret = decryptTotpSecret(user.totpSecret);
+  if (!secret || !verifyTotpCode(secret, code.replace(/\s/g, ''))) {
     return NextResponse.json({ error: 'invalid_mfa_code' }, { status: 400 });
   }
 
   const { plaintext, hashes } = generateRecoveryCodes();
   await prisma.user.update({
     where: { id: userId },
-    data: {
-      totpEnabled: true,
-      totpSecret: encryptTotpSecret(pending),
-      totpPendingSecret: null,
-      totpRecoveryCodes: hashes,
-    },
+    data: { totpRecoveryCodes: hashes },
   });
 
   return NextResponse.json({ ok: true, recoveryCodes: plaintext });

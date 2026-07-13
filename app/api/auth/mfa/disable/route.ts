@@ -2,8 +2,9 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
+import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/db';
-import { decryptTotpSecret, verifyTotpCode } from '@/lib/totp';
+import { verifyTotpOrRecovery } from '@/lib/mfa-recovery';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
 
 export async function POST(req: NextRequest) {
@@ -18,7 +19,7 @@ export async function POST(req: NextRequest) {
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { totpEnabled: true, totpSecret: true, password: true },
+    select: { totpEnabled: true, totpSecret: true, totpRecoveryCodes: true, password: true },
   });
   if (!user) return NextResponse.json({ error: 'user_not_found' }, { status: 404 });
   if (!user.totpEnabled) return NextResponse.json({ error: 'mfa_not_enabled' }, { status: 400 });
@@ -29,8 +30,13 @@ export async function POST(req: NextRequest) {
     if (!valid) return NextResponse.json({ error: 'wrong_current_password' }, { status: 400 });
   }
 
-  const secret = decryptTotpSecret(user.totpSecret);
-  if (!secret || !verifyTotpCode(secret, code)) {
+  const verified = await verifyTotpOrRecovery({
+    userId,
+    code,
+    totpSecretEncrypted: user.totpSecret,
+    recoveryCodes: user.totpRecoveryCodes,
+  });
+  if (!verified) {
     return NextResponse.json({ error: 'invalid_mfa_code' }, { status: 400 });
   }
 
@@ -40,6 +46,7 @@ export async function POST(req: NextRequest) {
       totpEnabled: false,
       totpSecret: null,
       totpPendingSecret: null,
+      totpRecoveryCodes: Prisma.DbNull,
     },
   });
 

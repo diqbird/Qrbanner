@@ -14,6 +14,10 @@ import { resolveCallbackUrl } from '@/lib/auth-providers';
 import { AuthFormShell } from './auth-form-shell';
 import { useInviteAuthBrand } from '@/hooks/use-invite-auth-brand';
 
+function sanitizeMfaInput(value: string): string {
+  return value.replace(/[^a-zA-Z0-9-]/g, '').toUpperCase().slice(0, 19);
+}
+
 export function MfaVerifyForm() {
   const { t } = useLanguage();
   const searchParams = useSearchParams();
@@ -63,16 +67,14 @@ export function MfaVerifyForm() {
     >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="mfa-code">{t('settings.mfa.codeLabel')}</Label>
+            <Label htmlFor="mfa-code">{t('settings.mfa.codeOrRecoveryLabel')}</Label>
             <Input
               id="mfa-code"
-              inputMode="numeric"
               autoComplete="one-time-code"
-              placeholder={t('settings.mfa.codePlaceholder')}
+              placeholder={t('settings.mfa.codeOrRecoveryPlaceholder')}
               value={code}
-              onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+              onChange={(e) => setCode(sanitizeMfaInput(e.target.value))}
               className="text-center text-lg tracking-widest font-mono"
-              maxLength={6}
               required
             />
           </div>

@@ -18,9 +18,11 @@ export function useMfaSettings() {
   const [enableCode, setEnableCode] = useState('');
   const [disableCode, setDisableCode] = useState('');
   const [disablePassword, setDisablePassword] = useState('');
+  const [recoveryCodes, setRecoveryCodes] = useState<string[] | null>(null);
 
   const enabled = data?.enabled ?? false;
   const hasPassword = data?.hasPassword ?? false;
+  const recoveryCodesRemaining = data?.recoveryCodesRemaining ?? 0;
 
   const actions = useMfaSettingsActions({
     t,
@@ -37,6 +39,7 @@ export function useMfaSettings() {
     setDisablePassword,
     setWorking,
     reload,
+    setRecoveryCodes,
   });
 
   return {
@@ -44,6 +47,7 @@ export function useMfaSettings() {
     loading,
     enabled,
     hasPassword,
+    recoveryCodesRemaining,
     working,
     setup,
     setSetup,
@@ -55,6 +59,8 @@ export function useMfaSettings() {
     setDisableCode,
     disablePassword,
     setDisablePassword,
+    recoveryCodes,
+    setRecoveryCodes,
     ...actions,
   };
 }

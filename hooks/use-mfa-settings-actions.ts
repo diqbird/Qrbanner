@@ -9,6 +9,7 @@ import {
   useMfaEnableAction,
   useMfaDisableAction,
 } from '@/hooks/use-mfa-setup-enable-actions';
+import { useMfaRegenerateAction } from '@/hooks/use-mfa-regenerate-action';
 import type { MfaSetupData } from '@/lib/mfa-types';
 
 type Translate = (key: string) => string;
@@ -28,6 +29,7 @@ export function useMfaSettingsActions({
   setDisablePassword,
   setWorking,
   reload,
+  setRecoveryCodes,
 }: {
   t: Translate;
   hasPassword: boolean;
@@ -43,9 +45,18 @@ export function useMfaSettingsActions({
   setDisablePassword: (password: string) => void;
   setWorking: (working: boolean) => void;
   reload: () => void;
+  setRecoveryCodes: (codes: string[] | null) => void;
 }) {
   const { startSetup } = useMfaSetupAction({ t, hasPassword, password, setSetup, setPassword, setWorking });
-  const { confirmEnable } = useMfaEnableAction({ t, enableCode, setSetup, setEnableCode, setWorking, reload });
+  const { confirmEnable } = useMfaEnableAction({
+    t,
+    enableCode,
+    setSetup,
+    setEnableCode,
+    setWorking,
+    reload,
+    setRecoveryCodes,
+  });
   const { disableMfa, copySecret } = useMfaDisableAction({
     t,
     hasPassword,
@@ -57,6 +68,17 @@ export function useMfaSettingsActions({
     setWorking,
     reload,
   });
+  const { regenerateRecoveryCodes } = useMfaRegenerateAction({
+    t,
+    hasPassword,
+    disableCode,
+    disablePassword,
+    setDisableCode,
+    setDisablePassword,
+    setWorking,
+    reload,
+    setRecoveryCodes,
+  });
 
-  return { startSetup, confirmEnable, disableMfa, copySecret };
+  return { startSetup, confirmEnable, disableMfa, copySecret, regenerateRecoveryCodes };
 }

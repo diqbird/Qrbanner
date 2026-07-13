@@ -4,11 +4,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Shield } from 'lucide-react';
 import { SettingsCardSkeleton } from '@/components/dashboard/settings-card-skeleton';
 import { useMfaSettings } from '@/hooks/use-mfa-settings';
-import { MfaDisablePanel, MfaSetupConfirmPanel, MfaStartSetupPanel } from './mfa-settings-panels';
+import { MfaDisablePanel, MfaSetupConfirmPanel, MfaStartSetupPanel, MfaRecoveryCodesPanel } from './mfa-settings-panels';
 
 export function MfaSettings() {
   const mfa = useMfaSettings();
-  const { t, loading, enabled, setup } = mfa;
+  const { t, loading, enabled, setup, recoveryCodes } = mfa;
 
   if (loading) return <SettingsCardSkeleton />;
 
@@ -21,6 +21,7 @@ export function MfaSettings() {
         <CardDescription>{t('settings.mfa.desc')}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
+        {recoveryCodes?.length ? <MfaRecoveryCodesPanel mfa={mfa} /> : null}
         {enabled ? (
           <MfaDisablePanel mfa={mfa} />
         ) : setup ? (

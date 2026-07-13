@@ -38,6 +38,8 @@ model User {
   totpEnabled        Boolean   @default(false)
   totpSecret         String?   @db.Text
   totpPendingSecret  String?   @db.Text
+  /// SHA-256 hashes of remaining one-time MFA recovery codes (plaintext shown once on enable/regenerate)
+  totpRecoveryCodes  Json?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   accounts      Account[]

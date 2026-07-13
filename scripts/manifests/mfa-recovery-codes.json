@@ -1,0 +1,33 @@
+{
+  "upload": [
+    "prisma/schema.prisma",
+    "prisma/migrations/0012_mfa_recovery_codes/migration.sql",
+    "lib/mfa-recovery.ts",
+    "lib/mfa-types.ts",
+    "lib/auth-options.ts",
+    "app/api/auth/mfa/route.ts",
+    "app/api/auth/mfa/enable/route.ts",
+    "app/api/auth/mfa/disable/route.ts",
+    "app/api/auth/mfa/verify-session/route.ts",
+    "app/api/auth/mfa/recovery/regenerate/route.ts",
+    "hooks/use-mfa-settings.ts",
+    "hooks/use-mfa-settings-actions.ts",
+    "hooks/use-mfa-enable-action.ts",
+    "hooks/use-mfa-regenerate-action.ts",
+    "components/dashboard/mfa-settings.tsx",
+    "components/dashboard/mfa-settings-panels.tsx",
+    "components/dashboard/mfa-disable-panel.tsx",
+    "components/dashboard/mfa-recovery-codes-panel.tsx",
+    "components/auth/login-form-mfa-section.tsx",
+    "components/auth/mfa-verify-form.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/de.ts",
+    "lib/i18n/es.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": true,
+  "prisma_migrate": true,
+  "build": true,
+  "restart": true
+}

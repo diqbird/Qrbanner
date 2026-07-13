@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import { prisma } from '@/lib/db';
-import { decryptTotpSecret, verifyTotpCode } from '@/lib/totp';
+import { verifyTotpOrRecovery } from '@/lib/mfa-recovery';
 import { createMfaProofToken } from '@/lib/mfa-step-up';
 import { checkRateLimit, clientIp } from '@/lib/rate-limit-store';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
@@ -30,12 +30,17 @@ export async function POST(req: NextRequest) {
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { totpEnabled: true, totpSecret: true },
+    select: { totpEnabled: true, totpSecret: true, totpRecoveryCodes: true },
   });
   if (!user?.totpEnabled) return NextResponse.json({ error: 'mfa_not_enabled' }, { status: 400 });
 
-  const secret = decryptTotpSecret(user.totpSecret);
-  if (!secret || !verifyTotpCode(secret, code)) {
+  const verified = await verifyTotpOrRecovery({
+    userId,
+    code,
+    totpSecretEncrypted: user.totpSecret,
+    recoveryCodes: user.totpRecoveryCodes,
+  });
+  if (!verified) {
     return NextResponse.json({ error: 'invalid_mfa_code' }, { status: 400 });
   }
 
