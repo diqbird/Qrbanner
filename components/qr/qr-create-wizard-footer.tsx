@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
-import { consumeQrCreateAutosave } from '@/lib/qr-create-draft';
+import { consumeQrCreateAutosave, loadQrCreateDraft } from '@/lib/qr-create-draft';
 
 function localizeBlocker(t: (key: string) => string, blocker: string): string {
   const key = `create.blockers.${blocker}`;
@@ -39,15 +39,18 @@ export function QrCreateWizardFooter({
   useEffect(() => {
     if (autosaveStarted.current) return;
     if (step !== 3 || isGuest || saving) return;
+    // Wait until draft hydrate finishes (empty form → restored step 3).
+    const draft = loadQrCreateDraft();
+    if (draft && draft.step === 3 && !ready) return;
     const wantsAutosave =
       searchParams?.get('autosave') === '1' || consumeQrCreateAutosave();
     if (!wantsAutosave) return;
     autosaveStarted.current = true;
     const timer = window.setTimeout(() => {
       void handleSave();
-    }, 120);
+    }, 180);
     return () => window.clearTimeout(timer);
-  }, [step, isGuest, saving, searchParams, handleSave]);
+  }, [step, isGuest, saving, searchParams, handleSave, ready]);
 
   return (
     <div className="sticky bottom-0 z-40 -mx-4 mt-6 border-t border-border/60 bg-background/95 px-4 py-3 backdrop-blur-sm supports-[backdrop-filter]:bg-background/80 lg:-mx-0 lg:rounded-xl lg:border lg:shadow-sm">

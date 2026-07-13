@@ -9,6 +9,7 @@ import {
   handleCampaignGenerateResponse,
   postCampaignGenerate,
 } from '@/lib/campaign-generate-api';
+import { saveCampaignGuestDraft } from '@/lib/campaign-guest-draft';
 import type { Locale } from '@/lib/i18n/types';
 
 type Translate = (key: string) => string;
@@ -47,6 +48,11 @@ export function useCampaignGenerate({
       return;
     }
     if (isGuest) {
+      saveCampaignGuestDraft({
+        prompt,
+        businessName,
+        websiteUrl,
+      });
       router.push(`/signup?callbackUrl=${encodeURIComponent('/qr/campaign')}`);
       return;
     }

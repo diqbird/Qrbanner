@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useLanguage } from '@/components/i18n/language-provider';
@@ -9,6 +9,10 @@ import type { CampaignWizardStep } from '@/lib/campaign-wizard-utils';
 import { useCampaignPlanEditing } from '@/hooks/use-campaign-plan-editing';
 import { useCampaignGenerate } from '@/hooks/use-campaign-generate';
 import { useCampaignCreateBatch } from '@/hooks/use-campaign-create-batch';
+import {
+  clearCampaignGuestDraft,
+  loadCampaignGuestDraft,
+} from '@/lib/campaign-guest-draft';
 
 export function useCampaignWizard() {
   const { t, locale } = useLanguage();
@@ -28,6 +32,21 @@ export function useCampaignWizard() {
     campaignId: string;
     created: { id: string; name: string }[];
   } | null>(null);
+  const [draftRestored, setDraftRestored] = useState(false);
+
+  useEffect(() => {
+    if (draftRestored) return;
+    const draft = loadCampaignGuestDraft();
+    if (!draft) {
+      setDraftRestored(true);
+      return;
+    }
+    if (draft.prompt) setPrompt(draft.prompt);
+    if (draft.businessName) setBusinessName(draft.businessName);
+    if (draft.websiteUrl) setWebsiteUrl(draft.websiteUrl);
+    clearCampaignGuestDraft();
+    setDraftRestored(true);
+  }, [draftRestored]);
 
   const { applyExample: exampleText, updateItem, updateItemData, enabledCount } = useCampaignPlanEditing(
     plan,

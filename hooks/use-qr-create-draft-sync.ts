@@ -15,6 +15,7 @@ export function useQrCreateDraftSync({
   category,
   authStatus,
   restoreParam,
+  autosaveParam,
   buildCurrentDraft,
   applyDraft,
   router,
@@ -24,6 +25,7 @@ export function useQrCreateDraftSync({
   category: string;
   authStatus: string;
   restoreParam: string | null;
+  autosaveParam: string | null;
   buildCurrentDraft: () => QrCreateDraft;
   applyDraft: (draft: QrCreateDraft) => void;
   router: AppRouterInstance;
@@ -41,21 +43,33 @@ export function useQrCreateDraftSync({
   const saveGuestDraft = useCallback(() => {
     if (!isGuest || !category) return;
     saveQrCreateDraft(buildCurrentDraft());
+    markQrCreateAutosave();
   }, [isGuest, category, buildCurrentDraft]);
 
   useEffect(() => {
     if (draftRestored.current || authStatus !== 'authenticated') return;
-    if (restoreParam !== '1') return;
+    const shouldRestore = restoreParam === '1' || autosaveParam === '1';
+    if (!shouldRestore) return;
     const draft = loadQrCreateDraft();
     if (!draft) return;
     draftRestored.current = true;
     applyDraft(draft);
-    toast.success(t('create.draftRestored'));
-    // Let React commit draft state before soft-navigating (avoids remount wiping form).
-    window.setTimeout(() => {
-      router.replace('/qr/create?autosave=1');
-    }, 50);
-  }, [authStatus, restoreParam, applyDraft, router, t]);
+    if (restoreParam === '1') {
+      toast.success(t('create.draftRestored'));
+    }
+    // Keep autosave=1 after paint so remounts can re-hydrate from sessionStorage.
+    if (restoreParam === '1') {
+      let cancelled = false;
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          if (!cancelled) router.replace('/qr/create?autosave=1');
+        });
+      });
+      return () => {
+        cancelled = true;
+      };
+    }
+  }, [authStatus, restoreParam, autosaveParam, applyDraft, router, t]);
 
   useEffect(() => {
     if (!isGuest || !category) return;

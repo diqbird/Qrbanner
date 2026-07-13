@@ -12,6 +12,7 @@ type DraftBridgeArgs = {
   category: string;
   authStatus: string;
   restoreParam: string | null;
+  autosaveParam: string | null;
   router: AppRouterInstance;
   t: (key: string) => string;
 };
@@ -23,6 +24,7 @@ export function useQrCreateFormDraft({
   category,
   authStatus,
   restoreParam,
+  autosaveParam,
   router,
   t,
 }: DraftBridgeArgs) {
@@ -35,6 +37,7 @@ export function useQrCreateFormDraft({
     category,
     authStatus,
     restoreParam,
+    autosaveParam,
     router,
     t,
   });

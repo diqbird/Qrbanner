@@ -1,0 +1,22 @@
+{
+  "upload": [
+    "lib/campaign-guest-draft.ts",
+    "hooks/use-qr-create-draft-sync.ts",
+    "hooks/use-qr-create-draft-bridge.ts",
+    "hooks/use-qr-create-form-draft.ts",
+    "hooks/use-qr-create-form.ts",
+    "hooks/use-campaign-wizard.ts",
+    "hooks/use-campaign-generate.ts",
+    "components/qr/qr-create-wizard-footer.tsx",
+    "components/qr/campaign-wizard-prompt-guest-banner.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/de-locale-gaps.ts",
+    "lib/i18n/es-locale-gaps.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

@@ -17,6 +17,7 @@ export function useQrCreateDraftBridge({
   category,
   authStatus,
   restoreParam,
+  autosaveParam,
   router,
   t,
 }: {
@@ -26,6 +27,7 @@ export function useQrCreateDraftBridge({
   category: string;
   authStatus: string;
   restoreParam: string | null;
+  autosaveParam: string | null;
   router: AppRouterInstance;
   t: (key: string, vars?: Record<string, string | number>) => string;
 }) {
@@ -46,6 +48,7 @@ export function useQrCreateDraftBridge({
     category,
     authStatus,
     restoreParam,
+    autosaveParam,
     buildCurrentDraft,
     applyDraft,
     router,

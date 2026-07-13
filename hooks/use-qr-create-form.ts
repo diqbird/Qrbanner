@@ -44,6 +44,7 @@ export function useQrCreateForm() {
     category: coreRest.category,
     authStatus,
     restoreParam: searchParams.get('restore'),
+    autosaveParam: searchParams.get('autosave'),
     router,
     t,
   });
