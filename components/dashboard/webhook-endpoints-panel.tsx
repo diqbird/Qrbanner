@@ -6,11 +6,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
-import { Plus, Trash2, Zap } from 'lucide-react';
+import { Plus, Trash2, Zap, KeyRound } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { WebhookSettingsState } from '@/hooks/use-webhook-settings';
 import type { WebhookEventName } from '@/lib/webhooks';
+
+function sanitizeMfa(value: string) {
+  return value.replace(/[^a-zA-Z0-9-]/g, '').toUpperCase().slice(0, 19);
+}
 
 function WebhookRowTestControls({
   settings,
@@ -54,7 +58,18 @@ function WebhookRowTestControls({
 
 export function WebhookEndpointList({ settings }: { settings: WebhookSettingsState }) {
   const { locale } = useLanguage();
-  const { t, webhooks, limit, toggleEnabled, removeWebhook, working } = settings;
+  const {
+    t,
+    webhooks,
+    limit,
+    toggleEnabled,
+    removeWebhook,
+    rotateSecret,
+    working,
+    mfaEnabled,
+    mfaCode,
+    setMfaCode,
+  } = settings;
 
   return (
     <>
@@ -66,6 +81,20 @@ export function WebhookEndpointList({ settings }: { settings: WebhookSettingsSta
           })}
         </span>
       </div>
+      {mfaEnabled && webhooks.length > 0 && (
+        <div className="max-w-xs space-y-2">
+          <Label htmlFor="webhook-rotate-mfa">{t('settings.mfa.codeOrRecoveryLabel')}</Label>
+          <Input
+            id="webhook-rotate-mfa"
+            autoComplete="one-time-code"
+            value={mfaCode}
+            onChange={(e) => setMfaCode(sanitizeMfa(e.target.value))}
+            placeholder={t('settings.mfa.codeOrRecoveryPlaceholder')}
+            className="font-mono"
+          />
+          <p className="text-xs text-muted-foreground">{t('settings.webhooks.mfaHint')}</p>
+        </div>
+      )}
       {webhooks.length > 0 && (
         <div className="space-y-3">
           {webhooks.map((w) => (
@@ -83,6 +112,16 @@ export function WebhookEndpointList({ settings }: { settings: WebhookSettingsSta
                 </Badge>
                 <Switch checked={w.enabled} onCheckedChange={(v) => toggleEnabled(w.id, v)} />
                 <WebhookRowTestControls settings={settings} webhookId={w.id} enabled={w.enabled} />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 gap-1 text-xs"
+                  onClick={() => rotateSecret(w.id)}
+                  disabled={working}
+                >
+                  <KeyRound className="h-3.5 w-3.5" />
+                  {t('settings.webhooks.rotateSecret')}
+                </Button>
                 <Button
                   variant="ghost"
                   size="icon-sm"

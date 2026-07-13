@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 
@@ -20,6 +20,27 @@ export function useWebhookMutations({
   const [working, setWorking] = useState(false);
   const [newSecret, setNewSecret] = useState<string | null>(null);
   const [showSecretDialog, setShowSecretDialog] = useState(false);
+  const [mfaEnabled, setMfaEnabled] = useState(false);
+  const [mfaCode, setMfaCode] = useState('');
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch('/api/auth/mfa');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!cancelled) setMfaEnabled(Boolean(data.enabled));
+      } catch {
+        /* ignore */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const mfaPayload = () => (mfaEnabled ? { mfaCode: mfaCode.trim() } : {});
 
   const addWebhook = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,6 +88,35 @@ export function useWebhookMutations({
     }
   };
 
+  const rotateSecret = async (id: string) => {
+    if (!confirm(t('settings.webhooks.confirmRotate'))) return;
+    if (mfaEnabled && !mfaCode.trim()) {
+      toast.error(t('settings.webhooks.mfaRequired'));
+      return;
+    }
+    setWorking(true);
+    try {
+      const res = await fetch(`/api/webhooks/${id}/rotate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(mfaPayload()),
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        toast.error(resolveApiError(t, json.error, 'settings.webhooks.rotateFailed'));
+        return;
+      }
+      setNewSecret(json.secret);
+      setShowSecretDialog(true);
+      setMfaCode('');
+      toast.success(t('settings.webhooks.rotated'));
+    } catch {
+      toast.error(t('auth.somethingWrong'));
+    } finally {
+      setWorking(false);
+    }
+  };
+
   const copySecret = () => {
     if (newSecret) {
       navigator.clipboard?.writeText(newSecret);
@@ -107,9 +157,13 @@ export function useWebhookMutations({
     newSecret,
     showSecretDialog,
     setShowSecretDialog,
+    mfaEnabled,
+    mfaCode,
+    setMfaCode,
     addWebhook,
     toggleEnabled,
     removeWebhook,
+    rotateSecret,
     copySecret,
     sendTestWebhook,
   };
