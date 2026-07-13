@@ -2780,6 +2780,7 @@ export const tr: TranslationTree = {
     clientCreateFailed: 'Müşteri eklenemedi',
     confirmDeleteClient: 'Bu müşteri kaydı silinsin mi?',
     clientDeleted: 'Müşteri silindi',
+    exportClientsCsv: 'Müşterileri CSV dışa aktar',
     saveFailed: 'Kurumsal ayarlar kaydedilemedi',
   },
   enterpriseSupport: {

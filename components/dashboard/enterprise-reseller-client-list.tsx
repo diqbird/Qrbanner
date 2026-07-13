@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Trash2 } from 'lucide-react';
+import { Download, Trash2 } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import {
   formatResellerClientMonthlyFee,
@@ -15,14 +15,47 @@ type EnterpriseResellerClientListProps = {
   enterprise: EnterpriseWorkspaceState;
 };
 
+function csvEscape(value: string): string {
+  if (/[",\n\r]/.test(value)) return `"${value.replace(/"/g, '""')}"`;
+  return value;
+}
+
 export function EnterpriseResellerClientList({ enterprise }: EnterpriseResellerClientListProps) {
   const { t, clients, removeClient } = enterprise;
   const { locale } = useLanguage();
 
   if (clients.length === 0) return null;
 
+  const exportCsv = () => {
+    const header = ['name', 'email', 'plan', 'monthly_fee_usd', 'status'];
+    const rows = clients.map((c) =>
+      [
+        csvEscape(c.name),
+        csvEscape(c.email ?? ''),
+        csvEscape(c.plan),
+        ((c.monthlyFeeCents ?? 0) / 100).toFixed(2),
+        csvEscape(c.status),
+      ].join(','),
+    );
+    const blob = new Blob([[header.join(','), ...rows].join('\n')], {
+      type: 'text/csv;charset=utf-8',
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `qrbanner-reseller-clients-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="space-y-2">
+      <div className="flex justify-end">
+        <Button type="button" variant="outline" size="sm" className="gap-2" onClick={exportCsv}>
+          <Download className="h-4 w-4" />
+          {t('enterpriseWorkspace.exportClientsCsv')}
+        </Button>
+      </div>
       {clients.map((c) => (
         <div
           key={c.id}

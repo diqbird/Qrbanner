@@ -389,6 +389,7 @@ export const esLocaleGaps: TranslationTree = {
     clientCreateFailed: "No se pudo añadir el cliente",
     confirmDeleteClient: "¿Eliminar este registro de cliente?",
     clientDeleted: "Cliente eliminado",
+    exportClientsCsv: "Exportar clientes CSV",
     saveFailed: "No se pudo guardar la configuración enterprise"
   },
   folders: {

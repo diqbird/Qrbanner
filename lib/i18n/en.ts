@@ -2778,6 +2778,7 @@ export const en: TranslationTree = {
     clientCreateFailed: 'Could not add client',
     confirmDeleteClient: 'Remove this client record?',
     clientDeleted: 'Client removed',
+    exportClientsCsv: 'Export clients CSV',
     saveFailed: 'Could not save enterprise settings',
   },
   enterpriseSupport: {
