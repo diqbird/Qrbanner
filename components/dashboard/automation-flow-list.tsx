@@ -11,7 +11,7 @@ type AutomationFlowListProps = {
 
 export function AutomationFlowList({ builder }: AutomationFlowListProps) {
   const { t } = useLanguage();
-  const { flows, qrOptions, loading, openEdit, toggleEnabled, removeFlow } = builder;
+  const { flows, qrOptions, loading, working, openEdit, toggleEnabled, removeFlow, sendTest } = builder;
 
   if (loading) {
     return (
@@ -31,9 +31,11 @@ export function AutomationFlowList({ builder }: AutomationFlowListProps) {
               key={flow.id}
               flow={flow}
               qrOptions={qrOptions}
+              working={working}
               onToggleEnabled={toggleEnabled}
               onEdit={openEdit}
               onRemove={removeFlow}
+              onTest={sendTest}
             />
           ))}
         </div>

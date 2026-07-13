@@ -20,7 +20,9 @@ export function buildOpenApiSpec() {
         '| Pro | 120 | 10,000 |\n' +
         '| Business | 300 | 100,000 |\n' +
         '| Agency | 600 | 500,000 |\n\n' +
-        'Every response includes `X-RateLimit-*` headers (limit, remaining, reset) and `X-RateLimit-Quota-*` for the monthly quota. ' +
+        'Every response includes rate-limit headers:\n' +
+        '- `X-RateLimit-Limit` / `X-RateLimit-Remaining` / `X-RateLimit-Reset` (per-minute burst)\n' +
+        '- `X-RateLimit-Quota` / `X-RateLimit-Quota-Remaining` / `X-RateLimit-Quota-Reset` (monthly quota)\n' +
         'Exceeding a limit returns HTTP 429 with a `Retry-After` header.',
       contact: { name: 'QRbanner Support', url: `${SITE_URL}/contact` },
     },
@@ -367,6 +369,20 @@ export function buildOpenApiSpec() {
             { name: 'id', in: 'path', required: true, schema: { type: 'string' } },
             { name: 'workspace_id', in: 'query', schema: { type: 'string' } },
           ],
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    name: { type: 'string' },
+                    color: { type: 'string' },
+                    workspace_id: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
           responses: { '200': { description: 'Updated' } },
         },
         delete: {

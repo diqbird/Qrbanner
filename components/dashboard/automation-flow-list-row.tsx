@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
-import { Trash2, Pencil, ArrowRight } from 'lucide-react';
+import { Trash2, Pencil, ArrowRight, Zap } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import type { AutomationAction, AutomationCondition, AutomationTrigger } from '@/lib/automation-types';
@@ -14,15 +14,19 @@ type Flow = AutomationBuilderState['flows'][number];
 export function AutomationFlowListRow({
   flow,
   qrOptions,
+  working,
   onToggleEnabled,
   onEdit,
   onRemove,
+  onTest,
 }: {
   flow: Flow;
   qrOptions: AutomationBuilderState['qrOptions'];
+  working?: boolean;
   onToggleEnabled: (id: string, enabled: boolean) => void;
   onEdit: (flow: Flow) => void;
   onRemove: (id: string) => void;
+  onTest: (id: string) => void;
 }) {
   const { t, locale } = useLanguage();
   const triggerLabel = (trigger: AutomationTrigger) => t(`settings.automations.trigger.${trigger}`);
@@ -44,6 +48,17 @@ export function AutomationFlowListRow({
             {flow.enabled ? t('settings.automations.active') : t('settings.automations.paused')}
           </Badge>
           <Switch checked={flow.enabled} onCheckedChange={(v) => onToggleEnabled(flow.id, v)} />
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-8 gap-1 text-xs"
+            disabled={working}
+            onClick={() => onTest(flow.id)}
+          >
+            <Zap className="h-3.5 w-3.5" />
+            {t('settings.automations.testBtn')}
+          </Button>
           <Button variant="ghost" size="icon-sm" onClick={() => onEdit(flow)} aria-label={t('common.editAria')}>
             <Pencil className="h-4 w-4" />
           </Button>

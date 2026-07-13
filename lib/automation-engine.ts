@@ -250,3 +250,108 @@ export function buildCtaAutomationContext(
     scannedAt: new Date().toISOString(),
   };
 }
+
+/** Run one flow with synthetic context (skips QR/condition filters). Used by Settings → Send test. */
+export async function testAutomationFlow(
+  userId: string,
+  flowId: string,
+): Promise<{ ok: true; success: boolean; error: string | null } | { ok: false; error: string }> {
+  const flow = await prisma.automationFlow.findFirst({
+    where: { id: flowId, userId },
+    select: {
+      id: true,
+      trigger: true,
+      qrCodeId: true,
+      conditions: true,
+      actions: true,
+    },
+  });
+  if (!flow) return { ok: false, error: 'Not found' };
+
+  const qr =
+    (flow.qrCodeId
+      ? await prisma.qRCode.findFirst({
+          where: { id: flow.qrCodeId, userId },
+          select: { id: true, userId: true, name: true, shortCode: true, workspaceId: true },
+        })
+      : null) ??
+    (await prisma.qRCode.findFirst({
+      where: { userId },
+      orderBy: { updatedAt: 'desc' },
+      select: { id: true, userId: true, name: true, shortCode: true, workspaceId: true },
+    })) ?? {
+      id: 'test_qr_id',
+      userId,
+      name: 'Automation test',
+      shortCode: 'test01',
+      workspaceId: null as string | null,
+    };
+
+  const now = new Date().toISOString();
+  let ctx: AutomationContext;
+  if (flow.trigger === 'lead') {
+    ctx = buildLeadAutomationContext(qr, {
+      name: 'Alex Example',
+      email: 'alex@example.com',
+      phone: '+15550100',
+      message: 'Automation test lead',
+      country: 'US',
+      city: 'San Francisco',
+      device: 'mobile',
+    });
+  } else if (flow.trigger === 'cta_click') {
+    ctx = buildCtaAutomationContext(qr, {
+      ctaLabel: 'Order online',
+      country: 'US',
+      device: 'mobile',
+    });
+  } else {
+    ctx = buildScanAutomationContext(qr, {
+      country: 'US',
+      city: 'San Francisco',
+      device: 'desktop',
+      browser: 'Chrome',
+      os: 'macOS',
+      scanned_at: now,
+    });
+  }
+
+  // Force match to this flow's QR filter when set
+  if (flow.qrCodeId) ctx.qrCodeId = flow.qrCodeId;
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { brandingSettings: true },
+  });
+  const locale = resolveUserEmailLocale(user?.brandingSettings);
+  const localizedCtx = localizeAutomationContext(ctx, locale);
+
+  const actions = Array.isArray(flow.actions) ? (flow.actions as AutomationAction[]) : [];
+  if (!actions.length) {
+    return { ok: true, success: false, error: 'No actions configured' };
+  }
+
+  let success = true;
+  let error: string | null = null;
+  for (const action of actions) {
+    try {
+      await executeAction(action, localizedCtx);
+    } catch (err) {
+      success = false;
+      error = err instanceof Error ? err.message : 'action_failed';
+      break;
+    }
+  }
+
+  await prisma.automationLog.create({
+    data: {
+      flowId: flow.id,
+      userId,
+      trigger: `${flow.trigger}.test`,
+      success,
+      error,
+    },
+  });
+
+  return { ok: true, success, error };
+}

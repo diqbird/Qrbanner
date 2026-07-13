@@ -74,10 +74,14 @@ export function useWebhookMutations({
     }
   };
 
-  const sendTestWebhook = async (id: string) => {
+  const sendTestWebhook = async (id: string, event: 'scan' | 'lead' | 'cta_click' = 'scan') => {
     setWorking(true);
     try {
-      const res = await fetch(`/api/webhooks/${id}/test`, { method: 'POST' });
+      const res = await fetch(`/api/webhooks/${id}/test`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ event }),
+      });
       const json = await res.json();
       if (!res.ok) {
         toast.error(json.error ?? t('settings.webhooks.testFailed'));

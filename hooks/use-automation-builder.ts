@@ -72,6 +72,26 @@ export function useAutomationBuilder() {
     }
   };
 
+  const sendTest = async (id: string) => {
+    setWorking(true);
+    try {
+      const res = await fetch(`/api/automations/${id}/test`, { method: 'POST' });
+      const json = await res.json();
+      if (!res.ok) {
+        toast.error(json.error ?? t('settings.automations.testFailed'));
+        return;
+      }
+      toast.success(
+        json.success ? t('settings.automations.testSuccess') : t('settings.automations.testFailed'),
+      );
+      aux.fetchLogs();
+    } catch {
+      toast.error(t('settings.automations.testFailed'));
+    } finally {
+      setWorking(false);
+    }
+  };
+
   return {
     flows,
     logs: aux.logs,
@@ -83,6 +103,7 @@ export function useAutomationBuilder() {
     saveFlow,
     toggleEnabled,
     removeFlow,
+    sendTest,
   };
 }
 

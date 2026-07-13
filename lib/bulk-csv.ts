@@ -5,10 +5,10 @@ const VALID_CATEGORIES = new Set(QR_CATEGORIES.map((c) => c.id));
 /** Absolute ceiling — per-plan limits enforced in API/UI */
 export const BULK_ABSOLUTE_MAX_ROWS = 10000;
 
-export const BULK_CSV_TEMPLATE = `name,category,url,phone,email,ssid,wifi_password,qr_password,expires_at,scan_limit
-Store Istanbul,url,https://example.com/istanbul,,,,,,,
-Store Ankara,url,https://example.com/ankara,,,,,,,
-Reception WiFi,wifi,,,,"GuestNetwork","welcome123",,,
+export const BULK_CSV_TEMPLATE = `name,category,url,phone,email,ssid,wifi_password,qr_password,expires_at,scan_limit,folder,labels
+Store Istanbul,url,https://example.com/istanbul,,,,,,,Istanbul,"retail,turkey"
+Store Ankara,url,https://example.com/ankara,,,,,,,Ankara,retail
+Reception WiFi,wifi,,,,"GuestNetwork","welcome123",,,,,"wifi,lobby"
 `;
 
 export interface BulkParsedRow {
@@ -19,6 +19,8 @@ export interface BulkParsedRow {
   password?: string;
   expiresAt?: string;
   scanLimit?: number;
+  folderName?: string;
+  labels?: string[];
 }
 
 export interface BulkParseError {
@@ -218,6 +220,11 @@ export function parseBulkCSV(
       password: accessPassword || undefined,
       expiresAt,
       scanLimit,
+      folderName: (raw.folder ?? raw.folder_name ?? '').trim() || undefined,
+      labels: (raw.labels ?? '')
+        .split(/[,;|]/)
+        .map((l) => l.trim())
+        .filter(Boolean),
     });
   });
 
