@@ -28,6 +28,7 @@ export function buildOpenApiSpec() {
     tags: [
       { name: 'Meta', description: 'API discovery' },
       { name: 'QR Codes', description: 'Create and manage dynamic QR codes' },
+      { name: 'Analytics', description: 'Scan analytics for QR codes' },
       { name: 'Folders', description: 'Organize QR codes into folders' },
       { name: 'Webhooks', description: 'Outbound scan event notifications (configured in dashboard)' },
     ],
@@ -63,9 +64,35 @@ export function buildOpenApiSpec() {
             is_active: { type: 'boolean' },
             total_scans: { type: 'integer' },
             folder_id: { type: 'string', nullable: true },
+            workspace_id: { type: 'string', nullable: true },
             labels: { type: 'array', items: { type: 'string' } },
             created_at: { type: 'string', format: 'date-time' },
             updated_at: { type: 'string', format: 'date-time' },
+          },
+        },
+        QrAnalyticsSummary: {
+          type: 'object',
+          properties: {
+            qr_code_id: { type: 'string' },
+            name: { type: 'string' },
+            total_scans: { type: 'integer' },
+            unique_scans: { type: 'integer' },
+            today_scans: { type: 'integer' },
+            last_7_days: { type: 'integer' },
+            last_30_days: { type: 'integer' },
+            scans_by_day: { type: 'array', items: { type: 'object', additionalProperties: true } },
+            scans_by_device: { type: 'array', items: { type: 'object', additionalProperties: true } },
+            scans_by_country: { type: 'array', items: { type: 'object', additionalProperties: true } },
+            scans_by_browser: { type: 'array', items: { type: 'object', additionalProperties: true } },
+            scans_by_os: { type: 'array', items: { type: 'object', additionalProperties: true } },
+            range: {
+              type: 'object',
+              properties: {
+                from: { type: 'string', format: 'date-time', nullable: true },
+                to: { type: 'string', format: 'date-time', nullable: true },
+              },
+            },
+            retention_cutoff: { type: 'string', format: 'date-time', nullable: true },
           },
         },
         Folder: {
@@ -120,6 +147,7 @@ export function buildOpenApiSpec() {
           summary: 'List QR codes',
           parameters: [
             { name: 'folder_id', in: 'query', schema: { type: 'string' } },
+            { name: 'workspace_id', in: 'query', schema: { type: 'string' } },
             { name: 'label', in: 'query', schema: { type: 'string' } },
             { name: 'limit', in: 'query', schema: { type: 'integer', default: 50, maximum: 100 } },
             { name: 'offset', in: 'query', schema: { type: 'integer', default: 0 } },
@@ -166,6 +194,7 @@ export function buildOpenApiSpec() {
                     url: { type: 'string', format: 'uri' },
                     qr_data: { type: 'object', additionalProperties: true },
                     folder_id: { type: 'string' },
+                    workspace_id: { type: 'string' },
                     labels: { type: 'array', items: { type: 'string' } },
                     is_active: { type: 'boolean' },
                     password: { type: 'string' },
@@ -215,6 +244,35 @@ export function buildOpenApiSpec() {
           summary: 'Delete QR code',
           parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
           responses: { '200': { description: 'Deleted' }, '404': { description: 'Not found' } },
+        },
+      },
+      '/api/v1/qr/{id}/analytics': {
+        get: {
+          tags: ['Analytics'],
+          summary: 'QR scan analytics summary',
+          parameters: [
+            { name: 'id', in: 'path', required: true, schema: { type: 'string' } },
+            { name: 'from', in: 'query', schema: { type: 'string', format: 'date-time' } },
+            { name: 'to', in: 'query', schema: { type: 'string', format: 'date-time' } },
+            { name: 'range', in: 'query', schema: { type: 'string', example: '30d' } },
+            { name: 'locale', in: 'query', schema: { type: 'string', enum: ['en', 'tr', 'de', 'es'] } },
+          ],
+          responses: {
+            '200': {
+              description: 'Analytics summary',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      data: { $ref: '#/components/schemas/QrAnalyticsSummary' },
+                    },
+                  },
+                },
+              },
+            },
+            '404': { description: 'Not found' },
+          },
         },
       },
       '/api/v1/folders': {

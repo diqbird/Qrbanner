@@ -721,6 +721,7 @@ export const es: TranslationTree = {
     epGetQr: 'Obtener un código QR',
     epUpdateQr: 'Actualizar código QR',
     epDeleteQr: 'Eliminar código QR',
+    epAnalyticsQr: 'Analítica de escaneos de un QR',
     epListFolders: 'Listar carpetas',
     epCreateFolder: 'Crear carpeta',
     authTitle: 'Autenticación',

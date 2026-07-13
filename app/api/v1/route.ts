@@ -23,6 +23,7 @@ export async function GET(req: NextRequest) {
       { method: 'GET', path: '/api/v1/qr', description: 'List QR codes' },
       { method: 'POST', path: '/api/v1/qr', description: 'Create QR code' },
       { method: 'GET', path: '/api/v1/qr/:id', description: 'Get QR code' },
+      { method: 'GET', path: '/api/v1/qr/:id/analytics', description: 'QR scan analytics summary' },
       { method: 'PATCH', path: '/api/v1/qr/:id', description: 'Update QR code' },
       { method: 'DELETE', path: '/api/v1/qr/:id', description: 'Delete QR code' },
       { method: 'GET', path: '/api/v1/folders', description: 'List folders' },

@@ -17,6 +17,7 @@ export function serializeQR(
   expiresAt: Date | null;
   scanLimit: number | null;
   folderId: string | null;
+  workspaceId?: string | null;
   labels: unknown;
   batchId: string | null;
   batchLabel: string | null;
@@ -45,6 +46,7 @@ export function serializeQR(
     expires_at: rest.expiresAt?.toISOString() ?? null,
     scan_limit: rest.scanLimit,
     folder_id: rest.folderId,
+    workspace_id: rest.workspaceId ?? null,
     folder: rest.folder
       ? { id: rest.folder.id, name: rest.folder.name, color: rest.folder.color }
       : null,

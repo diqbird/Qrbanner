@@ -1,0 +1,23 @@
+{
+  "upload": [
+    "app/api/v1/qr/[id]/analytics/route.ts",
+    "app/api/v1/route.ts",
+    "app/api/marketplace/interest/route.ts",
+    "app/(public)/developers/page.tsx",
+    "lib/api-serialize.ts",
+    "lib/openapi-spec.ts",
+    "components/dashboard/marketplace-seller-listing-form.tsx",
+    "components/templates/marketplace-purchase-button.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/de.ts",
+    "lib/i18n/es.ts",
+    "lib/i18n/de-locale-gaps.ts",
+    "lib/i18n/es-locale-gaps.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
