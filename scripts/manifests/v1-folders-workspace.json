@@ -1,0 +1,13 @@
+{
+  "upload": [
+    "app/api/v1/folders/route.ts",
+    "app/api/v1/folders/[id]/route.ts",
+    "lib/api-serialize.ts",
+    "lib/openapi-spec.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

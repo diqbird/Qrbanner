@@ -101,6 +101,7 @@ export function buildOpenApiSpec() {
             id: { type: 'string' },
             name: { type: 'string' },
             color: { type: 'string' },
+            workspace_id: { type: 'string', nullable: true },
             qr_count: { type: 'integer' },
             created_at: { type: 'string', format: 'date-time' },
             updated_at: { type: 'string', format: 'date-time' },
@@ -322,6 +323,9 @@ export function buildOpenApiSpec() {
         get: {
           tags: ['Folders'],
           summary: 'List folders',
+          parameters: [
+            { name: 'workspace_id', in: 'query', schema: { type: 'string' } },
+          ],
           responses: { '200': { description: 'Folder list' } },
         },
         post: {
@@ -337,6 +341,7 @@ export function buildOpenApiSpec() {
                   properties: {
                     name: { type: 'string' },
                     color: { type: 'string' },
+                    workspace_id: { type: 'string' },
                   },
                 },
               },
@@ -349,19 +354,28 @@ export function buildOpenApiSpec() {
         get: {
           tags: ['Folders'],
           summary: 'Get folder',
-          parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+          parameters: [
+            { name: 'id', in: 'path', required: true, schema: { type: 'string' } },
+            { name: 'workspace_id', in: 'query', schema: { type: 'string' } },
+          ],
           responses: { '200': { description: 'Folder' }, '404': { description: 'Not found' } },
         },
         patch: {
           tags: ['Folders'],
           summary: 'Update folder',
-          parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+          parameters: [
+            { name: 'id', in: 'path', required: true, schema: { type: 'string' } },
+            { name: 'workspace_id', in: 'query', schema: { type: 'string' } },
+          ],
           responses: { '200': { description: 'Updated' } },
         },
         delete: {
           tags: ['Folders'],
           summary: 'Delete folder',
-          parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+          parameters: [
+            { name: 'id', in: 'path', required: true, schema: { type: 'string' } },
+            { name: 'workspace_id', in: 'query', schema: { type: 'string' } },
+          ],
           responses: { '200': { description: 'Deleted' } },
         },
       },

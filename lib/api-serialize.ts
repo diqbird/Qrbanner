@@ -70,6 +70,7 @@ export function serializeFolder(folder: {
   id: string;
   name: string;
   color: string;
+  workspaceId?: string | null;
   createdAt: Date;
   updatedAt: Date;
   _count?: { qrCodes: number };
@@ -78,6 +79,7 @@ export function serializeFolder(folder: {
     id: folder.id,
     name: folder.name,
     color: folder.color,
+    workspace_id: folder.workspaceId ?? null,
     qr_count: folder._count?.qrCodes ?? 0,
     created_at: folder.createdAt.toISOString(),
     updated_at: folder.updatedAt.toISOString(),

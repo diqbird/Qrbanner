@@ -5,6 +5,7 @@ import { prisma } from '@/lib/db';
 import { authenticateApiRequest, isAuthError, apiError, apiSuccess } from '@/lib/api-auth';
 import { serializeFolder } from '@/lib/api-serialize';
 import { FOLDER_COLORS, normalizeFolderName } from '@/lib/organize-utils';
+import { assertFolderInWorkspace, resolveApiWorkspaceId } from '@/lib/workspace';
 
 export async function GET(
   req: NextRequest,
@@ -14,8 +15,16 @@ export async function GET(
   if (isAuthError(auth)) return auth;
 
   try {
+    const workspaceParam =
+      req.nextUrl.searchParams.get('workspace_id') ?? req.nextUrl.searchParams.get('workspaceId');
+    const ws = await resolveApiWorkspaceId(auth.userId, workspaceParam, 'viewer');
+    if (!ws.ok) return apiError(ws.error, 403, auth.rateLimitHeaders);
+
+    const access = await assertFolderInWorkspace(auth.userId, params.id, ws.workspaceId, 'viewer');
+    if (!access.ok) return apiError('Folder not found', 404, auth.rateLimitHeaders);
+
     const folder = await prisma.qRFolder.findFirst({
-      where: { id: params.id, userId: auth.userId },
+      where: { id: params.id },
       include: { _count: { select: { qrCodes: true } } },
     });
     if (!folder) return apiError('Folder not found', 404, auth.rateLimitHeaders);
@@ -34,19 +43,30 @@ export async function PATCH(
   if (isAuthError(auth)) return auth;
 
   try {
-    const folder = await prisma.qRFolder.findFirst({
-      where: { id: params.id, userId: auth.userId },
-    });
-    if (!folder) return apiError('Folder not found', 404);
-
     const body = await req.json();
+    const workspaceParam =
+      (body.workspace_id as string | undefined) ??
+      (body.workspaceId as string | undefined) ??
+      req.nextUrl.searchParams.get('workspace_id') ??
+      req.nextUrl.searchParams.get('workspaceId');
+    const ws = await resolveApiWorkspaceId(auth.userId, workspaceParam, 'editor');
+    if (!ws.ok) return apiError(ws.error, 403);
+
+    const access = await assertFolderInWorkspace(auth.userId, params.id, ws.workspaceId, 'editor');
+    if (!access.ok) return apiError('Folder not found', 404);
+
     const data: { name?: string; color?: string } = {};
 
     if (body.name !== undefined) {
       const name = normalizeFolderName(body.name);
       if (!name) return apiError('name is required', 400);
       const dup = await prisma.qRFolder.findFirst({
-        where: { userId: auth.userId, name, NOT: { id: params.id } },
+        where: {
+          userId: auth.userId,
+          name,
+          NOT: { id: params.id },
+          OR: [{ workspaceId: ws.workspaceId }, { workspaceId: null }],
+        },
       });
       if (dup) return apiError('Folder with this name already exists', 409);
       data.name = name;
@@ -77,10 +97,13 @@ export async function DELETE(
   if (isAuthError(auth)) return auth;
 
   try {
-    const folder = await prisma.qRFolder.findFirst({
-      where: { id: params.id, userId: auth.userId },
-    });
-    if (!folder) return apiError('Folder not found', 404);
+    const workspaceParam =
+      req.nextUrl.searchParams.get('workspace_id') ?? req.nextUrl.searchParams.get('workspaceId');
+    const ws = await resolveApiWorkspaceId(auth.userId, workspaceParam, 'editor');
+    if (!ws.ok) return apiError(ws.error, 403);
+
+    const access = await assertFolderInWorkspace(auth.userId, params.id, ws.workspaceId, 'editor');
+    if (!access.ok) return apiError('Folder not found', 404);
 
     await prisma.qRFolder.delete({ where: { id: params.id } });
     return apiSuccess({ message: 'Folder deleted' }, 200, auth.rateLimitHeaders);
