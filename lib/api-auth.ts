@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { hashApiKey, isValidApiKeyFormat } from '@/lib/api-key';
+import { isIpAllowed } from '@/lib/api-key-ip';
 import { getPlanLimits } from '@/lib/plans';
 import { enforceApiRateLimit } from '@/lib/api-rate-limit';
+import { clientIp } from '@/lib/rate-limit-store';
 
 export interface ApiAuthContext {
   userId: string;
@@ -39,7 +41,7 @@ export async function authenticateApiRequest(
   const keyHash = hashApiKey(rawKey);
   const user = await prisma.user.findFirst({
     where: { apiKeyHash: keyHash },
-    select: { id: true, email: true, plan: true },
+    select: { id: true, email: true, plan: true, apiKeyIpAllowlist: true },
   });
 
   if (!user) {
@@ -52,6 +54,10 @@ export async function authenticateApiRequest(
       { error: `API access is not available on the ${plan.name} plan. Please upgrade.` },
       { status: 403 }
     );
+  }
+
+  if (!isIpAllowed(clientIp(req), user.apiKeyIpAllowlist)) {
+    return NextResponse.json({ error: 'ip_not_allowed' }, { status: 403 });
   }
 
   const limit = await enforceApiRateLimit(user.id, plan);

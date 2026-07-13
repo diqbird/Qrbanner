@@ -15,11 +15,15 @@ export type ApiKeyStatus = {
   planId: string | null;
   planName: string | null;
   usage: ApiUsageState | null;
+  ipAllowlist: string[];
 };
 
 export function parseApiKeyStatus(json: unknown): ApiKeyStatus {
   const data = json as Record<string, unknown>;
   const usage = data.usage as Record<string, number> | undefined;
+  const allowlist = Array.isArray(data.ip_allowlist)
+    ? data.ip_allowlist.filter((x): x is string => typeof x === 'string')
+    : [];
   return {
     hasKey: Boolean(data.has_key),
     prefix: (data.prefix as string | null) ?? null,
@@ -35,5 +39,6 @@ export function parseApiKeyStatus(json: unknown): ApiKeyStatus {
           monthlyResetAt: usage.monthly_reset_at,
         }
       : null,
+    ipAllowlist: allowlist,
   };
 }

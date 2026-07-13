@@ -31,6 +31,8 @@ model User {
   apiKeyHash       String?   @unique
   apiKeyPrefix     String?
   apiKeyCreatedAt  DateTime?
+  /// Optional IPv4/CIDR (+ exact IPv6) allowlist for REST API key auth. Empty/null = unrestricted.
+  apiKeyIpAllowlist Json?
   referralCode       String?   @unique
   referredByUserId   String?
   referralSignupCount Int      @default(0)

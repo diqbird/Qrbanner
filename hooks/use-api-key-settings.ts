@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
@@ -16,6 +16,7 @@ export function useApiKeySettings() {
   const [newKey, setNewKey] = useState<string | null>(null);
   const [showKeyDialog, setShowKeyDialog] = useState(false);
   const [working, setWorking] = useState(false);
+  const [allowlistDraft, setAllowlistDraft] = useState('');
 
   const hasKey = data?.hasKey ?? false;
   const prefix = data?.prefix ?? null;
@@ -23,6 +24,12 @@ export function useApiKeySettings() {
   const planId = data?.planId ?? null;
   const planName = data?.planName ?? null;
   const usage = data?.usage ?? null;
+
+  useEffect(() => {
+    if (data) {
+      setAllowlistDraft((data.ipAllowlist ?? []).join('\n'));
+    }
+  }, [data]);
 
   const generateKey = async () => {
     if (hasKey && !confirm(t('settings.apiKey.confirmRegenerate'))) return;
@@ -57,6 +64,32 @@ export function useApiKeySettings() {
     }
   };
 
+  const saveAllowlist = async () => {
+    setWorking(true);
+    try {
+      const entries = allowlistDraft
+        .split(/[\n,]+/)
+        .map((s) => s.trim())
+        .filter(Boolean);
+      const res = await fetch('/api/auth/api-key', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ip_allowlist: entries }),
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        toast.error(resolveApiError(t, json.error, 'settings.apiKey.allowlistSaveFailed'));
+        return;
+      }
+      toast.success(t('settings.apiKey.allowlistSaved'));
+      reload();
+    } catch {
+      toast.error(t('auth.somethingWrong'));
+    } finally {
+      setWorking(false);
+    }
+  };
+
   const copyKey = () => {
     if (newKey) {
       navigator.clipboard?.writeText(newKey);
@@ -83,8 +116,11 @@ export function useApiKeySettings() {
     newKey,
     showKeyDialog,
     setShowKeyDialog,
+    allowlistDraft,
+    setAllowlistDraft,
     generateKey,
     revokeKey,
+    saveAllowlist,
     copyKey,
     copyCurl,
   };

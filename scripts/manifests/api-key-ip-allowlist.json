@@ -1,0 +1,23 @@
+{
+  "upload": [
+    "prisma/schema.prisma",
+    "prisma/migrations/0013_api_key_ip_allowlist/migration.sql",
+    "lib/api-key-ip.ts",
+    "lib/api-key-types.ts",
+    "lib/api-auth.ts",
+    "lib/openapi-spec.ts",
+    "app/api/auth/api-key/route.ts",
+    "hooks/use-api-key-settings.ts",
+    "components/dashboard/api-key-settings.tsx",
+    "components/dashboard/api-key-allowlist-panel.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/de.ts",
+    "lib/i18n/es.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": true,
+  "prisma_migrate": true,
+  "build": true,
+  "restart": true
+}

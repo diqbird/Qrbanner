@@ -6,6 +6,7 @@ import { useApiKeySettings } from '@/hooks/use-api-key-settings';
 import { ApiKeyStatusPanel } from './api-key-status-panel';
 import { ApiKeyUsagePanel } from './api-key-usage-panel';
 import { ApiKeyQuickRefPanel } from './api-key-quick-ref-panel';
+import { ApiKeyAllowlistPanel } from './api-key-allowlist-panel';
 import { ApiKeyRevealDialog } from './api-key-reveal-dialog';
 
 export function ApiKeySettings() {
@@ -27,6 +28,7 @@ export function ApiKeySettings() {
           ) : (
             <>
               <ApiKeyStatusPanel apiKey={apiKey} />
+              <ApiKeyAllowlistPanel apiKey={apiKey} />
               <ApiKeyUsagePanel apiKey={apiKey} />
               <ApiKeyQuickRefPanel apiKey={apiKey} />
             </>

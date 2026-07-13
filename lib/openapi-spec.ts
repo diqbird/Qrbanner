@@ -23,7 +23,11 @@ export function buildOpenApiSpec() {
         'Every response includes rate-limit headers:\n' +
         '- `X-RateLimit-Limit` / `X-RateLimit-Remaining` / `X-RateLimit-Reset` (per-minute burst)\n' +
         '- `X-RateLimit-Quota` / `X-RateLimit-Quota-Remaining` / `X-RateLimit-Quota-Reset` (monthly quota)\n' +
-        'Exceeding a limit returns HTTP 429 with a `Retry-After` header.',
+        'Exceeding a limit returns HTTP 429 with a `Retry-After` header.\n\n' +
+        '## IP allowlist\n' +
+        'Optional per-key IP allowlists can be configured in Dashboard → Settings. ' +
+        'When set, requests from other IPs receive HTTP 403 (`ip_not_allowed`). ' +
+        'Supports IPv4, IPv4 CIDR, and exact IPv6.',
       contact: { name: 'QRbanner Support', url: `${SITE_URL}/contact` },
     },
     servers: [{ url: SITE_URL }],

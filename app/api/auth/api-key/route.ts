@@ -1,12 +1,13 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
+import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/db';
 import { generateApiKey, hashApiKey, getApiKeyPrefix } from '@/lib/api-key';
+import { normalizeIpAllowlistInput, parseStoredIpAllowlist } from '@/lib/api-key-ip';
 import { getPlanLimits } from '@/lib/plans';
 import { getApiUsage } from '@/lib/api-rate-limit';
-import { requireUserId, isAuthError, getSessionUserId } from '@/lib/session-auth';
-
+import { requireUserId, isAuthError } from '@/lib/session-auth';
 
 export async function GET() {
   try {
@@ -16,7 +17,13 @@ export async function GET() {
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { apiKeyHash: true, apiKeyPrefix: true, apiKeyCreatedAt: true, plan: true },
+      select: {
+        apiKeyHash: true,
+        apiKeyPrefix: true,
+        apiKeyCreatedAt: true,
+        apiKeyIpAllowlist: true,
+        plan: true,
+      },
     });
 
     const plan = getPlanLimits(user?.plan ?? 'free');
@@ -26,6 +33,7 @@ export async function GET() {
       has_key: Boolean(user?.apiKeyHash),
       prefix: user?.apiKeyPrefix ?? null,
       created_at: user?.apiKeyCreatedAt?.toISOString() ?? null,
+      ip_allowlist: user?.apiKeyHash ? parseStoredIpAllowlist(user.apiKeyIpAllowlist) : [],
       plan: plan.id,
       plan_name: plan.name,
       api_access: plan.apiAccess,
@@ -85,6 +93,40 @@ export async function POST() {
   }
 }
 
+export async function PATCH(req: NextRequest) {
+  try {
+    const auth = await requireUserId();
+    if (isAuthError(auth)) return auth;
+    const userId = auth;
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { apiKeyHash: true },
+    });
+    if (!user?.apiKeyHash) {
+      return NextResponse.json({ error: 'api_key_required' }, { status: 400 });
+    }
+
+    const body = await req.json().catch(() => ({}));
+    const parsed = normalizeIpAllowlistInput(body.ip_allowlist ?? body.ipAllowlist);
+    if (!parsed.ok) {
+      return NextResponse.json({ error: parsed.error }, { status: 400 });
+    }
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        apiKeyIpAllowlist: parsed.entries.length ? parsed.entries : Prisma.DbNull,
+      },
+    });
+
+    return NextResponse.json({ ok: true, ip_allowlist: parsed.entries });
+  } catch (error) {
+    console.error('API key allowlist update error:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
 export async function DELETE() {
   try {
     const auth = await requireUserId();
@@ -97,6 +139,7 @@ export async function DELETE() {
         apiKeyHash: null,
         apiKeyPrefix: null,
         apiKeyCreatedAt: null,
+        apiKeyIpAllowlist: Prisma.DbNull,
       },
     });
 
