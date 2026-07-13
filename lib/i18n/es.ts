@@ -892,6 +892,8 @@ export const es: TranslationTree = {
     passwordChanged: 'Contraseña cambiada correctamente',
     passwordChangeFailed: 'No se pudo cambiar la contraseña',
     fillAllFields: 'Complete todos los campos',
+    mfaCodeRequired: 'Introduzca el código del autenticador o de recuperación para cambiar la contraseña.',
+    mfaForPasswordHint: 'Obligatorio porque la autenticación de dos factores está activada en su cuenta.',
     mfa: {
       title: 'Autenticación de dos factores',
       desc: 'Añada una capa extra de seguridad con una aplicación de autenticación (Google Authenticator, 1Password, etc.).',

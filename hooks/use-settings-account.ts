@@ -13,12 +13,31 @@ export function useSettingsAccount() {
   const [name, setName] = useState(session?.user?.name ?? '');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [mfaCode, setMfaCode] = useState('');
+  const [mfaEnabled, setMfaEnabled] = useState(false);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     const sessionName = session?.user?.name;
     if (sessionName != null) setName(sessionName);
   }, [session?.user?.name]);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch('/api/auth/mfa');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!cancelled) setMfaEnabled(Boolean(data.enabled));
+      } catch {
+        /* ignore */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useSettingsBillingSuccess({ t, setPlanRefresh });
 
@@ -27,8 +46,11 @@ export function useSettingsAccount() {
     name,
     currentPassword,
     newPassword,
+    mfaCode,
+    mfaEnabled,
     setCurrentPassword,
     setNewPassword,
+    setMfaCode,
     setSaving,
   });
 
@@ -42,6 +64,9 @@ export function useSettingsAccount() {
     setCurrentPassword,
     newPassword,
     setNewPassword,
+    mfaCode,
+    setMfaCode,
+    mfaEnabled,
     saving,
     handleUpdateProfile,
     handleChangePassword,

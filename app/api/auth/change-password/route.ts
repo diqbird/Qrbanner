@@ -6,14 +6,14 @@ import bcrypt from 'bcryptjs';
 import { validatePassword } from '@/lib/password';
 import { enforceRateLimit } from '@/lib/authenticated-rate-limit';
 import { AUTH_CHANGE_PASSWORD } from '@/lib/rate-limit-policies';
-import { requireUserId, isAuthError, requireSessionContext } from '@/lib/session-auth';
+import { requireUserId, isAuthError } from '@/lib/session-auth';
+import { verifyTotpOrRecovery } from '@/lib/mfa-recovery';
 
 export async function POST(req: NextRequest) {
   try {
     const auth = await requireUserId();
     if (isAuthError(auth)) return auth;
     const userId = auth;
-
 
     const limited = await enforceRateLimit(
       AUTH_CHANGE_PASSWORD.key(userId),
@@ -22,13 +22,32 @@ export async function POST(req: NextRequest) {
     );
     if (limited) return limited;
 
-    const { currentPassword, newPassword } = await req.json();
+    const body = await req.json().catch(() => ({}));
+    const currentPassword = typeof body.currentPassword === 'string' ? body.currentPassword : '';
+    const newPassword = typeof body.newPassword === 'string' ? body.newPassword : '';
+    const mfaCode =
+      typeof body.mfaCode === 'string'
+        ? body.mfaCode
+        : typeof body.mfa_code === 'string'
+          ? body.mfa_code
+          : typeof body.code === 'string'
+            ? body.code
+            : '';
 
     if (!currentPassword || !newPassword) {
       return NextResponse.json({ error: 'missing_fields' }, { status: 400 });
     }
 
-    const user = await prisma.user.findUnique({ where: { id: userId } });
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        password: true,
+        totpEnabled: true,
+        totpSecret: true,
+        totpRecoveryCodes: true,
+      },
+    });
     if (!user) {
       return NextResponse.json({ error: 'user_not_found' }, { status: 404 });
     }
@@ -40,6 +59,21 @@ export async function POST(req: NextRequest) {
     const isValid = await bcrypt.compare(currentPassword, user.password);
     if (!isValid) {
       return NextResponse.json({ error: 'wrong_current_password' }, { status: 400 });
+    }
+
+    if (user.totpEnabled) {
+      if (!mfaCode.trim()) {
+        return NextResponse.json({ error: 'mfa_code_required' }, { status: 400 });
+      }
+      const verified = await verifyTotpOrRecovery({
+        userId: user.id,
+        code: mfaCode,
+        totpSecretEncrypted: user.totpSecret,
+        recoveryCodes: user.totpRecoveryCodes,
+      });
+      if (!verified) {
+        return NextResponse.json({ error: 'invalid_mfa_code' }, { status: 400 });
+      }
     }
 
     const pwCheck = validatePassword(newPassword);

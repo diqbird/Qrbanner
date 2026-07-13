@@ -526,6 +526,8 @@ export const en: TranslationTree = {
     passwordChanged: 'Password changed successfully',
     passwordChangeFailed: 'Failed to change password',
     fillAllFields: 'Please fill in all fields',
+    mfaCodeRequired: 'Enter your authenticator or recovery code to change your password.',
+    mfaForPasswordHint: 'Required because two-factor authentication is enabled on your account.',
     mfa: {
       title: 'Two-Factor Authentication',
       desc: 'Add an extra layer of security with an authenticator app (Google Authenticator, 1Password, etc.).',

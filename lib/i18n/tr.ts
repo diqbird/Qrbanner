@@ -527,6 +527,8 @@ export const tr: TranslationTree = {
     passwordChanged: 'Şifre başarıyla değiştirildi',
     passwordChangeFailed: 'Şifre değiştirilemedi',
     fillAllFields: 'Lütfen tüm alanları doldurun',
+    mfaCodeRequired: 'Şifre değiştirmek için doğrulama veya kurtarma kodunu girin.',
+    mfaForPasswordHint: 'Hesabınızda iki faktörlü kimlik doğrulama etkin olduğu için gerekli.',
     mfa: {
       title: 'İki Faktörlü Kimlik Doğrulama',
       desc: 'Google Authenticator, 1Password vb. ile ekstra güvenlik katmanı ekleyin.',

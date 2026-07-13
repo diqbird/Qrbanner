@@ -50,9 +50,15 @@ export function SettingsAccountPasswordCard({ account }: { account: SettingsAcco
     setCurrentPassword,
     newPassword,
     setNewPassword,
+    mfaCode,
+    setMfaCode,
+    mfaEnabled,
     saving,
     handleChangePassword,
   } = account;
+
+  const sanitizeMfa = (value: string) =>
+    value.replace(/[^a-zA-Z0-9-]/g, '').toUpperCase().slice(0, 19);
 
   return (
     <Card>
@@ -76,6 +82,20 @@ export function SettingsAccountPasswordCard({ account }: { account: SettingsAcco
             <Label>{t('settings.newPassword')}</Label>
             <Input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
           </div>
+          {mfaEnabled && (
+            <div className="space-y-2">
+              <Label htmlFor="password-mfa-code">{t('settings.mfa.codeOrRecoveryLabel')}</Label>
+              <Input
+                id="password-mfa-code"
+                autoComplete="one-time-code"
+                value={mfaCode}
+                onChange={(e) => setMfaCode(sanitizeMfa(e.target.value))}
+                placeholder={t('settings.mfa.codeOrRecoveryPlaceholder')}
+                className="font-mono"
+              />
+              <p className="text-xs text-muted-foreground">{t('settings.mfaForPasswordHint')}</p>
+            </div>
+          )}
           <Button type="submit" loading={saving} className="gap-2">
             <Lock className="h-4 w-4" /> {t('settings.changePassword')}
           </Button>
