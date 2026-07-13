@@ -978,6 +978,8 @@ export const de: TranslationTree = {
       allowlistSave: 'Allowlist speichern',
       allowlistSaved: 'IP-Allowlist gespeichert',
       allowlistSaveFailed: 'IP-Allowlist konnte nicht gespeichert werden',
+      mfaRequired: 'Geben Sie Ihren Authenticator- oder Wiederherstellungscode ein, um den API-Key zu verwalten.',
+      mfaHint: 'Bei aktivem 2FA erforderlich für Erzeugen, Erneuern, Widerrufen und Allowlist-Änderungen.',
     },
     webhooks: {
       title: 'Scan-Webhooks',

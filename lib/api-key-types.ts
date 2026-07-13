@@ -16,6 +16,7 @@ export type ApiKeyStatus = {
   planName: string | null;
   usage: ApiUsageState | null;
   ipAllowlist: string[];
+  mfaEnabled: boolean;
 };
 
 export function parseApiKeyStatus(json: unknown): ApiKeyStatus {
@@ -40,5 +41,6 @@ export function parseApiKeyStatus(json: unknown): ApiKeyStatus {
         }
       : null,
     ipAllowlist: allowlist,
+    mfaEnabled: Boolean(data.mfa_enabled),
   };
 }

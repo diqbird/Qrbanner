@@ -613,6 +613,8 @@ export const tr: TranslationTree = {
       allowlistSave: 'Allowlist’i kaydet',
       allowlistSaved: 'IP allowlist kaydedildi',
       allowlistSaveFailed: 'IP allowlist kaydedilemedi',
+      mfaRequired: 'API anahtarını yönetmek için doğrulama veya kurtarma kodunu girin.',
+      mfaHint: '2FA açıksa oluşturma, yenileme, iptal ve allowlist değişiklikleri için gerekir.',
     },
     webhooks: {
       title: 'Tarama Webhook\'ları',

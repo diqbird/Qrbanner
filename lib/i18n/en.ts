@@ -612,6 +612,8 @@ export const en: TranslationTree = {
       allowlistSave: 'Save allowlist',
       allowlistSaved: 'IP allowlist saved',
       allowlistSaveFailed: 'Could not save IP allowlist',
+      mfaRequired: 'Enter your authenticator or recovery code to manage the API key.',
+      mfaHint: 'Required for generate, regenerate, revoke, and allowlist changes when 2FA is on.',
     },
     webhooks: {
       title: 'Scan Webhooks',

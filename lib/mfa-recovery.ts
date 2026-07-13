@@ -82,3 +82,28 @@ export async function verifyTotpOrRecovery(opts: {
   const ok = await consumeRecoveryCode(opts.userId, trimmed, opts.recoveryCodes);
   return ok ? 'recovery' : null;
 }
+
+/** When TOTP is enabled, require a valid authenticator or recovery code for sensitive actions. */
+export async function requireMfaStepUp(
+  userId: string,
+  code: string | undefined | null
+): Promise<{ ok: true } | { ok: false; error: string; status: number }> {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { totpEnabled: true, totpSecret: true, totpRecoveryCodes: true },
+  });
+  if (!user?.totpEnabled) return { ok: true };
+
+  const trimmed = (code ?? '').trim();
+  if (!trimmed) return { ok: false, error: 'mfa_code_required', status: 400 };
+
+  const verified = await verifyTotpOrRecovery({
+    userId,
+    code: trimmed,
+    totpSecretEncrypted: user.totpSecret,
+    recoveryCodes: user.totpRecoveryCodes,
+  });
+  if (!verified) return { ok: false, error: 'invalid_mfa_code', status: 400 };
+  return { ok: true };
+}
+

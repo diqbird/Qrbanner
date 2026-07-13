@@ -978,6 +978,8 @@ export const es: TranslationTree = {
       allowlistSave: 'Guardar lista',
       allowlistSaved: 'Lista de IP guardada',
       allowlistSaveFailed: 'No se pudo guardar la lista de IP',
+      mfaRequired: 'Introduzca el código del autenticador o de recuperación para gestionar la clave API.',
+      mfaHint: 'Obligatorio con 2FA para generar, regenerar, revocar y cambios de lista de IP.',
     },
     webhooks: {
       title: 'Webhooks de escaneo',

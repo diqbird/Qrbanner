@@ -17,6 +17,7 @@ export function useApiKeySettings() {
   const [showKeyDialog, setShowKeyDialog] = useState(false);
   const [working, setWorking] = useState(false);
   const [allowlistDraft, setAllowlistDraft] = useState('');
+  const [mfaCode, setMfaCode] = useState('');
 
   const hasKey = data?.hasKey ?? false;
   const prefix = data?.prefix ?? null;
@@ -24,6 +25,7 @@ export function useApiKeySettings() {
   const planId = data?.planId ?? null;
   const planName = data?.planName ?? null;
   const usage = data?.usage ?? null;
+  const mfaEnabled = data?.mfaEnabled ?? false;
 
   useEffect(() => {
     if (data) {
@@ -31,15 +33,26 @@ export function useApiKeySettings() {
     }
   }, [data]);
 
+  const mfaPayload = () => (mfaEnabled ? { mfaCode: mfaCode.trim() } : {});
+
   const generateKey = async () => {
     if (hasKey && !confirm(t('settings.apiKey.confirmRegenerate'))) return;
+    if (mfaEnabled && !mfaCode.trim()) {
+      toast.error(t('settings.apiKey.mfaRequired'));
+      return;
+    }
     setWorking(true);
     try {
-      const res = await fetch('/api/auth/api-key', { method: 'POST' });
+      const res = await fetch('/api/auth/api-key', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(mfaPayload()),
+      });
       const json = await res.json();
       if (!res.ok) return toast.error(resolveApiError(t, json.error, 'settings.apiKey.generateFailed'));
       setNewKey(json.api_key);
       setShowKeyDialog(true);
+      setMfaCode('');
       reload();
       toast.success(t('settings.apiKey.generated'));
     } catch {
@@ -51,11 +64,23 @@ export function useApiKeySettings() {
 
   const revokeKey = async () => {
     if (!confirm(t('settings.apiKey.confirmRevoke'))) return;
+    if (mfaEnabled && !mfaCode.trim()) {
+      toast.error(t('settings.apiKey.mfaRequired'));
+      return;
+    }
     setWorking(true);
     try {
-      const res = await fetch('/api/auth/api-key', { method: 'DELETE' });
-      if (!res.ok) return toast.error(t('settings.apiKey.revokeFailed'));
+      const res = await fetch('/api/auth/api-key', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(mfaPayload()),
+      });
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}));
+        return toast.error(resolveApiError(t, json.error, 'settings.apiKey.revokeFailed'));
+      }
       toast.success(t('settings.apiKey.revoked'));
+      setMfaCode('');
       reload();
     } catch {
       toast.error(t('auth.somethingWrong'));
@@ -65,6 +90,10 @@ export function useApiKeySettings() {
   };
 
   const saveAllowlist = async () => {
+    if (mfaEnabled && !mfaCode.trim()) {
+      toast.error(t('settings.apiKey.mfaRequired'));
+      return;
+    }
     setWorking(true);
     try {
       const entries = allowlistDraft
@@ -74,7 +103,7 @@ export function useApiKeySettings() {
       const res = await fetch('/api/auth/api-key', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ip_allowlist: entries }),
+        body: JSON.stringify({ ip_allowlist: entries, ...mfaPayload() }),
       });
       const json = await res.json();
       if (!res.ok) {
@@ -82,6 +111,7 @@ export function useApiKeySettings() {
         return;
       }
       toast.success(t('settings.apiKey.allowlistSaved'));
+      setMfaCode('');
       reload();
     } catch {
       toast.error(t('auth.somethingWrong'));
@@ -112,6 +142,9 @@ export function useApiKeySettings() {
     planId,
     planName,
     usage,
+    mfaEnabled,
+    mfaCode,
+    setMfaCode,
     working,
     newKey,
     showKeyDialog,

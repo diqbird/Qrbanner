@@ -8,6 +8,14 @@ import { normalizeIpAllowlistInput, parseStoredIpAllowlist } from '@/lib/api-key
 import { getPlanLimits } from '@/lib/plans';
 import { getApiUsage } from '@/lib/api-rate-limit';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
+import { requireMfaStepUp } from '@/lib/mfa-recovery';
+
+function extractMfaCode(body: Record<string, unknown>): string {
+  if (typeof body.mfaCode === 'string') return body.mfaCode;
+  if (typeof body.mfa_code === 'string') return body.mfa_code;
+  if (typeof body.code === 'string') return body.code;
+  return '';
+}
 
 export async function GET() {
   try {
@@ -22,6 +30,7 @@ export async function GET() {
         apiKeyPrefix: true,
         apiKeyCreatedAt: true,
         apiKeyIpAllowlist: true,
+        totpEnabled: true,
         plan: true,
       },
     });
@@ -34,6 +43,7 @@ export async function GET() {
       prefix: user?.apiKeyPrefix ?? null,
       created_at: user?.apiKeyCreatedAt?.toISOString() ?? null,
       ip_allowlist: user?.apiKeyHash ? parseStoredIpAllowlist(user.apiKeyIpAllowlist) : [],
+      mfa_enabled: Boolean(user?.totpEnabled),
       plan: plan.id,
       plan_name: plan.name,
       api_access: plan.apiAccess,
@@ -51,11 +61,15 @@ export async function GET() {
   }
 }
 
-export async function POST() {
+export async function POST(req: NextRequest) {
   try {
     const auth = await requireUserId();
     if (isAuthError(auth)) return auth;
     const userId = auth;
+
+    const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
+    const mfa = await requireMfaStepUp(userId, extractMfaCode(body));
+    if (!mfa.ok) return NextResponse.json({ error: mfa.error }, { status: mfa.status });
 
     const rawKey = generateApiKey();
     const keyHash = hashApiKey(rawKey);
@@ -107,7 +121,10 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: 'api_key_required' }, { status: 400 });
     }
 
-    const body = await req.json().catch(() => ({}));
+    const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
+    const mfa = await requireMfaStepUp(userId, extractMfaCode(body));
+    if (!mfa.ok) return NextResponse.json({ error: mfa.error }, { status: mfa.status });
+
     const parsed = normalizeIpAllowlistInput(body.ip_allowlist ?? body.ipAllowlist);
     if (!parsed.ok) {
       return NextResponse.json({ error: parsed.error }, { status: 400 });
@@ -127,11 +144,15 @@ export async function PATCH(req: NextRequest) {
   }
 }
 
-export async function DELETE() {
+export async function DELETE(req: NextRequest) {
   try {
     const auth = await requireUserId();
     if (isAuthError(auth)) return auth;
     const userId = auth;
+
+    const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
+    const mfa = await requireMfaStepUp(userId, extractMfaCode(body));
+    if (!mfa.ok) return NextResponse.json({ error: mfa.error }, { status: mfa.status });
 
     await prisma.user.update({
       where: { id: userId },
