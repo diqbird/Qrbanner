@@ -1,0 +1,4 @@
+Campaign,Campaign Type,Campaign Status,Budget,Budget type,Bid Strategy Type,Networks,Languages,Locations
+QRB | Search | Create,Search,Paused,5.00,Daily,Maximize clicks,Google search,en,United States;United Kingdom;Canada;Australia
+QRB | Search | Competitor,Search,Paused,3.00,Daily,Maximize clicks,Google search,en,United States;United Kingdom;Canada;Australia
+QRB | Search | Use cases,Search,Paused,3.00,Daily,Maximize clicks,Google search,en,United States;United Kingdom;Canada;Australia

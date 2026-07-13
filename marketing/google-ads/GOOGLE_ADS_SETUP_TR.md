@@ -33,7 +33,19 @@ Bu adımlar konsolda yapılır; deploy gerekmez.
 
 ## D. Kampanya iskeleti (dönüşümler hazır olunca)
 
-Yapıştırma paketleri:
+### Ads Editor CSV (EN — önerilen)
+Klasör: [`editor-csv/`](./editor-csv/) · üret: `python scripts/generate-ads-editor-csv.py`
+
+Import sırası (kampanyalar **Paused** gelir):
+1. `01-campaigns.csv`
+2. `02-ad-groups.csv`
+3. `03-keywords.csv`
+4. `04-rsa.csv`
+5. `05-negatives.csv`
+
+Sonra Create kampanyasını aç; Competitor / Use cases sonra.
+
+### Manuel yapıştırma
 - EN: [`ADS_EDITOR_PASTE.md`](./ADS_EDITOR_PASTE.md)
 - DE: [`ADS_EDITOR_PASTE_DE.md`](./ADS_EDITOR_PASTE_DE.md)
 - ES: [`ADS_EDITOR_PASTE_ES.md`](./ADS_EDITOR_PASTE_ES.md)
