@@ -1,0 +1,4 @@
+Campaign,Campaign Type,Campaign Status,Budget,Budget type,Bid Strategy Type,Networks,Languages,Locations
+QRB | Search | Create ES,Search,Paused,5.00,Daily,Maximize clicks,Google search,es,Spain;Mexico
+QRB | Search | Competitor ES,Search,Paused,3.00,Daily,Maximize clicks,Google search,es,Spain;Mexico
+QRB | Search | Use cases ES,Search,Paused,3.00,Daily,Maximize clicks,Google search,es,Spain;Mexico

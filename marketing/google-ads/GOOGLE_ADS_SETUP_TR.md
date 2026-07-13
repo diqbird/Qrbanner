@@ -33,8 +33,12 @@ Bu adımlar konsolda yapılır; deploy gerekmez.
 
 ## D. Kampanya iskeleti (dönüşümler hazır olunca)
 
-### Ads Editor CSV (EN — önerilen)
-Klasör: [`editor-csv/`](./editor-csv/) · üret: `python scripts/generate-ads-editor-csv.py`
+### Ads Editor CSV (önerilen)
+- EN: [`editor-csv/`](./editor-csv/)
+- DE: [`editor-csv-de/`](./editor-csv-de/)
+- ES: [`editor-csv-es/`](./editor-csv-es/)
+
+Üret: `python scripts/generate-ads-editor-csv.py`
 
 Import sırası (kampanyalar **Paused** gelir):
 1. `01-campaigns.csv`

@@ -1,4 +1,4 @@
-# Google Ads Editor CSV (EN Search test)
+# Google Ads Editor CSV (ES — ES/MX)
 
 Import order in Google Ads Editor:
 
@@ -8,5 +8,5 @@ Import order in Google Ads Editor:
 4. `04-rsa.csv`
 5. `05-negatives.csv`
 
-Budgets: Create $5/day · Competitor $3/day · Use cases $3/day.
-Enable Create first after GA4 §A–C.
+Presupuestos: Create €5/día · Competitor €3 · Use cases €3.
+Idioma ES · ES/MX.

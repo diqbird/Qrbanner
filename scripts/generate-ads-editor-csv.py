@@ -6,8 +6,6 @@ import csv
 import os
 from pathlib import Path
 
-OUT = Path(__file__).resolve().parents[1] / "marketing" / "google-ads" / "editor-csv"
-
 NEGATIVES = [
     "free download",
     "template only",
@@ -283,7 +281,31 @@ def strip_match(raw: str) -> str:
     return raw
 
 
-def write_campaigns(path: Path) -> None:
+def pad_headlines(headlines: list[str], fillers: list[str]) -> list[str]:
+    out = list(headlines)
+    for f in fillers:
+        if len(out) >= 15:
+            break
+        if f not in out and len(f) <= 30:
+            out.append(f)
+    while len(out) < 3:
+        out.append("QRbanner")
+    return out[:15]
+
+
+def pad_descriptions(descriptions: list[str], fillers: list[str]) -> list[str]:
+    out = list(descriptions)
+    for f in fillers:
+        if len(out) >= 4:
+            break
+        if f not in out and len(f) <= 90:
+            out.append(f)
+    while len(out) < 2:
+        out.append("Dynamic QR codes with analytics. Start free on QRbanner.")
+    return out[:4]
+
+
+def write_campaigns(path: Path, campaigns: list, languages: str, locations: str) -> None:
     cols = [
         "Campaign",
         "Campaign Type",
@@ -298,7 +320,7 @@ def write_campaigns(path: Path) -> None:
     with path.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=cols)
         w.writeheader()
-        for c in CAMPAIGNS:
+        for c in campaigns:
             w.writerow(
                 {
                     "Campaign": c["campaign"],
@@ -308,18 +330,18 @@ def write_campaigns(path: Path) -> None:
                     "Budget type": "Daily",
                     "Bid Strategy Type": "Maximize clicks",
                     "Networks": "Google search",
-                    "Languages": "en",
-                    "Locations": "United States;United Kingdom;Canada;Australia",
+                    "Languages": languages,
+                    "Locations": locations,
                 }
             )
 
 
-def write_ad_groups(path: Path) -> None:
+def write_ad_groups(path: Path, campaigns: list) -> None:
     cols = ["Campaign", "Ad Group", "Ad Group Status", "Max CPC"]
     with path.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=cols)
         w.writeheader()
-        for c in CAMPAIGNS:
+        for c in campaigns:
             for g in c["groups"]:
                 w.writerow(
                     {
@@ -331,12 +353,12 @@ def write_ad_groups(path: Path) -> None:
                 )
 
 
-def write_keywords(path: Path) -> None:
+def write_keywords(path: Path, campaigns: list) -> None:
     cols = ["Campaign", "Ad Group", "Keyword", "Criterion Type", "Final URL", "Keyword Status"]
     with path.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=cols)
         w.writeheader()
-        for c in CAMPAIGNS:
+        for c in campaigns:
             for g in c["groups"]:
                 for raw, match in g["keywords"]:
                     w.writerow(
@@ -351,7 +373,7 @@ def write_keywords(path: Path) -> None:
                     )
 
 
-def write_rsa(path: Path) -> None:
+def write_rsa(path: Path, campaigns: list, headline_fillers: list[str], desc_fillers: list[str]) -> None:
     cols = (
         ["Campaign", "Ad Group", "Ad type", "Final URL", "Path 1", "Path 2"]
         + [f"Headline {i}" for i in range(1, 16)]
@@ -360,7 +382,7 @@ def write_rsa(path: Path) -> None:
     with path.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=cols)
         w.writeheader()
-        for c in CAMPAIGNS:
+        for c in campaigns:
             for g in c["groups"]:
                 row = {
                     "Campaign": c["campaign"],
@@ -368,24 +390,26 @@ def write_rsa(path: Path) -> None:
                     "Ad type": "Responsive search ad",
                     "Final URL": g["final_url"],
                     "Path 1": g["path1"],
-                    "Path 2": g["path2"],
+                    "Path 2": g.get("path2", ""),
                 }
-                for i, h in enumerate(g["headlines"][:15], start=1):
+                headlines = pad_headlines(g["headlines"], headline_fillers)
+                descriptions = pad_descriptions(g["descriptions"], desc_fillers)
+                for i, h in enumerate(headlines, start=1):
                     assert len(h) <= 30, f"Headline too long ({len(h)}): {h}"
                     row[f"Headline {i}"] = h
-                for i, d in enumerate(g["descriptions"][:4], start=1):
+                for i, d in enumerate(descriptions, start=1):
                     assert len(d) <= 90, f"Description too long ({len(d)}): {d}"
                     row[f"Description {i}"] = d
                 w.writerow(row)
 
 
-def write_negatives(path: Path) -> None:
+def write_negatives(path: Path, campaigns: list, negatives: list[str]) -> None:
     cols = ["Campaign", "Keyword", "Criterion Type", "Keyword Status"]
     with path.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=cols)
         w.writeheader()
-        for c in CAMPAIGNS:
-            for term in NEGATIVES:
+        for c in campaigns:
+            for term in negatives:
                 w.writerow(
                     {
                         "Campaign": c["campaign"],
@@ -396,32 +420,349 @@ def write_negatives(path: Path) -> None:
                 )
 
 
-def main() -> int:
-    OUT.mkdir(parents=True, exist_ok=True)
-    write_campaigns(OUT / "01-campaigns.csv")
-    write_ad_groups(OUT / "02-ad-groups.csv")
-    write_keywords(OUT / "03-keywords.csv")
-    write_rsa(OUT / "04-rsa.csv")
-    write_negatives(OUT / "05-negatives.csv")
-    readme = OUT / "README.md"
-    readme.write_text(
-        """# Google Ads Editor CSV (EN Search test)
+def emit_pack(
+    out_dir: Path,
+    *,
+    title: str,
+    campaigns: list,
+    negatives: list[str],
+    languages: str,
+    locations: str,
+    headline_fillers: list[str],
+    desc_fillers: list[str],
+    readme_extra: str,
+) -> None:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    write_campaigns(out_dir / "01-campaigns.csv", campaigns, languages, locations)
+    write_ad_groups(out_dir / "02-ad-groups.csv", campaigns)
+    write_keywords(out_dir / "03-keywords.csv", campaigns)
+    write_rsa(out_dir / "04-rsa.csv", campaigns, headline_fillers, desc_fillers)
+    write_negatives(out_dir / "05-negatives.csv", campaigns, negatives)
+    (out_dir / "README.md").write_text(
+        f"""# {title}
 
-Import order in [Google Ads Editor](https://ads.google.com/home/tools/ads-editor/):
+Import order in Google Ads Editor:
 
-1. `01-campaigns.csv` — 3 Search campaigns (Paused, Maximize clicks)
+1. `01-campaigns.csv` (Paused)
 2. `02-ad-groups.csv`
 3. `03-keywords.csv`
 4. `04-rsa.csv`
 5. `05-negatives.csv`
 
-Then: **Post** → review → enable Create campaign first after GA4 conversions (§A–C).
-
-Budgets: Create $5/day · Competitor $3/day · Use cases $3/day.
+{readme_extra}
 """,
         encoding="utf-8",
     )
-    print(f"Wrote CSVs to {OUT}")
+    print(f"Wrote CSVs to {out_dir}")
+
+
+CAMPAIGNS_DE = [
+    {
+        "campaign": "QRB | Search | Create DE",
+        "budget": "5.00",
+        "groups": [
+            {
+                "ad_group": "Dynamischer QR Generator",
+                "final_url": "https://qrbanner.com/de/qr/create?quick=1",
+                "path1": "Kostenlos",
+                "path2": "",
+                "keywords": [
+                    ("[dynamischer qr code generator]", "Exact"),
+                    ("[dynamischer qr code erstellen]", "Exact"),
+                    ("[editierbarer qr code]", "Exact"),
+                    ('"qr code generator mit tracking"', "Phrase"),
+                    ('"kostenloser dynamischer qr code"', "Phrase"),
+                    ('"qr code nach druck ändern"', "Phrase"),
+                ],
+                "headlines": [
+                    "Dynamischer QR-Code Generator",
+                    "Kostenlos starten — 1 QR",
+                    "Links nach dem Druck ändern",
+                    "Scan-Analysen inklusive",
+                    "API im Free-Plan",
+                    "Druckfertiger QR-Export",
+                    "14 Tage Pro-Test",
+                    "Keine Kreditkarte nötig",
+                    "QRbanner — Smart QR",
+                    "Menü-, WiFi- & Karten-QR",
+                ],
+                "descriptions": [
+                    "Dynamische QR für Menüs, WiFi & Karten. Editieren, Scans tracken. Kostenlos starten.",
+                    "Geo-/Zeit-Routing, API & Webhooks. Free-Plan + 14-Tage-Pro-Test — ohne Karte.",
+                ],
+            },
+        ],
+    },
+    {
+        "campaign": "QRB | Search | Competitor DE",
+        "budget": "3.00",
+        "groups": [
+            {
+                "ad_group": "QR TIGER DE",
+                "final_url": "https://qrbanner.com/de/vs/qr-tiger",
+                "path1": "Vergleich",
+                "path2": "TIGER",
+                "keywords": [
+                    ("[qr tiger alternative]", "Exact"),
+                    ("[qr tiger vergleich]", "Exact"),
+                    ('"günstigere qr tiger alternative"', "Phrase"),
+                ],
+                "headlines": [
+                    "QR TIGER Alternative",
+                    "Mehr Free-Features",
+                    "API im Free-Plan",
+                    "Codes nach Kündigung aktiv",
+                    "Ab $9.99/mo Pro",
+                    "QRbanner vs QR TIGER",
+                ],
+                "descriptions": [
+                    "QRbanner vs QR TIGER: Free-Limits, API, Codes nach Kündigung. Jetzt vergleichen.",
+                    "QR-TIGER-Alternative mit dynamischen Codes & Analysen. Kostenlos starten.",
+                ],
+            },
+        ],
+    },
+    {
+        "campaign": "QRB | Search | Use cases DE",
+        "budget": "3.00",
+        "groups": [
+            {
+                "ad_group": "Restaurant Menü DE",
+                "final_url": "https://qrbanner.com/de/templates/restaurant-menu",
+                "path1": "Menu-QR",
+                "path2": "",
+                "keywords": [
+                    ("[restaurant menü qr code]", "Exact"),
+                    ("[digitale speisekarte qr]", "Exact"),
+                    ('"menü qr code generator"', "Phrase"),
+                ],
+                "headlines": [
+                    "Restaurant-Menü-QR-Code",
+                    "Menü ohne Neudruck updaten",
+                    "Scan-Analysen für Tische",
+                    "Kostenloser Menü-QR",
+                ],
+                "descriptions": [
+                    "Papier-Menüs durch dynamische QR ersetzen. Speisen jederzeit updaten. Kostenlos.",
+                    "Menü-QR mit Scan-Analysen & Landingpage. Vorlage bereit — in Minuten erstellt.",
+                ],
+            },
+        ],
+    },
+]
+
+NEGATIVES_DE = [
+    "kostenlos download",
+    "nur vorlage",
+    "png",
+    "svg only",
+    "statischer qr",
+    "qr code reader",
+    "qr scannen",
+    "barcode",
+    "minecraft",
+    "fortnite",
+    "spiel",
+    "apk",
+    "crack",
+    "job",
+    "gehalt",
+    "was ist qr",
+    "wikipedia",
+]
+
+CAMPAIGNS_ES = [
+    {
+        "campaign": "QRB | Search | Create ES",
+        "budget": "5.00",
+        "groups": [
+            {
+                "ad_group": "Generador QR dinámico",
+                "final_url": "https://qrbanner.com/es/qr/create?quick=1",
+                "path1": "Gratis",
+                "path2": "",
+                "keywords": [
+                    ("[generador de codigo qr dinamico]", "Exact"),
+                    ("[crear codigo qr editable]", "Exact"),
+                    ('"generador qr con analitica"', "Phrase"),
+                    ('"codigo qr dinamico gratis"', "Phrase"),
+                    ('"cambiar enlace qr despues de imprimir"', "Phrase"),
+                ],
+                "headlines": [
+                    "Generador de QR dinámico",
+                    "Empiece gratis — 1 QR",
+                    "Edite el enlace tras imprimir",
+                    "Analítica de escaneos",
+                    "API en plan gratuito",
+                    "Exportación para imprimir",
+                    "Prueba Pro 14 días",
+                    "Sin tarjeta de crédito",
+                    "QRbanner — QR inteligente",
+                    "QR menú, WiFi y tarjetas",
+                ],
+                "descriptions": [
+                    "QR dinámicos para menús, WiFi y tarjetas. Edite y rastree escaneos. Empiece gratis.",
+                    "Geovalla, horarios, API y webhooks. Plan gratis + prueba Pro 14 días — sin tarjeta.",
+                ],
+            },
+        ],
+    },
+    {
+        "campaign": "QRB | Search | Competitor ES",
+        "budget": "3.00",
+        "groups": [
+            {
+                "ad_group": "QR TIGER ES",
+                "final_url": "https://qrbanner.com/es/vs/qr-tiger",
+                "path1": "Comparar",
+                "path2": "TIGER",
+                "keywords": [
+                    ("[alternativa a qr tiger]", "Exact"),
+                    ("[qr tiger vs]", "Exact"),
+                    ('"alternativa barata a qr tiger"', "Phrase"),
+                ],
+                "headlines": [
+                    "Alternativa a QR TIGER",
+                    "Más funciones gratis",
+                    "API en plan gratuito",
+                    "Activos tras cancelar",
+                    "Pro desde $9.99/mes",
+                    "QRbanner vs QR TIGER",
+                ],
+                "descriptions": [
+                    "QRbanner vs QR TIGER: límites gratis, API, códigos tras cancelar. Compáralos.",
+                    "Alternativa a QR TIGER con QR dinámico y analítica. Empiece gratis hoy.",
+                ],
+            },
+        ],
+    },
+    {
+        "campaign": "QRB | Search | Use cases ES",
+        "budget": "3.00",
+        "groups": [
+            {
+                "ad_group": "Menú restaurante ES",
+                "final_url": "https://qrbanner.com/es/templates/restaurant-menu",
+                "path1": "Menu-QR",
+                "path2": "",
+                "keywords": [
+                    ("[codigo qr menu restaurante]", "Exact"),
+                    ("[menu digital qr]", "Exact"),
+                    ('"generador qr de menu"', "Phrase"),
+                ],
+                "headlines": [
+                    "QR de menú restaurante",
+                    "Menú sin reimprimir",
+                    "Analítica en mesa",
+                    "Menú QR gratis",
+                ],
+                "descriptions": [
+                    "Sustituya menús en papel por QR dinámico. Actualice platos cuando quiera. Gratis.",
+                    "QR de menú con analítica y landing. Plantilla lista — créelo en minutos.",
+                ],
+            },
+        ],
+    },
+]
+
+NEGATIVES_ES = [
+    "descarga gratis",
+    "solo plantilla",
+    "png",
+    "svg only",
+    "qr estático",
+    "lector qr",
+    "escanear qr",
+    "código de barras",
+    "minecraft",
+    "fortnite",
+    "juego",
+    "apk",
+    "crack",
+    "empleo",
+    "salario",
+    "qué es un qr",
+    "wikipedia",
+]
+
+
+def main() -> int:
+    root = Path(__file__).resolve().parents[1] / "marketing" / "google-ads"
+
+    emit_pack(
+        root / "editor-csv",
+        title="Google Ads Editor CSV (EN Search test)",
+        campaigns=CAMPAIGNS,
+        negatives=NEGATIVES,
+        languages="en",
+        locations="United States;United Kingdom;Canada;Australia",
+        headline_fillers=[
+            "Try QRbanner Free",
+            "Scan Analytics Included",
+            "Print-Ready QR Export",
+            "No Credit Card to Start",
+            "API on Free Plan",
+        ],
+        desc_fillers=[
+            "Dynamic QR with analytics and API. Free plan available. Start on QRbanner today.",
+            "Edit links after printing. Track scans. Upgrade when you need more codes.",
+        ],
+        readme_extra="Budgets: Create $5/day · Competitor $3/day · Use cases $3/day.\nEnable Create first after GA4 §A–C.",
+    )
+
+    emit_pack(
+        root / "editor-csv-de",
+        title="Google Ads Editor CSV (DE — DE/AT/CH)",
+        campaigns=CAMPAIGNS_DE,
+        negatives=NEGATIVES_DE,
+        languages="de",
+        locations="Germany;Austria;Switzerland",
+        headline_fillers=[
+            "Kostenlos starten",
+            "Scan-Analysen inklusive",
+            "API im Free-Plan",
+            "Druckfertiger QR-Export",
+            "Keine Kreditkarte nötig",
+            "QRbanner Smart QR",
+            "Dynamische QR-Codes",
+            "14 Tage Pro-Test",
+            "Links jederzeit ändern",
+            "1 Free Dynamic QR",
+            "Geo- und Zeit-Routing",
+        ],
+        desc_fillers=[
+            "Dynamische QR-Codes mit Analysen und API. Free-Plan verfügbar. Jetzt starten.",
+            "Links nach dem Druck ändern. Scans tracken. Bei Bedarf upgraden.",
+        ],
+        readme_extra="Budgets: Create €5/Tag · Competitor €3 · Use cases €3.\nSprache DE · DE/AT/CH.",
+    )
+
+    emit_pack(
+        root / "editor-csv-es",
+        title="Google Ads Editor CSV (ES — ES/MX)",
+        campaigns=CAMPAIGNS_ES,
+        negatives=NEGATIVES_ES,
+        languages="es",
+        locations="Spain;Mexico",
+        headline_fillers=[
+            "Empiece gratis",
+            "Analítica de escaneos",
+            "API en plan gratuito",
+            "Sin tarjeta de crédito",
+            "QRbanner QR inteligente",
+            "QR dinámico gratis",
+            "Edite tras imprimir",
+            "Prueba Pro 14 días",
+            "Exportación impresión",
+            "1 QR dinámico gratis",
+            "Geovalla y horarios",
+        ],
+        desc_fillers=[
+            "Códigos QR dinámicos con analítica y API. Plan gratuito disponible. Empiece hoy.",
+            "Edite el enlace tras imprimir. Rastree escaneos. Mejore de plan cuando lo necesite.",
+        ],
+        readme_extra="Presupuestos: Create €5/día · Competitor €3 · Use cases €3.\nIdioma ES · ES/MX.",
+    )
     return 0
 
 

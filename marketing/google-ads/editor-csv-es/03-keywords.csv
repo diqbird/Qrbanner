@@ -1,0 +1,12 @@
+Campaign,Ad Group,Keyword,Criterion Type,Final URL,Keyword Status
+QRB | Search | Create ES,Generador QR dinámico,generador de codigo qr dinamico,Exact,https://qrbanner.com/es/qr/create?quick=1,Enabled
+QRB | Search | Create ES,Generador QR dinámico,crear codigo qr editable,Exact,https://qrbanner.com/es/qr/create?quick=1,Enabled
+QRB | Search | Create ES,Generador QR dinámico,generador qr con analitica,Phrase,https://qrbanner.com/es/qr/create?quick=1,Enabled
+QRB | Search | Create ES,Generador QR dinámico,codigo qr dinamico gratis,Phrase,https://qrbanner.com/es/qr/create?quick=1,Enabled
+QRB | Search | Create ES,Generador QR dinámico,cambiar enlace qr despues de imprimir,Phrase,https://qrbanner.com/es/qr/create?quick=1,Enabled
+QRB | Search | Competitor ES,QR TIGER ES,alternativa a qr tiger,Exact,https://qrbanner.com/es/vs/qr-tiger,Enabled
+QRB | Search | Competitor ES,QR TIGER ES,qr tiger vs,Exact,https://qrbanner.com/es/vs/qr-tiger,Enabled
+QRB | Search | Competitor ES,QR TIGER ES,alternativa barata a qr tiger,Phrase,https://qrbanner.com/es/vs/qr-tiger,Enabled
+QRB | Search | Use cases ES,Menú restaurante ES,codigo qr menu restaurante,Exact,https://qrbanner.com/es/templates/restaurant-menu,Enabled
+QRB | Search | Use cases ES,Menú restaurante ES,menu digital qr,Exact,https://qrbanner.com/es/templates/restaurant-menu,Enabled
+QRB | Search | Use cases ES,Menú restaurante ES,generador qr de menu,Phrase,https://qrbanner.com/es/templates/restaurant-menu,Enabled
