@@ -7,6 +7,8 @@ Import order in Google Ads Editor:
 3. `03-keywords.csv`
 4. `04-rsa.csv`
 5. `05-negatives.csv`
+6. `06-sitelinks.csv`
+7. `07-callouts.csv`
 
 Budgets: Create €5/Tag · Competitor €3 · Use cases €3.
 Sprache DE · DE/AT/CH.

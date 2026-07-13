@@ -420,6 +420,41 @@ def write_negatives(path: Path, campaigns: list, negatives: list[str]) -> None:
                 )
 
 
+def write_sitelinks(path: Path, campaigns: list, sitelinks: list[dict]) -> None:
+    cols = [
+        "Campaign",
+        "Link Text",
+        "Final URL",
+        "Description Line 1",
+        "Description Line 2",
+    ]
+    with path.open("w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=cols)
+        w.writeheader()
+        for c in campaigns:
+            for s in sitelinks:
+                w.writerow(
+                    {
+                        "Campaign": c["campaign"],
+                        "Link Text": s["text"],
+                        "Final URL": s["url"],
+                        "Description Line 1": s.get("d1", ""),
+                        "Description Line 2": s.get("d2", ""),
+                    }
+                )
+
+
+def write_callouts(path: Path, campaigns: list, callouts: list[str]) -> None:
+    cols = ["Campaign", "Callout Text"]
+    with path.open("w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=cols)
+        w.writeheader()
+        for c in campaigns:
+            for text in callouts:
+                assert len(text) <= 25, f"Callout too long ({len(text)}): {text}"
+                w.writerow({"Campaign": c["campaign"], "Callout Text": text})
+
+
 def emit_pack(
     out_dir: Path,
     *,
@@ -431,6 +466,8 @@ def emit_pack(
     headline_fillers: list[str],
     desc_fillers: list[str],
     readme_extra: str,
+    sitelinks: list[dict],
+    callouts: list[str],
 ) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     write_campaigns(out_dir / "01-campaigns.csv", campaigns, languages, locations)
@@ -438,6 +475,8 @@ def emit_pack(
     write_keywords(out_dir / "03-keywords.csv", campaigns)
     write_rsa(out_dir / "04-rsa.csv", campaigns, headline_fillers, desc_fillers)
     write_negatives(out_dir / "05-negatives.csv", campaigns, negatives)
+    write_sitelinks(out_dir / "06-sitelinks.csv", campaigns, sitelinks)
+    write_callouts(out_dir / "07-callouts.csv", campaigns, callouts)
     (out_dir / "README.md").write_text(
         f"""# {title}
 
@@ -448,12 +487,66 @@ Import order in Google Ads Editor:
 3. `03-keywords.csv`
 4. `04-rsa.csv`
 5. `05-negatives.csv`
+6. `06-sitelinks.csv`
+7. `07-callouts.csv`
 
 {readme_extra}
 """,
         encoding="utf-8",
     )
     print(f"Wrote CSVs to {out_dir}")
+
+
+SITELINKS_EN = [
+    {"text": "Pricing", "url": "https://qrbanner.com/pricing", "d1": "Plans from free", "d2": "Pro from $9.99/mo"},
+    {"text": "Features", "url": "https://qrbanner.com/features", "d1": "Dynamic QR tools", "d2": "Analytics & routing"},
+    {"text": "Templates", "url": "https://qrbanner.com/templates", "d1": "35+ industry templates", "d2": "Menus, WiFi, cards"},
+    {"text": "vs QR TIGER", "url": "https://qrbanner.com/vs/qr-tiger", "d1": "Side-by-side compare", "d2": "Free tier & API"},
+]
+
+CALLOUTS_EN = [
+    "Free Dynamic QR Code",
+    "14-Day Pro Trial",
+    "Scan Analytics",
+    "REST API on Free Plan",
+    "Codes Stay After Cancel",
+    "35+ Templates",
+    "No Credit Card Required",
+]
+
+SITELINKS_DE = [
+    {"text": "Preise", "url": "https://qrbanner.com/de/pricing", "d1": "Ab Free-Plan", "d2": "Pro ab $9.99/mo"},
+    {"text": "Funktionen", "url": "https://qrbanner.com/de/features", "d1": "Dynamische QR", "d2": "Analysen & Routing"},
+    {"text": "Vorlagen", "url": "https://qrbanner.com/de/templates", "d1": "35+ Branchen", "d2": "Menü, WiFi, Karten"},
+    {"text": "vs QR TIGER", "url": "https://qrbanner.com/de/vs/qr-tiger", "d1": "Vergleich", "d2": "Free & API"},
+]
+
+CALLOUTS_DE = [
+    "1 Free Dynamic QR",
+    "14 Tage Pro-Test",
+    "Scan-Analysen",
+    "API im Free-Plan",
+    "Codes bleiben aktiv",
+    "35+ Vorlagen",
+    "Keine Kreditkarte",
+]
+
+SITELINKS_ES = [
+    {"text": "Precios", "url": "https://qrbanner.com/es/pricing", "d1": "Desde plan gratis", "d2": "Pro desde $9.99/mes"},
+    {"text": "Funciones", "url": "https://qrbanner.com/es/features", "d1": "QR dinámico", "d2": "Analítica y enrutado"},
+    {"text": "Plantillas", "url": "https://qrbanner.com/es/templates", "d1": "35+ industrias", "d2": "Menú, WiFi, tarjetas"},
+    {"text": "vs QR TIGER", "url": "https://qrbanner.com/es/vs/qr-tiger", "d1": "Comparativa", "d2": "Gratis y API"},
+]
+
+CALLOUTS_ES = [
+    "1 QR dinámico gratis",
+    "Prueba Pro 14 días",
+    "Analítica de escaneos",
+    "API en plan gratis",
+    "Activos tras cancelar",
+    "35+ plantillas",
+    "Sin tarjeta",
+]
 
 
 CAMPAIGNS_DE = [
@@ -708,6 +801,8 @@ def main() -> int:
             "Edit links after printing. Track scans. Upgrade when you need more codes.",
         ],
         readme_extra="Budgets: Create $5/day · Competitor $3/day · Use cases $3/day.\nEnable Create first after GA4 §A–C.",
+        sitelinks=SITELINKS_EN,
+        callouts=CALLOUTS_EN,
     )
 
     emit_pack(
@@ -735,6 +830,8 @@ def main() -> int:
             "Links nach dem Druck ändern. Scans tracken. Bei Bedarf upgraden.",
         ],
         readme_extra="Budgets: Create €5/Tag · Competitor €3 · Use cases €3.\nSprache DE · DE/AT/CH.",
+        sitelinks=SITELINKS_DE,
+        callouts=CALLOUTS_DE,
     )
 
     emit_pack(
@@ -762,6 +859,8 @@ def main() -> int:
             "Edite el enlace tras imprimir. Rastree escaneos. Mejore de plan cuando lo necesite.",
         ],
         readme_extra="Presupuestos: Create €5/día · Competitor €3 · Use cases €3.\nIdioma ES · ES/MX.",
+        sitelinks=SITELINKS_ES,
+        callouts=CALLOUTS_ES,
     )
     return 0
 
