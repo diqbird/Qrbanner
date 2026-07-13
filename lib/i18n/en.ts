@@ -528,6 +528,18 @@ export const en: TranslationTree = {
     fillAllFields: 'Please fill in all fields',
     mfaCodeRequired: 'Enter your authenticator or recovery code to change your password.',
     mfaForPasswordHint: 'Required because two-factor authentication is enabled on your account.',
+    loginHistory: {
+      title: 'Recent sign-ins',
+      desc: 'Successful and failed login attempts for your account.',
+      empty: 'No sign-in activity recorded yet.',
+      colTime: 'Time',
+      colProvider: 'Method',
+      colOutcome: 'Result',
+      colIp: 'IP',
+      outcomeSuccess: 'Success',
+      outcomeFailure: 'Failed',
+      outcomeBlocked: 'Blocked',
+    },
     mfa: {
       title: 'Two-Factor Authentication',
       desc: 'Add an extra layer of security with an authenticator app (Google Authenticator, 1Password, etc.).',

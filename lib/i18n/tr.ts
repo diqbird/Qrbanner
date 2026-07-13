@@ -529,6 +529,18 @@ export const tr: TranslationTree = {
     fillAllFields: 'Lütfen tüm alanları doldurun',
     mfaCodeRequired: 'Şifre değiştirmek için doğrulama veya kurtarma kodunu girin.',
     mfaForPasswordHint: 'Hesabınızda iki faktörlü kimlik doğrulama etkin olduğu için gerekli.',
+    loginHistory: {
+      title: 'Son girişler',
+      desc: 'Hesabınıza ait başarılı ve başarısız giriş denemeleri.',
+      empty: 'Henüz kayıtlı giriş etkinliği yok.',
+      colTime: 'Zaman',
+      colProvider: 'Yöntem',
+      colOutcome: 'Sonuç',
+      colIp: 'IP',
+      outcomeSuccess: 'Başarılı',
+      outcomeFailure: 'Başarısız',
+      outcomeBlocked: 'Engellendi',
+    },
     mfa: {
       title: 'İki Faktörlü Kimlik Doğrulama',
       desc: 'Google Authenticator, 1Password vb. ile ekstra güvenlik katmanı ekleyin.',

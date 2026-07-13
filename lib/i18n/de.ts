@@ -894,6 +894,18 @@ export const de: TranslationTree = {
     fillAllFields: 'Bitte alle Felder ausfüllen',
     mfaCodeRequired: 'Geben Sie Ihren Authenticator- oder Wiederherstellungscode ein, um das Passwort zu ändern.',
     mfaForPasswordHint: 'Erforderlich, weil die Zwei-Faktor-Authentifizierung für Ihr Konto aktiv ist.',
+    loginHistory: {
+      title: 'Letzte Anmeldungen',
+      desc: 'Erfolgreiche und fehlgeschlagene Anmeldeversuche für Ihr Konto.',
+      empty: 'Noch keine Anmeldeaktivität erfasst.',
+      colTime: 'Zeit',
+      colProvider: 'Methode',
+      colOutcome: 'Ergebnis',
+      colIp: 'IP',
+      outcomeSuccess: 'Erfolg',
+      outcomeFailure: 'Fehlgeschlagen',
+      outcomeBlocked: 'Blockiert',
+    },
     mfa: {
       title: 'Zwei-Faktor-Authentifizierung',
       desc: 'Zusätzliche Sicherheit mit Authenticator-App (Google Authenticator, 1Password usw.).',

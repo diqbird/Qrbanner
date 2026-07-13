@@ -62,3 +62,40 @@ export async function listLoginAuditLogs(options: {
 
   return { entries, total, limit, offset };
 }
+
+/** Recent login events for the signed-in user (by userId or matching email). */
+export async function listUserLoginAuditLogs(options: {
+  userId: string;
+  email: string;
+  limit?: number;
+  offset?: number;
+}) {
+  const limit = Math.min(options.limit ?? 20, 50);
+  const offset = options.offset ?? 0;
+  const email = options.email.toLowerCase().slice(0, 320);
+  const where = {
+    OR: [{ userId: options.userId }, { email }],
+  };
+
+  const [entries, total] = await Promise.all([
+    prisma.loginAuditLog.findMany({
+      where,
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+      skip: offset,
+      select: {
+        id: true,
+        provider: true,
+        outcome: true,
+        reason: true,
+        ipAddress: true,
+        userAgent: true,
+        createdAt: true,
+      },
+    }),
+    prisma.loginAuditLog.count({ where }),
+  ]);
+
+  return { entries, total, limit, offset };
+}
+
