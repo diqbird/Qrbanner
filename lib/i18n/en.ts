@@ -2828,6 +2828,8 @@ export const en: TranslationTree = {
     regenerateScimToken: 'Regenerate SCIM token',
     confirmRegenerateScim: 'Regenerate SCIM token? Existing IdP integrations will stop working until updated.',
     scimTokenRegenerated: 'New SCIM token generated',
+    scimMfaRequired: 'Enter your authenticator or recovery code to create or regenerate the SCIM token.',
+    scimMfaHint: 'Required when 2FA is on to issue a new SCIM bearer token.',
     resellerTitle: 'Client billing',
     resellerDesc: 'Track client accounts, assigned plans and monthly fees (invoicing via Paddle).',
     enableReseller: 'Enable client billing',

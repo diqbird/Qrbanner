@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 import type { EnterpriseState } from '@/lib/enterprise-workspace-types';
@@ -21,6 +21,35 @@ export function useEnterpriseWorkspacePatch({
   onClientsRefresh: (workspaceId: string) => void;
 }) {
   const [scimToken, setScimToken] = useState<string | null>(null);
+  const [mfaEnabled, setMfaEnabled] = useState(false);
+  const [mfaCode, setMfaCode] = useState('');
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch('/api/auth/mfa');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!cancelled) setMfaEnabled(Boolean(data.enabled));
+      } catch {
+        /* ignore */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const mfaPayload = () => (mfaEnabled ? { mfaCode: mfaCode.trim() } : {});
+
+  const requireMfaForTokenIssuance = () => {
+    if (mfaEnabled && !mfaCode.trim()) {
+      toast.error(t('enterpriseWorkspace.scimMfaRequired'));
+      return false;
+    }
+    return true;
+  };
 
   const fetchEnterprise = useCallback(async (workspaceId: string) => {
     const res = await fetch(`/api/workspace/enterprise?workspaceId=${workspaceId}`);
@@ -41,7 +70,10 @@ export function useEnterpriseWorkspacePatch({
         toast.error(resolveApiError(t, data.error, 'enterpriseWorkspace.saveFailed'));
         return null;
       }
-      if (data.scimToken) setScimToken(data.scimToken);
+      if (data.scimToken) {
+        setScimToken(data.scimToken);
+        setMfaCode('');
+      }
       if (data.workspace) {
         setState((prev) =>
           prev ? { ...prev, workspace: { ...prev.workspace, ...data.workspace } } : prev,
@@ -53,8 +85,14 @@ export function useEnterpriseWorkspacePatch({
     }
   };
 
-  const toggleScim = async (enabled: boolean) => {
-    const data = await patchEnterprise({ action: 'update_scim', scimEnabled: enabled });
+  const toggleScim = async (enabled: boolean, hasExistingToken = false) => {
+    const issuesToken = enabled && !hasExistingToken;
+    if (issuesToken && !requireMfaForTokenIssuance()) return;
+    const data = await patchEnterprise({
+      action: 'update_scim',
+      scimEnabled: enabled,
+      ...(issuesToken ? mfaPayload() : {}),
+    });
     if (data) {
       toast.success(
         enabled ? t('enterpriseWorkspace.scimEnabled') : t('enterpriseWorkspace.scimDisabled'),
@@ -64,7 +102,13 @@ export function useEnterpriseWorkspacePatch({
 
   const regenerateScimToken = async () => {
     if (!confirm(t('enterpriseWorkspace.confirmRegenerateScim'))) return;
-    const data = await patchEnterprise({ action: 'update_scim', scimEnabled: true, regenerateToken: true });
+    if (!requireMfaForTokenIssuance()) return;
+    const data = await patchEnterprise({
+      action: 'update_scim',
+      scimEnabled: true,
+      regenerateToken: true,
+      ...mfaPayload(),
+    });
     if (data) toast.success(t('enterpriseWorkspace.scimTokenRegenerated'));
   };
 
@@ -85,6 +129,9 @@ export function useEnterpriseWorkspacePatch({
 
   return {
     scimToken,
+    mfaEnabled,
+    mfaCode,
+    setMfaCode,
     fetchEnterprise,
     patchEnterprise,
     toggleScim,

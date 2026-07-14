@@ -366,6 +366,8 @@ export const esLocaleGaps: TranslationTree = {
     regenerateScimToken: "Regenerar token SCIM",
     confirmRegenerateScim: "¿Regenerar el token SCIM? Las integraciones IdP existentes dejarán de funcionar hasta actualizarlas.",
     scimTokenRegenerated: "Nuevo token SCIM generado",
+    scimMfaRequired: "Introduzca el código del autenticador o de recuperación para crear o regenerar el token SCIM.",
+    scimMfaHint: "Obligatorio con 2FA para emitir un nuevo token bearer SCIM.",
     resellerTitle: "Facturación de clientes",
     resellerDesc: "Haga seguimiento de cuentas de clientes, planes asignados y tarifas mensuales (facturación vía Paddle).",
     enableReseller: "Habilitar facturación de clientes",

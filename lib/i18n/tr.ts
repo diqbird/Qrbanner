@@ -2830,6 +2830,8 @@ export const tr: TranslationTree = {
     regenerateScimToken: 'SCIM token yenile',
     confirmRegenerateScim: 'SCIM token yenilensin mi? Mevcut IdP entegrasyonları güncellenene kadar çalışmaz.',
     scimTokenRegenerated: 'Yeni SCIM token oluşturuldu',
+    scimMfaRequired: 'SCIM token oluşturmak veya yenilemek için doğrulama veya kurtarma kodunu girin.',
+    scimMfaHint: '2FA açıksa yeni SCIM bearer token için gerekir.',
     resellerTitle: 'Müşteri faturalandırması',
     resellerDesc: 'Müşteri hesaplarını, atanan planları ve aylık ücretleri takip edin (faturalandırma Paddle üzerinden).',
     enableReseller: 'Müşteri faturalandırmasını etkinleştir',

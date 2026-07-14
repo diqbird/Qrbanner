@@ -13,6 +13,7 @@ import {
 import { generateScimBearerToken } from '@/lib/scim';
 import { testWorkspaceSmtp } from '@/lib/tenant-email';
 import { resolveOutboundEmailLocaleFromRequest } from '@/lib/i18n/resolve-outbound-email-locale';
+import { requireMfaStepUp } from '@/lib/mfa-recovery';
 
 const enterpriseSelect = {
   id: true,
@@ -150,6 +151,21 @@ export async function PATCH(req: NextRequest) {
     const scimEnabled = body.scimEnabled !== undefined ? Boolean(body.scimEnabled) : workspace.scimEnabled;
     let scimToken: string | undefined;
     let data: Record<string, unknown> = { scimEnabled };
+
+    const willIssueToken =
+      Boolean(body.regenerateToken) || (scimEnabled && !workspace.scimTokenHash);
+    if (willIssueToken) {
+      const mfaCode =
+        typeof body.mfaCode === 'string'
+          ? body.mfaCode
+          : typeof body.mfa_code === 'string'
+            ? body.mfa_code
+            : typeof body.code === 'string'
+              ? body.code
+              : '';
+      const mfa = await requireMfaStepUp(userId, mfaCode);
+      if (!mfa.ok) return NextResponse.json({ error: mfa.error }, { status: mfa.status });
+    }
 
     if (body.regenerateToken) {
       const generated = generateScimBearerToken();
