@@ -10,7 +10,7 @@ export function HeroProductPreview({
 }) {
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card shadow-xl animate-fade-up">
+    <div className="surface-3d relative overflow-hidden rounded-2xl border border-white/30 bg-card/90 backdrop-blur-md animate-fade-up dark:border-white/10">
       <div className="flex items-center gap-2 border-b border-border/50 bg-muted/40 px-4 py-2.5">
         <div className="flex gap-1.5" aria-hidden>
           <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />

@@ -27,7 +27,7 @@ export function LandingFeatures() {
           {preview.map((feature, i) => (
             <div
               key={feature.title}
-              className={`group rounded-xl bg-card p-6 shadow-sm transition-all hover:shadow-md ${
+              className={`group surface-3d rounded-2xl bg-card/80 p-6 backdrop-blur-sm transition-transform hover:-translate-y-1 ${
                 inView ? 'animate-fade-up' : ''
               }`}
               style={{ animationDelay: `${i * 50}ms` }}

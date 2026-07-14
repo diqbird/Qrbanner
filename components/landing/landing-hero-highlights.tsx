@@ -21,7 +21,7 @@ export function LandingHeroHighlights({
         return (
           <div
             key={item.label}
-            className="rounded-2xl border border-border/40 bg-card/80 p-5 shadow-sm backdrop-blur-sm"
+            className="surface-3d rounded-2xl border border-white/25 bg-card/75 p-5 backdrop-blur-md dark:border-white/10"
           >
             <Icon className="mb-2 h-6 w-6 text-foreground" aria-hidden />
             <h2 className="font-display text-sm font-semibold">

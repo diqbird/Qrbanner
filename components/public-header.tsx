@@ -20,15 +20,15 @@ export function PublicHeader() {
   useSiteSearchShortcut(header.openSearch);
 
   return (
-    <header
-      className={cn(
-        'sticky top-0 z-50 transition-all duration-300',
-        header.scrolled
-          ? 'border-b border-border/50 bg-background/72 backdrop-blur-2xl shadow-sm'
-          : 'border-b border-transparent bg-background/40 backdrop-blur-md',
-      )}
-    >
-      <div className="mx-auto flex h-[52px] max-w-[1080px] items-center justify-between px-4 sm:h-14 sm:px-6">
+    <header className="sticky top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-3">
+      <div
+        className={cn(
+          'mx-auto flex h-[52px] max-w-[1080px] items-center justify-between rounded-2xl px-3 sm:h-14 sm:px-4',
+          'border border-white/35 bg-background/65 shadow-[0_18px_50px_-28px_rgba(0,0,0,0.45),0_1px_0_rgba(255,255,255,0.45)_inset] backdrop-blur-2xl',
+          'dark:border-white/10 dark:bg-background/55 dark:shadow-[0_22px_60px_-24px_rgba(0,0,0,0.85),0_1px_0_rgba(255,255,255,0.08)_inset]',
+          header.scrolled && 'shadow-[0_22px_60px_-20px_rgba(0,0,0,0.55)]',
+        )}
+      >
         <Link
           href={localePath('/')}
           className="rounded-lg outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
@@ -42,7 +42,7 @@ export function PublicHeader() {
 
         <button
           type="button"
-          className="flex h-9 w-9 items-center justify-center rounded-lg lg:hidden"
+          className="flex h-9 w-9 items-center justify-center rounded-xl lg:hidden"
           onClick={() => header.setMobileOpen(!header.mobileOpen)}
           aria-expanded={header.mobileOpen}
           aria-controls="mobile-nav"

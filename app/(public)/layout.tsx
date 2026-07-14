@@ -3,6 +3,7 @@ import { PublicHeader } from '@/components/public-header';
 import { PublicFooter } from '@/components/public-footer';
 import { SkipToMain } from '@/components/skip-to-main';
 import { AnnouncementBanner } from '@/components/marketing/announcement-banner';
+import { Site3DStage } from '@/components/site/site-3d-stage';
 import { JsonLd } from '@/components/seo/json-ld';
 import {
   organizationJsonLd,
@@ -26,14 +27,11 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <JsonLd
         data={[organizationJsonLd(), websiteJsonLd(), softwareApplicationJsonLd()]}
       />
-      <div className="relative min-h-screen bg-background">
-        <div
-          aria-hidden
-          className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.06),transparent_55%)]"
-        />
+      <div className="relative min-h-screen bg-transparent">
+        <Site3DStage />
         <AnnouncementBanner />
         <PublicHeader />
-        <main id="main-content" className="min-h-screen">
+        <main id="main-content" className="relative z-10 min-h-screen">
           {children}
         </main>
         <PublicFooter />

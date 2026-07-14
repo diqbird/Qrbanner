@@ -215,6 +215,10 @@
     @apply border border-border/40 bg-background/70 backdrop-blur-xl;
   }
 
+  .surface-3d {
+    @apply border border-white/30 shadow-[0_2px_0_rgba(255,255,255,0.45)_inset,0_22px_50px_-24px_rgba(0,0,0,0.45)] dark:border-white/10 dark:shadow-[0_1px_0_rgba(255,255,255,0.1)_inset,0_28px_60px_-22px_rgba(0,0,0,0.85)];
+  }
+
   .cv-auto {
     content-visibility: auto;
     contain-intrinsic-size: auto 420px;

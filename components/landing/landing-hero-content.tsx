@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Zap, CheckCircle2 } from 'lucide-react';
 import { demoBookingUrl } from '@/lib/site-contact';
 import { HeroMedia } from '@/components/landing/hero-media';
+import { Tilt3D } from '@/components/site/tilt-3d';
 import type { Locale } from '@/lib/i18n';
 
 const TRUST_KEYS = ['hero.trustTypes', 'hero.trustApi', 'hero.trustCancel'] as const;
@@ -24,7 +25,10 @@ export function LandingHeroContent({
   return (
     <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
       <div className="text-center lg:text-left">
-        <Badge variant="secondary" className="mb-6">
+        <Badge
+          variant="secondary"
+          className="mb-6 border border-white/30 shadow-[0_10px_30px_-16px_rgba(0,0,0,0.4)] backdrop-blur-md"
+        >
           <Zap className="mr-1 h-3 w-3" aria-hidden /> {t('hero.badge')}
         </Badge>
 
@@ -36,7 +40,10 @@ export function LandingHeroContent({
 
         <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap lg:justify-start">
           <Link href="/qr/create?quick=1" prefetch={false}>
-            <Button size="lg" className="gap-2 rounded-full px-8">
+            <Button
+              size="lg"
+              className="gap-2 rounded-full px-8 shadow-[0_16px_40px_-12px_hsl(var(--primary)/0.65)]"
+            >
               {t('hero.createQr')} <ArrowRight className="h-4 w-4" aria-hidden />
             </Button>
           </Link>
@@ -54,7 +61,9 @@ export function LandingHeroContent({
             {t('hero.bookDemo')}
           </Link>
         </div>
-        <p className="mt-3 text-xs text-muted-foreground lg:text-left">{t('hero.createQrHint', { qrLabel })}</p>
+        <p className="mt-3 text-xs text-muted-foreground lg:text-left">
+          {t('hero.createQrHint', { qrLabel })}
+        </p>
 
         <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground lg:justify-start">
           {TRUST_KEYS.map((key) => (
@@ -67,13 +76,15 @@ export function LandingHeroContent({
       </div>
 
       <div className="mx-auto w-full max-w-lg lg:max-w-none">
-        <HeroMedia
-          t={t}
-          locale={locale}
-          label={t('hero.videoLabel')}
-          demoHref="/demo"
-          demoLabel={t('hero.watchDemo')}
-        />
+        <Tilt3D>
+          <HeroMedia
+            t={t}
+            locale={locale}
+            label={t('hero.videoLabel')}
+            demoHref="/demo"
+            demoLabel={t('hero.watchDemo')}
+          />
+        </Tilt3D>
       </div>
     </div>
   );

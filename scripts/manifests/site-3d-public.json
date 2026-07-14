@@ -1,0 +1,20 @@
+{
+  "upload": [
+    "app/(public)/layout.tsx",
+    "components/site/site-3d-stage.tsx",
+    "components/site/tilt-3d.tsx",
+    "components/public-header.tsx",
+    "components/public-header-mobile-nav.tsx",
+    "components/landing/hero-static.tsx",
+    "components/landing/landing-hero-content.tsx",
+    "components/landing/landing-hero-highlights.tsx",
+    "components/landing/hero-product-preview.tsx",
+    "components/landing/features.tsx",
+    "app/globals.css"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

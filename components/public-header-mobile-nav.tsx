@@ -32,7 +32,7 @@ export function PublicHeaderMobileNav({ header }: { header: PublicHeaderState })
       />
       <nav
         id="mobile-nav"
-        className="absolute left-0 right-0 top-full z-50 border-b border-border/50 bg-background/95 backdrop-blur-xl lg:hidden"
+        className="absolute left-3 right-3 top-[calc(100%-0.25rem)] z-50 mt-2 overflow-hidden rounded-2xl border border-white/25 bg-background/90 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.45)] backdrop-blur-2xl lg:hidden dark:border-white/10"
         aria-label={t('nav.mobileNav')}
       >
         <div className="mx-auto max-w-[1080px] space-y-1 px-4 py-4">
