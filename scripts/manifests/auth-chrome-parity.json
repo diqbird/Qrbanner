@@ -1,0 +1,11 @@
+{
+  "upload": [
+    "app/(auth)/layout.tsx",
+    "components/auth/auth-form-shell.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
