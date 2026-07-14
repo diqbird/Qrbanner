@@ -178,11 +178,36 @@
     }
   }
 
+  @keyframes auth-orb-a {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(6%, 8%, 0) scale(1.08);
+    }
+  }
+
+  @keyframes auth-orb-b {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(-8%, -5%, 0) scale(1.1);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .animate-fade-up {
       animation: none;
       opacity: 1;
       transform: none;
+    }
+
+    .auth-orb-a,
+    .auth-orb-b {
+      animation: none !important;
     }
   }
 
