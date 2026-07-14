@@ -26,52 +26,59 @@ export function PublicHeaderMobileNav({ header }: { header: PublicHeaderState })
   return (
     <>
       <div
-        className="fixed inset-0 top-14 z-40 bg-background/60 backdrop-blur-sm lg:hidden"
+        className="fixed inset-0 top-0 z-40 bg-background/55 backdrop-blur-md lg:hidden"
         aria-hidden
         onClick={() => setMobileOpen(false)}
       />
       <nav
         id="mobile-nav"
-        className="absolute left-3 right-3 top-[calc(100%-0.25rem)] z-50 mt-2 overflow-hidden rounded-2xl border border-white/25 bg-background/90 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.45)] backdrop-blur-2xl lg:hidden dark:border-white/10"
+        className="menu-3d absolute left-3 right-3 top-[calc(100%-0.25rem)] z-50 mt-2 overflow-hidden lg:hidden"
         aria-label={t('nav.mobileNav')}
       >
-        <div className="mx-auto max-w-[1080px] space-y-1 px-4 py-4">
-          {PUBLIC_NAV_LINKS.map((link) => (
+        <div className="mx-auto max-w-[1080px] space-y-1.5 px-3 py-4">
+          {PUBLIC_NAV_LINKS.map((link, i) => (
             <Link
               key={link.href}
               href={localePath(link.href)}
+              onClick={() => setMobileOpen(false)}
               className={cn(
-                'block rounded-xl px-4 py-3 text-[15px] font-medium transition-colors',
+                'menu-item-3d block rounded-xl px-4 py-3.5 text-[15px] font-semibold tracking-tight transition-all',
+                'border border-transparent',
                 pathsMatchLocalized(pathname, link.href)
-                  ? 'bg-muted text-foreground'
-                  : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground',
+                  ? 'border-white/25 bg-foreground/[0.08] text-foreground shadow-[0_12px_28px_-16px_rgba(0,0,0,0.45)]'
+                  : 'text-muted-foreground hover:border-white/20 hover:bg-foreground/[0.05] hover:text-foreground',
               )}
+              style={{ animationDelay: `${i * 40}ms` }}
             >
               {t(link.key)}
             </Link>
           ))}
-          <div className="flex items-center justify-between border-t border-border/40 pt-4 mt-2">
+          <div className="mt-2 flex items-center justify-between border-t border-white/15 pt-4">
             <LanguageSwitcher />
             <ThemeToggle />
           </div>
           <div className="flex flex-col gap-2 pt-2">
             {session ? (
-              <Link href="/dashboard">
-                <Button className="w-full rounded-xl">{t('common.dashboard')}</Button>
+              <Link href="/dashboard" onClick={() => setMobileOpen(false)}>
+                <Button className="w-full rounded-xl shadow-[0_14px_34px_-14px_hsl(var(--primary)/0.7)]">
+                  {t('common.dashboard')}
+                </Button>
               </Link>
             ) : (
               <>
-                <Link href={demoUrl}>
-                  <Button variant="outline" className="w-full rounded-xl gap-2">
+                <Link href={demoUrl} onClick={() => setMobileOpen(false)}>
+                  <Button variant="outline" className="w-full rounded-xl gap-2 surface-3d">
                     <Calendar className="h-4 w-4" />
                     {t('nav.bookDemo')}
                   </Button>
                 </Link>
-                <Link href="/qr/create?quick=1">
-                  <Button className="w-full rounded-xl">{t('nav.createQr')}</Button>
+                <Link href="/qr/create?quick=1" onClick={() => setMobileOpen(false)}>
+                  <Button className="w-full rounded-xl shadow-[0_14px_34px_-14px_hsl(var(--primary)/0.7)]">
+                    {t('nav.createQr')}
+                  </Button>
                 </Link>
-                <Link href="/login">
-                  <Button variant="outline" className="w-full rounded-xl">
+                <Link href="/login" onClick={() => setMobileOpen(false)}>
+                  <Button variant="outline" className="w-full rounded-xl surface-3d">
                     {t('common.signIn')}
                   </Button>
                 </Link>

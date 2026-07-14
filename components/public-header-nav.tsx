@@ -15,20 +15,21 @@ export function PublicHeaderNav({ header }: { header: PublicHeaderState }) {
 
   return (
     <nav className="hidden items-center gap-0.5 lg:flex" aria-label={t('nav.mainNav')}>
-      {PUBLIC_NAV_LINKS.map((link) => (
-        <Link
-          key={link.href}
-          href={localePath(link.href)}
-          className={cn(
-            'rounded-lg px-3 py-2 text-[13px] font-medium transition-colors',
-            pathsMatchLocalized(pathname, link.href)
-              ? 'text-foreground'
-              : 'text-muted-foreground hover:text-foreground',
-          )}
-        >
-          {t(link.key)}
-        </Link>
-      ))}
+      {PUBLIC_NAV_LINKS.map((link) => {
+        const active = pathsMatchLocalized(pathname, link.href);
+        return (
+          <Link
+            key={link.href}
+            href={localePath(link.href)}
+            className={cn(
+              'nav-pill-3d',
+              active ? 'nav-pill-3d-active text-foreground' : 'text-muted-foreground hover:text-foreground',
+            )}
+          >
+            {t(link.key)}
+          </Link>
+        );
+      })}
     </nav>
   );
 }

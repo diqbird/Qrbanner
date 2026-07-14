@@ -1,0 +1,17 @@
+{
+  "upload": [
+    "app/globals.css",
+    "components/i18n/language-switcher.tsx",
+    "components/public-header-nav.tsx",
+    "components/public-header-mobile-nav.tsx",
+    "components/site/site-3d-stage.tsx",
+    "components/ui/dropdown-menu.tsx",
+    "components/ui/popover.tsx",
+    "components/ui/select.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
