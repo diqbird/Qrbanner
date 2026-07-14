@@ -1,18 +1,24 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Mail } from 'lucide-react';
 import type { EnterpriseWorkspaceState } from '@/hooks/use-enterprise-workspace';
 import { EnterpriseSmtpFormFields } from './enterprise-smtp-form-fields';
 import { EnterpriseSmtpTestBar } from './enterprise-smtp-test-bar';
 
+function sanitizeMfa(value: string) {
+  return value.replace(/[^a-zA-Z0-9-]/g, '').toUpperCase().slice(0, 19);
+}
+
 type EnterpriseSmtpPanelProps = {
   enterprise: EnterpriseWorkspaceState;
 };
 
 export function EnterpriseSmtpPanel({ enterprise }: EnterpriseSmtpPanelProps) {
-  const { t, state, working, saveSmtp, toggleSmtp } = enterprise;
+  const { t, state, working, saveSmtp, toggleSmtp, mfaEnabled, mfaCode, setMfaCode } = enterprise;
 
   if (!state) return null;
   const { workspace } = state;
@@ -29,6 +35,20 @@ export function EnterpriseSmtpPanel({ enterprise }: EnterpriseSmtpPanelProps) {
         <Switch checked={workspace.smtpEnabled} onCheckedChange={toggleSmtp} />
       </div>
       <EnterpriseSmtpFormFields enterprise={enterprise} smtpConfigured={state.smtpConfigured} />
+      {mfaEnabled && (
+        <div className="max-w-xs space-y-2">
+          <Label htmlFor="smtp-password-mfa">{t('settings.mfa.codeOrRecoveryLabel')}</Label>
+          <Input
+            id="smtp-password-mfa"
+            autoComplete="one-time-code"
+            value={mfaCode}
+            onChange={(e) => setMfaCode(sanitizeMfa(e.target.value))}
+            placeholder={t('settings.mfa.codeOrRecoveryPlaceholder')}
+            className="font-mono"
+          />
+          <p className="text-xs text-muted-foreground">{t('enterpriseWorkspace.smtpMfaHint')}</p>
+        </div>
+      )}
       <Button type="button" variant="outline" loading={working} onClick={saveSmtp}>
         {t('enterpriseWorkspace.saveSmtp')}
       </Button>

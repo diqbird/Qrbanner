@@ -2817,6 +2817,8 @@ export const tr: TranslationTree = {
     smtpTestFailed: 'Test e-postası başarısız',
     smtpTestSubject: 'QRbanner SMTP testi',
     smtpTestBody: 'Çalışma alanı SMTP yapılandırmanız çalışıyor.',
+    smtpMfaRequired: 'Yeni SMTP şifresi kaydetmek için doğrulama veya kurtarma kodunu girin.',
+    smtpMfaHint: '2FA açıksa ve yeni SMTP şifresi giriyorsanız gerekir.',
     scimTitle: 'SCIM provizyon',
     scimDesc: 'Okta, Azure AD veya herhangi bir SCIM 2.0 IdP\'den kullanıcıları bu çalışma alanına senkronize edin. Roller sanal Groups ile eşlenir: admin, editor, viewer.',
     enableScim: 'SCIM etkinleştir',

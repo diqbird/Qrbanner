@@ -22,6 +22,9 @@ export function useEnterpriseSmtpActions({
   smtpFrom,
   testEmail,
   setSmtpPassword,
+  mfaEnabled,
+  mfaCode,
+  setMfaCode,
 }: {
   activeId: string;
   state: EnterpriseState | null;
@@ -36,8 +39,18 @@ export function useEnterpriseSmtpActions({
   smtpFrom: string;
   testEmail: string;
   setSmtpPassword: (v: string) => void;
+  mfaEnabled: boolean;
+  mfaCode: string;
+  setMfaCode: (v: string) => void;
 }) {
+  const mfaPayload = () => (mfaEnabled ? { mfaCode: mfaCode.trim() } : {});
+
   const saveSmtp = async () => {
+    const passwordTrimmed = smtpPassword.trim();
+    if (passwordTrimmed && mfaEnabled && !mfaCode.trim()) {
+      toast.error(t('enterpriseWorkspace.smtpMfaRequired'));
+      return;
+    }
     const data = await patchEnterprise({
       action: 'update_smtp',
       smtpEnabled: state?.workspace.smtpEnabled ?? false,
@@ -45,11 +58,13 @@ export function useEnterpriseSmtpActions({
       smtpPort,
       smtpUser,
       smtpFrom,
-      smtpPassword: smtpPassword || undefined,
+      smtpPassword: passwordTrimmed || undefined,
+      ...(passwordTrimmed ? mfaPayload() : {}),
     });
     if (data) {
       toast.success(t('enterpriseWorkspace.smtpSaved'));
       setSmtpPassword('');
+      if (passwordTrimmed) setMfaCode('');
     }
   };
 

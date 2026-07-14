@@ -102,7 +102,19 @@ export async function PATCH(req: NextRequest) {
     const smtpEnabled = body.smtpEnabled !== undefined ? Boolean(body.smtpEnabled) : workspace.smtpEnabled;
 
     let smtpPasswordEnc = workspace.smtpPasswordEnc;
-    if (body.smtpPassword !== undefined && String(body.smtpPassword).trim()) {
+    const passwordProvided =
+      body.smtpPassword !== undefined && Boolean(String(body.smtpPassword).trim());
+    if (passwordProvided) {
+      const mfaCode =
+        typeof body.mfaCode === 'string'
+          ? body.mfaCode
+          : typeof body.mfa_code === 'string'
+            ? body.mfa_code
+            : typeof body.code === 'string'
+              ? body.code
+              : '';
+      const mfa = await requireMfaStepUp(userId, mfaCode);
+      if (!mfa.ok) return NextResponse.json({ error: mfa.error }, { status: mfa.status });
       smtpPasswordEnc = encryptSecret(String(body.smtpPassword).trim(), ENTERPRISE_SMTP_SCOPE);
     }
 

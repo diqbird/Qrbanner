@@ -353,6 +353,8 @@ export const deLocaleGaps: TranslationTree = {
     smtpTestFailed: "Test-E-Mail fehlgeschlagen",
     smtpTestSubject: "QRbanner SMTP-Test",
     smtpTestBody: "Ihre Workspace-SMTP-Konfiguration funktioniert.",
+    smtpMfaRequired: "Geben Sie Ihren Authenticator- oder Wiederherstellungscode ein, um ein neues SMTP-Passwort zu speichern.",
+    smtpMfaHint: "Bei aktivem 2FA erforderlich, wenn Sie ein neues SMTP-Passwort eingeben.",
     scimTitle: "SCIM-Bereitstellung",
     scimDesc: "Benutzer von Okta, Azure AD oder jedem SCIM-2.0-IdP in diesen Workspace synchronisieren. Rollen entsprechen virtuellen Groups: admin, editor, viewer.",
     enableScim: "SCIM aktivieren",

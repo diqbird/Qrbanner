@@ -37,6 +37,9 @@ export function useEnterpriseWorkspace() {
     t,
     locale,
     setWorking,
+    mfaEnabled: patch.mfaEnabled,
+    mfaCode: patch.mfaCode,
+    setMfaCode: patch.setMfaCode,
   });
 
   const loadEnterpriseDetails = useEnterpriseWorkspaceDetails({

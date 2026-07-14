@@ -353,6 +353,8 @@ export const esLocaleGaps: TranslationTree = {
     smtpTestFailed: "Error al enviar el correo de prueba",
     smtpTestSubject: "Prueba SMTP de QRbanner",
     smtpTestBody: "La configuración SMTP de su espacio de trabajo funciona correctamente.",
+    smtpMfaRequired: "Introduzca el código del autenticador o de recuperación para guardar una nueva contraseña SMTP.",
+    smtpMfaHint: "Obligatorio con 2FA cuando introduce una nueva contraseña SMTP.",
     scimTitle: "Aprovisionamiento SCIM",
     scimDesc: "Sincronice usuarios desde Okta, Azure AD o cualquier IdP SCIM 2.0 en este espacio de trabajo. Los roles se asignan a Groups virtuales: admin, editor, viewer.",
     enableScim: "Habilitar SCIM",

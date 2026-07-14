@@ -2815,6 +2815,8 @@ export const en: TranslationTree = {
     smtpTestFailed: 'Test email failed',
     smtpTestSubject: 'QRbanner SMTP test',
     smtpTestBody: 'Your workspace SMTP configuration is working.',
+    smtpMfaRequired: 'Enter your authenticator or recovery code to save a new SMTP password.',
+    smtpMfaHint: 'Required when 2FA is on and you enter a new SMTP password.',
     scimTitle: 'SCIM provisioning',
     scimDesc: 'Sync users from Okta, Azure AD or any SCIM 2.0 IdP into this workspace. Roles map to virtual Groups: admin, editor, viewer.',
     enableScim: 'Enable SCIM',

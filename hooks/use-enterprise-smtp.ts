@@ -15,6 +15,9 @@ export function useEnterpriseSmtp({
   t,
   locale,
   setWorking,
+  mfaEnabled,
+  mfaCode,
+  setMfaCode,
 }: {
   activeId: string;
   state: EnterpriseState | null;
@@ -22,6 +25,9 @@ export function useEnterpriseSmtp({
   t: Translate;
   locale: Locale;
   setWorking: (v: boolean) => void;
+  mfaEnabled: boolean;
+  mfaCode: string;
+  setMfaCode: (v: string) => void;
 }) {
   const smtpState = useEnterpriseSmtpState();
 
@@ -39,6 +45,9 @@ export function useEnterpriseSmtp({
     smtpFrom: smtpState.smtpFrom,
     testEmail: smtpState.testEmail,
     setSmtpPassword: smtpState.setSmtpPassword,
+    mfaEnabled,
+    mfaCode,
+    setMfaCode,
   });
 
   return {
