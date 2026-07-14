@@ -1,6 +1,6 @@
 'use client';
 
-import { Check, ChevronDown, Globe } from 'lucide-react';
+import { Check, ChevronDown } from 'lucide-react';
 import { LOCALES } from '@/lib/i18n';
 import { useLanguage } from './language-provider';
 import { cn } from '@/lib/utils';
@@ -12,78 +12,87 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-export function LanguageSwitcher({ className }: { className?: string }) {
+type LanguageSwitcherProps = {
+  className?: string;
+  /** denser layout for tight header chrome */
+  compact?: boolean;
+};
+
+export function LanguageSwitcher({ className, compact = true }: LanguageSwitcherProps) {
   const { locale, setLocale, t } = useLanguage();
   const current = LOCALES.find((item) => item.id === locale) ?? LOCALES[0];
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button
           type="button"
           variant="ghost"
           size="sm"
           className={cn(
-            'group h-8 gap-1.5 rounded-full px-2.5 text-[13px] font-medium text-muted-foreground',
-            'hover:bg-muted/70 hover:text-foreground data-[state=open]:bg-muted/80 data-[state=open]:text-foreground',
+            'group relative h-8 rounded-full px-2.5 text-[13px] font-medium tracking-tight text-foreground/70',
+            'hover:bg-foreground/[0.06] hover:text-foreground',
+            'focus-visible:ring-1 focus-visible:ring-foreground/20',
+            'data-[state=open]:bg-foreground/[0.08] data-[state=open]:text-foreground',
             className,
           )}
           aria-label={t('common.languageAria')}
         >
-          <Globe className="h-3.5 w-3.5 shrink-0 opacity-80" aria-hidden />
-          <span className="tabular-nums tracking-wide">{current.label}</span>
-          <ChevronDown
-            className="h-3.5 w-3.5 shrink-0 opacity-60 transition-transform duration-200 group-data-[state=open]:rotate-180"
-            aria-hidden
-          />
+          <span className="inline-flex items-center gap-1">
+            <span className="font-medium tabular-nums">{current.label}</span>
+            <ChevronDown
+              className="h-3 w-3 opacity-50 transition-transform duration-150 ease-out group-data-[state=open]:rotate-180"
+              aria-hidden
+            />
+          </span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        sideOffset={8}
-        className="min-w-[11.5rem] rounded-xl border-border/60 bg-popover/95 p-1.5 shadow-lg backdrop-blur-md"
+        sideOffset={6}
+        collisionPadding={12}
+        className={cn(
+          'z-[60] w-[200px] overflow-hidden rounded-2xl border border-black/8 bg-white p-1.5',
+          'shadow-[0_12px_40px_-12px_rgba(0,0,0,0.28),0_0_0_1px_rgba(0,0,0,0.04)]',
+          'dark:border-white/10 dark:bg-zinc-950 dark:shadow-[0_16px_48px_-12px_rgba(0,0,0,0.7)]',
+          'animate-in fade-in-0 zoom-in-95 duration-150',
+        )}
       >
-        <div className="px-2.5 pb-1.5 pt-1">
-          <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-muted-foreground">
-            {t('common.languageAria')}
-          </p>
-        </div>
-        <div className="flex flex-col gap-0.5">
+        <ul className="m-0 flex list-none flex-col gap-0.5 p-0" role="none">
           {LOCALES.map((item) => {
             const active = locale === item.id;
             return (
-              <DropdownMenuItem
-                key={item.id}
-                onClick={() => setLocale(item.id)}
-                className={cn(
-                  'cursor-pointer gap-3 rounded-lg px-2.5 py-2.5 text-sm outline-none',
-                  'focus:bg-muted/80 data-[highlighted]:bg-muted/80',
-                  active && 'bg-primary/10 text-foreground',
-                )}
-                aria-current={active ? 'true' : undefined}
-              >
-                <span
+              <li key={item.id} className="m-0 p-0">
+                <DropdownMenuItem
+                  onSelect={() => setLocale(item.id)}
                   className={cn(
-                    'flex h-7 w-7 shrink-0 items-center justify-center rounded-md border text-[10px] font-semibold tracking-wide',
-                    active
-                      ? 'border-primary/30 bg-primary/10 text-primary'
-                      : 'border-border/70 bg-muted/50 text-muted-foreground',
+                    'cursor-pointer rounded-xl px-3 py-2.5 text-[13px] outline-none',
+                    'flex items-center gap-3',
+                    'text-foreground/80 focus:bg-zinc-100 focus:text-foreground',
+                    'dark:focus:bg-white/8 data-[highlighted]:bg-zinc-100 dark:data-[highlighted]:bg-white/8',
+                    active && 'bg-zinc-100 text-foreground dark:bg-white/10',
+                    compact && 'py-2',
                   )}
+                  aria-current={active ? 'true' : undefined}
                 >
-                  {item.label}
-                </span>
-                <span className="min-w-0 flex-1 text-left font-medium leading-none">{item.nativeName}</span>
-                <Check
-                  className={cn(
-                    'h-4 w-4 shrink-0 text-primary transition-opacity',
-                    active ? 'opacity-100' : 'opacity-0',
-                  )}
-                  aria-hidden
-                />
-              </DropdownMenuItem>
+                  <span className="min-w-0 flex-1 text-left">
+                    <span className="block font-medium leading-none tracking-tight">{item.nativeName}</span>
+                    <span className="mt-1 block text-[11px] font-normal leading-none tracking-wide text-muted-foreground">
+                      {item.label}
+                    </span>
+                  </span>
+                  <Check
+                    className={cn(
+                      'h-3.5 w-3.5 shrink-0 stroke-[2.5] text-foreground transition-opacity duration-100',
+                      active ? 'opacity-100' : 'opacity-0',
+                    )}
+                    aria-hidden
+                  />
+                </DropdownMenuItem>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </DropdownMenuContent>
     </DropdownMenu>
   );

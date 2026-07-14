@@ -14,7 +14,15 @@ export function ThemeToggle() {
   useEffect(() => setMounted(true), []);
 
   if (!mounted) {
-    return <Button variant="ghost" size="icon" className="h-9 w-9" aria-label={t('common.toggleThemeAria')} suppressHydrationWarning />;
+    return (
+      <Button
+        variant="ghost"
+        size="icon"
+        className="h-8 w-8 rounded-full"
+        aria-label={t('common.toggleThemeAria')}
+        suppressHydrationWarning
+      />
+    );
   }
 
   const isDark = resolvedTheme === 'dark';
@@ -23,7 +31,7 @@ export function ThemeToggle() {
     <Button
       variant="ghost"
       size="icon"
-      className="relative h-9 w-9"
+      className="relative h-8 w-8 rounded-full text-foreground/70 hover:bg-foreground/[0.06] hover:text-foreground"
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
       aria-label={isDark ? t('common.switchToLightAria') : t('common.switchToDarkAria')}
     >
