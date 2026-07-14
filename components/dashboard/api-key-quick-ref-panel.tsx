@@ -45,6 +45,22 @@ export function ApiKeyQuickRefPanel({ apiKey }: ApiKeyQuickRefPanelProps) {
             <p className="font-semibold text-foreground mb-1">GET /folders</p>
             <p className="text-muted-foreground">{t('settings.apiKey.listFolders')}</p>
           </div>
+          <div className="rounded border bg-background p-2">
+            <p className="font-semibold text-foreground mb-1">POST /folders</p>
+            <p className="text-muted-foreground">{t('settings.apiKey.createFolder')}</p>
+          </div>
+          <div className="rounded border bg-background p-2">
+            <p className="font-semibold text-foreground mb-1">GET /folders/:id</p>
+            <p className="text-muted-foreground">{t('settings.apiKey.getFolder')}</p>
+          </div>
+          <div className="rounded border bg-background p-2">
+            <p className="font-semibold text-foreground mb-1">PATCH /folders/:id</p>
+            <p className="text-muted-foreground">{t('settings.apiKey.updateFolder')}</p>
+          </div>
+          <div className="rounded border bg-background p-2">
+            <p className="font-semibold text-foreground mb-1">DELETE /folders/:id</p>
+            <p className="text-muted-foreground">{t('settings.apiKey.deleteFolder')}</p>
+          </div>
         </div>
         <Button variant="outline" size="sm" onClick={copyCurl} className="gap-2">
           <Terminal className="h-3.5 w-3.5" /> {t('settings.apiKey.copyCurl')}

@@ -35,6 +35,9 @@ const ENDPOINT_KEYS = [
   { method: 'DELETE', path: '/api/v1/qr/:id', descKey: 'developersPage.epDeleteQr' },
   { method: 'GET', path: '/api/v1/folders', descKey: 'developersPage.epListFolders' },
   { method: 'POST', path: '/api/v1/folders', descKey: 'developersPage.epCreateFolder' },
+  { method: 'GET', path: '/api/v1/folders/:id', descKey: 'developersPage.epGetFolder' },
+  { method: 'PATCH', path: '/api/v1/folders/:id', descKey: 'developersPage.epUpdateFolder' },
+  { method: 'DELETE', path: '/api/v1/folders/:id', descKey: 'developersPage.epDeleteFolder' },
 ] as const;
 
 export default async function DevelopersPage() {
