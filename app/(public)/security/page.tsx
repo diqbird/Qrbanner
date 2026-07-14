@@ -27,6 +27,8 @@ const SECTIONS = [
       'securityPage.account3',
       'securityPage.account4',
       'securityPage.account5',
+      'securityPage.account6',
+      'securityPage.account7',
     ],
   },
 ] as const;
