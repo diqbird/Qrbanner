@@ -27,6 +27,7 @@ const MFA_REQUIRED_AUTH_EXACT = new Set([
   '/api/auth/api-key',
   '/api/auth/profile',
   '/api/auth/change-password',
+  '/api/auth/delete-account',
   '/api/auth/mfa',
   '/api/auth/mfa/setup',
   '/api/auth/mfa/enable',

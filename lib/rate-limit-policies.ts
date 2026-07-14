@@ -24,6 +24,12 @@ export const AUTH_CHANGE_PASSWORD = {
   key: (userId: string) => `auth:change-password:${userId}`,
 } as const;
 
+export const AUTH_DELETE_ACCOUNT = {
+  limit: 5,
+  windowMs: 15 * 60 * 1000,
+  key: (userId: string) => `auth:delete-account:${userId}`,
+} as const;
+
 /** Password login — per IP (credential stuffing). */
 export const AUTH_LOGIN_IP = {
   limit: 15,

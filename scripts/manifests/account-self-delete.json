@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "lib/delete-account.ts",
+    "lib/rate-limit-policies.ts",
+    "lib/api-mfa-exempt.ts",
+    "app/api/auth/delete-account/route.ts",
+    "components/dashboard/settings-account-delete-card.tsx",
+    "components/dashboard/settings-account-tab.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/de.ts",
+    "lib/i18n/es.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
