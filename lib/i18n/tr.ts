@@ -3715,7 +3715,7 @@ export const tr: TranslationTree = {
   mobileApps: {
     metaTitle: 'Mobil Uygulama ve PWA — QRbanner Kur',
     metaDescription:
-      'QRbanner\'ı telefon veya masaüstüne progressive web app olarak kurun. Panel, QR listesi ve tarama özeti için mobil API.',
+      'QRbanner\'ı telefon veya masaüstüne progressive web app olarak kurun. Mobil API ile QR oluşturma, güncelleme, silme ve tarama özetleri.',
     breadcrumb: 'Mobil uygulama',
     title: 'QRbanner mobilde',
     subtitle:
@@ -3726,7 +3726,7 @@ export const tr: TranslationTree = {
     openDashboard: 'Panele git',
     apiTitle: 'Mobil API',
     apiDesc:
-      'Yerel uygulamalar ve entegrasyonlar için hafif JSON uç noktaları. Oturum çerezi veya API anahtarı ile kimlik doğrulayın.',
+      'Yerel uygulamalar ve entegrasyonlar için hafif JSON uç noktaları — QR okuma ve yazma. Oturum çerezi veya API anahtarı ile kimlik doğrulayın.',
     apiDocs: 'API dokümantasyonu',
     nativeTitle: 'Yerel iOS ve Android uygulamaları',
     nativeDesc:
@@ -3735,7 +3735,7 @@ export const tr: TranslationTree = {
     nativeStatusAvailable: 'Şimdi kullanılabilir',
     roadmapTitle: 'Mobil yol haritası (gerçek durum)',
     roadmapPwa: 'Progressive web app (tarayıcıdan kurulum)',
-    roadmapApi: 'Özel istemciler için mobil JSON API',
+    roadmapApi: 'Özel istemciler için mobil JSON API (oluştur, güncelle, sil)',
     roadmapNative: 'Push bildirimli yerel iOS ve Android uygulamaları',
     roadmapDeepLink: 'Universal / App Links (gelecek yerel uygulamalar için hazır)',
     roadmapNote:

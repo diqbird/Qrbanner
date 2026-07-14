@@ -1,5 +1,6 @@
 {
   "upload": [
+    "lib/mfa-recovery.ts",
     "lib/delete-account.ts",
     "lib/rate-limit-policies.ts",
     "lib/api-mfa-exempt.ts",

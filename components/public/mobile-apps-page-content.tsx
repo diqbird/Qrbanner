@@ -9,7 +9,7 @@ import { useLanguage } from '@/components/i18n/language-provider';
 const ROADMAP = [
   { key: 'roadmapPwa', status: 'available' as const },
   { key: 'roadmapApi', status: 'available' as const },
-  { key: 'roadmapDeepLink', status: 'available' as const },
+  { key: 'roadmapDeepLink', status: 'planned' as const },
   { key: 'roadmapNative', status: 'planned' as const },
 ];
 
@@ -52,7 +52,10 @@ export function MobileAppsPageContent() {
           <ul className="text-xs text-muted-foreground space-y-1 font-mono">
             <li>GET /api/mobile/v1/summary</li>
             <li>GET /api/mobile/v1/qr</li>
+            <li>POST /api/mobile/v1/qr</li>
             <li>GET /api/mobile/v1/qr/:id</li>
+            <li>PATCH /api/mobile/v1/qr/:id</li>
+            <li>DELETE /api/mobile/v1/qr/:id</li>
           </ul>
           <Link href="/developers">
             <Button variant="outline" className="gap-2 rounded-full">

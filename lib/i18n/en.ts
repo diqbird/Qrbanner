@@ -3711,7 +3711,7 @@ export const en: TranslationTree = {
   mobileApps: {
     metaTitle: 'Mobile App & PWA — Install QRbanner',
     metaDescription:
-      'Install QRbanner as a progressive web app on your phone or desktop. Mobile API for dashboards, QR lists and scan summaries.',
+      'Install QRbanner as a progressive web app on your phone or desktop. Mobile API to list, create, update and delete QR codes plus scan summaries.',
     breadcrumb: 'Mobile app',
     title: 'QRbanner on mobile',
     subtitle:
@@ -3722,7 +3722,7 @@ export const en: TranslationTree = {
     openDashboard: 'Open dashboard',
     apiTitle: 'Mobile API',
     apiDesc:
-      'Lightweight JSON endpoints for native apps and integrations. Authenticate with your session cookie or API key.',
+      'Lightweight JSON endpoints for native apps and integrations — read and write QR codes. Authenticate with your session cookie or API key.',
     apiDocs: 'API documentation',
     nativeTitle: 'Native iOS & Android apps',
     nativeDesc:
@@ -3731,7 +3731,7 @@ export const en: TranslationTree = {
     nativeStatusAvailable: 'Available now',
     roadmapTitle: 'Mobile roadmap (honest status)',
     roadmapPwa: 'Progressive web app (install from browser)',
-    roadmapApi: 'Mobile JSON API for custom clients',
+    roadmapApi: 'Mobile JSON API for custom clients (create, update, delete)',
     roadmapNative: 'Native iOS & Android apps with push',
     roadmapDeepLink: 'Universal / App Links (prepared for future native apps)',
     roadmapNote:
