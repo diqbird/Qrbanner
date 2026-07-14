@@ -38,8 +38,20 @@ export function ApiKeyQuickRefPanel({ apiKey }: ApiKeyQuickRefPanelProps) {
             <p className="text-muted-foreground">{t('settings.apiKey.bulkQr')}</p>
           </div>
           <div className="rounded border bg-background p-2">
+            <p className="font-semibold text-foreground mb-1">GET /qr/:id</p>
+            <p className="text-muted-foreground">{t('settings.apiKey.getQr')}</p>
+          </div>
+          <div className="rounded border bg-background p-2">
+            <p className="font-semibold text-foreground mb-1">GET /qr/:id/analytics</p>
+            <p className="text-muted-foreground">{t('settings.apiKey.analyticsQr')}</p>
+          </div>
+          <div className="rounded border bg-background p-2">
             <p className="font-semibold text-foreground mb-1">PATCH /qr/:id</p>
             <p className="text-muted-foreground">{t('settings.apiKey.updateQr')}</p>
+          </div>
+          <div className="rounded border bg-background p-2">
+            <p className="font-semibold text-foreground mb-1">DELETE /qr/:id</p>
+            <p className="text-muted-foreground">{t('settings.apiKey.deleteQr')}</p>
           </div>
           <div className="rounded border bg-background p-2">
             <p className="font-semibold text-foreground mb-1">GET /folders</p>
