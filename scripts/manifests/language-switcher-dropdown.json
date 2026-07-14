@@ -1,0 +1,11 @@
+{
+  "upload": [
+    "components/i18n/language-switcher.tsx",
+    "lib/i18n/types.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

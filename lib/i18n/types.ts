@@ -1,10 +1,10 @@
 export type Locale = 'en' | 'tr' | 'de' | 'es';
 
-export const LOCALES: { id: Locale; label: string }[] = [
-  { id: 'en', label: 'EN' },
-  { id: 'tr', label: 'TR' },
-  { id: 'de', label: 'DE' },
-  { id: 'es', label: 'ES' },
+export const LOCALES: { id: Locale; label: string; nativeName: string }[] = [
+  { id: 'en', label: 'EN', nativeName: 'English' },
+  { id: 'tr', label: 'TR', nativeName: 'Türkçe' },
+  { id: 'de', label: 'DE', nativeName: 'Deutsch' },
+  { id: 'es', label: 'ES', nativeName: 'Español' },
 ];
 
 /** Locales served under a URL prefix (/tr/, /de/, /es/). English stays unprefixed. */
