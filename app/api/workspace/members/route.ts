@@ -17,6 +17,14 @@ import {
 } from '@/lib/workspace-sso';
 import { sendTeamInviteEmail } from '@/lib/email';
 import { resolveOutboundEmailLocaleFromRequest } from '@/lib/i18n/resolve-outbound-email-locale';
+import { requireMfaStepUp } from '@/lib/mfa-recovery';
+
+function extractMfaCode(body: Record<string, unknown>): string {
+  if (typeof body.mfaCode === 'string') return body.mfaCode;
+  if (typeof body.mfa_code === 'string') return body.mfa_code;
+  if (typeof body.code === 'string') return body.code;
+  return '';
+}
 
 export async function GET(req: NextRequest) {
   const auth = await requireUserId();
@@ -77,6 +85,9 @@ export async function POST(req: NextRequest) {
   if (action === 'invite') {
     const access = await assertWorkspaceRole(userId, workspaceId, 'admin');
     if (!access.ok) return NextResponse.json({ error: access.error }, { status: 403 });
+
+    const mfa = await requireMfaStepUp(userId, extractMfaCode(body));
+    if (!mfa.ok) return NextResponse.json({ error: mfa.error }, { status: mfa.status });
 
     const email = String(body.email ?? '').trim().toLowerCase();
     const role = String(body.role ?? 'editor');
@@ -149,6 +160,9 @@ export async function POST(req: NextRequest) {
     const access = await assertWorkspaceRole(userId, workspaceId, 'admin');
     if (!access.ok) return NextResponse.json({ error: access.error }, { status: 403 });
 
+    const mfa = await requireMfaStepUp(userId, extractMfaCode(body));
+    if (!mfa.ok) return NextResponse.json({ error: mfa.error }, { status: mfa.status });
+
     const memberId = String(body.memberId ?? '');
     const target = await prisma.workspaceMember.findFirst({
       where: { id: memberId, workspaceId },
@@ -173,6 +187,9 @@ export async function POST(req: NextRequest) {
   if (action === 'update_role') {
     const access = await assertWorkspaceRole(userId, workspaceId, 'admin');
     if (!access.ok) return NextResponse.json({ error: access.error }, { status: 403 });
+
+    const mfa = await requireMfaStepUp(userId, extractMfaCode(body));
+    if (!mfa.ok) return NextResponse.json({ error: mfa.error }, { status: mfa.status });
 
     const memberId = String(body.memberId ?? '');
     const role = String(body.role ?? '');

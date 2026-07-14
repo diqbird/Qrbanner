@@ -808,7 +808,7 @@ export const es: TranslationTree = {
     account2: 'Límites de tasa en registro y endpoints de API',
     account3: 'Protección opcional con contraseña por código QR',
     account4:
-      'Autenticación de dos factores TOTP con códigos de recuperación; nueva verificación MFA antes de cambiar la contraseña o emitir claves API, secretos de webhook, tokens SCIM y contraseñas SMTP',
+      'Autenticación de dos factores TOTP con códigos de recuperación; nueva verificación MFA antes de cambiar la contraseña, gestionar miembros del equipo o emitir claves API, secretos de webhook, tokens SCIM y contraseñas SMTP',
     account5: 'Asistente SAML SSO self-serve para workspaces Business (Okta, Azure AD)',
     account6: 'Historial reciente de inicios de sesión en Ajustes (éxito y fallo)',
     account7: 'Listas IP opcionales por clave API para restringir dónde se pueden usar',
@@ -1275,6 +1275,9 @@ export const es: TranslationTree = {
       inviteCopied: 'Enlace de invitación copiado al portapapeles',
       confirmRemoveMember: '¿Eliminar a este miembro?',
       memberRemoved: 'Miembro eliminado',
+      memberRemoveFailed: 'No se pudo eliminar al miembro',
+      mfaRequired: 'Introduzca el código del autenticador o de recuperación para gestionar miembros del equipo.',
+      mfaHint: 'Obligatorio con 2FA para invitar, cambiar roles o eliminar miembros.',
       ssoEnabled: 'Requisito de SSO activado',
       ssoDisabled: 'Requisito de SSO desactivado',
       ssoUpdateFailed: 'No se pudo actualizar la configuración SSO',

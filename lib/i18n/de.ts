@@ -808,7 +808,7 @@ export const de: TranslationTree = {
     account2: 'Rate Limits bei Registrierung und API-Endpunkten',
     account3: 'Optionale Passwortschutz pro QR-Code',
     account4:
-      'TOTP-Zwei-Faktor-Authentifizierung mit Wiederherstellungscodes; MFA-Nachprüfung vor Passwortänderung oder Ausgabe von API-Keys, Webhook-Geheimnissen, SCIM-Tokens und SMTP-Passwörtern',
+      'TOTP-Zwei-Faktor-Authentifizierung mit Wiederherstellungscodes; MFA-Nachprüfung vor Passwortänderung, Verwaltung von Teammitgliedern oder Ausgabe von API-Keys, Webhook-Geheimnissen, SCIM-Tokens und SMTP-Passwörtern',
     account5: 'Self-Serve-SAML-SSO-Assistent für Business-Team-Workspaces (Okta, Azure AD)',
     account6: 'Aktuelle Anmeldehistorie unter Einstellungen (Erfolg und Fehler)',
     account7: 'Optionale API-Key-IP-Allowlists zur Einschränkung der Key-Nutzung',
@@ -1275,6 +1275,9 @@ export const de: TranslationTree = {
       inviteCopied: 'Einladungslink in die Zwischenablage kopiert',
       confirmRemoveMember: 'Dieses Mitglied entfernen?',
       memberRemoved: 'Mitglied entfernt',
+      memberRemoveFailed: 'Mitglied konnte nicht entfernt werden',
+      mfaRequired: 'Geben Sie Ihren Authenticator- oder Wiederherstellungscode ein, um Teammitglieder zu verwalten.',
+      mfaHint: 'Bei aktivem 2FA erforderlich zum Einladen, Ändern von Rollen oder Entfernen von Mitgliedern.',
       ssoEnabled: 'SSO-Pflicht aktiviert',
       ssoDisabled: 'SSO-Pflicht deaktiviert',
       ssoUpdateFailed: 'SSO-Einstellungen konnten nicht aktualisiert werden',

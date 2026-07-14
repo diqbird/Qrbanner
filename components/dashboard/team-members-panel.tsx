@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import {
   Select,
@@ -14,6 +15,10 @@ import { Mail, Trash2 } from 'lucide-react';
 import { resolveEnumLabel } from '@/lib/i18n/resolve-enum-label';
 import type { TeamWorkspaceState } from '@/hooks/use-team-workspace';
 import type { InviteRole } from '@/hooks/use-team-workspace-member-actions';
+
+function sanitizeMfa(value: string) {
+  return value.replace(/[^a-zA-Z0-9-]/g, '').toUpperCase().slice(0, 19);
+}
 
 type TeamMembersPanelProps = {
   team: TeamWorkspaceState;
@@ -34,12 +39,32 @@ export function TeamMembersPanel({ team }: TeamMembersPanelProps) {
     inviteMember,
     removeMember,
     updateMemberRole,
+    mfaEnabled,
+    mfaCode,
+    setMfaCode,
   } = team;
 
   return (
     <>
+      {canManage && mfaEnabled && (
+        <div className="max-w-xs space-y-2 border-t border-border/50 pt-4">
+          <Label htmlFor="team-member-mfa">{t('settings.mfa.codeOrRecoveryLabel')}</Label>
+          <Input
+            id="team-member-mfa"
+            autoComplete="one-time-code"
+            value={mfaCode}
+            onChange={(e) => setMfaCode(sanitizeMfa(e.target.value))}
+            placeholder={t('settings.mfa.codeOrRecoveryPlaceholder')}
+            className="font-mono"
+          />
+          <p className="text-xs text-muted-foreground">{t('settings.team.mfaHint')}</p>
+        </div>
+      )}
       {canManage && (
-        <form onSubmit={inviteMember} className="flex flex-wrap gap-2 border-t border-border/50 pt-4">
+        <form
+          onSubmit={inviteMember}
+          className={`flex flex-wrap gap-2 ${mfaEnabled ? '' : 'border-t border-border/50'} pt-4`}
+        >
           <Input
             type="email"
             placeholder={t('settings.team.invitePlaceholder')}
@@ -102,7 +127,13 @@ export function TeamMembersPanel({ team }: TeamMembersPanelProps) {
                   {resolveEnumLabel(t, 'settings.team.statuses', m.status)}
                 </Badge>
                 {canManage && m.role !== 'owner' && (
-                  <Button variant="ghost" size="icon-sm" onClick={() => removeMember(m.id)} aria-label={t('common.removeAria')}>
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    onClick={() => removeMember(m.id)}
+                    aria-label={t('common.removeAria')}
+                    disabled={working}
+                  >
                     <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>
                 )}

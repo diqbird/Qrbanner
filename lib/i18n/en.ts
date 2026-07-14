@@ -882,6 +882,9 @@ export const en: TranslationTree = {
       inviteCopied: 'Invite link copied to clipboard',
       confirmRemoveMember: 'Remove this member?',
       memberRemoved: 'Member removed',
+      memberRemoveFailed: 'Failed to remove member',
+      mfaRequired: 'Enter your authenticator or recovery code to manage team members.',
+      mfaHint: 'Required with 2FA to invite, change roles, or remove members.',
       ssoEnabled: 'SSO requirement enabled',
       ssoDisabled: 'SSO requirement disabled',
       ssoUpdateFailed: 'Failed to update SSO settings',
@@ -3373,7 +3376,7 @@ export const en: TranslationTree = {
     account2: 'Rate limits on signup and API endpoints',
     account3: 'Optional password protection per QR code',
     account4:
-      'TOTP two-factor authentication with recovery codes; MFA re-check before changing password or issuing API keys, webhook secrets, SCIM tokens and SMTP passwords',
+      'TOTP two-factor authentication with recovery codes; MFA re-check before changing password, managing team members, or issuing API keys, webhook secrets, SCIM tokens and SMTP passwords',
     account5: 'Self-serve SAML SSO wizard for Business team workspaces (Okta, Azure AD)',
     account6: 'Recent sign-in history in Settings (success and failure)',
     account7: 'Optional API key IP allowlists to restrict where keys can be used',

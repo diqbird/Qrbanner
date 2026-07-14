@@ -883,6 +883,9 @@ export const tr: TranslationTree = {
       inviteCopied: 'Davet bağlantısı panoya kopyalandı',
       confirmRemoveMember: 'Bu üye kaldırılsın mı?',
       memberRemoved: 'Üye kaldırıldı',
+      memberRemoveFailed: 'Üye kaldırılamadı',
+      mfaRequired: 'Ekip üyelerini yönetmek için doğrulama veya kurtarma kodunu girin.',
+      mfaHint: '2FA açıksa davet, rol değişikliği ve üye kaldırma için gerekir.',
       ssoEnabled: 'SSO zorunluluğu etkinleştirildi',
       ssoDisabled: 'SSO zorunluluğu devre dışı bırakıldı',
       ssoUpdateFailed: 'SSO ayarları güncellenemedi',
@@ -3376,7 +3379,7 @@ export const tr: TranslationTree = {
     account2: 'Kayıt ve API uç noktalarında hız limiti',
     account3: 'QR başına isteğe bağlı şifre koruması',
     account4:
-      'Kurtarma kodlu TOTP iki faktörlü kimlik doğrulama; şifre değişimi veya API anahtarı, webhook secret, SCIM token ve SMTP şifresi vermeden önce MFA yeniden doğrulama',
+      'Kurtarma kodlu TOTP iki faktörlü kimlik doğrulama; şifre değişimi, ekip üyesi yönetimi veya API anahtarı, webhook secret, SCIM token ve SMTP şifresi vermeden önce MFA yeniden doğrulama',
     account5: 'Business ekip çalışma alanları için self-serve SAML sihirbazı (Okta, Azure AD)',
     account6: 'Ayarlar\'da son oturum açma geçmişi (başarılı ve başarısız)',
     account7: 'API anahtarlarının kullanılabileceği yerleri kısıtlamak için isteğe bağlı IP allowlist',

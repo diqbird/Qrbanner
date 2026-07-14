@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { resolveApiError } from '@/lib/i18n/resolve-api-error';
 
@@ -21,10 +21,40 @@ export function useTeamWorkspaceMemberActions({
 }) {
   const [inviteEmail, setInviteEmail] = useState('');
   const [inviteRole, setInviteRole] = useState<InviteRole>('editor');
+  const [mfaEnabled, setMfaEnabled] = useState(false);
+  const [mfaCode, setMfaCode] = useState('');
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch('/api/auth/mfa');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!cancelled) setMfaEnabled(Boolean(data.enabled));
+      } catch {
+        /* ignore */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const mfaPayload = () => (mfaEnabled ? { mfaCode: mfaCode.trim() } : {});
+
+  const requireMfa = () => {
+    if (mfaEnabled && !mfaCode.trim()) {
+      toast.error(t('settings.team.mfaRequired'));
+      return false;
+    }
+    return true;
+  };
 
   const inviteMember = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inviteEmail.trim()) return;
+    if (!requireMfa()) return;
     setWorking(true);
     try {
       const res = await fetch('/api/workspace/members', {
@@ -35,6 +65,7 @@ export function useTeamWorkspaceMemberActions({
           workspaceId: activeId,
           email: inviteEmail.trim(),
           role: inviteRole,
+          ...mfaPayload(),
         }),
       });
       const payload = await res.json();
@@ -42,6 +73,7 @@ export function useTeamWorkspaceMemberActions({
       navigator.clipboard?.writeText(payload.inviteUrl);
       toast.success(t('settings.team.inviteCopied'));
       setInviteEmail('');
+      setMfaCode('');
       fetchMembers(activeId);
     } finally {
       setWorking(false);
@@ -50,18 +82,28 @@ export function useTeamWorkspaceMemberActions({
 
   const removeMember = async (memberId: string) => {
     if (!confirm(t('settings.team.confirmRemoveMember'))) return;
+    if (!requireMfa()) return;
     const res = await fetch('/api/workspace/members', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'remove', workspaceId: activeId, memberId }),
+      body: JSON.stringify({
+        action: 'remove',
+        workspaceId: activeId,
+        memberId,
+        ...mfaPayload(),
+      }),
     });
-    if (res.ok) {
-      toast.success(t('settings.team.memberRemoved'));
-      fetchMembers(activeId);
+    const payload = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      return toast.error(resolveApiError(t, payload.error, 'settings.team.memberRemoveFailed'));
     }
+    toast.success(t('settings.team.memberRemoved'));
+    setMfaCode('');
+    fetchMembers(activeId);
   };
 
   const updateMemberRole = async (memberId: string, role: InviteRole) => {
+    if (!requireMfa()) return;
     setWorking(true);
     try {
       const res = await fetch('/api/workspace/members', {
@@ -72,6 +114,7 @@ export function useTeamWorkspaceMemberActions({
           workspaceId: activeId,
           memberId,
           role,
+          ...mfaPayload(),
         }),
       });
       const payload = await res.json().catch(() => ({}));
@@ -79,6 +122,7 @@ export function useTeamWorkspaceMemberActions({
         return toast.error(resolveApiError(t, payload.error, 'settings.team.roleUpdateFailed'));
       }
       toast.success(t('settings.team.roleUpdated'));
+      setMfaCode('');
       fetchMembers(activeId);
     } finally {
       setWorking(false);
@@ -90,6 +134,9 @@ export function useTeamWorkspaceMemberActions({
     setInviteEmail,
     inviteRole,
     setInviteRole,
+    mfaEnabled,
+    mfaCode,
+    setMfaCode,
     inviteMember,
     removeMember,
     updateMemberRole,
