@@ -40,6 +40,17 @@ export function EnterpriseScimPanel({ enterprise }: EnterpriseScimPanelProps) {
         <p className="text-sm font-medium">{t('enterpriseWorkspace.scimTitle')}</p>
       </div>
       <p className="text-xs text-muted-foreground">{t('enterpriseWorkspace.scimDesc')}</p>
+      <ul className="list-disc space-y-1.5 pl-4 text-xs text-muted-foreground leading-relaxed">
+        <li>{t('enterpriseWorkspace.scimSetupStep1')}</li>
+        <li>{t('enterpriseWorkspace.scimSetupStep2')}</li>
+        <li>{t('enterpriseWorkspace.scimSetupStep3')}</li>
+      </ul>
+      <a
+        href="/developers#scim"
+        className="inline-block text-xs font-medium text-primary hover:underline"
+      >
+        {t('enterpriseWorkspace.scimDocsLink')} →
+      </a>
       {mfaEnabled && (
         <div className="max-w-xs space-y-2">
           <Label htmlFor="scim-token-mfa">{t('settings.mfa.codeOrRecoveryLabel')}</Label>

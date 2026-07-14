@@ -9,7 +9,7 @@ import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { DEVELOPER_RATE_LIMIT_PLAN_IDS, formatDeveloperRateLimitLine } from '@/lib/i18n/api-rate-limits';
 import { WEBHOOK_VERIFY_NODE_EXAMPLE } from '@/lib/webhook-test-payload';
-import { ArrowRight, Code2, FileJson, Key, Webhook, Gauge } from 'lucide-react';
+import { ArrowRight, Code2, FileJson, Key, Webhook, Gauge, UsersRound } from 'lucide-react';
 
 export const revalidate = 3600;
 
@@ -38,6 +38,24 @@ const ENDPOINT_KEYS = [
   { method: 'GET', path: '/api/v1/folders/:id', descKey: 'developersPage.epGetFolder' },
   { method: 'PATCH', path: '/api/v1/folders/:id', descKey: 'developersPage.epUpdateFolder' },
   { method: 'DELETE', path: '/api/v1/folders/:id', descKey: 'developersPage.epDeleteFolder' },
+] as const;
+
+const SCIM_ENDPOINT_KEYS = [
+  { method: 'GET', path: '/api/scim/v2/Users', descKey: 'developersPage.scimEpListUsers' },
+  { method: 'POST', path: '/api/scim/v2/Users', descKey: 'developersPage.scimEpCreateUser' },
+  { method: 'GET', path: '/api/scim/v2/Users/:id', descKey: 'developersPage.scimEpGetUser' },
+  { method: 'PATCH', path: '/api/scim/v2/Users/:id', descKey: 'developersPage.scimEpUpdateUser' },
+  { method: 'DELETE', path: '/api/scim/v2/Users/:id', descKey: 'developersPage.scimEpDeleteUser' },
+  { method: 'GET', path: '/api/scim/v2/Groups', descKey: 'developersPage.scimEpListGroups' },
+  { method: 'GET', path: '/api/scim/v2/Groups/:id', descKey: 'developersPage.scimEpGetGroup' },
+  { method: 'PATCH', path: '/api/scim/v2/Groups/:id', descKey: 'developersPage.scimEpUpdateGroup' },
+  {
+    method: 'GET',
+    path: '/api/scim/v2/ServiceProviderConfig',
+    descKey: 'developersPage.scimEpSpConfig',
+  },
+  { method: 'GET', path: '/api/scim/v2/ResourceTypes', descKey: 'developersPage.scimEpResourceTypes' },
+  { method: 'GET', path: '/api/scim/v2/Schemas', descKey: 'developersPage.scimEpSchemas' },
 ] as const;
 
 export default async function DevelopersPage() {
@@ -187,6 +205,59 @@ X-API-Key: qb_live_...`}
               </Link>
             </div>
           </div>
+
+          <section
+            id="scim"
+            className="mt-16 scroll-mt-24 rounded-xl border border-border/50 bg-card/80 p-6 sm:p-8 backdrop-blur-sm"
+          >
+            <h2 className="font-display text-xl font-bold flex items-center gap-2">
+              <UsersRound className="h-5 w-5 text-primary" /> {t('developersPage.scimTitle')}
+            </h2>
+            <p className="mt-3 max-w-3xl text-sm text-muted-foreground leading-relaxed">
+              {t('developersPage.scimBody')}
+            </p>
+            <div className="mt-6 grid gap-6 lg:grid-cols-2">
+              <div>
+                <h3 className="font-display text-sm font-semibold">{t('developersPage.scimSetupTitle')}</h3>
+                <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm text-muted-foreground leading-relaxed">
+                  <li>{t('developersPage.scimSetup1')}</li>
+                  <li>{t('developersPage.scimSetup2')}</li>
+                  <li>{t('developersPage.scimSetup3')}</li>
+                  <li>{t('developersPage.scimSetup4')}</li>
+                </ol>
+                <pre className="mt-4 overflow-x-auto rounded-lg bg-muted p-3 text-xs leading-relaxed">
+                  {`Base URL: https://qrbanner.com/api/scim/v2
+Authorization: Bearer qrb_scim_...
+
+# Roles ↔ virtual Groups: admin | editor | viewer`}
+                </pre>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[360px] text-sm">
+                  <thead>
+                    <tr className="border-b text-left text-muted-foreground">
+                      <th className="pb-3 pr-4 font-medium">{t('developersPage.methodHeader')}</th>
+                      <th className="pb-3 pr-4 font-medium">{t('developersPage.pathHeader')}</th>
+                      <th className="pb-3 font-medium">{t('developersPage.descHeader')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {SCIM_ENDPOINT_KEYS.map((ep) => (
+                      <tr key={ep.path + ep.method} className="border-b border-border/40 last:border-0">
+                        <td className="py-2.5 pr-4">
+                          <Badge variant="outline" className="font-mono text-xs">
+                            {ep.method}
+                          </Badge>
+                        </td>
+                        <td className="py-2.5 pr-4 font-mono text-xs">{ep.path}</td>
+                        <td className="py-2.5 text-muted-foreground">{t(ep.descKey)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
 
           <section className="mt-16 rounded-xl border border-border/50 bg-card/80 p-8 backdrop-blur-sm">
             <h2 className="font-display text-xl font-bold">{t('developersPage.exampleTitle')}</h2>
