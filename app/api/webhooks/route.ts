@@ -7,6 +7,7 @@ import { assertSafeOutboundUrl } from '@/lib/outbound-url';
 import { getUserPlanUsage } from '@/lib/plan-usage';
 import { WEBHOOK_LIMIT, rateLimitRequest } from '@/lib/authenticated-rate-limit';
 import { requireUserId, isAuthError } from '@/lib/session-auth';
+import { requireMfaStepUp } from '@/lib/mfa-recovery';
 
 export async function GET() {
   const auth = await requireUserId();
@@ -52,6 +53,17 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json();
+  const mfaCode =
+    typeof body.mfaCode === 'string'
+      ? body.mfaCode
+      : typeof body.mfa_code === 'string'
+        ? body.mfa_code
+        : typeof body.code === 'string'
+          ? body.code
+          : '';
+  const mfa = await requireMfaStepUp(userId, mfaCode);
+  if (!mfa.ok) return NextResponse.json({ error: mfa.error }, { status: mfa.status });
+
   const urlRaw = String(body.url ?? '').trim();
   const label = body.label ? String(body.label).trim() : null;
 

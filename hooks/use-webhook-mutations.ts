@@ -45,12 +45,20 @@ export function useWebhookMutations({
   const addWebhook = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!url.trim()) return toast.error(t('settings.webhooks.urlRequired'));
+    if (mfaEnabled && !mfaCode.trim()) {
+      toast.error(t('settings.webhooks.mfaRequired'));
+      return;
+    }
     setWorking(true);
     try {
       const res = await fetch('/api/webhooks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: url.trim(), label: label.trim() || null }),
+        body: JSON.stringify({
+          url: url.trim(),
+          label: label.trim() || null,
+          ...mfaPayload(),
+        }),
       });
       const json = await res.json();
       if (!res.ok) return toast.error(resolveApiError(t, json.error, 'settings.webhooks.addFailed'));
@@ -58,6 +66,7 @@ export function useWebhookMutations({
       setShowSecretDialog(true);
       setUrl('');
       setLabel('');
+      setMfaCode('');
       reload();
       fetchDeliveries();
       toast.success(t('settings.webhooks.added'));

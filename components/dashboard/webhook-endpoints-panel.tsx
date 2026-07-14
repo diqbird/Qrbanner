@@ -81,11 +81,11 @@ export function WebhookEndpointList({ settings }: { settings: WebhookSettingsSta
           })}
         </span>
       </div>
-      {mfaEnabled && webhooks.length > 0 && (
+      {mfaEnabled && (
         <div className="max-w-xs space-y-2">
-          <Label htmlFor="webhook-rotate-mfa">{t('settings.mfa.codeOrRecoveryLabel')}</Label>
+          <Label htmlFor="webhook-secret-mfa">{t('settings.mfa.codeOrRecoveryLabel')}</Label>
           <Input
-            id="webhook-rotate-mfa"
+            id="webhook-secret-mfa"
             autoComplete="one-time-code"
             value={mfaCode}
             onChange={(e) => setMfaCode(sanitizeMfa(e.target.value))}
