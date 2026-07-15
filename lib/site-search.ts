@@ -27,6 +27,13 @@ export const SITE_SEARCH_INDEX: SiteSearchItem[] = [
   { id: 'security', titleKey: 'siteSearch.security', href: '/security', groupKey: 'siteSearch.groupPages' },
   { id: 'trust', titleKey: 'siteSearch.trust', href: '/trust', groupKey: 'siteSearch.groupPages' },
   {
+    id: 'soc2-readiness',
+    titleKey: 'siteSearch.soc2Readiness',
+    href: '/trust/soc2-readiness',
+    groupKey: 'siteSearch.groupPages',
+    keywords: ['soc2', 'soc 2', 'compliance', 'audit', 'trust services', 'certification'],
+  },
+  {
     id: 'procurement-request',
     titleKey: 'siteSearch.procurementRequest',
     href: '/trust/procurement-request',

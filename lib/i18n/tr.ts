@@ -122,6 +122,7 @@ export const tr: TranslationTree = {
     about: 'Hakkımızda',
     security: 'Güvenlik',
     trust: 'Güven Merkezi',
+    soc2Readiness: 'SOC 2 hazırlık haritası',
     dpa: 'Veri İşleme Ek Sözleşmesi',
     subprocessors: 'Alt İşleyenler',
     procurementRequest: 'Satın alma talebi',

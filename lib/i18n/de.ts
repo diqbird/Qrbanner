@@ -2189,6 +2189,8 @@ export const de: TranslationTree = {
     linkSubprocessorsDesc: 'Dritte, die bei der Servicebereitstellung helfen.',
     linkProcurement: 'Beschaffungsanfrage',
     linkProcurementDesc: 'Sicherheitsfragebogen, BAA-Gespräch oder signierten DPA anfordern.',
+    linkSoc2Readiness: 'SOC-2-Readiness-Karte',
+    linkSoc2ReadinessDesc: 'Ausgelieferte Kontrollen vs. Trust Services Criteria — Evidenztabelle, kein Zertifikat.',
   },
   procurementRequest: {
     metaTitle: 'Beschaffungsanfrage — Sicherheitsfragebogen, BAA & DPA',
@@ -2198,6 +2200,7 @@ export const de: TranslationTree = {
     subtitle: 'Teilen Sie uns mit, was Ihr Security- oder Legal-Team braucht. Antwort in der Regel innerhalb eines Werktags.',
     disclaimer:
       'Wir behaupten keine abgeschlossenen SOC-2- oder HIPAA-Zertifizierungen bis Audits abgeschlossen sind. Dieses Formular startet eine Dokument- oder Gesprächsanfrage für qualifizierte Enterprise-Deals — kein automatischer Zertifikats-Download.',
+    readinessLink: 'Lesen Sie vor dem Absenden die öffentliche SOC-2-Readiness-Evidenzkarte.',
     requestType: 'Was benötigen Sie?',
     types: {
       security_questionnaire: 'Sicherheitsfragebogen / Vendor Review',

@@ -121,6 +121,7 @@ export const en: TranslationTree = {
     about: 'About',
     security: 'Security',
     trust: 'Trust Center',
+    soc2Readiness: 'SOC 2 readiness map',
     dpa: 'Data Processing Addendum',
     subprocessors: 'Sub-processors',
     procurementRequest: 'Procurement request',

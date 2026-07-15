@@ -2190,6 +2190,8 @@ export const es: TranslationTree = {
     linkSubprocessorsDesc: 'Terceros que ayudan a prestar el servicio.',
     linkProcurement: 'Solicitud de adquisición',
     linkProcurementDesc: 'Solicite cuestionario de seguridad, conversación BAA o DPA firmado.',
+    linkSoc2Readiness: 'Mapa de preparación SOC 2',
+    linkSoc2ReadinessDesc: 'Controles publicados vs. Trust Services Criteria — tabla de evidencias, no certificado.',
   },
   procurementRequest: {
     metaTitle: 'Solicitud de adquisición — Cuestionario, BAA y DPA',
@@ -2199,6 +2201,7 @@ export const es: TranslationTree = {
     subtitle: 'Indíquenos qué necesita su equipo de seguridad o legal. Respondemos normalmente en un día laborable.',
     disclaimer:
       'No afirmamos certificaciones SOC 2 o HIPAA completadas hasta que terminen las auditorías. Este formulario inicia una solicitud de documento o conversación para acuerdos enterprise cualificados — no una descarga automática de certificados.',
+    readinessLink: 'Revise el mapa público de evidencias SOC 2 antes de enviar.',
     requestType: '¿Qué necesita?',
     types: {
       security_questionnaire: 'Cuestionario de seguridad / revisión de proveedor',
