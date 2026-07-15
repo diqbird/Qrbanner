@@ -53,7 +53,7 @@ export function QrCreateWizardFooter({
   }, [step, isGuest, saving, searchParams, handleSave, ready]);
 
   return (
-    <div className="sticky bottom-0 z-40 -mx-4 mt-6 border-t border-border/60 bg-background/95 px-4 py-3 backdrop-blur-sm supports-[backdrop-filter]:bg-background/80 lg:-mx-0 lg:rounded-xl lg:border lg:shadow-sm">
+    <div className="surface-3d sticky bottom-0 z-40 -mx-4 mt-6 border border-white/30 bg-card/80 px-4 py-3 backdrop-blur-2xl dark:border-white/10 lg:-mx-0 lg:rounded-2xl">
       {!ready && blockers.length > 0 ? (
         <p className="mb-2 text-xs text-muted-foreground" role="status">
           {t('create.missingFields')}:{' '}
@@ -65,7 +65,7 @@ export function QrCreateWizardFooter({
           variant="outline"
           onClick={() => goToStep(Math.max(0, step - 1))}
           disabled={step === 0}
-          className="gap-2"
+          className="gap-2 rounded-xl border-white/25 bg-background/40"
         >
           <ArrowLeft className="h-4 w-4" /> {t('create.back')}
         </Button>
@@ -74,12 +74,16 @@ export function QrCreateWizardFooter({
           <Button
             onClick={() => goToStep(Math.min(3, step + 1))}
             disabled={!ready}
-            className="shrink-0 gap-2"
+            className="shrink-0 gap-2 rounded-xl shadow-[0_14px_34px_-14px_hsl(var(--primary)/0.7)]"
           >
             {t('create.next')} <ArrowRight className="h-4 w-4" />
           </Button>
         ) : (
-          <Button onClick={() => void handleSave()} loading={saving} className="shrink-0 gap-2">
+          <Button
+            onClick={() => void handleSave()}
+            loading={saving}
+            className="shrink-0 gap-2 rounded-xl shadow-[0_14px_34px_-14px_hsl(var(--primary)/0.7)]"
+          >
             <CheckCircle2 className="h-4 w-4" />
             {isGuest ? t('create.signUpToSave') : t('create.createQr')}
           </Button>

@@ -1,5 +1,7 @@
-const CACHE_VERSION = 'qrb-pwa-v1';
+const CACHE_VERSION = 'qrb-pwa-v2';
 const PRECACHE_URLS = ['/dashboard', '/manifest.webmanifest'];
+
+
 
 self.addEventListener('install', (event) => {
   event.waitUntil(

@@ -555,6 +555,8 @@ model MarketplacePurchase {
   currency            String   @default("usd")
   status              String   @default("pending")
   paddleTransactionId String?  @unique
+  settledAt           DateTime?
+  settleNote          String?
   createdAt           DateTime @default(now())
   listing             MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
   buyer               User     @relation(fields: [buyerId], references: [id], onDelete: Cascade)

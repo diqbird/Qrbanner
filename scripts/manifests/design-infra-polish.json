@@ -1,0 +1,26 @@
+{
+  "upload": [
+    "prisma/schema.prisma",
+    "prisma/migrations/0015_marketplace_settle/migration.sql",
+    "app/api/admin/payments/route.ts",
+    "app/manifest.ts",
+    "public/sw.js",
+    "lib/integration-presets.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "components/qr/qr-create-step-start.tsx",
+    "components/qr/qr-create-step-indicator.tsx",
+    "components/qr/qr-create-wizard-footer.tsx",
+    "components/qr/qr-create-step-review.tsx",
+    "components/dashboard/dashboard-qr-list-card.tsx",
+    "components/dashboard/integration-preset-cards.tsx",
+    "components/templates/template-marketplace-card.tsx",
+    "components/admin/pages/admin-payments-page.tsx",
+    "marketing/google-ads/GOOGLE_ADS_SETUP_EN.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": true,
+  "prisma_migrate": true,
+  "build": true,
+  "restart": true
+}

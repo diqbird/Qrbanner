@@ -25,7 +25,7 @@ export function TemplateMarketplaceCard({ template }: { template: IndustryTempla
 
   return (
     <article
-      className="group flex flex-col rounded-2xl border border-border/50 bg-card p-5 transition-all hover:border-primary/30 hover:shadow-md"
+      className="surface-3d group flex flex-col rounded-2xl border border-white/30 bg-card/80 p-5 backdrop-blur-md transition-all hover:-translate-y-1 hover:border-primary/40 dark:border-white/10"
       data-testid={`marketplace-template-${template.id}`}
     >
       <div className="flex items-start gap-3">

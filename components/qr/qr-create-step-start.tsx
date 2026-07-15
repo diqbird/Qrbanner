@@ -27,7 +27,10 @@ export function QrCreateStepStart({ form }: QrCreateStepStartProps) {
     <div className="space-y-6">
       <IndustryTemplatePicker onApply={applyTemplate} />
       {QR_CATEGORY_GROUPS.map((group) => (
-        <Card key={group.id}>
+        <Card
+          key={group.id}
+          className="surface-3d border-white/30 bg-card/80 backdrop-blur-md dark:border-white/10"
+        >
           <CardHeader className="pb-2">
             <CardTitle className="font-display text-base">{resolveCategoryGroupLabel(t, group.id)}</CardTitle>
             {'subtitle' in group && group.subtitle && (
@@ -45,10 +48,10 @@ export function QrCreateStepStart({ form }: QrCreateStepStartProps) {
                     type="button"
                     data-testid={`qr-category-${cat.id}`}
                     onClick={() => selectCategory(cat.id)}
-                    className={`relative flex items-center gap-3 rounded-lg border p-4 text-left transition-all hover:shadow-sm ${
+                    className={`relative flex items-center gap-3 rounded-xl border p-4 text-left transition-all hover:-translate-y-0.5 ${
                       category === cat.id
-                        ? 'border-primary bg-primary/5 shadow-sm'
-                        : 'border-border/50 hover:border-border'
+                        ? 'border-primary/50 bg-primary/10 shadow-[0_14px_32px_-16px_hsl(var(--primary)/0.55)]'
+                        : 'border-white/25 bg-background/40 hover:border-white/40 hover:shadow-[0_12px_28px_-18px_rgba(0,0,0,0.4)] dark:border-white/10'
                     }`}
                   >
                     {isPopular && (

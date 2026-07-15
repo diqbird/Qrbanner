@@ -36,7 +36,7 @@ export function QrCreateStepReview({ form }: QrCreateStepReviewProps) {
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      <Card className="order-2 lg:order-1">
+      <Card className="surface-3d order-2 border-white/30 bg-card/80 backdrop-blur-md dark:border-white/10 lg:order-1">
         <CardHeader>
           <CardTitle className="font-display">{t('create.summary')}</CardTitle>
         </CardHeader>
@@ -91,7 +91,7 @@ export function QrCreateStepReview({ form }: QrCreateStepReviewProps) {
           </div>
         </CardContent>
       </Card>
-      <div className="order-1 h-fit lg:order-2 lg:sticky lg:top-24">
+      <div className="surface-3d order-1 h-fit overflow-hidden rounded-2xl border border-white/30 bg-card/80 p-3 backdrop-blur-md dark:border-white/10 lg:sticky lg:top-24 lg:order-2">
         <QRPreview
           category={category}
           qrData={qrData}

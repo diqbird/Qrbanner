@@ -319,4 +319,28 @@ Pause keywords with **50+ clicks, 0 signups**.
 
 ---
 
+## 10. Google Ads Editor CSV import (Paused campaigns)
+
+Editor CSV folders (all campaigns start **Paused**):
+
+| Locale | Folder |
+|--------|--------|
+| EN | [`editor-csv/`](./editor-csv/) |
+| DE | [`editor-csv-de/`](./editor-csv-de/) |
+| ES | [`editor-csv-es/`](./editor-csv-es/) |
+| TR | [`editor-csv-tr/`](./editor-csv-tr/) |
+
+**Import order:** `01` → `08` in Google Ads Editor, then **Create** → review → Enable only the campaigns you want live.
+
+Regenerate from repo root if keywords change:
+
+```bash
+python scripts/generate-ads-editor-csv.py
+python scripts/verify-ads-paste-urls.py
+```
+
+Console order A→D: [`CONSOLE_A_D.md`](./CONSOLE_A_D.md)
+
+---
+
 *Last updated: July 2026 — aligns with free plan = 1 dynamic QR, Pro $9.99/mo, 14-day Pro trial.*

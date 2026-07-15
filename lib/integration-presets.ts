@@ -14,24 +14,26 @@ export const INTEGRATION_PRESETS: IntegrationPreset[] = [
     name: 'Zapier',
     descriptionKey: 'settings.integrations.zapierPresetDesc',
     docsPath: '/integrations/zapier',
-    webhookHint: 'Use Zapier "Webhooks by Zapier" → Catch Hook as your endpoint URL.',
+    webhookHint: 'Zapier → Webhooks by Zapier → Catch Hook. Paste the Catch Hook URL as your QRbanner scan webhook endpoint.',
   },
   {
     id: 'hubspot',
     name: 'HubSpot',
     descriptionKey: 'settings.integrations.hubspotPresetDesc',
     docsPath: '/integrations/hubspot',
-    webhookHint: 'Map scan fields to HubSpot contact properties.',
+    webhookHint:
+      'Catch Hook → HubSpot Create/Update Contact. Map scan.city → city, scan.country → country, qr_name → notes.',
   },
   {
     id: 'make',
     name: 'Make',
     descriptionKey: 'settings.integrations.makePresetDesc',
     docsPath: '/integrations/make',
-    webhookHint: 'Create a Make scenario with a Custom Webhook module.',
+    webhookHint: 'Make → Custom Webhook module. Use the webhook URL as the QRbanner endpoint, then branch on event = scan.',
   },
 ];
 
+/** Canonical sample payload for docs + dashboard presets. */
 export const SCAN_WEBHOOK_SAMPLE = {
   event: 'scan',
   qr_code_id: 'clxxx',
@@ -45,4 +47,17 @@ export const SCAN_WEBHOOK_SAMPLE = {
     os: 'iOS',
     scanned_at: '2026-07-10T12:00:00.000Z',
   },
-};
+} as const;
+
+export const HUBSPOT_FIELD_MAP: { webhook: string; hubspot: string }[] = [
+  { webhook: 'qr_name', hubspot: 'notes / deal name' },
+  { webhook: 'short_code', hubspot: 'custom property (optional)' },
+  { webhook: 'scan.city', hubspot: 'city' },
+  { webhook: 'scan.country', hubspot: 'country' },
+  { webhook: 'scan.device', hubspot: 'notes (device)' },
+  { webhook: 'scan.scanned_at', hubspot: 'last activity date' },
+];
+
+export function scanWebhookSampleJson(indent = 2): string {
+  return JSON.stringify(SCAN_WEBHOOK_SAMPLE, null, indent);
+}
