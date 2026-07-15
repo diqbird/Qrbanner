@@ -1364,6 +1364,7 @@ export const en: TranslationTree = {
     topicDevelopersDesc: 'REST API, OpenAPI spec, webhooks and rate limits.',
     topicIntegrationsDesc: 'Connect GA4, Meta Pixel, Zapier and scan webhooks.',
     topicSecurityDesc: '2FA, SSO, data handling and enterprise security overview.',
+    topicTrustDesc: 'Trust Center, SOC 2 and HIPAA readiness maps, and procurement requests.',
     topicSamlTitle: 'SAML SSO setup',
     topicSamlDesc: 'Business teams: step-by-step IdP wizard in Settings → Team.',
     topicTrialTitle: '{{days}}-day Pro trial',
@@ -3579,6 +3580,7 @@ export const en: TranslationTree = {
     disclaimer:
       'We do not claim completed SOC 2 or HIPAA certifications until audits are finished. This form starts a document or discussion request for qualified enterprise deals — not an automatic certificate download.',
     readinessLink: 'Review the public SOC 2 readiness evidence map before submitting.',
+    hipaaReadinessLink: 'Review the HIPAA readiness & BAA discussion map before submitting.',
     requestType: 'What do you need?',
     types: {
       security_questionnaire: 'Security questionnaire / vendor review',

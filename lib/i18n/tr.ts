@@ -1365,6 +1365,7 @@ export const tr: TranslationTree = {
     topicDevelopersDesc: 'REST API, OpenAPI spesifikasyonu, webhook\'lar ve hız limitleri.',
     topicIntegrationsDesc: 'GA4, Meta Pixel, Zapier ve tarama webhook\'larını bağlayın.',
     topicSecurityDesc: '2FA, SSO, veri işleme ve kurumsal güvenlik özeti.',
+    topicTrustDesc: 'Güven Merkezi, SOC 2 ve HIPAA hazırlık haritaları ve satın alma talepleri.',
     topicSamlTitle: 'SAML SSO kurulumu',
     topicSamlDesc: 'Business ekipleri: Ayarlar → Ekip\'te adım adım IdP sihirbazı.',
     topicTrialTitle: '{{days}} günlük Pro denemesi',
@@ -3581,6 +3582,7 @@ export const tr: TranslationTree = {
     disclaimer:
       'Denetimler tamamlanana kadar tamamlanmış SOC 2 veya HIPAA sertifikası iddiasında bulunmayız. Bu form, uygun kurumsal anlaşmalar için belge veya görüşme talebi başlatır — otomatik sertifika indirme değildir.',
     readinessLink: 'Göndermeden önce herkese açık SOC 2 hazırlık kanıt haritasına bakın.',
+    hipaaReadinessLink: 'Göndermeden önce HIPAA hazırlık ve BAA görüşme haritasına bakın.',
     requestType: 'Neye ihtiyacınız var?',
     types: {
       security_questionnaire: 'Güvenlik anketi / tedarikçi incelemesi',

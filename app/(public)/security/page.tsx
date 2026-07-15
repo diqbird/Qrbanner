@@ -92,6 +92,16 @@ export default async function SecurityPage() {
                   {t('securityPage.liveTrust')}
                 </Link>
               </li>
+              <li>
+                <Link href="/trust/soc2-readiness" className="font-medium text-primary hover:underline">
+                  {t('trustPage.linkSoc2Readiness')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/trust/hipaa-readiness" className="font-medium text-primary hover:underline">
+                  {t('trustPage.linkHipaaReadiness')}
+                </Link>
+              </li>
             </ul>
           </div>
 

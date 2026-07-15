@@ -105,6 +105,24 @@ export const HELP_SECTIONS: HelpSection[] = [
         href: '/security',
       },
       {
+        id: 'trust',
+        titleKey: 'nav.trust',
+        descKey: 'help.topicTrustDesc',
+        href: '/trust',
+      },
+      {
+        id: 'soc2-readiness',
+        titleKey: 'trustPage.linkSoc2Readiness',
+        descKey: 'trustPage.linkSoc2ReadinessDesc',
+        href: '/trust/soc2-readiness',
+      },
+      {
+        id: 'hipaa-readiness',
+        titleKey: 'trustPage.linkHipaaReadiness',
+        descKey: 'trustPage.linkHipaaReadinessDesc',
+        href: '/trust/hipaa-readiness',
+      },
+      {
         id: 'saml',
         titleKey: 'help.topicSamlTitle',
         descKey: 'help.topicSamlDesc',

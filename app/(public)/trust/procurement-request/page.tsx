@@ -58,6 +58,11 @@ export default async function ProcurementRequestPage() {
                 {t('procurementRequest.readinessLink')}
               </Link>
             </p>
+            <p className="mt-2 text-sm">
+              <Link href="/trust/hipaa-readiness" className="font-medium text-primary hover:underline">
+                {t('procurementRequest.hipaaReadinessLink')}
+              </Link>
+            </p>
           </header>
           <ProcurementRequestForm />
         </article>
