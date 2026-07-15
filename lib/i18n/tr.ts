@@ -3452,6 +3452,39 @@ export const tr: TranslationTree = {
     linkSubprocessorsDesc: 'Hizmeti sunmaya yardımcı üçüncü taraflar.',
     linkProcurement: 'Satın alma talebi',
     linkProcurementDesc: 'Güvenlik anketi, BAA görüşmesi veya imzalı DPA talep edin.',
+    linkSoc2Readiness: 'SOC 2 hazırlık haritası',
+    linkSoc2ReadinessDesc: 'Yayımlanan kontroller vs Trust Services Criteria — sertifika değil, kanıt tablosu.',
+  },
+  soc2Readiness: {
+    metaTitle: 'SOC 2 hazırlık — Kanıt haritası (sertifikasız)',
+    metaDescription:
+      'QRbanner güvenlik ve gizlilik kontrollerinin SOC 2 Trust Services Criteria ile dürüst eşlemesi. SOC 2 Type I/II raporu değildir.',
+    breadcrumb: 'SOC 2 hazırlık',
+    title: 'SOC 2 hazırlık haritası',
+    subtitle:
+      'Bugün yayımladığımız kontroller ile bağımsız SOC 2 denetiminin hâlâ gerektirdiği işler. Satın alma ve güvenlik incelemesi için.',
+    notCert:
+      'Bu sayfa SOC 2 Type I veya Type II raporu değildir. Denetçi rapor yayınlayana kadar “Devam ediyor — sertifikasız” rozeti kalır.',
+    tableTitle: 'Kontroller ve kanıtlar',
+    colArea: 'Alan',
+    colEvidence: 'Yayımlanan kanıt',
+    roadmapTitle: 'Sertifika yol haritası',
+    rowAccess: 'Güvenlik — erişim',
+    evAccess: 'TOTP MFA + kurtarma kodları; sırlar için MFA step-up (API anahtarları, webhook, SCIM, SMTP, ekip, şifre).',
+    rowCreds: 'Güvenlik — kimlik bilgileri',
+    evCreds: 'bcrypt şifreler; hash’lenmiş API anahtarları; isteğe bağlı IP allowlist.',
+    rowTransport: 'Güvenlik — taşıma',
+    evTransport: 'Uygulama, tarama yönlendirmeleri ve API için HTTPS.',
+    rowWebhooks: 'Güvenlik — entegrasyonlar',
+    evWebhooks: 'HMAC-SHA256 tarama webhook’ları; döndürülebilir sırlar; teslimat geçmişi.',
+    rowAvailability: 'Erişilebilirlik',
+    evAvailability: 'Herkese açık /status ve %99,9 aylık hedef (kurumsal) — SOC 2 raporu değildir.',
+    rowConfidentiality: 'Gizlilik',
+    evConfidentiality: 'QR başına şifre; plana göre saklama; export/silme; hesap self-delete.',
+    rowPrivacy: 'Gizlilik / GDPR odaklı',
+    evPrivacy: 'Gizlilik politikası, DPA ve alt işleyenler yayımlı.',
+    rowBilling: 'Faturalama / PCI',
+    evBilling: 'Paddle Merchant of Record — kart verisi QRbanner’da tutulmaz.',
   },
   studio: {
     claimTitle: 'Premium QR Studio',
@@ -3508,6 +3541,7 @@ export const tr: TranslationTree = {
       'Güvenlik veya hukuk ekibinizin ihtiyacını yazın. Genellikle bir iş günü içinde yanıtlarız.',
     disclaimer:
       'Denetimler tamamlanana kadar tamamlanmış SOC 2 veya HIPAA sertifikası iddiasında bulunmayız. Bu form, uygun kurumsal anlaşmalar için belge veya görüşme talebi başlatır — otomatik sertifika indirme değildir.',
+    readinessLink: 'Göndermeden önce herkese açık SOC 2 hazırlık kanıt haritasına bakın.',
     requestType: 'Neye ihtiyacınız var?',
     types: {
       security_questionnaire: 'Güvenlik anketi / tedarikçi incelemesi',

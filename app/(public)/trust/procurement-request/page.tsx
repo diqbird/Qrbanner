@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { FileCheck } from 'lucide-react';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
@@ -51,6 +52,11 @@ export default async function ProcurementRequestPage() {
             <p className="mt-4 text-lg text-muted-foreground">{t('procurementRequest.subtitle')}</p>
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
               {t('procurementRequest.disclaimer')}
+            </p>
+            <p className="mt-3 text-sm">
+              <Link href="/trust/soc2-readiness" className="font-medium text-primary hover:underline">
+                {t('procurementRequest.readinessLink')}
+              </Link>
             </p>
           </header>
           <ProcurementRequestForm />

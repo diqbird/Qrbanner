@@ -3450,6 +3450,39 @@ export const en: TranslationTree = {
     linkSubprocessorsDesc: 'Third parties that help deliver the service.',
     linkProcurement: 'Procurement request',
     linkProcurementDesc: 'Request a security questionnaire, BAA discussion or signed DPA.',
+    linkSoc2Readiness: 'SOC 2 readiness map',
+    linkSoc2ReadinessDesc: 'Shipped controls vs Trust Services Criteria — evidence table, not a certificate.',
+  },
+  soc2Readiness: {
+    metaTitle: 'SOC 2 readiness — Evidence map (not certified)',
+    metaDescription:
+      'Honest map of QRbanner security and privacy controls against SOC 2 Trust Services Criteria. Not a SOC 2 Type I/II report.',
+    breadcrumb: 'SOC 2 readiness',
+    title: 'SOC 2 readiness map',
+    subtitle:
+      'What we have shipped today versus what an independent SOC 2 audit still requires. Built for procurement and security reviews.',
+    notCert:
+      'This page is not a SOC 2 Type I or Type II report. The badge “In progress — not certified” stays until an auditor issues a report.',
+    tableTitle: 'Controls vs evidence',
+    colArea: 'Area',
+    colEvidence: 'Shipped evidence',
+    roadmapTitle: 'Certification roadmap',
+    rowAccess: 'Security — access',
+    evAccess: 'TOTP MFA + recovery codes; MFA step-up for secrets (API keys, webhooks, SCIM, SMTP, team, password).',
+    rowCreds: 'Security — credentials',
+    evCreds: 'bcrypt passwords; hashed API keys; optional IP allowlists.',
+    rowTransport: 'Security — transport',
+    evTransport: 'HTTPS for app, scan redirects and API.',
+    rowWebhooks: 'Security — integrations',
+    evWebhooks: 'HMAC-SHA256 scan webhooks; rotatable secrets; delivery history.',
+    rowAvailability: 'Availability',
+    evAvailability: 'Public /status page and 99.9% monthly target (enterprise) — not a SOC 2 report.',
+    rowConfidentiality: 'Confidentiality',
+    evConfidentiality: 'Per-QR passwords; retention by plan; export/delete; account self-delete.',
+    rowPrivacy: 'Privacy / GDPR-oriented',
+    evPrivacy: 'Privacy policy, DPA and sub-processors published.',
+    rowBilling: 'Billing / PCI',
+    evBilling: 'Paddle as Merchant of Record — no card data stored on QRbanner.',
   },
   studio: {
     claimTitle: 'Premium QR Studio',
@@ -3506,6 +3539,7 @@ export const en: TranslationTree = {
       'Tell us what your security or legal team needs. We typically reply within one business day.',
     disclaimer:
       'We do not claim completed SOC 2 or HIPAA certifications until audits are finished. This form starts a document or discussion request for qualified enterprise deals — not an automatic certificate download.',
+    readinessLink: 'Review the public SOC 2 readiness evidence map before submitting.',
     requestType: 'What do you need?',
     types: {
       security_questionnaire: 'Security questionnaire / vendor review',

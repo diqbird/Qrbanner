@@ -20,6 +20,11 @@ const LINKS = [
     desc: 'trustPage.linkOverviewDesc',
   },
   {
+    href: '/trust/soc2-readiness',
+    title: 'trustPage.linkSoc2Readiness',
+    desc: 'trustPage.linkSoc2ReadinessDesc',
+  },
+  {
     href: '/trust/procurement-request',
     title: 'trustPage.linkProcurement',
     desc: 'trustPage.linkProcurementDesc',
@@ -85,12 +90,20 @@ export default async function TrustPage() {
               <li>{t('trustPage.soc2Step4')}</li>
             </ol>
             <p className="text-xs text-muted-foreground">{t('trustPage.soc2Disclaimer')}</p>
-            <Link
-              href="/trust/procurement-request"
-              className="inline-flex text-sm font-medium text-primary hover:underline"
-            >
-              {t('trustPage.linkProcurement')}
-            </Link>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="/trust/soc2-readiness"
+                className="inline-flex text-sm font-medium text-primary hover:underline"
+              >
+                {t('trustPage.linkSoc2Readiness')}
+              </Link>
+              <Link
+                href="/trust/procurement-request"
+                className="inline-flex text-sm font-medium text-primary hover:underline"
+              >
+                {t('trustPage.linkProcurement')}
+              </Link>
+            </div>
           </section>
 
           <section className="rounded-xl border border-border/60 bg-muted/30 p-5 space-y-2">

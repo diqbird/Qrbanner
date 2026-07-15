@@ -1,0 +1,15 @@
+{
+  "upload": [
+    "docs/compliance/SOC2_READINESS.md",
+    "app/(public)/trust/soc2-readiness/page.tsx",
+    "app/(public)/trust/page.tsx",
+    "app/(public)/trust/procurement-request/page.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
