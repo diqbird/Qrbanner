@@ -37,6 +37,7 @@ const PUBLIC_PATHS = [
   { path: '/security', priority: 0.7, changeFrequency: 'monthly' as const },
   { path: '/trust', priority: 0.75, changeFrequency: 'monthly' as const },
   { path: '/trust/soc2-readiness', priority: 0.72, changeFrequency: 'monthly' as const },
+  { path: '/trust/hipaa-readiness', priority: 0.72, changeFrequency: 'monthly' as const },
   { path: '/trust/procurement-request', priority: 0.7, changeFrequency: 'monthly' as const },
   { path: '/dpa', priority: 0.55, changeFrequency: 'yearly' as const },
   { path: '/sub-processors', priority: 0.55, changeFrequency: 'yearly' as const },

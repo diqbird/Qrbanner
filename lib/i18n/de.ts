@@ -2191,6 +2191,8 @@ export const de: TranslationTree = {
     linkProcurementDesc: 'Sicherheitsfragebogen, BAA-Gespräch oder signierten DPA anfordern.',
     linkSoc2Readiness: 'SOC-2-Readiness-Karte',
     linkSoc2ReadinessDesc: 'Ausgelieferte Kontrollen vs. Trust Services Criteria — Evidenztabelle, kein Zertifikat.',
+    linkHipaaReadiness: 'HIPAA-Readiness & BAA',
+    linkHipaaReadinessDesc: 'Ehrliche Healthcare-Haltung und BAA-Gesprächspfad — kein HIPAA-Zertifikat.',
   },
   procurementRequest: {
     metaTitle: 'Beschaffungsanfrage — Sicherheitsfragebogen, BAA & DPA',

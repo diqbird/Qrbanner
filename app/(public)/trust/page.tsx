@@ -25,6 +25,11 @@ const LINKS = [
     desc: 'trustPage.linkSoc2ReadinessDesc',
   },
   {
+    href: '/trust/hipaa-readiness',
+    title: 'trustPage.linkHipaaReadiness',
+    desc: 'trustPage.linkHipaaReadinessDesc',
+  },
+  {
     href: '/trust/procurement-request',
     title: 'trustPage.linkProcurement',
     desc: 'trustPage.linkProcurementDesc',
@@ -96,6 +101,12 @@ export default async function TrustPage() {
                 className="inline-flex text-sm font-medium text-primary hover:underline"
               >
                 {t('trustPage.linkSoc2Readiness')}
+              </Link>
+              <Link
+                href="/trust/hipaa-readiness"
+                className="inline-flex text-sm font-medium text-primary hover:underline"
+              >
+                {t('trustPage.linkHipaaReadiness')}
               </Link>
               <Link
                 href="/trust/procurement-request"

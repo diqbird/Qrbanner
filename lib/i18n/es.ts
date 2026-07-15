@@ -2192,6 +2192,8 @@ export const es: TranslationTree = {
     linkProcurementDesc: 'Solicite cuestionario de seguridad, conversación BAA o DPA firmado.',
     linkSoc2Readiness: 'Mapa de preparación SOC 2',
     linkSoc2ReadinessDesc: 'Controles publicados vs. Trust Services Criteria — tabla de evidencias, no certificado.',
+    linkHipaaReadiness: 'Preparación HIPAA y BAA',
+    linkHipaaReadinessDesc: 'Postura sanitaria honesta y ruta de conversación BAA — no es un certificado HIPAA.',
   },
   procurementRequest: {
     metaTitle: 'Solicitud de adquisición — Cuestionario, BAA y DPA',

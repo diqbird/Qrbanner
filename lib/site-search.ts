@@ -34,6 +34,13 @@ export const SITE_SEARCH_INDEX: SiteSearchItem[] = [
     keywords: ['soc2', 'soc 2', 'compliance', 'audit', 'trust services', 'certification'],
   },
   {
+    id: 'hipaa-readiness',
+    titleKey: 'siteSearch.hipaaReadiness',
+    href: '/trust/hipaa-readiness',
+    groupKey: 'siteSearch.groupPages',
+    keywords: ['hipaa', 'baa', 'phi', 'healthcare', 'compliance'],
+  },
+  {
     id: 'procurement-request',
     titleKey: 'siteSearch.procurementRequest',
     href: '/trust/procurement-request',
