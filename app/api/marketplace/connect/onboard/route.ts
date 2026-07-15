@@ -20,5 +20,5 @@ export async function POST() {
   if ('fallback' in result) {
     return NextResponse.json({ fallback: result.fallback });
   }
-  return NextResponse.json({ url: result.url });
+  return NextResponse.json({ ready: true });
 }

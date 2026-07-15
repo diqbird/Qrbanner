@@ -21,7 +21,11 @@ PADDLE_PRICE_AGENCY=pri_xxxxxxxx
 
 # Webhook URL (Paddle dashboard → Developer tools → Notifications):
 #   https://qrbanner.com/api/billing/webhook
-# Subscribe to: subscription.created, subscription.updated, subscription.canceled
+# Subscribe to: subscription.created, subscription.updated, subscription.canceled,
+#   transaction.completed, transaction.paid
+#
+# Community marketplace paid listings use ad-hoc Paddle transactions (no extra price IDs).
+# Seller net is tracked as sellerNetCents for manual payout — not Paddle Connect.
 
 # Etsy Premium Studio webhook (optional — auto-queue orders before admin approve):
 # ETSY_WEBHOOK_SECRET=your-long-random-secret

@@ -1,0 +1,28 @@
+{
+  "upload": [
+    "prisma/schema.prisma",
+    "prisma/migrations/0014_marketplace_paddle_txn/migration.sql",
+    "lib/marketplace-connect.ts",
+    "lib/marketplace-types.ts",
+    "lib/paddle.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/de-locale-gaps.ts",
+    "lib/i18n/es-locale-gaps.ts",
+    "app/api/marketplace/purchase/route.ts",
+    "app/api/marketplace/connect/onboard/route.ts",
+    "app/api/marketplace/listings/route.ts",
+    "app/api/billing/webhook/route.ts",
+    "app/(public)/marketplace/[id]/page.tsx",
+    "components/templates/marketplace-paid-return.tsx",
+    "components/dashboard/marketplace-seller-panel.tsx",
+    "hooks/use-marketplace-seller-connect.ts",
+    "hooks/use-marketplace-seller-mutations.ts",
+    "scripts/paddle-env.example"
+  ],
+  "yarn_install": false,
+  "prisma_generate": true,
+  "prisma_migrate": true,
+  "build": true,
+  "restart": true
+}

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { prisma } from '@/lib/db';
 import { Button } from '@/components/ui/button';
@@ -11,6 +12,7 @@ import { MARKETPLACE_PLATFORM_FEE_PERCENT } from '@/lib/marketplace-types';
 import { formatLocalizedListingPrice } from '@/lib/i18n/resolve-marketplace-listing-labels';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { MarketplacePurchaseButton } from '@/components/templates/marketplace-purchase-button';
+import { MarketplacePaidReturn } from '@/components/templates/marketplace-paid-return';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 
@@ -76,6 +78,10 @@ export default async function MarketplaceListingPage({ params }: { params: { id:
               </Link>
             )}
           </div>
+
+          <Suspense fallback={null}>
+            <MarketplacePaidReturn />
+          </Suspense>
 
           <p className="mt-6 text-xs text-muted-foreground">
             {t('marketplaceSeller.feeNote', { fee: formatLocaleNumber(MARKETPLACE_PLATFORM_FEE_PERCENT, locale) })}

@@ -70,11 +70,19 @@ export async function POST(req: NextRequest) {
   if (!input) return NextResponse.json({ error: 'Invalid listing' }, { status: 400 });
 
   const seller = await getOrCreateSeller(userId, name ?? email.split('@')[0]);
-  if (input.priceCents > 0 && !isMarketplacePayoutConfigured()) {
-    return NextResponse.json(
-      { error: 'Paid marketplace listings are not available yet. Use free listings only.' },
-      { status: 403 }
-    );
+  if (input.priceCents > 0) {
+    if (!isMarketplacePayoutConfigured()) {
+      return NextResponse.json(
+        { error: 'Paid marketplace listings are not available yet. Use free listings only.' },
+        { status: 403 },
+      );
+    }
+    if (!seller.connectOnboardingDone) {
+      return NextResponse.json(
+        { error: 'Enable seller payouts before publishing paid listings.' },
+        { status: 403 },
+      );
+    }
   }
 
   const listing = await prisma.marketplaceListing.create({

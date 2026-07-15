@@ -259,6 +259,83 @@ export async function createPaddleCheckout(params: {
   return { url, customerId, transactionId: transaction.id };
 }
 
+/** True when one-time marketplace checkouts can be created (no catalog prices needed). */
+export function isPaddleMarketplaceReady(): boolean {
+  return Boolean(
+    process.env.PADDLE_API_KEY?.trim() && process.env.PADDLE_CLIENT_TOKEN?.trim(),
+  );
+}
+
+export async function createPaddleMarketplaceCheckout(params: {
+  purchaseId: string;
+  listingId: string;
+  buyerId: string;
+  email: string;
+  name: string | null;
+  paddleCustomerId: string | null;
+  amountCents: number;
+  currency: string;
+  title: string;
+  successUrl: string;
+}): Promise<{ url: string; customerId: string; transactionId: string }> {
+  if (!isPaddleMarketplaceReady()) {
+    throw new Error('Paddle marketplace checkout not configured');
+  }
+  if (params.amountCents < 1) {
+    throw new Error('Marketplace amount must be positive');
+  }
+
+  const currency = params.currency.toUpperCase();
+  const customerId = await ensurePaddleCustomer({
+    userId: params.buyerId,
+    email: params.email,
+    name: params.name,
+    existingCustomerId: params.paddleCustomerId,
+  });
+
+  const productName = `Marketplace: ${params.title}`.slice(0, 120);
+  const transaction = await paddleRequest<PaddleTransaction>('/transactions', {
+    method: 'POST',
+    body: JSON.stringify({
+      items: [
+        {
+          quantity: 1,
+          price: {
+            description: productName,
+            name: productName,
+            unit_price: {
+              amount: String(params.amountCents),
+              currency_code: currency,
+            },
+            product: {
+              name: productName,
+              description: `Community marketplace listing ${params.listingId}`,
+              tax_category: 'standard',
+            },
+          },
+        },
+      ],
+      customer_id: customerId,
+      custom_data: {
+        kind: 'marketplace_purchase',
+        purchaseId: params.purchaseId,
+        listingId: params.listingId,
+        buyerId: params.buyerId,
+      },
+      collection_mode: 'automatic',
+      checkout: {
+        url: paddleCheckoutPageUrl(),
+        settings: { success_url: params.successUrl },
+      },
+    }),
+  });
+
+  const url = transaction.checkout?.url;
+  if (!url) throw new Error('Paddle marketplace checkout URL missing');
+
+  return { url, customerId, transactionId: transaction.id };
+}
+
 export async function createPaddlePortalSession(customerId: string): Promise<string> {
   const session = await paddleRequest<PaddlePortalSession>(`/customers/${customerId}/portal-sessions`, {
     method: 'POST',

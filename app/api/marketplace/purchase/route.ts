@@ -9,7 +9,7 @@ import { requireSessionContext, isAuthError } from '@/lib/session-auth';
 export async function POST(req: NextRequest) {
   const auth = await requireSessionContext();
   if (isAuthError(auth)) return auth;
-  const { userId, email } = auth;
+  const { userId, email, name } = auth;
   if (!email) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const body = await req.json().catch(() => ({}));
@@ -53,6 +53,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ fallback: 'payouts_not_available' }, { status: 503 });
   }
 
+  if (!listing.seller.payoutsEnabled && !listing.seller.connectOnboardingDone) {
+    return NextResponse.json(
+      { error: 'Seller has not enabled payouts for paid listings yet.' },
+      { status: 403 },
+    );
+  }
+
   const { platformFeeCents } = splitMarketplaceFee(listing.priceCents);
 
   const purchase = await prisma.marketplacePurchase.create({
@@ -68,13 +75,16 @@ export async function POST(req: NextRequest) {
   });
 
   const checkout = await createListingCheckoutSession({
+    purchaseId: purchase.id,
     listingId: listing.id,
     buyerId: userId,
     buyerEmail: email,
+    buyerName: name,
     amountCents: listing.priceCents,
     currency: listing.currency,
     platformFeeCents,
     title: listing.title,
+    templateId: listing.templateId,
   });
 
   if ('fallback' in checkout) {
@@ -86,4 +96,40 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({ url: checkout.url, purchaseId: purchase.id });
+}
+
+export async function GET(req: NextRequest) {
+  const auth = await requireSessionContext();
+  if (isAuthError(auth)) return auth;
+  const { userId } = auth;
+
+  const purchaseId = req.nextUrl.searchParams.get('id')?.trim();
+  if (!purchaseId) return NextResponse.json({ error: 'id required' }, { status: 400 });
+
+  const purchase = await prisma.marketplacePurchase.findFirst({
+    where: { id: purchaseId, buyerId: userId },
+    select: {
+      id: true,
+      status: true,
+      listingId: true,
+      listing: { select: { templateId: true, title: true } },
+    },
+  });
+  if (!purchase) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+
+  const templateId = purchase.listing.templateId;
+  return NextResponse.json({
+    purchase: {
+      id: purchase.id,
+      status: purchase.status,
+      listingId: purchase.listingId,
+      templateId,
+      redirect:
+        purchase.status === 'completed'
+          ? templateId
+            ? `/qr/create?template=${encodeURIComponent(templateId)}`
+            : '/qr/create'
+          : null,
+    },
+  });
 }

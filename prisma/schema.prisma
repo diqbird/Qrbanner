@@ -546,17 +546,18 @@ model MarketplaceListing {
 }
 
 model MarketplacePurchase {
-  id               String   @id @default(cuid())
-  listingId        String
-  buyerId          String
-  amountCents      Int
-  platformFeeCents Int
-  sellerNetCents   Int
-  currency         String   @default("usd")
-  status           String   @default("pending")
-  createdAt        DateTime @default(now())
-  listing          MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  buyer            User     @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  id                  String   @id @default(cuid())
+  listingId           String
+  buyerId             String
+  amountCents         Int
+  platformFeeCents    Int
+  sellerNetCents      Int
+  currency            String   @default("usd")
+  status              String   @default("pending")
+  paddleTransactionId String?  @unique
+  createdAt           DateTime @default(now())
+  listing             MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  buyer               User     @relation(fields: [buyerId], references: [id], onDelete: Cascade)
 
   @@index([listingId])
   @@index([buyerId, createdAt])

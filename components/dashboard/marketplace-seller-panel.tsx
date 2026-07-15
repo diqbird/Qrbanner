@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Store } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
-import { MARKETPLACE_PAID_SALES_ENABLED, MARKETPLACE_PLATFORM_FEE_PERCENT } from '@/lib/marketplace-types';
+import { MARKETPLACE_PLATFORM_FEE_PERCENT } from '@/lib/marketplace-types';
 import { useMarketplaceSeller } from '@/hooks/use-marketplace-seller';
 import { MarketplaceSellerConnectBar, MarketplaceSellerUpgradeNotice } from './marketplace-seller-connect';
 import { MarketplaceSellerListings } from './marketplace-seller-listings';
@@ -32,9 +32,7 @@ export function MarketplaceSellerPanel() {
           <CardTitle className="font-display flex items-center gap-2">
             <Store className="h-5 w-5 text-primary" /> {t('marketplaceSeller.title')}
           </CardTitle>
-          {!MARKETPLACE_PAID_SALES_ENABLED && (
-            <Badge variant="secondary">{t('marketplaceSeller.betaBadge')}</Badge>
-          )}
+          <Badge variant="secondary">{t('marketplaceSeller.betaBadge')}</Badge>
         </div>
         <CardDescription>
           {t('marketplaceSeller.desc', { fee: formatLocaleNumber(MARKETPLACE_PLATFORM_FEE_PERCENT, locale) })}
@@ -45,11 +43,9 @@ export function MarketplaceSellerPanel() {
           <MarketplaceSellerUpgradeNotice seller={seller} />
         ) : (
           <>
-            {!MARKETPLACE_PAID_SALES_ENABLED && (
-              <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-muted-foreground">
-                {t('marketplaceSeller.betaNotice')}
-              </div>
-            )}
+            <div className="rounded-lg border border-primary/25 bg-primary/5 p-4 text-sm text-muted-foreground">
+              {t('marketplaceSeller.betaNotice')}
+            </div>
             <MarketplaceSellerConnectBar seller={seller} />
             <MarketplaceSellerListings seller={seller} />
           </>

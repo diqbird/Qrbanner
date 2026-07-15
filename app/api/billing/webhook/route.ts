@@ -13,6 +13,16 @@ import { claimBillingWebhookEvent, releaseBillingWebhookEvent } from '@/lib/bill
 
 export const runtime = 'nodejs';
 
+type PaddleWebhookPayload = {
+  event_id?: string;
+  event_type?: string;
+  data?: PaddleWebhookSubscription & {
+    id: string;
+    status?: string;
+    custom_data?: Record<string, string>;
+  };
+};
+
 async function setUserPlan(
   userId: string,
   plan: PlanId,
@@ -60,31 +70,66 @@ async function resolveUserIdFromPaddleSubscription(
   return null;
 }
 
+async function completeMarketplacePurchase(data: NonNullable<PaddleWebhookPayload['data']>) {
+  if (data.custom_data?.kind !== 'marketplace_purchase') return false;
+  const purchaseId = data.custom_data.purchaseId?.trim();
+  if (!purchaseId) return false;
+
+  const existing = await prisma.marketplacePurchase.findUnique({
+    where: { id: purchaseId },
+    select: { id: true, status: true },
+  });
+  if (!existing) {
+    console.warn('[billing/webhook] marketplace purchase missing', purchaseId);
+    return true;
+  }
+  if (existing.status === 'completed') return true;
+
+  await prisma.marketplacePurchase.update({
+    where: { id: purchaseId },
+    data: {
+      status: 'completed',
+      paddleTransactionId: data.id,
+    },
+  });
+  return true;
+}
+
 async function handlePaddleWebhook(body: string, signature: string) {
   if (!verifyPaddleWebhookSignature(body, signature)) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
-  let payload: { event_id?: string; event_type?: string; data?: PaddleWebhookSubscription };
+  let payload: PaddleWebhookPayload;
   try {
-    payload = JSON.parse(body) as { event_id?: string; event_type?: string; data?: PaddleWebhookSubscription };
+    payload = JSON.parse(body) as PaddleWebhookPayload;
   } catch {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
   }
 
   const eventType = payload.event_type;
-  const sub = payload.data;
-  if (!eventType || !sub) {
+  const data = payload.data;
+  if (!eventType || !data) {
     return NextResponse.json({ received: true });
   }
 
-  const eventId = payload.event_id ?? `${eventType}:${sub.id}`;
+  const eventId = payload.event_id ?? `${eventType}:${data.id}`;
   const claimed = await claimBillingWebhookEvent('paddle', eventId);
   if (!claimed) {
     return NextResponse.json({ received: true, duplicate: true });
   }
 
   try {
+    if (eventType === 'transaction.completed' || eventType === 'transaction.paid') {
+      const handled = await completeMarketplacePurchase(data);
+      if (handled) {
+        return NextResponse.json({ received: true, marketplace: true });
+      }
+      // Non-marketplace transactions (e.g. subscription first invoice) — ignore here.
+      return NextResponse.json({ received: true });
+    }
+
+    const sub = data as PaddleWebhookSubscription;
     const userId = await resolveUserIdFromPaddleSubscription(sub);
     if (!userId) {
       console.warn('[billing/webhook] Paddle event without user mapping', eventType, sub.id);

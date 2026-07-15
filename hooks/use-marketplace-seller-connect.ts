@@ -5,7 +5,13 @@ import { toast } from 'sonner';
 
 type Translate = (key: string) => string;
 
-export function useMarketplaceSellerConnect({ t }: { t: Translate }) {
+export function useMarketplaceSellerConnect({
+  t,
+  fetchAll,
+}: {
+  t: Translate;
+  fetchAll?: () => Promise<void>;
+}) {
   const [working, setWorking] = useState(false);
 
   const startConnect = async () => {
@@ -13,6 +19,11 @@ export function useMarketplaceSellerConnect({ t }: { t: Translate }) {
     try {
       const res = await fetch('/api/marketplace/connect/onboard', { method: 'POST' });
       const data = await res.json();
+      if (data.ready) {
+        toast.success(t('marketplaceSeller.connectReady'));
+        await fetchAll?.();
+        return;
+      }
       if (data.url) {
         window.location.href = data.url;
         return;

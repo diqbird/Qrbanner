@@ -12,7 +12,7 @@ export function useMarketplaceSellerMutations({
   t: Translate;
   fetchAll: () => Promise<void>;
 }) {
-  const connect = useMarketplaceSellerConnect({ t });
+  const connect = useMarketplaceSellerConnect({ t, fetchAll });
   const listings = useMarketplaceSellerListings({
     t,
     fetchAll,

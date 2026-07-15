@@ -1,7 +1,10 @@
 export const MARKETPLACE_PLATFORM_FEE_PERCENT = 15;
 
-/** Paid seller payouts (Paddle Connect) — free listings only until enabled. */
-export const MARKETPLACE_PAID_SALES_ENABLED = false;
+/**
+ * Paid community listings (platform-mediated Paddle checkout).
+ * Server still requires Paddle API keys via isMarketplacePayoutConfigured().
+ */
+export const MARKETPLACE_PAID_SALES_ENABLED = true;
 
 export const MARKETPLACE_LISTING_STATUSES = ['draft', 'published', 'archived'] as const;
 export type MarketplaceListingStatus = (typeof MARKETPLACE_LISTING_STATUSES)[number];
