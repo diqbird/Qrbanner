@@ -28,8 +28,10 @@ export function LandingPricingPlanGrid({ pricing }: { pricing: LandingPricingSta
       {plans.map((plan, i) => (
         <div
           key={plan.id}
-          className={`relative rounded-2xl border bg-card p-6 ${
-            plan.highlighted ? 'border-primary shadow-md ring-1 ring-primary/20' : 'border-border/50'
+          className={`surface-3d relative rounded-2xl border bg-card/85 p-6 backdrop-blur-md transition-transform hover:-translate-y-1 ${
+            plan.highlighted
+              ? 'border-primary/50 shadow-[0_24px_50px_-24px_hsl(var(--primary)/0.55)] ring-1 ring-primary/25'
+              : 'border-white/30 dark:border-white/10'
           } ${inView ? 'animate-fade-up' : ''}`}
           style={{ animationDelay: `${i * 80}ms` }}
         >

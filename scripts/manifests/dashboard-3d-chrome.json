@@ -1,0 +1,18 @@
+{
+  "upload": [
+    "app/globals.css",
+    "components/dashboard/dashboard-shell.tsx",
+    "components/dashboard/dashboard-sidebar.tsx",
+    "components/dashboard/dashboard-top-header.tsx",
+    "components/dashboard/dashboard-mobile-sidebar.tsx",
+    "components/dashboard/dashboard-stats-cards.tsx",
+    "components/landing/landing-pricing-plan-grid.tsx",
+    "components/landing/landing-pricing-enterprise-band.tsx",
+    "components/public-footer.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

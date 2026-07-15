@@ -23,10 +23,13 @@ export function DashboardStatsCards({ total, totalScans, active }: DashboardStat
   return (
     <div className="grid gap-4 sm:grid-cols-3">
       {items.map((stat) => (
-        <Card key={stat.label}>
+        <Card
+          key={stat.label}
+          className="surface-3d border-white/30 bg-card/80 backdrop-blur-md transition-transform hover:-translate-y-0.5 dark:border-white/10"
+        >
           <CardContent className="flex items-center gap-4 p-6">
             <div
-              className={`flex h-12 w-12 items-center justify-center rounded-xl bg-muted ${stat.color}`}
+              className={`flex h-12 w-12 items-center justify-center rounded-xl bg-muted/80 shadow-[0_10px_22px_-14px_rgba(0,0,0,0.45)] ${stat.color}`}
             >
               <stat.icon className="h-6 w-6" />
             </div>

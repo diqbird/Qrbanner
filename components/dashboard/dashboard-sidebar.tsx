@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { DASHBOARD_NAV_ITEMS } from '@/lib/dashboard-nav-items';
+import { cn } from '@/lib/utils';
 import type { DashboardShellState } from '@/hooks/use-dashboard-shell';
 import { DashboardBrandMark } from './dashboard-brand-mark';
 
@@ -29,8 +30,13 @@ export function DashboardSidebar({ shell }: { shell: DashboardShellState }) {
     : navItems;
 
   return (
-    <aside className="hidden w-64 flex-col border-r border-border/40 bg-card lg:flex">
-      <div className="flex h-16 items-center gap-2 border-b border-border/40 px-6">
+    <aside
+      className={cn(
+        'hidden w-64 flex-col border-r border-white/25 bg-card/70 backdrop-blur-2xl lg:flex',
+        'shadow-[1px_0_0_rgba(255,255,255,0.28)_inset] dark:border-white/10 dark:bg-card/55',
+      )}
+    >
+      <div className="flex h-16 items-center gap-2 border-b border-white/20 px-6 dark:border-white/10">
         <DashboardBrandMark brand={chromeBrand} />
       </div>
       <nav className="flex-1 space-y-1 p-4">
@@ -41,11 +47,12 @@ export function DashboardSidebar({ shell }: { shell: DashboardShellState }) {
           return (
             <Link key={item.href} href={item.href}>
               <div
-                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                className={cn(
+                  'dash-nav-3d flex items-center gap-3 px-3 py-2.5 text-sm font-medium',
                   isActive
-                    ? 'bg-primary/10 text-primary'
-                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                }`}
+                    ? 'dash-nav-3d-active'
+                    : 'text-muted-foreground hover:text-foreground',
+                )}
               >
                 <item.icon className="h-4 w-4" />
                 {item.label}
@@ -54,11 +61,11 @@ export function DashboardSidebar({ shell }: { shell: DashboardShellState }) {
           );
         })}
       </nav>
-      <div className="border-t border-border/40 p-4">
+      <div className="border-t border-white/20 p-4 dark:border-white/10">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-muted">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-semibold text-xs">
+            <button className="dash-nav-3d flex w-full items-center gap-3 px-3 py-2 text-sm hover:text-foreground">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary shadow-[0_8px_18px_-12px_hsl(var(--primary)/0.7)]">
                 {session?.user?.name?.[0]?.toUpperCase() ?? session?.user?.email?.[0]?.toUpperCase() ?? 'U'}
               </div>
               <div className="flex-1 text-left">

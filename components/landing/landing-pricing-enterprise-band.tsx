@@ -11,7 +11,7 @@ export function LandingPricingEnterpriseBand({ pricing }: { pricing: LandingPric
   const codes = formatAgencyQrCodeCount(locale);
 
   return (
-    <section className="mt-16 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-primary/5 to-background p-8 sm:p-10">
+    <section className="surface-3d mt-16 rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/15 via-primary/5 to-card/80 p-8 backdrop-blur-md sm:p-10">
       <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex gap-4">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/15">

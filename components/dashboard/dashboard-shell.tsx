@@ -20,7 +20,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
 
   if (status === 'loading') {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center dash-shell-stage">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
       </div>
     );
@@ -39,7 +39,14 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
     : undefined;
 
   return (
-    <div className="flex min-h-screen bg-muted/20" style={rootStyle}>
+    <div className="relative flex min-h-screen dash-shell-stage" style={rootStyle}>
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+        aria-hidden
+      >
+        <div className="absolute -left-[18%] top-[8%] h-[42vmin] w-[42vmin] rounded-full bg-primary/25 blur-[100px] auth-orb-a motion-safe:animate-[auth-orb-a_16s_ease-in-out_infinite]" />
+        <div className="absolute -right-[14%] top-[22%] h-[36vmin] w-[36vmin] rounded-full bg-foreground/[0.07] blur-[110px] auth-orb-b motion-safe:animate-[auth-orb-b_20s_ease-in-out_infinite]" />
+      </div>
       <DashboardChromeHead brand={shell.chromeBrand} />
       <SkipToMain />
       <DashboardCommandPalette
@@ -49,7 +56,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
       />
       <DashboardSidebar shell={shell} />
       <DashboardMobileSidebar shell={shell} />
-      <div className="flex flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col">
         <DashboardTopHeader shell={shell} />
         <main id="main-content" className="flex-1 p-4 pb-24 lg:p-8 lg:pb-8">
           <div className="mx-auto max-w-[1200px]">{children}</div>

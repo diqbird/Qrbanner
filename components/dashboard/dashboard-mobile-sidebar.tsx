@@ -5,6 +5,7 @@ import { signOut } from 'next-auth/react';
 import { LogOut, X, Shield } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { DASHBOARD_NAV_ITEMS } from '@/lib/dashboard-nav-items';
+import { cn } from '@/lib/utils';
 import type { DashboardShellState } from '@/hooks/use-dashboard-shell';
 import { DashboardBrandMark } from './dashboard-brand-mark';
 
@@ -24,15 +25,24 @@ export function DashboardMobileSidebar({ shell }: { shell: DashboardShellState }
 
   return (
     <div className="fixed inset-0 z-50 lg:hidden">
-      <div className="fixed inset-0 bg-black/50" onClick={() => setSidebarOpen(false)} />
-      <div className="fixed inset-y-0 left-0 w-64 bg-card shadow-lg">
-        <div className="flex h-16 items-center justify-between border-b border-border/40 px-6">
+      <div
+        className="fixed inset-0 bg-background/55 backdrop-blur-md"
+        onClick={() => setSidebarOpen(false)}
+        aria-hidden
+      />
+      <div className="menu-3d fixed inset-y-3 left-3 flex w-[min(18rem,calc(100vw-1.5rem))] flex-col overflow-hidden">
+        <div className="flex h-16 items-center justify-between border-b border-white/20 px-5 dark:border-white/10">
           <DashboardBrandMark brand={chromeBrand} onNavigate={() => setSidebarOpen(false)} />
-          <button onClick={() => setSidebarOpen(false)} aria-label={t('dashboard.closeMenu')}>
+          <button
+            type="button"
+            onClick={() => setSidebarOpen(false)}
+            aria-label={t('dashboard.closeMenu')}
+            className="flex h-9 w-9 items-center justify-center rounded-xl"
+          >
             <X className="h-5 w-5" />
           </button>
         </div>
-        <nav className="space-y-1 p-4">
+        <nav className="flex-1 space-y-1 overflow-y-auto p-3">
           {navItemsWithAdmin.map((item) => {
             const isActive =
               pathname === item.href ||
@@ -40,9 +50,12 @@ export function DashboardMobileSidebar({ shell }: { shell: DashboardShellState }
             return (
               <Link key={item.href} href={item.href} onClick={() => setSidebarOpen(false)}>
                 <div
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
-                    isActive ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-muted'
-                  }`}
+                  className={cn(
+                    'menu-item-3d dash-nav-3d flex items-center gap-3 px-3 py-2.5 text-sm font-medium',
+                    isActive
+                      ? 'dash-nav-3d-active'
+                      : 'text-muted-foreground hover:text-foreground',
+                  )}
                 >
                   <item.icon className="h-4 w-4" />
                   {item.label}
@@ -51,11 +64,11 @@ export function DashboardMobileSidebar({ shell }: { shell: DashboardShellState }
             );
           })}
         </nav>
-        <div className="border-t border-border/40 p-4">
+        <div className="border-t border-white/20 p-3 dark:border-white/10">
           <button
             type="button"
             onClick={() => signOut({ callbackUrl: '/' })}
-            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+            className="dash-nav-3d flex w-full items-center gap-3 px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground"
           >
             <LogOut className="h-4 w-4" />
             {t('common.signOut')}
