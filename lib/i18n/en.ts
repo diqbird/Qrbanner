@@ -2719,7 +2719,7 @@ export const en: TranslationTree = {
     step1Title: 'Create a webhook in QRbanner',
     step1Body: 'Settings → Webhooks → Add endpoint. Copy the signing secret.',
     step2Title: 'Use Zapier Webhooks by Zapier',
-    step2Body: 'Create a Zap with trigger "Catch Hook". Paste your QRbanner webhook URL.',
+    step2Body: 'Create a Zap with trigger "Catch Hook". Copy that Catch Hook URL into QRbanner Settings → Scan webhooks.',
     step3Title: 'Connect your action app',
     step3Body: 'Send scan data to Slack, Sheets, Mailchimp, HubSpot or {{apps}}.',
     payloadTitle: 'Webhook payload includes',
@@ -2728,6 +2728,8 @@ export const en: TranslationTree = {
     payload3: 'Country and city (when available)',
     payload4: 'Header X-QRbanner-Signature for HMAC verification',
     docsLink: 'Full API & webhook docs',
+    sampleTitle: 'Example scan webhook JSON',
+    hmacTitle: 'Verify X-QRbanner-Signature (Node.js)',
   },
   makePage: {
     metaTitle: 'Make.com Integration — QR Scan Webhooks',
@@ -2742,7 +2744,8 @@ export const en: TranslationTree = {
     step1Title: 'Create a webhook in QRbanner',
     step1Body: 'Settings → Webhooks → Add endpoint. Copy the signing secret.',
     step2Title: 'Add a Custom webhook in Make',
-    step2Body: 'Create a scenario with the Webhooks → Custom webhook module. Paste your QRbanner webhook URL.',
+    step2Body:
+      'Create a scenario with Webhooks → Custom webhook. Copy that Make webhook URL into QRbanner Settings → Scan webhooks.',
     step3Title: 'Map modules to your apps',
     step3Body: 'Send scan data to Slack, Google Sheets, HubSpot, Salesforce or {{apps}}.',
     payloadTitle: 'Webhook payload includes',
@@ -2763,9 +2766,10 @@ export const en: TranslationTree = {
     setupTitle: 'Recipe: Catch Hook → HubSpot',
     step: 'Step {{n}}',
     step1Title: 'Create a QRbanner webhook',
-    step1Body: 'Settings → Webhooks → Add endpoint. Copy the URL and signing secret.',
+    step1Body: 'Settings → Webhooks → Add endpoint. Copy the signing secret.',
     step2Title: 'Catch the hook in Zapier or Make',
-    step2Body: 'Use Webhooks by Zapier (Catch Hook) or Make’s Custom Webhook. Paste the QRbanner URL.',
+    step2Body:
+      'Create a Catch Hook (Zapier) or Custom Webhook (Make), then paste that catch URL into QRbanner Settings → Scan webhooks.',
     step3Title: 'Create or update a HubSpot contact',
     step3Body:
       'Map email/name from lead payloads, or create a timeline note from scan country, device and QR name.',
@@ -2775,6 +2779,9 @@ export const en: TranslationTree = {
     payload3: 'Scan timestamp, country, city, device',
     payload4: 'X-QRbanner-Signature for HMAC verification before writing to CRM',
     docsLink: 'Full API & webhook docs',
+    sampleTitle: 'Example scan webhook JSON',
+    hmacTitle: 'Verify X-QRbanner-Signature (Node.js)',
+    fieldMapTitle: 'Suggested HubSpot field mapping',
   },
   salesforcePage: {
     metaTitle: 'Salesforce Integration — QR Scan Webhooks',
@@ -3204,8 +3211,10 @@ export const en: TranslationTree = {
     backHome: 'Back to home',
     slaTitle: '99.9% monthly uptime target',
     slaBody:
-      'Enterprise plans target 99.9% monthly uptime for core scan redirects and the application. See the enterprise overview for procurement details.',
+      'Enterprise plans target 99.9% monthly uptime for core scan redirects and the application. This public page is operational transparency — not a SOC 2 report substitute. See the enterprise overview for procurement details.',
     slaLink: 'Enterprise overview',
+    relatedSecurity: 'Security practices',
+    relatedTrust: 'Trust Center',
   },
   contactPage: {
     metaTitle: 'Contact',
@@ -3402,6 +3411,9 @@ export const en: TranslationTree = {
     account7: 'Optional API key IP allowlists to restrict where keys can be used',
     contact: 'Security questions?',
     procurementCta: 'Request security questionnaire, BAA or signed DPA',
+    liveLinksTitle: 'Related pages',
+    liveStatus: 'Live system status',
+    liveTrust: 'Trust Center & compliance roadmap',
   },
   trustPage: {
     metaTitle: 'Trust Center',
@@ -3410,6 +3422,7 @@ export const en: TranslationTree = {
     title: 'Trust Center',
     subtitle: 'Security, privacy and procurement resources for customers and enterprise buyers.',
     complianceTitle: 'Compliance roadmap',
+    complianceBadge: 'In progress — not certified',
     complianceBody:
       'SOC 2 Type II and HIPAA are on our enterprise roadmap and available for discussion on enterprise deals. We do not claim completed certifications until audits are finished. GDPR-oriented privacy practices, DPA and sub-processor details are published below.',
     soc2Step1: 'Gap assessment against SOC 2 Trust Services Criteria (security, availability, confidentiality).',

@@ -2721,7 +2721,7 @@ export const tr: TranslationTree = {
     step1Title: 'QRbanner\'da webhook oluşturun',
     step1Body: 'Ayarlar → Webhook\'lar → Uç nokta ekle. İmza gizli anahtarını kopyalayın.',
     step2Title: 'Zapier Webhooks by Zapier kullanın',
-    step2Body: '"Catch Hook" tetikleyicili bir Zap oluşturun. QRbanner webhook URL\'nizi yapıştırın.',
+    step2Body: '"Catch Hook" tetikleyicili bir Zap oluşturun. Catch Hook URL’sini QRbanner Ayarlar → Tarama webhook’larına yapıştırın.',
     step3Title: 'Aksiyon uygulamanızı bağlayın',
     step3Body: 'Tarama verilerini Slack, Sheets, Mailchimp, HubSpot veya {{apps}} uygulamaya gönderin.',
     payloadTitle: 'Webhook yükü şunları içerir',
@@ -2730,6 +2730,8 @@ export const tr: TranslationTree = {
     payload3: 'Ülke ve şehir (varsa)',
     payload4: 'HMAC doğrulama için X-QRbanner-Signature başlığı',
     docsLink: 'Tam API ve webhook dokümantasyonu',
+    sampleTitle: 'Örnek tarama webhook JSON',
+    hmacTitle: 'X-QRbanner-Signature doğrulama (Node.js)',
   },
   makePage: {
     metaTitle: 'Make.com Entegrasyonu — QR Tarama Webhook’ları',
@@ -2767,7 +2769,8 @@ export const tr: TranslationTree = {
     step1Title: 'QRbanner webhook oluşturun',
     step1Body: 'Ayarlar → Webhook’lar → Uç nokta ekle. URL ve imza gizli anahtarını kopyalayın.',
     step2Title: 'Zapier veya Make’de hook’u yakalayın',
-    step2Body: 'Webhooks by Zapier (Catch Hook) veya Make Custom Webhook kullanın. QRbanner URL’sini yapıştırın.',
+    step2Body:
+      'Zapier Catch Hook veya Make Custom Webhook oluşturun; Catch Hook URL’sini QRbanner Ayarlar → Tarama webhook’larına yapıştırın.',
     step3Title: 'HubSpot kişisi oluşturun veya güncelleyin',
     step3Body:
       'Lead yüklerinden e-posta/adı eşleyin veya tarama ülkesi, cihaz ve QR adından zaman çizelgesi notu oluşturun.',
@@ -2777,6 +2780,9 @@ export const tr: TranslationTree = {
     payload3: 'Tarama zamanı, ülke, şehir, cihaz',
     payload4: 'CRM’e yazmadan önce HMAC doğrulama için X-QRbanner-Signature',
     docsLink: 'Tam API ve webhook dokümantasyonu',
+    sampleTitle: 'Örnek tarama webhook JSON',
+    hmacTitle: 'X-QRbanner-Signature doğrulama (Node.js)',
+    fieldMapTitle: 'Önerilen HubSpot alan eşlemesi',
   },
   salesforcePage: {
     metaTitle: 'Salesforce Entegrasyonu — QR Tarama Webhook’ları',
@@ -3206,8 +3212,10 @@ export const tr: TranslationTree = {
     backHome: 'Ana sayfaya dön',
     slaTitle: 'Aylık %99,9 uptime hedefi',
     slaBody:
-      'Kurumsal planlar, temel tarama yönlendirmeleri ve uygulama için aylık %99,9 uptime hedefler. Satın alma detayları için kurumsal özete bakın.',
+      'Kurumsal planlar, temel tarama yönlendirmeleri ve uygulama için aylık %99,9 uptime hedefler. Bu genel sayfa operasyonel şeffaflıktır — SOC 2 raporu yerine geçmez. Satın alma detayları için kurumsal özete bakın.',
     slaLink: 'Kurumsal özet',
+    relatedSecurity: 'Güvenlik uygulamaları',
+    relatedTrust: 'Güven Merkezi',
   },
   contactPage: {
     metaTitle: 'İletişim',
@@ -3405,6 +3413,9 @@ export const tr: TranslationTree = {
     account7: 'API anahtarlarının kullanılabileceği yerleri kısıtlamak için isteğe bağlı IP allowlist',
     contact: 'Güvenlik soruları?',
     procurementCta: 'Güvenlik anketi, BAA veya imzalı DPA talep edin',
+    liveLinksTitle: 'İlgili sayfalar',
+    liveStatus: 'Canlı sistem durumu',
+    liveTrust: 'Güven Merkezi ve uyumluluk yol haritası',
   },
   trustPage: {
     metaTitle: 'Güven Merkezi',
@@ -3413,6 +3424,7 @@ export const tr: TranslationTree = {
     title: 'Güven Merkezi',
     subtitle: 'Müşteriler ve kurumsal alıcılar için güvenlik, gizlilik ve satın alma kaynakları.',
     complianceTitle: 'Uyumluluk yol haritası',
+    complianceBadge: 'Devam ediyor — sertifikalı değil',
     complianceBody:
       'SOC 2 Type II ve HIPAA kurumsal yol haritamızdadır ve kurumsal anlaşmalarda görüşmeye açıktır. Denetimler tamamlanana kadar sertifika iddiasında bulunmayız. GDPR odaklı gizlilik uygulamaları, DPA ve alt işleyen detayları aşağıda yayınlanır.',
     soc2Step1: 'SOC 2 Trust Services Criteria’ya (güvenlik, erişilebilirlik, gizlilik) göre boşluk değerlendirmesi.',

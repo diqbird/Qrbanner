@@ -1,7 +1,10 @@
-# Konsol sırası A→D (agent kodu bitti)
+# Konsol sırası A→D (agent kodu / CSV hazır — sen tıklarsın)
 
 Measurement ID: **G-3LY6YZDDD2**  
-Checklist kaynağı: [GOOGLE_ADS_SETUP_TR.md](./GOOGLE_ADS_SETUP_TR.md)
+TR checklist: [GOOGLE_ADS_SETUP_TR.md](./GOOGLE_ADS_SETUP_TR.md) · EN: [GOOGLE_ADS_SETUP_EN.md](./GOOGLE_ADS_SETUP_EN.md)
+
+Kod tarafı: event’ler (`sign_up`, `first_qr_created`, `generate_lead`) consent sonrası ateşleniyor.  
+Ön kontrol: `python scripts/verify-ads-paste-urls.py` · VPS GA4: `python scripts/print-ga4-conversion-steps.py`
 
 ## A — GA4 bağla
 - [ ] Ads → Araçlar → Bağlı hesaplar → Google Analytics (GA4) → `G-3LY6YZDDD2`

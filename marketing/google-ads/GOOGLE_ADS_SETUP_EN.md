@@ -49,7 +49,7 @@ Prefer Option A once GA4 is linked; switch bidding to Maximize conversions after
 
 | Campaign | Daily budget | Landing URL |
 |----------|--------------|-------------|
-| **QRB \| Search \| Create** | $4–6 | `https://qrbanner.com/qr/create` |
+| **QRB \| Search \| Create** | $4–6 | `https://qrbanner.com/qr/create?quick=1` |
 | **QRB \| Search \| Competitor** | $2–4 | `https://qrbanner.com/vs/qr-tiger` (rotate slugs) |
 | **QRB \| Search \| Use cases** | $2–4 | `https://qrbanner.com/qr-types/url` or `/solutions/restaurants` |
 

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Webhook, Zap } from 'lucide-react';
 import { pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { IntegrationWebhookRecipe } from '@/components/public/integration-webhook-recipe';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
@@ -51,7 +52,7 @@ export default async function ZapierIntegrationPage() {
             <h1 className="font-display text-4xl font-bold tracking-tight">{t('zapierPage.title')}</h1>
             <p className="mt-4 text-lg text-muted-foreground">{t('zapierPage.subtitle')}</p>
             <Link href="/settings" className="mt-8 inline-block">
-              <Button size="lg" className="gap-2">
+              <Button size="lg" className="gap-2 rounded-xl shadow-[0_14px_34px_-14px_hsl(var(--primary)/0.7)]">
                 {t('zapierPage.cta')} <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
@@ -63,7 +64,10 @@ export default async function ZapierIntegrationPage() {
             </h2>
             <ol className="mt-6 space-y-4">
               {STEP_KEYS.map((step, i) => (
-                <li key={step.title} className="rounded-xl border border-border/50 bg-card p-5">
+                <li
+                  key={step.title}
+                  className="surface-3d rounded-2xl border border-white/30 bg-card/80 p-5 backdrop-blur-md dark:border-white/10"
+                >
                   <p className="text-xs font-medium text-primary">
                     {t('zapierPage.step', { n: formatLocaleNumber(i + 1, locale) })}
                   </p>
@@ -76,16 +80,19 @@ export default async function ZapierIntegrationPage() {
 
           <section className="mt-10 rounded-xl border bg-muted/30 p-6 text-sm">
             <p className="font-medium">{t('zapierPage.payloadTitle')}</p>
-            <ul className="mt-2 list-inside list-disc text-muted-foreground space-y-1">
+            <ul className="mt-2 list-inside list-disc space-y-1 text-muted-foreground">
               <li>{t('zapierPage.payload1')}</li>
               <li>{t('zapierPage.payload2')}</li>
               <li>{t('zapierPage.payload3')}</li>
               <li>{t('zapierPage.payload4')}</li>
             </ul>
-            <Link href="/developers" className="mt-4 inline-block text-primary hover:underline">
-              {t('zapierPage.docsLink')} →
-            </Link>
           </section>
+
+          <IntegrationWebhookRecipe
+            sampleTitle={t('zapierPage.sampleTitle')}
+            hmacTitle={t('zapierPage.hmacTitle')}
+            docsLabel={t('zapierPage.docsLink')}
+          />
         </div>
       </div>
     </>

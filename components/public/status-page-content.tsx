@@ -27,6 +27,14 @@ export function StatusPageContent() {
         >
           {t('status.slaLink')} →
         </Link>
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-sm">
+          <Link href="/security" className="text-primary hover:underline">
+            {t('status.relatedSecurity')}
+          </Link>
+          <Link href="/trust" className="text-primary hover:underline">
+            {t('status.relatedTrust')}
+          </Link>
+        </div>
       </div>
 
       <StatusPageStatusPanel

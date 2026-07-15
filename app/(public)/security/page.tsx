@@ -79,6 +79,22 @@ export default async function SecurityPage() {
             </section>
           ))}
 
+          <div className="surface-3d space-y-3 rounded-2xl border border-white/30 bg-card/80 p-5 backdrop-blur-md dark:border-white/10">
+            <h2 className="font-display text-lg font-semibold">{t('securityPage.liveLinksTitle')}</h2>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/status" className="font-medium text-primary hover:underline">
+                  {t('securityPage.liveStatus')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/trust" className="font-medium text-primary hover:underline">
+                  {t('securityPage.liveTrust')}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           <div className="space-y-2 text-sm text-muted-foreground">
             <p>
               <Link

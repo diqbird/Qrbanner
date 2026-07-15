@@ -1,7 +1,5 @@
-const CACHE_VERSION = 'qrb-pwa-v2';
-const PRECACHE_URLS = ['/dashboard', '/manifest.webmanifest'];
-
-
+const CACHE_VERSION = 'qrb-pwa-v3';
+const PRECACHE_URLS = ['/dashboard', '/manifest.webmanifest', '/offline.html'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -32,7 +30,11 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_VERSION).then((cache) => cache.put(request, copy));
           return response;
         })
-        .catch(() => caches.match(request).then((r) => r || caches.match('/dashboard')))
+        .catch(() =>
+          caches
+            .match(request)
+            .then((r) => r || caches.match('/offline.html') || caches.match('/dashboard'))
+        )
     );
     return;
   }

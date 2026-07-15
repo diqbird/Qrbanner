@@ -1,0 +1,21 @@
+{
+  "upload": [
+    "marketing/google-ads/CONSOLE_A_D.md",
+    "marketing/google-ads/GOOGLE_ADS_SETUP_EN.md",
+    "components/public/integration-webhook-recipe.tsx",
+    "app/(public)/integrations/zapier/page.tsx",
+    "app/(public)/integrations/hubspot/page.tsx",
+    "app/(public)/security/page.tsx",
+    "app/(public)/trust/page.tsx",
+    "components/public/status-page-content.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "public/offline.html",
+    "public/sw.js"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
+import { Badge } from '@/components/ui/badge';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { ShieldCheck } from 'lucide-react';
@@ -69,8 +70,11 @@ export default async function TrustPage() {
             <p className="mt-4 text-lg text-muted-foreground">{t('trustPage.subtitle')}</p>
           </header>
 
-          <section className="rounded-xl border border-border/60 bg-muted/30 p-5 space-y-3">
-            <h2 className="font-display text-lg font-semibold">{t('trustPage.complianceTitle')}</h2>
+          <section className="surface-3d space-y-3 rounded-2xl border border-white/30 bg-card/80 p-5 backdrop-blur-md dark:border-white/10">
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="font-display text-lg font-semibold">{t('trustPage.complianceTitle')}</h2>
+              <Badge variant="outline">{t('trustPage.complianceBadge')}</Badge>
+            </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
               {t('trustPage.complianceBody')}
             </p>
