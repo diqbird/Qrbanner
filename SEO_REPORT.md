@@ -75,6 +75,7 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 | `app/(public)/marketplace/[id]/page.tsx` | Product schema, noindex unpublished |
 | `app/(admin)/layout.tsx` | noindex |
 | `components/landing/customer-logos.tsx` | `next/image` |
+| `next.config.js` | CDN cache for `/apps`, `/marketplace`, trust/enterprise hubs |
 | `SEO_REPORT.md` | This report |
 | `scripts/manifests/seo-technical-pass.json` | Deploy manifest |
 
