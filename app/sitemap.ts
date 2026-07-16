@@ -27,6 +27,7 @@ const PUBLIC_PATHS = [
   { path: '/use-cases', priority: 0.9, changeFrequency: 'weekly' as const },
   { path: '/geo', priority: 0.85, changeFrequency: 'weekly' as const },
   { path: '/vs', priority: 0.85, changeFrequency: 'monthly' as const },
+  { path: '/apps', priority: 0.75, changeFrequency: 'monthly' as const },
   { path: '/integrations', priority: 0.8, changeFrequency: 'monthly' as const },
   { path: '/integrations/zapier', priority: 0.75, changeFrequency: 'monthly' as const },
   { path: '/integrations/make', priority: 0.7, changeFrequency: 'monthly' as const },
@@ -115,6 +116,13 @@ function buildLocalizedSitemapEntries(locale: Locale, now: Date): MetadataRoute.
     priority: locale === 'tr' ? 0.75 : 0.72,
   }));
 
+  const caseStudyEntries = CASE_STUDIES.map((study) => ({
+    url: url(`/case-studies/${study.slug}`),
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: locale === 'tr' ? 0.72 : 0.7,
+  }));
+
   const geoEntries = listGeoComboParams().map(({ city, sector }) => ({
     url: url(`/geo/${city}/${sector}`),
     lastModified: now,
@@ -136,6 +144,7 @@ function buildLocalizedSitemapEntries(locale: Locale, now: Date): MetadataRoute.
     ...useCaseEntries,
     ...vsEntries,
     ...templateDetailEntries,
+    ...caseStudyEntries,
     ...geoEntries,
     ...geoCityEntries,
   ];
@@ -154,6 +163,22 @@ async function loadPosts(): Promise<BlogPost[]> {
   } catch (err) {
     console.error('[sitemap] getAllPosts failed, using static posts:', err);
     return STATIC_POSTS;
+  }
+}
+
+async function loadPublishedMarketplaceIds(): Promise<string[]> {
+  try {
+    const { prisma } = await import('@/lib/db');
+    const rows = await prisma.marketplaceListing.findMany({
+      where: { status: 'published' },
+      select: { id: true },
+      orderBy: { updatedAt: 'desc' },
+      take: 500,
+    });
+    return rows.map((r) => r.id);
+  } catch (err) {
+    console.error('[sitemap] marketplace listings failed:', err);
+    return [];
   }
 }
 
@@ -216,6 +241,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  const marketplaceIds = await loadPublishedMarketplaceIds();
+  const marketplaceEntries = marketplaceIds.map((id) => ({
+    url: `${SITE_URL}/marketplace/${id}`,
+    lastModified: now,
+    changeFrequency: 'weekly' as const,
+    priority: 0.65,
+  }));
+
   const localizedEntries = LOCALIZED_SITEMAP_LOCALES.flatMap((locale) =>
     buildLocalizedSitemapEntries(locale, now),
   );
@@ -234,6 +267,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...blogEntries,
     ...caseStudyEntries,
     ...templateDetailEntries,
+    ...marketplaceEntries,
     ...localizedEntries,
     ...listGeoComboParams().map(({ city, sector }) => ({
       url: `${SITE_URL}/geo/${city}/${sector}`,

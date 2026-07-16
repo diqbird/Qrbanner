@@ -491,7 +491,10 @@ export const deLocaleGaps: TranslationTree = {
     payload2: "QR-Name, Kurzcode und Kampagnenkategorie",
     payload3: "Scan-Zeitstempel, Land, Stadt, Gerät",
     payload4: "X-QRbanner-Signature zur HMAC-Verifizierung vor CRM-Schreibvorgang",
-    docsLink: "Vollständige API- & Webhook-Dokumentation"
+    docsLink: "Vollständige API- & Webhook-Dokumentation",
+    sampleTitle: "Beispiel Scan-Webhook JSON",
+    hmacTitle: "X-QRbanner-Signature prüfen (Node.js)",
+    fieldMapTitle: "Empfohlenes HubSpot-Feldmapping",
   },
   industries: {
     title: "Lösungen nach Branche",
@@ -1588,7 +1591,9 @@ export const deLocaleGaps: TranslationTree = {
     payload2: "Scan-Zeitstempel, Gerät, Browser, Betriebssystem",
     payload3: "Land und Stadt (wenn verfügbar)",
     payload4: "Header X-QRbanner-Signature zur HMAC-Verifizierung",
-    docsLink: "Vollständige API- & Webhook-Dokumentation"
+    docsLink: "Vollständige API- & Webhook-Dokumentation",
+    sampleTitle: "Beispiel Scan-Webhook JSON",
+    hmacTitle: "X-QRbanner-Signature prüfen (Node.js)",
   },
   templates: {
     ...industryTemplateCopyDe,

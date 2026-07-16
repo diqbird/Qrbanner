@@ -491,7 +491,10 @@ export const esLocaleGaps: TranslationTree = {
     payload2: "Nombre del QR, código corto y categoría de campaña",
     payload3: "Marca de tiempo del escaneo, país, ciudad, dispositivo",
     payload4: "X-QRbanner-Signature para verificación HMAC antes de escribir en el CRM",
-    docsLink: "Documentación completa de API y webhooks"
+    docsLink: "Documentación completa de API y webhooks",
+    sampleTitle: "JSON de ejemplo del webhook de escaneo",
+    hmacTitle: "Verificar X-QRbanner-Signature (Node.js)",
+    fieldMapTitle: "Asignación sugerida de campos de HubSpot",
   },
   industries: {
     title: "Soluciones por sector",
@@ -1585,7 +1588,9 @@ export const esLocaleGaps: TranslationTree = {
     payload2: "Marca de tiempo del escaneo, dispositivo, navegador, SO",
     payload3: "País y ciudad (cuando estén disponibles)",
     payload4: "Cabecera X-QRbanner-Signature para verificación HMAC",
-    docsLink: "Documentación completa de API y webhooks"
+    docsLink: "Documentación completa de API y webhooks",
+    sampleTitle: "JSON de ejemplo del webhook de escaneo",
+    hmacTitle: "Verificar X-QRbanner-Signature (Node.js)",
   },
   templates: {
     ...industryTemplateCopyEs,
