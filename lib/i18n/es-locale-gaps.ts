@@ -1111,8 +1111,10 @@ export const esLocaleGaps: TranslationTree = {
     needHelp: "¿Necesita ayuda?",
     backHome: "Volver al inicio",
     slaTitle: "Objetivo de 99,9 % de disponibilidad mensual",
-    slaBody: "Los planes enterprise tienen como objetivo 99,9 % de disponibilidad mensual para redirecciones de escaneo principales y la aplicación. Consulte la visión general enterprise para detalles de adquisición.",
-    slaLink: "Visión general enterprise"
+    slaBody: "Los planes enterprise tienen como objetivo 99,9 % de disponibilidad mensual para redirecciones de escaneo principales y la aplicación. Esta página pública es transparencia operativa — no sustituye un informe SOC 2. Consulte la visión general enterprise para detalles de adquisición.",
+    slaLink: "Visión general enterprise",
+    relatedSecurity: "Prácticas de seguridad",
+    relatedTrust: "Centro de confianza"
   },
   stickyCta: {
     create: "Crear QR gratis",

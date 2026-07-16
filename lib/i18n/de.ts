@@ -817,6 +817,9 @@ export const de: TranslationTree = {
     account7: 'Optionale API-Key-IP-Allowlists zur Einschränkung der Key-Nutzung',
     contact: 'Sicherheitsfragen?',
     procurementCta: 'Sicherheitsfragebogen, BAA oder signierten DPA anfordern',
+    liveLinksTitle: 'Verwandte Seiten',
+    liveStatus: 'Live-Systemstatus',
+    liveTrust: 'Trust Center & Compliance-Roadmap',
   },
   dashboard: {
     title: 'Dashboard',
@@ -2198,7 +2201,6 @@ export const de: TranslationTree = {
     linkHipaaReadiness: 'HIPAA-Readiness & BAA',
     linkHipaaReadinessDesc: 'Ehrliche Healthcare-Haltung und BAA-Gesprächspfad — kein HIPAA-Zertifikat.',
   },
-  procurementRequest: {
   soc2Readiness: {
     metaTitle: 'SOC-2-Readiness — Evidenzkarte (nicht zertifiziert)',
     metaDescription:
@@ -2265,7 +2267,7 @@ export const de: TranslationTree = {
     rowPhi: 'PHI im QR',
     evPhi: 'Produkthinweis: keine PHI in QR-Payloads — Kunde verlinkt Portal/EHR-Formulare.',
   },
-
+  procurementRequest: {
     metaTitle: 'Beschaffungsanfrage — Sicherheitsfragebogen, BAA & DPA',
     metaDescription:
       'QRbanner-Sicherheitsfragebogen anfordern, HIPAA-BAA für Enterprise-Deals besprechen oder signierten DPA anfragen.',

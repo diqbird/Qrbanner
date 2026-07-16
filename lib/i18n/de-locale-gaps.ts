@@ -1113,8 +1113,10 @@ export const deLocaleGaps: TranslationTree = {
     backHome: 'Zur Startseite',
     slaTitle: '99,9 % monatliches Uptime-Ziel',
     slaBody:
-      'Enterprise-Pläne zielen auf 99,9 % monatliche Verfügbarkeit für Scan-Weiterleitungen und die Anwendung. Beschaffungsdetails in der Enterprise-Übersicht.',
+      'Enterprise-Pläne zielen auf 99,9 % monatliche Verfügbarkeit für Scan-Weiterleitungen und die Anwendung. Diese öffentliche Seite ist betriebliche Transparenz — kein SOC-2-Bericht-Ersatz. Beschaffungsdetails in der Enterprise-Übersicht.',
     slaLink: 'Enterprise-Übersicht',
+    relatedSecurity: 'Sicherheitspraktiken',
+    relatedTrust: 'Trust Center',
   },
   stickyCta: {
     create: 'Kostenlos QR erstellen',

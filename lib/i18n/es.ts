@@ -817,6 +817,9 @@ export const es: TranslationTree = {
     account7: 'Listas IP opcionales por clave API para restringir dónde se pueden usar',
     contact: '¿Preguntas de seguridad?',
     procurementCta: 'Solicitar cuestionario de seguridad, BAA o DPA firmado',
+    liveLinksTitle: 'Páginas relacionadas',
+    liveStatus: 'Estado del sistema en vivo',
+    liveTrust: 'Centro de confianza y hoja de ruta de cumplimiento',
   },
   dashboard: {
     title: 'Panel',
@@ -2199,7 +2202,6 @@ export const es: TranslationTree = {
     linkHipaaReadiness: 'Preparación HIPAA y BAA',
     linkHipaaReadinessDesc: 'Postura sanitaria honesta y ruta de conversación BAA — no es un certificado HIPAA.',
   },
-  procurementRequest: {
   soc2Readiness: {
     metaTitle: 'Preparación SOC 2 — Mapa de evidencias (no certificado)',
     metaDescription:
@@ -2266,7 +2268,7 @@ export const es: TranslationTree = {
     rowPhi: 'PHI en el QR',
     evPhi: 'Guía de producto: sin PHI en payloads QR — el cliente enlaza formularios portal/EHR.',
   },
-
+  procurementRequest: {
     metaTitle: 'Solicitud de adquisición — Cuestionario, BAA y DPA',
     metaDescription:
       'Solicite un cuestionario de seguridad de QRbanner, hable de un BAA HIPAA para acuerdos enterprise o pida un DPA firmado.',
