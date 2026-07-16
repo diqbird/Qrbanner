@@ -123,6 +123,18 @@ export const HELP_SECTIONS: HelpSection[] = [
         href: '/trust/hipaa-readiness',
       },
       {
+        id: 'procurement-request',
+        titleKey: 'nav.procurementRequest',
+        descKey: 'trustPage.linkProcurementDesc',
+        href: '/trust/procurement-request',
+      },
+      {
+        id: 'developers-reference',
+        titleKey: 'siteSearch.developersReference',
+        descKey: 'developersReference.metaDescription',
+        href: '/developers/reference',
+      },
+      {
         id: 'saml',
         titleKey: 'help.topicSamlTitle',
         descKey: 'help.topicSamlDesc',

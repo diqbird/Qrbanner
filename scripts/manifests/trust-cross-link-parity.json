@@ -1,0 +1,12 @@
+{
+  "upload": [
+    "lib/i18n/help-content.ts",
+    "components/public/status-page-content.tsx",
+    "app/(public)/enterprise/page.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

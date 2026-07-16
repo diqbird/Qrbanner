@@ -117,6 +117,37 @@ export default async function EnterprisePage() {
             </div>
           </section>
 
+          <section className="mt-16 rounded-2xl border border-border/50 bg-card/80 p-6 backdrop-blur-sm">
+            <h2 className="font-display text-lg font-semibold">{t('securityPage.liveLinksTitle')}</h2>
+            <ul className="mt-4 space-y-2 text-sm">
+              <li>
+                <Link href="/trust" className="font-medium text-primary hover:underline">
+                  {t('securityPage.liveTrust')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/trust/soc2-readiness" className="font-medium text-primary hover:underline">
+                  {t('trustPage.linkSoc2Readiness')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/trust/hipaa-readiness" className="font-medium text-primary hover:underline">
+                  {t('trustPage.linkHipaaReadiness')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/security" className="font-medium text-primary hover:underline">
+                  {t('status.relatedSecurity')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/status" className="font-medium text-primary hover:underline">
+                  {t('securityPage.liveStatus')}
+                </Link>
+              </li>
+            </ul>
+          </section>
+
           <section className="mt-16">
             <h2 className="font-display text-2xl font-bold">{t('enterprise.includesTitle')}</h2>
             <ul className="mt-6 grid gap-3 sm:grid-cols-2">
