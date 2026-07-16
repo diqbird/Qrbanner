@@ -40,6 +40,9 @@ export function StatusPageContent() {
           <Link href="/trust/hipaa-readiness" className="text-primary hover:underline">
             {t('trustPage.linkHipaaReadiness')}
           </Link>
+          <Link href="/trust/procurement-request" className="text-primary hover:underline">
+            {t('nav.procurementRequest')}
+          </Link>
         </div>
       </div>
 

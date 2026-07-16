@@ -264,6 +264,12 @@ X-API-Key: qb_live_...`}
             <p className="mt-3 max-w-3xl text-sm text-muted-foreground leading-relaxed">
               {t('developersPage.scimBody')}
             </p>
+            <Link
+              href="/developers/reference"
+              className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+            >
+              {t('developersPage.scimOpenapiExplore')} →
+            </Link>
             <div className="mt-6 grid gap-6 lg:grid-cols-2">
               <div>
                 <h3 className="font-display text-sm font-semibold">{t('developersPage.scimSetupTitle')}</h3>
@@ -305,6 +311,42 @@ Authorization: Bearer qrb_scim_...
                 </table>
               </div>
             </div>
+          </section>
+
+          <section className="mt-16 rounded-xl border border-border/50 bg-card/80 p-6 backdrop-blur-sm">
+            <h2 className="font-display text-lg font-semibold">{t('securityPage.liveLinksTitle')}</h2>
+            <ul className="mt-4 space-y-2 text-sm">
+              <li>
+                <Link href="/trust" className="font-medium text-primary hover:underline">
+                  {t('securityPage.liveTrust')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/trust/soc2-readiness" className="font-medium text-primary hover:underline">
+                  {t('trustPage.linkSoc2Readiness')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/trust/hipaa-readiness" className="font-medium text-primary hover:underline">
+                  {t('trustPage.linkHipaaReadiness')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/trust/procurement-request" className="font-medium text-primary hover:underline">
+                  {t('nav.procurementRequest')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/security" className="font-medium text-primary hover:underline">
+                  {t('status.relatedSecurity')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/status" className="font-medium text-primary hover:underline">
+                  {t('securityPage.liveStatus')}
+                </Link>
+              </li>
+            </ul>
           </section>
 
           <section className="mt-16 rounded-xl border border-border/50 bg-card/80 p-8 backdrop-blur-sm">

@@ -37,6 +37,7 @@ export function buildOpenApiSpec() {
       { name: 'Analytics', description: 'Scan analytics for QR codes' },
       { name: 'Folders', description: 'Organize QR codes into folders' },
       { name: 'Mobile', description: 'Mobile / PWA companion API (session cookie or API key)' },
+      { name: 'SCIM', description: 'SCIM 2.0 workspace provisioning (Business / Agency bearer token)' },
       { name: 'Webhooks', description: 'Outbound scan event notifications (configured in dashboard)' },
     ],
     components: {
@@ -51,6 +52,11 @@ export function buildOpenApiSpec() {
           in: 'header',
           name: 'X-API-Key',
           description: 'Alternative to Authorization: Bearer',
+        },
+        scimBearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          description: 'Workspace SCIM bearer token (prefix qrb_scim_) from Dashboard → Settings → Team → SCIM',
         },
       },
       schemas: {
@@ -89,6 +95,16 @@ export function buildOpenApiSpec() {
             isActive: { type: 'boolean' },
             folderName: { type: 'string', nullable: true },
             updatedAt: { type: 'string', format: 'date-time' },
+          },
+        },
+        ScimListResponse: {
+          type: 'object',
+          properties: {
+            schemas: { type: 'array', items: { type: 'string' } },
+            totalResults: { type: 'integer' },
+            startIndex: { type: 'integer' },
+            itemsPerPage: { type: 'integer' },
+            Resources: { type: 'array', items: { type: 'object', additionalProperties: true } },
           },
         },
         QrAnalyticsSummary: {
@@ -655,6 +671,171 @@ export function buildOpenApiSpec() {
           responses: {
             '200': { description: 'Deleted' },
             '404': { description: 'Not found' },
+          },
+        },
+      },
+      '/api/scim/v2/ServiceProviderConfig': {
+        get: {
+          tags: ['SCIM'],
+          summary: 'Service provider configuration',
+          security: [{ scimBearerAuth: [] }],
+          responses: {
+            '200': { description: 'SCIM capabilities (patch, filter; no bulk)' },
+            '401': { description: 'Invalid SCIM bearer token' },
+          },
+        },
+      },
+      '/api/scim/v2/ResourceTypes': {
+        get: {
+          tags: ['SCIM'],
+          summary: 'List resource types',
+          security: [{ scimBearerAuth: [] }],
+          responses: {
+            '200': { description: 'User and Group resource types' },
+            '401': { description: 'Invalid SCIM bearer token' },
+          },
+        },
+      },
+      '/api/scim/v2/Schemas': {
+        get: {
+          tags: ['SCIM'],
+          summary: 'List schemas',
+          security: [{ scimBearerAuth: [] }],
+          responses: {
+            '200': { description: 'User, Enterprise User and Group schemas' },
+            '401': { description: 'Invalid SCIM bearer token' },
+          },
+        },
+      },
+      '/api/scim/v2/Users': {
+        get: {
+          tags: ['SCIM'],
+          summary: 'List workspace members',
+          security: [{ scimBearerAuth: [] }],
+          parameters: [
+            { name: 'startIndex', in: 'query', schema: { type: 'integer', default: 1 } },
+            { name: 'count', in: 'query', schema: { type: 'integer', default: 100, maximum: 100 } },
+            { name: 'filter', in: 'query', schema: { type: 'string' }, description: 'e.g. userName eq "user@example.com"' },
+          ],
+          responses: {
+            '200': {
+              description: 'SCIM list response',
+              content: {
+                'application/json': { schema: { $ref: '#/components/schemas/ScimListResponse' } },
+              },
+            },
+            '401': { description: 'Invalid SCIM bearer token' },
+          },
+        },
+        post: {
+          tags: ['SCIM'],
+          summary: 'Provision or invite a member',
+          security: [{ scimBearerAuth: [] }],
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: { type: 'object', additionalProperties: true },
+              },
+            },
+          },
+          responses: {
+            '201': { description: 'Member created' },
+            '400': { description: 'Validation error' },
+            '401': { description: 'Invalid SCIM bearer token' },
+          },
+        },
+      },
+      '/api/scim/v2/Users/{id}': {
+        get: {
+          tags: ['SCIM'],
+          summary: 'Get one member',
+          security: [{ scimBearerAuth: [] }],
+          parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+          responses: {
+            '200': { description: 'SCIM User resource' },
+            '404': { description: 'Not found' },
+            '401': { description: 'Invalid SCIM bearer token' },
+          },
+        },
+        patch: {
+          tags: ['SCIM'],
+          summary: 'Update member attributes or role',
+          security: [{ scimBearerAuth: [] }],
+          parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: { type: 'object', additionalProperties: true },
+              },
+            },
+          },
+          responses: {
+            '200': { description: 'Updated' },
+            '404': { description: 'Not found' },
+            '401': { description: 'Invalid SCIM bearer token' },
+          },
+        },
+        delete: {
+          tags: ['SCIM'],
+          summary: 'Remove a member',
+          security: [{ scimBearerAuth: [] }],
+          parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+          responses: {
+            '204': { description: 'Deleted' },
+            '404': { description: 'Not found' },
+            '401': { description: 'Invalid SCIM bearer token' },
+          },
+        },
+      },
+      '/api/scim/v2/Groups': {
+        get: {
+          tags: ['SCIM'],
+          summary: 'List virtual role groups',
+          security: [{ scimBearerAuth: [] }],
+          parameters: [
+            { name: 'startIndex', in: 'query', schema: { type: 'integer', default: 1 } },
+            { name: 'count', in: 'query', schema: { type: 'integer', default: 100 } },
+          ],
+          responses: {
+            '200': {
+              description: 'admin, editor, viewer groups',
+              content: {
+                'application/json': { schema: { $ref: '#/components/schemas/ScimListResponse' } },
+              },
+            },
+            '401': { description: 'Invalid SCIM bearer token' },
+          },
+        },
+      },
+      '/api/scim/v2/Groups/{id}': {
+        get: {
+          tags: ['SCIM'],
+          summary: 'Get one virtual group',
+          security: [{ scimBearerAuth: [] }],
+          parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+          responses: {
+            '200': { description: 'SCIM Group resource' },
+            '404': { description: 'Not found' },
+            '401': { description: 'Invalid SCIM bearer token' },
+          },
+        },
+        patch: {
+          tags: ['SCIM'],
+          summary: 'Update group membership',
+          security: [{ scimBearerAuth: [] }],
+          parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: { type: 'object', additionalProperties: true },
+              },
+            },
+          },
+          responses: {
+            '200': { description: 'Updated' },
+            '404': { description: 'Not found' },
+            '401': { description: 'Invalid SCIM bearer token' },
           },
         },
       },

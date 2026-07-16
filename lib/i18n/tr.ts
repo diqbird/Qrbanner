@@ -3364,7 +3364,7 @@ export const tr: TranslationTree = {
     exampleTitle: 'Örnek istek',
     integrationsLink: 'Entegrasyonları gör',
     openapiTitle: 'OpenAPI spesifikasyonu',
-    openapiBody: 'REST API v1 ve Mobil API için makine tarafından okunabilir OpenAPI 3.0 — Postman, Insomnia veya API gateway\'e aktarın.',
+    openapiBody: 'REST API v1, Mobil API ve SCIM 2.0 için makine tarafından okunabilir OpenAPI 3.0 — Postman, Insomnia veya API gateway\'e aktarın.',
     openapiExplore: 'Etkileşimli API referansını keşfet',
     openapiLink: 'openapi.json indir',
     scimTitle: 'SCIM 2.0 provizyon',
@@ -3387,6 +3387,7 @@ export const tr: TranslationTree = {
     scimEpSpConfig: 'SCIM servis sağlayıcı yapılandırması',
     scimEpResourceTypes: 'Desteklenen kaynak türleri',
     scimEpSchemas: 'SCIM şemaları',
+    scimOpenapiExplore: 'SCIM uç noktalarını etkileşimli API referansında görüntüleyin',
   },
   developersReference: {
     metaTitle: 'API referansı (OpenAPI)',

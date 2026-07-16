@@ -765,7 +765,7 @@ export const es: TranslationTree = {
     exampleTitle: 'Solicitud de ejemplo',
     integrationsLink: 'Ver integraciones',
     openapiTitle: 'Especificación OpenAPI',
-    openapiBody: 'OpenAPI 3.0 legible por máquina para REST API v1 y API móvil — impórtelo en Postman, Insomnia o API Gateway.',
+    openapiBody: 'OpenAPI 3.0 legible por máquina para REST API v1, API móvil y SCIM 2.0 — impórtelo en Postman, Insomnia o API Gateway.',
     openapiExplore: 'Explorar referencia interactiva de la API',
     openapiLink: 'Descargar openapi.json',
     scimTitle: 'Aprovisionamiento SCIM 2.0',
@@ -788,6 +788,7 @@ export const es: TranslationTree = {
     scimEpSpConfig: 'Configuración del proveedor de servicios SCIM',
     scimEpResourceTypes: 'Tipos de recurso admitidos',
     scimEpSchemas: 'Esquemas SCIM',
+    scimOpenapiExplore: 'Ver endpoints SCIM en la referencia API interactiva',
   },
   developersReference: {
     metaTitle: 'Referencia de API (OpenAPI)',
