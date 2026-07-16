@@ -1269,8 +1269,21 @@ export const deLocaleGaps: TranslationTree = {
       desc: "Tariflimits und Abonnentenverteilung."
     },
     payments: {
-      desc: "Paddle-Abrechnung und Webhook-Events.",
-      webhooks: "Abrechnungs-Webhook-Events"
+      desc: "Paddle-Abrechnung, Webhook-Events und Marketplace-Verkäuferabrechnungen.",
+      webhooks: "Abrechnungs-Webhook-Events",
+      unsettledNet: "Offener Verkäufer-Nettobetrag",
+      marketplaceSettlements: "Marketplace-Abrechnungen",
+      marketplaceSettlementsDesc:
+        "Plattformvermittelte bezahlte Verkäufe — Verkäufer-Netto als bezahlt markieren, nachdem Sie die Mittel offline überwiesen haben.",
+      noMarketplacePurchases: "Noch keine bezahlten Marketplace-Käufe.",
+      colListing: "Listing",
+      colSeller: "Verkäufer",
+      colNet: "Verkäufer-Netto",
+      colStatus: "Status",
+      statusSettled: "Abgerechnet",
+      statusUnsettled: "Offen",
+      markSettled: "Als abgerechnet markieren",
+      settled: "Als abgerechnet markiert",
     },
     qr: {
       desc: "Alle QR-Codes auf der Plattform."

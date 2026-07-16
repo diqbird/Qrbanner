@@ -1266,8 +1266,21 @@ export const esLocaleGaps: TranslationTree = {
       desc: "Límites de planes y distribución de suscriptores."
     },
     payments: {
-      desc: "Facturación Paddle y eventos webhook.",
-      webhooks: "Eventos webhook de facturación"
+      desc: "Facturación Paddle, eventos webhook y liquidaciones netas de vendedores del marketplace.",
+      webhooks: "Eventos webhook de facturación",
+      unsettledNet: "Neto de vendedor pendiente",
+      marketplaceSettlements: "Liquidaciones del marketplace",
+      marketplaceSettlementsDesc:
+        "Ventas de pago intermediadas por la plataforma — marque el neto del vendedor como pagado tras transferir fondos fuera de la app.",
+      noMarketplacePurchases: "Aún no hay compras de marketplace de pago.",
+      colListing: "Listado",
+      colSeller: "Vendedor",
+      colNet: "Neto del vendedor",
+      colStatus: "Estado",
+      statusSettled: "Liquidado",
+      statusUnsettled: "Pendiente",
+      markSettled: "Marcar liquidado",
+      settled: "Marcado como liquidado",
     },
     qr: {
       desc: "Todos los códigos QR de la plataforma."

@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'qrb-pwa-v3';
+const CACHE_VERSION = 'qrb-pwa-v4';
 const PRECACHE_URLS = ['/dashboard', '/manifest.webmanifest', '/offline.html'];
 
 self.addEventListener('install', (event) => {

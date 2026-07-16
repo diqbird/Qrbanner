@@ -776,6 +776,24 @@ export function buildOpenApiSpec() {
             '401': { description: 'Invalid SCIM bearer token' },
           },
         },
+        put: {
+          tags: ['SCIM'],
+          summary: 'Replace member (alias of PATCH)',
+          security: [{ scimBearerAuth: [] }],
+          parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: { type: 'object', additionalProperties: true },
+              },
+            },
+          },
+          responses: {
+            '200': { description: 'Updated' },
+            '404': { description: 'Not found' },
+            '401': { description: 'Invalid SCIM bearer token' },
+          },
+        },
         delete: {
           tags: ['SCIM'],
           summary: 'Remove a member',
@@ -807,6 +825,31 @@ export function buildOpenApiSpec() {
             '401': { description: 'Invalid SCIM bearer token' },
           },
         },
+        post: {
+          tags: ['SCIM'],
+          summary: 'Ensure a virtual role group exists (idempotent)',
+          description: 'Only fixed groups admin, editor, viewer are supported.',
+          security: [{ scimBearerAuth: [] }],
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    displayName: { type: 'string', enum: ['admin', 'editor', 'viewer'] },
+                    id: { type: 'string', enum: ['admin', 'editor', 'viewer'] },
+                  },
+                },
+              },
+            },
+          },
+          responses: {
+            '201': { description: 'Group resource' },
+            '400': { description: 'Unknown group name' },
+            '401': { description: 'Invalid SCIM bearer token' },
+          },
+        },
       },
       '/api/scim/v2/Groups/{id}': {
         get: {
@@ -834,6 +877,35 @@ export function buildOpenApiSpec() {
           },
           responses: {
             '200': { description: 'Updated' },
+            '404': { description: 'Not found' },
+            '401': { description: 'Invalid SCIM bearer token' },
+          },
+        },
+        put: {
+          tags: ['SCIM'],
+          summary: 'Replace group membership (alias of PATCH)',
+          security: [{ scimBearerAuth: [] }],
+          parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: { type: 'object', additionalProperties: true },
+              },
+            },
+          },
+          responses: {
+            '200': { description: 'Updated' },
+            '404': { description: 'Not found' },
+            '401': { description: 'Invalid SCIM bearer token' },
+          },
+        },
+        delete: {
+          tags: ['SCIM'],
+          summary: 'Delete group (not supported for virtual role groups)',
+          security: [{ scimBearerAuth: [] }],
+          parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+          responses: {
+            '400': { description: 'Virtual role groups cannot be deleted' },
             '404': { description: 'Not found' },
             '401': { description: 'Invalid SCIM bearer token' },
           },

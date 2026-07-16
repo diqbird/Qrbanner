@@ -63,9 +63,63 @@
   </head>
   <body>
     <main class="card">
-      <h1>You’re offline</h1>
-      <p>QRbanner can’t reach the network right now. Open a cached dashboard when available, or retry when you’re back online.</p>
-      <a href="/dashboard">Open cached dashboard</a>
+      <h1 id="title">You’re offline</h1>
+      <p id="body">QRbanner can’t reach the network right now. Open a cached dashboard when available, or retry when you’re back online.</p>
+      <a id="cta" href="/dashboard">Open cached dashboard</a>
     </main>
+    <script>
+      (function () {
+        var COPY = {
+          en: {
+            title: "You’re offline",
+            body: "QRbanner can’t reach the network right now. Open a cached dashboard when available, or retry when you’re back online.",
+            cta: "Open cached dashboard",
+            docTitle: "Offline — QRbanner",
+          },
+          tr: {
+            title: "Çevrimdışısınız",
+            body: "QRbanner şu anda ağa ulaşamıyor. Önbellekteki panoyu açın veya tekrar çevrimiçi olduğunuzda deneyin.",
+            cta: "Önbellekteki panoyu aç",
+            docTitle: "Çevrimdışı — QRbanner",
+          },
+          de: {
+            title: "Sie sind offline",
+            body: "QRbanner kann das Netzwerk gerade nicht erreichen. Öffnen Sie ein zwischengespeichertes Dashboard oder versuchen Sie es erneut, sobald Sie online sind.",
+            cta: "Zwischengespeichertes Dashboard öffnen",
+            docTitle: "Offline — QRbanner",
+          },
+          es: {
+            title: "Estás sin conexión",
+            body: "QRbanner no puede alcanzar la red ahora. Abre un panel en caché cuando esté disponible, o inténtalo de nuevo cuando vuelvas a estar en línea.",
+            cta: "Abrir panel en caché",
+            docTitle: "Sin conexión — QRbanner",
+          },
+        };
+
+        function resolveLocale() {
+          try {
+            var stored = localStorage.getItem("qrb-locale");
+            if (stored && COPY[stored]) return stored;
+          } catch (e) {}
+          try {
+            var match = document.cookie.match(/(?:^|;\s*)qrb-locale=([^;]+)/);
+            if (match && COPY[match[1]]) return match[1];
+          } catch (e) {}
+          var nav = (navigator.language || "en").toLowerCase();
+          if (nav.indexOf("tr") === 0) return "tr";
+          if (nav.indexOf("de") === 0) return "de";
+          if (nav.indexOf("es") === 0) return "es";
+          return "en";
+        }
+
+        var locale = resolveLocale();
+        var t = COPY[locale] || COPY.en;
+        document.documentElement.lang = locale;
+        document.title = t.docTitle;
+        document.getElementById("title").textContent = t.title;
+        document.getElementById("body").textContent = t.body;
+        document.getElementById("cta").textContent = t.cta;
+      })();
+    </script>
   </body>
 </html>

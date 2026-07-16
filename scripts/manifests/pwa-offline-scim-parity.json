@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "public/offline.html",
+    "public/sw.js",
+    "lib/openapi-spec.ts",
+    "app/(public)/developers/page.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/de.ts",
+    "lib/i18n/es.ts",
+    "lib/i18n/de-locale-gaps.ts",
+    "lib/i18n/es-locale-gaps.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
