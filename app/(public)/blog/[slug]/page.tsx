@@ -32,6 +32,13 @@ export async function generateMetadata({ params }: Props) {
     description: post.description,
     path: `/blog/${post.slug}`,
     keywords: post.keywords,
+    openGraphType: 'article',
+    publishedTime: post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined,
+    modifiedTime: post.updatedAt
+      ? new Date(post.updatedAt).toISOString()
+      : post.publishedAt
+        ? new Date(post.publishedAt).toISOString()
+        : undefined,
   });
 }
 

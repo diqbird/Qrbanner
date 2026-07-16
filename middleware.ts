@@ -8,7 +8,14 @@ import { wwwToApexRedirectUrl } from '@/lib/canonical-host';
 import { isAppHost } from '@/lib/app-host';
 import { applySecurityHeaders } from '@/lib/security-headers';
 import { hasApiCredentialHeaders, isPublicApiRoute } from '@/lib/api-public-routes';
-import { LOCALE_HEADER, PATHNAME_HEADER, parseLocalePath, isEnglishOnlyPublicPath } from '@/lib/i18n/locale-path';
+import {
+  LOCALE_HEADER,
+  PATHNAME_HEADER,
+  parseLocalePath,
+  isEnglishOnlyPublicPath,
+  shouldLocalizePath,
+  localizePath,
+} from '@/lib/i18n/locale-path';
 import { LOCALE_STORAGE_KEY, isLocale, type Locale } from '@/lib/i18n/types';
 import { isMfaExemptApiPath } from '@/lib/api-mfa-exempt';
 
@@ -103,6 +110,24 @@ export async function middleware(req: NextRequest) {
   if (localeResponse) return localeResponse;
 
   const path = parseLocalePath(req.nextUrl.pathname).pathname;
+
+  // Cookie locale TR/DE/ES + unprefixed public URL → 308 to prefixed URL so
+  // visible URL matches canonical/hreflang (avoids soft-canonical mismatch).
+  if (req.method === 'GET' || req.method === 'HEAD') {
+    const cookieLocale = resolveRequestLocale(req);
+    if (
+      cookieLocale !== 'en' &&
+      !path.startsWith('/api/') &&
+      shouldLocalizePath(path)
+    ) {
+      const localizedPathname = localizePath(path, cookieLocale);
+      if (localizedPathname !== req.nextUrl.pathname) {
+        const redirect = req.nextUrl.clone();
+        redirect.pathname = localizedPathname;
+        return finish(req, NextResponse.redirect(redirect, 308));
+      }
+    }
+  }
 
   if (isProtectedPath(path)) {
     const token = await getToken({

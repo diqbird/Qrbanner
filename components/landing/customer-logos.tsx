@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { CUSTOMER_LOGOS } from '@/lib/customer-logos';
@@ -22,14 +23,12 @@ export async function LandingCustomerLogos() {
               className="flex h-11 min-w-[7.5rem] items-center justify-center rounded-lg border border-dashed border-border/60 bg-muted/20 px-4"
             >
               {logo.imageSrc ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <Image
                   src={logo.imageSrc}
                   alt={logo.label}
                   width={100}
                   height={28}
                   loading="lazy"
-                  decoding="async"
                   className="h-7 w-auto max-w-[6.5rem] object-contain opacity-70 grayscale"
                 />
               ) : (

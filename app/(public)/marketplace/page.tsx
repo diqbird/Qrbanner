@@ -4,7 +4,7 @@ import { ArrowRight, Users } from 'lucide-react';
 import { prisma } from '@/lib/db';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { pageMetadata, webPageJsonLd } from '@/lib/seo';
+import { pageMetadata, webPageJsonLd, itemListJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { formatLocalizedListingPrice } from '@/lib/i18n/resolve-marketplace-listing-labels';
@@ -46,11 +46,21 @@ export default async function MarketplaceBrowsePage() {
   return (
     <>
       <JsonLd
-        data={webPageJsonLd({
-          title: t('marketplaceSeller.browseTitle'),
-          description: t('marketplaceSeller.browseSubtitle'),
-          path: '/marketplace',
-        })}
+        data={[
+          webPageJsonLd({
+            title: t('marketplaceSeller.browseTitle'),
+            description: t('marketplaceSeller.browseSubtitle'),
+            path: '/marketplace',
+            locale,
+          }),
+          itemListJsonLd(
+            listings.map((listing) => ({
+              name: listing.title,
+              path: `/marketplace/${listing.id}`,
+            })),
+            locale
+          ),
+        ]}
       />
       <PublicBreadcrumbs
         items={[

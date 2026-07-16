@@ -11,17 +11,23 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        // /qr/create is explicitly allowed (public wizard); /qr/ blocks authenticated edit URLs.
+        // Public QR create wizard must stay crawlable; other /qr/* routes are app UI.
         allow: ['/', '/qr/create'],
         disallow: [
           '/api/',
           '/dashboard/',
           '/qr/',
           '/settings/',
+          '/admin/',
+          '/studio/',
           '/s/',
+          '/pay',
           '/verify',
           '/login',
           '/signup',
+          '/forgot-password',
+          '/reset-password',
+          '/mfa-verify',
           '/invite/',
         ],
       },

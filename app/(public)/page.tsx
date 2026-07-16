@@ -74,10 +74,11 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const locale = await getServerLocale();
   return (
     <>
-      <JsonLd data={faqJsonLd(getHomepageFaqItems())} />
+      <JsonLd data={faqJsonLd(getHomepageFaqItems(locale))} />
       <LandingHeroStatic />
       <DeferredSection intrinsicHeight="140px">
         <LandingCustomerLogos />

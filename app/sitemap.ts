@@ -56,7 +56,7 @@ const PUBLIC_PATHS = [
   { path: '/blog', priority: 0.85, changeFrequency: 'weekly' as const },
   { path: '/faq', priority: 0.8, changeFrequency: 'monthly' as const },
   { path: '/help', priority: 0.8, changeFrequency: 'monthly' as const },
-  { path: '/status', priority: 0.5, changeFrequency: 'weekly' as const },
+  // /status is noindex (ops transparency) — omit from sitemap
   { path: '/developers', priority: 0.8, changeFrequency: 'monthly' as const },
   { path: '/developers/reference', priority: 0.75, changeFrequency: 'monthly' as const },
   { path: '/about', priority: 0.5, changeFrequency: 'monthly' as const },
@@ -69,7 +69,11 @@ const PUBLIC_PATHS = [
 
 const LOCALIZED_SITEMAP_LOCALES: Locale[] = ['tr', 'de', 'es'];
 
-function buildLocalizedSitemapEntries(locale: Locale, now: Date): MetadataRoute.Sitemap {
+function buildLocalizedSitemapEntries(
+  locale: Locale,
+  now: Date,
+  marketplaceIds: string[] = []
+): MetadataRoute.Sitemap {
   const url = (path: string) => `${SITE_URL}${localizePath(path, locale)}`;
   const adjustPriority = (priority: number) => Math.max(0.3, priority - 0.05);
 
@@ -124,6 +128,13 @@ function buildLocalizedSitemapEntries(locale: Locale, now: Date): MetadataRoute.
     priority: locale === 'tr' ? 0.72 : 0.7,
   }));
 
+  const marketplaceEntries = marketplaceIds.map((id) => ({
+    url: url(`/marketplace/${id}`),
+    lastModified: now,
+    changeFrequency: 'weekly' as const,
+    priority: locale === 'tr' ? 0.62 : 0.6,
+  }));
+
   const geoEntries = listGeoComboParams().map(({ city, sector }) => ({
     url: url(`/geo/${city}/${sector}`),
     lastModified: now,
@@ -146,6 +157,7 @@ function buildLocalizedSitemapEntries(locale: Locale, now: Date): MetadataRoute.
     ...vsEntries,
     ...templateDetailEntries,
     ...caseStudyEntries,
+    ...marketplaceEntries,
     ...geoEntries,
     ...geoCityEntries,
   ];
@@ -251,7 +263,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const localizedEntries = LOCALIZED_SITEMAP_LOCALES.flatMap((locale) =>
-    buildLocalizedSitemapEntries(locale, now),
+    buildLocalizedSitemapEntries(locale, now, marketplaceIds),
   );
 
   return [

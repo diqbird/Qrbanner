@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { pageMetadata, webPageJsonLd } from '@/lib/seo';
+import { pageMetadata, webPageJsonLd, faqJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
@@ -43,11 +43,23 @@ export default async function ReferralLandingPage() {
   return (
     <>
       <JsonLd
-        data={webPageJsonLd({
-          title: t('referralLanding.title'),
-          description: t('referralLanding.subtitle'),
-          path: '/referral',
-        })}
+        data={[
+          webPageJsonLd({
+            title: t('referralLanding.title'),
+            description: t('referralLanding.subtitle'),
+            path: '/referral',
+            locale,
+          }),
+          faqJsonLd(
+            [0, 1, 2].map((i) => ({
+              question: t(FAQ_KEYS[i * 2]),
+              answer: t(
+                FAQ_KEYS[i * 2 + 1],
+                FAQ_KEYS[i * 2 + 1] === 'referralLanding.faq2a' ? { qrLabel } : undefined
+              ),
+            }))
+          ),
+        ]}
       />
       <PublicBreadcrumbs items={[{ label: t('referralLanding.title'), href: '/referral' }]} />
       <div className="py-10 sm:py-16">

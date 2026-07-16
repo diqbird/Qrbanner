@@ -1,0 +1,25 @@
+{
+  "upload": [
+    "lib/seo.ts",
+    "middleware.ts",
+    "app/robots.ts",
+    "app/sitemap.ts",
+    "next.config.js",
+    "components/seo/public-breadcrumbs.tsx",
+    "components/landing/customer-logos.tsx",
+    "app/(public)/page.tsx",
+    "app/(public)/faq/page.tsx",
+    "app/(public)/pricing/page.tsx",
+    "app/(public)/referral/page.tsx",
+    "app/(public)/blog/[slug]/page.tsx",
+    "app/(public)/marketplace/page.tsx",
+    "app/(public)/marketplace/[id]/page.tsx",
+    "app/(admin)/layout.tsx",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

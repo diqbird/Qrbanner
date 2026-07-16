@@ -37,7 +37,12 @@ export default async function FAQPage() {
 
   return (
     <>
-      <JsonLd data={[faqJsonLd(getFaqItems(locale)), webPageJsonLd({ title: pageTitle, description: pageDesc, path: '/faq' })]} />
+      <JsonLd
+        data={[
+          faqJsonLd(getFaqItems(locale)),
+          webPageJsonLd({ title: pageTitle, description: pageDesc, path: '/faq', locale }),
+        ]}
+      />
       <PublicBreadcrumbs items={[{ label: t('nav.faq'), href: '/faq' }]} />
       <div className="py-10 sm:py-16">
         <div className="mx-auto max-w-3xl px-4 sm:px-6">

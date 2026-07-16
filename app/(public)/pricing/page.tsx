@@ -39,7 +39,13 @@ export default async function PricingPage() {
 
   return (
     <>
-      <JsonLd data={[pricingJsonLd(), webPageJsonLd({ title: pageTitle, description: pageDesc, path: '/pricing' }), faqJsonLd(getPricingFaqItems(locale))]} />
+      <JsonLd
+        data={[
+          pricingJsonLd(),
+          webPageJsonLd({ title: pageTitle, description: pageDesc, path: '/pricing', locale }),
+          faqJsonLd(getPricingFaqItems(locale)),
+        ]}
+      />
       <PublicBreadcrumbs items={[{ label: t('nav.pricing'), href: '/pricing' }]} />
       <div className="py-10 sm:py-16">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6">

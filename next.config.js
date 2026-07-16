@@ -67,7 +67,8 @@ const nextConfig = {
         headers: [{ key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' }],
       },
       {
-        source: '/(features|pricing|solutions|faq|blog|developers|about|contact|templates|qr-types|use-cases)',
+        source:
+          '/(features|pricing|solutions|faq|blog|developers|about|contact|templates|qr-types|use-cases|apps|marketplace|enterprise|trust|security|referral|affiliates)',
         headers: [{ key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' }],
       },
     ];
