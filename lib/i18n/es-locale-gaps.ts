@@ -747,7 +747,18 @@ export const esLocaleGaps: TranslationTree = {
     communityTitle: "Plantillas comunitarias",
     communityDesc: "Plantillas publicadas por creadores Pro+ en QRbanner.",
     sellCta: "Venda sus plantillas",
-    viewListing: "Ver listado"
+    viewListing: "Ver listado",
+    viewAllCommunity: 'Ver todo',
+    browseMetaTitle: 'Marketplace comunitario de QR',
+    browseMetaDescription:
+      'Explore plantillas QR publicadas por creadores de QRbanner. Listados gratuitos y de pago con desbloqueo en un clic.',
+    browseTitle: 'Marketplace de la comunidad',
+    browseSubtitle:
+      'Plantillas publicadas por creadores Pro+ — desbloquee listados gratuitos o de pago para sus campañas.',
+    browseEmpty: 'Aún no hay listados de la comunidad. Sea el primero en publicar desde Configuración.',
+    relatedTemplate: 'Abrir plantilla relacionada',
+    backToBrowse: 'Volver al marketplace',
+
   },
   mobileApps: {
     metaTitle: "Aplicación móvil y PWA — Instalar QRbanner",

@@ -52,6 +52,7 @@ export default async function MarketplaceListingPage({ params }: { params: { id:
       <PublicBreadcrumbs
         items={[
           { label: t('nav.templates'), href: '/templates' },
+          { label: t('marketplaceSeller.browseTitle'), href: '/marketplace' },
           { label: listing.title, href: `/marketplace/${listing.id}` },
         ]}
       />
@@ -68,15 +69,20 @@ export default async function MarketplaceListingPage({ params }: { params: { id:
             <p className="mt-4 text-muted-foreground whitespace-pre-wrap">{listing.description}</p>
           </header>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <MarketplacePurchaseButton listingId={listing.id} priceCents={listing.priceCents} />
             {listing.templateId && (
               <Link href={`/templates/${listing.templateId}`}>
                 <Button variant="outline" className="gap-2 w-full sm:w-auto">
-                  {t('templateDetail.backToMarketplace')} <ArrowRight className="h-4 w-4" />
+                  {t('marketplaceSeller.relatedTemplate')} <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
             )}
+            <Link href="/marketplace">
+              <Button variant="ghost" className="gap-2 w-full sm:w-auto">
+                {t('marketplaceSeller.backToBrowse')}
+              </Button>
+            </Link>
           </div>
 
           <Suspense fallback={null}>

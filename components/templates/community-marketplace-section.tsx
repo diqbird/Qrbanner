@@ -40,9 +40,16 @@ export function CommunityMarketplaceSection() {
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">{t('marketplaceSeller.communityDesc')}</p>
         </div>
-        <Link href="/settings">
-          <Button variant="outline" size="sm">{t('marketplaceSeller.sellCta')}</Button>
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/marketplace">
+            <Button variant="secondary" size="sm" className="gap-1">
+              {t('marketplaceSeller.viewAllCommunity')} <ArrowRight className="h-3.5 w-3.5" />
+            </Button>
+          </Link>
+          <Link href="/settings">
+            <Button variant="outline" size="sm">{t('marketplaceSeller.sellCta')}</Button>
+          </Link>
+        </div>
       </div>
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {listings.map((listing) => (

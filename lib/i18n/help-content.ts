@@ -141,6 +141,12 @@ export const HELP_SECTIONS: HelpSection[] = [
         href: '/login?callbackUrl=%2Fsettings%3Ftab%3Dsaml',
       },
       {
+        id: 'scim',
+        titleKey: 'help.topicScimTitle',
+        descKey: 'help.topicScimDesc',
+        href: '/developers#scim',
+      },
+      {
         id: 'mobile',
         titleKey: 'help.topicMobileTitle',
         descKey: 'help.topicMobileDesc',

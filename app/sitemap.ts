@@ -28,6 +28,7 @@ const PUBLIC_PATHS = [
   { path: '/geo', priority: 0.85, changeFrequency: 'weekly' as const },
   { path: '/vs', priority: 0.85, changeFrequency: 'monthly' as const },
   { path: '/apps', priority: 0.75, changeFrequency: 'monthly' as const },
+  { path: '/marketplace', priority: 0.75, changeFrequency: 'weekly' as const },
   { path: '/integrations', priority: 0.8, changeFrequency: 'monthly' as const },
   { path: '/integrations/zapier', priority: 0.75, changeFrequency: 'monthly' as const },
   { path: '/integrations/make', priority: 0.7, changeFrequency: 'monthly' as const },

@@ -60,6 +60,27 @@ export const SITE_SEARCH_INDEX: SiteSearchItem[] = [
   },
   { id: 'apps', titleKey: 'siteSearch.apps', href: '/apps', groupKey: 'siteSearch.groupPages' },
   {
+    id: 'marketplace',
+    titleKey: 'siteSearch.marketplace',
+    href: '/marketplace',
+    groupKey: 'siteSearch.groupPages',
+    keywords: ['marketplace', 'community templates', 'sell templates'],
+  },
+  {
+    id: 'enterprise-overview',
+    titleKey: 'siteSearch.enterpriseOverview',
+    href: '/downloads/enterprise-overview',
+    groupKey: 'siteSearch.groupPages',
+    keywords: ['enterprise', 'overview', 'pdf', 'procurement', 'sla'],
+  },
+  {
+    id: 'brand-logos',
+    titleKey: 'siteSearch.brandLogos',
+    href: '/brand/logos',
+    groupKey: 'siteSearch.groupPages',
+    keywords: ['logo', 'brand', 'press', 'assets'],
+  },
+  {
     id: 'referral',
     titleKey: 'siteSearch.referral',
     href: '/referral',

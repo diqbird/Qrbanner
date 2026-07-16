@@ -747,7 +747,18 @@ export const deLocaleGaps: TranslationTree = {
     communityTitle: "Community-Vorlagen",
     communityDesc: "Von Pro+-Erstellern auf QRbanner veröffentlichte Vorlagen.",
     sellCta: "Ihre Vorlagen verkaufen",
-    viewListing: "Listing anzeigen"
+    viewListing: "Listing anzeigen",
+    viewAllCommunity: 'Alle anzeigen',
+    browseMetaTitle: 'Community-QR-Marktplatz',
+    browseMetaDescription:
+      'Von QRbanner-Erstellern veröffentlichte QR-Vorlagen durchsuchen. Kostenlose und kostenpflichtige Community-Listings mit Ein-Klick-Freischaltung.',
+    browseTitle: 'Community-Marktplatz',
+    browseSubtitle:
+      'Von Pro+-Erstellern veröffentlichte Vorlagen — kostenlose oder kostenpflichtige Listings für Ihre Kampagnen.',
+    browseEmpty: 'Noch keine Community-Listings. Veröffentlichen Sie das erste unter Einstellungen.',
+    relatedTemplate: 'Verwandte Vorlage öffnen',
+    backToBrowse: 'Zurück zum Marktplatz',
+
   },
   mobileApps: {
     metaTitle: "Mobile App & PWA — QRbanner installieren",
