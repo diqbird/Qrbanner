@@ -36,6 +36,7 @@ export function buildOpenApiSpec() {
       { name: 'QR Codes', description: 'Create and manage dynamic QR codes' },
       { name: 'Analytics', description: 'Scan analytics for QR codes' },
       { name: 'Folders', description: 'Organize QR codes into folders' },
+      { name: 'Mobile', description: 'Mobile / PWA companion API (session cookie or API key)' },
       { name: 'Webhooks', description: 'Outbound scan event notifications (configured in dashboard)' },
     ],
     components: {
@@ -74,6 +75,20 @@ export function buildOpenApiSpec() {
             labels: { type: 'array', items: { type: 'string' } },
             created_at: { type: 'string', format: 'date-time' },
             updated_at: { type: 'string', format: 'date-time' },
+          },
+        },
+        MobileQr: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            name: { type: 'string' },
+            shortCode: { type: 'string' },
+            category: { type: 'string' },
+            scanUrl: { type: 'string', format: 'uri' },
+            totalScans: { type: 'integer' },
+            isActive: { type: 'boolean' },
+            folderName: { type: 'string', nullable: true },
+            updatedAt: { type: 'string', format: 'date-time' },
           },
         },
         QrAnalyticsSummary: {
@@ -481,6 +496,166 @@ export function buildOpenApiSpec() {
             { name: 'workspace_id', in: 'query', schema: { type: 'string' } },
           ],
           responses: { '200': { description: 'Deleted' } },
+        },
+      },
+      '/api/mobile/v1/summary': {
+        get: {
+          tags: ['Mobile'],
+          summary: 'Workspace scan summary',
+          description:
+            'Companion endpoint for PWA / mobile clients. Auth: signed-in session cookie or the same API key as REST v1.',
+          responses: {
+            '200': {
+              description: 'Plan usage, totals and recent scans',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      plan: { type: 'string' },
+                      planName: { type: 'string' },
+                      totals: {
+                        type: 'object',
+                        properties: {
+                          qrCodes: { type: 'integer' },
+                          qrLimit: { type: 'integer' },
+                          activeQr: { type: 'integer' },
+                          totalScans: { type: 'integer' },
+                          scans24h: { type: 'integer' },
+                        },
+                      },
+                      recentScans: { type: 'array', items: { type: 'object', additionalProperties: true } },
+                    },
+                  },
+                },
+              },
+            },
+            '401': { description: 'Not authenticated' },
+          },
+        },
+      },
+      '/api/mobile/v1/qr': {
+        get: {
+          tags: ['Mobile'],
+          summary: 'List QR codes (mobile shape)',
+          parameters: [
+            { name: 'limit', in: 'query', schema: { type: 'integer', default: 30, maximum: 100 } },
+            { name: 'offset', in: 'query', schema: { type: 'integer', default: 0 } },
+            { name: 'q', in: 'query', schema: { type: 'string' }, description: 'Search name or short code' },
+            { name: 'folder_id', in: 'query', schema: { type: 'string' } },
+            { name: 'workspace_id', in: 'query', schema: { type: 'string' } },
+            { name: 'unfiled', in: 'query', schema: { type: 'string', enum: ['1'] } },
+          ],
+          responses: {
+            '200': {
+              description: 'Paginated mobile QR list',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      data: { type: 'array', items: { $ref: '#/components/schemas/MobileQr' } },
+                      pagination: {
+                        type: 'object',
+                        properties: {
+                          total: { type: 'integer' },
+                          limit: { type: 'integer' },
+                          offset: { type: 'integer' },
+                          count: { type: 'integer' },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        post: {
+          tags: ['Mobile'],
+          summary: 'Create QR code (mobile)',
+          description: 'Same create fields as POST /api/v1/qr; response uses camelCase MobileQr shape.',
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  required: ['name'],
+                  properties: {
+                    name: { type: 'string' },
+                    category: { type: 'string', example: 'url' },
+                    url: { type: 'string', format: 'uri' },
+                    qr_data: { type: 'object', additionalProperties: true },
+                    folder_id: { type: 'string' },
+                    workspace_id: { type: 'string' },
+                    labels: { type: 'array', items: { type: 'string' } },
+                    password: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+          responses: {
+            '201': { description: 'QR created' },
+            '400': { description: 'Validation error' },
+            '403': { description: 'Plan limit or workspace role' },
+          },
+        },
+      },
+      '/api/mobile/v1/qr/{id}': {
+        get: {
+          tags: ['Mobile'],
+          summary: 'Get QR + recent scans',
+          parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+          responses: {
+            '200': {
+              description: 'Mobile QR detail with 7-day scan count and recent scans',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      qr: { $ref: '#/components/schemas/MobileQr' },
+                      analytics: {
+                        type: 'object',
+                        properties: {
+                          scans7d: { type: 'integer' },
+                          recentScans: { type: 'array', items: { type: 'object', additionalProperties: true } },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            '404': { description: 'Not found' },
+          },
+        },
+        patch: {
+          tags: ['Mobile'],
+          summary: 'Update QR code (mobile)',
+          parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: { type: 'object', additionalProperties: true },
+              },
+            },
+          },
+          responses: {
+            '200': { description: 'Updated' },
+            '404': { description: 'Not found' },
+          },
+        },
+        delete: {
+          tags: ['Mobile'],
+          summary: 'Delete QR code (mobile)',
+          parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string' } }],
+          responses: {
+            '200': { description: 'Deleted' },
+            '404': { description: 'Not found' },
+          },
         },
       },
     },

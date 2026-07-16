@@ -40,6 +40,15 @@ const ENDPOINT_KEYS = [
   { method: 'DELETE', path: '/api/v1/folders/:id', descKey: 'developersPage.epDeleteFolder' },
 ] as const;
 
+const MOBILE_ENDPOINT_KEYS = [
+  { method: 'GET', path: '/api/mobile/v1/summary', descKey: 'developersPage.epMobileSummary' },
+  { method: 'GET', path: '/api/mobile/v1/qr', descKey: 'developersPage.epMobileListQr' },
+  { method: 'POST', path: '/api/mobile/v1/qr', descKey: 'developersPage.epMobileCreateQr' },
+  { method: 'GET', path: '/api/mobile/v1/qr/:id', descKey: 'developersPage.epMobileGetQr' },
+  { method: 'PATCH', path: '/api/mobile/v1/qr/:id', descKey: 'developersPage.epMobileUpdateQr' },
+  { method: 'DELETE', path: '/api/mobile/v1/qr/:id', descKey: 'developersPage.epMobileDeleteQr' },
+] as const;
+
 const SCIM_ENDPOINT_KEYS = [
   { method: 'GET', path: '/api/scim/v2/Users', descKey: 'developersPage.scimEpListUsers' },
   { method: 'POST', path: '/api/scim/v2/Users', descKey: 'developersPage.scimEpCreateUser' },
@@ -205,6 +214,45 @@ X-API-Key: qb_live_...`}
               </Link>
             </div>
           </div>
+
+          <section
+            id="mobile-api"
+            className="mt-16 scroll-mt-24 rounded-xl border border-border/50 bg-card/80 p-6 sm:p-8 backdrop-blur-sm"
+          >
+            <h2 className="font-display text-xl font-bold">{t('developersPage.mobileTitle')}</h2>
+            <p className="mt-3 max-w-3xl text-sm text-muted-foreground leading-relaxed">
+              {t('developersPage.mobileBody')}
+            </p>
+            <p className="mt-2 text-sm">
+              <Link href="/apps" className="font-medium text-primary hover:underline">
+                {t('developersPage.mobileAppsLink')} →
+              </Link>
+            </p>
+            <div className="mt-6 overflow-x-auto">
+              <table className="w-full min-w-[480px] text-sm">
+                <thead>
+                  <tr className="border-b border-border/60 text-left text-xs text-muted-foreground">
+                    <th className="pb-2 pr-4 font-medium">{t('developersPage.methodHeader')}</th>
+                    <th className="pb-2 pr-4 font-medium">{t('developersPage.pathHeader')}</th>
+                    <th className="pb-2 font-medium">{t('developersPage.descHeader')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {MOBILE_ENDPOINT_KEYS.map((ep) => (
+                    <tr key={ep.path + ep.method} className="border-b border-border/40 last:border-0">
+                      <td className="py-3 pr-4">
+                        <Badge variant="outline" className="font-mono text-xs">
+                          {ep.method}
+                        </Badge>
+                      </td>
+                      <td className="py-3 pr-4 font-mono text-xs">{ep.path}</td>
+                      <td className="py-3 text-muted-foreground">{t(ep.descKey)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
 
           <section
             id="scim"
