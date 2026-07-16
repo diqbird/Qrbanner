@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import os
-import re
 import sys
+import time
 import urllib.error
 import urllib.request
 
@@ -70,13 +70,23 @@ PACKS = {
 }
 
 
-def fetch(url: str) -> int:
-    req = urllib.request.Request(url, headers={"User-Agent": "QRbanner-ads-url-check/1.0"})
-    try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            return resp.status
-    except urllib.error.HTTPError as err:
-        return err.code
+def fetch(url: str, *, attempts: int = 4) -> int:
+    """Return HTTP status; retry transient connection resets / timeouts."""
+    last_err: Exception | None = None
+    for i in range(attempts):
+        req = urllib.request.Request(url, headers={"User-Agent": "QRbanner-ads-url-check/1.0"})
+        try:
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                return resp.status
+        except urllib.error.HTTPError as err:
+            return err.code
+        except (urllib.error.URLError, TimeoutError, ConnectionResetError, OSError) as err:
+            last_err = err
+            if i + 1 < attempts:
+                time.sleep(1.5 * (i + 1))
+                continue
+            raise
+    raise last_err or RuntimeError(f"fetch failed: {url}")
 
 
 def check_pack(label: str, cfg: dict) -> bool:
