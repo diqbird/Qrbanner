@@ -1,0 +1,12 @@
+{
+  "upload": [
+    "marketing/google-ads/GOOGLE_ADS_SETUP_EN.md",
+    "scripts/qa/senior-qa-pages.mjs",
+    "scripts/.env.marketing.example"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": false,
+  "restart": false
+}

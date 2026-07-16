@@ -51,7 +51,7 @@ Prefer Option A once GA4 is linked; switch bidding to Maximize conversions after
 |----------|--------------|-------------|
 | **QRB \| Search \| Create** | $4–6 | `https://qrbanner.com/qr/create?quick=1` |
 | **QRB \| Search \| Competitor** | $2–4 | `https://qrbanner.com/vs/qr-tiger` (rotate slugs) |
-| **QRB \| Search \| Use cases** | $2–4 | `https://qrbanner.com/qr-types/url` or `/solutions/restaurants` |
+| **QRB \| Search \| Use cases** | $2–4 | `https://qrbanner.com/templates/restaurant-menu` (or `/solutions/restaurant-menu`) |
 
 **Settings (all campaigns):**
 - Network: **Search only** (uncheck Display, Search partners optional off for cleaner test).
