@@ -433,19 +433,29 @@ export const esLocaleGaps: TranslationTree = {
     moveFailed: "Error al mover el código QR"
   },
   g2Setup: {
-    metaTitle: "Guía de configuración del perfil G2",
-    metaDescription: "Guía paso a paso para reclamar y optimizar el perfil de producto QRbanner en G2 para reseñas y SEO.",
-    title: "Guía de configuración del perfil G2",
-    subtitle: "Reclame y optimice su página de producto QRbanner en G2 para que los clientes puedan encontrarle y dejar reseñas.",
-    step1: "Cree o inicie sesión en una cuenta de proveedor G2 en g2.com.",
-    step2: "Busque \"QRbanner\" o envíe un nuevo listado de producto en Software → Marketing → QR Code Generators.",
-    step3: "Añada descripción del producto, logotipo, capturas de pantalla y enlace a qrbanner.com. Alinee las categorías con nuestras páginas /features y /pricing.",
-    step4: "Configure NEXT_PUBLIC_G2_REVIEW_URL en el .env de producción con su URL de reseñas activa y recompile.",
-    step5: "Envíe correos a clientes satisfechos y pida menciones específicas de enrutamiento, API o analítica en G2 o Capterra.",
-    afterTitle: "Después de que su perfil esté activo",
-    after1: "Añada el enlace de reseñas G2 al pie de su sitio web y a los correos postcompra.",
+    metaTitle: "Configuración de listados G2 y Capterra",
+    metaDescription:
+      "Reclame QRbanner en G2 y Capterra: portales de proveedor, pasos del listado y URLs de entorno de producción para la franja de reseñas de la home.",
+    title: "Configuración de listados G2 y Capterra",
+    subtitle:
+      "QRbanner aún no está listado. Reclame perfiles de proveedor con email de empresa y luego conecte las URLs de reseñas en producción para activar la franja de confianza de la home.",
+    claimOnG2: "Añadir producto en G2",
+    claimOnCapterra: "Abrir portal de vendors Capterra",
+    g2SectionTitle: "Lista de comprobación G2",
+    capterraSectionTitle: "Lista de comprobación Capterra",
+    step1: "Abra https://www.g2.com/products/new e inicie sesión con un email @qrbanner.com (o de empresa) — el Gmail personal suele rechazarse.",
+    step2: "Busque primero \"QRbanner\"; si falta, envíe un producto nuevo en Software → Marketing → QR Code Generators con el sitio https://qrbanner.com.",
+    step3: "Complete descripción, logo, capturas y precios alineados con /features y /pricing (Gratis = 1 QR dinámico, Pro desde $9.99/mes).",
+    step4:
+      "En el VPS configure NEXT_PUBLIC_G2_REVIEW_URL y NEXT_PUBLIC_CAPTERRA_REVIEW_URL con las páginas de reseñas en vivo y recompile (PremiumTrust + reviews strip las leen).",
+    step5: "Envíe a clientes satisfechos los textos de /reviews/prompts — pida menciones concretas de enrutamiento, API o analítica.",
+    capterraStep1: "Regístrese en https://www.capterra.com/vendors/ con email de dominio de empresa.",
+    capterraStep2: "Busque QRbanner; reclame un shell auto-creado si existe o envíe un listado nuevo.",
+    capterraStep3: "Alinee categoría, capturas y precios con G2 y pegue la URL de reseñas en NEXT_PUBLIC_CAPTERRA_REVIEW_URL.",
+    afterTitle: "Cuando los perfiles estén en vivo",
+    after1: "Confirme que la franja de confianza de la home y /reviews muestran botones G2 / Capterra (env + rebuild).",
     after2: "Responda a cada reseña en el plazo de una semana laboral.",
-    after3: "Actualice las capturas de pantalla cuando se lancen funciones importantes (campañas, marca blanca, API).",
+    after3: "Actualice capturas cuando se lancen funciones importantes (campañas, marca blanca, API).",
     backToReviews: "Volver a reseñas"
   },
   geoSeo: {
@@ -962,7 +972,9 @@ export const esLocaleGaps: TranslationTree = {
     shareExperience: "Comparta su experiencia con nosotros",
     pageTitle: "Reseñas y testimonios",
     pageSubtitle: "Lea reseñas verificadas en G2 y Capterra, o cuéntenos su opinión.",
-    noProfilesYet: "Los perfiles de G2 y Capterra se están configurando. Primeros usuarios — agradeceríamos sus comentarios honestos por correo a continuación.",
+    noProfilesYet:
+      "Los perfiles de G2 y Capterra aún no están activos. Primeros usuarios — compartan comentarios honestos por correo abajo. Operadores: usen la guía de listados para reclamar perfiles de proveedor.",
+    setupGuideLink: "Configuración de listados G2 y Capterra",
     highlightsTitle: "Lo que más mencionan los revisores",
     highlight1: "\"Por fin una herramienta QR donde el plan gratuito incluye acceso a la API — probamos reglas de enrutamiento antes de actualizar.\"",
     highlight2: "\"La importación masiva CSV ahorró a nuestra agencia semanas al migrar {{count}} códigos de menú de clientes.\"",

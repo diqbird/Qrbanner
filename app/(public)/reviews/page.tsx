@@ -75,9 +75,14 @@ export default async function ReviewsPage() {
           </div>
 
           {!hasReviewPlatforms && (
-            <p className="mt-8 rounded-xl border border-border/50 bg-muted/30 p-4 text-sm text-muted-foreground">
-              {t('reviews.noProfilesYet')}
-            </p>
+            <div className="mt-8 space-y-3 rounded-xl border border-border/50 bg-muted/30 p-4 text-sm text-muted-foreground">
+              <p>{t('reviews.noProfilesYet')}</p>
+              <p>
+                <Link href="/reviews/g2-setup" className="font-medium text-primary hover:underline">
+                  {t('reviews.setupGuideLink')} →
+                </Link>
+              </p>
+            </div>
           )}
 
           {hasReviewPlatforms ? (
@@ -115,7 +120,7 @@ export default async function ReviewsPage() {
             </ol>
             <p className="mt-6 text-center">
               <Link href="/reviews/g2-setup" className="text-sm font-medium text-primary hover:underline">
-                {t('g2Setup.title')} →
+                {t('reviews.setupGuideLink')} →
               </Link>
             </p>
           </section>

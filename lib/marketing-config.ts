@@ -9,6 +9,10 @@ export const CRISP_WEBSITE_ID = process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID?.trim()
 export const G2_REVIEW_URL = process.env.NEXT_PUBLIC_G2_REVIEW_URL?.trim() || '';
 export const CAPTERRA_REVIEW_URL = process.env.NEXT_PUBLIC_CAPTERRA_REVIEW_URL?.trim() || '';
 
+/** Public vendor portals — use until product profiles exist / are claimed. */
+export const G2_ADD_PRODUCT_URL = 'https://www.g2.com/products/new';
+export const CAPTERRA_VENDORS_URL = 'https://www.capterra.com/vendors/';
+
 export type VideoEmbed = { type: 'youtube' | 'loom' | 'mp4'; src: string };
 
 export function parseHeroVideoEmbed(raw: string): VideoEmbed | null {

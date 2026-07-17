@@ -1,15 +1,33 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { ExternalLink, CheckCircle2 } from 'lucide-react';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { JsonLd } from '@/components/seo/json-ld';
+import { Button } from '@/components/ui/button';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
-import { G2_REVIEW_URL } from '@/lib/marketing-config';
-import { CheckCircle2 } from 'lucide-react';
+import {
+  CAPTERRA_REVIEW_URL,
+  CAPTERRA_VENDORS_URL,
+  G2_ADD_PRODUCT_URL,
+  G2_REVIEW_URL,
+} from '@/lib/marketing-config';
 
-const STEP_KEYS = ['g2Setup.step1', 'g2Setup.step2', 'g2Setup.step3', 'g2Setup.step4', 'g2Setup.step5'] as const;
+const G2_STEP_KEYS = [
+  'g2Setup.step1',
+  'g2Setup.step2',
+  'g2Setup.step3',
+  'g2Setup.step4',
+  'g2Setup.step5',
+] as const;
+
+const CAPTERRA_STEP_KEYS = [
+  'g2Setup.capterraStep1',
+  'g2Setup.capterraStep2',
+  'g2Setup.capterraStep3',
+] as const;
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
@@ -26,6 +44,7 @@ export default async function G2SetupPage() {
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
   const hasG2 = Boolean(G2_REVIEW_URL);
+  const hasCapterra = Boolean(CAPTERRA_REVIEW_URL);
 
   return (
     <>
@@ -39,52 +58,95 @@ export default async function G2SetupPage() {
       />
       <PremiumPageFrame narrow="3xl">
         <PublicBreadcrumbs
-        items={[
-        { label: t('reviews.pageTitle'), href: '/reviews' },
-        { label: t('g2Setup.title'), href: '/reviews/g2-setup' },
-        ]}
+          items={[
+            { label: t('reviews.pageTitle'), href: '/reviews' },
+            { label: t('g2Setup.title'), href: '/reviews/g2-setup' },
+          ]}
         />
-          <header>
-            <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">{t('g2Setup.title')}</h1>
-            <p className="mt-4 text-muted-foreground">{t('g2Setup.subtitle')}</p>
-          </header>
+        <header>
+          <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">{t('g2Setup.title')}</h1>
+          <p className="mt-4 text-muted-foreground">{t('g2Setup.subtitle')}</p>
+        </header>
 
-          <ol className="mt-10 space-y-4">
-            {STEP_KEYS.map((key, i) => (
-              <li
-                key={key}
-                className="flex gap-4 rounded-xl border border-border/50 bg-card p-5 text-sm text-muted-foreground leading-relaxed"
-              >
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/15 font-semibold text-primary">
-                  {i + 1}
-                </span>
-                <span>{t(key)}</span>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          {!hasG2 ? (
+            <a href={G2_ADD_PRODUCT_URL} target="_blank" rel="noopener noreferrer">
+              <Button size="lg" className="gap-2">
+                {t('g2Setup.claimOnG2')} <ExternalLink className="h-4 w-4" />
+              </Button>
+            </a>
+          ) : (
+            <Link href={G2_REVIEW_URL} target="_blank" rel="noopener noreferrer">
+              <Button size="lg" variant="outline" className="gap-2">
+                {t('reviews.readOnG2')} <ExternalLink className="h-4 w-4" />
+              </Button>
+            </Link>
+          )}
+          {!hasCapterra ? (
+            <a href={CAPTERRA_VENDORS_URL} target="_blank" rel="noopener noreferrer">
+              <Button size="lg" variant="outline" className="gap-2">
+                {t('g2Setup.claimOnCapterra')} <ExternalLink className="h-4 w-4" />
+              </Button>
+            </a>
+          ) : (
+            <Link href={CAPTERRA_REVIEW_URL} target="_blank" rel="noopener noreferrer">
+              <Button size="lg" variant="outline" className="gap-2">
+                {t('reviews.readOnCapterra')} <ExternalLink className="h-4 w-4" />
+              </Button>
+            </Link>
+          )}
+        </div>
+
+        <h2 className="mt-12 font-display text-xl font-semibold">{t('g2Setup.g2SectionTitle')}</h2>
+        <ol className="mt-6 space-y-4">
+          {G2_STEP_KEYS.map((key, i) => (
+            <li
+              key={key}
+              className="flex gap-4 rounded-xl border border-border/50 bg-card p-5 text-sm text-muted-foreground leading-relaxed"
+            >
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/15 font-semibold text-primary">
+                {i + 1}
+              </span>
+              <span>{t(key)}</span>
+            </li>
+          ))}
+        </ol>
+
+        <h2 className="mt-12 font-display text-xl font-semibold">{t('g2Setup.capterraSectionTitle')}</h2>
+        <ol className="mt-6 space-y-4">
+          {CAPTERRA_STEP_KEYS.map((key, i) => (
+            <li
+              key={key}
+              className="flex gap-4 rounded-xl border border-border/50 bg-card p-5 text-sm text-muted-foreground leading-relaxed"
+            >
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/15 font-semibold text-primary">
+                {i + 1}
+              </span>
+              <span>{t(key)}</span>
+            </li>
+          ))}
+        </ol>
+
+        <div className="mt-10 rounded-xl border border-primary/20 bg-primary/5 p-6">
+          <h2 className="font-display font-semibold">{t('g2Setup.afterTitle')}</h2>
+          <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+            {(['g2Setup.after1', 'g2Setup.after2', 'g2Setup.after3'] as const).map((key) => (
+              <li key={key} className="flex gap-2">
+                <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+                {t(key)}
               </li>
             ))}
-          </ol>
+          </ul>
+        </div>
 
-          <div className="mt-10 rounded-xl border border-primary/20 bg-primary/5 p-6">
-            <h2 className="font-display font-semibold">{t('g2Setup.afterTitle')}</h2>
-            <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-              {(['g2Setup.after1', 'g2Setup.after2', 'g2Setup.after3'] as const).map((key) => (
-                <li key={key} className="flex gap-2">
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" aria-hidden />
-                  {t(key)}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="mt-8 flex flex-wrap gap-4 text-sm">
-            {hasG2 ? (
-              <Link href={G2_REVIEW_URL} target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">
-                {t('reviews.readOnG2')} →
-              </Link>
-            ) : null}
-            <Link href="/reviews" className="text-muted-foreground hover:text-primary">
-              {t('g2Setup.backToReviews')} →
-            </Link>
-          </div>
+        <div className="mt-8 flex flex-wrap gap-4 text-sm">
+          <Link href="/reviews" className="text-muted-foreground hover:text-primary">
+            {t('g2Setup.backToReviews')} →
+          </Link>
+          <Link href="/reviews/prompts" className="text-muted-foreground hover:text-primary">
+            {t('reviewPrompts.title')} →
+          </Link>
+        </div>
       </PremiumPageFrame>
     </>
   );
