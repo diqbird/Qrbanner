@@ -52,7 +52,7 @@ Free Dynamic QR Code
 Scan Analytics
 REST API on Free Plan
 Codes Stay After Cancel
-35+ Templates
+37+ Templates
 No Credit Card Required
 ```
 
@@ -92,7 +92,7 @@ Free Dynamic QR — Try Now
 Edit Links After You Print
 Scan Analytics Included
 1 Free Dynamic QR Code
-35+ Industry Templates
+37+ Industry Templates
 Restaurant, WiFi, Menu QR
 No Credit Card to Start
 Pro Trial — 14 Days Free
@@ -145,35 +145,78 @@ Same RSA as above (or trim to free-focused headlines). Watch bounce on “withou
 "qr tiger free alternative"
 ```
 
-### Ad group: Scanova / Bitly
+### Ad group: Scanova
 
-- Final URLs: `https://qrbanner.com/vs/scanova` · `https://qrbanner.com/vs/bitly`
+- Final URL: `https://qrbanner.com/vs/scanova`
 
 **Keywords**
 ```
 [scanova alternative]
-[bitly qr alternative]
+"scanova alternative"
 ```
 
 **RSA headlines**
 ```
-QR TIGER Alternative
+Scanova Alternative
 More Free Features
 API Included on Free Plan
 Codes Stay Active After Cancel
 From $9.99/mo Pro Plan
-Compare QRbanner vs QR TIGER
 Dynamic QR + Analytics
-Geofence & Schedule Routing
 Try QRbanner Free
 Better Value QR Platform
+Geofence & Schedule Routing
+1 Free Dynamic QR Code
+No Credit Card to Start
+Print-Ready QR Export
+Scan Analytics Included
+Edit Links After You Print
+QRbanner — Smart QR Platform
 ```
 
 **RSA descriptions**
 ```
-Compare QRbanner vs QR TIGER: free tier, API access, codes active after cancel. See side-by-side features.
-Looking for a QR TIGER alternative? Dynamic codes, scan analytics, custom domains. Start free today.
-Pro from $9.99/mo with 200 dynamic QRs. REST API, webhooks, A/B routing. 14-day Pro trial available.
+QRbanner vs Scanova: free tier, API, codes active after cancel. See the full comparison.
+Need a Scanova alternative? Dynamic codes, analytics, domains. Start free today.
+Pro from $9.99/mo with dynamic QRs, REST API, webhooks & A/B. 14-day Pro trial.
+Free dynamic QR with analytics and API. Codes stay active after cancel. Try free.
+```
+
+### Ad group: Bitly
+
+- Final URL: `https://qrbanner.com/vs/bitly`
+
+**Keywords**
+```
+[bitly qr alternative]
+"bitly qr code alternative"
+```
+
+**RSA headlines**
+```
+Bitly QR Alternative
+More Free Features
+API Included on Free Plan
+Codes Stay Active After Cancel
+From $9.99/mo Pro Plan
+Dynamic QR + Analytics
+Try QRbanner Free
+Better Value QR Platform
+Geofence & Schedule Routing
+1 Free Dynamic QR Code
+No Credit Card to Start
+Print-Ready QR Export
+Scan Analytics Included
+Edit Links After You Print
+QRbanner — Smart QR Platform
+```
+
+**RSA descriptions**
+```
+QRbanner vs Bitly QR: free tier, API, codes active after cancel. See the full comparison.
+Need a Bitly QR alternative? Dynamic codes, analytics, domains. Start free today.
+Pro from $9.99/mo with dynamic QRs, REST API, webhooks & A/B. 14-day Pro trial.
+Free dynamic QR with analytics and API. Codes stay active after cancel. Try free.
 ```
 
 ---

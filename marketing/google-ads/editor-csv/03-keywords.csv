@@ -19,8 +19,10 @@ QRB | Search | Competitor,QR TIGER,qr tiger vs,Exact,https://qrbanner.com/vs/qr-
 QRB | Search | Competitor,QR TIGER,qr code tiger alternative,Phrase,https://qrbanner.com/vs/qr-tiger,Enabled
 QRB | Search | Competitor,QR TIGER,cheaper than qr tiger,Phrase,https://qrbanner.com/vs/qr-tiger,Enabled
 QRB | Search | Competitor,QR TIGER,qr tiger free alternative,Phrase,https://qrbanner.com/vs/qr-tiger,Enabled
-QRB | Search | Competitor,Scanova / Bitly,scanova alternative,Exact,https://qrbanner.com/vs/scanova,Enabled
-QRB | Search | Competitor,Scanova / Bitly,bitly qr alternative,Exact,https://qrbanner.com/vs/scanova,Enabled
+QRB | Search | Competitor,Scanova,scanova alternative,Exact,https://qrbanner.com/vs/scanova,Enabled
+QRB | Search | Competitor,Scanova,scanova alternative,Phrase,https://qrbanner.com/vs/scanova,Enabled
+QRB | Search | Competitor,Bitly,bitly qr alternative,Exact,https://qrbanner.com/vs/bitly,Enabled
+QRB | Search | Competitor,Bitly,bitly qr code alternative,Phrase,https://qrbanner.com/vs/bitly,Enabled
 QRB | Search | Use cases,Restaurant menu,restaurant menu qr code,Exact,https://qrbanner.com/templates/restaurant-menu,Enabled
 QRB | Search | Use cases,Restaurant menu,qr code for restaurant menu,Exact,https://qrbanner.com/templates/restaurant-menu,Enabled
 QRB | Search | Use cases,Restaurant menu,digital menu qr code,Exact,https://qrbanner.com/templates/restaurant-menu,Enabled

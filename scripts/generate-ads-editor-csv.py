@@ -60,7 +60,7 @@ CAMPAIGNS = [
                     "Edit Links After You Print",
                     "Scan Analytics Included",
                     "1 Free Dynamic QR Code",
-                    "35+ Industry Templates",
+                    "37+ Industry Templates",
                     "Restaurant, WiFi, Menu QR",
                     "No Credit Card to Start",
                     "Pro Trial — 14 Days Free",
@@ -102,7 +102,7 @@ CAMPAIGNS = [
                     "QRbanner — Smart QR Platform",
                     "Print-Ready QR Export",
                     "Pro Trial — 14 Days Free",
-                    "35+ Industry Templates",
+                    "37+ Industry Templates",
                     "Track Scans by Country",
                     "Landing Pages + Lead Capture",
                     "Restaurant, WiFi, Menu QR",
@@ -157,16 +157,16 @@ CAMPAIGNS = [
                 ],
             },
             {
-                "ad_group": "Scanova / Bitly",
+                "ad_group": "Scanova",
                 "final_url": "https://qrbanner.com/vs/scanova",
                 "path1": "Compare",
-                "path2": "Alt",
+                "path2": "Scanova",
                 "keywords": [
                     ("[scanova alternative]", "Exact"),
-                    ("[bitly qr alternative]", "Exact"),
+                    ('"scanova alternative"', "Phrase"),
                 ],
                 "headlines": [
-                    "QR TIGER Alternative",
+                    "Scanova Alternative",
                     "More Free Features",
                     "API Included on Free Plan",
                     "Codes Stay Active After Cancel",
@@ -183,8 +183,41 @@ CAMPAIGNS = [
                     "QRbanner — Smart QR Platform",
                 ],
                 "descriptions": [
-                    "QRbanner vs QR TIGER: free tier, API, codes active after cancel. See the full comparison.",
-                    "Need a QR TIGER alternative? Dynamic codes, analytics, domains. Start free today.",
+                    "QRbanner vs Scanova: free tier, API, codes active after cancel. See the full comparison.",
+                    "Need a Scanova alternative? Dynamic codes, analytics, domains. Start free today.",
+                    "Pro from $9.99/mo with dynamic QRs, REST API, webhooks & A/B. 14-day Pro trial.",
+                    "Free dynamic QR with analytics and API. Codes stay active after cancel. Try free.",
+                ],
+            },
+            {
+                "ad_group": "Bitly",
+                "final_url": "https://qrbanner.com/vs/bitly",
+                "path1": "Compare",
+                "path2": "Bitly",
+                "keywords": [
+                    ("[bitly qr alternative]", "Exact"),
+                    ('"bitly qr code alternative"', "Phrase"),
+                ],
+                "headlines": [
+                    "Bitly QR Alternative",
+                    "More Free Features",
+                    "API Included on Free Plan",
+                    "Codes Stay Active After Cancel",
+                    "From $9.99/mo Pro Plan",
+                    "Dynamic QR + Analytics",
+                    "Try QRbanner Free",
+                    "Better Value QR Platform",
+                    "Geofence & Schedule Routing",
+                    "1 Free Dynamic QR Code",
+                    "No Credit Card to Start",
+                    "Print-Ready QR Export",
+                    "Scan Analytics Included",
+                    "Edit Links After You Print",
+                    "QRbanner — Smart QR Platform",
+                ],
+                "descriptions": [
+                    "QRbanner vs Bitly QR: free tier, API, codes active after cancel. See the full comparison.",
+                    "Need a Bitly QR alternative? Dynamic codes, analytics, domains. Start free today.",
                     "Pro from $9.99/mo with dynamic QRs, REST API, webhooks & A/B. 14-day Pro trial.",
                     "Free dynamic QR with analytics and API. Codes stay active after cancel. Try free.",
                 ],
@@ -256,7 +289,7 @@ CAMPAIGNS = [
                     "Print-Ready QR Export",
                     "Create QR in 2 Minutes",
                     "QRbanner — Smart QR Platform",
-                    "35+ Industry Templates",
+                    "37+ Industry Templates",
                     "Pro Trial — 14 Days Free",
                     "Track Scans by Country",
                 ],
@@ -531,7 +564,7 @@ Import order in Google Ads Editor:
 SITELINKS_EN = [
     {"text": "Pricing", "url": "https://qrbanner.com/pricing", "d1": "Plans from free", "d2": "Pro from $9.99/mo"},
     {"text": "Features", "url": "https://qrbanner.com/features", "d1": "Dynamic QR tools", "d2": "Analytics & routing"},
-    {"text": "Templates", "url": "https://qrbanner.com/templates", "d1": "35+ industry templates", "d2": "Menus, WiFi, cards"},
+    {"text": "Templates", "url": "https://qrbanner.com/templates", "d1": "37+ industry templates", "d2": "Menus, WiFi, cards"},
     {"text": "vs QR TIGER", "url": "https://qrbanner.com/vs/qr-tiger", "d1": "Side-by-side compare", "d2": "Free tier & API"},
 ]
 
@@ -541,14 +574,14 @@ CALLOUTS_EN = [
     "Scan Analytics",
     "REST API on Free Plan",
     "Codes Stay After Cancel",
-    "35+ Templates",
+    "37+ Templates",
     "No Credit Card Required",
 ]
 
 SITELINKS_DE = [
     {"text": "Preise", "url": "https://qrbanner.com/de/pricing", "d1": "Ab Free-Plan", "d2": "Pro ab $9.99/mo"},
     {"text": "Funktionen", "url": "https://qrbanner.com/de/features", "d1": "Dynamische QR", "d2": "Analysen & Routing"},
-    {"text": "Vorlagen", "url": "https://qrbanner.com/de/templates", "d1": "35+ Branchen", "d2": "Menü, WiFi, Karten"},
+    {"text": "Vorlagen", "url": "https://qrbanner.com/de/templates", "d1": "37+ Branchen", "d2": "Menü, WiFi, Karten"},
     {"text": "vs QR TIGER", "url": "https://qrbanner.com/de/vs/qr-tiger", "d1": "Vergleich", "d2": "Free & API"},
 ]
 
@@ -558,14 +591,14 @@ CALLOUTS_DE = [
     "Scan-Analysen",
     "API im Free-Plan",
     "Codes bleiben aktiv",
-    "35+ Vorlagen",
+    "37+ Vorlagen",
     "Keine Kreditkarte",
 ]
 
 SITELINKS_ES = [
     {"text": "Precios", "url": "https://qrbanner.com/es/pricing", "d1": "Desde plan gratis", "d2": "Pro desde $9.99/mes"},
     {"text": "Funciones", "url": "https://qrbanner.com/es/features", "d1": "QR dinámico", "d2": "Analítica y enrutado"},
-    {"text": "Plantillas", "url": "https://qrbanner.com/es/templates", "d1": "35+ industrias", "d2": "Menú, WiFi, tarjetas"},
+    {"text": "Plantillas", "url": "https://qrbanner.com/es/templates", "d1": "37+ industrias", "d2": "Menú, WiFi, tarjetas"},
     {"text": "vs QR TIGER", "url": "https://qrbanner.com/es/vs/qr-tiger", "d1": "Comparativa", "d2": "Gratis y API"},
 ]
 
@@ -575,7 +608,7 @@ CALLOUTS_ES = [
     "Analítica de escaneos",
     "API en plan gratis",
     "Activos tras cancelar",
-    "35+ plantillas",
+    "37+ plantillas",
     "Sin tarjeta",
 ]
 
@@ -812,7 +845,7 @@ NEGATIVES_ES = [
 SITELINKS_TR = [
     {"text": "Fiyatlandırma", "url": "https://qrbanner.com/tr/pricing", "d1": "Ücretsiz plandan başla", "d2": "Pro $9.99/ay'dan"},
     {"text": "Özellikler", "url": "https://qrbanner.com/tr/features", "d1": "Dinamik QR araçları", "d2": "Analitik ve yönlendirme"},
-    {"text": "Şablonlar", "url": "https://qrbanner.com/tr/templates", "d1": "35+ sektör şablonu", "d2": "Menü, WiFi, kart"},
+    {"text": "Şablonlar", "url": "https://qrbanner.com/tr/templates", "d1": "37+ sektör şablonu", "d2": "Menü, WiFi, kart"},
     {"text": "vs QR TIGER", "url": "https://qrbanner.com/tr/vs/qr-tiger", "d1": "Yan yana karşılaştır", "d2": "Ücretsiz ve API"},
 ]
 
@@ -822,7 +855,7 @@ CALLOUTS_TR = [
     "Tarama analitikleri",
     "Ücretsiz planda API",
     "İptal sonrası aktif",
-    "35+ şablon",
+    "37+ şablon",
     "Kart gerekmez",
 ]
 

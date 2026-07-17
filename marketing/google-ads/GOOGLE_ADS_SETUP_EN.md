@@ -204,7 +204,7 @@ Free Dynamic QR — Try Now
 Edit Links After You Print
 Scan Analytics Included
 1 Free Dynamic QR Code
-35+ Industry Templates
+37+ Industry Templates
 Restaurant, WiFi, Menu QR
 No Credit Card to Start
 Pro Trial — 14 Days Free
@@ -295,7 +295,7 @@ Free Dynamic QR Code
 Scan Analytics
 REST API on Free Plan
 Codes Stay After Cancel
-35+ Templates
+37+ Templates
 No Credit Card Required
 ```
 

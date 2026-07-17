@@ -3,8 +3,9 @@
 Measurement ID: **G-3LY6YZDDD2**  
 TR checklist: [GOOGLE_ADS_SETUP_TR.md](./GOOGLE_ADS_SETUP_TR.md) · EN: [GOOGLE_ADS_SETUP_EN.md](./GOOGLE_ADS_SETUP_EN.md)
 
+**SoT:** Free = **1** dynamic QR · Pro = **$9.99/mo** · headlines claim **37+** templates (`lib/plans.ts`).  
 Kod tarafı: event’ler (`sign_up`, `first_qr_created`, `generate_lead`) consent sonrası ateşleniyor.  
-Ön kontrol: `python scripts/verify-ads-paste-urls.py` · VPS GA4: `python scripts/print-ga4-conversion-steps.py`
+Ön kontrol: `python scripts/verify-ads-paste-urls.py` (URL + SoT) · VPS GA4: `python scripts/print-ga4-conversion-steps.py`
 
 ## A — GA4 bağla
 - [ ] Ads → Araçlar → Bağlı hesaplar → Google Analytics (GA4) → `G-3LY6YZDDD2`

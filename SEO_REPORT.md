@@ -163,10 +163,13 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 ### Done in follow-up pack (2026-07-17 w)
 - G2/Capterra listing setup guide: claim CTAs to `g2.com/products/new` + Capterra vendors, dual checklists, env wiring notes; `/reviews` links the guide when profiles are missing.
 
+### Done in follow-up pack (2026-07-17 x)
+- Ads readiness: split Scanova vs Bitly RSA (correct LPs), template claim **37+**, `verify-ads-paste-urls.py` SoT gate (1 free / $9.99 / no cross-competitor RSA). Console A→D still manual (`marketing/google-ads/CONSOLE_A_D.md`).
+
 ### Still open (manual / billing only)
 1. **GSC console clicks:** sitemap resubmit + URL Inspection request indexing (automated readiness PASS; see checklist).
 2. **G2 / Capterra:** submit/claim product via `/reviews/g2-setup` CTAs, then set `NEXT_PUBLIC_G2_REVIEW_URL` / `NEXT_PUBLIC_CAPTERRA_REVIEW_URL` on VPS and rebuild.
-3. **Ads A–D:** deferred (billing) — paste packs live under `marketing/google-ads/`.
+3. **Ads A–D console:** billing + paste/import via `CONSOLE_A_D.md` (assets + automated URL/SoT PASS).
 4. **CSP:** style-src-elem nonce only after Motion/Crisp style injection is nonced or replaced.
 
 ### GSC checklist (manual)
