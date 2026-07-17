@@ -160,10 +160,14 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 ### Done in follow-up pack (2026-07-17 u)
 - Removed unused `admin.launchBanner` hardcode from EN/TR/DE/ES dictionaries; Ads markdown SoT notes; `PremiumStats` lower thresholds + SoT pill fallback when counts are still small.
 
+### Done in follow-up pack (2026-07-17 v)
+- Homepage `LandingReviewsStrip` (early-adopter CTA until G2/Capterra env set). `scripts/verify-gsc-snippet-health.py` gates stale 25/50 free-plan snippets on live meta. Sitemap + GSC readiness still PASS (2026-07-17).
+
 ### Still open (manual / billing only)
-1. **GSC:** Search Console clicks in checklist below (site already verification-ready; sitemap health PASS).
-2. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).
-3. **CSP:** style-src-elem nonce only after Motion/Crisp style injection is nonced or replaced.
+1. **GSC console clicks:** sitemap resubmit + URL Inspection request indexing (automated readiness PASS; see checklist).
+2. **G2 / Capterra:** product profile not listed yet — claim on G2/Capterra, then set `NEXT_PUBLIC_G2_REVIEW_URL` / `NEXT_PUBLIC_CAPTERRA_REVIEW_URL` on VPS and rebuild.
+3. **Ads A–D:** deferred (billing).
+4. **CSP:** style-src-elem nonce only after Motion/Crisp style injection is nonced or replaced.
 
 ### GSC checklist (manual)
 1. Confirm property for `https://qrbanner.com` (verification meta live: `xFJ2mgJtq8mkZibVZWBdq1bAvM0RhBl53tQS_QFvqMg`).
@@ -172,7 +176,7 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 4. Monitor Coverage / Page indexing for “Alternate page with proper canonical” after locale 308s.
 5. Core Web Vitals (CrUX): watch LCP on mobile home + templates.
 
-**Automated gate:** `python scripts/verify-sitemap-health.py` (sitemap + GSC readiness). Soft-404 aliases: `/compare`→`/vs`, `/solutions/restaurants`→`/solutions/restaurant-menu`, `/changelog`→`/blog`.
+**Automated gates:** `python scripts/verify-sitemap-health.py` · `python scripts/verify-gsc-snippet-health.py`. Soft-404 aliases: `/compare`→`/vs`, `/solutions/restaurants`→`/solutions/restaurant-menu`, `/changelog`→`/blog`.
 
 ---
 

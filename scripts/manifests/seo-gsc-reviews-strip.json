@@ -1,0 +1,13 @@
+{
+  "upload": [
+    "app/(public)/page.tsx",
+    "scripts/verify-gsc-snippet-health.py",
+    "scripts/.env.deploy.example",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

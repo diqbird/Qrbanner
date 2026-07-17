@@ -11,6 +11,7 @@ import {
   PremiumHero,
   PremiumTrust,
 } from '@/components/landing/premium';
+import { LandingReviewsStrip } from '@/components/landing/reviews-strip';
 
 const PremiumProducts = dynamic(
   () => import('@/components/landing/premium/products').then((m) => ({ default: m.PremiumProducts })),
@@ -79,6 +80,7 @@ export default async function HomePage() {
       <JsonLd data={faqJsonLd(getHomepageFaqItems(locale))} />
       <PremiumHero />
       <PremiumTrust />
+      <LandingReviewsStrip />
       <DeferredSection intrinsicHeight="420px">
         <PremiumProducts />
       </DeferredSection>
