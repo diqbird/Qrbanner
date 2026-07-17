@@ -68,6 +68,11 @@ record(
   fileIncludes('lib/csp.cjs', "'strict-dynamic'"),
   "Nonce CSP includes 'strict-dynamic' for CSP3 browsers"
 );
+record(
+  'csp.styleSrcAttr',
+  fileIncludes('lib/csp.cjs', "style-src-attr 'unsafe-inline'"),
+  'CSP splits style-src-attr for React inline styles'
+);
 
 const PUBLIC_ROUTES = [
   'app/api/signup/route.ts',

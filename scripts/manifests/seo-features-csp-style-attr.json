@@ -1,0 +1,15 @@
+{
+  "upload": [
+    "lib/csp.cjs",
+    "scripts/audit-security.ts",
+    "app/(public)/features/page.tsx",
+    "components/public/features-page-sections.tsx",
+    "components/public/features-page-groups.tsx",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

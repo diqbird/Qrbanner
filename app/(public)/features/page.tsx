@@ -3,6 +3,7 @@ import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { FeaturesPageContent } from '@/components/public/features-page-content';
+import { PremiumShell } from '@/components/landing/premium/primitives';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 
@@ -43,12 +44,12 @@ export default async function FeaturesPage() {
           locale,
         })}
       />
-      <PublicBreadcrumbs items={[{ label: t('nav.features'), href: '/features' }]} />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+      <PremiumShell>
+        <div className="ph-container pb-16 pt-6 sm:pb-24 sm:pt-8">
+          <PublicBreadcrumbs items={[{ label: t('nav.features'), href: '/features' }]} />
           <FeaturesPageContent />
         </div>
-      </div>
+      </PremiumShell>
     </>
   );
 }

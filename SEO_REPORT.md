@@ -128,10 +128,14 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 ### Done in follow-up pack (2026-07-17 k)
 - CSP nonce path now includes `'strict-dynamic'` (`lib/csp.cjs`); host allowlists + `'unsafe-inline'` kept as legacy fallback. Static middleware-skipped CSP unchanged.
 
+### Done in follow-up pack (2026-07-17 l)
+- CSP: explicit `style-src-attr 'unsafe-inline'` (React `style={{}}`). Style-element nonce deferred — Framer Motion / Crisp inject un-nonced `<style>` tags; adding a style nonce would ignore `'unsafe-inline'` in CSP3 and break UI.
+- Features page wrapped in `PremiumShell` (match home/pricing tokens, reveal motion, dark CTA band).
+
 ### Still open
 1. **GSC (manual only):** complete Search Console clicks in checklist below.
 2. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).
-3. **CSP follow-up:** style-src nonce / remove `'unsafe-inline'` for styles later; watch browser console for script violations after `strict-dynamic`.
+3. **CSP follow-up:** style-src-elem nonce only after Motion/Crisp style injection is nonced or replaced; watch console for script violations after `strict-dynamic`.
 
 ### GSC checklist (manual)
 1. Confirm property for `https://qrbanner.com` (verification meta live: `xFJ2mgJtq8mkZibVZWBdq1bAvM0RhBl53tQS_QFvqMg`).
