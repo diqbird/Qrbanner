@@ -84,9 +84,8 @@ const nextConfig = {
         permanent: true,
       },
       {
-        // Blog is English-only (no /tr|/de|/es alternates)
         source: '/:locale(tr|de|es)/changelog',
-        destination: '/blog',
+        destination: '/:locale/blog',
         permanent: true,
       },
     ];

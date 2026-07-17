@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllPosts } from '@/lib/blog';
-import { pageMetadata } from '@/lib/seo';
+import { absoluteLocalizedUrl, pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
 import { Badge } from '@/components/ui/badge';
 import { Clock, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 import { formatLocaleNumber, resolveBcp47Locale } from '@/lib/i18n/format-locale';
 
 export const dynamic = 'force-dynamic';
@@ -51,7 +51,10 @@ export default async function BlogIndexPage({
   );
   const start = (currentPage - 1) * POSTS_PER_PAGE;
   const posts = allPosts.slice(start, start + POSTS_PER_PAGE);
-  const pageHref = (p: number) => (p <= 1 ? '/blog' : `/blog?page=${p}`);
+  const pageHref = (p: number) => {
+    const path = p <= 1 ? '/blog' : `/blog?page=${p}`;
+    return localizePath(path, locale);
+  };
 
   return (
     <>
@@ -60,7 +63,7 @@ export default async function BlogIndexPage({
           '@context': 'https://schema.org',
           '@type': 'Blog',
           name: t('blogIndex.jsonLdName'),
-          url: 'https://qrbanner.com/blog',
+          url: absoluteLocalizedUrl('/blog', locale),
           inLanguage: resolveBcp47Locale(locale),
           publisher: { '@type': 'Organization', name: 'QRbanner' },
         }}
@@ -88,7 +91,9 @@ export default async function BlogIndexPage({
                   <Badge variant="outline">{post.category}</Badge>
                   <span className="flex items-center gap-1">
                     <Clock className="h-3.5 w-3.5" aria-hidden />
-                    {t('blogIndex.minRead', { minutes: formatLocaleNumber(post.readingMinutes, locale) })}
+                    {t('blogIndex.minRead', {
+                      minutes: formatLocaleNumber(post.readingMinutes, locale),
+                    })}
                   </span>
                   <time dateTime={post.publishedAt}>
                     {new Date(post.publishedAt).toLocaleDateString(dateLocale, {
@@ -99,11 +104,11 @@ export default async function BlogIndexPage({
                   </time>
                 </div>
                 <h2 className="mt-3 font-display text-xl font-bold tracking-tight group-hover:text-primary transition-colors">
-                  <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+                  <Link href={localizePath(`/blog/${post.slug}`, locale)}>{post.title}</Link>
                 </h2>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{post.description}</p>
                 <Link
-                  href={`/blog/${post.slug}`}
+                  href={localizePath(`/blog/${post.slug}`, locale)}
                   className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
                 >
                   {t('blogIndex.readArticle')} <ArrowRight className="h-4 w-4" aria-hidden />

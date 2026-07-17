@@ -108,8 +108,12 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 - Per-request script **nonce** via middleware (`x-nonce`) → root layout analytics Scripts; static CSP only on middleware-skipped routes (avoids dual-CSP AND).
 - `'strict-dynamic'` deferred until post-deploy console violation audit (keeps host allowlists for GTM/unpkg).
 
+### Done in follow-up pack (2026-07-17 f)
+- Blog locale URLs unlocked: `/tr|/de|/es/blog` (+ post slugs) with hreflang/sitemap; all 65 posts have TR/DE/ES bodies.
+- Changelog aliases now redirect to locale blog hubs.
+
 ### Still open
-1. **GSC:** see checklist below (manual in Search Console).
+1. **GSC:** see checklist below (manual in Search Console) — re-submit sitemap after blog locale URLs.
 2. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).
 3. **CSP:** optional `'strict-dynamic'` after monitoring; style-src nonce / remove `'unsafe-inline'` for styles later.
 

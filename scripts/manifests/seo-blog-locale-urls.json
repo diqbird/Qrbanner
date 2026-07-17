@@ -1,0 +1,17 @@
+{
+  "upload": [
+    "lib/i18n/locale-path.ts",
+    "app/sitemap.ts",
+    "app/(public)/blog/page.tsx",
+    "app/(public)/blog/[slug]/page.tsx",
+    "next.config.js",
+    "scripts/verify-sitemap-health.py",
+    "lib/llms-txt.ts",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

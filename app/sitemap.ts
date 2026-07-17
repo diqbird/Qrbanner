@@ -4,6 +4,7 @@ import { USE_CASE_PAGES } from '@/lib/use-case-pages';
 import { buildQrTypePages } from '@/lib/qr-type-pages';
 import { COMPETITOR_PAGES } from '@/lib/competitor-pages';
 import { STATIC_POSTS } from '@/lib/blog/posts-service';
+import { hasLocalizedBlogPost } from '@/lib/blog/localize-post';
 import { CASE_STUDIES } from '@/lib/case-studies';
 import { INDUSTRY_TEMPLATES } from '@/lib/industry-templates';
 import { localizePath, shouldLocalizePath } from '@/lib/i18n/locale-path';
@@ -72,7 +73,8 @@ const LOCALIZED_SITEMAP_LOCALES: Locale[] = ['tr', 'de', 'es'];
 function buildLocalizedSitemapEntries(
   locale: Locale,
   now: Date,
-  marketplaceIds: string[] = []
+  marketplaceIds: string[] = [],
+  posts: BlogPost[] = STATIC_POSTS
 ): MetadataRoute.Sitemap {
   const url = (path: string) => `${SITE_URL}${localizePath(path, locale)}`;
   const adjustPriority = (priority: number) => Math.max(0.3, priority - 0.05);
@@ -149,6 +151,15 @@ function buildLocalizedSitemapEntries(
     priority: locale === 'tr' ? 0.74 : 0.71,
   }));
 
+  const blogPostEntries = posts
+    .filter((post) => hasLocalizedBlogPost(post.slug, locale))
+    .map((post) => ({
+      url: url(`/blog/${post.slug}`),
+      lastModified: safeDate(post.updatedAt),
+      changeFrequency: 'monthly' as const,
+      priority: locale === 'tr' ? 0.78 : 0.75,
+    }));
+
   return [
     ...publicEntries,
     ...solutionEntries,
@@ -160,6 +171,7 @@ function buildLocalizedSitemapEntries(
     ...marketplaceEntries,
     ...geoEntries,
     ...geoCityEntries,
+    ...blogPostEntries,
   ];
 }
 
@@ -263,7 +275,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const localizedEntries = LOCALIZED_SITEMAP_LOCALES.flatMap((locale) =>
-    buildLocalizedSitemapEntries(locale, now, marketplaceIds),
+    buildLocalizedSitemapEntries(locale, now, marketplaceIds, posts),
   );
 
   return [

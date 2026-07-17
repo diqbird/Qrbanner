@@ -131,6 +131,26 @@ def main() -> int:
         else:
             ok(f"sample case study 200: {url.replace(BASE, '')}")
 
+    # Blog is localized (EN + tr/de/es) — hubs + sample post
+    for prefix in ("/tr/blog", "/de/blog", "/es/blog"):
+        if any(loc.rstrip("/").endswith(prefix) for loc in locs):
+            ok(f"includes localized {prefix}")
+        else:
+            fail(f"missing localized blog hub {prefix}")
+
+    sample_blog = next(
+        (loc for loc in locs if re.search(r"/de/blog/[^/?#]+/?$", loc)),
+        None,
+    )
+    if sample_blog:
+        sc, _ = curl(sample_blog)
+        if sc != 200:
+            fail(f"localized blog post {sample_blog} HTTP {sc}")
+        else:
+            ok(f"sample DE blog post 200: {sample_blog.replace(BASE, '')}")
+    else:
+        fail("no /de/blog/{slug} entries in sitemap")
+
     robots_code, robots = curl(f"{BASE}/robots.txt")
     if robots_code != 200:
         fail(f"robots.txt HTTP {robots_code}")

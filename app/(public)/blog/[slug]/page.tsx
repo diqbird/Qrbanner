@@ -131,7 +131,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="mt-14 rounded-2xl border border-primary/20 bg-primary/5 p-8 text-center">
             <h2 className="font-display text-xl font-bold">{t('blogPost.ctaTitle')}</h2>
             <p className="mt-2 text-sm text-muted-foreground">{t('blogPost.ctaBody')}</p>
-            <Link href="/qr/create" className="mt-4 inline-block">
+            <Link href={localizePath('/qr/create', locale)} className="mt-4 inline-block">
               <Button size="lg">{t('blogPost.ctaButton')}</Button>
             </Link>
           </div>

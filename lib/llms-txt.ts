@@ -36,7 +36,7 @@ QRbanner is a dynamic QR code platform for menus, campaigns, Wi‑Fi, PDFs, busi
 ## Compare & learn
 
 - [FAQ](${u('/faq')}): Common product questions
-- [Blog](${u('/blog')}): Guides and product updates
+- [Blog](${u('/blog')}): Guides and product updates (also /tr/blog, /de/blog, /es/blog)
 - [Comparisons](${u('/vs')}): QRbanner vs alternative QR platforms
 - [Case studies](${u('/case-studies')}): Industry scenario write-ups
 - [Local guides](${u('/geo')}): City × industry QR landing pages

@@ -6,8 +6,11 @@ export const PATHNAME_HEADER = 'x-qrb-pathname';
 
 const LOCALE_SEGMENT = /^\/(tr|en|de|es)(?=\/|$)/;
 
-/** Routes that stay on unprefixed URLs and have no Turkish content alternate. */
-const ENGLISH_ONLY_PREFIXES = ['/blog'];
+/**
+ * Routes that stay on unprefixed URLs with no locale alternate.
+ * Blog posts are fully localized (TR/DE/ES) — do not list `/blog` here.
+ */
+const ENGLISH_ONLY_PREFIXES: string[] = [];
 
 /** App/auth routes keep unprefixed URLs even when locale is Turkish. */
 const NON_LOCALIZED_PREFIXES = [
