@@ -4,10 +4,10 @@ import { pageMetadata, pricingJsonLd, webPageJsonLd, faqJsonLd } from '@/lib/seo
 import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { PricingPageContent } from '@/components/public/pricing-page-content';
+import { PremiumShell } from '@/components/landing/premium/primitives';
 import { getPricingFaqItems } from '@/lib/i18n/pricing-faq-items';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
-import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { formatFreePlanDynamicQrLabel } from '@/lib/i18n/dynamic-qr-label';
 import { pricingMetaVars } from '@/lib/i18n/plan-pricing-display';
 import { getPublicBillingStatus } from '@/lib/public-billing-status';
@@ -46,14 +46,14 @@ export default async function PricingPage() {
           faqJsonLd(getPricingFaqItems(locale)),
         ]}
       />
-      <PublicBreadcrumbs items={[{ label: t('nav.pricing'), href: '/pricing' }]} />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+      <PremiumShell>
+        <div className="ph-container pb-16 pt-6 sm:pb-24 sm:pt-8">
+          <PublicBreadcrumbs items={[{ label: t('nav.pricing'), href: '/pricing' }]} />
           <Suspense fallback={null}>
             <PricingPageContent initialBillingStatus={initialBillingStatus} />
           </Suspense>
         </div>
-      </div>
+      </PremiumShell>
     </>
   );
 }

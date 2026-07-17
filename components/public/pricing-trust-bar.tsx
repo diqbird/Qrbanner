@@ -2,6 +2,7 @@
 
 import { ShieldCheck, CreditCard, RefreshCw, Lock } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { Reveal } from '@/components/landing/premium/primitives';
 import { refundWindowDayVars } from '@/lib/i18n/policy-day-vars';
 
 /** Reassurance strip below the pricing grid — reduces checkout hesitation. */
@@ -17,13 +18,17 @@ export function PricingTrustBar() {
   ];
 
   return (
-    <div className="mt-10 grid gap-3 rounded-2xl border border-border/50 bg-muted/20 p-5 sm:grid-cols-2 lg:grid-cols-4">
-      {items.map((item) => (
-        <div key={item.label} className="flex items-center gap-2.5 text-sm">
-          <item.icon className="h-5 w-5 shrink-0 text-primary" aria-hidden />
-          <span className="text-muted-foreground">{item.label}</span>
-        </div>
-      ))}
-    </div>
+    <Reveal className="mt-10">
+      <div className="ph-card grid gap-4 p-5 sm:grid-cols-2 lg:grid-cols-4 hover:translate-y-0 hover:scale-100">
+        {items.map((item) => (
+          <div key={item.label} className="flex items-center gap-2.5 text-sm">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#2563EB]/10 text-[#2563EB] dark:bg-sky-400/15 dark:text-sky-400">
+              <item.icon className="h-4 w-4" aria-hidden />
+            </span>
+            <span className="text-muted-foreground">{item.label}</span>
+          </div>
+        ))}
+      </div>
+    </Reveal>
   );
 }

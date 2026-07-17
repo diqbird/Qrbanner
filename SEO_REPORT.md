@@ -119,6 +119,9 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 ### Done in follow-up pack (2026-07-17 h)
 - Blog → solution/template deep links via static slug map (`lib/blog/related-links.ts`) into `ProgrammaticInternalLinks` extraLinks.
 
+### Done in follow-up pack (2026-07-17 i)
+- Pricing page wrapped in `PremiumShell` and restyled to match homepage tokens (`ph-card`, gradient canvas, reveal motion, rounded CTAs). Billing/checkout logic unchanged.
+
 ### Still open
 1. **GSC:** see checklist below (manual in Search Console) — re-submit sitemap after blog locale URLs.
 2. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).

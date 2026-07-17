@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "app/(public)/pricing/page.tsx",
+    "components/public/pricing-page-content.tsx",
+    "components/public/pricing-page-hero.tsx",
+    "components/public/pricing-plan-grid.tsx",
+    "components/public/pricing-trust-bar.tsx",
+    "components/public/pricing-comparison-table.tsx",
+    "components/public/pricing-faq.tsx",
+    "components/marketing/enterprise-cta-band.tsx",
+    "components/marketing/pricing-referral-banner.tsx",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

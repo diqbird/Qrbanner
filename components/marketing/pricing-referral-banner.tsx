@@ -32,9 +32,9 @@ export function PricingReferralBanner() {
   if (!eligible) return null;
 
   return (
-    <div className="mx-auto mt-8 max-w-2xl rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-sm">
+    <div className="ph-card mx-auto mt-8 max-w-2xl px-4 py-3 text-sm hover:translate-y-0 hover:scale-100 border-[#2563EB]/25 bg-[#2563EB]/5 dark:border-sky-400/30 dark:bg-sky-400/10">
       <p className="flex items-center justify-center gap-2 text-center font-medium">
-        <Sparkles className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+        <Sparkles className="h-4 w-4 shrink-0 text-[#2563EB] dark:text-sky-400" aria-hidden />
         {t('pricing.referralRewardBanner')}
       </p>
     </div>
