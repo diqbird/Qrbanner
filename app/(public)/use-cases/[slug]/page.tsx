@@ -6,11 +6,12 @@ import { getUseCaseBySlug, USE_CASE_PAGES } from '@/lib/use-case-pages';
 import { getQrTypeBySlug } from '@/lib/qr-type-pages';
 import { localizeQrTypePage, localizeUseCasePage } from '@/lib/i18n/resolve-programmatic-copy';
 import { getSolutionBySlug } from '@/lib/solutions';
-import { pageMetadata } from '@/lib/seo';
+import { pageMetadata, webPageJsonLd } from '@/lib/seo';
+import { JsonLd } from '@/components/seo/json-ld';
 import { ProgrammaticPageShell } from '@/components/seo/programmatic-page-shell';
 import { ProgrammaticInternalLinks } from '@/components/seo/programmatic-internal-links';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 import { formatFreePlanDynamicQrShortLabel } from '@/lib/i18n/dynamic-qr-label';
 
 export const revalidate = 3600;
@@ -49,6 +50,14 @@ export default async function UseCaseDetailPage({ params }: { params: { slug: st
 
   return (
     <>
+      <JsonLd
+        data={webPageJsonLd({
+          title: page.title,
+          description: page.metaDescription,
+          path: `/use-cases/${page.slug}`,
+          locale,
+        })}
+      />
       <ProgrammaticPageShell
         breadcrumbs={[
           { label: t('nav.useCases'), href: '/use-cases' },
@@ -69,9 +78,12 @@ export default async function UseCaseDetailPage({ params }: { params: { slug: st
         <div className="border-t border-border/40 bg-muted/20 py-10">
           <div className="mx-auto max-w-3xl px-4 sm:px-6 text-center">
             <p className="text-sm text-muted-foreground">{t('useCaseDetail.relatedSolution')}</p>
-            <Link href={`/solutions/${relatedSolution.slug}`} className="mt-3 inline-block">
+            <Link
+              href={localizePath(`/solutions/${relatedSolution.slug}`, locale)}
+              className="mt-3 inline-block"
+            >
               <Button variant="outline" className="gap-2">
-                {relatedSolution.title} <ArrowRight className="h-4 w-4" />
+                {relatedSolution.title} <ArrowRight className="h-4 w-4" aria-hidden />
               </Button>
             </Link>
           </div>
@@ -81,9 +93,13 @@ export default async function UseCaseDetailPage({ params }: { params: { slug: st
         <div className="border-t border-border/40 py-8">
           <div className="mx-auto max-w-3xl px-4 sm:px-6 text-center">
             <p className="text-sm text-muted-foreground">{t('internalLinks.relatedQrType')}</p>
-            <Link href={`/qr-types/${localizedQrType.slug}`} className="mt-3 inline-block">
+            <Link
+              href={localizePath(`/qr-types/${localizedQrType.slug}`, locale)}
+              className="mt-3 inline-block"
+            >
               <Button variant="outline" className="gap-2">
-                {localizedQrType.title.replace(' Generator', '')} <ArrowRight className="h-4 w-4" />
+                {localizedQrType.title.replace(' Generator', '')}{' '}
+                <ArrowRight className="h-4 w-4" aria-hidden />
               </Button>
             </Link>
           </div>

@@ -89,13 +89,17 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 - `/apps`: HowTo + FAQPage JSON-LD + on-page FAQ (honest no App Store copy).
 - Locale-aware internal links: programmatic shell/pricing, internal-links hubs, geo hub, marketplace browse.
 
+### Done in follow-up pack (2026-07-17 b)
+- Blog article images use `next/image` (AVIF/WebP) with width/height + descriptive alt fallback; rare hosts fall back to `<img>`.
+- CSP shared via `lib/csp.cjs` — applied in both middleware (`lib/security-headers.ts`) and `next.config.js` headers.
+- WebPage JSON-LD on solutions / qr-types / use-cases / case-study detail routes; related links locale-aware.
+
 ### Still open
-1. **Blog body images:** migrate `blog-article-body` raw `<img>` → `next/image` with meaningful `alt`.
-2. **SearchAction:** if Cmd+K gains a public shareable URL, point `urlTemplate` there instead of templates search.
-3. **CSP alignment:** mirror middleware CSP into `next.config.js` headers for non-middleware responses.
-4. **GSC:** submit updated sitemap; monitor “Alternate page with proper canonical” after locale redirects.
-5. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).
-6. **Detail shells:** solutions / qr-types / use-cases detail pages still rely on metadata + breadcrumbs; optional WebPage JSON-LD if not already covered by shells.
+1. **SearchAction:** if Cmd+K gains a public shareable URL, point `urlTemplate` there instead of templates search.
+2. **GSC:** submit updated sitemap; monitor “Alternate page with proper canonical” after locale redirects.
+3. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).
+4. **CSP hardening:** migrate inline scripts to nonces / `strict-dynamic` (see `lib/security-headers.ts` plan).
+5. **Optional:** `llms.txt` + ImageObject for brand logos page.
 
 ---
 

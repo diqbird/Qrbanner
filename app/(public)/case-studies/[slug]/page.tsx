@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { getCaseStudy, CASE_STUDIES } from '@/lib/case-studies';
-import { pageMetadata } from '@/lib/seo';
+import { pageMetadata, webPageJsonLd } from '@/lib/seo';
+import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
@@ -38,6 +39,14 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
 
   return (
     <>
+      <JsonLd
+        data={webPageJsonLd({
+          title: view.title,
+          description: view.metaDescription,
+          path: `/case-studies/${study.slug}`,
+          locale,
+        })}
+      />
       <PublicBreadcrumbs
         items={[
           { label: t('nav.caseStudies'), href: '/case-studies' },

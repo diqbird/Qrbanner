@@ -1,5 +1,7 @@
 const path = require('path');
+const { buildContentSecurityPolicy } = require('./lib/csp.cjs');
 
+/** Keep in sync with lib/security-headers.ts (shared CSP via lib/csp.cjs). */
 const SECURITY_HEADERS = [
   { key: 'X-DNS-Prefetch-Control', value: 'on' },
   { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
@@ -9,6 +11,10 @@ const SECURITY_HEADERS = [
   {
     key: 'Permissions-Policy',
     value: 'camera=(self), microphone=(), geolocation=(self), interest-cohort=()',
+  },
+  {
+    key: 'Content-Security-Policy',
+    value: buildContentSecurityPolicy(),
   },
 ];
 

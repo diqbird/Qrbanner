@@ -41,8 +41,14 @@ for (const f of REQUIRED_FILES) {
 
 record(
   'csp.turnstile',
-  fileIncludes('lib/security-headers.ts', 'challenges.cloudflare.com'),
+  fileIncludes('lib/csp.cjs', 'challenges.cloudflare.com'),
   'Turnstile allowed in CSP'
+);
+record(
+  'csp.shared',
+  fileIncludes('next.config.js', "require('./lib/csp.cjs')") &&
+    fileIncludes('lib/security-headers.ts', "from './csp.cjs'"),
+  'CSP builder shared by next.config + middleware'
 );
 
 const PUBLIC_ROUTES = [

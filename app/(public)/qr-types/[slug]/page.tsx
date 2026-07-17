@@ -6,11 +6,12 @@ import { buildQrTypePages, getQrTypeBySlug } from '@/lib/qr-type-pages';
 import { localizeQrTypePage } from '@/lib/i18n/resolve-programmatic-copy';
 import { USE_CASES_BY_QR_CATEGORY, getUseCaseBySlug } from '@/lib/use-case-pages';
 import { localizeUseCasePage } from '@/lib/i18n/resolve-programmatic-copy';
-import { pageMetadata } from '@/lib/seo';
+import { pageMetadata, webPageJsonLd } from '@/lib/seo';
+import { JsonLd } from '@/components/seo/json-ld';
 import { ProgrammaticPageShell } from '@/components/seo/programmatic-page-shell';
 import { ProgrammaticInternalLinks } from '@/components/seo/programmatic-internal-links';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 import { formatFreePlanDynamicQrLabel } from '@/lib/i18n/dynamic-qr-label';
 
 export const revalidate = 3600;
@@ -52,35 +53,45 @@ export default async function QrTypeDetailPage({ params }: { params: { slug: str
 
   return (
     <>
+      <JsonLd
+        data={webPageJsonLd({
+          title: page.title,
+          description: page.metaDescription,
+          path: `/qr-types/${page.slug}`,
+          locale,
+        })}
+      />
       <ProgrammaticPageShell
-      breadcrumbs={[
-        { label: t('nav.qrTypes'), href: '/qr-types' },
-        { label: typeName, href: `/qr-types/${page.slug}` },
-      ]}
-      headline={page.headline}
-      description={page.description}
-      primaryHref={createUrl}
-      primaryLabel={t('qrTypeDetail.createLabel', { type: typeName })}
-      sections={[
-        { title: t('qrTypeDetail.whyUse'), items: page.benefits },
-        { title: t('qrTypeDetail.popularUseCases'), items: page.useCases },
-      ]}
-      ctaTitle={t('qrTypeDetail.ctaTitle', { qrLabel })}
-      ctaBody={page.isDynamic ? t('qrTypeDetail.ctaDynamic') : t('qrTypeDetail.ctaStatic')}
+        breadcrumbs={[
+          { label: t('nav.qrTypes'), href: '/qr-types' },
+          { label: typeName, href: `/qr-types/${page.slug}` },
+        ]}
+        headline={page.headline}
+        description={page.description}
+        primaryHref={createUrl}
+        primaryLabel={t('qrTypeDetail.createLabel', { type: typeName })}
+        sections={[
+          { title: t('qrTypeDetail.whyUse'), items: page.benefits },
+          { title: t('qrTypeDetail.popularUseCases'), items: page.useCases },
+        ]}
+        ctaTitle={t('qrTypeDetail.ctaTitle', { qrLabel })}
+        ctaBody={page.isDynamic ? t('qrTypeDetail.ctaDynamic') : t('qrTypeDetail.ctaStatic')}
       />
       {relatedUseCases.length > 0 && (
         <div className="border-t border-border/40 bg-muted/20 py-10">
           <div className="mx-auto max-w-3xl px-4 sm:px-6">
-            <h2 className="font-display text-lg font-semibold text-center">{t('internalLinks.relatedUseCases')}</h2>
+            <h2 className="font-display text-lg font-semibold text-center">
+              {t('internalLinks.relatedUseCases')}
+            </h2>
             <ul className="mt-4 flex flex-col items-center gap-2">
               {relatedUseCases.map((uc) =>
                 uc ? (
                   <li key={uc.slug}>
                     <Link
-                      href={`/use-cases/${uc.slug}`}
+                      href={localizePath(`/use-cases/${uc.slug}`, locale)}
                       className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline"
                     >
-                      {uc.title} <ArrowRight className="h-3.5 w-3.5" />
+                      {uc.title} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                     </Link>
                   </li>
                 ) : null

@@ -1,0 +1,20 @@
+{
+  "upload": [
+    "lib/csp.cjs",
+    "lib/csp.cjs.d.ts",
+    "lib/security-headers.ts",
+    "next.config.js",
+    "components/public/blog-article-body.tsx",
+    "app/(public)/solutions/[slug]/page.tsx",
+    "app/(public)/qr-types/[slug]/page.tsx",
+    "app/(public)/use-cases/[slug]/page.tsx",
+    "app/(public)/case-studies/[slug]/page.tsx",
+    "scripts/audit-security.ts",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
