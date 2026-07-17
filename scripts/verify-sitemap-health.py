@@ -159,6 +159,24 @@ def main() -> int:
     else:
         ok("robots.txt references sitemap.xml")
 
+    # GSC readiness — pages commonly used for URL Inspection + AI brief
+    print("\n--- GSC readiness ---")
+    gsc_paths = ["/", "/pricing", "/tr/pricing", "/templates", "/llms.txt"]
+    for path in gsc_paths:
+        sc, _ = curl(f"{BASE}{path}")
+        if sc != 200:
+            fail(f"GSC inspection target {path} HTTP {sc}")
+        else:
+            ok(f"GSC target 200: {path}")
+
+    home_code, home_html = curl(f"{BASE}/")
+    if home_code != 200:
+        fail(f"homepage HTTP {home_code} (verification check skipped)")
+    elif "google-site-verification" not in home_html:
+        fail("homepage missing google-site-verification meta")
+    else:
+        ok("homepage has google-site-verification meta")
+
     print()
     if FAILURES:
         print(f"=== Result: FAIL ({len(FAILURES)} issue(s)) ===")

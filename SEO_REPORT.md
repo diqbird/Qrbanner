@@ -122,19 +122,25 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 ### Done in follow-up pack (2026-07-17 i)
 - Pricing page wrapped in `PremiumShell` and restyled to match homepage tokens (`ph-card`, gradient canvas, reveal motion, rounded CTAs). Billing/checkout logic unchanged.
 
+### Done in follow-up pack (2026-07-17 j)
+- GSC automated readiness extended in `scripts/verify-sitemap-health.py`: inspection targets (`/`, `/pricing`, `/tr/pricing`, `/templates`, `/llms.txt`) + `google-site-verification` meta. Sitemap health already PASS (2449 URLs). Console clicks remain manual (below).
+
+### Done in follow-up pack (2026-07-17 k)
+- CSP nonce path now includes `'strict-dynamic'` (`lib/csp.cjs`); host allowlists + `'unsafe-inline'` kept as legacy fallback. Static middleware-skipped CSP unchanged.
+
 ### Still open
-1. **GSC:** see checklist below (manual in Search Console) — re-submit sitemap after blog locale URLs.
+1. **GSC (manual only):** complete Search Console clicks in checklist below.
 2. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).
-3. **CSP:** optional `'strict-dynamic'` after monitoring; style-src nonce / remove `'unsafe-inline'` for styles later.
+3. **CSP follow-up:** style-src nonce / remove `'unsafe-inline'` for styles later; watch browser console for script violations after `strict-dynamic`.
 
 ### GSC checklist (manual)
-1. Confirm property for `https://qrbanner.com` (verification token already in root metadata).
-2. Submit `https://qrbanner.com/sitemap.xml` (Sitemaps → Add).
-3. URL Inspection: `/`, `/pricing`, `/tr/pricing`, `/templates?q=menu`, `/llms.txt`.
+1. Confirm property for `https://qrbanner.com` (verification meta live: `xFJ2mgJtq8mkZibVZWBdq1bAvM0RhBl53tQS_QFvqMg`).
+2. Submit `https://qrbanner.com/sitemap.xml` (Sitemaps → Add / Resubmit).
+3. URL Inspection: `/`, `/pricing`, `/tr/pricing`, `/templates`, `/llms.txt`.
 4. Monitor Coverage / Page indexing for “Alternate page with proper canonical” after locale 308s.
 5. Core Web Vitals (CrUX): watch LCP on mobile home + templates.
 
-**Automated gate:** `python scripts/verify-sitemap-health.py` (expects case-study URLs × 4 locales). Soft-404 aliases: `/compare`→`/vs`, `/solutions/restaurants`→`/solutions/restaurant-menu`, `/changelog`→`/blog`.
+**Automated gate:** `python scripts/verify-sitemap-health.py` (sitemap + GSC readiness). Soft-404 aliases: `/compare`→`/vs`, `/solutions/restaurants`→`/solutions/restaurant-menu`, `/changelog`→`/blog`.
 
 ---
 

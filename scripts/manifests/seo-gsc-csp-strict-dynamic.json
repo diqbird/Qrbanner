@@ -1,0 +1,14 @@
+{
+  "upload": [
+    "scripts/verify-sitemap-health.py",
+    "lib/csp.cjs",
+    "lib/security-headers.ts",
+    "scripts/audit-security.ts",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

@@ -63,6 +63,11 @@ record(
     fileIncludes('lib/csp.cjs', "frame-ancestors 'self'"),
   'Hardened CSP directives (object-src, frame-ancestors)'
 );
+record(
+  'csp.strictDynamic',
+  fileIncludes('lib/csp.cjs', "'strict-dynamic'"),
+  "Nonce CSP includes 'strict-dynamic' for CSP3 browsers"
+);
 
 const PUBLIC_ROUTES = [
   'app/api/signup/route.ts',

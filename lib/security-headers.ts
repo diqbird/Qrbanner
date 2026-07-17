@@ -6,8 +6,8 @@ import { buildContentSecurityPolicy } from './csp.cjs';
  * CSP migration plan:
  * 1. Production CSP omits unsafe-eval (Next.js 14 prod bundles do not require it).
  * 2. Dev/local keeps unsafe-eval for hot reload — set via NODE_ENV.
- * 3. Per-request script nonces + strict-dynamic (middleware) — see applySecurityHeaders.
- * 4. Audit third-party scripts (GTM/GA) if violations appear in browser console.
+ * 3. Per-request script nonces + 'strict-dynamic' (middleware) — see applySecurityHeaders / lib/csp.cjs.
+ * 4. If console shows CSP script violations after deploy, widen allowlists or fix missing nonces.
  *
  * Enforcing CSP with nonce is set only in middleware so each HTML response gets a
  * unique nonce. next.config.js keeps a static no-nonce CSP for middleware-skipped
