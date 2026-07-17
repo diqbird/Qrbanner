@@ -1,4 +1,10 @@
 import type { BlogPost } from '../types';
+import { freePlanQrLimit } from '@/lib/plans';
+import { planPriceTokenEn } from '@/lib/i18n/plan-pricing-display';
+
+const FREE_N = freePlanQrLimit();
+const PRO_MO = planPriceTokenEn('pro');
+const BUSINESS_MO = planPriceTokenEn('business');
 
 export const dynamicQrCodesGuide: BlogPost = {
   slug: 'dynamic-qr-codes-complete-guide',
@@ -158,7 +164,7 @@ export const dynamicQrCodesGuide: BlogPost = {
     {
       type: 'p',
       content:
-        'Look for platforms that combine dynamic redirects, routing rules, analytics, API access, and print-ready design in one place. QRbanner offers a free tier (1 dynamic code), transparent pricing at $9.99/mo Pro and $29.99/mo Business, and codes that stay active after cancel. Evaluate based on: codes staying active after downgrade, bulk import limits, custom domains, webhook integrations, SAML for enterprise teams, and whether scan simulation is built into the editor.',
+        `Look for platforms that combine dynamic redirects, routing rules, analytics, API access, and print-ready design in one place. QRbanner offers a free tier (${FREE_N} dynamic code${FREE_N === 1 ? '' : 's'}), transparent pricing at ${PRO_MO} Pro and ${BUSINESS_MO} Business, and codes that stay active after cancel. Evaluate based on: codes staying active after downgrade, bulk import limits, custom domains, webhook integrations, SAML for enterprise teams, and whether scan simulation is built into the editor.`,
     },
     {
       type: 'h2',

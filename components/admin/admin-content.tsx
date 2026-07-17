@@ -7,12 +7,15 @@ import { AdminAuditPanel } from '@/components/admin/admin-audit-panel';
 import { AdminSiteSettings } from '@/components/admin/admin-site-settings';
 import { MediaLibraryCard } from '@/components/dashboard/media-library-card';
 import { useAdminContent } from '@/hooks/use-admin-content';
+import { useLanguage } from '@/components/i18n/language-provider';
+import { getLaunchBanner } from '@/lib/i18n/pricing-content';
 import { AdminStatsCards } from './admin-stats-cards';
 import { AdminUsersTable } from './admin-users-table';
 
 export function AdminContent() {
   const admin = useAdminContent();
-  const { t, stats, loading } = admin;
+  const { t, locale } = useLanguage();
+  const { stats, loading } = admin;
 
   if (loading && !stats) {
     return (
@@ -32,7 +35,7 @@ export function AdminContent() {
       </div>
 
       <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-900 dark:text-amber-100">
-        {t('admin.launchBanner')}
+        {getLaunchBanner(locale)}
       </div>
 
       <AdminStatsCards admin={admin} />

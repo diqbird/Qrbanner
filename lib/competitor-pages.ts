@@ -1,10 +1,16 @@
 import { PLANS, freePlanQrMarketingLabel } from './plans';
+import { planPriceTokenEn } from './i18n/plan-pricing-display';
 
 const FREE_QR = PLANS.free.maxQrCodes;
 const FREE_QR_LABEL = freePlanQrMarketingLabel();
 const FREE_QR_WIN = `${FREE_QR} free dynamic QR code${FREE_QR === 1 ? '' : 's'}`;
 const FREE_QR_WIN_WITH_API = `${FREE_QR} free dynamic QR code${FREE_QR === 1 ? '' : 's'} with API`;
 const FREE_QR_WIN_API = `${FREE_QR} free dynamic QR code${FREE_QR === 1 ? '' : 's'} + API`;
+/** SoT EN price tokens — never hardcode $9.99/$29.99 here. */
+const PRO_MO = planPriceTokenEn('pro');
+const BUSINESS_MO = planPriceTokenEn('business');
+const AGENCY_MO = planPriceTokenEn('agency');
+const PRO_FROM = `Pro from ${PRO_MO}`;
 
 export interface CompetitorPage {
   slug: string;
@@ -32,7 +38,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       `${FREE_QR_WIN} vs 3 on QR TIGER`,
       'REST API included on free plan',
       'Codes stay active after downgrade or cancel',
-      'Pro from $9.99/mo',
+      PRO_FROM,
       'Print banner export built in',
     ],
     competitorWeaknesses: [
@@ -45,7 +51,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Codes active after cancel', qrbanner: 'Yes', competitor: 'Yes' },
       { feature: 'REST API (free plan)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Geofence + schedule routing', qrbanner: 'Included', competitor: 'Paid tiers' },
-      { feature: 'Starting paid price', qrbanner: '$9.99/mo', competitor: '~$7/mo' },
+      { feature: 'Starting paid price', qrbanner: PRO_MO, competitor: '~$7/mo' },
       { feature: 'Print banner export', qrbanner: 'Yes', competitor: 'Limited' },
     ],
   },
@@ -61,7 +67,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     qrbannerWins: [
       'Full routing stack (geo, schedule, A/B) on standard plans',
       'Free API and webhooks',
-      'Pro at $9.99/mo vs Flowcode paid tiers often $25+/mo',
+      `Pro at ${PRO_MO} vs Flowcode paid tiers often $25+/mo`,
       '27 QR types including Link Hub',
       'GPS heatmap and lead capture',
     ],
@@ -72,7 +78,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     ],
     comparisonRows: [
       { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: '0–2' },
-      { feature: 'Entry paid plan', qrbanner: '$9.99/mo', competitor: '$25+/mo' },
+      { feature: 'Entry paid plan', qrbanner: PRO_MO, competitor: '$25+/mo' },
       { feature: 'A/B testing', qrbanner: 'Included', competitor: 'Higher tiers' },
       { feature: 'API access', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Design templates', qrbanner: 'Good', competitor: 'Excellent' },
@@ -88,7 +94,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     summary:
       'Uniqode targets enterprise with compliance and deep integrations. QRbanner delivers 70% of the feature set at a fraction of the cost for growth teams.',
     qrbannerWins: [
-      'Pro $9.99/mo vs Uniqode Core ~$49/mo',
+      `Pro ${PRO_MO} vs Uniqode Core ~$49/mo`,
       FREE_QR_WIN,
       'Team workspaces on all plans',
       'Custom scan domains on free tier',
@@ -100,7 +106,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     ],
     comparisonRows: [
       { feature: 'Free plan', qrbanner: FREE_QR_LABEL, competitor: 'Limited/none' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$49/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$49/mo' },
       { feature: 'Custom domain', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'SOC 2 / HIPAA', qrbanner: 'Roadmap', competitor: 'Enterprise' },
       { feature: 'CRM integrations', qrbanner: 'Webhooks/API', competitor: 'Native' },
@@ -185,7 +191,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'Paid' },
       { feature: 'Custom scan domain', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Included' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$15/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$15/mo' },
     ],
   },
   {
@@ -213,7 +219,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Routing rules', qrbanner: 'Geofence + schedule', competitor: 'Basic' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'Paid' },
       { feature: 'Custom scan domain', qrbanner: 'Free plan', competitor: 'Paid' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$12/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$12/mo' },
     ],
   },
   {
@@ -227,7 +233,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       'Beaconstac (now Uniqode) targets enterprise proximity and NFC use cases. QRbanner is QR-native with faster self-serve onboarding and lower entry pricing.',
     qrbannerWins: [
       'Self-serve from free to Agency',
-      'Pro from $9.99/mo',
+      PRO_FROM,
       '27+ QR content types',
       'Built-in print banner export',
       'Codes stay active after cancel',
@@ -240,7 +246,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     comparisonRows: [
       { feature: 'Self-serve free plan', qrbanner: FREE_QR_LABEL, competitor: 'Trial-focused' },
       { feature: 'QR-native workflow', qrbanner: 'Core product', competitor: 'Part of suite' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$49/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$49/mo' },
       { feature: 'Geofence routing', qrbanner: 'Included', competitor: 'Included' },
       { feature: 'API + webhooks', qrbanner: 'Free tier', competitor: 'Higher tiers' },
     ],
@@ -298,7 +304,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Basic' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'Paid' },
       { feature: 'Scan geo analytics', qrbanner: 'Yes', competitor: 'Varies' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$12/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$12/mo' },
     ],
   },
   {
@@ -326,7 +332,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Active after cancel', qrbanner: 'Yes', competitor: 'Varies' },
       { feature: 'Custom scan domain', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'API access', qrbanner: 'Free plan', competitor: 'Paid' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$9.99/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$9.99/mo' },
     ],
   },
   {
@@ -355,7 +361,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Paid tiers' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Active after cancel', qrbanner: 'Yes', competitor: 'Varies' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$9.99/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$9.99/mo' },
     ],
   },
   {
@@ -413,7 +419,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Paid tiers' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Active after cancel', qrbanner: 'Yes', competitor: 'Varies' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$12/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$12/mo' },
     ],
   },
   {
@@ -442,7 +448,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'Limited' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$10/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$10/mo' },
     ],
   },
   {
@@ -471,7 +477,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Paid' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'Limited' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$10/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$10/mo' },
     ],
   },
   {
@@ -544,7 +550,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
     qrbannerWins: [
       FREE_QR_WIN,
       'REST API on free plan',
-      'Pro from $9.99/mo',
+      PRO_FROM,
       'Print banner export',
       'White-label Agency plan',
     ],
@@ -557,7 +563,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Free dynamic codes', qrbanner: String(FREE_QR), competitor: 'Limited' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'Paid' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Paid tiers' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$15/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$15/mo' },
       { feature: 'Active after cancel', qrbanner: 'Yes', competitor: 'Varies' },
     ],
   },
@@ -587,7 +593,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Paid' },
       { feature: 'Active after cancel', qrbanner: 'Yes', competitor: 'Varies' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$11/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$11/mo' },
     ],
   },
   {
@@ -616,7 +622,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Yes' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'Limited' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$14/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$14/mo' },
     ],
   },
   {
@@ -645,7 +651,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Menu & PDF QR types', qrbanner: 'Yes', competitor: 'Limited' },
       { feature: 'Bulk CSV import', qrbanner: 'Yes', competitor: 'No' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$12/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$12/mo' },
     ],
   },
   {
@@ -674,7 +680,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Scan webhooks', qrbanner: 'All plans', competitor: 'Limited' },
       { feature: 'Active after cancel', qrbanner: 'Yes', competitor: 'Varies' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$13/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$13/mo' },
     ],
   },
   {
@@ -732,7 +738,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Active after cancel', qrbanner: 'Yes', competitor: 'Varies' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$10/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$10/mo' },
     ],
   },
   {
@@ -790,7 +796,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Geofence routing', qrbanner: 'Included', competitor: 'No' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$16/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$16/mo' },
     ],
   },
   {
@@ -848,7 +854,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Geofence routing', qrbanner: 'Included', competitor: 'No' },
       { feature: 'Print banner export', qrbanner: 'Yes', competitor: 'Limited' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$12/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$12/mo' },
     ],
   },
   {
@@ -906,7 +912,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Limited' },
       { feature: 'Print banner export', qrbanner: 'Yes', competitor: 'Limited' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$18/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$18/mo' },
     ],
   },
   {
@@ -964,7 +970,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Menu & PDF QR types', qrbanner: 'Yes', competitor: 'Limited' },
       { feature: 'Print banner export', qrbanner: 'Yes', competitor: 'Limited' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$10/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$10/mo' },
     ],
   },
   {
@@ -1022,7 +1028,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Paid' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Paid' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'Limited' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$48/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$48/mo' },
     ],
   },
   {
@@ -1080,7 +1086,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: 'Free/static' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: 'Free/static' },
     ],
   },
   {
@@ -1138,7 +1144,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Limited' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$15/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$15/mo' },
     ],
   },
   {
@@ -1196,7 +1202,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'No' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$12/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$12/mo' },
     ],
   },
   {
@@ -1254,7 +1260,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Limited' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$14/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$14/mo' },
     ],
   },
   {
@@ -1283,7 +1289,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Marketing QR tooling', qrbanner: 'Full stack', competitor: 'Product focus' },
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'Enterprise' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Limited' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: 'Custom' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: 'Custom' },
     ],
   },
   {
@@ -1312,7 +1318,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'No' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$10/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$10/mo' },
     ],
   },
   {
@@ -1370,7 +1376,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
       { feature: 'Bulk import', qrbanner: 'Yes', competitor: 'No' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$12/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$12/mo' },
     ],
   },
   {
@@ -1399,7 +1405,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'No' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
       { feature: 'AI QR art', qrbanner: 'Logo + color', competitor: 'Strong' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$15/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$15/mo' },
     ],
   },
   {
@@ -1428,7 +1434,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'REST API (free)', qrbanner: 'Yes', competitor: 'Paid' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'Paid tiers' },
       { feature: 'Print export', qrbanner: 'Banner built in', competitor: 'PNG/SVG' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$13/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$13/mo' },
     ],
   },
   {
@@ -1457,7 +1463,7 @@ export const COMPETITOR_PAGES: CompetitorPage[] = [
       { feature: 'Scan analytics', qrbanner: 'Yes', competitor: 'Basic' },
       { feature: 'REST API', qrbanner: 'Free plan', competitor: 'Limited' },
       { feature: 'Routing rules', qrbanner: 'Included', competitor: 'No' },
-      { feature: 'Starting paid', qrbanner: '$9.99/mo', competitor: '~$11/mo' },
+      { feature: 'Starting paid', qrbanner: PRO_MO, competitor: '~$11/mo' },
     ],
   },
 ];

@@ -1,0 +1,18 @@
+{
+  "upload": [
+    "lib/i18n/plan-pricing-display.ts",
+    "lib/competitor-pages.ts",
+    "lib/i18n/competitor-localize.ts",
+    "lib/blog/posts/dynamic-qr-codes-guide.ts",
+    "lib/blog/posts/tr/dynamic-qr-codes-guide.ts",
+    "components/admin/admin-content.tsx",
+    "components/admin/pages/admin-dashboard-page.tsx",
+    "components/landing/premium/trust.tsx",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

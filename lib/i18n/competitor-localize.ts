@@ -1,7 +1,11 @@
 import type { CompetitorPage } from '@/lib/competitor-pages';
 import type { Locale } from './types';
+import { planPriceTokenEn } from './plan-pricing-display';
 
 type LocaleMap = { tr: string; de: string; es: string };
+
+const PRO_MO = planPriceTokenEn('pro');
+const PRO_FROM_EN = `Pro from ${PRO_MO}`;
 
 function pick(locale: Locale, map: LocaleMap): string {
   if (locale === 'tr') return map.tr;
@@ -454,10 +458,10 @@ const WIN_PHRASE_MAP: Record<string, LocaleMap> = {
     de: 'Team-Workspaces in allen Plänen',
     es: 'Espacios de trabajo en todos los planes',
   },
-  'Pro from $9.99/mo': {
-    tr: 'Pro $9.99/mo’dan başlar',
-    de: 'Pro ab $9.99/mo',
-    es: 'Pro desde $9.99/mo',
+  [PRO_FROM_EN]: {
+    tr: `Pro ${PRO_MO}’dan başlar`,
+    de: `Pro ab ${PRO_MO}`,
+    es: `Pro desde ${PRO_MO}`,
   },
 };
 

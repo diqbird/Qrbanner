@@ -28,6 +28,7 @@ import { useAdminUiStore } from '@/stores/admin-ui-store';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolvePlanDisplayName } from '@/lib/i18n/resolve-plan-display-name';
 import { formatLocaleDate } from '@/lib/i18n/format-locale';
+import { getLaunchBanner } from '@/lib/i18n/pricing-content';
 import { AdminPageHeader, AdminLoadingState } from '@/components/admin/shared/admin-states';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -170,7 +171,7 @@ function SystemHealthCard() {
 }
 
 export function AdminDashboardPage() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const admin = useAdminContent();
   const widgets = useAdminUiStore((s) => s.widgets);
   const reorderWidgets = useAdminUiStore((s) => s.reorderWidgets);
@@ -227,7 +228,7 @@ export function AdminDashboardPage() {
     <div className="space-y-6">
       <AdminPageHeader title={t('superAdmin.nav.dashboard')} description={t('admin.subtitle')} />
       <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-900 dark:text-amber-100">
-        {t('admin.launchBanner')}
+        {getLaunchBanner(locale)}
       </div>
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
         <SortableContext items={ids} strategy={verticalListSortingStrategy}>
