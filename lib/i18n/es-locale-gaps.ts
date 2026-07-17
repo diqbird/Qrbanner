@@ -12,7 +12,6 @@ export const esLocaleGaps: TranslationTree = {
   admin: {
     title: "Administración del sitio",
     subtitle: "Gestione usuarios, planes y contenido del sitio.",
-    launchBanner: "Plan gratuito para siempre. Actualice a Pro desde 9,99 $/mes cuando lo necesite. Sus códigos QR permanecen activos si reduce de plan o cancela.",
     searchPlaceholder: "Buscar por correo o nombre...",
     allPlans: "Todos los planes",
     blogTitle: "Entradas del blog",

@@ -5,6 +5,19 @@
 **Start budget:** $5–10/day for 2–4 weeks test.  
 **Do NOT bid on:** broad `qr code` alone (expensive, low intent).
 
+### Source of truth (keep ad copy in sync)
+
+Canonical plan limits/prices live in `lib/plans.ts` (`PLANS`). As of this pack:
+
+| Plan | Dynamic QR | Entry price |
+|------|------------|-------------|
+| Free | **1** | $0 |
+| Pro | 200 | **$9.99/mo** |
+| Business | 2,000 | $29.99/mo |
+| Agency | 5,000 | $79.99/mo |
+
+Never promise unlimited free QR. After changing `PLANS`, update headlines/descriptions below and re-export Ads Editor paste files.
+
 ---
 
 ## 1. Create Google Ads account

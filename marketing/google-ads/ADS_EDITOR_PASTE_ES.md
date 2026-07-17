@@ -2,6 +2,8 @@
 
 Tras importar conversiones GA4. Solo Search · idioma ES · ubicaciones ES/MX · Maximize clicks + CPC máx. €1,50 / $1.50.
 
+**SoT:** Free = **1** QR dinámico · Pro = **$9.99/mo** / 200 QR (`lib/plans.ts`). No prometan QR gratis ilimitados.
+
 ## Negativas (cuenta)
 
 ```

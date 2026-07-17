@@ -157,6 +157,9 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 ### Done in follow-up pack (2026-07-17 t)
 - Plan price SoT: `planPriceTokenEn` + competitor-pages/blog/admin banners wired to `PLANS` prices; homepage `PremiumTrust` renders logo images + G2/Capterra review links when env URLs set.
 
+### Done in follow-up pack (2026-07-17 u)
+- Removed unused `admin.launchBanner` hardcode from EN/TR/DE/ES dictionaries; Ads markdown SoT notes; `PremiumStats` lower thresholds + SoT pill fallback when counts are still small.
+
 ### Still open (manual / billing only)
 1. **GSC:** Search Console clicks in checklist below (site already verification-ready; sitemap health PASS).
 2. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).

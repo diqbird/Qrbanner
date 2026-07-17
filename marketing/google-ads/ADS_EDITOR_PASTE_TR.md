@@ -2,6 +2,8 @@
 
 GA4 import sonrası kullanın. Search only · Dil TR · Konum Türkiye · Maximize clicks + max CPC sınırı hesabınıza göre.
 
+**SoT:** Ücretsiz = **1** dinamik QR · Pro = **$9.99/ay** / 200 QR (`lib/plans.ts`). Sınırsız ücretsiz QR vaat etmeyin.
+
 ## Negatif anahtar kelimeler (hesap)
 
 ```

@@ -2147,8 +2147,6 @@ export const tr: TranslationTree = {
   admin: {
     title: 'Site Yönetimi',
     subtitle: 'Kullanıcıları, planları ve site içeriğini yönetin.',
-    launchBanner:
-      'Ücretsiz plan sonsuza kadar. Daha fazlasına ihtiyaç duyduğunuzda Pro\'ya $9.99/ay\'dan yükseltin. İptal veya düşürme sonrası QR kodlarınız aktif kalır.',
     searchPlaceholder: 'E-posta veya ada göre ara...',
     allPlans: 'Tüm planlar',
     blogTitle: 'Blog yazıları',

@@ -3,6 +3,8 @@
 Use after GA4 conversions are imported (`GOOGLE_ADS_SETUP_TR.md` §A–C).  
 All campaigns: **Search only** · EN · US/UK/CA/AU (or US only) · Maximize clicks + max CPC **$1.50**.
 
+**SoT:** Free = **1** dynamic QR · Pro = **$9.99/mo** / 200 QR (`lib/plans.ts`). Do not claim unlimited free QR.
+
 ---
 
 ## Shared: negative keywords (account)

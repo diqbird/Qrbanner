@@ -1,0 +1,23 @@
+{
+  "upload": [
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/de-locale-gaps.ts",
+    "lib/i18n/es-locale-gaps.ts",
+    "lib/i18n/de-locale-gaps.generated.ts",
+    "lib/i18n/es-locale-gaps.generated.ts",
+    "lib/public-stats.ts",
+    "components/landing/premium/stats.tsx",
+    "marketing/google-ads/GOOGLE_ADS_SETUP_EN.md",
+    "marketing/google-ads/ADS_EDITOR_PASTE.md",
+    "marketing/google-ads/ADS_EDITOR_PASTE_TR.md",
+    "marketing/google-ads/ADS_EDITOR_PASTE_DE.md",
+    "marketing/google-ads/ADS_EDITOR_PASTE_ES.md",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

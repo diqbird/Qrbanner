@@ -2146,8 +2146,6 @@ export const en: TranslationTree = {
   admin: {
     title: 'Site Admin',
     subtitle: 'Manage users, plans and site content.',
-    launchBanner:
-      'Free plan forever. Upgrade to Pro from $9.99/mo when you need more. Your QR codes stay active if you downgrade or cancel.',
     searchPlaceholder: 'Search by email or name...',
     allPlans: 'All plans',
     blogTitle: 'Blog posts',

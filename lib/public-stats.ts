@@ -13,13 +13,20 @@ function roundForDisplay(n: number): number {
   return Math.floor(n / 1000) * 1000;
 }
 
-/** Hide tiny counts on marketing pages — they hurt trust more than they help. */
-const MIN_QR_CODES = 100;
-const MIN_SCANS = 500;
-const MIN_USERS = 50;
+/**
+ * Hide tiny counts on marketing pages — they hurt trust more than they help.
+ * Thresholds are intentionally modest so early production can still show real traction.
+ */
+export const PUBLIC_STATS_MIN_QR_CODES = 25;
+export const PUBLIC_STATS_MIN_SCANS = 100;
+export const PUBLIC_STATS_MIN_USERS = 10;
 
 export function shouldDisplayPublicStats(stats: PublicPlatformStats): boolean {
-  return stats.qrCodes >= MIN_QR_CODES || stats.scans >= MIN_SCANS || stats.users >= MIN_USERS;
+  return (
+    stats.qrCodes >= PUBLIC_STATS_MIN_QR_CODES ||
+    stats.scans >= PUBLIC_STATS_MIN_SCANS ||
+    stats.users >= PUBLIC_STATS_MIN_USERS
+  );
 }
 
 export async function getPublicPlatformStats(): Promise<PublicPlatformStats> {

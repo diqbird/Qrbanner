@@ -12,7 +12,6 @@ export const deLocaleGaps: TranslationTree = {
   admin: {
     title: "Site-Administration",
     subtitle: "Benutzer, Tarife und Website-Inhalte verwalten.",
-    launchBanner: "Kostenloser Tarif für immer. Upgrade auf Pro ab 9,99 $/Monat, wenn Sie mehr benötigen. Ihre QR-Codes bleiben aktiv, wenn Sie downgraden oder kündigen.",
     searchPlaceholder: "Nach E-Mail oder Name suchen…",
     allPlans: "Alle Tarife",
     blogTitle: "Blogbeiträge",

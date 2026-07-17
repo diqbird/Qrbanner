@@ -2,6 +2,8 @@
 
 Nach GA4-Import. Search only · Sprache DE · Standorte DE/AT/CH · Maximize clicks + max CPC €1,50.
 
+**SoT:** Free = **1** dynamischer QR · Pro = **$9.99/mo** / 200 QR (`lib/plans.ts`). Kein „unbegrenztes Free-QR“ versprechen.
+
 ## Negativ-Keywords (Konto)
 
 ```
