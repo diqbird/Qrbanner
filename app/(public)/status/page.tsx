@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { pageMetadata } from '@/lib/seo';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { StatusPageContent } from '@/components/public/status-page-content';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
@@ -17,5 +18,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function StatusPage() {
-  return <StatusPageContent />;
+  return (
+    <PremiumPageFrame narrow="3xl">
+      <StatusPageContent />
+    </PremiumPageFrame>
+  );
 }

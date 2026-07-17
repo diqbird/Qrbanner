@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { pageMetadata, webPageJsonLd, brandLogoImageObjectsJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { localizePath, translate } from '@/lib/i18n';
@@ -41,9 +42,9 @@ export default async function BrandLogosGuidePage() {
           brandLogoImageObjectsJsonLd(logoItems),
         ]}
       />
-      <PublicBreadcrumbs items={[{ label: t('brandLogos.title'), href: '/brand/logos' }]} />
-      <div className="py-10 sm:py-16">
-        <article className="mx-auto max-w-3xl px-4 sm:px-6">
+      <PremiumPageFrame narrow="3xl">
+        <PublicBreadcrumbs items={[{ label: t('brandLogos.title'), href: '/brand/logos' }]} />
+        <article className="">
           <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
             {t('brandLogos.title')}
           </h1>
@@ -77,7 +78,7 @@ export default async function BrandLogosGuidePage() {
             </Link>
           </p>
         </article>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

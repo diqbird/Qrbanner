@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { FileCheck } from 'lucide-react';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
@@ -35,14 +36,14 @@ export default async function ProcurementRequestPage() {
           locale,
         })}
       />
-      <PublicBreadcrumbs
+      <PremiumPageFrame narrow="3xl">
+        <PublicBreadcrumbs
         items={[
-          { label: t('nav.trust'), href: '/trust' },
-          { label: t('nav.procurementRequest'), href: '/trust/procurement-request' },
+        { label: t('nav.trust'), href: '/trust' },
+        { label: t('nav.procurementRequest'), href: '/trust/procurement-request' },
         ]}
-      />
-      <div className="py-10 sm:py-16">
-        <article className="mx-auto max-w-2xl space-y-8 px-4 sm:px-6">
+        />
+        <article className="space-y-8">
           <header>
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
               <FileCheck className="h-6 w-6 text-primary" aria-hidden />
@@ -67,7 +68,7 @@ export default async function ProcurementRequestPage() {
           </header>
           <ProcurementRequestForm />
         </article>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { pageMetadata, webPageJsonLd, itemListJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { formatLocalizedListingPrice } from '@/lib/i18n/resolve-marketplace-listing-labels';
 import { getServerLocale } from '@/lib/i18n/server';
 import { localizePath, translate } from '@/lib/i18n';
@@ -62,14 +63,13 @@ export default async function MarketplaceBrowsePage() {
           ),
         ]}
       />
-      <PublicBreadcrumbs
+      <PremiumPageFrame narrow="1200">
+        <PublicBreadcrumbs
         items={[
-          { label: t('nav.templates'), href: '/templates' },
-          { label: t('marketplaceSeller.browseTitle'), href: '/marketplace' },
+        { label: t('nav.templates'), href: '/templates' },
+        { label: t('marketplaceSeller.browseTitle'), href: '/marketplace' },
         ]}
-      />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+        />
           <header className="mx-auto max-w-2xl text-center">
             <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl flex items-center justify-center gap-3">
               <Users className="h-9 w-9 text-primary shrink-0" aria-hidden />
@@ -115,8 +115,7 @@ export default async function MarketplaceBrowsePage() {
               ))}
             </div>
           )}
-        </div>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

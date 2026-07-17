@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ExternalLink } from 'lucide-react';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { JsonLd } from '@/components/seo/json-ld';
 import { Button } from '@/components/ui/button';
 import { getServerLocale } from '@/lib/i18n/server';
@@ -44,9 +45,8 @@ export default async function ReviewsPage() {
           locale,
         })}
       />
-      <PublicBreadcrumbs items={[{ label: t('reviews.pageTitle'), href: '/reviews' }]} />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+      <PremiumPageFrame narrow="3xl">
+        <PublicBreadcrumbs items={[{ label: t('reviews.pageTitle'), href: '/reviews' }]} />
           <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
             {t('reviews.pageTitle')}
           </h1>
@@ -119,8 +119,7 @@ export default async function ReviewsPage() {
               </Link>
             </p>
           </section>
-        </div>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

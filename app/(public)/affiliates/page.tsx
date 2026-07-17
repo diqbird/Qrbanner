@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
@@ -44,9 +45,8 @@ export default async function AffiliatesPage() {
           locale,
         })}
       />
-      <PublicBreadcrumbs items={[{ label: t('affiliates.title'), href: '/affiliates' }]} />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6">
+      <PremiumPageFrame narrow="4xl">
+        <PublicBreadcrumbs items={[{ label: t('affiliates.title'), href: '/affiliates' }]} />
           <header className="max-w-2xl">
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
               <Handshake className="h-6 w-6 text-primary" aria-hidden />
@@ -108,8 +108,7 @@ export default async function AffiliatesPage() {
               </Button>
             </Link>
           </div>
-        </div>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

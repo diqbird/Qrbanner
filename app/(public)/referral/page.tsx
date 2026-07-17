@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { pageMetadata, webPageJsonLd, faqJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
@@ -61,9 +62,8 @@ export default async function ReferralLandingPage() {
           ),
         ]}
       />
-      <PublicBreadcrumbs items={[{ label: t('referralLanding.title'), href: '/referral' }]} />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6">
+      <PremiumPageFrame narrow="4xl">
+        <PublicBreadcrumbs items={[{ label: t('referralLanding.title'), href: '/referral' }]} />
           <header className="text-center">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
               <Gift className="h-7 w-7 text-primary" aria-hidden />
@@ -144,8 +144,7 @@ export default async function ReferralLandingPage() {
               ))}
             </dl>
           </section>
-        </div>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

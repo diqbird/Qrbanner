@@ -7,6 +7,7 @@ import { getSolutionBySlug } from '@/lib/solutions';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { getServerLocale } from '@/lib/i18n/server';
 import { localizePath, translate } from '@/lib/i18n';
 import { formatFreePlanDynamicQrLabel } from '@/lib/i18n/dynamic-qr-label';
@@ -48,9 +49,8 @@ export default async function GeoHubPage() {
           locale,
         })}
       />
-      <PublicBreadcrumbs items={[{ label: t('geoSeo.breadcrumb'), href: '/geo' }]} />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+      <PremiumPageFrame narrow="5xl">
+        <PublicBreadcrumbs items={[{ label: t('geoSeo.breadcrumb'), href: '/geo' }]} />
           <header className="text-center">
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
               <MapPin className="h-6 w-6 text-primary" aria-hidden />
@@ -112,8 +112,7 @@ export default async function GeoHubPage() {
               </Button>
             </Link>
           </div>
-        </div>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

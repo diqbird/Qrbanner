@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { pageMetadata, webPageJsonLd, marketplaceListingJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { JsonLd } from '@/components/seo/json-ld';
 import { MARKETPLACE_PLATFORM_FEE_PERCENT } from '@/lib/marketplace-types';
 import { formatLocalizedListingPrice } from '@/lib/i18n/resolve-marketplace-listing-labels';
@@ -82,53 +83,49 @@ export default async function MarketplaceListingPage({ params }: { params: { id:
           }),
         ]}
       />
-      <PublicBreadcrumbs
-        items={[
-          { label: t('nav.templates'), href: '/templates' },
-          { label: t('marketplaceSeller.browseTitle'), href: '/marketplace' },
-          { label: listing.title, href: `/marketplace/${listing.id}` },
-        ]}
-      />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-2xl px-4 sm:px-6">
-          <article>
-            <header>
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge>{formatLocalizedListingPrice(listing.priceCents, locale, t, listing.currency)}</Badge>
-                <Badge variant="outline">{listing.seller.displayName}</Badge>
-              </div>
-              <h1 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl">
-                {listing.title}
-              </h1>
-              <p className="mt-4 text-muted-foreground whitespace-pre-wrap">{listing.description}</p>
-            </header>
+      <PremiumPageFrame narrow="3xl">
+        <PublicBreadcrumbs
+          items={[
+            { label: t('nav.templates'), href: '/templates' },
+            { label: t('marketplaceSeller.browseTitle'), href: '/marketplace' },
+            { label: listing.title, href: `/marketplace/${listing.id}` },
+          ]}
+        />
+        <article>
+          <header>
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge>{formatLocalizedListingPrice(listing.priceCents, locale, t, listing.currency)}</Badge>
+              <Badge variant="outline">{listing.seller.displayName}</Badge>
+            </div>
+            <h1 className="mt-4 ph-title text-3xl sm:text-4xl">{listing.title}</h1>
+            <p className="mt-4 text-muted-foreground whitespace-pre-wrap">{listing.description}</p>
+          </header>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <MarketplacePurchaseButton listingId={listing.id} priceCents={listing.priceCents} />
-              {listing.templateId && (
-                <Link href={`/templates/${listing.templateId}`}>
-                  <Button variant="outline" className="gap-2 w-full sm:w-auto">
-                    {t('marketplaceSeller.relatedTemplate')} <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </Link>
-              )}
-              <Link href="/marketplace">
-                <Button variant="ghost" className="gap-2 w-full sm:w-auto">
-                  {t('marketplaceSeller.backToBrowse')}
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <MarketplacePurchaseButton listingId={listing.id} priceCents={listing.priceCents} />
+            {listing.templateId && (
+              <Link href={`/templates/${listing.templateId}`}>
+                <Button variant="outline" className="gap-2 w-full sm:w-auto">
+                  {t('marketplaceSeller.relatedTemplate')} <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-            </div>
-          </article>
+            )}
+            <Link href="/marketplace">
+              <Button variant="ghost" className="gap-2 w-full sm:w-auto">
+                {t('marketplaceSeller.backToBrowse')}
+              </Button>
+            </Link>
+          </div>
+        </article>
 
-          <Suspense fallback={null}>
-            <MarketplacePaidReturn />
-          </Suspense>
+        <Suspense fallback={null}>
+          <MarketplacePaidReturn />
+        </Suspense>
 
-          <p className="mt-6 text-xs text-muted-foreground">
-            {t('marketplaceSeller.feeNote', { fee: formatLocaleNumber(MARKETPLACE_PLATFORM_FEE_PERCENT, locale) })}
-          </p>
-        </div>
-      </div>
+        <p className="mt-6 text-xs text-muted-foreground">
+          {t('marketplaceSeller.feeNote', { fee: formatLocaleNumber(MARKETPLACE_PLATFORM_FEE_PERCENT, locale) })}
+        </p>
+      </PremiumPageFrame>
     </>
   );
 }

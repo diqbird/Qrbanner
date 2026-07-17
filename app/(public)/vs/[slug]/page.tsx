@@ -6,6 +6,7 @@ import { COMPETITOR_PAGES, getCompetitorBySlug } from '@/lib/competitor-pages';
 import { getPublicComparisonMeta, getPublicComparisonView, getPublicListTitle } from '@/lib/competitor-public';
 import { pageMetadata, comparisonPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { localizePath, translate } from '@/lib/i18n';
@@ -51,14 +52,13 @@ export default async function VsDetailPage({ params }: { params: { slug: string 
           })),
         })}
       />
-      <PublicBreadcrumbs
+      <PremiumPageFrame narrow="3xl">
+        <PublicBreadcrumbs
         items={[
-          { label: t('nav.comparisons'), href: '/vs' },
-          { label: view.breadcrumbLabel, href: `/vs/${page.slug}` },
+        { label: t('nav.comparisons'), href: '/vs' },
+        { label: view.breadcrumbLabel, href: `/vs/${page.slug}` },
         ]}
-      />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        />
           <header className="text-center">
             <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">{view.headline}</h1>
             <p className="mt-4 text-lg text-muted-foreground">{view.summary}</p>
@@ -123,8 +123,7 @@ export default async function VsDetailPage({ params }: { params: { slug: string 
               </Link>
             </p>
           </div>
-        </div>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

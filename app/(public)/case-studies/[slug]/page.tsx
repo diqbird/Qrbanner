@@ -6,6 +6,7 @@ import { getCaseStudy, CASE_STUDIES } from '@/lib/case-studies';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { localizeCaseStudyView } from '@/lib/i18n/case-study-localize';
@@ -47,14 +48,14 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
           locale,
         })}
       />
-      <PublicBreadcrumbs
+      <PremiumPageFrame narrow="3xl">
+        <PublicBreadcrumbs
         items={[
-          { label: t('nav.caseStudies'), href: '/case-studies' },
-          { label: view.title, href: `/case-studies/${study.slug}` },
+        { label: t('nav.caseStudies'), href: '/case-studies' },
+        { label: view.title, href: `/case-studies/${study.slug}` },
         ]}
-      />
-      <article className="py-10 sm:py-16">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        />
+        <article>
           <p className="text-xs font-medium uppercase tracking-wider text-primary">{view.industry}</p>
           <p className="mt-3 inline-block rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs text-amber-800 dark:text-amber-200">
             {t('caseStudyPage.scenarioBadge')}
@@ -107,8 +108,8 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
               </Button>
             </Link>
           </div>
-        </div>
-      </article>
+        </article>
+      </PremiumPageFrame>
     </>
   );
 }

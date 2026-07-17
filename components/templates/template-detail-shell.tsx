@@ -1,6 +1,7 @@
 'use client';
 
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { resolveTemplateName } from '@/lib/i18n/resolve-template-copy';
 import { getTemplateById } from '@/lib/industry-templates';
@@ -17,20 +18,18 @@ export function TemplateDetailShell({ templateId }: { templateId: string }) {
   const createUrl = createUrlForTemplate(template.id);
 
   return (
-    <>
-      <PublicBreadcrumbs
-        items={[
-          { label: t('nav.templates'), href: '/templates' },
-          { label: name, href: `/templates/${template.id}` },
-        ]}
-      />
-      <div className="py-10 sm:py-16" data-testid="template-detail">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
-          <TemplateDetailHeader template={template} createUrl={createUrl} />
-          <TemplateDetailUseCasesTips template={template} />
-          <TemplateDetailFooterCta createUrl={createUrl} />
-        </div>
+    <PremiumPageFrame narrow="3xl">
+      <div data-testid="template-detail">
+        <PublicBreadcrumbs
+          items={[
+            { label: t('nav.templates'), href: '/templates' },
+            { label: name, href: `/templates/${template.id}` },
+          ]}
+        />
+        <TemplateDetailHeader template={template} createUrl={createUrl} />
+        <TemplateDetailUseCasesTips template={template} />
+        <TemplateDetailFooterCta createUrl={createUrl} />
       </div>
-    </>
+    </PremiumPageFrame>
   );
 }

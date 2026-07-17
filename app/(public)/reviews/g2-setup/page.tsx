@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
@@ -36,14 +37,13 @@ export default async function G2SetupPage() {
           locale,
         })}
       />
-      <PublicBreadcrumbs
+      <PremiumPageFrame narrow="3xl">
+        <PublicBreadcrumbs
         items={[
-          { label: t('reviews.pageTitle'), href: '/reviews' },
-          { label: t('g2Setup.title'), href: '/reviews/g2-setup' },
+        { label: t('reviews.pageTitle'), href: '/reviews' },
+        { label: t('g2Setup.title'), href: '/reviews/g2-setup' },
         ]}
-      />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        />
           <header>
             <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">{t('g2Setup.title')}</h1>
             <p className="mt-4 text-muted-foreground">{t('g2Setup.subtitle')}</p>
@@ -85,8 +85,7 @@ export default async function G2SetupPage() {
               {t('g2Setup.backToReviews')} →
             </Link>
           </div>
-        </div>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

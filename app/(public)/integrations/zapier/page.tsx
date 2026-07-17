@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Webhook, Zap } from 'lucide-react';
 import { pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { IntegrationWebhookRecipe } from '@/components/public/integration-webhook-recipe';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
@@ -37,14 +38,13 @@ export default async function ZapierIntegrationPage() {
 
   return (
     <>
-      <PublicBreadcrumbs
+      <PremiumPageFrame narrow="3xl">
+        <PublicBreadcrumbs
         items={[
-          { label: t('nav.integrations'), href: '/integrations' },
-          { label: t('nav.zapier'), href: '/integrations/zapier' },
+        { label: t('nav.integrations'), href: '/integrations' },
+        { label: t('nav.zapier'), href: '/integrations/zapier' },
         ]}
-      />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        />
           <header className="text-center">
             <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
               <Zap className="h-7 w-7 text-primary" />
@@ -93,8 +93,7 @@ export default async function ZapierIntegrationPage() {
             hmacTitle={t('zapierPage.hmacTitle')}
             docsLabel={t('zapierPage.docsLink')}
           />
-        </div>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
@@ -58,9 +59,9 @@ export default async function SecurityPage() {
           locale,
         })}
       />
-      <PublicBreadcrumbs items={[{ label: t('nav.security'), href: '/security' }]} />
-      <div className="py-10 sm:py-16">
-        <article className="mx-auto max-w-3xl space-y-10 px-4 sm:px-6">
+      <PremiumPageFrame narrow="3xl">
+        <PublicBreadcrumbs items={[{ label: t('nav.security'), href: '/security' }]} />
+        <article className="space-y-10">
           <header>
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
               <Shield className="h-6 w-6 text-primary" aria-hidden />
@@ -123,7 +124,7 @@ export default async function SecurityPage() {
             </p>
           </div>
         </article>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

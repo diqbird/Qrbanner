@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { JsonLd } from '@/components/seo/json-ld';
 import { RoiCalculator } from '@/components/marketing/roi-calculator';
 import { getServerLocale } from '@/lib/i18n/server';
@@ -31,16 +32,14 @@ export default async function RoiCalculatorPage() {
           locale,
         })}
       />
-      <PublicBreadcrumbs items={[{ label: t('nav.roiCalculator'), href: '/roi-calculator' }]} />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+      <PremiumPageFrame narrow="5xl">
+        <PublicBreadcrumbs items={[{ label: t('nav.roiCalculator'), href: '/roi-calculator' }]} />
           <header className="mb-10 max-w-2xl">
             <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">{t('roi.title')}</h1>
             <p className="mt-4 text-lg text-muted-foreground">{t('roi.subtitle')}</p>
           </header>
           <RoiCalculator />
-        </div>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

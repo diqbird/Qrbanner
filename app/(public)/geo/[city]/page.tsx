@@ -15,6 +15,7 @@ import { getSolutionBySlug } from '@/lib/solutions';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { getServerLocale } from '@/lib/i18n/server';
 import { localizePath, translate } from '@/lib/i18n';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
@@ -69,14 +70,13 @@ export default async function GeoCityPage({ params }: { params: { city: string }
           locale,
         })}
       />
-      <PublicBreadcrumbs
+      <PremiumPageFrame narrow="3xl">
+        <PublicBreadcrumbs
         items={[
-          { label: t('geoSeo.breadcrumb'), href: '/geo' },
-          { label: cityName, href: `/geo/${city.slug}` },
+        { label: t('geoSeo.breadcrumb'), href: '/geo' },
+        { label: cityName, href: `/geo/${city.slug}` },
         ]}
-      />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        />
           <header className="text-center">
             <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
               {t('geoSeo.cityHeadline').replace('{{city}}', cityName)}
@@ -112,8 +112,7 @@ export default async function GeoCityPage({ params }: { params: { city: string }
               <Button variant="outline">{t('geoSeo.backToHub')}</Button>
             </Link>
           </div>
-        </div>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

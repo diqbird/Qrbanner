@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
@@ -46,9 +47,8 @@ export default async function DemoPage() {
           locale,
         })}
       />
-      <PublicBreadcrumbs items={[{ label: t('demo.title'), href: '/demo' }]} />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6">
+      <PremiumPageFrame narrow="4xl">
+        <PublicBreadcrumbs items={[{ label: t('demo.title'), href: '/demo' }]} />
           <header className="mx-auto max-w-2xl text-center">
             <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">{t('demo.title')}</h1>
             <p className="mt-4 text-lg text-muted-foreground">{t('demo.subtitle')}</p>
@@ -86,8 +86,7 @@ export default async function DemoPage() {
               </Button>
             </Link>
           </div>
-        </div>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
@@ -34,9 +35,9 @@ export default async function RefundPage() {
           locale,
         })}
       />
-      <PublicBreadcrumbs items={[{ label: t('refundPage.title'), href: '/refund' }]} />
-      <div className="py-10 sm:py-16">
-        <article className="mx-auto max-w-3xl space-y-6 px-4 sm:px-6 text-sm leading-relaxed text-muted-foreground">
+      <PremiumPageFrame narrow="3xl">
+        <PublicBreadcrumbs items={[{ label: t('refundPage.title'), href: '/refund' }]} />
+        <article className="space-y-6 text-sm leading-relaxed text-muted-foreground">
           <div>
             <h1 className="font-display text-3xl font-bold text-foreground">{t('refundPage.title')}</h1>
             <p className="mt-2">{t('refundPage.lastUpdated')}</p>
@@ -105,7 +106,7 @@ export default async function RefundPage() {
             </p>
           </section>
         </article>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

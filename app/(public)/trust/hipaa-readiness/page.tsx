@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { HeartPulse } from 'lucide-react';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { JsonLd } from '@/components/seo/json-ld';
 import { Badge } from '@/components/ui/badge';
 import { getServerLocale } from '@/lib/i18n/server';
@@ -45,14 +46,14 @@ export default async function HipaaReadinessPage() {
           locale,
         })}
       />
-      <PublicBreadcrumbs
+      <PremiumPageFrame narrow="3xl">
+        <PublicBreadcrumbs
         items={[
-          { label: t('nav.trust'), href: '/trust' },
-          { label: t('hipaaReadiness.breadcrumb'), href: '/trust/hipaa-readiness' },
+        { label: t('nav.trust'), href: '/trust' },
+        { label: t('hipaaReadiness.breadcrumb'), href: '/trust/hipaa-readiness' },
         ]}
-      />
-      <div className="py-10 sm:py-16">
-        <article className="mx-auto max-w-3xl space-y-8 px-4 sm:px-6">
+        />
+        <article className="space-y-8">
           <header>
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
               <HeartPulse className="h-6 w-6 text-primary" aria-hidden />
@@ -114,7 +115,7 @@ export default async function HipaaReadinessPage() {
             </Link>
           </div>
         </article>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

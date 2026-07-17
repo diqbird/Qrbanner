@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { HelpPageContent } from '@/components/public/help-page-content';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
@@ -35,12 +36,10 @@ export default async function HelpPage() {
           locale,
         })}
       />
-      <PublicBreadcrumbs items={[{ label: t('nav.help'), href: '/help' }]} />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
-          <HelpPageContent />
-        </div>
-      </div>
+      <PremiumPageFrame narrow="3xl">
+        <PublicBreadcrumbs items={[{ label: t('nav.help'), href: '/help' }]} />
+        <HelpPageContent />
+      </PremiumPageFrame>
     </>
   );
 }

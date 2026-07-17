@@ -12,10 +12,10 @@ export function StatusPageContent() {
   const { health, loading, error, reload, operational } = useStatusPageHealth();
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-16">
+    <div>
       <header className="text-center">
-        <h1 className="font-display text-4xl font-bold tracking-tight">{t('status.pageTitle')}</h1>
-        <p className="mt-3 text-muted-foreground">{t('status.pageSubtitle')}</p>
+        <h1 className="ph-title text-4xl sm:text-5xl">{t('status.pageTitle')}</h1>
+        <p className="ph-lead mx-auto mt-4 max-w-2xl">{t('status.pageSubtitle')}</p>
       </header>
 
       <div className="mt-8 rounded-xl border border-border/60 bg-muted/30 p-5 text-center">

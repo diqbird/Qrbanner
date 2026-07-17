@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getAllPostSlugs, getPostBySlug } from '@/lib/blog';
 import { absoluteLocalizedUrl, absoluteUrl, pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { JsonLd } from '@/components/seo/json-ld';
 import { BlogArticleBody } from '@/components/public/blog-article-body';
 import { ProgrammaticInternalLinks } from '@/components/seo/programmatic-internal-links';
@@ -88,14 +89,13 @@ export default async function BlogPostPage({ params }: Props) {
             : []),
         ]}
       />
-      <PublicBreadcrumbs
+      <PremiumPageFrame narrow="800">
+        <PublicBreadcrumbs
         items={[
-          { label: t('nav.blog'), href: '/blog' },
-          { label: post.title, href: `/blog/${post.slug}` },
+        { label: t('nav.blog'), href: '/blog' },
+        { label: post.title, href: `/blog/${post.slug}` },
         ]}
-      />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-[720px] px-4 sm:px-6">
+        />
           <Link href={localizePath('/blog', locale)}>
             <Button variant="ghost" size="sm" className="mb-6 gap-2 -ml-2">
               <ArrowLeft className="h-4 w-4" aria-hidden /> {t('blogPost.allArticles')}
@@ -139,8 +139,7 @@ export default async function BlogPostPage({ params }: Props) {
               <Button size="lg">{t('blogPost.ctaButton')}</Button>
             </Link>
           </div>
-        </div>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

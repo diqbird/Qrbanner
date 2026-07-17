@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { SUPPORT_EMAIL } from '@/lib/site-contact';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
@@ -31,14 +32,14 @@ export default async function EnterpriseOverviewPage() {
 
   return (
     <>
-      <PublicBreadcrumbs
-        items={[
-          { label: t('nav.enterprise'), href: '/enterprise' },
-          { label: t('enterpriseOverview.title'), href: '/downloads/enterprise-overview' },
-        ]}
-      />
-      <div className="py-10 sm:py-16 print:py-6">
-        <article className="mx-auto max-w-3xl px-4 sm:px-6 print:max-w-none print:px-8">
+      <PremiumPageFrame narrow="3xl">
+        <PublicBreadcrumbs
+          items={[
+            { label: t('nav.enterprise'), href: '/enterprise' },
+            { label: t('enterpriseOverview.title'), href: '/downloads/enterprise-overview' },
+          ]}
+        />
+        <article className="print:max-w-none">
           <header className="border-b border-border pb-8 print:pb-4">
             <p className="text-sm font-medium text-primary">QRbanner</p>
             <h1 className="mt-2 font-display text-3xl font-bold">{t('enterpriseOverview.title')}</h1>
@@ -79,7 +80,7 @@ export default async function EnterpriseOverviewPage() {
             </p>
           </footer>
         </article>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }

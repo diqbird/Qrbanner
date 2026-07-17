@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { JsonLd } from '@/components/seo/json-ld';
 import { PRIVACY_EMAIL } from '@/lib/site-contact';
 import { getServerLocale } from '@/lib/i18n/server';
@@ -32,9 +33,9 @@ export default async function CookiesPage() {
           locale,
         })}
       />
-      <PublicBreadcrumbs items={[{ label: t('cookiesPage.title'), href: '/cookies' }]} />
-      <div className="py-10 sm:py-16">
-        <article className="mx-auto max-w-3xl space-y-6 px-4 sm:px-6 text-sm leading-relaxed text-muted-foreground">
+      <PremiumPageFrame narrow="3xl">
+        <PublicBreadcrumbs items={[{ label: t('cookiesPage.title'), href: '/cookies' }]} />
+        <article className="space-y-6 text-sm leading-relaxed text-muted-foreground">
           <div>
             <h1 className="font-display text-3xl font-bold text-foreground">{t('cookiesPage.title')}</h1>
             <p className="mt-2">{t('cookiesPage.lastUpdated')}</p>
@@ -77,7 +78,7 @@ export default async function CookiesPage() {
             </p>
           </section>
         </article>
-      </div>
+      </PremiumPageFrame>
     </>
   );
 }
