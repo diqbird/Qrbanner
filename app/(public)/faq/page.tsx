@@ -4,6 +4,7 @@ import { faqJsonLd, pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { FaqPageContent } from '@/components/public/faq-page-content';
+import { PremiumShell } from '@/components/landing/premium/primitives';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 
@@ -43,12 +44,14 @@ export default async function FAQPage() {
           webPageJsonLd({ title: pageTitle, description: pageDesc, path: '/faq', locale }),
         ]}
       />
-      <PublicBreadcrumbs items={[{ label: t('nav.faq'), href: '/faq' }]} />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
-          <FaqPageContent />
+      <PremiumShell>
+        <div className="ph-container pb-16 pt-6 sm:pb-24 sm:pt-8">
+          <div className="mx-auto max-w-3xl">
+            <PublicBreadcrumbs items={[{ label: t('nav.faq'), href: '/faq' }]} />
+            <FaqPageContent />
+          </div>
         </div>
-      </div>
+      </PremiumShell>
     </>
   );
 }

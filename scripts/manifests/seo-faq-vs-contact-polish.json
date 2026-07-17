@@ -1,0 +1,15 @@
+{
+  "upload": [
+    "app/(public)/faq/page.tsx",
+    "components/public/faq-page-content.tsx",
+    "app/(public)/vs/page.tsx",
+    "app/(public)/contact/page.tsx",
+    "components/marketing/sales-inquiry-contact-fields.tsx",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

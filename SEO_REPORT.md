@@ -132,10 +132,14 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 - CSP: explicit `style-src-attr 'unsafe-inline'` (React `style={{}}`). Style-element nonce deferred — Framer Motion / Crisp inject un-nonced `<style>` tags; adding a style nonce would ignore `'unsafe-inline'` in CSP3 and break UI.
 - Features page wrapped in `PremiumShell` (match home/pricing tokens, reveal motion, dark CTA band).
 
-### Still open
-1. **GSC (manual only):** complete Search Console clicks in checklist below.
+### Done in follow-up pack (2026-07-17 m)
+- FAQ, vs index, and contact hubs wrapped in `PremiumShell` (locale paths on vs/contact links).
+- Contact / sales inquiry form a11y: `autocomplete`, `aria-required`, enterprise `fieldset`/`legend`.
+
+### Still open (manual / billing only)
+1. **GSC:** Search Console clicks in checklist below (site already verification-ready; sitemap health PASS).
 2. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).
-3. **CSP follow-up:** style-src-elem nonce only after Motion/Crisp style injection is nonced or replaced; watch console for script violations after `strict-dynamic`.
+3. **CSP:** style-src-elem nonce only after Motion/Crisp style injection is nonced or replaced.
 
 ### GSC checklist (manual)
 1. Confirm property for `https://qrbanner.com` (verification meta live: `xFJ2mgJtq8mkZibVZWBdq1bAvM0RhBl53tQS_QFvqMg`).
@@ -195,7 +199,7 @@ Validate with [Rich Results Test](https://search.google.com/test/rich-results) o
 - Breadcrumbs: `aria-label`, `aria-current="page"`.
 - Marketplace detail: one H1 inside `<article>`.
 - Customer logos: descriptive `alt` from industry label.
-- Remaining: audit form labels on contact/procurement; contrast in dark mode for muted text.
+- Contact/sales inquiry labels + autocomplete wired; procurement form can be audited separately. Watch muted-text contrast in dark mode.
 
 ---
 

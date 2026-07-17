@@ -2,12 +2,13 @@ import type { Metadata } from 'next';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
+import { PremiumShell } from '@/components/landing/premium/primitives';
 import { SUPPORT_EMAIL, PRIVACY_EMAIL, supportMailto, whatsappUrl, demoBookingUrl } from '@/lib/site-contact';
 import { SalesInquiryForm } from '@/components/marketing/sales-inquiry-form';
 import Link from 'next/link';
 import { Mail, MessageCircle, Calendar } from 'lucide-react';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 
 export const revalidate = 3600;
 
@@ -42,22 +43,29 @@ export default async function ContactPage({
           locale,
         })}
       />
-      <PublicBreadcrumbs items={[{ label: t('footer.contact'), href: '/contact' }]} />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
-          <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
-            {isDemo ? t('contactPage.demoTitle') : t('contactPage.title')}
-          </h1>
-          <p className="mt-4 text-muted-foreground leading-relaxed">
-            {isDemo ? t('contactPage.demoSubtitle') : t('contactPage.subtitle')}
-          </p>
+      <PremiumShell>
+        <div className="ph-container pb-16 pt-6 sm:pb-24 sm:pt-8">
+          <div className="mx-auto max-w-3xl">
+          <PublicBreadcrumbs items={[{ label: t('footer.contact'), href: '/contact' }]} />
+          <header className="relative">
+            <div className="pointer-events-none absolute -left-10 -top-8 -z-10 h-40 w-72 rounded-full bg-[#2563EB]/15 blur-[70px] dark:bg-[#2563EB]/25" aria-hidden />
+            <p className="ph-eyebrow mb-4">{t('footer.contact')}</p>
+            <h1 className="ph-title text-3xl leading-[1.1] sm:text-4xl lg:text-[2.75rem]">
+              {isDemo ? t('contactPage.demoTitle') : t('contactPage.title')}
+            </h1>
+            <p className="mt-4 leading-relaxed text-muted-foreground">
+              {isDemo ? t('contactPage.demoSubtitle') : t('contactPage.subtitle')}
+            </p>
+          </header>
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
             <a
               href={supportMailto(isDemo ? 'QRbanner Demo Request' : 'QRbanner Support')}
-              className="flex gap-4 rounded-xl border border-border/60 bg-card p-5 transition-colors hover:border-primary/40 hover:bg-primary/5"
+              className="ph-card flex gap-4 p-5"
             >
-              <Mail className="h-6 w-6 shrink-0 text-primary" />
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2563EB]/10 text-[#2563EB] dark:bg-sky-400/15 dark:text-sky-400">
+                <Mail className="h-5 w-5" aria-hidden />
+              </span>
               <div>
                 <p className="font-medium">{t('contactPage.emailTitle')}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{SUPPORT_EMAIL}</p>
@@ -68,20 +76,21 @@ export default async function ContactPage({
                 href={wa}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex gap-4 rounded-xl border border-border/60 bg-card p-5 transition-colors hover:border-primary/40 hover:bg-primary/5"
+                className="ph-card flex gap-4 p-5"
               >
-                <MessageCircle className="h-6 w-6 shrink-0 text-primary" />
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2563EB]/10 text-[#2563EB] dark:bg-sky-400/15 dark:text-sky-400">
+                  <MessageCircle className="h-5 w-5" aria-hidden />
+                </span>
                 <div>
                   <p className="font-medium">{t('contactPage.whatsappTitle')}</p>
                   <p className="mt-1 text-sm text-muted-foreground">{t('contactPage.whatsappDesc')}</p>
                 </div>
               </a>
             ) : (
-              <Link
-                href="/faq"
-                className="flex gap-4 rounded-xl border border-border/60 bg-card p-5 transition-colors hover:border-primary/40 hover:bg-primary/5"
-              >
-                <MessageCircle className="h-6 w-6 shrink-0 text-primary" />
+              <Link href={localizePath('/faq', locale)} className="ph-card flex gap-4 p-5">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2563EB]/10 text-[#2563EB] dark:bg-sky-400/15 dark:text-sky-400">
+                  <MessageCircle className="h-5 w-5" aria-hidden />
+                </span>
                 <div>
                   <p className="font-medium">{t('nav.faq')}</p>
                   <p className="mt-1 text-sm text-muted-foreground">{t('contactPage.faqDesc')}</p>
@@ -91,9 +100,11 @@ export default async function ContactPage({
             {isDemo && (
               <a
                 href={demoBookingUrl()}
-                className="flex gap-4 rounded-xl border border-primary/30 bg-primary/5 p-5 sm:col-span-2"
+                className="ph-card flex gap-4 border-[#2563EB]/30 bg-[#2563EB]/5 p-5 hover:translate-y-0 hover:scale-100 dark:border-sky-400/30 dark:bg-sky-400/10 sm:col-span-2"
               >
-                <Calendar className="h-6 w-6 shrink-0 text-primary" />
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2563EB]/15 text-[#2563EB] dark:bg-sky-400/20 dark:text-sky-400">
+                  <Calendar className="h-5 w-5" aria-hidden />
+                </span>
                 <div>
                   <p className="font-medium">{t('contactPage.calendarTitle')}</p>
                   <p className="mt-1 text-sm text-muted-foreground">{t('contactPage.calendarDesc')}</p>
@@ -102,8 +113,11 @@ export default async function ContactPage({
             )}
           </div>
 
-          <section className="mt-12 rounded-2xl border border-border/50 bg-card p-6 sm:p-8">
-            <h2 className="font-display text-xl font-semibold">
+          <section
+            className="ph-card mt-12 p-6 hover:translate-y-0 hover:scale-100 sm:p-8"
+            aria-labelledby="contact-form-heading"
+          >
+            <h2 id="contact-form-heading" className="ph-title text-xl">
               {isDemo ? t('contactPage.formDemoTitle') : t('contactPage.formTitle')}
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">{t('contactPage.formSubtitle')}</p>
@@ -114,17 +128,18 @@ export default async function ContactPage({
 
           <p className="mt-8 text-sm text-muted-foreground">
             {t('contactPage.enterpriseNote')}{' '}
-            <Link href="/enterprise" className="text-primary hover:underline">
+            <Link href={localizePath('/enterprise', locale)} className="text-[#2563EB] hover:underline dark:text-sky-400">
               {t('contactPage.enterpriseLink')}
             </Link>
             {' · '}
             {t('contactPage.privacyNote')}{' '}
-            <a href={`mailto:${PRIVACY_EMAIL}`} className="text-primary hover:underline">
+            <a href={`mailto:${PRIVACY_EMAIL}`} className="text-[#2563EB] hover:underline dark:text-sky-400">
               {PRIVACY_EMAIL}
             </a>
           </p>
+          </div>
         </div>
-      </div>
+      </PremiumShell>
     </>
   );
 }
