@@ -112,6 +112,10 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 - Blog locale URLs unlocked: `/tr|/de|/es/blog` (+ post slugs) with hreflang/sitemap; all 65 posts have TR/DE/ES bodies.
 - Changelog aliases now redirect to locale blog hubs.
 
+### Done in follow-up pack (2026-07-17 g)
+- Solutions detail pages emit `FAQPage` JSON-LD from localized FAQ (EN/TR/DE/ES).
+- Solution ROI CTA + homepage industries / use-cases / case-studies teasers use locale paths; industries cards use `localizeSolutionPage`.
+
 ### Still open
 1. **GSC:** see checklist below (manual in Search Console) — re-submit sitemap after blog locale URLs.
 2. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).
@@ -157,7 +161,7 @@ Run PageSpeed Insights on `/`, `/pricing`, `/templates`, `/tr`, `/marketplace` a
 | Type | Where |
 |------|--------|
 | Organization, WebSite (+ SearchAction), SoftwareApplication (AggregateOffer) | Public layout |
-| FAQPage | Home (locale), FAQ, Pricing, Referral |
+| FAQPage | Home (locale), FAQ, Pricing, Referral, Solutions detail, Geo sector, Apps |
 | WebPage | Key marketing pages (+ locale when passed) |
 | BreadcrumbList | Public breadcrumbs (locale-aware) |
 | Product / Offer (plans) | Pricing |

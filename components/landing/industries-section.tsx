@@ -1,15 +1,19 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 import { FEATURED_SOLUTION_SLUGS, getSolutionBySlug } from '@/lib/solutions';
+import { localizeSolutionPage } from '@/lib/i18n/solution-localize';
 import { solutionIcon } from '@/lib/solution-icons';
 
 export async function LandingIndustriesSection() {
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
 
-  const featured = FEATURED_SOLUTION_SLUGS.map((slug) => getSolutionBySlug(slug)).filter(Boolean);
+  const featured = FEATURED_SOLUTION_SLUGS.map((slug) => {
+    const solution = getSolutionBySlug(slug);
+    return solution ? localizeSolutionPage(solution, locale) : null;
+  }).filter(Boolean);
 
   return (
     <section className="py-16 sm:py-20" aria-labelledby="industries-heading">
@@ -28,7 +32,7 @@ export async function LandingIndustriesSection() {
             return (
               <Link
                 key={solution.slug}
-                href={`/solutions/${solution.slug}`}
+                href={localizePath(`/solutions/${solution.slug}`, locale)}
                 className="group flex flex-col rounded-2xl border border-border/50 bg-card p-6 shadow-sm transition-all hover:border-primary/30 hover:shadow-md"
               >
                 <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl icon-well-primary-hover">
@@ -48,7 +52,10 @@ export async function LandingIndustriesSection() {
         </div>
 
         <p className="mt-8 text-center">
-          <Link href="/solutions" className="text-sm font-medium text-primary hover:underline">
+          <Link
+            href={localizePath('/solutions', locale)}
+            className="text-sm font-medium text-primary hover:underline"
+          >
             {t('industries.viewAll')}
           </Link>
         </p>

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import type { SolutionPage } from '@/lib/solutions';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { useLocalePath } from '@/components/i18n/use-locale-path';
 import { formatFreePlanEditableQrLabel } from '@/lib/i18n/dynamic-qr-label';
 import { SolutionDetailBenefits, SolutionDetailFeatures } from './solution-detail-benefits-features';
 import { SolutionDetailSteps, SolutionDetailFaq } from './solution-detail-steps-faq';
@@ -22,6 +23,7 @@ export function SolutionDetailBody({ solution }: { solution: SolutionPage }) {
 
 export function SolutionDetailCta({ solution }: { solution: SolutionPage }) {
   const { t, locale } = useLanguage();
+  const localePath = useLocalePath();
   const createUrl = solution.templateId
     ? `/qr/create?template=${solution.templateId}`
     : solution.categoryId
@@ -40,7 +42,7 @@ export function SolutionDetailCta({ solution }: { solution: SolutionPage }) {
             {t('solutionDetail.startWith', { title: solution.title })} <ArrowRight className="h-4 w-4" />
           </Button>
         </Link>
-        <Link href="/roi-calculator">
+        <Link href={localePath('/roi-calculator')}>
           <Button variant="outline" className="rounded-full">
             {t('solutionDetail.calculateRoi')}
           </Button>

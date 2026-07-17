@@ -7,7 +7,7 @@ import {
 import { localizeUseCasePage } from '@/lib/i18n/resolve-programmatic-copy';
 import { solutionIcon } from '@/lib/solution-icons';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 
 export async function LandingUseCasesSection() {
   const locale = await getServerLocale();
@@ -35,7 +35,7 @@ export async function LandingUseCasesSection() {
             return (
               <Link
                 key={page.slug}
-                href={`/use-cases/${page.slug}`}
+                href={localizePath(`/use-cases/${page.slug}`, locale)}
                 className="group flex flex-col rounded-2xl border border-border/50 bg-card p-6 shadow-sm transition-all hover:border-primary/30 hover:shadow-md"
               >
                 <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl icon-well-primary-hover">
@@ -56,11 +56,11 @@ export async function LandingUseCasesSection() {
 
         <p className="mt-8 text-center text-sm text-muted-foreground">
           {t('useCasesTeaser.alsoBrowse')}{' '}
-          <Link href="/qr-types" className="font-medium text-primary hover:underline">
+          <Link href={localizePath('/qr-types', locale)} className="font-medium text-primary hover:underline">
             {t('nav.qrTypes')}
           </Link>
           {' · '}
-          <Link href="/use-cases" className="font-medium text-primary hover:underline">
+          <Link href={localizePath('/use-cases', locale)} className="font-medium text-primary hover:underline">
             {t('useCasesTeaser.viewAll')}
           </Link>
         </p>

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 import { localizeCaseStudyView } from '@/lib/i18n/case-study-localize';
 import { CASE_STUDIES } from '@/lib/case-studies';
 import { Button } from '@/components/ui/button';
@@ -21,7 +21,7 @@ export async function LandingCaseStudiesTeaser() {
             </h2>
             <p className="mt-2 text-muted-foreground">{t('caseStudiesTeaser.subtitle')}</p>
           </div>
-          <Link href="/case-studies">
+          <Link href={localizePath('/case-studies', locale)}>
             <Button variant="outline" className="gap-2">
               {t('caseStudiesTeaser.viewAll')} <ArrowRight className="h-4 w-4" />
             </Button>
@@ -33,7 +33,7 @@ export async function LandingCaseStudiesTeaser() {
             return (
             <Link
               key={study.slug}
-              href={`/case-studies/${study.slug}`}
+              href={localizePath(`/case-studies/${study.slug}`, locale)}
               className="rounded-2xl border border-border/50 bg-card p-6 shadow-sm transition-colors hover:border-primary/30"
             >
               <p className="text-xs font-medium uppercase tracking-wider text-primary">{view.industry}</p>

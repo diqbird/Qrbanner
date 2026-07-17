@@ -1,0 +1,15 @@
+{
+  "upload": [
+    "app/(public)/solutions/[slug]/page.tsx",
+    "components/solutions/solution-detail-sections.tsx",
+    "components/landing/industries-section.tsx",
+    "components/landing/use-cases-teaser.tsx",
+    "components/landing/case-studies-teaser.tsx",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

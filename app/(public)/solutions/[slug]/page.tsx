@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { SOLUTION_PAGES, getSolutionBySlug } from '@/lib/solutions';
-import { pageMetadata, webPageJsonLd } from '@/lib/seo';
+import { pageMetadata, webPageJsonLd, faqJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/json-ld';
 import { SolutionDetailShell } from '@/components/solutions/solution-detail-shell';
 import { getServerLocale } from '@/lib/i18n/server';
@@ -36,15 +36,22 @@ export default async function SolutionDetailPage({ params }: { params: { slug: s
   if (!solution) notFound();
   const locale = await getServerLocale();
   const localized = localizeSolutionPage(solution, locale);
+  const faqItems = localized.faq.map((item) => ({
+    question: item.q,
+    answer: item.a,
+  }));
   return (
     <>
       <JsonLd
-        data={webPageJsonLd({
-          title: localized.title,
-          description: localized.metaDescription,
-          path: `/solutions/${localized.slug}`,
-          locale,
-        })}
+        data={[
+          webPageJsonLd({
+            title: localized.title,
+            description: localized.metaDescription,
+            path: `/solutions/${localized.slug}`,
+            locale,
+          }),
+          ...(faqItems.length ? [faqJsonLd(faqItems)] : []),
+        ]}
       />
       <SolutionDetailShell solution={localized} />
     </>
