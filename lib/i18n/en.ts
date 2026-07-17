@@ -3287,6 +3287,8 @@ export const en: TranslationTree = {
     ctaBody: 'Free wizard — design, scan-test, and download in minutes.',
     ctaButton: 'Create QR Code Free',
     faqTitle: 'Frequently asked questions',
+    relatedSolution: 'Industry solution',
+    relatedTemplate: 'Start from template',
   },
   solutionDetail: {
     createFree: 'Create free',

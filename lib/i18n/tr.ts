@@ -3288,6 +3288,8 @@ export const tr: TranslationTree = {
     ctaBody: 'Ücretsiz sihirbaz — dakikalar içinde tasarlayın, test edin ve indirin.',
     ctaButton: 'Ücretsiz QR Kodu Oluştur',
     faqTitle: 'Sıkça sorulan sorular',
+    relatedSolution: 'Sektör çözümü',
+    relatedTemplate: 'Şablondan başla',
   },
   solutionDetail: {
     createFree: 'Ücretsiz oluştur',

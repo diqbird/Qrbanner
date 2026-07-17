@@ -116,6 +116,9 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 - Solutions detail pages emit `FAQPage` JSON-LD from localized FAQ (EN/TR/DE/ES).
 - Solution ROI CTA + homepage industries / use-cases / case-studies teasers use locale paths; industries cards use `localizeSolutionPage`.
 
+### Done in follow-up pack (2026-07-17 h)
+- Blog → solution/template deep links via static slug map (`lib/blog/related-links.ts`) into `ProgrammaticInternalLinks` extraLinks.
+
 ### Still open
 1. **GSC:** see checklist below (manual in Search Console) — re-submit sitemap after blog locale URLs.
 2. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).

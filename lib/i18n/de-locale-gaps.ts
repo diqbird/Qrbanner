@@ -181,7 +181,9 @@ export const deLocaleGaps: TranslationTree = {
     ctaTitle: "Bereit für Ihren ersten dynamischen QR?",
     ctaBody: "Kostenloser Assistent — designen, Scan testen und in Minuten herunterladen.",
     ctaButton: "QR-Code kostenlos erstellen",
-    faqTitle: "Häufig gestellte Fragen"
+    faqTitle: "Häufig gestellte Fragen",
+    relatedSolution: "Branchenlösung",
+    relatedTemplate: "Mit Vorlage starten"
   },
   brandLogos: {
     metaTitle: "Kundenlogos ersetzen",

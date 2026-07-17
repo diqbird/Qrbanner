@@ -53,6 +53,17 @@ export async function ProgrammaticInternalLinks({
       </div>
 
       <ul className="mt-5 space-y-2">
+        {extraLinks?.map((link) => (
+          <li key={link.href}>
+            <Link
+              href={localizePath(link.href, locale)}
+              className="group inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:text-primary transition-colors"
+            >
+              <ArrowRight className="h-3.5 w-3.5 opacity-60 group-hover:opacity-100" aria-hidden />
+              {link.label}
+            </Link>
+          </li>
+        ))}
         {guides.map((page) =>
           page ? (
             <li key={page.slug}>
@@ -66,17 +77,6 @@ export async function ProgrammaticInternalLinks({
             </li>
           ) : null
         )}
-        {extraLinks?.map((link) => (
-          <li key={link.href}>
-            <Link
-              href={localizePath(link.href, locale)}
-              className="group inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              <ArrowRight className="h-3.5 w-3.5 opacity-60 group-hover:opacity-100" aria-hidden />
-              {link.label}
-            </Link>
-          </li>
-        ))}
       </ul>
     </aside>
   );
