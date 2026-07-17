@@ -12,8 +12,19 @@ import {
 } from '../lib/workspace-enterprise';
 import { getAnalyticsCutoffDate } from '../lib/analytics-range';
 import { isPaddleConfigured } from '../lib/paddle';
+import { defaultBulkUsage } from '../lib/qr-bulk-import-types';
+import { formatLocaleNumber } from '../lib/i18n/format-locale';
 
 type Check = { name: string; ok: boolean; detail: string };
+
+/** Pricing features use formatLocaleNumber('en') — not the host OS locale. */
+function featuresContainCount(features: string, n: number): boolean {
+  return (
+    features.includes(String(n)) ||
+    features.includes(formatLocaleNumber(n, 'en')) ||
+    features.includes(n.toLocaleString('en-US'))
+  );
+}
 
 const checks: Check[] = [];
 
@@ -76,12 +87,12 @@ for (const id of ORDER) {
   const features = displayed.features.join(' | ');
   record(
     `pricing.qrCount.${id}`,
-    features.includes(String(source.maxQrCodes)) || features.includes(source.maxQrCodes.toLocaleString()),
+    featuresContainCount(features, source.maxQrCodes),
     `Expected ${source.maxQrCodes} in features`
   );
   record(
     `pricing.bulk.${id}`,
-    features.includes(String(source.maxBulkRows)),
+    featuresContainCount(features, source.maxBulkRows),
     `Expected bulk ${source.maxBulkRows}`
   );
   record(
@@ -108,6 +119,17 @@ record('reseller.business', workspaceOwnerHasResellerPlan('business') === false,
 record('reseller.agency', workspaceOwnerHasResellerPlan('agency') === true, 'agency allowed');
 record('plan.agency.resellerClients', PLANS.agency.maxResellerClients === 100, 'agency client cap');
 record('plan.free.marketplace', PLANS.free.maxMarketplaceListings === 0, 'free no marketplace');
+record(
+  'bulk.default.qrLimit',
+  defaultBulkUsage.qrLimit === PLANS.free.maxQrCodes,
+  `defaultBulkUsage.qrLimit=${defaultBulkUsage.qrLimit} matches free.maxQrCodes`,
+);
+record(
+  'bulk.default.maxBulkRows',
+  defaultBulkUsage.maxBulkRows === PLANS.free.maxBulkRows,
+  `defaultBulkUsage.maxBulkRows=${defaultBulkUsage.maxBulkRows} matches free.maxBulkRows`,
+);
+record('bulk.default.planId', defaultBulkUsage.planId === 'free', 'defaultBulkUsage.planId=free');
 
 const freeCutoff = getAnalyticsCutoffDate(90);
 const bizCutoff = getAnalyticsCutoffDate(null);

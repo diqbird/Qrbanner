@@ -151,6 +151,9 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 ### Done in follow-up pack (2026-07-17 r)
 - Remaining marketing hubs + detail shells wrapped in shared `PremiumPageFrame` (blog/help/customers/legal/geo/marketplace/integrations/trust/downloads/developers reference, plus solution/template/programmatic detail shells). App flows (`/qr/*`, `/pay`) left unchanged.
 
+### Done in follow-up pack (2026-07-17 s)
+- Free-plan QR limit drift fix: bulk-import optimistic defaults now read `PLANS.free` (was hardcoded `qrLimit: 25`). Audit asserts SoT sync. Live pricing/signup already showed 1; enforcement remains `maxQrCodes: 1`.
+
 ### Still open (manual / billing only)
 1. **GSC:** Search Console clicks in checklist below (site already verification-ready; sitemap health PASS).
 2. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).

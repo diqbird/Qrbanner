@@ -1,3 +1,5 @@
+import { PLANS } from '@/lib/plans';
+
 export interface CreatedQR {
   id: string;
   name: string;
@@ -20,9 +22,10 @@ export interface UsageInfo {
   planId: string;
 }
 
+/** Optimistic free-plan defaults until `/api/qr/bulk` usage loads — keep in sync with `PLANS.free`. */
 export const defaultBulkUsage: UsageInfo = {
-  maxBulkRows: 250,
-  qrLimit: 25,
+  maxBulkRows: PLANS.free.maxBulkRows,
+  qrLimit: PLANS.free.maxQrCodes,
   qrCodes: 0,
-  planId: 'free',
+  planId: PLANS.free.id,
 };

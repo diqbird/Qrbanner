@@ -1,0 +1,13 @@
+{
+  "upload": [
+    "lib/qr-bulk-import-types.ts",
+    "hooks/use-qr-bulk-import-usage.ts",
+    "scripts/audit-plan-enforcement.ts",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
