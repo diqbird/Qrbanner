@@ -33,6 +33,7 @@ export default async function G2SetupPage() {
           title: t('g2Setup.title'),
           description: t('g2Setup.subtitle'),
           path: '/reviews/g2-setup',
+          locale,
         })}
       />
       <PublicBreadcrumbs

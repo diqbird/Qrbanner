@@ -37,6 +37,7 @@ export default async function PrivacyPage() {
           title: t('privacyPage.title'),
           description: t('privacyPage.metaDescription'),
           path: '/privacy',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('privacyPage.title'), href: '/privacy' }]} />

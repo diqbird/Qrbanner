@@ -83,15 +83,19 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 
 ## 4. Remaining recommendations
 
-1. **Pass `locale` into every `webPageJsonLd` call** on geo, solutions, QR types, use-cases, integrations, case-study detail (helpers already support it; many call sites still default to `en`).
-2. **Geo / programmatic thinness:** add 2–3 unique FAQ Q&As per city×sector template to strengthen AI Overview eligibility.
-3. **`/apps`:** HowTo + FAQ for PWA install; keep honest “no App Store yet” copy; optional `MobileApplication` only if accurate.
-4. **Blog body images:** migrate `blog-article-body` raw `<img>` → `next/image` with meaningful `alt`.
-5. **Internal linking:** wire `useLocalePath` on programmatic shells and marketplace CTAs that still hardcode `/…`.
-6. **SearchAction:** if Cmd+K gains a public shareable URL, point `urlTemplate` there instead of templates search.
-7. **CSP alignment:** mirror middleware CSP into `next.config.js` headers for non-middleware responses.
-8. **GSC:** submit updated sitemap; monitor “Alternate page with proper canonical” after locale redirects.
-9. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).
+### Done in follow-up pack (2026-07-17)
+- Locale passed into remaining marketing `webPageJsonLd` call sites (+ geo hub/city/sector, vs comparisons).
+- Geo city×sector: visible FAQ + `FAQPage` JSON-LD (3 Q&As per combo).
+- `/apps`: HowTo + FAQPage JSON-LD + on-page FAQ (honest no App Store copy).
+- Locale-aware internal links: programmatic shell/pricing, internal-links hubs, geo hub, marketplace browse.
+
+### Still open
+1. **Blog body images:** migrate `blog-article-body` raw `<img>` → `next/image` with meaningful `alt`.
+2. **SearchAction:** if Cmd+K gains a public shareable URL, point `urlTemplate` there instead of templates search.
+3. **CSP alignment:** mirror middleware CSP into `next.config.js` headers for non-middleware responses.
+4. **GSC:** submit updated sitemap; monitor “Alternate page with proper canonical” after locale redirects.
+5. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).
+6. **Detail shells:** solutions / qr-types / use-cases detail pages still rely on metadata + breadcrumbs; optional WebPage JSON-LD if not already covered by shells.
 
 ---
 

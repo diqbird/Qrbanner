@@ -4,10 +4,11 @@ import { MapPin, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { GEO_CITIES, GEO_SECTOR_SLUGS, countGeoPages, geoCityName, geoCountryName } from '@/lib/geo-seo-pages';
 import { getSolutionBySlug } from '@/lib/solutions';
-import { pageMetadata } from '@/lib/seo';
+import { pageMetadata, webPageJsonLd } from '@/lib/seo';
+import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 import { formatFreePlanDynamicQrLabel } from '@/lib/i18n/dynamic-qr-label';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { solutionSectorLabel } from '@/lib/i18n/solution-localize';
@@ -37,12 +38,22 @@ export default async function GeoHubPage() {
 
   return (
     <>
+      <JsonLd
+        data={webPageJsonLd({
+          title: t('geoSeo.hubTitle'),
+          description: t('geoSeo.hubDescription', {
+            count: formatLocaleNumber(countGeoPages(), locale),
+          }),
+          path: '/geo',
+          locale,
+        })}
+      />
       <PublicBreadcrumbs items={[{ label: t('geoSeo.breadcrumb'), href: '/geo' }]} />
       <div className="py-10 sm:py-16">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
           <header className="text-center">
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
-              <MapPin className="h-6 w-6 text-primary" />
+              <MapPin className="h-6 w-6 text-primary" aria-hidden />
             </div>
             <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
               {t('geoSeo.hubHeadline')}
@@ -63,7 +74,7 @@ export default async function GeoHubPage() {
               {GEO_CITIES.map((city) => (
                 <Link
                   key={city.slug}
-                  href={`/geo/${city.slug}`}
+                  href={localizePath(`/geo/${city.slug}`, locale)}
                   className="rounded-lg border border-border/50 p-4 transition-colors hover:border-primary/40 hover:bg-muted/30"
                 >
                   <p className="font-medium">{geoCityName(city, locale)}</p>
@@ -82,7 +93,7 @@ export default async function GeoHubPage() {
                 solution ? (
                   <Link
                     key={solution.slug}
-                    href={`/solutions/${solution.slug}`}
+                    href={localizePath(`/solutions/${solution.slug}`, locale)}
                     className="rounded-full border border-border/60 bg-background px-3 py-1 text-xs font-medium hover:border-primary/40 hover:text-primary"
                   >
                     {solutionSectorLabel(solution.slug, locale, solution.title)}

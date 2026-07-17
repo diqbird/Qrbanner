@@ -29,6 +29,7 @@ export default async function BrandLogosGuidePage() {
           title: t('brandLogos.title'),
           description: t('brandLogos.subtitle'),
           path: '/brand/logos',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('brandLogos.title'), href: '/brand/logos' }]} />

@@ -3738,6 +3738,12 @@ export const tr: TranslationTree = {
     detailCtaBody: 'Ücretsiz planda {{qrLabel}}, tarama analitiği ve webhook otomasyonları.',
     relatedSolution: 'Tam sektör çözümünü görün',
     allSectorsIn: '{{city}} — tüm sektörler',
+    faqTitle: 'Yerel QR SSS',
+    faqWhatQ: '{{city}} içindeki {{sector}} işletmeleri için QR kodları nasıl yardımcı olur?',
+    faqHowQ: '{{city}} için {{sector}} QR kodu nasıl oluştururum?',
+    faqWhyQ: '{{city}} için neden statik yerine dinamik QR kullanmalıyım?',
+    faqWhyA:
+      'Dinamik kodlarla baskıdan sonra hedefi güncelleyebilir, şehir ve cihaza göre taramaları izleyebilir, coğrafi kurallarla yönlendirebilirsiniz — {{city}} yerel kampanyaları için kritik.',
   },
   internalLinks: {
     title: 'QR rehberlerini keşfedin',
@@ -3932,6 +3938,25 @@ export const tr: TranslationTree = {
     installTitle: 'QRbanner\'ı bu cihaza kur',
     installDesc: 'QR panelinize tek dokunuşla erişmek için ana ekrana ekleyin.',
     installBtn: 'Uygulamayı kur',
+    faqTitle: 'Mobil ve PWA SSS',
+    faqPwaQ: 'QRbanner mobil uygulaması var mı?',
+    faqPwaA:
+      'Evet — tarayıcıdan yükleyebileceğiniz bir progressive web app (PWA) olarak. App Store veya Google Play kaydı henüz yok; native uygulamalar yol haritasında, bugün mevcut değil.',
+    faqInstallQ: 'QRbanner PWA nasıl yüklenir?',
+    faqInstallA:
+      'Panele giriş yapın, tarayıcı Install istemini kullanın veya Chrome/Safari\'de Ana Ekrana Ekle\'yi seçin. Önbelleğe alınan sayfalar çevrimdışı çalışır.',
+    faqApiQ: 'Kendi mobil istemcimi yazabilir miyim?',
+    faqApiA:
+      'Evet. Mobil API QR listeleme, oluşturma, güncelleme, silme ve tarama özetlerini destekler; oturum çerezi veya API anahtarı ile kimlik doğrulanır.',
+    howToName: 'QRbanner\'ı progressive web app olarak yükleyin',
+    howToDesc: 'Tek dokunuşla panele erişmek için QRbanner\'ı telefon veya masaüstü ana ekranına ekleyin.',
+    howToStep1Name: 'Paneli açın',
+    howToStep1Text: 'qrbanner.com\'da oturum açın ve Chrome, Edge veya Safari\'de QR panelinizi açın.',
+    howToStep2Name: 'Yükle veya Ana Ekrana Ekle',
+    howToStep2Text:
+      'Tarayıcının Yükle istemini kabul edin veya menüden Ana Ekrana Ekle / Uygulamayı yükle\'yi seçin.',
+    howToStep3Name: 'Ana ekrandan başlatın',
+    howToStep3Text: 'QRbanner simgesini yerel uygulama gibi açın. Önbelleğe alınan ekranlar çevrimdışı kalır.',
   },
   enterpriseOverview: {
     metaTitle: 'Kurumsal Özet — Güvenlik ve SLA',

@@ -43,6 +43,7 @@ export default async function Soc2ReadinessPage() {
           title: t('soc2Readiness.title'),
           description: t('soc2Readiness.subtitle'),
           path: '/trust/soc2-readiness',
+          locale,
         })}
       />
       <PublicBreadcrumbs

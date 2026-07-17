@@ -43,6 +43,7 @@ export default async function DemoPage() {
           title: t('demo.title'),
           description: t('demo.subtitle'),
           path: '/demo',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('demo.title'), href: '/demo' }]} />

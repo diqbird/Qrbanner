@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Smartphone, Monitor, Code2, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { useLocalePath } from '@/components/i18n/use-locale-path';
 
 const ROADMAP = [
   { key: 'roadmapPwa', status: 'available' as const },
@@ -13,8 +14,15 @@ const ROADMAP = [
   { key: 'roadmapNative', status: 'planned' as const },
 ];
 
-export function MobileAppsPageContent() {
+export function MobileAppsPageContent({
+  faqItems,
+  faqTitle,
+}: {
+  faqItems: { question: string; answer: string }[];
+  faqTitle: string;
+}) {
   const { t } = useLanguage();
+  const localePath = useLocalePath();
 
   return (
     <>
@@ -31,7 +39,7 @@ export function MobileAppsPageContent() {
       <div className="mt-12 grid gap-6 sm:grid-cols-2">
         <div className="rounded-2xl border border-border/50 bg-card p-6 space-y-3">
           <div className="flex items-center justify-between gap-2">
-            <Monitor className="h-6 w-6 text-primary" />
+            <Monitor className="h-6 w-6 text-primary" aria-hidden />
             <Badge variant="secondary">{t('mobileApps.nativeStatusAvailable')}</Badge>
           </div>
           <h2 className="font-display text-lg font-semibold">{t('mobileApps.pwaTitle')}</h2>
@@ -44,7 +52,7 @@ export function MobileAppsPageContent() {
         </div>
         <div className="rounded-2xl border border-border/50 bg-card p-6 space-y-3">
           <div className="flex items-center justify-between gap-2">
-            <Code2 className="h-6 w-6 text-primary" />
+            <Code2 className="h-6 w-6 text-primary" aria-hidden />
             <Badge variant="secondary">{t('mobileApps.nativeStatusAvailable')}</Badge>
           </div>
           <h2 className="font-display text-lg font-semibold">{t('mobileApps.apiTitle')}</h2>
@@ -57,7 +65,7 @@ export function MobileAppsPageContent() {
             <li>PATCH /api/mobile/v1/qr/:id</li>
             <li>DELETE /api/mobile/v1/qr/:id</li>
           </ul>
-          <Link href="/developers">
+          <Link href={localePath('/developers')}>
             <Button variant="outline" className="gap-2 rounded-full">
               {t('mobileApps.apiDocs')} <ArrowRight className="h-4 w-4" />
             </Button>
@@ -86,6 +94,20 @@ export function MobileAppsPageContent() {
         <p className="text-sm font-medium">{t('mobileApps.nativeTitle')}</p>
         <p className="mt-2 text-sm text-muted-foreground">{t('mobileApps.nativeDesc')}</p>
       </div>
+
+      <section className="mt-10" aria-labelledby="mobile-apps-faq">
+        <h2 id="mobile-apps-faq" className="font-display text-xl font-semibold">
+          {faqTitle}
+        </h2>
+        <dl className="mt-4 space-y-4">
+          {faqItems.map((item) => (
+            <div key={item.question}>
+              <dt className="text-sm font-medium">{item.question}</dt>
+              <dd className="mt-1 text-sm text-muted-foreground">{item.answer}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
     </>
   );
 }

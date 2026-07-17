@@ -28,6 +28,7 @@ export default async function RoiCalculatorPage() {
           title: t('roi.title'),
           description: t('roi.subtitle'),
           path: '/roi-calculator',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('nav.roiCalculator'), href: '/roi-calculator' }]} />

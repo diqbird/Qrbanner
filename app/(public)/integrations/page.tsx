@@ -47,6 +47,7 @@ export default async function IntegrationsPage() {
           title: t('integrations.title'),
           description: t('integrations.subtitle'),
           path: '/integrations',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('integrations.title'), href: '/integrations' }]} />

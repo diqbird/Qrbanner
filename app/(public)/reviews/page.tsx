@@ -41,6 +41,7 @@ export default async function ReviewsPage() {
           title: t('reviews.pageTitle'),
           description: t('reviews.pageSubtitle'),
           path: '/reviews',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('reviews.pageTitle'), href: '/reviews' }]} />

@@ -42,6 +42,7 @@ export default async function TemplatesMarketplacePage() {
           title: t('templateMarketplace.title'),
           description: t('templateMarketplace.subtitle'),
           path: '/templates',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('nav.templates'), href: '/templates' }]} />

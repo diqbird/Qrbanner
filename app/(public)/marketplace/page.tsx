@@ -9,7 +9,7 @@ import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { formatLocalizedListingPrice } from '@/lib/i18n/resolve-marketplace-listing-labels';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 
 export const revalidate = 300;
 
@@ -77,7 +77,7 @@ export default async function MarketplaceBrowsePage() {
             </h1>
             <p className="mt-4 text-lg text-muted-foreground">{t('marketplaceSeller.browseSubtitle')}</p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-              <Link href="/templates">
+              <Link href={localizePath('/templates', locale)}>
                 <Button variant="outline">{t('nav.templates')}</Button>
               </Link>
               <Link href="/settings">
@@ -106,7 +106,7 @@ export default async function MarketplaceBrowsePage() {
                   <p className="mt-2 text-sm text-muted-foreground line-clamp-3">{listing.description}</p>
                   <p className="mt-2 text-xs text-muted-foreground">{listing.seller.displayName}</p>
                   <Link
-                    href={`/marketplace/${listing.id}`}
+                    href={localizePath(`/marketplace/${listing.id}`, locale)}
                     className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
                   >
                     {t('marketplaceSeller.viewListing')} <ArrowRight className="h-4 w-4" />

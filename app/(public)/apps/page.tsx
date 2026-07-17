@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { pageMetadata, webPageJsonLd } from '@/lib/seo';
+import { pageMetadata, webPageJsonLd, faqJsonLd, howToJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
 import { MobileAppsPageContent } from '@/components/public/mobile-apps-page-content';
@@ -24,19 +24,40 @@ export default async function MobileAppsPage() {
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
 
+  const faqItems = [
+    { question: t('mobileApps.faqPwaQ'), answer: t('mobileApps.faqPwaA') },
+    { question: t('mobileApps.faqInstallQ'), answer: t('mobileApps.faqInstallA') },
+    { question: t('mobileApps.faqApiQ'), answer: t('mobileApps.faqApiA') },
+  ];
+
   return (
     <>
       <JsonLd
-        data={webPageJsonLd({
-          title: t('mobileApps.title'),
-          description: t('mobileApps.subtitle'),
-          path: '/apps',
-        })}
+        data={[
+          webPageJsonLd({
+            title: t('mobileApps.title'),
+            description: t('mobileApps.subtitle'),
+            path: '/apps',
+            locale,
+          }),
+          faqJsonLd(faqItems),
+          howToJsonLd({
+            name: t('mobileApps.howToName'),
+            description: t('mobileApps.howToDesc'),
+            locale,
+            path: '/apps',
+            steps: [
+              { name: t('mobileApps.howToStep1Name'), text: t('mobileApps.howToStep1Text') },
+              { name: t('mobileApps.howToStep2Name'), text: t('mobileApps.howToStep2Text') },
+              { name: t('mobileApps.howToStep3Name'), text: t('mobileApps.howToStep3Text') },
+            ],
+          }),
+        ]}
       />
       <PublicBreadcrumbs items={[{ label: t('mobileApps.breadcrumb'), href: '/apps' }]} />
       <div className="py-10 sm:py-16">
         <div className="mx-auto max-w-4xl px-4 sm:px-6">
-          <MobileAppsPageContent />
+          <MobileAppsPageContent faqItems={faqItems} faqTitle={t('mobileApps.faqTitle')} />
         </div>
       </div>
     </>

@@ -53,6 +53,8 @@ export default async function CaseStudiesIndexPage() {
 
           path: '/case-studies',
 
+          locale,
+
         })}
 
       />

@@ -31,6 +31,7 @@ export default async function RefundPage() {
           title: t('refundPage.title'),
           description: t('refundPage.metaDescription'),
           path: '/refund',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('refundPage.title'), href: '/refund' }]} />

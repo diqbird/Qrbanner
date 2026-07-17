@@ -470,7 +470,13 @@ export const deLocaleGaps: TranslationTree = {
     detailCtaTitle: "Heute in {{city}} starten",
     detailCtaBody: "Kostenlos starten mit {{qrLabel}}, Scan-Analysen und Webhook-Automatisierungen.",
     relatedSolution: "Vollständige Branchenlösung ansehen",
-    allSectorsIn: "Alle Branchen in {{city}}"
+    allSectorsIn: "Alle Branchen in {{city}}",
+    faqTitle: "Lokale QR-FAQ",
+    faqWhatQ: "Wie helfen QR-Codes {{sector}}-Unternehmen in {{city}}?",
+    faqHowQ: "Wie erstelle ich einen {{sector}}-QR-Code für {{city}}?",
+    faqWhyQ: "Warum dynamische statt statische QR-Codes in {{city}}?",
+    faqWhyA:
+      "Dynamische Codes lassen sich nach dem Druck aktualisieren, Scans nach Stadt und Gerät tracken und Besucher per Geo-Regeln leiten — wichtig für lokale Kampagnen in {{city}}.",
   },
   hubspotPage: {
     metaTitle: "HubSpot-Integration — QR-Scan-Webhooks",
@@ -784,7 +790,26 @@ export const deLocaleGaps: TranslationTree = {
     roadmapNote: "Store-Badges veröffentlichen wir erst, wenn Apps öffentlich verfügbar sind. Updates über unseren Blog oder Vertrieb für Early-Access-Piloten.",
     installTitle: "QRbanner auf diesem Gerät installieren",
     installDesc: "Zum Home-Bildschirm hinzufügen für Ein-Tap-Zugriff auf Ihr QR-Dashboard.",
-    installBtn: "App installieren"
+    installBtn: "App installieren",
+    faqTitle: "Mobile- & PWA-FAQ",
+    faqPwaQ: "Gibt es eine QRbanner-Mobile-App?",
+    faqPwaA:
+      "Ja als Progressive Web App (PWA) aus dem Browser. Noch keine App-Store- oder Google-Play-Listings — native Apps sind auf der Roadmap, heute nicht verfügbar.",
+    faqInstallQ: "Wie installiere ich die QRbanner-PWA?",
+    faqInstallA:
+      "Im Dashboard anmelden, die Installieren-Aufforderung nutzen oder in Chrome/Safari „Zum Home-Bildschirm“ wählen. Gecachte Seiten funktionieren offline.",
+    faqApiQ: "Kann ich einen eigenen Mobile-Client bauen?",
+    faqApiA:
+      "Ja. Die Mobile API unterstützt Listen, Erstellen, Aktualisieren und Löschen von QR-Codes plus Scan-Zusammenfassungen — authentifiziert per Session-Cookie oder API-Schlüssel.",
+    howToName: "QRbanner als Progressive Web App installieren",
+    howToDesc: "QRbanner zum Home-Bildschirm von Handy oder Desktop hinzufügen für Ein-Tap-Dashboard-Zugriff.",
+    howToStep1Name: "Dashboard öffnen",
+    howToStep1Text: "Bei qrbanner.com anmelden und Ihr QR-Dashboard in Chrome, Edge oder Safari öffnen.",
+    howToStep2Name: "Installieren oder Zum Home-Bildschirm",
+    howToStep2Text:
+      "Die Browser-Aufforderung akzeptieren oder im Menü „Zum Home-Bildschirm“ / „App installieren“ wählen.",
+    howToStep3Name: "Vom Home-Bildschirm starten",
+    howToStep3Text: "Das QRbanner-Symbol wie eine native App öffnen. Gecachte Screens bleiben offline verfügbar.",
   },
   mockup: {
     title: "Oberflächen-Mockup-Vorschau",

@@ -39,6 +39,7 @@ export default async function DpaPage() {
           title: t('dpaPage.title'),
           description: t('dpaPage.subtitle'),
           path: '/dpa',
+          locale,
         })}
       />
       <PublicBreadcrumbs

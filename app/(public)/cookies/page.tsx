@@ -29,6 +29,7 @@ export default async function CookiesPage() {
           title: t('cookiesPage.title'),
           description: t('cookiesPage.metaDescription'),
           path: '/cookies',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('cookiesPage.title'), href: '/cookies' }]} />

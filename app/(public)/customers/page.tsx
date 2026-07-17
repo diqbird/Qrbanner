@@ -103,6 +103,8 @@ export default async function CustomersPage() {
 
           path: '/customers',
 
+          locale,
+
         })}
 
       />

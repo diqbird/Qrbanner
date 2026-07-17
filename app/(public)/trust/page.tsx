@@ -65,6 +65,7 @@ export default async function TrustPage() {
           title: t('trustPage.title'),
           description: t('trustPage.subtitle'),
           path: '/trust',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('nav.trust'), href: '/trust' }]} />

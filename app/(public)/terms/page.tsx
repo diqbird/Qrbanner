@@ -29,6 +29,7 @@ export default async function TermsPage() {
           title: t('termsPage.title'),
           description: t('termsPage.metaDescription'),
           path: '/terms',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('termsPage.title'), href: '/terms' }]} />

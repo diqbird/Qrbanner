@@ -41,6 +41,7 @@ export default async function AffiliatesPage() {
           title: t('affiliates.title'),
           description: t('affiliates.subtitle'),
           path: '/affiliates',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('affiliates.title'), href: '/affiliates' }]} />

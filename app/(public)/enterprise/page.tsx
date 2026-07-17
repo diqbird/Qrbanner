@@ -47,6 +47,7 @@ export default async function EnterprisePage() {
           title: t('enterprise.title'),
           description: t('enterprise.subtitle'),
           path: '/enterprise',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('nav.enterprise'), href: '/enterprise' }]} />

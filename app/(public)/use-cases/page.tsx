@@ -42,6 +42,7 @@ export default async function UseCasesIndexPage() {
           title: t('useCasesIndex.title'),
           description: t('useCasesIndex.subtitle'),
           path: '/use-cases',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('nav.useCases'), href: '/use-cases' }]} />

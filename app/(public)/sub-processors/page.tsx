@@ -39,6 +39,7 @@ export default async function SubProcessorsPage() {
           title: t('subprocessorsPage.title'),
           description: t('subprocessorsPage.subtitle'),
           path: '/sub-processors',
+          locale,
         })}
       />
       <PublicBreadcrumbs

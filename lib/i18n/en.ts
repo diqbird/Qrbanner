@@ -3737,6 +3737,12 @@ export const en: TranslationTree = {
     detailCtaBody: 'Start free with {{qrLabel}}, scan analytics and webhook automations.',
     relatedSolution: 'See the full industry solution',
     allSectorsIn: 'All industries in {{city}}',
+    faqTitle: 'Local QR FAQ',
+    faqWhatQ: 'How do QR codes help {{sector}} businesses in {{city}}?',
+    faqHowQ: 'How do I create a {{sector}} QR code for {{city}}?',
+    faqWhyQ: 'Why use dynamic QR codes in {{city}} instead of static ones?',
+    faqWhyA:
+      'Dynamic codes let you update the destination after print, track scans by city and device, and route visitors with geo rules — critical for local campaigns in {{city}}.',
   },
   internalLinks: {
     title: 'Explore QR guides',
@@ -3930,6 +3936,25 @@ export const en: TranslationTree = {
     installTitle: 'Install QRbanner on this device',
     installDesc: 'Add to your home screen for one-tap access to your QR dashboard.',
     installBtn: 'Install app',
+    faqTitle: 'Mobile & PWA FAQ',
+    faqPwaQ: 'Is there a QRbanner mobile app?',
+    faqPwaA:
+      'Yes as a progressive web app (PWA) you can install from the browser. There are no App Store or Google Play listings yet — native apps are on the roadmap, not available today.',
+    faqInstallQ: 'How do I install the QRbanner PWA?',
+    faqInstallA:
+      'Sign in to the dashboard, use Install when your browser prompts you, or choose Add to Home Screen in Chrome or Safari. Cached pages work offline.',
+    faqApiQ: 'Can I build my own mobile client?',
+    faqApiA:
+      'Yes. The Mobile API supports listing, creating, updating and deleting QR codes plus scan summaries, authenticated with a session cookie or API key.',
+    howToName: 'Install QRbanner as a progressive web app',
+    howToDesc: 'Add QRbanner to your phone or desktop home screen for one-tap dashboard access.',
+    howToStep1Name: 'Open the dashboard',
+    howToStep1Text: 'Sign in at qrbanner.com and open your QR dashboard in Chrome, Edge or Safari.',
+    howToStep2Name: 'Use Install or Add to Home Screen',
+    howToStep2Text:
+      'Accept the browser Install prompt, or open the browser menu and choose Add to Home Screen / Install app.',
+    howToStep3Name: 'Launch from your home screen',
+    howToStep3Text: 'Open the QRbanner icon like a native app. Cached screens remain available offline.',
   },
   enterpriseOverview: {
     metaTitle: 'Enterprise Overview — Security & SLA',

@@ -32,6 +32,7 @@ export default async function ProcurementRequestPage() {
           title: t('procurementRequest.title'),
           description: t('procurementRequest.subtitle'),
           path: '/trust/procurement-request',
+          locale,
         })}
       />
       <PublicBreadcrumbs

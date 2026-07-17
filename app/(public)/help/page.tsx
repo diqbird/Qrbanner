@@ -32,6 +32,7 @@ export default async function HelpPage() {
           title: pageTitle,
           description: pageDesc,
           path: '/help',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('nav.help'), href: '/help' }]} />

@@ -295,6 +295,36 @@ export function faqJsonLd(items: { question: string; answer: string }[]) {
   };
 }
 
+/** HowTo JSON-LD for install / setup guides (e.g. PWA). */
+export function howToJsonLd({
+  name,
+  description,
+  steps,
+  locale = 'en',
+  path,
+}: {
+  name: string;
+  description: string;
+  steps: { name: string; text: string }[];
+  locale?: Locale;
+  path?: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name,
+    description,
+    inLanguage: localeToBcp47(locale),
+    ...(path ? { url: absoluteLocalizedUrl(path, locale) } : {}),
+    step: steps.map((step, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      name: step.name,
+      text: step.text,
+    })),
+  };
+}
+
 export function breadcrumbJsonLd(
   items: { name: string; path: string }[],
   locale: Locale = 'en'

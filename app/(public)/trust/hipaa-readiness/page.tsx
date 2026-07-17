@@ -42,6 +42,7 @@ export default async function HipaaReadinessPage() {
           title: t('hipaaReadiness.title'),
           description: t('hipaaReadiness.subtitle'),
           path: '/trust/hipaa-readiness',
+          locale,
         })}
       />
       <PublicBreadcrumbs

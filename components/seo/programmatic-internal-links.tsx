@@ -7,7 +7,8 @@ import {
 } from '@/lib/use-case-pages';
 import { localizeUseCasePage } from '@/lib/i18n/resolve-programmatic-copy';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
+import type { Locale } from '@/lib/i18n/types';
 
 type Variant = 'blog' | 'compact';
 
@@ -44,10 +45,10 @@ export async function ProgrammaticInternalLinks({
       <p className="mt-1 text-sm text-muted-foreground">{t('internalLinks.subtitle')}</p>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        <HubLink href="/use-cases" label={t('nav.useCases')} />
-        <HubLink href="/qr-types" label={t('nav.qrTypes')} />
-        <HubLink href="/solutions" label={t('nav.solutions')} />
-        <HubLink href="/templates" label={t('nav.templates')} />
+        <HubLink href="/use-cases" label={t('nav.useCases')} locale={locale} />
+        <HubLink href="/qr-types" label={t('nav.qrTypes')} locale={locale} />
+        <HubLink href="/solutions" label={t('nav.solutions')} locale={locale} />
+        <HubLink href="/templates" label={t('nav.templates')} locale={locale} />
       </div>
 
       <ul className="mt-5 space-y-2">
@@ -55,10 +56,10 @@ export async function ProgrammaticInternalLinks({
           page ? (
             <li key={page.slug}>
               <Link
-                href={`/use-cases/${page.slug}`}
+                href={localizePath(`/use-cases/${page.slug}`, locale)}
                 className="group inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
               >
-                <ArrowRight className="h-3.5 w-3.5 opacity-60 group-hover:opacity-100" />
+                <ArrowRight className="h-3.5 w-3.5 opacity-60 group-hover:opacity-100" aria-hidden />
                 {page.title}
               </Link>
             </li>
@@ -67,10 +68,10 @@ export async function ProgrammaticInternalLinks({
         {extraLinks?.map((link) => (
           <li key={link.href}>
             <Link
-              href={link.href}
+              href={localizePath(link.href, locale)}
               className="group inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
             >
-              <ArrowRight className="h-3.5 w-3.5 opacity-60 group-hover:opacity-100" />
+              <ArrowRight className="h-3.5 w-3.5 opacity-60 group-hover:opacity-100" aria-hidden />
               {link.label}
             </Link>
           </li>
@@ -80,10 +81,10 @@ export async function ProgrammaticInternalLinks({
   );
 }
 
-function HubLink({ href, label }: { href: string; label: string }) {
+function HubLink({ href, label, locale }: { href: string; label: string; locale: Locale }) {
   return (
     <Link
-      href={href}
+      href={localizePath(href, locale)}
       className="rounded-full border border-border/60 bg-background px-3 py-1 text-xs font-medium text-foreground hover:border-primary/40 hover:text-primary transition-colors"
     >
       {label}

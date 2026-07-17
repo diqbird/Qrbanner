@@ -39,6 +39,7 @@ export default async function ContactPage({
           title: t('contactPage.title'),
           description: t('contactPage.subtitle'),
           path: '/contact',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('footer.contact'), href: '/contact' }]} />

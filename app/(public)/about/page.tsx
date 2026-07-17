@@ -32,6 +32,7 @@ export default async function AboutPage() {
           title: t('aboutPage.title'),
           description: t('aboutPage.intro'),
           path: '/about',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('footer.about'), href: '/about' }]} />

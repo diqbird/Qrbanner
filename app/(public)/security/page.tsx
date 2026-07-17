@@ -55,6 +55,7 @@ export default async function SecurityPage() {
           title: t('securityPage.title'),
           description: t('securityPage.subtitle'),
           path: '/security',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('nav.security'), href: '/security' }]} />

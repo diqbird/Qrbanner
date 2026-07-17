@@ -40,6 +40,7 @@ export default async function FeaturesPage() {
           title: t('features.pageTitle'),
           description: t('features.pageSubtitle'),
           path: '/features',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('nav.features'), href: '/features' }]} />

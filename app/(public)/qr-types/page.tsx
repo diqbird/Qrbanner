@@ -41,6 +41,7 @@ export default async function QrTypesIndexPage() {
           title: t('qrTypesIndex.title'),
           description: t('qrTypesIndex.subtitle'),
           path: '/qr-types',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('nav.qrTypes'), href: '/qr-types' }]} />

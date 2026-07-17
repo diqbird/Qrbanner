@@ -49,6 +49,7 @@ export default async function SolutionsIndexPage() {
           title: t('solutionsIndex.title'),
           description: t('solutionsIndex.subtitle'),
           path: '/solutions',
+          locale,
         })}
       />
 

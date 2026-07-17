@@ -34,6 +34,7 @@ export default async function DevelopersReferencePage() {
           title: t('developersReference.title'),
           description: t('developersReference.subtitle'),
           path: '/developers/reference',
+          locale,
         })}
       />
       <PublicBreadcrumbs

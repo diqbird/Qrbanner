@@ -82,6 +82,7 @@ export default async function DevelopersPage() {
           title: t('developersPage.title'),
           description: t('developersPage.subtitle'),
           path: '/developers',
+          locale,
         })}
       />
       <PublicBreadcrumbs items={[{ label: t('nav.api'), href: '/developers' }]} />

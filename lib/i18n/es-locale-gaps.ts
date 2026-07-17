@@ -470,7 +470,13 @@ export const esLocaleGaps: TranslationTree = {
     detailCtaTitle: "Lance en {{city}} hoy",
     detailCtaBody: "Empiece gratis con {{qrLabel}}, analítica de escaneos y automatizaciones webhook.",
     relatedSolution: "Ver la solución completa del sector",
-    allSectorsIn: "Todos los sectores en {{city}}"
+    allSectorsIn: "Todos los sectores en {{city}}",
+    faqTitle: "FAQ de QR local",
+    faqWhatQ: "¿Cómo ayudan los códigos QR a negocios de {{sector}} en {{city}}?",
+    faqHowQ: "¿Cómo creo un código QR de {{sector}} para {{city}}?",
+    faqWhyQ: "¿Por qué usar QR dinámicos en {{city}} en lugar de estáticos?",
+    faqWhyA:
+      "Los códigos dinámicos permiten actualizar el destino tras la impresión, medir escaneos por ciudad y dispositivo, y enrutar con reglas geo — clave para campañas locales en {{city}}.",
   },
   hubspotPage: {
     metaTitle: "Integración con HubSpot — Webhooks de escaneo QR",
@@ -784,7 +790,26 @@ export const esLocaleGaps: TranslationTree = {
     roadmapNote: "No publicaremos insignias de tienda hasta que las aplicaciones estén disponibles públicamente. Suscríbase a actualizaciones en nuestro blog o contacte a ventas para pilotos de acceso anticipado.",
     installTitle: "Instalar QRbanner en este dispositivo",
     installDesc: "Añada a su pantalla de inicio para acceder con un toque a su panel QR.",
-    installBtn: "Instalar aplicación"
+    installBtn: "Instalar aplicación",
+    faqTitle: "FAQ móvil y PWA",
+    faqPwaQ: "¿Existe una app móvil de QRbanner?",
+    faqPwaA:
+      "Sí, como progressive web app (PWA) instalable desde el navegador. Aún no hay fichas en App Store ni Google Play: las apps nativas están en la hoja de ruta, no disponibles hoy.",
+    faqInstallQ: "¿Cómo instalo la PWA de QRbanner?",
+    faqInstallA:
+      "Inicie sesión en el panel, use Instalar cuando el navegador lo pida, o elija Añadir a la pantalla de inicio en Chrome o Safari. Las páginas en caché funcionan sin conexión.",
+    faqApiQ: "¿Puedo crear mi propio cliente móvil?",
+    faqApiA:
+      "Sí. La API móvil permite listar, crear, actualizar y eliminar códigos QR y ver resúmenes de escaneo, con cookie de sesión o clave API.",
+    howToName: "Instalar QRbanner como progressive web app",
+    howToDesc: "Añada QRbanner a la pantalla de inicio del teléfono o escritorio para acceso al panel con un toque.",
+    howToStep1Name: "Abra el panel",
+    howToStep1Text: "Inicie sesión en qrbanner.com y abra su panel QR en Chrome, Edge o Safari.",
+    howToStep2Name: "Usar Instalar o Añadir a la pantalla de inicio",
+    howToStep2Text:
+      "Acepte el aviso Instalar del navegador, o abra el menú y elija Añadir a la pantalla de inicio / Instalar aplicación.",
+    howToStep3Name: "Abrir desde la pantalla de inicio",
+    howToStep3Text: "Abra el icono de QRbanner como una app nativa. Las pantallas en caché siguen disponibles sin conexión.",
   },
   mockup: {
     title: "Vista previa de maqueta de superficie",

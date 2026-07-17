@@ -11,11 +11,12 @@ import {
   isGeoSectorSlug,
   listGeoComboParams,
 } from '@/lib/geo-seo-pages';
-import { pageMetadata } from '@/lib/seo';
+import { pageMetadata, webPageJsonLd, faqJsonLd } from '@/lib/seo';
+import { JsonLd } from '@/components/seo/json-ld';
 import { ProgrammaticPageShell } from '@/components/seo/programmatic-page-shell';
 import { ProgrammaticInternalLinks } from '@/components/seo/programmatic-internal-links';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 import { formatFreePlanDynamicQrLabel } from '@/lib/i18n/dynamic-qr-label';
 import { solutionSectorLabel, localizeSolutionPage } from '@/lib/i18n/solution-localize';
 
@@ -66,8 +67,38 @@ export default async function GeoSectorPage({
     ? `/qr/create?category=${page.solution.categoryId}`
     : '/qr/create';
 
+  const howAnswer = page.steps.length
+    ? page.steps.map((step, i) => `${i + 1}. ${step}`).join(' ')
+    : page.description;
+
+  const faqItems = [
+    {
+      question: t('geoSeo.faqWhatQ', { city: cityName, sector: sectorLabel }),
+      answer: page.description,
+    },
+    {
+      question: t('geoSeo.faqHowQ', { city: cityName, sector: sectorLabel }),
+      answer: howAnswer,
+    },
+    {
+      question: t('geoSeo.faqWhyQ', { city: cityName }),
+      answer: t('geoSeo.faqWhyA', { city: cityName }),
+    },
+  ];
+
   return (
     <>
+      <JsonLd
+        data={[
+          webPageJsonLd({
+            title: page.title,
+            description: page.metaDescription,
+            path: page.path,
+            locale,
+          }),
+          faqJsonLd(faqItems),
+        ]}
+      />
       <ProgrammaticPageShell
         breadcrumbs={[
           { label: t('geoSeo.breadcrumb'), href: '/geo' },
@@ -82,13 +113,18 @@ export default async function GeoSectorPage({
           { title: t('geoSeo.benefitsTitle'), items: page.benefits },
           { title: t('geoSeo.stepsTitle'), items: page.steps, ordered: true },
         ]}
+        faqTitle={t('geoSeo.faqTitle')}
+        faqItems={faqItems}
         ctaTitle={t('geoSeo.detailCtaTitle').replace('{{city}}', cityName)}
         ctaBody={t('geoSeo.detailCtaBody', { qrLabel })}
       />
       <div className="border-t border-border/40 bg-muted/20 py-8">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 text-center">
           <p className="text-sm text-muted-foreground">{t('geoSeo.relatedSolution')}</p>
-          <Link href={`/solutions/${page.solution.slug}`} className="mt-3 inline-block">
+          <Link
+            href={localizePath(`/solutions/${page.solution.slug}`, locale)}
+            className="mt-3 inline-block"
+          >
             <Button variant="outline" className="gap-2">
               {localizeSolutionPage(page.solution, locale).title} <ArrowRight className="h-4 w-4" />
             </Button>
@@ -100,7 +136,10 @@ export default async function GeoSectorPage({
           <ProgrammaticInternalLinks
             variant="compact"
             extraLinks={[
-              { href: `/geo/${city.slug}`, label: t('geoSeo.allSectorsIn').replace('{{city}}', cityName) },
+              {
+                href: `/geo/${city.slug}`,
+                label: t('geoSeo.allSectorsIn').replace('{{city}}', cityName),
+              },
               { href: buildGeoPagePath(city.slug, params.sector), label: page.title },
             ]}
           />
