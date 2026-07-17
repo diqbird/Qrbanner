@@ -136,6 +136,9 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 - FAQ, vs index, and contact hubs wrapped in `PremiumShell` (locale paths on vs/contact links).
 - Contact / sales inquiry form a11y: `autocomplete`, `aria-required`, enterprise `fieldset`/`legend`.
 
+### Done in follow-up pack (2026-07-17 n)
+- Solutions index + enterprise marketing pages wrapped in `PremiumShell`; solution cards and enterprise trust links use `localizePath`.
+
 ### Still open (manual / billing only)
 1. **GSC:** Search Console clicks in checklist below (site already verification-ready; sitemap health PASS).
 2. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).

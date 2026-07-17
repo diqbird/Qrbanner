@@ -1,0 +1,12 @@
+{
+  "upload": [
+    "app/(public)/solutions/page.tsx",
+    "app/(public)/enterprise/page.tsx",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
