@@ -10,6 +10,14 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const BASE = (process.env.QA_BASE_URL || 'https://qrbanner.com').replace(/\/$/, '');
 const OUT = path.join(__dirname, '..', '..', 'qa-reports', 'raw-flows.json');
 
+function isIgnorableFailedRequest(url, failureText) {
+  const u = url || '';
+  const f = failureText || '';
+  if (u.includes('_rsc=') || u.includes('?_rsc') || u.includes('&_rsc=')) return true;
+  if (f.includes('ERR_ABORTED') && (u.includes('_rsc') || u.includes('/_next/'))) return true;
+  return false;
+}
+
 function collect(page) {
   const consoleErrors = [];
   const networkFailures = [];
@@ -18,7 +26,10 @@ function collect(page) {
   });
   page.on('pageerror', (err) => consoleErrors.push(String(err?.message || err)));
   page.on('requestfailed', (req) => {
-    networkFailures.push(`${req.method()} ${req.url()} — ${req.failure()?.errorText}`);
+    const failure = req.failure()?.errorText || 'unknown';
+    const reqUrl = req.url();
+    if (isIgnorableFailedRequest(reqUrl, failure)) return;
+    networkFailures.push(`${req.method()} ${reqUrl} — ${failure}`);
   });
   return { consoleErrors, networkFailures };
 }

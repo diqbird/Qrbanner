@@ -38,6 +38,7 @@ const CRITICAL_PAGES = [
   '/solutions',
   '/integrations',
   '/vs',
+  '/compare', // 301 → /vs
   '/security',
   '/dashboard',
   '/admin',
@@ -48,8 +49,22 @@ const CRITICAL_PAGES = [
   '/es/features',
   '/case-studies/multi-location-restaurant-menus',
   '/solutions/restaurant-menu',
+  '/solutions/restaurants', // 301 → /solutions/restaurant-menu
+  '/changelog', // 301 → /blog
   '/contact?demo=1',
+  '/apps',
+  '/marketplace',
+  '/llms.txt',
 ];
+
+/** Next.js RSC prefetch aborts are not product defects. */
+function isIgnorableFailedRequest(url, failureText) {
+  const u = url || '';
+  const f = failureText || '';
+  if (u.includes('_rsc=') || u.includes('?_rsc') || u.includes('&_rsc=')) return true;
+  if (f.includes('ERR_ABORTED') && (u.includes('_rsc') || u.includes('/_next/'))) return true;
+  return false;
+}
 
 async function fetchSitemapSample(maxExtra = 25) {
   try {
@@ -105,10 +120,13 @@ async function auditPage(browser, pagePath) {
   });
 
   page.on('requestfailed', (req) => {
+    const failure = req.failure()?.errorText || 'unknown';
+    const reqUrl = req.url();
+    if (isIgnorableFailedRequest(reqUrl, failure)) return;
     requestFailed.push({
-      url: req.url(),
+      url: reqUrl,
       method: req.method(),
-      failure: req.failure()?.errorText || 'unknown',
+      failure,
     });
   });
 

@@ -45,6 +45,52 @@ const nextConfig = {
   async rewrites() {
     return [{ source: '/favicon.ico', destination: '/icon' }];
   },
+  async redirects() {
+    // Soft-404 aliases → canonical hubs (SEO + QA guessable URLs)
+    return [
+      {
+        source: '/solutions/restaurants',
+        destination: '/solutions/restaurant-menu',
+        permanent: true,
+      },
+      {
+        source: '/:locale(tr|de|es)/solutions/restaurants',
+        destination: '/:locale/solutions/restaurant-menu',
+        permanent: true,
+      },
+      {
+        source: '/compare',
+        destination: '/vs',
+        permanent: true,
+      },
+      {
+        source: '/:locale(tr|de|es)/compare',
+        destination: '/:locale/vs',
+        permanent: true,
+      },
+      {
+        source: '/compare/:path*',
+        destination: '/vs/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:locale(tr|de|es)/compare/:path*',
+        destination: '/:locale/vs/:path*',
+        permanent: true,
+      },
+      {
+        source: '/changelog',
+        destination: '/blog',
+        permanent: true,
+      },
+      {
+        // Blog is English-only (no /tr|/de|/es alternates)
+        source: '/:locale(tr|de|es)/changelog',
+        destination: '/blog',
+        permanent: true,
+      },
+    ];
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 86400,

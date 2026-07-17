@@ -120,6 +120,8 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 4. Monitor Coverage / Page indexing for “Alternate page with proper canonical” after locale 308s.
 5. Core Web Vitals (CrUX): watch LCP on mobile home + templates.
 
+**Automated gate:** `python scripts/verify-sitemap-health.py` (expects case-study URLs × 4 locales). Soft-404 aliases: `/compare`→`/vs`, `/solutions/restaurants`→`/solutions/restaurant-menu`, `/changelog`→`/blog`.
+
 ---
 
 ## 5. Lighthouse expectations

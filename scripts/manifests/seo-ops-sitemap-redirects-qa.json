@@ -1,0 +1,14 @@
+{
+  "upload": [
+    "next.config.js",
+    "scripts/verify-sitemap-health.py",
+    "scripts/qa/senior-qa-pages.mjs",
+    "scripts/qa/senior-qa-flows.mjs",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

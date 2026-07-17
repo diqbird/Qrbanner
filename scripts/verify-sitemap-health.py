@@ -96,15 +96,32 @@ def main() -> int:
                 fail(f"forbidden path in sitemap: {loc}")
                 break
 
+    # EN + tr/de/es localized sitemap entries (see LOCALIZED_SITEMAP_LOCALES in app/sitemap.ts)
+    SITEMAP_LOCALE_MULTIPLIER = 4  # en + tr + de + es
+
     if not any("/case-studies/" in loc for loc in locs):
         fail("no case study detail URLs in sitemap")
     else:
         cs_in_sitemap = sum(1 for loc in locs if "/case-studies/" in loc)
-        cs_expected = count_case_studies()
+        cs_slugs = count_case_studies()
+        cs_expected = cs_slugs * SITEMAP_LOCALE_MULTIPLIER
         if cs_in_sitemap != cs_expected:
-            fail(f"case study URL count mismatch: sitemap={cs_in_sitemap} source={cs_expected}")
+            fail(
+                f"case study URL count mismatch: sitemap={cs_in_sitemap} "
+                f"expected={cs_expected} ({cs_slugs} slugs × {SITEMAP_LOCALE_MULTIPLIER} locales)"
+            )
         else:
-            ok(f"{cs_in_sitemap} case study URLs match lib/case-studies.ts")
+            ok(
+                f"{cs_in_sitemap} case study URLs "
+                f"({cs_slugs} slugs × {SITEMAP_LOCALE_MULTIPLIER} locales)"
+            )
+
+        # Spot-check that localized prefixes exist for case studies
+        for prefix in ("/tr/case-studies/", "/de/case-studies/", "/es/case-studies/"):
+            if not any(prefix in loc for loc in locs):
+                fail(f"missing localized case studies for {prefix}")
+            else:
+                ok(f"includes localized {prefix.rstrip('/')}")
 
     sample = [loc for loc in locs if "/case-studies/" in loc][:3]
     for url in sample:
