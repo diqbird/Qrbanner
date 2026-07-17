@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
+import { PremiumShell } from '@/components/landing/premium/primitives';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 import { DEVELOPER_RATE_LIMIT_PLAN_IDS, formatDeveloperRateLimitLine } from '@/lib/i18n/api-rate-limits';
 import { WEBHOOK_VERIFY_NODE_EXAMPLE } from '@/lib/webhook-test-payload';
 import { ArrowRight, Code2, FileJson, Key, Webhook, Gauge, UsersRound } from 'lucide-react';
@@ -85,23 +85,23 @@ export default async function DevelopersPage() {
           locale,
         })}
       />
-      <PublicBreadcrumbs items={[{ label: t('nav.api'), href: '/developers' }]} />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
-          <header className="mx-auto max-w-2xl text-center">
-            <Badge variant="secondary" className="mb-4">
-              {t('developersPage.badge')}
-            </Badge>
-            <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
-              {t('developersPage.heroTitle')}
-            </h1>
-            <p className="mt-4 text-lg text-muted-foreground">{t('developersPage.heroSubtitle')}</p>
+      <PremiumShell>
+        <div className="ph-container pb-16 pt-6 sm:pb-24 sm:pt-8">
+          <PublicBreadcrumbs items={[{ label: t('nav.api'), href: '/developers' }]} />
+          <header className="relative mx-auto max-w-2xl text-center">
+            <div className="pointer-events-none absolute inset-x-0 -top-10 -z-10 flex justify-center" aria-hidden>
+              <div className="h-40 w-72 rounded-full bg-[#2563EB]/15 blur-[70px] dark:bg-[#2563EB]/25" />
+            </div>
+            <p className="ph-eyebrow mb-4">{t('developersPage.badge')}</p>
+            <h1 className="ph-title text-4xl leading-[1.1] sm:text-5xl">{t('developersPage.heroTitle')}</h1>
+            <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{t('developersPage.heroSubtitle')}</p>
           </header>
 
           <div className="mt-16 grid gap-8 lg:grid-cols-3">
-            <div className="rounded-xl border border-border/50 bg-card/80 p-6 backdrop-blur-sm lg:col-span-2">
-              <h2 className="font-display text-xl font-bold flex items-center gap-2">
-                <Code2 className="h-5 w-5 text-primary" /> {t('developersPage.endpointsTitle')}
+            <div className="ph-card p-6 hover:translate-y-0 hover:scale-100 lg:col-span-2">
+              <h2 className="ph-title flex items-center gap-2 text-xl">
+                <Code2 className="h-5 w-5 text-[#2563EB] dark:text-sky-400" aria-hidden />{' '}
+                {t('developersPage.endpointsTitle')}
               </h2>
               <div className="mt-6 overflow-x-auto">
                 <table className="w-full min-w-[480px] text-sm">
@@ -130,9 +130,10 @@ export default async function DevelopersPage() {
             </div>
 
             <div className="space-y-6">
-              <div className="rounded-xl border border-border/50 bg-card/80 p-6 backdrop-blur-sm">
-                <h2 className="font-display font-semibold flex items-center gap-2">
-                  <Key className="h-4 w-4 text-primary" /> {t('developersPage.authTitle')}
+              <div className="ph-card p-6 hover:translate-y-0 hover:scale-100">
+                <h2 className="ph-title flex items-center gap-2 text-base">
+                  <Key className="h-4 w-4 text-[#2563EB] dark:text-sky-400" aria-hidden />{' '}
+                  {t('developersPage.authTitle')}
                 </h2>
                 <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{t('developersPage.authBody')}</p>
                 <pre className="mt-3 overflow-x-auto rounded-lg bg-muted p-3 text-xs">
@@ -143,9 +144,10 @@ export default async function DevelopersPage() {
 X-API-Key: qb_live_...`}
                 </pre>
               </div>
-              <div id="webhooks" className="rounded-xl border border-border/50 bg-card/80 p-6 backdrop-blur-sm scroll-mt-24">
-                <h2 className="font-display font-semibold flex items-center gap-2">
-                  <Webhook className="h-4 w-4 text-primary" /> {t('developersPage.webhooksTitle')}
+              <div id="webhooks" className="ph-card scroll-mt-24 p-6 hover:translate-y-0 hover:scale-100">
+                <h2 className="ph-title flex items-center gap-2 text-base">
+                  <Webhook className="h-4 w-4 text-[#2563EB] dark:text-sky-400" aria-hidden />{' '}
+                  {t('developersPage.webhooksTitle')}
                 </h2>
                 <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{t('developersPage.webhooksBody')}</p>
                 <pre className="mt-3 overflow-x-auto rounded-lg bg-muted p-3 text-xs leading-relaxed">
@@ -162,7 +164,10 @@ X-API-Key: qb_live_...`}
   }
 }`}
                 </pre>
-                <Link href="/integrations" className="mt-4 inline-block text-sm text-primary hover:underline">
+                <Link
+                  href={localizePath('/integrations', locale)}
+                  className="mt-4 inline-block text-sm text-[#2563EB] hover:underline dark:text-sky-400"
+                >
                   {t('developersPage.integrationsLink')} →
                 </Link>
                 <h3 className="mt-6 font-display text-sm font-semibold">{t('developersPage.webhooksVerifyTitle')}</h3>
@@ -173,15 +178,16 @@ X-API-Key: qb_live_...`}
                   {WEBHOOK_VERIFY_NODE_EXAMPLE}
                 </pre>
               </div>
-              <div className="rounded-xl border border-border/50 bg-card/80 p-6 backdrop-blur-sm">
-                <h2 className="font-display font-semibold flex items-center gap-2">
-                  <FileJson className="h-4 w-4 text-primary" /> {t('developersPage.openapiTitle')}
+              <div className="ph-card p-6 hover:translate-y-0 hover:scale-100">
+                <h2 className="ph-title flex items-center gap-2 text-base">
+                  <FileJson className="h-4 w-4 text-[#2563EB] dark:text-sky-400" aria-hidden />{' '}
+                  {t('developersPage.openapiTitle')}
                 </h2>
                 <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{t('developersPage.openapiBody')}</p>
                 <div className="mt-4 flex flex-col gap-2">
                   <Link
-                    href="/developers/reference"
-                    className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                    href={localizePath('/developers/reference', locale)}
+                    className="inline-flex items-center gap-1 text-sm font-medium text-[#2563EB] hover:underline dark:text-sky-400"
                   >
                     {t('developersPage.openapiExplore')} →
                   </Link>
@@ -195,9 +201,10 @@ X-API-Key: qb_live_...`}
                   </Link>
                 </div>
               </div>
-              <div className="rounded-xl border border-border/50 bg-card/80 p-6 backdrop-blur-sm">
-                <h2 className="font-display font-semibold flex items-center gap-2">
-                  <Gauge className="h-4 w-4 text-primary" /> {t('developersPage.rateLimitsTitle')}
+              <div className="ph-card p-6 hover:translate-y-0 hover:scale-100">
+                <h2 className="ph-title flex items-center gap-2 text-base">
+                  <Gauge className="h-4 w-4 text-[#2563EB] dark:text-sky-400" aria-hidden />{' '}
+                  {t('developersPage.rateLimitsTitle')}
                 </h2>
                 <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
                   {t('developersPage.rateLimitsBody')}
@@ -208,28 +215,29 @@ X-API-Key: qb_live_...`}
                   ))}
                 </ul>
               </div>
-              <div className="rounded-xl border border-border/50 bg-card/80 p-6 backdrop-blur-sm">
-                <h2 className="font-display font-semibold">{t('developersPage.baseUrlTitle')}</h2>
+              <div className="ph-card p-6 hover:translate-y-0 hover:scale-100">
+                <h2 className="ph-title text-base">{t('developersPage.baseUrlTitle')}</h2>
                 <p className="mt-3 font-mono text-sm">https://qrbanner.com</p>
               </div>
-              <Link href="/signup">
-                <Button className="w-full gap-2">
-                  {t('developersPage.cta')} <ArrowRight className="h-4 w-4" />
-                </Button>
+              <Link href="/signup" className="ph-btn-primary w-full">
+                {t('developersPage.cta')} <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
             </div>
           </div>
 
           <section
             id="mobile-api"
-            className="mt-16 scroll-mt-24 rounded-xl border border-border/50 bg-card/80 p-6 sm:p-8 backdrop-blur-sm"
+            className="ph-card mt-16 scroll-mt-24 p-6 hover:translate-y-0 hover:scale-100 sm:p-8"
           >
-            <h2 className="font-display text-xl font-bold">{t('developersPage.mobileTitle')}</h2>
-            <p className="mt-3 max-w-3xl text-sm text-muted-foreground leading-relaxed">
+            <h2 className="ph-title text-xl">{t('developersPage.mobileTitle')}</h2>
+            <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
               {t('developersPage.mobileBody')}
             </p>
             <p className="mt-2 text-sm">
-              <Link href="/apps" className="font-medium text-primary hover:underline">
+              <Link
+                href={localizePath('/apps', locale)}
+                className="font-medium text-[#2563EB] hover:underline dark:text-sky-400"
+              >
                 {t('developersPage.mobileAppsLink')} →
               </Link>
             </p>
@@ -261,17 +269,18 @@ X-API-Key: qb_live_...`}
 
           <section
             id="scim"
-            className="mt-16 scroll-mt-24 rounded-xl border border-border/50 bg-card/80 p-6 sm:p-8 backdrop-blur-sm"
+            className="ph-card mt-16 scroll-mt-24 p-6 hover:translate-y-0 hover:scale-100 sm:p-8"
           >
-            <h2 className="font-display text-xl font-bold flex items-center gap-2">
-              <UsersRound className="h-5 w-5 text-primary" /> {t('developersPage.scimTitle')}
+            <h2 className="ph-title flex items-center gap-2 text-xl">
+              <UsersRound className="h-5 w-5 text-[#2563EB] dark:text-sky-400" aria-hidden />{' '}
+              {t('developersPage.scimTitle')}
             </h2>
-            <p className="mt-3 max-w-3xl text-sm text-muted-foreground leading-relaxed">
+            <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
               {t('developersPage.scimBody')}
             </p>
             <Link
-              href="/developers/reference"
-              className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+              href={localizePath('/developers/reference', locale)}
+              className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-[#2563EB] hover:underline dark:text-sky-400"
             >
               {t('developersPage.scimOpenapiExplore')} →
             </Link>
@@ -318,44 +327,31 @@ Authorization: Bearer qrb_scim_...
             </div>
           </section>
 
-          <section className="mt-16 rounded-xl border border-border/50 bg-card/80 p-6 backdrop-blur-sm">
-            <h2 className="font-display text-lg font-semibold">{t('securityPage.liveLinksTitle')}</h2>
+          <section className="ph-card mt-16 p-6 hover:translate-y-0 hover:scale-100">
+            <h2 className="ph-title text-lg">{t('securityPage.liveLinksTitle')}</h2>
             <ul className="mt-4 space-y-2 text-sm">
-              <li>
-                <Link href="/trust" className="font-medium text-primary hover:underline">
-                  {t('securityPage.liveTrust')}
-                </Link>
-              </li>
-              <li>
-                <Link href="/trust/soc2-readiness" className="font-medium text-primary hover:underline">
-                  {t('trustPage.linkSoc2Readiness')}
-                </Link>
-              </li>
-              <li>
-                <Link href="/trust/hipaa-readiness" className="font-medium text-primary hover:underline">
-                  {t('trustPage.linkHipaaReadiness')}
-                </Link>
-              </li>
-              <li>
-                <Link href="/trust/procurement-request" className="font-medium text-primary hover:underline">
-                  {t('nav.procurementRequest')}
-                </Link>
-              </li>
-              <li>
-                <Link href="/security" className="font-medium text-primary hover:underline">
-                  {t('status.relatedSecurity')}
-                </Link>
-              </li>
-              <li>
-                <Link href="/status" className="font-medium text-primary hover:underline">
-                  {t('securityPage.liveStatus')}
-                </Link>
-              </li>
+              {[
+                { href: '/trust', label: t('securityPage.liveTrust') },
+                { href: '/trust/soc2-readiness', label: t('trustPage.linkSoc2Readiness') },
+                { href: '/trust/hipaa-readiness', label: t('trustPage.linkHipaaReadiness') },
+                { href: '/trust/procurement-request', label: t('nav.procurementRequest') },
+                { href: '/security', label: t('status.relatedSecurity') },
+                { href: '/status', label: t('securityPage.liveStatus') },
+              ].map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={localizePath(link.href, locale)}
+                    className="font-medium text-[#2563EB] hover:underline dark:text-sky-400"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </section>
 
-          <section className="mt-16 rounded-xl border border-border/50 bg-card/80 p-8 backdrop-blur-sm">
-            <h2 className="font-display text-xl font-bold">{t('developersPage.exampleTitle')}</h2>
+          <section className="ph-card mt-16 p-8 hover:translate-y-0 hover:scale-100">
+            <h2 className="ph-title text-xl">{t('developersPage.exampleTitle')}</h2>
             <pre className="mt-4 overflow-x-auto rounded-lg bg-muted p-4 text-xs leading-relaxed">
               {`curl -X POST https://qrbanner.com/api/v1/qr \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
@@ -368,7 +364,7 @@ Authorization: Bearer qrb_scim_...
             </pre>
           </section>
         </div>
-      </div>
+      </PremiumShell>
     </>
   );
 }

@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
-import Link from 'next/link';
+import { PremiumShell } from '@/components/landing/premium/primitives';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 
 export const revalidate = 3600;
 
@@ -35,45 +36,43 @@ export default async function AboutPage() {
           locale,
         })}
       />
-      <PublicBreadcrumbs items={[{ label: t('footer.about'), href: '/about' }]} />
-      <div className="py-10 sm:py-16">
-        <article className="mx-auto max-w-3xl space-y-8 px-4 sm:px-6">
-          <header>
-            <h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">{t('aboutPage.title')}</h1>
-            <p className="mt-4 text-lg text-muted-foreground leading-relaxed">{t('aboutPage.intro')}</p>
-          </header>
+      <PremiumShell>
+        <div className="ph-container pb-16 pt-6 sm:pb-24 sm:pt-8">
+          <article className="mx-auto max-w-3xl space-y-8">
+            <PublicBreadcrumbs items={[{ label: t('footer.about'), href: '/about' }]} />
+            <header className="relative">
+              <div className="pointer-events-none absolute -left-8 -top-8 -z-10 h-40 w-72 rounded-full bg-[#2563EB]/15 blur-[70px] dark:bg-[#2563EB]/25" aria-hidden />
+              <p className="ph-eyebrow mb-4">{t('footer.about')}</p>
+              <h1 className="ph-title text-3xl leading-[1.1] sm:text-4xl lg:text-[2.75rem]">{t('aboutPage.title')}</h1>
+              <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{t('aboutPage.intro')}</p>
+            </header>
 
-          <section className="space-y-3 text-sm leading-relaxed text-muted-foreground">
-            <h2 className="font-display text-xl font-semibold text-foreground">{t('aboutPage.whatWeDoTitle')}</h2>
-            <p>{t('aboutPage.whatWeDo1')}</p>
-            <p>{t('aboutPage.whatWeDo2')}</p>
-          </section>
+            <section className="ph-card space-y-3 p-6 text-sm leading-relaxed text-muted-foreground hover:translate-y-0 hover:scale-100">
+              <h2 className="ph-title text-xl text-foreground">{t('aboutPage.whatWeDoTitle')}</h2>
+              <p>{t('aboutPage.whatWeDo1')}</p>
+              <p>{t('aboutPage.whatWeDo2')}</p>
+            </section>
 
-          <section className="space-y-3 text-sm leading-relaxed text-muted-foreground">
-            <h2 className="font-display text-xl font-semibold text-foreground">{t('aboutPage.promiseTitle')}</h2>
-            <ul className="list-disc space-y-2 pl-5">
-              {PROMISE_KEYS.map((key) => (
-                <li key={key}>{t(key)}</li>
-              ))}
-            </ul>
-          </section>
+            <section className="ph-card space-y-3 p-6 text-sm leading-relaxed text-muted-foreground hover:translate-y-0 hover:scale-100">
+              <h2 className="ph-title text-xl text-foreground">{t('aboutPage.promiseTitle')}</h2>
+              <ul className="list-disc space-y-2 pl-5">
+                {PROMISE_KEYS.map((key) => (
+                  <li key={key}>{t(key)}</li>
+                ))}
+              </ul>
+            </section>
 
-          <div className="flex flex-wrap gap-3 pt-2">
-            <Link
-              href="/qr/create?quick=1"
-              className="inline-flex items-center rounded-full bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90"
-            >
-              {t('aboutPage.ctaCreate')}
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center rounded-full border border-border px-6 py-2.5 text-sm font-medium hover:bg-muted"
-            >
-              {t('aboutPage.ctaContact')}
-            </Link>
-          </div>
-        </article>
-      </div>
+            <div className="flex flex-wrap gap-3 pt-2">
+              <Link href="/qr/create?quick=1" prefetch={false} className="ph-btn-primary">
+                {t('aboutPage.ctaCreate')}
+              </Link>
+              <Link href={localizePath('/contact', locale)} className="ph-btn-secondary">
+                {t('aboutPage.ctaContact')}
+              </Link>
+            </div>
+          </article>
+        </div>
+      </PremiumShell>
     </>
   );
 }

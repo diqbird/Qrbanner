@@ -1,0 +1,13 @@
+{
+  "upload": [
+    "app/(public)/about/page.tsx",
+    "app/(public)/qr-types/page.tsx",
+    "app/(public)/developers/page.tsx",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

@@ -142,6 +142,9 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 ### Done in follow-up pack (2026-07-17 o)
 - Templates + use-cases hubs wrapped in `PremiumShell`. Use-cases index now renders localized titles/descriptions (was mapping `localizeUseCasePage` then ignoring it).
 
+### Done in follow-up pack (2026-07-17 p)
+- About, QR types index, and developers hubs wrapped in `PremiumShell` with localized marketing links.
+
 ### Still open (manual / billing only)
 1. **GSC:** Search Console clicks in checklist below (site already verification-ready; sitemap health PASS).
 2. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).

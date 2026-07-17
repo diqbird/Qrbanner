@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Badge } from '@/components/ui/badge';
 import { ArrowRight } from 'lucide-react';
 import { buildQrTypePages } from '@/lib/qr-type-pages';
 import { localizeQrTypePage } from '@/lib/i18n/resolve-programmatic-copy';
@@ -8,8 +7,9 @@ import { QR_CATEGORIES, QR_CATEGORY_GROUPS } from '@/lib/qr-utils';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
+import { PremiumShell } from '@/components/landing/premium/primitives';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 import { marketingCountVars } from '@/lib/i18n/qr-type-count';
 
 export const revalidate = 3600;
@@ -44,65 +44,72 @@ export default async function QrTypesIndexPage() {
           locale,
         })}
       />
-      <PublicBreadcrumbs items={[{ label: t('nav.qrTypes'), href: '/qr-types' }]} />
-      <div className="py-10 sm:py-16">
-        <div className="mx-auto max-w-[1080px] px-4 sm:px-6">
-          <header className="mx-auto max-w-2xl text-center">
-            <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
-              {t('qrTypesIndex.title')}
-            </h1>
-            <p className="mt-4 text-lg text-muted-foreground">{t('qrTypesIndex.subtitle')}</p>
-            <p className="mt-3 text-sm text-muted-foreground">
-              {t('qrTypesIndex.alsoSee')}{' '}
-              <Link href="/use-cases" className="text-primary underline underline-offset-2 hover:no-underline">
-                {t('nav.useCases')}
-              </Link>
-            </p>
-          </header>
+      <PremiumShell>
+        <div className="ph-container pb-16 pt-6 sm:pb-24 sm:pt-8">
+          <div className="mx-auto max-w-[1080px]">
+            <PublicBreadcrumbs items={[{ label: t('nav.qrTypes'), href: '/qr-types' }]} />
+            <header className="relative mx-auto max-w-2xl text-center">
+              <div className="pointer-events-none absolute inset-x-0 -top-10 -z-10 flex justify-center" aria-hidden>
+                <div className="h-40 w-72 rounded-full bg-[#2563EB]/15 blur-[70px] dark:bg-[#2563EB]/25" />
+              </div>
+              <p className="ph-eyebrow mb-4">{t('nav.qrTypes')}</p>
+              <h1 className="ph-title text-4xl leading-[1.1] sm:text-5xl">{t('qrTypesIndex.title')}</h1>
+              <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{t('qrTypesIndex.subtitle')}</p>
+              <p className="mt-3 text-sm text-muted-foreground">
+                {t('qrTypesIndex.alsoSee')}{' '}
+                <Link
+                  href={localizePath('/use-cases', locale)}
+                  className="text-[#2563EB] underline underline-offset-2 hover:no-underline dark:text-sky-400"
+                >
+                  {t('nav.useCases')}
+                </Link>
+              </p>
+            </header>
 
-          <div className="mt-12 space-y-12">
-            {QR_CATEGORY_GROUPS.map((group) => {
-              const cats = QR_CATEGORIES.filter((c) => c.group === group.id);
-              return (
-                <section key={group.id}>
-                  <div className="mb-4">
-                    <h2 className="font-display text-xl font-semibold">{group.label}</h2>
-                    <p className="text-sm text-muted-foreground">{group.subtitle}</p>
-                  </div>
-                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {cats.map((cat) => {
-                      const p = pageBySlug[cat.id];
-                      if (!p) return null;
-                      return (
-                        <Link
-                          key={p.slug}
-                          href={`/qr-types/${p.slug}`}
-                          className="group rounded-xl border border-border/50 bg-card p-5 transition-colors hover:border-primary/40 hover:bg-card/80"
-                        >
-                          <div className="flex items-start justify-between gap-2">
-                            <h3 className="font-display font-semibold group-hover:text-primary">
-                              {p.title.replace(' Generator', '')}
-                            </h3>
-                            {p.isDynamic && (
-                              <Badge variant="secondary" className="shrink-0 text-[10px]">
-                                {t('qrTypesIndex.dynamic')}
-                              </Badge>
-                            )}
-                          </div>
-                          <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{p.description}</p>
-                          <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                            {t('qrTypesIndex.create')} <ArrowRight className="h-3.5 w-3.5" />
-                          </span>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </section>
-              );
-            })}
+            <div className="mt-12 space-y-12">
+              {QR_CATEGORY_GROUPS.map((group) => {
+                const cats = QR_CATEGORIES.filter((c) => c.group === group.id);
+                return (
+                  <section key={group.id}>
+                    <div className="mb-4">
+                      <h2 className="ph-title text-xl">{group.label}</h2>
+                      <p className="text-sm text-muted-foreground">{group.subtitle}</p>
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                      {cats.map((cat) => {
+                        const p = pageBySlug[cat.id];
+                        if (!p) return null;
+                        return (
+                          <Link
+                            key={p.slug}
+                            href={localizePath(`/qr-types/${p.slug}`, locale)}
+                            className="ph-card group p-5"
+                          >
+                            <div className="flex items-start justify-between gap-2">
+                              <h3 className="ph-title text-base group-hover:text-[#2563EB] dark:group-hover:text-sky-400">
+                                {p.title.replace(' Generator', '')}
+                              </h3>
+                              {p.isDynamic && (
+                                <span className="shrink-0 rounded-full border border-border/60 bg-background/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+                                  {t('qrTypesIndex.dynamic')}
+                                </span>
+                              )}
+                            </div>
+                            <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{p.description}</p>
+                            <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-[#2563EB] dark:text-sky-400">
+                              {t('qrTypesIndex.create')} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                            </span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </section>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
+      </PremiumShell>
     </>
   );
 }
