@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getAllPostSlugs, getPostBySlug } from '@/lib/blog';
-import { absoluteUrl, pageMetadata } from '@/lib/seo';
+import { absoluteLocalizedUrl, absoluteUrl, pageMetadata } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
 import { BlogArticleBody } from '@/components/public/blog-article-body';
@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Clock, ArrowLeft } from 'lucide-react';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 import { formatLocaleNumber, resolveBcp47Locale } from '@/lib/i18n/format-locale';
 
 type Props = { params: { slug: string } };
@@ -70,7 +70,7 @@ export default async function BlogPostPage({ params }: Props) {
               name: 'QRbanner',
               logo: { '@type': 'ImageObject', url: absoluteUrl('/opengraph-image') },
             },
-            mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
+            mainEntityOfPage: absoluteLocalizedUrl(`/blog/${post.slug}`, locale),
           },
           ...(faqItems.length
             ? [
@@ -95,7 +95,7 @@ export default async function BlogPostPage({ params }: Props) {
       />
       <div className="py-10 sm:py-16">
         <div className="mx-auto max-w-[720px] px-4 sm:px-6">
-          <Link href="/blog">
+          <Link href={localizePath('/blog', locale)}>
             <Button variant="ghost" size="sm" className="mb-6 gap-2 -ml-2">
               <ArrowLeft className="h-4 w-4" aria-hidden /> {t('blogPost.allArticles')}
             </Button>

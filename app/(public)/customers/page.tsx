@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
@@ -140,27 +141,13 @@ export default async function CustomersPage() {
                 >
 
                   {logo.imageSrc ? (
-
-                    // eslint-disable-next-line @next/next/no-img-element
-
-                    <img
-
+                    <Image
                       src={logo.imageSrc}
-
                       alt={logo.label}
-
                       width={100}
-
                       height={28}
-
-                      loading="lazy"
-
-                      decoding="async"
-
                       className="h-7 w-auto max-w-[6.5rem] object-contain opacity-85 grayscale"
-
                     />
-
                   ) : (
 
                     <span className="font-display text-sm font-semibold tracking-tight text-muted-foreground">

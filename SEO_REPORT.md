@@ -98,11 +98,15 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 - `/llms.txt` + `/llms-full.txt` (Markdown AI brief per llmstxt.org); excluded from middleware matcher.
 - Brand logos page: `ItemList` of `ImageObject` for `/logos/*.svg` assets.
 
+### Done in follow-up pack (2026-07-17 d)
+- **SearchAction fulfilled:** `/templates?q={search_term_string}` now seeds + syncs the marketplace filter (`?q=`).
+- Template detail pages emit locale-aware `WebPage` JSON-LD.
+- Blog → marketplace hub link; customers logos use `next/image`.
+
 ### Still open
-1. **SearchAction:** if Cmd+K gains a public shareable URL, point `urlTemplate` there instead of templates search.
-2. **GSC:** submit updated sitemap; monitor “Alternate page with proper canonical” after locale redirects.
-3. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).
-4. **CSP hardening:** migrate inline scripts to nonces / `strict-dynamic` (see `lib/security-headers.ts` plan).
+1. **GSC:** submit updated sitemap; monitor “Alternate page with proper canonical” after locale redirects.
+2. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).
+3. **CSP hardening:** migrate inline scripts to nonces / `strict-dynamic` (see `lib/security-headers.ts` plan).
 
 ---
 

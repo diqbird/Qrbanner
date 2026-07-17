@@ -1,0 +1,17 @@
+{
+  "upload": [
+    "hooks/use-template-marketplace.ts",
+    "components/templates/template-marketplace-grid.tsx",
+    "components/seo/programmatic-internal-links.tsx",
+    "app/(public)/templates/page.tsx",
+    "app/(public)/templates/[id]/page.tsx",
+    "app/(public)/blog/[slug]/page.tsx",
+    "app/(public)/customers/page.tsx",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

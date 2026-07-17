@@ -8,7 +8,7 @@ import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
 import { pageMetadata, webPageJsonLd } from '@/lib/seo';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 import { marketingCountVars } from '@/lib/i18n/qr-type-count';
 
 export const revalidate = 3600;
@@ -31,9 +31,15 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-export default async function TemplatesMarketplacePage() {
+export default async function TemplatesMarketplacePage({
+  searchParams,
+}: {
+  searchParams?: { q?: string | string[] };
+}) {
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
+  const rawQ = searchParams?.q;
+  const initialQuery = Array.isArray(rawQ) ? (rawQ[0] ?? '') : (rawQ ?? '');
 
   return (
     <>
@@ -55,18 +61,18 @@ export default async function TemplatesMarketplacePage() {
             <p className="mt-4 text-lg text-muted-foreground">{t('templateMarketplace.subtitle')}</p>
           </header>
           <div className="mt-12">
-            <TemplateMarketplaceGrid />
+            <TemplateMarketplaceGrid initialQuery={initialQuery} />
             <CommunityMarketplaceSection />
           </div>
           <div className="mt-12 text-center">
-            <Link href="/solutions">
+            <Link href={localizePath('/solutions', locale)}>
               <Button variant="outline" className="mr-3 rounded-full">
                 {t('templateMarketplace.browseSolutions')}
               </Button>
             </Link>
             <Link href="/qr/create">
               <Button size="lg" className="gap-2 rounded-full">
-                {t('templateMarketplace.cta')} <ArrowRight className="h-4 w-4" />
+                {t('templateMarketplace.cta')} <ArrowRight className="h-4 w-4" aria-hidden />
               </Button>
             </Link>
           </div>

@@ -49,6 +49,7 @@ export async function ProgrammaticInternalLinks({
         <HubLink href="/qr-types" label={t('nav.qrTypes')} locale={locale} />
         <HubLink href="/solutions" label={t('nav.solutions')} locale={locale} />
         <HubLink href="/templates" label={t('nav.templates')} locale={locale} />
+        <HubLink href="/marketplace" label={t('marketplaceSeller.browseTitle')} locale={locale} />
       </div>
 
       <ul className="mt-5 space-y-2">

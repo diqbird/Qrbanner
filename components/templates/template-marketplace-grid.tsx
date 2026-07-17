@@ -5,8 +5,8 @@ import { useTemplateMarketplace } from '@/hooks/use-template-marketplace';
 import { TemplateMarketplaceCard } from './template-marketplace-card';
 import { TemplateMarketplaceFilters } from './template-marketplace-filters';
 
-export function TemplateMarketplaceGrid() {
-  const market = useTemplateMarketplace();
+export function TemplateMarketplaceGrid({ initialQuery = '' }: { initialQuery?: string }) {
+  const market = useTemplateMarketplace(initialQuery);
   const { t, featured, filtered } = market;
 
   return (

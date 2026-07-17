@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
 import { INDUSTRY_TEMPLATES, getTemplateById } from '@/lib/industry-templates';
 import { TemplateDetailShell } from '@/components/templates/template-detail-shell';
-import { pageMetadata } from '@/lib/seo';
+import { pageMetadata, webPageJsonLd } from '@/lib/seo';
+import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 
@@ -37,8 +38,29 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   });
 }
 
-export default function TemplateDetailPage({ params }: { params: { id: string } }) {
+export default async function TemplateDetailPage({ params }: { params: { id: string } }) {
   const template = getTemplateById(params.id);
   if (!template) notFound();
-  return <TemplateDetailShell templateId={template.id} />;
+
+  const locale = await getServerLocale();
+  const nameKey = `templates.names.${template.id}`;
+  const taglineKey = `templates.meta.${template.id}.tagline`;
+  const nameRaw = translate(locale, nameKey);
+  const name = nameRaw === nameKey ? template.name : nameRaw;
+  const taglineRaw = translate(locale, taglineKey);
+  const tagline = taglineRaw === taglineKey ? template.tagline : taglineRaw;
+
+  return (
+    <>
+      <JsonLd
+        data={webPageJsonLd({
+          title: name,
+          description: tagline,
+          path: `/templates/${template.id}`,
+          locale,
+        })}
+      />
+      <TemplateDetailShell templateId={template.id} />
+    </>
+  );
 }
