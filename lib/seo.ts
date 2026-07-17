@@ -432,6 +432,31 @@ export function webPageJsonLd({
   };
 }
 
+/** ImageObject list for public brand / industry logo assets. */
+export function brandLogoImageObjectsJsonLd(
+  logos: { name: string; path: string; description?: string }[]
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `${SITE_NAME} brand and industry logos`,
+    numberOfItems: logos.length,
+    itemListElement: logos.map((logo, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'ImageObject',
+        name: logo.name,
+        contentUrl: absoluteUrl(logo.path),
+        url: absoluteUrl(logo.path),
+        encodingFormat: logo.path.endsWith('.svg') ? 'image/svg+xml' : undefined,
+        description: logo.description ?? logo.name,
+        isPartOf: { '@type': 'WebPage', url: absoluteUrl('/brand/logos') },
+      },
+    })),
+  };
+}
+
 /** Product + Offer for a published community marketplace listing. */
 export function marketplaceListingJsonLd({
   id,

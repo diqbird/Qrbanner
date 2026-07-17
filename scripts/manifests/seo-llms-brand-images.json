@@ -1,0 +1,16 @@
+{
+  "upload": [
+    "lib/llms-txt.ts",
+    "lib/seo.ts",
+    "middleware.ts",
+    "app/llms.txt/route.ts",
+    "app/llms-full.txt/route.ts",
+    "app/(public)/brand/logos/page.tsx",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

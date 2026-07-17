@@ -94,12 +94,15 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 - CSP shared via `lib/csp.cjs` — applied in both middleware (`lib/security-headers.ts`) and `next.config.js` headers.
 - WebPage JSON-LD on solutions / qr-types / use-cases / case-study detail routes; related links locale-aware.
 
+### Done in follow-up pack (2026-07-17 c)
+- `/llms.txt` + `/llms-full.txt` (Markdown AI brief per llmstxt.org); excluded from middleware matcher.
+- Brand logos page: `ItemList` of `ImageObject` for `/logos/*.svg` assets.
+
 ### Still open
 1. **SearchAction:** if Cmd+K gains a public shareable URL, point `urlTemplate` there instead of templates search.
 2. **GSC:** submit updated sitemap; monitor “Alternate page with proper canonical” after locale redirects.
 3. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).
 4. **CSP hardening:** migrate inline scripts to nonces / `strict-dynamic` (see `lib/security-headers.ts` plan).
-5. **Optional:** `llms.txt` + ImageObject for brand logos page.
 
 ---
 
@@ -167,11 +170,10 @@ Validate with [Rich Results Test](https://search.google.com/test/rich-results) o
 
 1. Locale-complete JSON-LD on all programmatic detail routes.  
 2. Entity-rich FAQ blocks on geo + industry templates (AI Overview / Perplexity).  
-3. DigitalAsset / ImageObject for brand logos page.  
-4. Optional `llms.txt` + concise entity summary for AI crawlers.  
-5. Quarterly Core Web Vitals review in Search Console + CrUX.  
-6. Expand internal links from blog → templates / use-cases / marketplace.  
-7. When Ads billing is live: conversion imports (does not affect organic SEO).
+3. Quarterly Core Web Vitals review in Search Console + CrUX.  
+4. Expand internal links from blog → templates / use-cases / marketplace.  
+5. When Ads billing is live: conversion imports (does not affect organic SEO).  
+6. Keep `/llms.txt` product links current when major hubs ship.
 
 ---
 

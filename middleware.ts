@@ -198,6 +198,6 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|manifest.webmanifest|icon|opengraph-image).*)',
+    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|llms\\.txt|llms-full\\.txt|manifest.webmanifest|icon|opengraph-image).*)',
   ],
 };
