@@ -145,6 +145,9 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 ### Done in follow-up pack (2026-07-17 p)
 - About, QR types index, and developers hubs wrapped in `PremiumShell` with localized marketing links.
 
+### Done in follow-up pack (2026-07-17 q)
+- Integrations, trust, and case-studies hubs wrapped in `PremiumShell` with localized card/detail links.
+
 ### Still open (manual / billing only)
 1. **GSC:** Search Console clicks in checklist below (site already verification-ready; sitemap health PASS).
 2. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).

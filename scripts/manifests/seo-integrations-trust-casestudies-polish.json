@@ -1,0 +1,13 @@
+{
+  "upload": [
+    "app/(public)/integrations/page.tsx",
+    "app/(public)/trust/page.tsx",
+    "app/(public)/case-studies/page.tsx",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
