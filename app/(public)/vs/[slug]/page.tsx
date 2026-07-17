@@ -8,7 +8,7 @@ import { pageMetadata, comparisonPageJsonLd } from '@/lib/seo';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 
 export const revalidate = 3600;
 
@@ -114,11 +114,11 @@ export default async function VsDetailPage({ params }: { params: { slug: string 
               </Button>
             </Link>
             <p className="mt-3 text-sm text-muted-foreground">
-              <Link href="/pricing" className="text-primary hover:underline">
+              <Link href={localizePath('/pricing', locale)} className="text-primary hover:underline">
                 {t('vsDetail.viewPricing')}
               </Link>
               {' · '}
-              <Link href="/vs" className="text-primary hover:underline">
+              <Link href={localizePath('/vs', locale)} className="text-primary hover:underline">
                 {t('vsDetail.allComparisons')}
               </Link>
             </p>

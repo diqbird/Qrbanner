@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 import { CAPTERRA_REVIEW_URL, G2_REVIEW_URL } from '@/lib/marketing-config';
 import { supportMailto } from '@/lib/site-contact';
 
@@ -21,7 +21,7 @@ export async function LandingReviewsStrip() {
           >
             {t('reviews.shareExperience')}
           </a>
-          <Link href="/reviews" className="mt-1 block text-xs text-muted-foreground hover:text-primary">
+          <Link href={localizePath('/reviews', locale)} className="mt-1 block text-xs text-muted-foreground hover:text-primary">
             {t('nav.reviews')} →
           </Link>
         </div>

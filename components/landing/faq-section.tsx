@@ -6,10 +6,12 @@ import { Button } from '@/components/ui/button';
 import { SUPPORT_EMAIL, supportMailto } from '@/lib/site-contact';
 import { Mail, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { useLocalePath } from '@/components/i18n/use-locale-path';
 import { getFaqItems } from '@/lib/i18n/faq-items';
 
 export function LandingFAQ() {
   const { t, locale } = useLanguage();
+  const localePath = useLocalePath();
   const faqItems = getFaqItems(locale);
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
@@ -44,7 +46,7 @@ export function LandingFAQ() {
         </div>
 
         <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          <Link href="/faq">
+          <Link href={localePath('/faq')}>
             <Button variant="outline" className="gap-2">
               {t('landing.faqViewAll')} <ArrowRight className="h-4 w-4" />
             </Button>

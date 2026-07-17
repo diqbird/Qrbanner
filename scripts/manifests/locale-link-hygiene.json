@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "components/landing/cta.tsx",
+    "components/landing/faq-section.tsx",
+    "components/landing/features.tsx",
+    "components/landing/integrations-teaser.tsx",
+    "components/landing/landing-pricing-comparison.tsx",
+    "components/landing/reviews-strip.tsx",
+    "app/(public)/vs/[slug]/page.tsx",
+    "components/public/features-page-sections.tsx",
+    "components/public/features-page-groups.tsx",
+    "components/public/help-page-content.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

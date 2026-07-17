@@ -6,10 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { useLocalePath } from '@/components/i18n/use-locale-path';
 import { getFeatureGroups } from '@/lib/i18n/feature-groups';
 
 export function LandingFeatures() {
   const { t, locale } = useLanguage();
+  const localePath = useLocalePath();
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
   const preview = getFeatureGroups(locale).flatMap((g) => g.features).slice(0, 9);
 
@@ -47,7 +49,7 @@ export function LandingFeatures() {
         </div>
 
         <div className="mt-12 text-center">
-          <Link href="/features">
+          <Link href={localePath('/features')}>
             <Button variant="outline" className="gap-2">
               {t('landing.featuresViewAll')} <ArrowRight className="h-4 w-4" />
             </Button>

@@ -4,12 +4,14 @@ import Link from 'next/link';
 import { ArrowRight, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { useLocalePath } from '@/components/i18n/use-locale-path';
 import { HELP_SECTIONS } from '@/lib/i18n/help-content';
 import { proTrialDayVars } from '@/lib/i18n/policy-day-vars';
 import { SUPPORT_EMAIL, supportMailto } from '@/lib/site-contact';
 
 export function HelpPageContent() {
   const { t: translate, locale } = useLanguage();
+  const localePath = useLocalePath();
   const trialVars = proTrialDayVars(locale);
   const t = (key: string, vars?: Record<string, string | number>) =>
     translate(key, { ...trialVars, ...vars });
@@ -32,7 +34,7 @@ export function HelpPageContent() {
               {section.topics.map((topic) => (
                 <Link
                   key={topic.id}
-                  href={topic.href}
+                  href={localePath(topic.href)}
                   className="group flex flex-col rounded-xl border border-border/50 bg-card/80 p-5 backdrop-blur-sm transition-colors hover:border-primary/40 hover:bg-primary/5"
                 >
                   <p className="font-medium group-hover:text-primary">{t(topic.titleKey)}</p>
@@ -58,7 +60,7 @@ export function HelpPageContent() {
               {SUPPORT_EMAIL}
             </Button>
           </a>
-          <Link href="/contact">
+          <Link href={localePath('/contact')}>
             <Button variant="outline">{t('help.contactForm')}</Button>
           </Link>
         </div>

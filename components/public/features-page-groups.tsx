@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { useLocalePath } from '@/components/i18n/use-locale-path';
 import { formatFreePlanDynamicQrShortLabel } from '@/lib/i18n/dynamic-qr-label';
 import { getFeatureGroups } from '@/lib/i18n/feature-groups';
 
@@ -49,6 +50,7 @@ export function FeaturesPageGroups() {
 
 export function FeaturesPageBottomCta() {
   const { t, locale } = useLanguage();
+  const localePath = useLocalePath();
 
   return (
     <section className="mt-20 rounded-2xl border border-border/50 bg-card/60 p-8 text-center sm:p-12">
@@ -57,10 +59,10 @@ export function FeaturesPageBottomCta() {
         {t('features.bottomCtaDesc', { qrLabel: formatFreePlanDynamicQrShortLabel(locale) })}
       </p>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
-        <Link href="/solutions">
+        <Link href={localePath('/solutions')}>
           <Button variant="outline">{t('nav.solutions')}</Button>
         </Link>
-        <Link href="/developers">
+        <Link href={localePath('/developers')}>
           <Button variant="outline">{t('footer.apiWebhooks')}</Button>
         </Link>
         <Link href="/signup">

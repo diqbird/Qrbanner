@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, Code2, Webhook, Zap } from 'lucide-react';
 import { getServerLocale } from '@/lib/i18n/server';
-import { translate } from '@/lib/i18n';
+import { localizePath, translate } from '@/lib/i18n';
 import { marketingCountVars } from '@/lib/i18n/qr-type-count';
 import { Button } from '@/components/ui/button';
 
@@ -30,7 +30,7 @@ export async function LandingIntegrationsTeaser() {
             {ITEMS.map(({ key, icon: Icon, href }) => (
               <Link
                 key={key}
-                href={href}
+                href={localizePath(href, locale)}
                 className="rounded-xl border border-border/40 bg-card/80 p-5 text-center transition-colors hover:border-primary/30"
               >
                 <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg icon-well-primary">
@@ -42,7 +42,7 @@ export async function LandingIntegrationsTeaser() {
             ))}
           </div>
           <p className="mt-8 text-center">
-            <Link href="/integrations">
+            <Link href={localizePath('/integrations', locale)}>
               <Button variant="outline" className="gap-2">
                 {t('integrationsTeaser.cta')} <ArrowRight className="h-4 w-4" />
               </Button>

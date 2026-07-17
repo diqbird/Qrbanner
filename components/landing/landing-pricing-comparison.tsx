@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { getComparisonRows } from '@/lib/i18n/pricing-content';
+import { localizePath } from '@/lib/i18n';
 import type { LandingPricingState } from '@/hooks/use-landing-pricing';
 
 export function LandingPricingComparison({ pricing }: { pricing: LandingPricingState }) {
@@ -12,7 +13,7 @@ export function LandingPricingComparison({ pricing }: { pricing: LandingPricingS
     <div className="mt-16">
       <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
         <h3 className="font-display text-lg font-semibold">{t('pricing.whyTitle')}</h3>
-        <Link href="/pricing" className="text-sm font-medium text-primary hover:underline">
+        <Link href={localizePath('/pricing', locale)} className="text-sm font-medium text-primary hover:underline">
           {t('landing.pricingCompare')}
         </Link>
       </div>

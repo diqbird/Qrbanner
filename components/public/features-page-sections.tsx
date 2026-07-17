@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, BarChart3, Code2, Layers, RefreshCw } from 'lucide-react';
 import { useLanguage } from '@/components/i18n/language-provider';
+import { useLocalePath } from '@/components/i18n/use-locale-path';
 
 const HIGHLIGHTS = [
   { icon: RefreshCw, key: 'dynamic' as const },
@@ -54,6 +55,7 @@ export function FeaturesPageHighlights() {
 
 export function FeaturesPageVsStaticBand() {
   const { t } = useLanguage();
+  const localePath = useLocalePath();
 
   return (
     <div className="mt-12 rounded-2xl border border-primary/20 bg-primary/5 px-6 py-8 text-center sm:px-10">
@@ -65,10 +67,10 @@ export function FeaturesPageVsStaticBand() {
         {t('features.vsStaticDesc')}
       </p>
       <div className="mt-6 flex flex-wrap justify-center gap-3">
-        <Link href="/pricing">
+        <Link href={localePath('/pricing')}>
           <Button variant="outline">{t('nav.pricing')}</Button>
         </Link>
-        <Link href="/vs">
+        <Link href={localePath('/vs')}>
           <Button variant="ghost">{t('features.compareCompetitors')}</Button>
         </Link>
       </div>
