@@ -34,7 +34,7 @@ export function PublicHeader() {
           className="rounded-lg outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
           aria-label={t('common.homeAria')}
         >
-          <SiteLogo layout="stacked" className="items-start sm:items-center" />
+          <SiteLogo layout="inline" size="sm" />
         </Link>
 
         <PublicHeaderNav header={header} />

@@ -16,7 +16,7 @@ export async function PremiumPricingTeaser() {
               <h2 id="premium-pricing-teaser" className="ph-title text-2xl sm:text-3xl">
                 {t('premiumHome.pricingTeaser.title')}
               </h2>
-              <p className="mt-2 max-w-xl text-slate-600">{t('premiumHome.pricingTeaser.subtitle')}</p>
+              <p className="mt-2 max-w-xl text-muted-foreground">{t('premiumHome.pricingTeaser.subtitle')}</p>
             </div>
             <Link href={localizePath('/pricing', locale)} className="ph-btn-primary shrink-0">
               {t('premiumHome.pricingTeaser.cta')}

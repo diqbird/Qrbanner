@@ -59,7 +59,7 @@ export function PremiumStatsClient({
           <h2 id="premium-stats-heading" className="ph-title text-3xl sm:text-4xl">
             {t('premiumHome.stats.title')}
           </h2>
-          <p className="mt-3 text-slate-600">{t('premiumHome.stats.subtitle')}</p>
+          <p className="mt-3 text-muted-foreground">{t('premiumHome.stats.subtitle')}</p>
         </div>
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
           {items.map((item) => (
@@ -70,10 +70,10 @@ export function PremiumStatsClient({
               viewport={{ once: true }}
               className="ph-card p-7 text-center hover:translate-y-0 hover:scale-100"
             >
-              <p className="font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+              <p className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
                 <AnimatedCount value={item.value} locale={locale} />
               </p>
-              <p className="mt-2 text-sm font-medium text-slate-500">{item.label}</p>
+              <p className="mt-2 text-sm font-medium text-muted-foreground">{item.label}</p>
             </motion.div>
           ))}
         </div>

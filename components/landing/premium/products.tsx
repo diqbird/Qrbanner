@@ -62,7 +62,7 @@ export async function PremiumProducts() {
           <h2 id="premium-products-heading" className="ph-title text-3xl sm:text-4xl">
             {t('premiumHome.products.title')}
           </h2>
-          <p className="mt-4 text-slate-600">{t('premiumHome.products.subtitle')}</p>
+          <p className="mt-4 text-muted-foreground">{t('premiumHome.products.subtitle')}</p>
         </Reveal>
 
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -74,13 +74,13 @@ export async function PremiumProducts() {
                   href={localizePath(`/solutions/${product.slug}`, locale)}
                   className="ph-card group flex h-full flex-col p-6"
                 >
-                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#2563EB]/15 to-[#06B6D4]/20 text-[#2563EB]">
+                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#2563EB]/15 to-[#06B6D4]/20 text-[#2563EB] dark:from-[#2563EB]/25 dark:to-[#06B6D4]/20 dark:text-sky-300">
                     <Icon className="h-5 w-5" aria-hidden />
                   </div>
-                  <h3 className="font-display text-lg font-semibold text-slate-900">
+                  <h3 className="font-display text-lg font-semibold text-foreground">
                     {t(product.titleKey)}
                   </h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-600">
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
                     {t(product.descKey)}
                   </p>
                   <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-[#2563EB]">

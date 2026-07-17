@@ -20,7 +20,7 @@ export async function PremiumTestimonials() {
           <h2 id="premium-testimonials-heading" className="ph-title text-3xl sm:text-4xl">
             {t('premiumHome.testimonials.title')}
           </h2>
-          <p className="mt-4 text-slate-600">{t('premiumHome.testimonials.subtitle')}</p>
+          <p className="mt-4 text-muted-foreground">{t('premiumHome.testimonials.subtitle')}</p>
         </Reveal>
 
         <div className="mt-12 grid gap-5 lg:grid-cols-3">
@@ -32,7 +32,7 @@ export async function PremiumTestimonials() {
                     <Star key={star} className="h-4 w-4 fill-current" aria-hidden />
                   ))}
                 </div>
-                <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-slate-700">
+                <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-foreground/85">
                   “{t(quote.textKey)}”
                 </blockquote>
                 <figcaption className="mt-6 flex items-center gap-3">
@@ -42,7 +42,7 @@ export async function PremiumTestimonials() {
                   >
                     {t(quote.roleKey).charAt(0)}
                   </span>
-                  <span className="text-sm font-medium text-slate-800">{t(quote.roleKey)}</span>
+                  <span className="text-sm font-medium text-foreground">{t(quote.roleKey)}</span>
                 </figcaption>
               </figure>
             </Reveal>

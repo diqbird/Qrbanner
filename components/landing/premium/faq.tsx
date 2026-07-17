@@ -14,25 +14,25 @@ export function PremiumFaq() {
   const faqItems = getFaqItems(locale).slice(0, 6);
 
   return (
-    <section className="border-y border-slate-200/70 bg-white/50 py-16 sm:py-20" aria-labelledby="premium-faq-heading">
+    <section className="ph-surface py-16 sm:py-20" aria-labelledby="premium-faq-heading">
       <div className="ph-container">
         <Reveal className="mx-auto max-w-2xl text-center">
           <h2 id="premium-faq-heading" className="ph-title text-3xl sm:text-4xl">
             {t('premiumHome.faq.title')}
           </h2>
-          <p className="mt-4 text-slate-600">{t('premiumHome.faq.subtitle')}</p>
+          <p className="mt-4 text-muted-foreground">{t('premiumHome.faq.subtitle')}</p>
         </Reveal>
 
-        <div className="mx-auto mt-10 max-w-3xl divide-y divide-slate-200/80 overflow-hidden rounded-[1.5rem] border border-slate-200/80 bg-white shadow-[0_18px_40px_-28px_rgba(15,23,42,0.3)]">
+        <div className="mx-auto mt-10 max-w-3xl divide-y divide-border/70 overflow-hidden rounded-[1.5rem] border border-border/70 bg-card/90 shadow-[0_18px_40px_-28px_rgba(15,23,42,0.3)] dark:border-white/10 dark:bg-card/70 dark:shadow-[0_22px_48px_-28px_rgba(0,0,0,0.75)]">
           {faqItems.map((item) => (
             <details key={item.question} className="group px-6 py-4">
-              <summary className="cursor-pointer list-none font-medium text-slate-900 marker:content-none [&::-webkit-details-marker]:hidden">
+              <summary className="cursor-pointer list-none font-medium text-foreground marker:content-none [&::-webkit-details-marker]:hidden">
                 <span className="flex items-center justify-between gap-4">
                   {item.question}
-                  <span className="text-lg leading-none text-[#2563EB] transition-transform group-open:rotate-45">+</span>
+                  <span className="text-lg leading-none text-[#2563EB] transition-transform group-open:rotate-45 dark:text-sky-400">+</span>
                 </span>
               </summary>
-              <p className="mt-3 text-sm leading-relaxed text-slate-600">{item.answer}</p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.answer}</p>
             </details>
           ))}
         </div>

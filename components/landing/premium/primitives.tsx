@@ -42,7 +42,7 @@ export function GlassPanel({
 }) {
   return (
     <div
-      className={`rounded-[1.5rem] border border-white/40 bg-white/70 shadow-[0_20px_50px_-28px_rgba(15,23,42,0.35)] backdrop-blur-xl ${className}`}
+      className={`rounded-[1.5rem] border border-border/60 bg-card/80 shadow-[0_20px_50px_-28px_rgba(15,23,42,0.35)] backdrop-blur-xl dark:border-white/10 dark:bg-card/60 dark:shadow-[0_24px_56px_-28px_rgba(0,0,0,0.8)] ${className}`}
     >
       {children}
     </div>

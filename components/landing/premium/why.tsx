@@ -21,7 +21,7 @@ export async function PremiumWhy() {
           <h2 id="premium-why-heading" className="ph-title text-3xl sm:text-4xl">
             {t('premiumHome.why.title')}
           </h2>
-          <p className="mt-4 text-slate-600">{t('premiumHome.why.subtitle')}</p>
+          <p className="mt-4 text-muted-foreground">{t('premiumHome.why.subtitle')}</p>
         </Reveal>
 
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -30,11 +30,11 @@ export async function PremiumWhy() {
             return (
               <Reveal key={item.titleKey} delay={i * 0.05}>
                 <div className="ph-card h-full p-6">
-                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-[#0F172A] text-white">
+                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-foreground text-background">
                     <Icon className="h-[18px] w-[18px]" aria-hidden />
                   </div>
-                  <h3 className="font-display text-lg font-semibold">{t(item.titleKey)}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{t(item.descKey)}</p>
+                  <h3 className="font-display text-lg font-semibold text-foreground">{t(item.titleKey)}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t(item.descKey)}</p>
                 </div>
               </Reveal>
             );

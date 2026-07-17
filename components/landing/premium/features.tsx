@@ -28,13 +28,13 @@ export async function PremiumFeatures() {
   const t = (key: string) => translate(locale, key);
 
   return (
-    <section className="border-y border-slate-200/70 bg-white/50 py-16 sm:py-20" aria-labelledby="premium-features-heading">
+    <section className="ph-surface py-16 sm:py-20" aria-labelledby="premium-features-heading">
       <div className="ph-container">
         <Reveal className="mx-auto max-w-2xl text-center">
           <h2 id="premium-features-heading" className="ph-title text-3xl sm:text-4xl">
             {t('premiumHome.features.title')}
           </h2>
-          <p className="mt-4 text-slate-600">{t('premiumHome.features.subtitle')}</p>
+          <p className="mt-4 text-muted-foreground">{t('premiumHome.features.subtitle')}</p>
         </Reveal>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -43,13 +43,13 @@ export async function PremiumFeatures() {
             return (
               <Reveal key={feature.titleKey} delay={i * 0.04}>
                 <div className="ph-card h-full p-5 hover:translate-y-0 hover:scale-100">
-                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-white">
-                    <Icon className="h-4.5 w-4.5 h-[18px] w-[18px]" aria-hidden />
+                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-foreground text-background">
+                    <Icon className="h-[18px] w-[18px]" aria-hidden />
                   </div>
-                  <h3 className="font-display text-base font-semibold text-slate-900">
+                  <h3 className="font-display text-base font-semibold text-foreground">
                     {t(feature.titleKey)}
                   </h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{t(feature.descKey)}</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{t(feature.descKey)}</p>
                 </div>
               </Reveal>
             );

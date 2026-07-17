@@ -23,7 +23,7 @@ export async function PremiumHero() {
             <h1 className="ph-title text-4xl leading-[1.08] sm:text-5xl lg:text-[3.35rem]">
               {t('premiumHome.hero.title')}
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-600">
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
               {t('premiumHome.hero.subtitle')}
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">

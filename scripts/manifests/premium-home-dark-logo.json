@@ -1,0 +1,24 @@
+{
+  "upload": [
+    "app/globals.css",
+    "components/brand/site-logo.tsx",
+    "components/public-header.tsx",
+    "components/public-footer-brand.tsx",
+    "components/landing/premium/primitives.tsx",
+    "components/landing/premium/hero.tsx",
+    "components/landing/premium/trust.tsx",
+    "components/landing/premium/products.tsx",
+    "components/landing/premium/features.tsx",
+    "components/landing/premium/why.tsx",
+    "components/landing/premium/process.tsx",
+    "components/landing/premium/testimonials.tsx",
+    "components/landing/premium/faq.tsx",
+    "components/landing/premium/stats-client.tsx",
+    "components/landing/premium/pricing-teaser.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
