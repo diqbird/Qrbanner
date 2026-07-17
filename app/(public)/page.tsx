@@ -1,64 +1,62 @@
 import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
-import { LandingHeroStatic } from '@/components/landing/hero-static';
-import { SectionSkeleton } from '@/components/landing/section-skeleton';
-import { DeferredSection } from '@/components/landing/deferred-section';
 import { JsonLd } from '@/components/seo/json-ld';
 import { faqJsonLd, getHomepageFaqItems, pageMetadata } from '@/lib/seo';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
+import { DeferredSection } from '@/components/landing/deferred-section';
+import { SectionSkeleton } from '@/components/landing/section-skeleton';
+import {
+  PremiumShell,
+  PremiumHero,
+  PremiumTrust,
+} from '@/components/landing/premium';
 
-const LandingCustomerLogos = dynamic(
-  () => import('@/components/landing/customer-logos').then((m) => ({ default: m.LandingCustomerLogos })),
-  { loading: () => <SectionSkeleton rows={1} minHeight="140px" /> }
+const PremiumProducts = dynamic(
+  () => import('@/components/landing/premium/products').then((m) => ({ default: m.PremiumProducts })),
+  { loading: () => <SectionSkeleton rows={3} minHeight="420px" /> }
 );
-const LandingLogoWall = dynamic(
-  () => import('@/components/landing/logo-wall').then((m) => ({ default: m.LandingLogoWall })),
-  { loading: () => <SectionSkeleton rows={2} minHeight="200px" /> }
+const PremiumFeatures = dynamic(
+  () => import('@/components/landing/premium/features').then((m) => ({ default: m.PremiumFeatures })),
+  { loading: () => <SectionSkeleton rows={3} minHeight="480px" /> }
 );
-const LandingReviewsStrip = dynamic(
-  () => import('@/components/landing/reviews-strip').then((m) => ({ default: m.LandingReviewsStrip })),
-  { loading: () => <SectionSkeleton rows={1} minHeight="120px" /> }
+const PremiumShowcase = dynamic(
+  () => import('@/components/landing/premium/showcase').then((m) => ({ default: m.PremiumShowcase })),
+  { loading: () => <SectionSkeleton rows={2} minHeight="420px" /> }
 );
-const LandingSocialProof = dynamic(
-  () => import('@/components/landing/social-proof').then((m) => ({ default: m.LandingSocialProof })),
-  { loading: () => <SectionSkeleton rows={3} minHeight="280px" /> }
+const PremiumWhy = dynamic(
+  () => import('@/components/landing/premium/why').then((m) => ({ default: m.PremiumWhy })),
+  { loading: () => <SectionSkeleton rows={2} minHeight="360px" /> }
 );
-const LandingCaseStudiesTeaser = dynamic(
-  () => import('@/components/landing/case-studies-teaser').then((m) => ({ default: m.LandingCaseStudiesTeaser })),
-  { loading: () => <SectionSkeleton rows={2} minHeight="320px" /> }
+const PremiumProcess = dynamic(
+  () => import('@/components/landing/premium/process').then((m) => ({ default: m.PremiumProcess })),
+  { loading: () => <SectionSkeleton rows={2} minHeight="360px" /> }
 );
-const LandingIndustriesSection = dynamic(
-  () => import('@/components/landing/industries-section').then((m) => ({ default: m.LandingIndustriesSection })),
-  { loading: () => <SectionSkeleton rows={3} minHeight="360px" /> }
+const PremiumStats = dynamic(
+  () => import('@/components/landing/premium/stats').then((m) => ({ default: m.PremiumStats })),
+  { loading: () => <SectionSkeleton rows={1} minHeight="240px" /> }
 );
-const LandingUseCasesSection = dynamic(
-  () => import('@/components/landing/use-cases-teaser').then((m) => ({ default: m.LandingUseCasesSection })),
-  { loading: () => <SectionSkeleton rows={3} minHeight="360px" /> }
+const PremiumTestimonials = dynamic(
+  () =>
+    import('@/components/landing/premium/testimonials').then((m) => ({
+      default: m.PremiumTestimonials,
+    })),
+  { loading: () => <SectionSkeleton rows={2} minHeight="360px" /> }
 );
-const LandingIntegrationsTeaser = dynamic(
-  () => import('@/components/landing/integrations-teaser').then((m) => ({ default: m.LandingIntegrationsTeaser })),
-  { loading: () => <SectionSkeleton rows={2} minHeight="280px" /> }
+const PremiumPricingTeaser = dynamic(
+  () =>
+    import('@/components/landing/premium/pricing-teaser').then((m) => ({
+      default: m.PremiumPricingTeaser,
+    })),
+  { loading: () => <SectionSkeleton rows={1} minHeight="160px" /> }
 );
-const LandingFeatures = dynamic(
-  () => import('@/components/landing/features').then((m) => ({ default: m.LandingFeatures })),
-  { loading: () => <SectionSkeleton rows={6} minHeight="920px" /> }
+const PremiumFaq = dynamic(
+  () => import('@/components/landing/premium/faq').then((m) => ({ default: m.PremiumFaq })),
+  { loading: () => <SectionSkeleton rows={3} minHeight="420px" /> }
 );
-const LandingHowItWorks = dynamic(
-  () => import('@/components/landing/how-it-works').then((m) => ({ default: m.LandingHowItWorks })),
-  { loading: () => <SectionSkeleton rows={4} minHeight="640px" /> }
-);
-const LandingPricing = dynamic(
-  () => import('@/components/landing/pricing-section').then((m) => ({ default: m.LandingPricing })),
-  { loading: () => <SectionSkeleton rows={3} minHeight="720px" /> }
-);
-const LandingFAQ = dynamic(
-  () => import('@/components/landing/faq-section').then((m) => ({ default: m.LandingFAQ })),
-  { loading: () => <SectionSkeleton rows={3} minHeight="560px" /> }
-);
-const LandingCTA = dynamic(
-  () => import('@/components/landing/cta').then((m) => ({ default: m.LandingCTA })),
-  { loading: () => <SectionSkeleton rows={1} minHeight="200px" /> }
+const PremiumFinalCta = dynamic(
+  () => import('@/components/landing/premium/final-cta').then((m) => ({ default: m.PremiumFinalCta })),
+  { loading: () => <SectionSkeleton rows={1} minHeight="220px" /> }
 );
 
 export const revalidate = 3600;
@@ -77,48 +75,40 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function HomePage() {
   const locale = await getServerLocale();
   return (
-    <>
+    <PremiumShell>
       <JsonLd data={faqJsonLd(getHomepageFaqItems(locale))} />
-      <LandingHeroStatic />
-      <DeferredSection intrinsicHeight="140px">
-        <LandingCustomerLogos />
+      <PremiumHero />
+      <PremiumTrust />
+      <DeferredSection intrinsicHeight="420px">
+        <PremiumProducts />
       </DeferredSection>
-      <DeferredSection intrinsicHeight="200px">
-        <LandingLogoWall />
+      <DeferredSection intrinsicHeight="480px">
+        <PremiumFeatures />
       </DeferredSection>
-      <DeferredSection intrinsicHeight="120px">
-        <LandingReviewsStrip />
-      </DeferredSection>
-      <DeferredSection intrinsicHeight="280px">
-        <LandingSocialProof />
-      </DeferredSection>
-      <DeferredSection intrinsicHeight="320px">
-        <LandingCaseStudiesTeaser />
+      <DeferredSection intrinsicHeight="420px">
+        <PremiumShowcase />
       </DeferredSection>
       <DeferredSection intrinsicHeight="360px">
-        <LandingIndustriesSection />
+        <PremiumWhy />
       </DeferredSection>
       <DeferredSection intrinsicHeight="360px">
-        <LandingUseCasesSection />
+        <PremiumProcess />
       </DeferredSection>
-      <DeferredSection intrinsicHeight="280px">
-        <LandingIntegrationsTeaser />
+      <DeferredSection intrinsicHeight="240px">
+        <PremiumStats />
       </DeferredSection>
-      <DeferredSection intrinsicHeight="920px">
-        <LandingFeatures />
+      <DeferredSection intrinsicHeight="360px">
+        <PremiumTestimonials />
       </DeferredSection>
-      <DeferredSection intrinsicHeight="640px">
-        <LandingHowItWorks />
+      <DeferredSection intrinsicHeight="160px">
+        <PremiumPricingTeaser />
       </DeferredSection>
-      <DeferredSection intrinsicHeight="720px">
-        <LandingPricing />
+      <DeferredSection intrinsicHeight="420px">
+        <PremiumFaq />
       </DeferredSection>
-      <DeferredSection intrinsicHeight="560px">
-        <LandingFAQ />
+      <DeferredSection intrinsicHeight="220px">
+        <PremiumFinalCta />
       </DeferredSection>
-      <DeferredSection intrinsicHeight="200px">
-        <LandingCTA />
-      </DeferredSection>
-    </>
+    </PremiumShell>
   );
 }

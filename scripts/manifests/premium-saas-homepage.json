@@ -1,0 +1,18 @@
+{
+  "upload": [
+    "app/(public)/page.tsx",
+    "app/globals.css",
+    "lib/i18n/premium-home-copy.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/de.ts",
+    "lib/i18n/es.ts",
+    "components/landing/premium",
+    "public/images/landing/premium-hero-exhibition.webp"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

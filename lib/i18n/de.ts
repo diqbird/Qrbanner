@@ -2,9 +2,11 @@ import type { TranslationTree } from './types';
 import { fieldsDe } from './fields';
 import { deLocaleGaps } from './de-locale-gaps';
 import { qrCategoryCopyDe } from './qr-category-copy-de';
+import { premiumHomeDe } from './premium-home-copy';
 
 /** Partial German dictionary — missing keys fall back to English via translate(). */
 export const de: TranslationTree = {
+  premiumHome: premiumHomeDe,
   common: {
     signIn: 'Anmelden',
     signUp: 'Registrieren',

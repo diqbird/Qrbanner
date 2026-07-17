@@ -6,8 +6,10 @@ import { templateMetaEn } from './template-meta-copy';
 import { templatePrintCopyEn } from './template-print-copy';
 import { printTemplateCopyEn } from './print-template-copy';
 import { visualPresetCopyEn } from './visual-preset-copy';
+import { premiumHomeEn } from './premium-home-copy';
 
 export const en: TranslationTree = {
+  premiumHome: premiumHomeEn,
   common: {
     signIn: 'Sign In',
     signUp: 'Sign Up',

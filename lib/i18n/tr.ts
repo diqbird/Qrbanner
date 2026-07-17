@@ -7,8 +7,10 @@ import { templatePrintCopyTr } from './template-print-copy';
 import { printTemplateCopyTr } from './print-template-copy';
 import { visualPresetCopyTr } from './visual-preset-copy';
 import { qrCategoryCopyTr } from './qr-category-copy-tr';
+import { premiumHomeTr } from './premium-home-copy';
 
 export const tr: TranslationTree = {
+  premiumHome: premiumHomeTr,
   common: {
     signIn: 'Giriş Yap',
     signUp: 'Kayıt Ol',

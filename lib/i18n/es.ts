@@ -2,9 +2,11 @@ import type { TranslationTree } from './types';
 import { fieldsEs } from './fields';
 import { esLocaleGaps } from './es-locale-gaps';
 import { qrCategoryCopyEs } from './qr-category-copy-es';
+import { premiumHomeEs } from './premium-home-copy';
 
 /** Partial Spanish dictionary — missing keys fall back to English via translate(). */
 export const es: TranslationTree = {
+  premiumHome: premiumHomeEs,
   common: {
     signIn: 'Iniciar sesión',
     signUp: 'Registrarse',
