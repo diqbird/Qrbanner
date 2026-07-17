@@ -1,7 +1,11 @@
 const path = require('path');
 const { buildContentSecurityPolicy } = require('./lib/csp.cjs');
 
-/** Keep in sync with lib/security-headers.ts (shared CSP via lib/csp.cjs). */
+/**
+ * Non-CSP security headers for all routes.
+ * HTML CSP (with per-request nonce) is set in middleware — do not also emit a
+ * static CSP on /:path* or browsers will AND both policies and break scripts.
+ */
 const SECURITY_HEADERS = [
   { key: 'X-DNS-Prefetch-Control', value: 'on' },
   { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
@@ -12,11 +16,13 @@ const SECURITY_HEADERS = [
     key: 'Permissions-Policy',
     value: 'camera=(self), microphone=(), geolocation=(self), interest-cohort=()',
   },
-  {
-    key: 'Content-Security-Policy',
-    value: buildContentSecurityPolicy(),
-  },
 ];
+
+/** Static CSP for middleware-skipped assets (robots, sitemap, llms, icons). */
+const STATIC_ROUTE_CSP = {
+  key: 'Content-Security-Policy',
+  value: buildContentSecurityPolicy(),
+};
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -55,6 +61,10 @@ const nextConfig = {
       {
         source: '/:path*',
         headers: SECURITY_HEADERS,
+      },
+      {
+        source: '/(robots.txt|sitemap.xml|llms.txt|llms-full.txt|manifest.webmanifest|icon|apple-icon|opengraph-image)',
+        headers: [STATIC_ROUTE_CSP],
       },
       {
         source: '/_next/static/:path*',

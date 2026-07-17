@@ -103,10 +103,22 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 - Template detail pages emit locale-aware `WebPage` JSON-LD.
 - Blog → marketplace hub link; customers logos use `next/image`.
 
+### Done in follow-up pack (2026-07-17 e)
+- CSP hardening: `object-src 'none'`, `frame-ancestors 'self'`, `manifest-src 'self'`, prod `upgrade-insecure-requests`.
+- Per-request script **nonce** via middleware (`x-nonce`) → root layout analytics Scripts; static CSP only on middleware-skipped routes (avoids dual-CSP AND).
+- `'strict-dynamic'` deferred until post-deploy console violation audit (keeps host allowlists for GTM/unpkg).
+
 ### Still open
-1. **GSC:** submit updated sitemap; monitor “Alternate page with proper canonical” after locale redirects.
+1. **GSC:** see checklist below (manual in Search Console).
 2. **Ads / reviews:** claim G2/Capterra when ready; Ads A–D remains deferred (billing).
-3. **CSP hardening:** migrate inline scripts to nonces / `strict-dynamic` (see `lib/security-headers.ts` plan).
+3. **CSP:** optional `'strict-dynamic'` after monitoring; style-src nonce / remove `'unsafe-inline'` for styles later.
+
+### GSC checklist (manual)
+1. Confirm property for `https://qrbanner.com` (verification token already in root metadata).
+2. Submit `https://qrbanner.com/sitemap.xml` (Sitemaps → Add).
+3. URL Inspection: `/`, `/pricing`, `/tr/pricing`, `/templates?q=menu`, `/llms.txt`.
+4. Monitor Coverage / Page indexing for “Alternate page with proper canonical” after locale 308s.
+5. Core Web Vitals (CrUX): watch LCP on mobile home + templates.
 
 ---
 

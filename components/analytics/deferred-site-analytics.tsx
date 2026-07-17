@@ -21,7 +21,7 @@ function hasAnalyticsConsent(): boolean {
 /**
  * Loads GA4 + GTM only after cookie consent — lazyOnload to protect LCP/INP.
  */
-export function DeferredSiteAnalytics() {
+export function DeferredSiteAnalytics({ nonce }: { nonce?: string }) {
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export function DeferredSiteAnalytics() {
   return (
     <>
       {validGtm && (
-        <Script id="gtm-init" strategy="lazyOnload">
+        <Script id="gtm-init" strategy="lazyOnload" nonce={nonce}>
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -67,8 +67,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
             strategy="lazyOnload"
+            nonce={nonce}
           />
-          <Script id="ga-config" strategy="lazyOnload">
+          <Script id="ga-config" strategy="lazyOnload" nonce={nonce}>
             {`${googleConsentGrantedScript()}
 gtag('js',new Date());gtag('config','${GA_ID}');`}
           </Script>

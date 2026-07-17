@@ -3,16 +3,18 @@
 import { buildContentSecurityPolicy } from './csp.cjs';
 
 /**
- * CSP migration plan (unsafe-eval removal):
- * 1. Production CSP (lib/csp.cjs) omits unsafe-eval (Next.js 14 prod bundles do not require it).
+ * CSP migration plan:
+ * 1. Production CSP omits unsafe-eval (Next.js 14 prod bundles do not require it).
  * 2. Dev/local keeps unsafe-eval for hot reload — set via NODE_ENV.
- * 3. Next step: move inline scripts to nonces (middleware nonce + script-src 'nonce-...').
- * 4. Audit third-party scripts (GTM/GA) for strict-dynamic or tag-manager-only loading.
+ * 3. Per-request script nonces + strict-dynamic (middleware) — see applySecurityHeaders.
+ * 4. Audit third-party scripts (GTM/GA) if violations appear in browser console.
  *
- * next.config.js and middleware both use the same CSP builder to avoid header drift.
+ * Enforcing CSP with nonce is set only in middleware so each HTML response gets a
+ * unique nonce. next.config.js keeps a static no-nonce CSP for middleware-skipped
+ * static routes (robots, sitemap, llms.txt, icons).
  */
 
-export const SECURITY_HEADERS: { key: string; value: string }[] = [
+export const SECURITY_HEADERS_BASE: { key: string; value: string }[] = [
   { key: 'X-DNS-Prefetch-Control', value: 'on' },
   { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
@@ -22,15 +24,27 @@ export const SECURITY_HEADERS: { key: string; value: string }[] = [
     key: 'Permissions-Policy',
     value: 'camera=(self), microphone=(), geolocation=(self), interest-cohort=()',
   },
+];
+
+/** @deprecated Prefer SECURITY_HEADERS_BASE + applySecurityHeaders(res, { nonce }). */
+export const SECURITY_HEADERS: { key: string; value: string }[] = [
+  ...SECURITY_HEADERS_BASE,
   {
     key: 'Content-Security-Policy',
     value: buildContentSecurityPolicy(),
   },
 ];
 
-export function applySecurityHeaders(response: Response): Response {
-  for (const { key, value } of SECURITY_HEADERS) {
+export function applySecurityHeaders(
+  response: Response,
+  options?: { nonce?: string }
+): Response {
+  for (const { key, value } of SECURITY_HEADERS_BASE) {
     response.headers.set(key, value);
   }
+  response.headers.set(
+    'Content-Security-Policy',
+    buildContentSecurityPolicy({ nonce: options?.nonce })
+  );
   return response;
 }

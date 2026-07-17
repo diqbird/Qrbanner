@@ -1,3 +1,4 @@
+import { headers } from 'next/headers';
 import { DM_Sans, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
@@ -75,6 +76,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getServerLocale();
+  const nonce = headers().get('x-nonce') ?? undefined;
 
   return (
     <html lang={locale} suppressHydrationWarning>
@@ -82,9 +84,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <LocaleHeadLinks />
       </head>
       <body className={`${dmSans.variable} ${jakartaSans.variable} font-sans antialiased`}>
-        <ConsentModeBootstrap />
+        <ConsentModeBootstrap nonce={nonce} />
         <Providers initialLocale={locale}>{children}</Providers>
-        <DeferredSiteAnalytics />
+        <DeferredSiteAnalytics nonce={nonce} />
       </body>
     </html>
   );

@@ -1,1 +1,1 @@
-export function buildContentSecurityPolicy(): string;
+export function buildContentSecurityPolicy(options?: { nonce?: string }): string;

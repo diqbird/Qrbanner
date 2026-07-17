@@ -50,6 +50,19 @@ record(
     fileIncludes('lib/security-headers.ts', "from './csp.cjs'"),
   'CSP builder shared by next.config + middleware'
 );
+record(
+  'csp.nonce',
+  fileIncludes('middleware.ts', 'x-nonce') &&
+    fileIncludes('middleware.ts', 'createCspNonce') &&
+    fileIncludes('app/layout.tsx', "headers().get('x-nonce')"),
+  'Per-request CSP nonce wired middleware → layout scripts'
+);
+record(
+  'csp.directives',
+  fileIncludes('lib/csp.cjs', "object-src 'none'") &&
+    fileIncludes('lib/csp.cjs', "frame-ancestors 'self'"),
+  'Hardened CSP directives (object-src, frame-ancestors)'
+);
 
 const PUBLIC_ROUTES = [
   'app/api/signup/route.ts',

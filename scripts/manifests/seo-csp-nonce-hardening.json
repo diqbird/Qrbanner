@@ -1,0 +1,19 @@
+{
+  "upload": [
+    "lib/csp.cjs",
+    "lib/csp.cjs.d.ts",
+    "lib/security-headers.ts",
+    "middleware.ts",
+    "next.config.js",
+    "app/layout.tsx",
+    "components/analytics/consent-mode-bootstrap.tsx",
+    "components/analytics/deferred-site-analytics.tsx",
+    "scripts/audit-security.ts",
+    "SEO_REPORT.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

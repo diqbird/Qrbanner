@@ -23,11 +23,24 @@ const PROTECTED_PREFIXES = ['/dashboard', '/settings', '/qr/bulk', '/admin'];
 
 const LOCALE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
+/** Request/response header Next.js reads for Script nonce propagation. */
+export const CSP_NONCE_HEADER = 'x-nonce';
+
 function isProtectedPath(path: string): boolean {
   if (path === '/qr/create' || path === '/qr/campaign') return false;
   if (PROTECTED_PREFIXES.some((p) => path.startsWith(p))) return true;
   if (/^\/qr\/[^/]+/.test(path)) return true;
   return false;
+}
+
+function createCspNonce(): string {
+  return Buffer.from(crypto.randomUUID()).toString('base64');
+}
+
+function requestHeadersWithNonce(req: NextRequest, nonce: string): Headers {
+  const headers = new Headers(req.headers);
+  headers.set(CSP_NONCE_HEADER, nonce);
+  return headers;
 }
 
 function applyLocaleCookie(res: NextResponse, locale: Locale) {
@@ -39,22 +52,35 @@ function applyLocaleCookie(res: NextResponse, locale: Locale) {
   res.headers.set(LOCALE_HEADER, locale);
 }
 
-function withSecurityHeaders<T extends NextResponse>(res: T): T {
-  applySecurityHeaders(res);
+function finish(req: NextRequest, res: NextResponse, nonce = createCspNonce()): NextResponse {
+  res.headers.set(PATHNAME_HEADER, req.nextUrl.pathname);
+  if (!res.headers.get(LOCALE_HEADER)) {
+    res.headers.set(LOCALE_HEADER, resolveRequestLocale(req));
+  }
+  res.headers.set(CSP_NONCE_HEADER, nonce);
+  applySecurityHeaders(res, { nonce });
   return res;
+}
+
+function nextWithNonce(req: NextRequest): { res: NextResponse; nonce: string } {
+  const nonce = createCspNonce();
+  const res = NextResponse.next({
+    request: { headers: requestHeadersWithNonce(req, nonce) },
+  });
+  return { res, nonce };
+}
+
+function rewriteWithNonce(req: NextRequest, url: URL): { res: NextResponse; nonce: string } {
+  const nonce = createCspNonce();
+  const res = NextResponse.rewrite(url, {
+    request: { headers: requestHeadersWithNonce(req, nonce) },
+  });
+  return { res, nonce };
 }
 
 function resolveRequestLocale(req: NextRequest): Locale {
   const cookieLocale = req.cookies.get(LOCALE_STORAGE_KEY)?.value;
   return isLocale(cookieLocale) ? cookieLocale : 'en';
-}
-
-function finish(req: NextRequest, res: NextResponse): NextResponse {
-  res.headers.set(PATHNAME_HEADER, req.nextUrl.pathname);
-  if (!res.headers.get(LOCALE_HEADER)) {
-    res.headers.set(LOCALE_HEADER, resolveRequestLocale(req));
-  }
-  return withSecurityHeaders(res);
 }
 
 function handleLocaleRouting(req: NextRequest): NextResponse | null {
@@ -85,9 +111,9 @@ function handleLocaleRouting(req: NextRequest): NextResponse | null {
 
   const rewriteUrl = req.nextUrl.clone();
   rewriteUrl.pathname = pathname;
-  const res = NextResponse.rewrite(rewriteUrl);
+  const { res, nonce } = rewriteWithNonce(req, rewriteUrl);
   applyLocaleCookie(res, locale);
-  return finish(req, res);
+  return finish(req, res, nonce);
 }
 
 export async function middleware(req: NextRequest) {
@@ -101,7 +127,8 @@ export async function middleware(req: NextRequest) {
   if (!isAppHost(host)) {
     const path = req.nextUrl.pathname;
     if (path.startsWith('/s/')) {
-      return finish(req, NextResponse.next());
+      const { res, nonce } = nextWithNonce(req);
+      return finish(req, res, nonce);
     }
     return NextResponse.redirect('https://qrbanner.com');
   }
@@ -115,11 +142,7 @@ export async function middleware(req: NextRequest) {
   // visible URL matches canonical/hreflang (avoids soft-canonical mismatch).
   if (req.method === 'GET' || req.method === 'HEAD') {
     const cookieLocale = resolveRequestLocale(req);
-    if (
-      cookieLocale !== 'en' &&
-      !path.startsWith('/api/') &&
-      shouldLocalizePath(path)
-    ) {
+    if (cookieLocale !== 'en' && !path.startsWith('/api/') && shouldLocalizePath(path)) {
       const localizedPathname = localizePath(path, cookieLocale);
       if (localizedPathname !== req.nextUrl.pathname) {
         const redirect = req.nextUrl.clone();
@@ -170,10 +193,7 @@ export async function middleware(req: NextRequest) {
       secret: process.env.NEXTAUTH_SECRET,
     });
     if (token && token.mfaVerified === false && !inviteLookup) {
-      return finish(
-        req,
-        NextResponse.json({ error: 'mfa_required' }, { status: 403 })
-      );
+      return finish(req, NextResponse.json({ error: 'mfa_required' }, { status: 403 }));
     }
   }
 
@@ -185,15 +205,13 @@ export async function middleware(req: NextRequest) {
         secret: process.env.NEXTAUTH_SECRET,
       });
       if (!token && !hasApiCredentialHeaders(req)) {
-        return finish(
-          req,
-          NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-        );
+        return finish(req, NextResponse.json({ error: 'Unauthorized' }, { status: 401 }));
       }
     }
   }
 
-  return finish(req, NextResponse.next());
+  const { res, nonce } = nextWithNonce(req);
+  return finish(req, res, nonce);
 }
 
 export const config = {
