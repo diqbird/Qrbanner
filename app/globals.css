@@ -361,7 +361,9 @@
   }
 
   .dark .premium-home .ph-card {
-    @apply border-white/10 bg-card/70 shadow-[0_22px_48px_-28px_rgba(0,0,0,0.75)];
+    border-color: rgb(255 255 255 / 0.1);
+    background-color: hsl(var(--card) / 0.7);
+    box-shadow: 0 22px 48px -28px rgba(0, 0, 0, 0.75);
   }
 
   .premium-home .ph-card:hover {
@@ -377,7 +379,12 @@
   }
 
   .dark .premium-home .ph-btn-secondary {
-    @apply border-white/15 bg-white/5 hover:bg-white/10;
+    border-color: rgb(255 255 255 / 0.15);
+    background-color: rgb(255 255 255 / 0.05);
+  }
+
+  .dark .premium-home .ph-btn-secondary:hover {
+    background-color: rgb(255 255 255 / 0.1);
   }
 
   .premium-home .ph-muted {
@@ -389,7 +396,8 @@
   }
 
   .dark .premium-home .ph-surface {
-    @apply border-white/10 bg-white/[0.03];
+    border-color: rgb(255 255 255 / 0.1);
+    background-color: rgb(255 255 255 / 0.03);
   }
 
   .premium-home .ph-dark-band {
