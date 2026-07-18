@@ -1484,7 +1484,7 @@ export const de: TranslationTree = {
     quotaAtLimitTitle: 'QR-Limit erreicht — Erstellen schlägt fehl, bis Sie upgraden',
     quotaNearLimitTitle: 'Sie nähern sich Ihrem QR-Limit',
     quotaAtLimitBody:
-      'Sie nutzen {{used}} von {{limit}} QR-Codes im {{plan}}-Plan. Upgraden Sie oder archivieren Sie ungenutzte Codes vor dem Speichern.',
+      'Sie nutzen {{used}} von {{limit}} QR-Codes im {{plan}}-Plan. Pro schaltet {{proQr}} dynamische QR-Codes, längere Analysehistorie und A/B-Routing frei — oder archivieren Sie ungenutzte Codes vor dem Speichern.',
     quotaNearLimitBody:
       'Sie haben {{used}} von {{limit}} QR-Codes verwendet ({{pct}} %). Upgraden Sie für mehr Kapazität.',
     back: 'Zurück',

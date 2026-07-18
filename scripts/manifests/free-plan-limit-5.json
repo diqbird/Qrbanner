@@ -1,0 +1,21 @@
+{
+  "upload": [
+    "lib/plans.ts",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/de.ts",
+    "lib/i18n/es.ts",
+    "lib/i18n/de-locale-gaps.ts",
+    "lib/i18n/es-locale-gaps.ts",
+    "app/(public)/use-cases/[slug]/page.tsx",
+    "app/(public)/qr-types/[slug]/page.tsx",
+    "app/(public)/templates/[id]/page.tsx",
+    "app/(public)/geo/[city]/page.tsx",
+    "components/qr/qr-create-quota-banner.tsx"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

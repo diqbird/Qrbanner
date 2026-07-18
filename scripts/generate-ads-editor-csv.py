@@ -59,7 +59,7 @@ CAMPAIGNS = [
                     "Free Dynamic QR — Try Now",
                     "Edit Links After You Print",
                     "Scan Analytics Included",
-                    "1 Free Dynamic QR Code",
+                    "5 Free Dynamic QR Codes",
                     "37+ Industry Templates",
                     "Restaurant, WiFi, Menu QR",
                     "No Credit Card to Start",
@@ -72,7 +72,7 @@ CAMPAIGNS = [
                     "Landing Pages + Lead Capture",
                 ],
                 "descriptions": [
-                    "Dynamic QR for menus, WiFi & cards. Edit anytime, track scans. 1 free QR — start now.",
+                    "Dynamic QR for menus, WiFi & cards. Edit anytime, track scans. 5 free QRs — start now.",
                     "Analytics, geofence routing & API. Free plan + 14-day Pro trial. No card required.",
                     "Change the link without reprinting. Templates for restaurants & retail. Try free.",
                     "Scan tracking, webhooks, GA4 on landings. Upgrade from $9.99/mo when you need more.",
@@ -92,7 +92,7 @@ CAMPAIGNS = [
                 ],
                 "headlines": [
                     "Free Dynamic QR — Try Now",
-                    "1 Free Dynamic QR Code",
+                    "5 Free Dynamic QR Codes",
                     "No Credit Card to Start",
                     "Dynamic QR Code Generator",
                     "Edit Links After You Print",
@@ -108,7 +108,7 @@ CAMPAIGNS = [
                     "Restaurant, WiFi, Menu QR",
                 ],
                 "descriptions": [
-                    "Dynamic QR for menus, WiFi & cards. Edit anytime, track scans. 1 free QR — start now.",
+                    "Dynamic QR for menus, WiFi & cards. Edit anytime, track scans. 5 free QRs — start now.",
                     "Analytics, geofence routing & API. Free plan + 14-day Pro trial. No card required.",
                     "Change the link without reprinting. Templates for restaurants & retail. Try free.",
                     "Scan tracking, webhooks, GA4 on landings. Upgrade from $9.99/mo when you need more.",
@@ -143,7 +143,7 @@ CAMPAIGNS = [
                     "Geofence & Schedule Routing",
                     "Try QRbanner Free",
                     "Better Value QR Platform",
-                    "1 Free Dynamic QR Code",
+                    "5 Free Dynamic QR Codes",
                     "No Credit Card to Start",
                     "Print-Ready QR Export",
                     "Scan Analytics Included",
@@ -175,7 +175,7 @@ CAMPAIGNS = [
                     "Try QRbanner Free",
                     "Better Value QR Platform",
                     "Geofence & Schedule Routing",
-                    "1 Free Dynamic QR Code",
+                    "5 Free Dynamic QR Codes",
                     "No Credit Card to Start",
                     "Print-Ready QR Export",
                     "Scan Analytics Included",
@@ -208,7 +208,7 @@ CAMPAIGNS = [
                     "Try QRbanner Free",
                     "Better Value QR Platform",
                     "Geofence & Schedule Routing",
-                    "1 Free Dynamic QR Code",
+                    "5 Free Dynamic QR Codes",
                     "No Credit Card to Start",
                     "Print-Ready QR Export",
                     "Scan Analytics Included",
@@ -249,7 +249,7 @@ CAMPAIGNS = [
                     "Track Menu Scans",
                     "Free Menu QR — Try Now",
                     "QRbanner for Restaurants",
-                    "1 Free Dynamic QR Code",
+                    "5 Free Dynamic QR Codes",
                     "Edit Links After You Print",
                     "No Credit Card to Start",
                     "Print-Ready QR Export",
@@ -260,7 +260,7 @@ CAMPAIGNS = [
                 "descriptions": [
                     "Replace paper menus with dynamic QR. Update dishes anytime. Free to start.",
                     "Menu QR with scan analytics & branded landing. Template ready — create in minutes.",
-                    "See which tables get scans. Geofence & schedule routing. 1 free dynamic QR on signup.",
+                    "See which tables get scans. Geofence & schedule routing. 5 free dynamic QRs on signup.",
                     "Dynamic menu QR for restaurants. Change the link without reprinting. Try free today.",
                 ],
             },
@@ -281,7 +281,7 @@ CAMPAIGNS = [
                     "Free Dynamic QR — Try Now",
                     "Edit Links After You Print",
                     "Scan Analytics Included",
-                    "1 Free Dynamic QR Code",
+                    "5 Free Dynamic QR Codes",
                     "Business Card & WiFi QR",
                     "Google Review QR Codes",
                     "No Credit Card to Start",
@@ -294,7 +294,7 @@ CAMPAIGNS = [
                     "Track Scans by Country",
                 ],
                 "descriptions": [
-                    "Dynamic QR for menus, WiFi & cards. Edit anytime, track scans. 1 free QR — start now.",
+                    "Dynamic QR for menus, WiFi & cards. Edit anytime, track scans. 5 free QRs — start now.",
                     "Analytics, geofence routing & API. Free plan + 14-day Pro trial. No card required.",
                     "Change the link without reprinting. Templates for restaurants & retail. Try free.",
                     "Scan tracking, webhooks, GA4 on landings. Upgrade from $9.99/mo when you need more.",
@@ -586,7 +586,7 @@ SITELINKS_DE = [
 ]
 
 CALLOUTS_DE = [
-    "1 Free Dynamic QR",
+    "5 Free Dynamic QRs",
     "14 Tage Pro-Test",
     "Scan-Analysen",
     "API im Free-Plan",
@@ -603,7 +603,7 @@ SITELINKS_ES = [
 ]
 
 CALLOUTS_ES = [
-    "1 QR dinámico gratis",
+    "5 QR dinámicos gratis",
     "Prueba Pro 14 días",
     "Analítica de escaneos",
     "API en plan gratis",
@@ -633,7 +633,7 @@ CAMPAIGNS_DE = [
                 ],
                 "headlines": [
                     "Dynamischer QR-Code Generator",
-                    "Kostenlos starten — 1 QR",
+                    "Kostenlos starten — 5 QR",
                     "Links nach dem Druck ändern",
                     "Scan-Analysen inklusive",
                     "API im Free-Plan",
@@ -850,7 +850,7 @@ SITELINKS_TR = [
 ]
 
 CALLOUTS_TR = [
-    "1 ücretsiz dinamik QR",
+    "5 ücretsiz dinamik QR",
     "14 gün Pro deneme",
     "Tarama analitikleri",
     "Ücretsiz planda API",
@@ -1020,7 +1020,7 @@ def main() -> int:
             "Dynamische QR-Codes",
             "14 Tage Pro-Test",
             "Links jederzeit ändern",
-            "1 Free Dynamic QR",
+            "5 Free Dynamic QRs",
             "Geo- und Zeit-Routing",
         ],
         desc_fillers=[
@@ -1051,7 +1051,7 @@ def main() -> int:
             "Edite tras imprimir",
             "Prueba Pro 14 días",
             "Exportación impresión",
-            "1 QR dinámico gratis",
+            "5 QR dinámicos gratis",
             "Geovalla y horarios",
         ],
         desc_fillers=[
@@ -1082,7 +1082,7 @@ def main() -> int:
             "Baskı sonrası düzenle",
             "14 gün Pro deneme",
             "Baskıya hazır export",
-            "1 ücretsiz dinamik QR",
+            "5 ücretsiz dinamik QR",
             "Coğrafi yönlendirme",
         ],
         desc_fillers=[

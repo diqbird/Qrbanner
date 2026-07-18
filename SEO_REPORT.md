@@ -172,6 +172,9 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 ### Done in follow-up pack (2026-07-18 z)
 - FAQ + `FAQPage` JSON-LD on `/templates/[id]` and `/geo/[city]` hubs (template tips as how-to answers; city hub sector count SoT).
 
+### Done in follow-up pack (2026-07-18 aa)
+- **Free plan limit 1 → 5** (`PLANS.free.maxQrCodes`). All copy now derives from SoT via `{{qrLabel}}` (removed hardcoded "1 dynamic QR" in EN/TR/DE/ES FAQ answers). Ads packs + CSVs regenerated ("5 Free Dynamic QR Codes"); `verify-ads-paste-urls.py` / `verify-gsc-snippet-health.py` read the limit from `lib/plans.ts`. At-limit upgrade banner now names Pro benefits ({{proQr}} codes, analytics history, A/B routing).
+
 ### Still open (manual / billing only)
 1. **GSC console clicks:** sitemap resubmit + URL Inspection request indexing (automated readiness PASS; see checklist).
 2. **G2 / Capterra:** submit/claim product via `/reviews/g2-setup` CTAs, then set `NEXT_PUBLIC_G2_REVIEW_URL` / `NEXT_PUBLIC_CAPTERRA_REVIEW_URL` on VPS and rebuild.

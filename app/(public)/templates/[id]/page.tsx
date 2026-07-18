@@ -6,6 +6,7 @@ import { JsonLd } from '@/components/seo/json-ld';
 import { getServerLocale } from '@/lib/i18n/server';
 import { translate } from '@/lib/i18n';
 import { resolveTemplateTips } from '@/lib/i18n/resolve-template-copy';
+import { formatFreePlanDynamicQrLabel } from '@/lib/i18n/dynamic-qr-label';
 
 export const revalidate = 3600;
 
@@ -66,7 +67,7 @@ export default async function TemplateDetailPage({ params }: { params: { id: str
     },
     {
       question: t('templateDetail.faqWhyQ', { name }),
-      answer: t('templateDetail.faqWhyA'),
+      answer: t('templateDetail.faqWhyA', { qrLabel: formatFreePlanDynamicQrLabel(locale) }),
     },
   ];
 

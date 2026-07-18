@@ -1484,7 +1484,7 @@ export const es: TranslationTree = {
     quotaAtLimitTitle: 'Límite de QR alcanzado — la creación fallará hasta que actualice',
     quotaNearLimitTitle: 'Se acerca a su límite de QR',
     quotaAtLimitBody:
-      'Está usando {{used}} de {{limit}} códigos QR en el plan {{plan}}. Actualice o archive códigos no usados antes de guardar.',
+      'Está usando {{used}} de {{limit}} códigos QR en el plan {{plan}}. Pro desbloquea {{proQr}} códigos QR dinámicos, más historial analítico y enrutamiento A/B — o archive códigos no usados antes de guardar.',
     quotaNearLimitBody:
       'Ha usado {{used}} de {{limit}} códigos QR ({{pct}} %). Actualice para más capacidad.',
     back: 'Atrás',

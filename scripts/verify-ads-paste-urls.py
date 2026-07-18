@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verify Ads paste-pack final URLs + plan SoT (EN + DE + ES + TR).
 
-SoT (lib/plans.ts): Free = 1 dynamic QR · Pro = $9.99/mo.
+SoT (lib/plans.ts): Free = 5 dynamic QRs · Pro = $9.99/mo.
 Fails on stale free counts (25/50) or Scanova/Bitly RSA still saying QR TIGER.
 """
 from __future__ import annotations
@@ -22,6 +22,19 @@ except Exception:
 BASE = os.environ.get("SITE_URL", "https://qrbanner.com").rstrip("/")
 ADS_DIR = Path(__file__).resolve().parent.parent / "marketing" / "google-ads"
 
+
+def free_plan_qr_limit() -> int:
+    """Read PLANS.free.maxQrCodes from lib/plans.ts (SoT)."""
+    plans = (Path(__file__).resolve().parent.parent / "lib" / "plans.ts").read_text(encoding="utf-8")
+    free_block = plans.split("free:", 1)[1].split("pro:", 1)[0]
+    m = re.search(r"maxQrCodes:\s*(\d+)", free_block)
+    if not m:
+        raise RuntimeError("maxQrCodes not found in lib/plans.ts free block")
+    return int(m.group(1))
+
+
+FREE_N = free_plan_qr_limit()
+
 PACKS = {
     "EN": {
         "file": "ADS_EDITOR_PASTE.md",
@@ -41,7 +54,7 @@ PACKS = {
             "/vs/scanova",
             "/vs/bitly",
             "/qr/create?quick=1",
-            "1 Free Dynamic QR",
+            "5 Free Dynamic QRs",
             "$9.99",
         ),
     },
@@ -83,11 +96,12 @@ PACKS = {
     },
 }
 
+_WRONG_COUNTS = [n for n in (1, 2, 3, 10, 25, 50) if n != FREE_N]
 STALE_CLAIM = [
     re.compile(r"\b25\s+(free\s+)?dynamic", re.I),
     re.compile(r"\b50\s+dynamic\s+QR", re.I),
     re.compile(r"\bunlimited\s+free\s+QR\b", re.I),
-    re.compile(r"\b(2|3|5|10|25|50)\s+Free\s+Dynamic\s+QR", re.I),
+    re.compile(rf"\b({'|'.join(map(str, _WRONG_COUNTS))})\s+Free\s+Dynamic\s+QR", re.I),
 ]
 
 
@@ -159,11 +173,11 @@ def check_en_rsa_csv() -> bool:
         return False
     text = path.read_text(encoding="utf-8")
     ok = True
-    if "1 Free Dynamic QR Code" not in text:
-        print("FAIL: missing headline '1 Free Dynamic QR Code'")
+    if "5 Free Dynamic QR Codes" not in text:
+        print("FAIL: missing headline '5 Free Dynamic QR Codes'")
         ok = False
     else:
-        print("PASS: 1 Free Dynamic QR Code present")
+        print("PASS: 5 Free Dynamic QR Codes present")
     if "$9.99" not in text:
         print("FAIL: missing Pro price $9.99")
         ok = False

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Live snippet / meta health for GSC follow-up.
 
-Checks that pricing meta reflects free-plan SoT (1 dynamic QR) and that
-stale marketing numbers (25 / 50 free codes) are absent from key URLs.
+Checks that pricing meta reflects free-plan SoT (lib/plans.ts free.maxQrCodes)
+and that stale marketing numbers (25 / 50 free codes) are absent from key URLs.
 
 Run: python scripts/verify-gsc-snippet-health.py
 """
@@ -11,8 +11,22 @@ from __future__ import annotations
 import re
 import sys
 import urllib.request
+from pathlib import Path
 
 BASE = "https://qrbanner.com"
+
+
+def free_plan_qr_limit() -> int:
+    """Read PLANS.free.maxQrCodes from lib/plans.ts (SoT)."""
+    plans = (Path(__file__).resolve().parent.parent / "lib" / "plans.ts").read_text(encoding="utf-8")
+    free_block = plans.split("free:", 1)[1].split("pro:", 1)[0]
+    m = re.search(r"maxQrCodes:\s*(\d+)", free_block)
+    if not m:
+        raise RuntimeError("maxQrCodes not found in lib/plans.ts free block")
+    return int(m.group(1))
+
+
+FREE_N = free_plan_qr_limit()
 TARGETS = [
     ("/", False),
     ("/pricing", True),
@@ -30,8 +44,8 @@ STALE = [
 ]
 
 NEED_FREE_ONE = [
-    re.compile(r"1\s+dynamic\s+QR", re.I),
-    re.compile(r"1\s+dinamik\s+QR", re.I),
+    re.compile(rf"{FREE_N}\s+dynamic\s+QR", re.I),
+    re.compile(rf"{FREE_N}\s+dinamik\s+QR", re.I),
 ]
 
 
@@ -73,7 +87,7 @@ def main() -> int:
             print(f"  [FAIL] {path} stale copy matched: {stale_hits}")
             failed += 1
         elif require_one and not any(p.search(desc) or p.search(body) for p in NEED_FREE_ONE):
-            print(f"  [FAIL] {path} missing '1 dynamic/dinamik QR' in meta/body")
+            print(f"  [FAIL] {path} missing '{FREE_N} dynamic/dinamik QR' in meta/body")
             print(f"         meta: {_safe(desc[:140])}")
             failed += 1
         else:
@@ -85,7 +99,7 @@ def main() -> int:
     print("1. Search Console → property https://qrbanner.com")
     print("2. Sitemaps → confirm/resubmit https://qrbanner.com/sitemap.xml")
     print("3. URL Inspection → Request indexing for /, /pricing, /tr/pricing, /templates, /llms.txt")
-    print("4. Watch snippet for Free plan = 1 dynamic QR (not 25/50)")
+    print(f"4. Watch snippet for Free plan = {FREE_N} dynamic QR (not 25/50)")
 
     print("\n--- G2 / Capterra ---")
     print("QRbanner is not listed on G2/Capterra yet. Claim profile, then set on VPS:")

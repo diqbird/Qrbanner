@@ -1070,7 +1070,7 @@ export const tr: TranslationTree = {
     quotaAtLimitTitle: 'QR limitine ulaşıldı — yükseltmeden oluşturma başarısız olur',
     quotaNearLimitTitle: 'QR limitinize yaklaşıyorsunuz',
     quotaAtLimitBody:
-      '{{plan}} planında {{used}} / {{limit}} QR kodu kullanıyorsunuz. Kaydetmeden önce yükseltin veya kullanılmayan kodları arşivleyin.',
+      '{{plan}} planında {{used}} / {{limit}} QR kodu kullanıyorsunuz. Pro ile {{proQr}} dinamik QR, daha uzun analitik geçmişi ve A/B yönlendirme açılır — ya da kaydetmeden önce kullanılmayan kodları arşivleyin.',
     quotaNearLimitBody: '{{used}} / {{limit}} QR kodu kullandınız (%{{pct}}). Daha fazla kapasite için yükseltin.',
     back: 'Geri',
     next: 'İleri',
@@ -3006,7 +3006,7 @@ export const tr: TranslationTree = {
     faqHowQ: '{{name}} şablonunu nasıl kullanırım?',
     faqWhyQ: '{{name}} ile baskıdan sonra hedefi değiştirebilir miyim?',
     faqWhyA:
-      'Evet — dinamik QR şablonları aynı baskıyı korurken linki güncellemenize, taramaları izlemenize ve yönlendirme uygulamanıza olanak tanır. Ücretsiz planda başlangıç için 1 dinamik QR vardır.',
+      'Evet — dinamik QR şablonları aynı baskıyı korurken linki güncellemenize, taramaları izlemenize ve yönlendirme uygulamanıza olanak tanır. Ücretsiz planda başlangıç için {{qrLabel}} vardır.',
   },
   vsIndex: {
     metaTitle: 'QRbanner Karşılaştırmaları — Özellik ve Fiyat Rehberleri',
@@ -3322,7 +3322,7 @@ export const tr: TranslationTree = {
     faqHowQ: '{{type}} QR kodunu nasıl oluştururum?',
     faqWhyQ: '{{type}} QR dinamik mi yoksa statik mi?',
     faqWhyDynamicA:
-      'Bu tür dinamik hedefleri destekler: baskıdan sonra linki güncelleyin, taramaları izleyin, aynı baskıyı koruyun. Ücretsiz planda 1 dinamik QR vardır.',
+      'Bu tür dinamik hedefleri destekler: baskıdan sonra linki güncelleyin, taramaları izleyin, aynı baskıyı koruyun. Ücretsiz planda {{qrLabel}} vardır.',
     faqWhyStaticA:
       'Bu tür sabit içeriği (ör. WiFi veya kişi verisi) görüntünün içine kodlar. Saniyeler içinde baskıya hazır kod indirin; kaydetmek için üye olun.',
   },
@@ -3767,7 +3767,7 @@ export const tr: TranslationTree = {
     cityFaqWhatA:
       '{{city}}, {{country}} için {{count}} sektör rehberi var — her biri şablonlara, tarama analitiğine ve geofence yönlendirmesine bağlanır.',
     cityFaqHowA:
-      'Aşağıdan bir sektör seçin, rehberi açın, ardından sihirbazda ücretsiz QR oluşturun. Ücretsiz planda baskı sonrası link güncellemek için 1 dinamik QR vardır.',
+      'Aşağıdan bir sektör seçin, rehberi açın, ardından sihirbazda ücretsiz QR oluşturun. Ücretsiz planda baskı sonrası link güncellemek için {{qrLabel}} vardır.',
     cityFaqWhyA:
       'Yerel rehberler {{city}} sektörlerini doğru QR türü ve şablonlarla eşleştirir; dinamik kodlar şehir kampanyaları için geo yönlendirme ve tarama analitiği sağlar.',
   },
@@ -3847,7 +3847,7 @@ export const tr: TranslationTree = {
     capterraSectionTitle: 'Capterra kontrol listesi',
     step1: 'https://www.g2.com/products/new adresini açın; @qrbanner.com (veya şirket) e-postasıyla giriş yapın — kişisel Gmail sık reddedilir.',
     step2: 'Önce "QRbanner" arayın; yoksa Yazılım → Pazarlama → QR Kod Üreticileri altında https://qrbanner.com ile yeni ürün gönderin.',
-    step3: 'Açıklama, logo, ekran görüntüleri ve fiyatlandırmayı /features ile /pricing’e uyumlu tutun (Ücretsiz = 1 dinamik QR, Pro $9.99/ay’dan).',
+    step3: 'Açıklama, logo, ekran görüntüleri ve fiyatlandırmayı /features ile /pricing’e uyumlu tutun (güncel ücretsiz plan limitleri için canlı fiyatlandırmaya bakın; Pro $9.99/ay’dan).',
     step4:
       'VPS’te NEXT_PUBLIC_G2_REVIEW_URL ve NEXT_PUBLIC_CAPTERRA_REVIEW_URL değerlerini canlı yorum sayfalarına ayarlayıp yeniden build alın (PremiumTrust + reviews strip bunları okur).',
     step5: 'Memnun müşterilere /reviews/prompts metinlerini gönderin — routing, API veya analitikten somut bahsetmelerini isteyin.',
@@ -3914,7 +3914,7 @@ export const tr: TranslationTree = {
     faqHowQ: '{{title}} senaryosunu QRbanner ile nasıl başlatırım?',
     faqWhyQ: '{{title}} için neden dinamik QR kullanmalıyım?',
     faqWhyA:
-      'Dinamik kodlar baskıdan sonra hedefi değiştirmenize, taramaları ölçmenize ve kampanya değişince yeniden baskı maliyetinden kaçınmanıza olanak tanır. Ücretsiz planda başlangıç için 1 dinamik QR vardır.',
+      'Dinamik kodlar baskıdan sonra hedefi değiştirmenize, taramaları ölçmenize ve kampanya değişince yeniden baskı maliyetinden kaçınmanıza olanak tanır. Ücretsiz planda başlangıç için {{qrLabel}} vardır.',
   },
   enterprise: {
     metaTitle: 'Kurumsal ve Yüksek Hacimli QR',

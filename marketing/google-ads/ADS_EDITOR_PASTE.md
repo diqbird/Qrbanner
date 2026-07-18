@@ -3,7 +3,7 @@
 Use after GA4 conversions are imported (`GOOGLE_ADS_SETUP_TR.md` §A–C).  
 All campaigns: **Search only** · EN · US/UK/CA/AU (or US only) · Maximize clicks + max CPC **$1.50**.
 
-**SoT:** Free = **1** dynamic QR · Pro = **$9.99/mo** / 200 QR (`lib/plans.ts`). Do not claim unlimited free QR.
+**SoT:** Free = **5** dynamic QRs · Pro = **$9.99/mo** / 200 QR (`lib/plans.ts`). Do not claim unlimited free QR.
 
 ---
 
@@ -91,7 +91,7 @@ Dynamic QR Code Generator
 Free Dynamic QR — Try Now
 Edit Links After You Print
 Scan Analytics Included
-1 Free Dynamic QR Code
+5 Free Dynamic QR Codes
 37+ Industry Templates
 Restaurant, WiFi, Menu QR
 No Credit Card to Start
@@ -106,7 +106,7 @@ Landing Pages + Lead Capture
 
 **RSA descriptions**
 ```
-Create dynamic QR codes for menus, WiFi & cards. Edit anytime, track scans. 1 free QR — start in minutes.
+Create dynamic QR codes for menus, WiFi & cards. Edit anytime, track scans. 5 free QRs — start in minutes.
 Dynamic QR with analytics, geofence routing & API. Free plan + 14-day Pro trial. No card required.
 Change the link without reprinting. Templates for restaurants, events & retail. Try QRbanner free.
 Scan tracking, webhooks, GA4 on landing pages. Upgrade from $9.99/mo when you need more codes.
@@ -166,7 +166,7 @@ Dynamic QR + Analytics
 Try QRbanner Free
 Better Value QR Platform
 Geofence & Schedule Routing
-1 Free Dynamic QR Code
+5 Free Dynamic QR Codes
 No Credit Card to Start
 Print-Ready QR Export
 Scan Analytics Included
@@ -203,7 +203,7 @@ Dynamic QR + Analytics
 Try QRbanner Free
 Better Value QR Platform
 Geofence & Schedule Routing
-1 Free Dynamic QR Code
+5 Free Dynamic QR Codes
 No Credit Card to Start
 Print-Ready QR Export
 Scan Analytics Included
@@ -255,7 +255,7 @@ QRbanner for Restaurants
 ```
 Replace paper menus with dynamic QR codes. Update dishes anytime from your dashboard. Free to start.
 Restaurant menu QR with scan analytics & branded landing page. Template ready — create in minutes.
-See which tables get scans. Geofence & schedule routing included. 1 free dynamic QR on signup.
+See which tables get scans. Geofence & schedule routing included. 5 free dynamic QRs on signup.
 ```
 
 ### Ad group: Business / WiFi / reviews

@@ -44,7 +44,7 @@ wikipedia
 **RSA Headlines**
 ```
 Dynamischer QR-Code Generator
-Kostenlos starten — 1 QR
+Kostenlos starten — 5 QR
 Links nach dem Druck ändern
 Scan-Analysen inklusive
 API im Free-Plan

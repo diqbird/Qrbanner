@@ -33,7 +33,7 @@ export const PLANS: Record<PlanId, PlanLimits> = {
     name: 'Free',
     priceMonthly: 0,
     priceLabel: '$0',
-    maxQrCodes: 1,
+    maxQrCodes: 5,
     maxCustomDomains: 1,
     maxBulkRows: 250,
     maxWebhooks: 2,

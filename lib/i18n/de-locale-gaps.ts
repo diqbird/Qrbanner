@@ -445,7 +445,7 @@ export const deLocaleGaps: TranslationTree = {
     capterraSectionTitle: "Capterra-Checkliste",
     step1: "Öffnen Sie https://www.g2.com/products/new und melden Sie sich mit einer @qrbanner.com- (oder Firmen-)E-Mail an — persönliches Gmail wird oft abgelehnt.",
     step2: "Zuerst nach „QRbanner“ suchen; falls fehlend, neues Produkt unter Software → Marketing → QR Code Generators mit Website https://qrbanner.com einreichen.",
-    step3: "Beschreibung, Logo, Screenshots und Preise an /features und /pricing anpassen (Free = 1 dynamischer QR, Pro ab $9.99/Mo).",
+    step3: "Beschreibung, Logo, Screenshots und Preise an /features und /pricing anpassen (aktuelle Free-Limits siehe Live-Pricing; Pro ab $9.99/Mo).",
     step4:
       "Auf dem VPS NEXT_PUBLIC_G2_REVIEW_URL und NEXT_PUBLIC_CAPTERRA_REVIEW_URL auf die Live-Review-Seiten setzen und neu bauen (PremiumTrust + Reviews-Strip lesen sie).",
     step5: "Zufriedene Kunden mit Texten aus /reviews/prompts anschreiben — konkrete Erwähnungen von Routing, API oder Analytics erbitten.",
@@ -495,7 +495,7 @@ export const deLocaleGaps: TranslationTree = {
     cityFaqWhatA:
       "{{city}}, {{country}} hat {{count}} Branchenleitfäden — jeweils mit Vorlagen, Scan-Analysen und Geofence-Routing für lokale Kampagnen.",
     cityFaqHowA:
-      "Branche unten wählen, Leitfaden öffnen, dann im Assistenten kostenlos einen QR erstellen. Der Free-Tarif enthält 1 dynamischen QR, damit Sie den Link nach dem Druck ändern können.",
+      "Branche unten wählen, Leitfaden öffnen, dann im Assistenten kostenlos einen QR erstellen. Der Free-Tarif enthält {{qrLabel}}, damit Sie Links nach dem Druck ändern können.",
     cityFaqWhyA:
       "Lokale Leitfäden verbinden {{city}}-Branchen mit dem richtigen QR-Typ und Vorlagen; dynamische Codes unterstützen Geo-Routing und Scan-Analysen für Stadtkampagnen."
   },
@@ -876,7 +876,7 @@ export const deLocaleGaps: TranslationTree = {
     faqHowQ: "Wie erstelle ich einen {{type}}-QR-Code?",
     faqWhyQ: "Ist ein {{type}}-QR dynamisch oder statisch?",
     faqWhyDynamicA:
-      "Dieser Typ unterstützt dynamische Ziele: Link nach dem Druck ändern, Scans tracken, denselben Druck behalten. Der Free-Tarif enthält 1 dynamischen QR.",
+      "Dieser Typ unterstützt dynamische Ziele: Link nach dem Druck ändern, Scans tracken, denselben Druck behalten. Der Free-Tarif enthält {{qrLabel}}.",
     faqWhyStaticA:
       "Dieser Typ kodiert feste Inhalte (z. B. WLAN oder Kontaktdaten) direkt ins Bild. Druckfertigen Code in Sekunden erstellen; zum Speichern anmelden."
   },
@@ -1589,7 +1589,7 @@ export const deLocaleGaps: TranslationTree = {
     faqHowQ: "Wie nutze ich die {{name}}-Vorlage?",
     faqWhyQ: "Kann ich das Ziel nach dem Druck mit {{name}} ändern?",
     faqWhyA:
-      "Ja — dynamische QR-Vorlagen behalten denselben Druck, während Sie den Link aktualisieren, Scans tracken und Routing anwenden. Der Free-Tarif enthält 1 dynamischen QR zum Start."
+      "Ja — dynamische QR-Vorlagen behalten denselben Druck, während Sie den Link aktualisieren, Scans tracken und Routing anwenden. Der Free-Tarif enthält {{qrLabel}} zum Start."
   },
   templateMarketplace: {
     metaTitle: "Professionelle QR-Code-Vorlagen",
@@ -1619,7 +1619,7 @@ export const deLocaleGaps: TranslationTree = {
     faqHowQ: "Wie starte ich {{title}} mit QRbanner?",
     faqWhyQ: "Warum einen dynamischen QR für {{title}} nutzen?",
     faqWhyA:
-      "Dynamische Codes lassen Sie das Ziel nach dem Druck ändern, Scans messen und Nachdrucke vermeiden, wenn Kampagnen wechseln. Der Free-Tarif enthält 1 dynamischen QR zum Start."
+      "Dynamische Codes lassen Sie das Ziel nach dem Druck ändern, Scans messen und Nachdrucke vermeiden, wenn Kampagnen wechseln. Der Free-Tarif enthält {{qrLabel}} zum Start."
   },
   useCasesIndex: {
     metaTitle: "QR-Code-Anwendungsfälle — Marketing, Einzelhandel, Events & mehr",

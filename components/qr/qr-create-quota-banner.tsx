@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
 import { resolvePlanDisplayName } from '@/lib/i18n/resolve-plan-display-name';
+import { PLANS } from '@/lib/plans';
 
 type UsagePayload = {
   plan: { id: string; name: string };
@@ -73,6 +74,7 @@ export function QrCreateQuotaBanner() {
                   used: formatLocaleNumber(qrCodes, locale),
                   limit: formatLocaleNumber(qrLimit, locale),
                   plan: resolvePlanDisplayName(data.plan.id, locale),
+                  proQr: formatLocaleNumber(PLANS.pro.maxQrCodes, locale),
                 })
               : t('create.quotaNearLimitBody', {
                   used: formatLocaleNumber(qrCodes, locale),

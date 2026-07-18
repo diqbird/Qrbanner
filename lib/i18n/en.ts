@@ -1069,7 +1069,7 @@ export const en: TranslationTree = {
     quotaAtLimitTitle: 'QR limit reached — create will fail until you upgrade',
     quotaNearLimitTitle: 'Approaching your QR limit',
     quotaAtLimitBody:
-      'You are using {{used}} of {{limit}} QR codes on the {{plan}} plan. Upgrade or archive unused codes before saving.',
+      'You are using {{used}} of {{limit}} QR codes on the {{plan}} plan. Pro unlocks {{proQr}} dynamic QR codes, longer analytics history and A/B routing — or archive unused codes before saving.',
     quotaNearLimitBody: 'You have used {{used}} of {{limit}} QR codes ({{pct}}%). Upgrade for more capacity.',
     back: 'Back',
     next: 'Next',
@@ -3005,7 +3005,7 @@ export const en: TranslationTree = {
     faqHowQ: 'How do I use the {{name}} template?',
     faqWhyQ: 'Can I change the destination after printing with {{name}}?',
     faqWhyA:
-      'Yes — dynamic QR templates keep the same printed code while you update the link, track scans and apply routing. Free plan includes 1 dynamic QR to start.',
+      'Yes — dynamic QR templates keep the same printed code while you update the link, track scans and apply routing. Free plan includes {{qrLabel}} to start.',
   },
   vsIndex: {
     metaTitle: 'QRbanner Comparisons — Feature & Pricing Guides',
@@ -3321,7 +3321,7 @@ export const en: TranslationTree = {
     faqHowQ: 'How do I create a {{type}} QR code?',
     faqWhyQ: 'Is a {{type}} QR dynamic or static?',
     faqWhyDynamicA:
-      'This type supports dynamic destinations: update the link after print, track scans, and keep the same printed code. Free plan includes 1 dynamic QR.',
+      'This type supports dynamic destinations: update the link after print, track scans, and keep the same printed code. Free plan includes {{qrLabel}}.',
     faqWhyStaticA:
       'This type encodes fixed content (for example WiFi or contact data) into the image itself. Create and download a print-ready code in seconds; sign up to save and manage codes.',
   },
@@ -3766,7 +3766,7 @@ export const en: TranslationTree = {
     cityFaqWhatA:
       '{{city}}, {{country}} has {{count}} industry guides — each links to templates, scan analytics and geofence-ready routing for local campaigns.',
     cityFaqHowA:
-      'Pick an industry below, open the guide, then create a free QR in the wizard. Free plan includes 1 dynamic QR so you can update the link after print.',
+      'Pick an industry below, open the guide, then create a free QR in the wizard. Free plan includes {{qrLabel}} so you can update links after print.',
     cityFaqWhyA:
       'Local guides match {{city}} industries with the right QR type and templates, and dynamic codes support geo routing and scan analytics for city campaigns.',
   },
@@ -3846,7 +3846,7 @@ export const en: TranslationTree = {
     capterraSectionTitle: 'Capterra checklist',
     step1: 'Open https://www.g2.com/products/new and sign in with a @qrbanner.com (or company) email — personal Gmail is often rejected.',
     step2: 'Search for "QRbanner" first; if missing, submit a new product under Software → Marketing → QR Code Generators with website https://qrbanner.com.',
-    step3: 'Complete description, logo, screenshots and pricing that match /features and /pricing (Free = 1 dynamic QR, Pro from $9.99/mo).',
+    step3: 'Complete description, logo, screenshots and pricing that match /features and /pricing (see live pricing for current free-plan limits; Pro from $9.99/mo).',
     step4:
       'On the VPS set NEXT_PUBLIC_G2_REVIEW_URL and NEXT_PUBLIC_CAPTERRA_REVIEW_URL to the live review pages, then rebuild (homepage PremiumTrust + reviews strip pick them up).',
     step5: 'Email happy customers with /reviews/prompts copy — ask for concrete mentions of routing, API or analytics.',
@@ -3912,7 +3912,7 @@ export const en: TranslationTree = {
     faqHowQ: 'How do I launch {{title}} with QRbanner?',
     faqWhyQ: 'Why use a dynamic QR for {{title}}?',
     faqWhyA:
-      'Dynamic codes let you change the destination after print, measure scans, and avoid reprint costs when campaigns change. Free plan includes 1 dynamic QR to start.',
+      'Dynamic codes let you change the destination after print, measure scans, and avoid reprint costs when campaigns change. Free plan includes {{qrLabel}} to start.',
   },
   enterprise: {
     metaTitle: 'Enterprise & High-Volume QR',

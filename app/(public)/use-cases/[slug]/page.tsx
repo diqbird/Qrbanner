@@ -12,7 +12,10 @@ import { ProgrammaticPageShell } from '@/components/seo/programmatic-page-shell'
 import { ProgrammaticInternalLinks } from '@/components/seo/programmatic-internal-links';
 import { getServerLocale } from '@/lib/i18n/server';
 import { localizePath, translate } from '@/lib/i18n';
-import { formatFreePlanDynamicQrShortLabel } from '@/lib/i18n/dynamic-qr-label';
+import {
+  formatFreePlanDynamicQrLabel,
+  formatFreePlanDynamicQrShortLabel,
+} from '@/lib/i18n/dynamic-qr-label';
 
 export const revalidate = 3600;
 
@@ -63,7 +66,7 @@ export default async function UseCaseDetailPage({ params }: { params: { slug: st
     },
     {
       question: t('useCaseDetail.faqWhyQ', { title: page.title }),
-      answer: t('useCaseDetail.faqWhyA'),
+      answer: t('useCaseDetail.faqWhyA', { qrLabel: formatFreePlanDynamicQrLabel(locale) }),
     },
   ];
 

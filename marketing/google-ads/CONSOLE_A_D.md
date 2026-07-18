@@ -3,7 +3,7 @@
 Measurement ID: **G-3LY6YZDDD2**  
 TR checklist: [GOOGLE_ADS_SETUP_TR.md](./GOOGLE_ADS_SETUP_TR.md) · EN: [GOOGLE_ADS_SETUP_EN.md](./GOOGLE_ADS_SETUP_EN.md)
 
-**SoT:** Free = **1** dynamic QR · Pro = **$9.99/mo** · headlines claim **37+** templates (`lib/plans.ts`).  
+**SoT:** Free = **5** dynamic QRs · Pro = **$9.99/mo** · headlines claim **37+** templates (`lib/plans.ts`).  
 Kod tarafı: event’ler (`sign_up`, `first_qr_created`, `generate_lead`) consent sonrası ateşleniyor.  
 Ön kontrol: `python scripts/verify-ads-paste-urls.py` (URL + SoT) · VPS GA4: `python scripts/print-ga4-conversion-steps.py`
 

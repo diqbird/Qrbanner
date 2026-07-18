@@ -445,7 +445,7 @@ export const esLocaleGaps: TranslationTree = {
     capterraSectionTitle: "Lista de comprobación Capterra",
     step1: "Abra https://www.g2.com/products/new e inicie sesión con un email @qrbanner.com (o de empresa) — el Gmail personal suele rechazarse.",
     step2: "Busque primero \"QRbanner\"; si falta, envíe un producto nuevo en Software → Marketing → QR Code Generators con el sitio https://qrbanner.com.",
-    step3: "Complete descripción, logo, capturas y precios alineados con /features y /pricing (Gratis = 1 QR dinámico, Pro desde $9.99/mes).",
+    step3: "Complete descripción, logo, capturas y precios alineados con /features y /pricing (vea el pricing en vivo para los límites actuales del plan gratuito; Pro desde $9.99/mes).",
     step4:
       "En el VPS configure NEXT_PUBLIC_G2_REVIEW_URL y NEXT_PUBLIC_CAPTERRA_REVIEW_URL con las páginas de reseñas en vivo y recompile (PremiumTrust + reviews strip las leen).",
     step5: "Envíe a clientes satisfechos los textos de /reviews/prompts — pida menciones concretas de enrutamiento, API o analítica.",
@@ -495,7 +495,7 @@ export const esLocaleGaps: TranslationTree = {
     cityFaqWhatA:
       "{{city}}, {{country}} tiene {{count}} guías por sector — cada una enlaza a plantillas, analítica de escaneos y enrutamiento por geovalla para campañas locales.",
     cityFaqHowA:
-      "Elija un sector abajo, abra la guía y cree un QR gratis en el asistente. El plan gratuito incluye 1 QR dinámico para actualizar el enlace tras imprimir.",
+      "Elija un sector abajo, abra la guía y cree un QR gratis en el asistente. El plan gratuito incluye {{qrLabel}} para actualizar enlaces tras imprimir.",
     cityFaqWhyA:
       "Las guías locales emparejan sectores de {{city}} con el tipo de QR y plantillas adecuados; los códigos dinámicos permiten enrutamiento geo y analítica para campañas urbanas."
   },
@@ -876,7 +876,7 @@ export const esLocaleGaps: TranslationTree = {
     faqHowQ: "¿Cómo creo un código QR {{type}}?",
     faqWhyQ: "¿Un QR {{type}} es dinámico o estático?",
     faqWhyDynamicA:
-      "Este tipo admite destinos dinámicos: actualice el enlace tras imprimir, mida escaneos y conserve el mismo impreso. El plan gratuito incluye 1 QR dinámico.",
+      "Este tipo admite destinos dinámicos: actualice el enlace tras imprimir, mida escaneos y conserve el mismo impreso. El plan gratuito incluye {{qrLabel}}.",
     faqWhyStaticA:
       "Este tipo codifica contenido fijo (p. ej. Wi‑Fi o contacto) en la imagen. Descargue un código listo para imprimir en segundos; regístrese para guardar códigos."
   },
@@ -1586,7 +1586,7 @@ export const esLocaleGaps: TranslationTree = {
     faqHowQ: "¿Cómo uso la plantilla {{name}}?",
     faqWhyQ: "¿Puedo cambiar el destino después de imprimir con {{name}}?",
     faqWhyA:
-      "Sí — las plantillas QR dinámicas conservan el mismo impreso mientras actualiza el enlace, mide escaneos y aplica enrutamiento. El plan gratuito incluye 1 QR dinámico para empezar."
+      "Sí — las plantillas QR dinámicas conservan el mismo impreso mientras actualiza el enlace, mide escaneos y aplica enrutamiento. El plan gratuito incluye {{qrLabel}} para empezar."
   },
   templateMarketplace: {
     metaTitle: "Plantillas profesionales de códigos QR",
@@ -1616,7 +1616,7 @@ export const esLocaleGaps: TranslationTree = {
     faqHowQ: "¿Cómo lanzo {{title}} con QRbanner?",
     faqWhyQ: "¿Por qué usar un QR dinámico para {{title}}?",
     faqWhyA:
-      "Los códigos dinámicos permiten cambiar el destino tras imprimir, medir escaneos y evitar reimpresiones cuando cambian las campañas. El plan gratuito incluye 1 QR dinámico para empezar."
+      "Los códigos dinámicos permiten cambiar el destino tras imprimir, medir escaneos y evitar reimpresiones cuando cambian las campañas. El plan gratuito incluye {{qrLabel}} para empezar."
   },
   useCasesIndex: {
     metaTitle: "Casos de uso de códigos QR — Marketing, retail, eventos y más",

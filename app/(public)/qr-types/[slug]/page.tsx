@@ -64,7 +64,7 @@ export default async function QrTypeDetailPage({ params }: { params: { slug: str
     },
     {
       question: t('qrTypeDetail.faqWhyQ', { type: typeName }),
-      answer: page.isDynamic ? t('qrTypeDetail.faqWhyDynamicA') : t('qrTypeDetail.faqWhyStaticA'),
+      answer: page.isDynamic ? t('qrTypeDetail.faqWhyDynamicA', { qrLabel }) : t('qrTypeDetail.faqWhyStaticA'),
     },
   ];
 

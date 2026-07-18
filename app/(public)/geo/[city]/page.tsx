@@ -19,6 +19,7 @@ import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
 import { getServerLocale } from '@/lib/i18n/server';
 import { localizePath, translate } from '@/lib/i18n';
 import { formatLocaleNumber } from '@/lib/i18n/format-locale';
+import { formatFreePlanDynamicQrLabel } from '@/lib/i18n/dynamic-qr-label';
 import { solutionSectorLabel } from '@/lib/i18n/solution-localize';
 
 export const revalidate = 3600;
@@ -67,7 +68,7 @@ export default async function GeoCityPage({ params }: { params: { city: string }
     },
     {
       question: t('geoSeo.cityFaqHowQ', { city: cityName }),
-      answer: t('geoSeo.cityFaqHowA'),
+      answer: t('geoSeo.cityFaqHowA', { qrLabel: formatFreePlanDynamicQrLabel(locale) }),
     },
     {
       question: t('geoSeo.cityFaqWhyQ', { city: cityName }),
