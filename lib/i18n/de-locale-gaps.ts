@@ -488,6 +488,16 @@ export const deLocaleGaps: TranslationTree = {
     faqWhyQ: "Warum dynamische statt statische QR-Codes in {{city}}?",
     faqWhyA:
       "Dynamische Codes lassen sich nach dem Druck aktualisieren, Scans nach Stadt und Gerät tracken und Besucher per Geo-Regeln leiten — wichtig für lokale Kampagnen in {{city}}.",
+    cityFaqTitle: "QR-Codes in {{city}} — FAQ",
+    cityFaqWhatQ: "Welche lokalen QR-Leitfäden gibt es für {{city}}?",
+    cityFaqHowQ: "Wie erstelle ich einen QR-Code für {{city}}?",
+    cityFaqWhyQ: "Warum stadtbezogene QR-Leitfäden für {{city}} nutzen?",
+    cityFaqWhatA:
+      "{{city}}, {{country}} hat {{count}} Branchenleitfäden — jeweils mit Vorlagen, Scan-Analysen und Geofence-Routing für lokale Kampagnen.",
+    cityFaqHowA:
+      "Branche unten wählen, Leitfaden öffnen, dann im Assistenten kostenlos einen QR erstellen. Der Free-Tarif enthält 1 dynamischen QR, damit Sie den Link nach dem Druck ändern können.",
+    cityFaqWhyA:
+      "Lokale Leitfäden verbinden {{city}}-Branchen mit dem richtigen QR-Typ und Vorlagen; dynamische Codes unterstützen Geo-Routing und Scan-Analysen für Stadtkampagnen."
   },
   hubspotPage: {
     metaTitle: "HubSpot-Integration — QR-Scan-Webhooks",
@@ -1573,7 +1583,13 @@ export const deLocaleGaps: TranslationTree = {
     createCta: "Mit dieser Vorlage erstellen",
     useCasesTitle: "Ideal für",
     tipsTitle: "Profi-Tipps",
-    previewNote: "Live-Vorschau mit Stil dieser Vorlage — nach dem Start vollständig anpassbar."
+    previewNote: "Live-Vorschau mit Stil dieser Vorlage — nach dem Start vollständig anpassbar.",
+    faqTitle: "Vorlagen-FAQ",
+    faqWhatQ: "Was ist die {{name}}-QR-Vorlage?",
+    faqHowQ: "Wie nutze ich die {{name}}-Vorlage?",
+    faqWhyQ: "Kann ich das Ziel nach dem Druck mit {{name}} ändern?",
+    faqWhyA:
+      "Ja — dynamische QR-Vorlagen behalten denselben Druck, während Sie den Link aktualisieren, Scans tracken und Routing anwenden. Der Free-Tarif enthält 1 dynamischen QR zum Start."
   },
   templateMarketplace: {
     metaTitle: "Professionelle QR-Code-Vorlagen",

@@ -3001,6 +3001,12 @@ export const tr: TranslationTree = {
     useCasesTitle: 'En uygun kullanım',
     tipsTitle: 'Uzman ipuçları',
     previewNote: 'Bu şablonun stiliyle canlı önizleme — başladıktan sonra tamamen özelleştirilebilir.',
+    faqTitle: 'Şablon SSS',
+    faqWhatQ: '{{name}} QR şablonu nedir?',
+    faqHowQ: '{{name}} şablonunu nasıl kullanırım?',
+    faqWhyQ: '{{name}} ile baskıdan sonra hedefi değiştirebilir miyim?',
+    faqWhyA:
+      'Evet — dinamik QR şablonları aynı baskıyı korurken linki güncellemenize, taramaları izlemenize ve yönlendirme uygulamanıza olanak tanır. Ücretsiz planda başlangıç için 1 dinamik QR vardır.',
   },
   vsIndex: {
     metaTitle: 'QRbanner Karşılaştırmaları — Özellik ve Fiyat Rehberleri',
@@ -3754,6 +3760,16 @@ export const tr: TranslationTree = {
     faqWhyQ: '{{city}} için neden statik yerine dinamik QR kullanmalıyım?',
     faqWhyA:
       'Dinamik kodlarla baskıdan sonra hedefi güncelleyebilir, şehir ve cihaza göre taramaları izleyebilir, coğrafi kurallarla yönlendirebilirsiniz — {{city}} yerel kampanyaları için kritik.',
+    cityFaqTitle: '{{city}} QR kodları — SSS',
+    cityFaqWhatQ: '{{city}} için hangi yerel QR rehberleri var?',
+    cityFaqHowQ: '{{city}} için QR kodu nasıl oluştururum?',
+    cityFaqWhyQ: '{{city}} için neden şehir bazlı QR rehberleri kullanmalıyım?',
+    cityFaqWhatA:
+      '{{city}}, {{country}} için {{count}} sektör rehberi var — her biri şablonlara, tarama analitiğine ve geofence yönlendirmesine bağlanır.',
+    cityFaqHowA:
+      'Aşağıdan bir sektör seçin, rehberi açın, ardından sihirbazda ücretsiz QR oluşturun. Ücretsiz planda baskı sonrası link güncellemek için 1 dinamik QR vardır.',
+    cityFaqWhyA:
+      'Yerel rehberler {{city}} sektörlerini doğru QR türü ve şablonlarla eşleştirir; dinamik kodlar şehir kampanyaları için geo yönlendirme ve tarama analitiği sağlar.',
   },
   internalLinks: {
     title: 'QR rehberlerini keşfedin',

@@ -12,7 +12,7 @@ import {
   geoCountryName,
 } from '@/lib/geo-seo-pages';
 import { getSolutionBySlug } from '@/lib/solutions';
-import { pageMetadata, webPageJsonLd } from '@/lib/seo';
+import { pageMetadata, webPageJsonLd, faqJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/json-ld';
 import { PublicBreadcrumbs } from '@/components/seo/public-breadcrumbs';
 import { PremiumPageFrame } from '@/components/landing/premium/page-frame';
@@ -51,67 +51,107 @@ export default async function GeoCityPage({ params }: { params: { city: string }
   if (!city) notFound();
 
   const locale = await getServerLocale();
-  const t = (key: string) => translate(locale, key);
+  const t = (key: string, vars?: Record<string, string | number>) => translate(locale, key, vars);
   const cityName = geoCityName(city, locale);
   const countryName = geoCountryName(city, locale);
+  const sectorCount = formatLocaleNumber(GEO_SECTOR_SLUGS.length, locale);
+
+  const faqItems = [
+    {
+      question: t('geoSeo.cityFaqWhatQ', { city: cityName }),
+      answer: t('geoSeo.cityFaqWhatA', {
+        city: cityName,
+        country: countryName,
+        count: sectorCount,
+      }),
+    },
+    {
+      question: t('geoSeo.cityFaqHowQ', { city: cityName }),
+      answer: t('geoSeo.cityFaqHowA'),
+    },
+    {
+      question: t('geoSeo.cityFaqWhyQ', { city: cityName }),
+      answer: t('geoSeo.cityFaqWhyA', { city: cityName }),
+    },
+  ];
 
   return (
     <>
       <JsonLd
-        data={webPageJsonLd({
-          title: t('geoSeo.cityMetaTitle')
-            .replace('{{city}}', cityName)
-            .replace('{{country}}', countryName),
-          description: t('geoSeo.cityMetaDescription')
-            .replace('{{city}}', cityName)
-            .replace('{{country}}', countryName)
-            .replace('{{count}}', formatLocaleNumber(GEO_SECTOR_SLUGS.length, locale)),
-          path: `/geo/${city.slug}`,
-          locale,
-        })}
+        data={[
+          webPageJsonLd({
+            title: t('geoSeo.cityMetaTitle')
+              .replace('{{city}}', cityName)
+              .replace('{{country}}', countryName),
+            description: t('geoSeo.cityMetaDescription')
+              .replace('{{city}}', cityName)
+              .replace('{{country}}', countryName)
+              .replace('{{count}}', sectorCount),
+            path: `/geo/${city.slug}`,
+            locale,
+          }),
+          faqJsonLd(faqItems),
+        ]}
       />
       <PremiumPageFrame narrow="3xl">
         <PublicBreadcrumbs
-        items={[
-        { label: t('geoSeo.breadcrumb'), href: '/geo' },
-        { label: cityName, href: `/geo/${city.slug}` },
-        ]}
+          items={[
+            { label: t('geoSeo.breadcrumb'), href: '/geo' },
+            { label: cityName, href: `/geo/${city.slug}` },
+          ]}
         />
-          <header className="text-center">
-            <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
-              {t('geoSeo.cityHeadline').replace('{{city}}', cityName)}
-            </h1>
-            <p className="mt-4 text-lg text-muted-foreground">
-              {t('geoSeo.cityIntro').replace('{{city}}', cityName).replace('{{country}}', countryName)}
-            </p>
-          </header>
+        <header className="text-center">
+          <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
+            {t('geoSeo.cityHeadline').replace('{{city}}', cityName)}
+          </h1>
+          <p className="mt-4 text-lg text-muted-foreground">
+            {t('geoSeo.cityIntro').replace('{{city}}', cityName).replace('{{country}}', countryName)}
+          </p>
+        </header>
 
-          <ul className="mt-12 space-y-3">
-            {GEO_SECTOR_SLUGS.map((sectorSlug) => {
-              const solution = getSolutionBySlug(sectorSlug);
-              if (!solution) return null;
-              const sectorName = solutionSectorLabel(solution.slug, locale, solution.title);
-              return (
-                <li key={sectorSlug}>
-                  <Link
-                    href={localizePath(buildGeoPagePath(city.slug, sectorSlug), locale)}
-                    className="flex items-center justify-between gap-3 rounded-lg border border-border/50 px-4 py-3 transition-colors hover:border-primary/40 hover:bg-muted/20"
-                  >
-                    <span className="text-sm font-medium">
-                      {sectorName} — {cityName}
-                    </span>
-                    <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" />
-                  </Link>
-                </li>
-              );
-            })}
+        <ul className="mt-12 space-y-3">
+          {GEO_SECTOR_SLUGS.map((sectorSlug) => {
+            const solution = getSolutionBySlug(sectorSlug);
+            if (!solution) return null;
+            const sectorName = solutionSectorLabel(solution.slug, locale, solution.title);
+            return (
+              <li key={sectorSlug}>
+                <Link
+                  href={localizePath(buildGeoPagePath(city.slug, sectorSlug), locale)}
+                  className="flex items-center justify-between gap-3 rounded-lg border border-border/50 px-4 py-3 transition-colors hover:border-primary/40 hover:bg-muted/20"
+                >
+                  <span className="text-sm font-medium">
+                    {sectorName} — {cityName}
+                  </span>
+                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+
+        <section className="mt-14 text-left">
+          <h2 className="font-display text-xl font-semibold text-center">
+            {t('geoSeo.cityFaqTitle', { city: cityName })}
+          </h2>
+          <ul className="mt-6 space-y-4">
+            {faqItems.map((item) => (
+              <li
+                key={item.question}
+                className="rounded-xl border border-border/50 bg-card/60 px-4 py-4 text-sm"
+              >
+                <p className="font-medium text-foreground">{item.question}</p>
+                <p className="mt-2 text-muted-foreground leading-relaxed">{item.answer}</p>
+              </li>
+            ))}
           </ul>
+        </section>
 
-          <div className="mt-12 text-center">
-            <Link href="/geo">
-              <Button variant="outline">{t('geoSeo.backToHub')}</Button>
-            </Link>
-          </div>
+        <div className="mt-12 text-center">
+          <Link href="/geo">
+            <Button variant="outline">{t('geoSeo.backToHub')}</Button>
+          </Link>
+        </div>
       </PremiumPageFrame>
     </>
   );

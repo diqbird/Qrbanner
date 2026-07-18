@@ -3000,6 +3000,12 @@ export const en: TranslationTree = {
     useCasesTitle: 'Best for',
     tipsTitle: 'Pro tips',
     previewNote: 'Live preview with this template\'s style — fully customizable after you start.',
+    faqTitle: 'Template FAQ',
+    faqWhatQ: 'What is the {{name}} QR template?',
+    faqHowQ: 'How do I use the {{name}} template?',
+    faqWhyQ: 'Can I change the destination after printing with {{name}}?',
+    faqWhyA:
+      'Yes — dynamic QR templates keep the same printed code while you update the link, track scans and apply routing. Free plan includes 1 dynamic QR to start.',
   },
   vsIndex: {
     metaTitle: 'QRbanner Comparisons — Feature & Pricing Guides',
@@ -3753,6 +3759,16 @@ export const en: TranslationTree = {
     faqWhyQ: 'Why use dynamic QR codes in {{city}} instead of static ones?',
     faqWhyA:
       'Dynamic codes let you update the destination after print, track scans by city and device, and route visitors with geo rules — critical for local campaigns in {{city}}.',
+    cityFaqTitle: 'QR codes in {{city}} — FAQ',
+    cityFaqWhatQ: 'What local QR guides are available for {{city}}?',
+    cityFaqHowQ: 'How do I create a QR code for {{city}}?',
+    cityFaqWhyQ: 'Why use city-specific QR guides for {{city}}?',
+    cityFaqWhatA:
+      '{{city}}, {{country}} has {{count}} industry guides — each links to templates, scan analytics and geofence-ready routing for local campaigns.',
+    cityFaqHowA:
+      'Pick an industry below, open the guide, then create a free QR in the wizard. Free plan includes 1 dynamic QR so you can update the link after print.',
+    cityFaqWhyA:
+      'Local guides match {{city}} industries with the right QR type and templates, and dynamic codes support geo routing and scan analytics for city campaigns.',
   },
   internalLinks: {
     title: 'Explore QR guides',

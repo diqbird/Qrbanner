@@ -488,6 +488,16 @@ export const esLocaleGaps: TranslationTree = {
     faqWhyQ: "¿Por qué usar QR dinámicos en {{city}} en lugar de estáticos?",
     faqWhyA:
       "Los códigos dinámicos permiten actualizar el destino tras la impresión, medir escaneos por ciudad y dispositivo, y enrutar con reglas geo — clave para campañas locales en {{city}}.",
+    cityFaqTitle: "Códigos QR en {{city}} — FAQ",
+    cityFaqWhatQ: "¿Qué guías QR locales hay para {{city}}?",
+    cityFaqHowQ: "¿Cómo creo un código QR para {{city}}?",
+    cityFaqWhyQ: "¿Por qué usar guías QR por ciudad para {{city}}?",
+    cityFaqWhatA:
+      "{{city}}, {{country}} tiene {{count}} guías por sector — cada una enlaza a plantillas, analítica de escaneos y enrutamiento por geovalla para campañas locales.",
+    cityFaqHowA:
+      "Elija un sector abajo, abra la guía y cree un QR gratis en el asistente. El plan gratuito incluye 1 QR dinámico para actualizar el enlace tras imprimir.",
+    cityFaqWhyA:
+      "Las guías locales emparejan sectores de {{city}} con el tipo de QR y plantillas adecuados; los códigos dinámicos permiten enrutamiento geo y analítica para campañas urbanas."
   },
   hubspotPage: {
     metaTitle: "Integración con HubSpot — Webhooks de escaneo QR",
@@ -1570,7 +1580,13 @@ export const esLocaleGaps: TranslationTree = {
     createCta: "Crear con esta plantilla",
     useCasesTitle: "Ideal para",
     tipsTitle: "Consejos profesionales",
-    previewNote: "Vista previa en vivo con el estilo de esta plantilla — totalmente personalizable después de empezar."
+    previewNote: "Vista previa en vivo con el estilo de esta plantilla — totalmente personalizable después de empezar.",
+    faqTitle: "FAQ de la plantilla",
+    faqWhatQ: "¿Qué es la plantilla QR {{name}}?",
+    faqHowQ: "¿Cómo uso la plantilla {{name}}?",
+    faqWhyQ: "¿Puedo cambiar el destino después de imprimir con {{name}}?",
+    faqWhyA:
+      "Sí — las plantillas QR dinámicas conservan el mismo impreso mientras actualiza el enlace, mide escaneos y aplica enrutamiento. El plan gratuito incluye 1 QR dinámico para empezar."
   },
   templateMarketplace: {
     metaTitle: "Plantillas profesionales de códigos QR",

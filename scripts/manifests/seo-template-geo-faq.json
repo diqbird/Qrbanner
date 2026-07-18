@@ -1,0 +1,18 @@
+{
+  "upload": [
+    "app/(public)/templates/[id]/page.tsx",
+    "app/(public)/geo/[city]/page.tsx",
+    "components/templates/template-detail-shell.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/de-locale-gaps.ts",
+    "lib/i18n/es-locale-gaps.ts",
+    "SEO_REPORT.md",
+    "scripts/manifests/seo-template-geo-faq.json"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
