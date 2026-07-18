@@ -25,7 +25,7 @@ def ok(msg: str) -> None:
 
 
 def curl(method: str, url: str, headers: dict | None = None, body: str = "") -> tuple[int, str]:
-    args = [CURL_BIN, "-sL", "-X", method, "-w", "\n%{http_code}", url]
+    args = [CURL_BIN, "-sL", "--max-time", "30", "-X", method, "-w", "\n%{http_code}", url]
     for k, v in (headers or {}).items():
         args.extend(["-H", f"{k}: {v}"])
     if body:

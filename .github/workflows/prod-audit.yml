@@ -17,6 +17,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Reachability probe
+        run: |
+          echo "homepage: $(curl -sS --max-time 20 -o /dev/null -w '%{http_code}' https://qrbanner.com/ || echo unreachable)"
+          echo "billing:  $(curl -sS --max-time 20 -o /dev/null -w '%{http_code}' https://qrbanner.com/api/billing/status || echo unreachable)"
       - name: Billing, security, DNS
         run: |
           python scripts/verify-billing-smoke.py
