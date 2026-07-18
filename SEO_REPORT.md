@@ -172,6 +172,9 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 ### Done in follow-up pack (2026-07-18 z)
 - FAQ + `FAQPage` JSON-LD on `/templates/[id]` and `/geo/[city]` hubs (template tips as how-to answers; city hub sector count SoT).
 
+### Done in follow-up pack (2026-07-18 ad)
+- Weekly `prod-audit.yml` now green end-to-end from GitHub runners (first passing run ever — previous scheduled runs died on `curl.exe`). Added SEO snippet + Ads SoT gates to the schedule, cross-platform curl in verify scripts, reachability probe, and refreshed honest-label phrases in `verify-marketing-claims.py`.
+
 ### Done in follow-up pack (2026-07-18 ac)
 - E2E free-limit gate: `python scripts/qa/run-e2e-free-limit.py` — isolated test user on VPS, live `/api/v1/qr` creates until SoT limit, asserts 403 message names the limit, full cleanup. PASS at limit=5 (5×201 → 403 "QR limit reached (5 on Free plan)").
 
