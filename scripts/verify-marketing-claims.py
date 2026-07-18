@@ -12,6 +12,7 @@ except Exception:
 
 BASE = os.environ.get("SITE_URL", "https://qrbanner.com").rstrip("/")
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CURL_BIN = "curl.exe" if os.name == "nt" else "curl"
 FAILURES: list[str] = []
 
 
@@ -25,7 +26,7 @@ def ok(msg: str) -> None:
 
 
 def curl(url: str, follow: bool = True) -> tuple[int, str, str]:
-    args = ["curl.exe", "-sL", "-w", "\n%{http_code}\n%{url_effective}", url]
+    args = [CURL_BIN, "-sL", "-w", "\n%{http_code}\n%{url_effective}", url]
     if not follow:
         args.insert(1, "--max-redirs")
         args.insert(2, "0")

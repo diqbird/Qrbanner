@@ -11,6 +11,7 @@ except Exception:
     pass
 
 BASE = os.environ.get("SITE_URL", "https://qrbanner.com").rstrip("/")
+CURL_BIN = "curl.exe" if os.name == "nt" else "curl"
 FAILURES: list[str] = []
 
 
@@ -24,7 +25,7 @@ def ok(msg: str) -> None:
 
 
 def curl(method: str, url: str, headers: dict | None = None, body: str = "") -> tuple[int, str]:
-    args = ["curl.exe", "-sL", "-X", method, "-w", "\n%{http_code}", url]
+    args = [CURL_BIN, "-sL", "-X", method, "-w", "\n%{http_code}", url]
     for k, v in (headers or {}).items():
         args.extend(["-H", f"{k}: {v}"])
     if body:

@@ -13,6 +13,7 @@ except Exception:
 
 BASE = os.environ.get("SITE_URL", "https://qrbanner.com").rstrip("/")
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CURL_BIN = "curl.exe" if os.name == "nt" else "curl"
 FAILURES: list[str] = []
 
 
@@ -27,7 +28,7 @@ def ok(msg: str) -> None:
 
 def curl(url: str) -> tuple[int, str]:
     r = subprocess.run(
-        ["curl.exe", "-sL", "-w", "\n%{http_code}", url],
+        [CURL_BIN, "-sL", "-w", "\n%{http_code}", url],
         capture_output=True,
         text=True,
         encoding="utf-8",
