@@ -182,7 +182,8 @@ export const deLocaleGaps: TranslationTree = {
     ctaButton: "QR-Code kostenlos erstellen",
     faqTitle: "Häufig gestellte Fragen",
     relatedSolution: "Branchenlösung",
-    relatedTemplate: "Mit Vorlage starten"
+    relatedTemplate: "Mit Vorlage starten",
+    relatedUseCase: "Anwendungsfall-Leitfaden"
   },
   brandLogos: {
     metaTitle: "Kundenlogos ersetzen",

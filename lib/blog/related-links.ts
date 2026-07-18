@@ -17,72 +17,225 @@ export type BlogRelatedTarget = {
  * Slugs are locale-stable; do not match on localized category/keywords.
  */
 export const BLOG_RELATED_LINKS: Record<string, BlogRelatedTarget> = {
-  'restaurant-menu-qr-codes': { solutionSlug: 'restaurant-menu', templateId: 'restaurant-menu' },
-  'wifi-qr-codes-guide': { solutionSlug: 'wifi-guest', templateId: 'wifi-guest' },
-  'retail-qr-codes-in-store-marketing': { solutionSlug: 'retail-stores', templateId: 'retail-stores' },
+  'restaurant-menu-qr-codes': {
+    solutionSlug: 'restaurant-menu',
+    templateId: 'restaurant-menu',
+    useCaseSlugs: ['restaurant-table-tents', 'feedback-surveys'],
+  },
+  'wifi-qr-codes-guide': {
+    solutionSlug: 'wifi-guest',
+    templateId: 'wifi-guest',
+    useCaseSlugs: ['hotel-guest-experience'],
+  },
+  'retail-qr-codes-in-store-marketing': {
+    solutionSlug: 'retail-stores',
+    templateId: 'retail-stores',
+    useCaseSlugs: ['retail-loyalty', 'print-advertising'],
+  },
   'hotel-hospitality-qr-codes-guide': {
     solutionSlug: 'hotels-hospitality',
     templateId: 'hotels-hospitality',
+    useCaseSlugs: ['hotel-guest-experience', 'feedback-surveys'],
   },
-  'whatsapp-ordering-qr-codes': { solutionSlug: 'restaurant-menu', templateId: 'whatsapp-order' },
-  'google-review-qr-codes': { solutionSlug: 'retail-stores', templateId: 'google-review' },
+  'whatsapp-ordering-qr-codes': {
+    solutionSlug: 'restaurant-menu',
+    templateId: 'whatsapp-order',
+    useCaseSlugs: ['whatsapp-support'],
+  },
+  'google-review-qr-codes': {
+    solutionSlug: 'retail-stores',
+    templateId: 'google-review',
+    useCaseSlugs: ['feedback-surveys'],
+  },
   'healthcare-clinic-qr-codes-guide': {
     solutionSlug: 'healthcare-clinics',
     templateId: 'healthcare-clinics',
+    useCaseSlugs: ['healthcare-patient-info'],
   },
-  'stadium-event-qr-codes': { solutionSlug: 'stadium-events', templateId: 'event-registration' },
-  'museum-venues-qr-codes-exhibits': { solutionSlug: 'museums-venues', templateId: 'museums-venues' },
-  'museums-venues-qr-codes-exhibits': { solutionSlug: 'museums-venues', templateId: 'museums-venues' },
-  'government-public-service-qr-codes': { solutionSlug: 'government-public-sector' },
-  'university-campus-qr-codes': { solutionSlug: 'university-campus' },
-  'university-campus-wayfinding-qr': { solutionSlug: 'university-campus' },
-  'marketing-agency-qr-white-label-guide': { solutionSlug: 'marketing-agencies' },
-  'agency-qr-affiliate-marketing': { solutionSlug: 'marketing-agencies' },
-  'real-estate-open-house-qr-codes': { solutionSlug: 'real-estate', templateId: 'real-estate' },
-  'supermarket-loyalty-qr-codes': { solutionSlug: 'supermarket-grocery' },
-  'cinema-qr-codes-ticketing': { solutionSlug: 'cinema-theaters' },
-  'logistics-warehouse-qr-codes': { solutionSlug: 'logistics-warehouses' },
-  'logistics-warehouse-qr-tracking': { solutionSlug: 'logistics-warehouses' },
-  'automotive-dealership-qr-codes': { solutionSlug: 'automotive-dealerships' },
-  'fitness-gym-qr-codes-guide': { solutionSlug: 'fitness-gyms', templateId: 'fitness-gyms' },
-  'salon-spa-qr-codes': { solutionSlug: 'salon-spa', templateId: 'salon-spa' },
+  'stadium-event-qr-codes': {
+    solutionSlug: 'stadium-events',
+    templateId: 'event-registration',
+    useCaseSlugs: ['event-check-in'],
+  },
+  'museum-venues-qr-codes-exhibits': {
+    solutionSlug: 'museums-venues',
+    templateId: 'museums-venues',
+    useCaseSlugs: ['museum-exhibits'],
+  },
+  'museums-venues-qr-codes-exhibits': {
+    solutionSlug: 'museums-venues',
+    templateId: 'museums-venues',
+    useCaseSlugs: ['museum-exhibits'],
+  },
+  'government-public-service-qr-codes': {
+    solutionSlug: 'government-public-sector',
+    useCaseSlugs: ['feedback-surveys'],
+  },
+  'university-campus-qr-codes': {
+    solutionSlug: 'university-campus',
+    useCaseSlugs: ['education-campus'],
+  },
+  'university-campus-wayfinding-qr': {
+    solutionSlug: 'university-campus',
+    useCaseSlugs: ['education-campus'],
+  },
+  'marketing-agency-qr-white-label-guide': {
+    solutionSlug: 'marketing-agencies',
+    useCaseSlugs: ['print-advertising'],
+  },
+  'agency-qr-affiliate-marketing': {
+    solutionSlug: 'marketing-agencies',
+    useCaseSlugs: ['social-media-growth'],
+  },
+  'real-estate-open-house-qr-codes': {
+    solutionSlug: 'real-estate',
+    templateId: 'real-estate',
+    useCaseSlugs: ['real-estate-listings'],
+  },
+  'supermarket-loyalty-qr-codes': {
+    solutionSlug: 'supermarket-grocery',
+    useCaseSlugs: ['retail-loyalty', 'product-packaging'],
+  },
+  'cinema-qr-codes-ticketing': {
+    solutionSlug: 'cinema-theaters',
+    useCaseSlugs: ['event-check-in'],
+  },
+  'logistics-warehouse-qr-codes': {
+    solutionSlug: 'logistics-warehouses',
+    useCaseSlugs: ['logistics-tracking'],
+  },
+  'logistics-warehouse-qr-tracking': {
+    solutionSlug: 'logistics-warehouses',
+    useCaseSlugs: ['logistics-tracking'],
+  },
+  'automotive-dealership-qr-codes': {
+    solutionSlug: 'automotive-dealerships',
+    useCaseSlugs: ['feedback-surveys'],
+  },
+  'fitness-gym-qr-codes-guide': {
+    solutionSlug: 'fitness-gyms',
+    templateId: 'fitness-gyms',
+    useCaseSlugs: ['app-download-campaign'],
+  },
+  'salon-spa-qr-codes': {
+    solutionSlug: 'salon-spa',
+    templateId: 'salon-spa',
+    useCaseSlugs: ['feedback-surveys'],
+  },
   'nonprofit-fundraising-qr-codes': {
     solutionSlug: 'nonprofit-fundraising',
     templateId: 'nonprofit-fundraising',
+    useCaseSlugs: ['nonprofit-donations'],
   },
   'nonprofit-gala-fundraising-qr': {
     solutionSlug: 'nonprofit-fundraising',
     templateId: 'nonprofit-fundraising',
+    useCaseSlugs: ['nonprofit-donations', 'event-check-in'],
   },
-  'brewery-taproom-qr-codes': { solutionSlug: 'brewery-beverage' },
-  'insurance-agency-qr-codes': { solutionSlug: 'insurance-agencies' },
-  'property-management-tenant-qr': { solutionSlug: 'property-management' },
-  'dental-practice-qr-codes': { solutionSlug: 'dental-clinics', templateId: 'dental-clinics' },
-  'veterinary-clinic-qr': { solutionSlug: 'veterinary-clinics' },
-  'law-firm-qr-codes': { solutionSlug: 'law-firms' },
-  'accounting-firm-qr': { solutionSlug: 'accounting-firms' },
-  'optometry-practice-qr': { solutionSlug: 'optometry-eye-care' },
-  'childcare-enrollment-qr': { solutionSlug: 'childcare-centers' },
-  'home-services-contractor-qr': { solutionSlug: 'home-services', templateId: 'home-services' },
-  'senior-living-facility-qr': { solutionSlug: 'senior-living' },
-  'pet-grooming-salon-qr': { solutionSlug: 'pet-grooming' },
-  'coworking-space-qr': { solutionSlug: 'coworking-spaces' },
-  'farmers-market-qr': { solutionSlug: 'farmers-markets' },
-  'wine-tasting-room-qr': { solutionSlug: 'wine-tasting' },
-  'marina-harbor-qr': { solutionSlug: 'marina-boating' },
-  'recruitment-hiring-qr': { solutionSlug: 'recruitment-staffing' },
-  'trade-show-booth-qr': { solutionSlug: 'trade-shows-expos' },
-  'coffee-shop-loyalty-qr': { solutionSlug: 'coffee-shops-cafes', templateId: 'coffee-shops-cafes' },
-  'tourist-attraction-qr': { solutionSlug: 'tourist-attractions', templateId: 'tourist-attractions' },
-  'florist-gift-shop-qr': { solutionSlug: 'florists-gift-shops' },
-  'bakery-pastry-qr': { solutionSlug: 'bakery-pastry' },
-  'car-wash-detailing-qr': { solutionSlug: 'car-wash-detailing' },
-  'food-trucks-qr': { solutionSlug: 'food-trucks' },
-  'landscaping-lawn-care-qr': { solutionSlug: 'landscaping-lawn-care' },
-  'print-shop-qr-banner-export': { solutionSlug: 'printing-copy-shops' },
-  'pharmacy-retail-qr-codes': { solutionSlug: 'retail-stores', templateId: 'retail-stores' },
-  'civic-engagement-qr-codes': { solutionSlug: 'government-public-sector' },
-  'manufacturing-qr-codes': { solutionSlug: 'logistics-warehouses' },
+  'brewery-taproom-qr-codes': {
+    solutionSlug: 'brewery-beverage',
+    useCaseSlugs: ['restaurant-table-tents'],
+  },
+  'insurance-agency-qr-codes': {
+    solutionSlug: 'insurance-agencies',
+    useCaseSlugs: ['email-signature'],
+  },
+  'property-management-tenant-qr': {
+    solutionSlug: 'property-management',
+    useCaseSlugs: ['feedback-surveys'],
+  },
+  'dental-practice-qr-codes': {
+    solutionSlug: 'dental-clinics',
+    templateId: 'dental-clinics',
+    useCaseSlugs: ['healthcare-patient-info'],
+  },
+  'veterinary-clinic-qr': {
+    solutionSlug: 'veterinary-clinics',
+    useCaseSlugs: ['healthcare-patient-info'],
+  },
+  'law-firm-qr-codes': { solutionSlug: 'law-firms', useCaseSlugs: ['email-signature'] },
+  'accounting-firm-qr': { solutionSlug: 'accounting-firms', useCaseSlugs: ['email-signature'] },
+  'optometry-practice-qr': {
+    solutionSlug: 'optometry-eye-care',
+    useCaseSlugs: ['healthcare-patient-info'],
+  },
+  'childcare-enrollment-qr': {
+    solutionSlug: 'childcare-centers',
+    useCaseSlugs: ['education-campus'],
+  },
+  'home-services-contractor-qr': {
+    solutionSlug: 'home-services',
+    templateId: 'home-services',
+    useCaseSlugs: ['feedback-surveys'],
+  },
+  'senior-living-facility-qr': {
+    solutionSlug: 'senior-living',
+    useCaseSlugs: ['healthcare-patient-info'],
+  },
+  'pet-grooming-salon-qr': { solutionSlug: 'pet-grooming', useCaseSlugs: ['feedback-surveys'] },
+  'coworking-space-qr': {
+    solutionSlug: 'coworking-spaces',
+    useCaseSlugs: ['hotel-guest-experience'],
+  },
+  'farmers-market-qr': { solutionSlug: 'farmers-markets', useCaseSlugs: ['product-packaging'] },
+  'wine-tasting-room-qr': { solutionSlug: 'wine-tasting', useCaseSlugs: ['product-packaging'] },
+  'marina-harbor-qr': { solutionSlug: 'marina-boating', useCaseSlugs: ['feedback-surveys'] },
+  'recruitment-hiring-qr': {
+    solutionSlug: 'recruitment-staffing',
+    useCaseSlugs: ['employee-onboarding'],
+  },
+  'trade-show-booth-qr': {
+    solutionSlug: 'trade-shows-expos',
+    useCaseSlugs: ['trade-show-leads'],
+  },
+  'coffee-shop-loyalty-qr': {
+    solutionSlug: 'coffee-shops-cafes',
+    templateId: 'coffee-shops-cafes',
+    useCaseSlugs: ['retail-loyalty'],
+  },
+  'tourist-attraction-qr': {
+    solutionSlug: 'tourist-attractions',
+    templateId: 'tourist-attractions',
+    useCaseSlugs: ['museum-exhibits'],
+  },
+  'florist-gift-shop-qr': {
+    solutionSlug: 'florists-gift-shops',
+    useCaseSlugs: ['product-packaging'],
+  },
+  'bakery-pastry-qr': { solutionSlug: 'bakery-pastry', useCaseSlugs: ['retail-loyalty'] },
+  'car-wash-detailing-qr': {
+    solutionSlug: 'car-wash-detailing',
+    useCaseSlugs: ['retail-loyalty'],
+  },
+  'food-trucks-qr': { solutionSlug: 'food-trucks', useCaseSlugs: ['social-media-growth'] },
+  'landscaping-lawn-care-qr': {
+    solutionSlug: 'landscaping-lawn-care',
+    useCaseSlugs: ['feedback-surveys'],
+  },
+  'print-shop-qr-banner-export': {
+    solutionSlug: 'printing-copy-shops',
+    useCaseSlugs: ['print-advertising'],
+  },
+  'pharmacy-retail-qr-codes': {
+    solutionSlug: 'retail-stores',
+    templateId: 'retail-stores',
+    useCaseSlugs: ['healthcare-patient-info', 'retail-loyalty'],
+  },
+  'civic-engagement-qr-codes': {
+    solutionSlug: 'government-public-sector',
+    useCaseSlugs: ['feedback-surveys'],
+  },
+  'manufacturing-qr-codes': {
+    solutionSlug: 'logistics-warehouses',
+    useCaseSlugs: ['logistics-tracking', 'product-packaging'],
+  },
+  // Generic guides — scenario deep links only
+  'dynamic-qr-codes-complete-guide': {
+    useCaseSlugs: ['print-advertising', 'product-packaging'],
+  },
+  'qr-code-analytics-guide': { useCaseSlugs: ['feedback-surveys', 'print-advertising'] },
+  'dynamic-vs-static-qr-codes': { useCaseSlugs: ['print-advertising'] },
+  'bulk-qr-codes-csv-import': { useCaseSlugs: ['product-packaging', 'logistics-tracking'] },
 };
 
 export function getBlogRelatedExtraLinks(
@@ -125,7 +278,10 @@ export function getBlogRelatedExtraLinks(
     const useCase = getUseCaseBySlug(useCaseSlug);
     if (!useCase) continue;
     const localized = localizeUseCasePage(useCase, locale);
-    push(`/use-cases/${localized.slug}`, localized.title);
+    push(
+      `/use-cases/${localized.slug}`,
+      `${translate(locale, 'blogPost.relatedUseCase')}: ${localized.title}`
+    );
   }
 
   return links;

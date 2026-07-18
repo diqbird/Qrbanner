@@ -3293,6 +3293,7 @@ export const en: TranslationTree = {
     faqTitle: 'Frequently asked questions',
     relatedSolution: 'Industry solution',
     relatedTemplate: 'Start from template',
+    relatedUseCase: 'Use case guide',
   },
   solutionDetail: {
     createFree: 'Create free',

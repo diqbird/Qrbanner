@@ -172,6 +172,9 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 ### Done in follow-up pack (2026-07-18 z)
 - FAQ + `FAQPage` JSON-LD on `/templates/[id]` and `/geo/[city]` hubs (template tips as how-to answers; city hub sector count SoT).
 
+### Done in follow-up pack (2026-07-18 ab)
+- Blog → use-case deep links: `BLOG_RELATED_LINKS.useCaseSlugs` populated for all 55+ mapped posts + 4 generic guides (analytics/bulk/dynamic-vs-static). Labeled "Use case guide: …" (EN/TR/DE/ES); targets validated against `USE_CASE_PAGES` at review time.
+
 ### Done in follow-up pack (2026-07-18 aa)
 - **Free plan limit 1 → 5** (`PLANS.free.maxQrCodes`). All copy now derives from SoT via `{{qrLabel}}` (removed hardcoded "1 dynamic QR" in EN/TR/DE/ES FAQ answers). Ads packs + CSVs regenerated ("5 Free Dynamic QR Codes"); `verify-ads-paste-urls.py` / `verify-gsc-snippet-health.py` read the limit from `lib/plans.ts`. At-limit upgrade banner now names Pro benefits ({{proQr}} codes, analytics history, A/B routing).
 

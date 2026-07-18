@@ -3294,6 +3294,7 @@ export const tr: TranslationTree = {
     faqTitle: 'Sıkça sorulan sorular',
     relatedSolution: 'Sektör çözümü',
     relatedTemplate: 'Şablondan başla',
+    relatedUseCase: 'Kullanım senaryosu rehberi',
   },
   solutionDetail: {
     createFree: 'Ücretsiz oluştur',

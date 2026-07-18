@@ -182,7 +182,8 @@ export const esLocaleGaps: TranslationTree = {
     ctaButton: "Crear código QR gratis",
     faqTitle: "Preguntas frecuentes",
     relatedSolution: "Solución del sector",
-    relatedTemplate: "Empezar desde plantilla"
+    relatedTemplate: "Empezar desde plantilla",
+    relatedUseCase: "Guía de caso de uso"
   },
   brandLogos: {
     metaTitle: "Reemplazar logotipos de clientes",
