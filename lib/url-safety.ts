@@ -21,9 +21,19 @@ const BLOCKED_URL_SNIPPETS = [
   'urgent-action',
 ];
 
+/** Only web destinations may be stored as user-supplied redirect targets. */
+const ALLOWED_PROTOCOLS = new Set(['http:', 'https:']);
+
 export function isBlockedRedirectUrl(raw: string): boolean {
   const url = (raw ?? '').trim();
   if (!url) return false;
+
+  // Explicit scheme that is not http(s) (javascript:, data:, vbscript:, file:, ...)
+  // is never a valid QR web destination — block before host checks.
+  const schemeMatch = url.match(/^([a-z][a-z0-9+.-]*):/i);
+  if (schemeMatch && !ALLOWED_PROTOCOLS.has(`${schemeMatch[1].toLowerCase()}:`)) {
+    return true;
+  }
 
   let parsed: URL;
   try {
@@ -31,6 +41,8 @@ export function isBlockedRedirectUrl(raw: string): boolean {
   } catch {
     return false;
   }
+
+  if (!ALLOWED_PROTOCOLS.has(parsed.protocol)) return true;
 
   const host = parsed.hostname.toLowerCase();
   const full = parsed.href.toLowerCase();

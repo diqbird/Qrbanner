@@ -10,6 +10,7 @@ import { stripMetaFields } from '@/lib/industry-templates';
 import { normalizeLabels } from '@/lib/organize-utils';
 import { invalidateScanQrCache } from '@/lib/scan-redirect-cache';
 import { assertQrAccess } from '@/lib/workspace';
+import { assertQrUrlsAllowed } from '@/lib/validate-qr-urls';
 
 export async function GET(
   req: NextRequest,
@@ -59,6 +60,8 @@ export async function PATCH(
         ...(parsed.qrData ?? (existing.qrData as object)),
         ...(parsed.url ? { url: parsed.url } : {}),
       } as Record<string, string>);
+      const urlCheck = assertQrUrlsAllowed(existing.category, qrData);
+      if (!urlCheck.ok) return apiError(urlCheck.error, 400);
       updateData.qrData = qrData;
       updateData.targetUrl = buildQRPayload(existing.category, qrData);
     }

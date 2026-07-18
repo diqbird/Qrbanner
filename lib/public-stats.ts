@@ -15,11 +15,12 @@ function roundForDisplay(n: number): number {
 
 /**
  * Hide tiny counts on marketing pages — they hurt trust more than they help.
- * Thresholds are intentionally modest so early production can still show real traction.
+ * Counters stay hidden (feature-pill fallback renders instead) until the
+ * numbers are large enough to signal traction rather than advertise smallness.
  */
-export const PUBLIC_STATS_MIN_QR_CODES = 25;
-export const PUBLIC_STATS_MIN_SCANS = 100;
-export const PUBLIC_STATS_MIN_USERS = 10;
+export const PUBLIC_STATS_MIN_QR_CODES = 500;
+export const PUBLIC_STATS_MIN_SCANS = 2_500;
+export const PUBLIC_STATS_MIN_USERS = 100;
 
 export function shouldDisplayPublicStats(stats: PublicPlatformStats): boolean {
   return (

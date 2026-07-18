@@ -1,0 +1,15 @@
+{
+  "upload": [
+    "lib/url-safety.ts",
+    "lib/public-stats.ts",
+    "components/seo/json-ld.tsx",
+    "app/api/v1/qr/[id]/route.ts",
+    "scripts/qa/run-e2e-launch-flow.py",
+    "scripts/qa/scan-internal-links.py"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}
