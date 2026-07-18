@@ -860,7 +860,15 @@ export const esLocaleGaps: TranslationTree = {
     ctaDynamic: "Edite destinos en cualquier momento y haga seguimiento de escaneos en tiempo real.",
     ctaStatic: "Descargue un código listo para imprimir en segundos. Regístrese para guardar y gestionar códigos.",
     viewPricing: "Ver precios",
-    getStartedFree: "Empezar gratis"
+    getStartedFree: "Empezar gratis",
+    faqTitle: "FAQ del tipo de QR",
+    faqWhatQ: "¿Qué es un código QR {{type}}?",
+    faqHowQ: "¿Cómo creo un código QR {{type}}?",
+    faqWhyQ: "¿Un QR {{type}} es dinámico o estático?",
+    faqWhyDynamicA:
+      "Este tipo admite destinos dinámicos: actualice el enlace tras imprimir, mida escaneos y conserve el mismo impreso. El plan gratuito incluye 1 QR dinámico.",
+    faqWhyStaticA:
+      "Este tipo codifica contenido fijo (p. ej. Wi‑Fi o contacto) en la imagen. Descargue un código listo para imprimir en segundos; regístrese para guardar códigos."
   },
   qrTypesIndex: {
     metaTitle: "Tipos de códigos QR — {{types}} generadores para cada caso de uso",
@@ -1586,7 +1594,13 @@ export const esLocaleGaps: TranslationTree = {
     createLabel: "Crear código QR",
     ctaTitle: "Empiece gratis — {{qrLabel}}",
     ctaBody: "Marca, analítica, webhooks y acceso a la API en todos los planes.",
-    relatedSolution: "Ver la solución completa del sector"
+    relatedSolution: "Ver la solución completa del sector",
+    faqTitle: "FAQ del caso de uso",
+    faqWhatQ: "¿Para qué sirve este caso de uso QR {{title}}?",
+    faqHowQ: "¿Cómo lanzo {{title}} con QRbanner?",
+    faqWhyQ: "¿Por qué usar un QR dinámico para {{title}}?",
+    faqWhyA:
+      "Los códigos dinámicos permiten cambiar el destino tras imprimir, medir escaneos y evitar reimpresiones cuando cambian las campañas. El plan gratuito incluye 1 QR dinámico para empezar."
   },
   useCasesIndex: {
     metaTitle: "Casos de uso de códigos QR — Marketing, retail, eventos y más",

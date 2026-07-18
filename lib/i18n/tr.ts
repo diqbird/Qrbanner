@@ -3311,6 +3311,14 @@ export const tr: TranslationTree = {
     ctaStatic: 'Saniyeler içinde baskıya hazır kod indirin. Kaydetmek ve yönetmek için kaydolun.',
     viewPricing: 'Fiyatlandırmayı gör',
     getStartedFree: 'Ücretsiz başla',
+    faqTitle: 'QR türü SSS',
+    faqWhatQ: '{{type}} QR kodu nedir?',
+    faqHowQ: '{{type}} QR kodunu nasıl oluştururum?',
+    faqWhyQ: '{{type}} QR dinamik mi yoksa statik mi?',
+    faqWhyDynamicA:
+      'Bu tür dinamik hedefleri destekler: baskıdan sonra linki güncelleyin, taramaları izleyin, aynı baskıyı koruyun. Ücretsiz planda 1 dinamik QR vardır.',
+    faqWhyStaticA:
+      'Bu tür sabit içeriği (ör. WiFi veya kişi verisi) görüntünün içine kodlar. Saniyeler içinde baskıya hazır kod indirin; kaydetmek için üye olun.',
   },
   blogIndex: {
     metaTitle: 'QR Kod Rehberleri ve Kaynaklar',
@@ -3885,6 +3893,12 @@ export const tr: TranslationTree = {
     ctaTitle: 'Ücretsiz başlayın — {{qrLabel}}',
     ctaBody: 'Her planda markalama, analitik, webhook ve API erişimi.',
     relatedSolution: 'Tam sektör çözümünü görün',
+    faqTitle: 'Kullanım senaryosu SSS',
+    faqWhatQ: '{{title}} QR kullanım senaryosu nedir?',
+    faqHowQ: '{{title}} senaryosunu QRbanner ile nasıl başlatırım?',
+    faqWhyQ: '{{title}} için neden dinamik QR kullanmalıyım?',
+    faqWhyA:
+      'Dinamik kodlar baskıdan sonra hedefi değiştirmenize, taramaları ölçmenize ve kampanya değişince yeniden baskı maliyetinden kaçınmanıza olanak tanır. Ücretsiz planda başlangıç için 1 dinamik QR vardır.',
   },
   enterprise: {
     metaTitle: 'Kurumsal ve Yüksek Hacimli QR',

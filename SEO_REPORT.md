@@ -166,11 +166,15 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 ### Done in follow-up pack (2026-07-17 x)
 - Ads readiness: split Scanova vs Bitly RSA (correct LPs), template claim **37+**, `verify-ads-paste-urls.py` SoT gate (1 free / $9.99 / no cross-competitor RSA). Console A→D still manual (`marketing/google-ads/CONSOLE_A_D.md`).
 
+### Done in follow-up pack (2026-07-17 y)
+- Programmatic FAQ + `FAQPage` JSON-LD on `/use-cases/[slug]` and `/qr-types/[slug]` (mirrors geo×sector pattern; Free = 1 dynamic QR in answers).
+
 ### Still open (manual / billing only)
 1. **GSC console clicks:** sitemap resubmit + URL Inspection request indexing (automated readiness PASS; see checklist).
 2. **G2 / Capterra:** submit/claim product via `/reviews/g2-setup` CTAs, then set `NEXT_PUBLIC_G2_REVIEW_URL` / `NEXT_PUBLIC_CAPTERRA_REVIEW_URL` on VPS and rebuild.
 3. **Ads A–D console:** billing + paste/import via `CONSOLE_A_D.md` (assets + automated URL/SoT PASS).
 4. **CSP:** style-src-elem nonce only after Motion/Crisp style injection is nonced or replaced.
+5. **Follow-on SEO:** template detail + geo city hub FAQ (same pattern as pack y).
 
 ### GSC checklist (manual)
 1. Confirm property for `https://qrbanner.com` (verification meta live: `xFJ2mgJtq8mkZibVZWBdq1bAvM0RhBl53tQS_QFvqMg`).

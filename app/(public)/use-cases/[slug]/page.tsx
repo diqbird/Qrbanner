@@ -6,7 +6,7 @@ import { getUseCaseBySlug, USE_CASE_PAGES } from '@/lib/use-case-pages';
 import { getQrTypeBySlug } from '@/lib/qr-type-pages';
 import { localizeQrTypePage, localizeUseCasePage } from '@/lib/i18n/resolve-programmatic-copy';
 import { getSolutionBySlug } from '@/lib/solutions';
-import { pageMetadata, webPageJsonLd } from '@/lib/seo';
+import { pageMetadata, webPageJsonLd, faqJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/json-ld';
 import { ProgrammaticPageShell } from '@/components/seo/programmatic-page-shell';
 import { ProgrammaticInternalLinks } from '@/components/seo/programmatic-internal-links';
@@ -48,15 +48,37 @@ export default async function UseCaseDetailPage({ params }: { params: { slug: st
   const relatedQrType = getQrTypeBySlug(page.categoryId);
   const localizedQrType = relatedQrType ? localizeQrTypePage(relatedQrType, locale) : null;
 
+  const howAnswer = page.steps.length
+    ? page.steps.map((step, i) => `${i + 1}. ${step}`).join(' ')
+    : page.description;
+
+  const faqItems = [
+    {
+      question: t('useCaseDetail.faqWhatQ', { title: page.title }),
+      answer: page.description,
+    },
+    {
+      question: t('useCaseDetail.faqHowQ', { title: page.title }),
+      answer: howAnswer,
+    },
+    {
+      question: t('useCaseDetail.faqWhyQ', { title: page.title }),
+      answer: t('useCaseDetail.faqWhyA'),
+    },
+  ];
+
   return (
     <>
       <JsonLd
-        data={webPageJsonLd({
-          title: page.title,
-          description: page.metaDescription,
-          path: `/use-cases/${page.slug}`,
-          locale,
-        })}
+        data={[
+          webPageJsonLd({
+            title: page.title,
+            description: page.metaDescription,
+            path: `/use-cases/${page.slug}`,
+            locale,
+          }),
+          faqJsonLd(faqItems),
+        ]}
       />
       <ProgrammaticPageShell
         breadcrumbs={[
@@ -71,6 +93,8 @@ export default async function UseCaseDetailPage({ params }: { params: { slug: st
           { title: t('useCaseDetail.benefitsTitle'), items: page.benefits },
           { title: t('useCaseDetail.stepsTitle'), items: page.steps, ordered: true },
         ]}
+        faqTitle={t('useCaseDetail.faqTitle')}
+        faqItems={faqItems}
         ctaTitle={t('useCaseDetail.ctaTitle', { qrLabel: formatFreePlanDynamicQrShortLabel(locale) })}
         ctaBody={t('useCaseDetail.ctaBody')}
       />

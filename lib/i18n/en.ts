@@ -3310,6 +3310,14 @@ export const en: TranslationTree = {
     ctaStatic: 'Download a print-ready code in seconds. Sign up to save and manage codes.',
     viewPricing: 'View pricing',
     getStartedFree: 'Get started free',
+    faqTitle: 'QR type FAQ',
+    faqWhatQ: 'What is a {{type}} QR code?',
+    faqHowQ: 'How do I create a {{type}} QR code?',
+    faqWhyQ: 'Is a {{type}} QR dynamic or static?',
+    faqWhyDynamicA:
+      'This type supports dynamic destinations: update the link after print, track scans, and keep the same printed code. Free plan includes 1 dynamic QR.',
+    faqWhyStaticA:
+      'This type encodes fixed content (for example WiFi or contact data) into the image itself. Create and download a print-ready code in seconds; sign up to save and manage codes.',
   },
   blogIndex: {
     metaTitle: 'QR Code Guides & Resources',
@@ -3883,6 +3891,12 @@ export const en: TranslationTree = {
     ctaTitle: 'Start free — {{qrLabel}}',
     ctaBody: 'Branding, analytics, webhooks and API access on every plan.',
     relatedSolution: 'See the full industry solution',
+    faqTitle: 'Use case FAQ',
+    faqWhatQ: 'What is this {{title}} QR use case?',
+    faqHowQ: 'How do I launch {{title}} with QRbanner?',
+    faqWhyQ: 'Why use a dynamic QR for {{title}}?',
+    faqWhyA:
+      'Dynamic codes let you change the destination after print, measure scans, and avoid reprint costs when campaigns change. Free plan includes 1 dynamic QR to start.',
   },
   enterprise: {
     metaTitle: 'Enterprise & High-Volume QR',

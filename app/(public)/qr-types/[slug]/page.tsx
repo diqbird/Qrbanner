@@ -6,7 +6,7 @@ import { buildQrTypePages, getQrTypeBySlug } from '@/lib/qr-type-pages';
 import { localizeQrTypePage } from '@/lib/i18n/resolve-programmatic-copy';
 import { USE_CASES_BY_QR_CATEGORY, getUseCaseBySlug } from '@/lib/use-case-pages';
 import { localizeUseCasePage } from '@/lib/i18n/resolve-programmatic-copy';
-import { pageMetadata, webPageJsonLd } from '@/lib/seo';
+import { pageMetadata, webPageJsonLd, faqJsonLd } from '@/lib/seo';
 import { JsonLd } from '@/components/seo/json-ld';
 import { ProgrammaticPageShell } from '@/components/seo/programmatic-page-shell';
 import { ProgrammaticInternalLinks } from '@/components/seo/programmatic-internal-links';
@@ -51,15 +51,35 @@ export default async function QrTypeDetailPage({ params }: { params: { slug: str
     })
     .filter(Boolean);
 
+  const faqItems = [
+    {
+      question: t('qrTypeDetail.faqWhatQ', { type: typeName }),
+      answer: page.description,
+    },
+    {
+      question: t('qrTypeDetail.faqHowQ', { type: typeName }),
+      answer: page.benefits.length
+        ? page.benefits.map((b, i) => `${i + 1}. ${b}`).join(' ')
+        : page.description,
+    },
+    {
+      question: t('qrTypeDetail.faqWhyQ', { type: typeName }),
+      answer: page.isDynamic ? t('qrTypeDetail.faqWhyDynamicA') : t('qrTypeDetail.faqWhyStaticA'),
+    },
+  ];
+
   return (
     <>
       <JsonLd
-        data={webPageJsonLd({
-          title: page.title,
-          description: page.metaDescription,
-          path: `/qr-types/${page.slug}`,
-          locale,
-        })}
+        data={[
+          webPageJsonLd({
+            title: page.title,
+            description: page.metaDescription,
+            path: `/qr-types/${page.slug}`,
+            locale,
+          }),
+          faqJsonLd(faqItems),
+        ]}
       />
       <ProgrammaticPageShell
         breadcrumbs={[
@@ -74,6 +94,8 @@ export default async function QrTypeDetailPage({ params }: { params: { slug: str
           { title: t('qrTypeDetail.whyUse'), items: page.benefits },
           { title: t('qrTypeDetail.popularUseCases'), items: page.useCases },
         ]}
+        faqTitle={t('qrTypeDetail.faqTitle')}
+        faqItems={faqItems}
         ctaTitle={t('qrTypeDetail.ctaTitle', { qrLabel })}
         ctaBody={page.isDynamic ? t('qrTypeDetail.ctaDynamic') : t('qrTypeDetail.ctaStatic')}
       />

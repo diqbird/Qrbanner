@@ -860,7 +860,15 @@ export const deLocaleGaps: TranslationTree = {
     ctaDynamic: "Ziele jederzeit bearbeiten und Scans in Echtzeit verfolgen.",
     ctaStatic: "Druckfertigen Code in Sekunden herunterladen. Anmelden zum Speichern und Verwalten.",
     viewPricing: "Preise anzeigen",
-    getStartedFree: "Kostenlos starten"
+    getStartedFree: "Kostenlos starten",
+    faqTitle: "FAQ zum QR-Typ",
+    faqWhatQ: "Was ist ein {{type}}-QR-Code?",
+    faqHowQ: "Wie erstelle ich einen {{type}}-QR-Code?",
+    faqWhyQ: "Ist ein {{type}}-QR dynamisch oder statisch?",
+    faqWhyDynamicA:
+      "Dieser Typ unterstützt dynamische Ziele: Link nach dem Druck ändern, Scans tracken, denselben Druck behalten. Der Free-Tarif enthält 1 dynamischen QR.",
+    faqWhyStaticA:
+      "Dieser Typ kodiert feste Inhalte (z. B. WLAN oder Kontaktdaten) direkt ins Bild. Druckfertigen Code in Sekunden erstellen; zum Speichern anmelden."
   },
   qrTypesIndex: {
     metaTitle: "QR-Code-Typen — {{types}} Generatoren für jeden Anwendungsfall",
@@ -1589,7 +1597,13 @@ export const deLocaleGaps: TranslationTree = {
     createLabel: "QR-Code erstellen",
     ctaTitle: "Kostenlos starten — {{qrLabel}}",
     ctaBody: "Branding, Analysen, Webhooks und API-Zugang in allen Tarifen.",
-    relatedSolution: "Vollständige Branchenlösung ansehen"
+    relatedSolution: "Vollständige Branchenlösung ansehen",
+    faqTitle: "FAQ zum Anwendungsfall",
+    faqWhatQ: "Wofür ist dieser {{title}}-QR-Anwendungsfall?",
+    faqHowQ: "Wie starte ich {{title}} mit QRbanner?",
+    faqWhyQ: "Warum einen dynamischen QR für {{title}} nutzen?",
+    faqWhyA:
+      "Dynamische Codes lassen Sie das Ziel nach dem Druck ändern, Scans messen und Nachdrucke vermeiden, wenn Kampagnen wechseln. Der Free-Tarif enthält 1 dynamischen QR zum Start."
   },
   useCasesIndex: {
     metaTitle: "QR-Code-Anwendungsfälle — Marketing, Einzelhandel, Events & mehr",
