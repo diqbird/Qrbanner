@@ -25,6 +25,10 @@ jobs:
           python scripts/verify-dmarc-policy.py
           python scripts/verify-sitemap-health.py
           python scripts/verify-marketing-claims.py
+      - name: SEO snippet + Ads SoT gates
+        run: |
+          python scripts/verify-gsc-snippet-health.py
+          python scripts/verify-ads-paste-urls.py
       - name: WCAG pa11y (homepage)
         run: npx --yes pa11y https://qrbanner.com --standard WCAG2AA --timeout 120000
         continue-on-error: true

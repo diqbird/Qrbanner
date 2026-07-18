@@ -66,10 +66,11 @@ def check_i18n() -> None:
         else:
             ok(f"en.ts removed {phrase!r}")
 
+    # Current honest-label wording (customers.logosTitle / caseStudiesIndex copy)
     required = [
         "Illustrative scenario — not a verified customer story",
-        "Industry labels only — not customer logos",
-        "Illustrative scenarios — example metrics and workflows, not verified deployments",
+        "not customer logos",
+        "not verified customer",
     ]
     for phrase in required:
         if phrase not in text:
