@@ -54,7 +54,7 @@ PACKS = {
             "/vs/scanova",
             "/vs/bitly",
             "/qr/create?quick=1",
-            "5 Free Dynamic QRs",
+            f"{FREE_N} Free Dynamic QR",
             "$9.99",
         ),
     },
@@ -173,11 +173,12 @@ def check_en_rsa_csv() -> bool:
         return False
     text = path.read_text(encoding="utf-8")
     ok = True
-    if "5 Free Dynamic QR Codes" not in text:
-        print("FAIL: missing headline '5 Free Dynamic QR Codes'")
+    headline = f"{FREE_N} Free Dynamic QR Code{'' if FREE_N == 1 else 's'}"
+    if headline not in text:
+        print(f"FAIL: missing headline '{headline}'")
         ok = False
     else:
-        print("PASS: 5 Free Dynamic QR Codes present")
+        print(f"PASS: {headline} present")
     if "$9.99" not in text:
         print("FAIL: missing Pro price $9.99")
         ok = False
