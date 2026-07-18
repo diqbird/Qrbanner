@@ -356,7 +356,7 @@ export function pricingJsonLd() {
       priceCurrency: 'USD',
       url: absoluteUrl('/pricing'),
       availability: 'https://schema.org/InStock',
-      description: `${plan.maxQrCodes} QR codes, ${plan.maxCustomDomains} custom domain(s), API access`,
+      description: `${plan.maxQrCodes} QR code${plan.maxQrCodes === 1 ? '' : 's'}, ${plan.maxCustomDomains} custom domain${plan.maxCustomDomains === 1 ? '' : 's'}, API access`,
     })),
   };
 }
