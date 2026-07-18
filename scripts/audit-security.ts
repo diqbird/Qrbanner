@@ -90,7 +90,7 @@ for (const route of PUBLIC_ROUTES) {
 
 record(
   'leads.rateLimit',
-  fileIncludes('app/api/leads/route.ts', 'checkRateLimit'),
+  fileIncludes('app/api/leads/route.ts', 'enforcePublicRateLimit'),
   'Lead submissions rate limited'
 );
 

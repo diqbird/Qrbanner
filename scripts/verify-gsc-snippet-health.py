@@ -96,16 +96,16 @@ def main() -> int:
                 print(f"       meta: {_safe(desc[:120])}...")
 
     print("\n--- Manual GSC clicks (cannot automate) ---")
-    print("1. Search Console → property https://qrbanner.com")
-    print("2. Sitemaps → confirm/resubmit https://qrbanner.com/sitemap.xml")
-    print("3. URL Inspection → Request indexing for /, /pricing, /tr/pricing, /templates, /llms.txt")
+    print("1. Search Console -> property https://qrbanner.com")
+    print("2. Sitemaps -> confirm/resubmit https://qrbanner.com/sitemap.xml")
+    print("3. URL Inspection -> Request indexing for /, /pricing, /tr/pricing, /templates, /llms.txt")
     print(f"4. Watch snippet for Free plan = {FREE_N} dynamic QR (not 25/50)")
 
     print("\n--- G2 / Capterra ---")
     print("QRbanner is not listed on G2/Capterra yet. Claim profile, then set on VPS:")
     print("  NEXT_PUBLIC_G2_REVIEW_URL=https://www.g2.com/products/<slug>/reviews")
     print("  NEXT_PUBLIC_CAPTERRA_REVIEW_URL=https://www.capterra.com/p/<id>/reviews")
-    print("Then rebuild. Until set, homepage shows early-adopter reviews strip → /reviews.")
+    print("Then rebuild. Until set, homepage shows early-adopter reviews strip -> /reviews.")
 
     if failed:
         print(f"\n=== Result: FAIL ({failed}) ===")

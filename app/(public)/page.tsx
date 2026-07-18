@@ -37,13 +37,6 @@ const PremiumStats = dynamic(
   () => import('@/components/landing/premium/stats').then((m) => ({ default: m.PremiumStats })),
   { loading: () => <SectionSkeleton rows={1} minHeight="240px" /> }
 );
-const PremiumTestimonials = dynamic(
-  () =>
-    import('@/components/landing/premium/testimonials').then((m) => ({
-      default: m.PremiumTestimonials,
-    })),
-  { loading: () => <SectionSkeleton rows={2} minHeight="360px" /> }
-);
 const PremiumPricingTeaser = dynamic(
   () =>
     import('@/components/landing/premium/pricing-teaser').then((m) => ({
@@ -98,9 +91,6 @@ export default async function HomePage() {
       </DeferredSection>
       <DeferredSection intrinsicHeight="240px">
         <PremiumStats />
-      </DeferredSection>
-      <DeferredSection intrinsicHeight="360px">
-        <PremiumTestimonials />
       </DeferredSection>
       <DeferredSection intrinsicHeight="160px">
         <PremiumPricingTeaser />

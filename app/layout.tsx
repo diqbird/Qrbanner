@@ -1,5 +1,5 @@
 import { headers } from 'next/headers';
-import { DM_Sans, Plus_Jakarta_Sans } from 'next/font/google';
+import { DM_Sans, Fraunces, IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
 import { DeferredSiteAnalytics } from '@/components/analytics/deferred-site-analytics';
@@ -19,12 +19,19 @@ const dmSans = DM_Sans({
   display: 'swap',
   preload: true,
 });
-const jakartaSans = Plus_Jakarta_Sans({
+const fraunces = Fraunces({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
   preload: true,
   weight: ['500', '600', '700', '800'],
+});
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+  preload: false,
+  weight: ['400', '500', '600'],
 });
 
 export const metadata = {
@@ -83,7 +90,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         <LocaleHeadLinks />
       </head>
-      <body className={`${dmSans.variable} ${jakartaSans.variable} font-sans antialiased`}>
+      <body
+        className={`${dmSans.variable} ${fraunces.variable} ${ibmPlexMono.variable} font-sans antialiased`}
+      >
         <ConsentModeBootstrap nonce={nonce} />
         <Providers initialLocale={locale}>{children}</Providers>
         <DeferredSiteAnalytics nonce={nonce} />

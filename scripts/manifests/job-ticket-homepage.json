@@ -1,0 +1,21 @@
+{
+  "upload": [
+    "app/layout.tsx",
+    "app/globals.css",
+    "app/(public)/page.tsx",
+    "lib/i18n/premium-home-copy.ts",
+    "components/landing/premium/hero.tsx",
+    "components/landing/premium/hero-qr-ticket.tsx",
+    "components/landing/premium/trust.tsx",
+    "components/site/site-3d-stage.tsx",
+    "components/public-header.tsx",
+    "scripts/audit-security.ts",
+    "scripts/verify-gsc-snippet-health.py",
+    "docs/LAUNCH_MANUAL_CHECKLIST.md"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

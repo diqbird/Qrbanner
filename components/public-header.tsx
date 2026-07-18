@@ -23,10 +23,10 @@ export function PublicHeader() {
     <header className="sticky top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-3">
       <div
         className={cn(
-          'mx-auto flex h-[52px] max-w-[1080px] items-center justify-between rounded-2xl px-3 sm:h-14 sm:px-4',
-          'border border-white/35 bg-background/65 shadow-[0_18px_50px_-28px_rgba(0,0,0,0.45),0_1px_0_rgba(255,255,255,0.45)_inset] backdrop-blur-2xl',
-          'dark:border-white/10 dark:bg-background/55 dark:shadow-[0_22px_60px_-24px_rgba(0,0,0,0.85),0_1px_0_rgba(255,255,255,0.08)_inset]',
-          header.scrolled && 'shadow-[0_22px_60px_-20px_rgba(0,0,0,0.55)]',
+          'mx-auto flex h-[52px] max-w-[1080px] items-center justify-between rounded-sm px-3 sm:h-14 sm:px-4',
+          'border border-[#D6CFC0]/90 bg-[#F5F1E8]/90 shadow-[0_14px_36px_-28px_rgba(28,25,23,0.45)] backdrop-blur-xl',
+          'dark:border-white/10 dark:bg-[#1C1917]/85 dark:shadow-[0_22px_60px_-24px_rgba(0,0,0,0.85)]',
+          header.scrolled && 'shadow-[0_18px_44px_-22px_rgba(28,25,23,0.5)]',
         )}
       >
         <Link

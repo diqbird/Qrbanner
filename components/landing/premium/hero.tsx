@@ -1,32 +1,32 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { getServerLocale } from '@/lib/i18n/server';
 import { localizePath, translate } from '@/lib/i18n';
-import { Reveal, GlassPanel } from './primitives';
+import { Reveal } from './primitives';
+import { HeroQrTicket } from './hero-qr-ticket';
 
 export async function PremiumHero() {
   const locale = await getServerLocale();
   const t = (key: string) => translate(locale, key);
 
   return (
-    <section className="relative overflow-hidden pb-16 pt-10 sm:pb-24 sm:pt-16 lg:pb-28 lg:pt-20">
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="absolute -left-24 top-10 h-72 w-72 rounded-full bg-[#2563EB]/20 blur-[90px]" />
-        <div className="absolute -right-16 top-32 h-80 w-80 rounded-full bg-[#06B6D4]/20 blur-[100px]" />
-      </div>
+    <section className="relative overflow-hidden pb-14 pt-8 sm:pb-20 sm:pt-12 lg:pb-24 lg:pt-16">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[var(--ph-rule)]"
+        aria-hidden
+      />
 
       <div className="ph-container relative">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
           <Reveal>
-            <p className="ph-eyebrow mb-5">{t('premiumHome.brand')}</p>
-            <h1 className="ph-title text-4xl leading-[1.08] sm:text-5xl lg:text-[3.35rem]">
+            <p className="ph-eyebrow mb-4">{t('premiumHome.brand')}</p>
+            <h1 className="ph-title text-4xl leading-[1.06] sm:text-5xl lg:text-[3.25rem]">
               {t('premiumHome.hero.title')}
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-[var(--ph-ink)]/70">
               {t('premiumHome.hero.subtitle')}
             </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link href="/qr/create?quick=1" prefetch={false} className="ph-btn-primary">
                 {t('premiumHome.hero.primaryCta')}
                 <ArrowRight className="h-4 w-4" aria-hidden />
@@ -37,23 +37,8 @@ export async function PremiumHero() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.12} className="relative">
-            <GlassPanel className="overflow-hidden p-2 sm:p-3">
-              <div className="relative aspect-[16/11] overflow-hidden rounded-[1.15rem] bg-slate-900">
-                <Image
-                  src="/images/landing/premium-hero-exhibition.webp"
-                  alt={t('premiumHome.hero.imageAlt')}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 540px"
-                  className="object-cover"
-                />
-                <div
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-slate-950/35 via-transparent to-cyan-400/10"
-                  aria-hidden
-                />
-              </div>
-            </GlassPanel>
+          <Reveal delay={0.1} className="relative">
+            <HeroQrTicket />
           </Reveal>
         </div>
       </div>
