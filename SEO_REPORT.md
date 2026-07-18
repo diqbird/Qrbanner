@@ -172,6 +172,9 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 ### Done in follow-up pack (2026-07-18 z)
 - FAQ + `FAQPage` JSON-LD on `/templates/[id]` and `/geo/[city]` hubs (template tips as how-to answers; city hub sector count SoT).
 
+### Done in follow-up pack (2026-07-18 ac)
+- E2E free-limit gate: `python scripts/qa/run-e2e-free-limit.py` — isolated test user on VPS, live `/api/v1/qr` creates until SoT limit, asserts 403 message names the limit, full cleanup. PASS at limit=5 (5×201 → 403 "QR limit reached (5 on Free plan)").
+
 ### Done in follow-up pack (2026-07-18 ab)
 - Blog → use-case deep links: `BLOG_RELATED_LINKS.useCaseSlugs` populated for all 55+ mapped posts + 4 generic guides (analytics/bulk/dynamic-vs-static). Labeled "Use case guide: …" (EN/TR/DE/ES); targets validated against `USE_CASE_PAGES` at review time.
 
