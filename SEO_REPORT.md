@@ -184,8 +184,9 @@ Already strong (unchanged): central `pageMetadata`, dual hreflang (metadata + `<
 ### Done in follow-up pack (2026-07-18 aa)
 - **Free plan limit 1 → 5** (`PLANS.free.maxQrCodes`). All copy now derives from SoT via `{{qrLabel}}` (removed hardcoded "1 dynamic QR" in EN/TR/DE/ES FAQ answers). Ads packs + CSVs regenerated ("5 Free Dynamic QR Codes"); `verify-ads-paste-urls.py` / `verify-gsc-snippet-health.py` read the limit from `lib/plans.ts`. At-limit upgrade banner now names Pro benefits ({{proQr}} codes, analytics history, A/B routing).
 
-### Still open (manual / billing only)
-1. **GSC console clicks:** sitemap resubmit + URL Inspection request indexing (automated readiness PASS; see checklist).
+### Still open (manual / billing only) — owner clicks
+Agent scope COMPLETE (2026-07-19). See `docs/LAUNCH_MANUAL_CHECKLIST.md` + `python scripts/open-launch-manual-tabs.py`.
+1. **GSC console clicks:** sitemap resubmit + URL Inspection request indexing (automated readiness PASS).
 2. **G2 / Capterra:** submit/claim product via `/reviews/g2-setup` CTAs, then set `NEXT_PUBLIC_G2_REVIEW_URL` / `NEXT_PUBLIC_CAPTERRA_REVIEW_URL` on VPS and rebuild.
 3. **Ads A–D console:** billing + paste/import via `CONSOLE_A_D.md` (assets + automated URL/SoT PASS).
 4. **CSP:** style-src-elem nonce only after Motion/Crisp style injection is nonced or replaced.
