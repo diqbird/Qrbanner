@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Loader2, Save, ArrowRight } from 'lucide-react';
+import { Loader2, Save, ArrowRight, SlidersHorizontal } from 'lucide-react';
 import { useQrQuickCreate } from '@/hooks/use-qr-quick-create';
 import { useQrPreview } from '@/hooks/use-qr-preview';
 import { useLanguage } from '@/components/i18n/language-provider';
@@ -23,17 +23,27 @@ export function HeroQrTicket() {
     qrName: name.trim() || t('quick.namePlaceholder'),
   });
 
+  const statusLabel = isValid
+    ? t('quick.ticketReady')
+    : url.trim()
+      ? t('quick.ticketEnterUrl')
+      : t('quick.ticketDemo');
+
   return (
     <div className="jt-ticket relative overflow-hidden rounded-sm border border-[var(--ph-rule)] bg-[var(--ph-tint)] shadow-[0_24px_48px_-32px_rgba(28,25,23,0.45)]">
       <div
-        className="flex items-center justify-between border-b border-[var(--ph-rule)] bg-[var(--ph-kraft)]/15 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--ph-ink)]/70 sm:px-5"
+        className="pointer-events-none absolute inset-y-3 left-0 w-2 border-r border-dashed border-[var(--ph-rule)]"
+        aria-hidden
+      />
+      <div
+        className="flex items-center justify-between border-b border-[var(--ph-rule)] bg-[var(--ph-kraft)]/15 px-4 py-2.5 pl-5 font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--ph-ink)]/70 sm:px-5 sm:pl-6"
         aria-hidden
       >
-        <span>JOB · DYNAMIC QR</span>
-        <span>LIVE PREVIEW</span>
+        <span>{t('quick.ticketJob')}</span>
+        <span>{t('quick.ticketLive')}</span>
       </div>
 
-      <div className="grid gap-5 p-4 sm:grid-cols-[1fr_140px] sm:gap-6 sm:p-5">
+      <div className="grid gap-5 p-4 pl-5 sm:grid-cols-[1fr_148px] sm:gap-6 sm:p-5 sm:pl-6">
         <div className="space-y-3">
           <label className="block space-y-1.5">
             <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--ph-ink)]/55">
@@ -43,6 +53,7 @@ export function HeroQrTicket() {
               id="hero-ticket-url"
               type="url"
               inputMode="url"
+              autoComplete="url"
               placeholder={t('quick.urlPlaceholder')}
               value={url}
               onChange={(e) => setUrl(e.target.value)}
@@ -62,7 +73,7 @@ export function HeroQrTicket() {
             />
           </label>
 
-          <div className="flex flex-col gap-2 pt-1 sm:flex-row">
+          <div className="flex flex-col gap-2 pt-1 sm:flex-row sm:flex-wrap">
             {session?.user ? (
               <button
                 type="button"
@@ -86,8 +97,9 @@ export function HeroQrTicket() {
                 {t('quick.signUpToSave')}
               </Link>
             )}
-            <Link href={localePath('/qr/create?quick=1')} className="ph-btn-secondary">
-              {t('premiumHome.hero.primaryCta')}
+            <Link href={localePath('/qr/create')} className="ph-btn-secondary">
+              <SlidersHorizontal className="h-4 w-4" aria-hidden />
+              {t('quick.openEditor')}
               <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
           </div>
@@ -95,7 +107,7 @@ export function HeroQrTicket() {
 
         <div className="flex flex-col items-center justify-center gap-2">
           <div
-            className="relative flex h-[132px] w-[132px] items-center justify-center rounded-sm border border-[var(--ph-rule)] bg-white p-2"
+            className="relative flex h-[140px] w-[140px] items-center justify-center rounded-sm border border-[var(--ph-rule)] bg-white p-2.5 shadow-[inset_0_0_0_1px_rgba(28,25,23,0.04)]"
             style={{
               backgroundColor: preview.normalized.transparentBg
                 ? 'transparent'
@@ -115,8 +127,12 @@ export function HeroQrTicket() {
               </p>
             ) : null}
           </div>
-          <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-[var(--ph-ink)]/45">
-            {isValid ? 'READY' : 'ENTER URL'}
+          <p
+            className={`font-mono text-[9px] uppercase tracking-[0.12em] ${
+              isValid ? 'text-[var(--ph-ultramarine)]' : 'text-[var(--ph-ink)]/45'
+            }`}
+          >
+            {statusLabel}
           </p>
         </div>
       </div>

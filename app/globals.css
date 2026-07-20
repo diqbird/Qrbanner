@@ -320,19 +320,41 @@
     contain-intrinsic-size: auto 420px;
   }
 
-  /* Homepage Job Ticket theme (print/matbaa — scoped, does not override dashboard/auth) */
+  /* Public chrome + homepage Job Ticket tokens (shared; does not override dashboard/auth) */
+  .jt-public {
+    --jt-paper: #f5f1e8;
+    --jt-ink: #1c1917;
+    --jt-kraft: #a67c52;
+    --jt-tint: #ebe4d6;
+    --jt-ultramarine: #2430c8;
+    --jt-rule: #d6cfc0;
+    --jt-ink-soft: #44403c;
+    --jt-radius: 0.25rem;
+    color: var(--jt-ink);
+  }
+
+  .dark .jt-public {
+    --jt-paper: #161311;
+    --jt-ink: #f5f1e8;
+    --jt-kraft: #c4a574;
+    --jt-tint: #24201c;
+    --jt-ultramarine: #6b7cff;
+    --jt-rule: #3f3a34;
+    --jt-ink-soft: #d6d3d1;
+  }
+
   .premium-home {
-    --ph-paper: #f5f1e8;
-    --ph-ink: #1c1917;
-    --ph-kraft: #a67c52;
-    --ph-tint: #ebe4d6;
-    --ph-ultramarine: #2430c8;
-    --ph-rule: #d6cfc0;
-    --ph-ink-soft: #44403c;
+    --ph-paper: var(--jt-paper, #f5f1e8);
+    --ph-ink: var(--jt-ink, #1c1917);
+    --ph-kraft: var(--jt-kraft, #a67c52);
+    --ph-tint: var(--jt-tint, #ebe4d6);
+    --ph-ultramarine: var(--jt-ultramarine, #2430c8);
+    --ph-rule: var(--jt-rule, #d6cfc0);
+    --ph-ink-soft: var(--jt-ink-soft, #44403c);
     --ph-blue: var(--ph-ultramarine);
     --ph-cyan: #3b82f6;
     --ph-canvas: var(--ph-paper);
-    --ph-radius: 0.25rem;
+    --ph-radius: var(--jt-radius, 0.25rem);
     color: var(--ph-ink);
     background:
       linear-gradient(180deg, rgba(166, 124, 82, 0.08), transparent 28%),
@@ -347,16 +369,15 @@
   }
 
   .dark .premium-home {
-    --ph-paper: #1c1917;
-    --ph-ink: #f5f1e8;
-    --ph-kraft: #c4a574;
-    --ph-tint: #292524;
-    --ph-ultramarine: #6b7cff;
-    --ph-rule: #44403c;
-    --ph-ink-soft: #d6d3d1;
-    --ph-canvas: var(--ph-paper);
     background:
-      linear-gradient(180deg, rgba(107, 124, 255, 0.12), transparent 32%),
+      linear-gradient(180deg, rgba(107, 124, 255, 0.1), transparent 34%),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 23px,
+        rgba(245, 241, 232, 0.03) 23px,
+        rgba(245, 241, 232, 0.03) 24px
+      ),
       var(--ph-paper);
   }
 

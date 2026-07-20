@@ -902,7 +902,13 @@ export const deLocaleGaps: TranslationTree = {
     saveToDashboard: "Im Dashboard speichern",
     saving: "Wird gespeichert…",
     saved: "QR-Code im Dashboard gespeichert",
-    signUpToSave: "Kostenlos registrieren zum Speichern & Scans verfolgen"
+    signUpToSave: "Kostenlos registrieren zum Speichern & Scans verfolgen",
+    openEditor: "Vollständiger Editor",
+    ticketJob: "Job · Dynamischer QR",
+    ticketLive: "Live-Vorschau",
+    ticketReady: "Bereit",
+    ticketDemo: "Demo",
+    ticketEnterUrl: "URL eingeben"
   },
   referral: {
     title: "Empfehlungsprogramm",

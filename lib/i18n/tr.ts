@@ -1317,6 +1317,12 @@ export const tr: TranslationTree = {
     saving: 'Kaydediliyor...',
     saved: 'QR kodu panelinize kaydedildi',
     signUpToSave: 'Kaydetmek ve taramaları izlemek için ücretsiz kayıt olun',
+    openEditor: 'Tam editör',
+    ticketJob: 'İş · Dinamik QR',
+    ticketLive: 'Canlı önizleme',
+    ticketReady: 'Hazır',
+    ticketDemo: 'Demo',
+    ticketEnterUrl: 'URL girin',
   },
   fields: fieldsTr,
   templates: {

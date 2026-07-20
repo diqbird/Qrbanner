@@ -902,7 +902,13 @@ export const esLocaleGaps: TranslationTree = {
     saveToDashboard: "Guardar en el panel",
     saving: "Guardando...",
     saved: "Código QR guardado en su panel",
-    signUpToSave: "Regístrese gratis para guardar y hacer seguimiento de escaneos"
+    signUpToSave: "Regístrese gratis para guardar y hacer seguimiento de escaneos",
+    openEditor: "Editor completo",
+    ticketJob: "Trabajo · QR dinámico",
+    ticketLive: "Vista previa",
+    ticketReady: "Listo",
+    ticketDemo: "Demo",
+    ticketEnterUrl: "Introducir URL"
   },
   referral: {
     title: "Programa de referidos",

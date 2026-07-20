@@ -1316,6 +1316,12 @@ export const en: TranslationTree = {
     saving: 'Saving...',
     saved: 'QR code saved to your dashboard',
     signUpToSave: 'Sign up free to save & track scans',
+    openEditor: 'Full editor',
+    ticketJob: 'Job · Dynamic QR',
+    ticketLive: 'Live preview',
+    ticketReady: 'Ready',
+    ticketDemo: 'Demo',
+    ticketEnterUrl: 'Enter URL',
   },
   fields: fieldsEn,
   templates: {

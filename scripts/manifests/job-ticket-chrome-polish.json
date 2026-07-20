@@ -1,0 +1,20 @@
+{
+  "upload": [
+    "app/globals.css",
+    "app/(public)/layout.tsx",
+    "components/landing/premium/hero-qr-ticket.tsx",
+    "components/public-header.tsx",
+    "components/public-header-actions.tsx",
+    "components/public-footer.tsx",
+    "components/site/site-3d-stage.tsx",
+    "lib/i18n/en.ts",
+    "lib/i18n/tr.ts",
+    "lib/i18n/de-locale-gaps.ts",
+    "lib/i18n/es-locale-gaps.ts"
+  ],
+  "yarn_install": false,
+  "prisma_generate": false,
+  "prisma_migrate": false,
+  "build": true,
+  "restart": true
+}

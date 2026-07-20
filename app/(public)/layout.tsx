@@ -27,7 +27,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <JsonLd
         data={[organizationJsonLd(), websiteJsonLd(), softwareApplicationJsonLd()]}
       />
-      <div className="relative min-h-screen bg-transparent">
+      <div className="jt-public relative min-h-screen bg-transparent">
         <Site3DStage />
         <AnnouncementBanner />
         <PublicHeader />

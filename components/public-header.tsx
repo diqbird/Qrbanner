@@ -24,14 +24,14 @@ export function PublicHeader() {
       <div
         className={cn(
           'mx-auto flex h-[52px] max-w-[1080px] items-center justify-between rounded-sm px-3 sm:h-14 sm:px-4',
-          'border border-[#D6CFC0]/90 bg-[#F5F1E8]/90 shadow-[0_14px_36px_-28px_rgba(28,25,23,0.45)] backdrop-blur-xl',
-          'dark:border-white/10 dark:bg-[#1C1917]/85 dark:shadow-[0_22px_60px_-24px_rgba(0,0,0,0.85)]',
-          header.scrolled && 'shadow-[0_18px_44px_-22px_rgba(28,25,23,0.5)]',
+          'border border-[var(--jt-rule,#D6CFC0)] bg-[var(--jt-paper,#F5F1E8)]/95 text-[var(--jt-ink,#1C1917)]',
+          'shadow-[0_14px_36px_-28px_rgba(28,25,23,0.45)] backdrop-blur-xl',
+          header.scrolled && 'shadow-[0_18px_44px_-22px_rgba(28,25,23,0.55)]',
         )}
       >
         <Link
           href={localePath('/')}
-          className="rounded-lg outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring"
+          className="rounded-sm outline-none ring-offset-[var(--jt-paper,#F5F1E8)] focus-visible:ring-2 focus-visible:ring-[var(--jt-ultramarine,#2430C8)]"
           aria-label={t('common.homeAria')}
         >
           <SiteLogo layout="inline" size="sm" />
@@ -42,7 +42,7 @@ export function PublicHeader() {
 
         <button
           type="button"
-          className="flex h-9 w-9 items-center justify-center rounded-xl lg:hidden"
+          className="flex h-9 w-9 items-center justify-center rounded-sm text-[var(--jt-ink,#1C1917)] lg:hidden"
           onClick={() => header.setMobileOpen(!header.mobileOpen)}
           aria-expanded={header.mobileOpen}
           aria-controls="mobile-nav"
