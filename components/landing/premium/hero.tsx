@@ -1,21 +1,8 @@
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import { ArrowRight } from 'lucide-react';
 import { getServerLocale } from '@/lib/i18n/server';
 import { localizePath, translate } from '@/lib/i18n';
-
-/** QR ticket is client-heavy (preview lib) — keep it off the LCP text path. */
-const HeroQrTicket = dynamic(
-  () => import('./hero-qr-ticket').then((m) => ({ default: m.HeroQrTicket })),
-  {
-    loading: () => (
-      <div
-        className="jt-ticket min-h-[280px] animate-pulse rounded-sm border border-[var(--ph-rule)] bg-[var(--ph-tint)]"
-        aria-hidden
-      />
-    ),
-  }
-);
+import { HeroQrTicketDeferred } from './hero-qr-ticket-deferred';
 
 export async function PremiumHero() {
   const locale = await getServerLocale();
@@ -30,7 +17,7 @@ export async function PremiumHero() {
 
       <div className="ph-container relative">
         <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
-          {/* No Reveal/opacity:0 — LCP is this copy (LH render-delay was ~6s). */}
+          {/* SSR copy stays paint-ready — no Reveal/opacity, no QR lib on the critical path. */}
           <div>
             <p className="ph-eyebrow mb-4">{t('premiumHome.brand')}</p>
             <h1 className="ph-title text-4xl leading-[1.06] sm:text-5xl lg:text-[3.25rem]">
@@ -51,7 +38,7 @@ export async function PremiumHero() {
           </div>
 
           <div className="relative">
-            <HeroQrTicket />
+            <HeroQrTicketDeferred />
           </div>
         </div>
       </div>

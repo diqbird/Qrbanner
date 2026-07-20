@@ -24,7 +24,8 @@ const fraunces = Fraunces({
   variable: '--font-display',
   display: 'swap',
   preload: true,
-  weight: ['500', '600', '700', '800'],
+  // Fewer weights = less font bytes on LCP path (hero uses ~700).
+  weight: ['600', '700'],
 });
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin'],

@@ -1,0 +1,11 @@
+{
+  "name": "homepage-lcp-perf-r2",
+  "description": "Defer hero QR ticket until idle; strip framer from trust; lazy site search; fewer Fraunces weights",
+  "files": [
+    "components/landing/premium/hero.tsx",
+    "components/landing/premium/hero-qr-ticket-deferred.tsx",
+    "components/landing/premium/trust.tsx",
+    "components/public-header.tsx",
+    "app/layout.tsx"
+  ]
+}

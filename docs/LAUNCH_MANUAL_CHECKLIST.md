@@ -44,7 +44,7 @@ python scripts/open-launch-manual-tabs.py
 - Turnstile: Site Key + Secret → `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY` + rebuild
 - Sentry: DSN → `SENTRY_DSN` + `NEXT_PUBLIC_SENTRY_DSN` + rebuild
 
-**PSI / Lighthouse:** Google API 429. Local LH home was perf **63** (LCP ~6.8s, 89% render-delay from Reveal opacity). Fix in `homepage-lcp-perf` (hero SSR copy, no opacity:0; ticket dynamic). Re-measure after deploy.
+**PSI / Lighthouse:** Google API 429. Local LH home was perf **~59–63**. Round 1 (Reveal/opacity) live. Round 2: idle-defer hero QR ticket, trust without framer, lazy site search, Fraunces 600/700 only.
 
 ---
 

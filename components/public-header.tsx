@@ -1,16 +1,22 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { Menu, X } from 'lucide-react';
 import { SiteLogo } from '@/components/brand/site-logo';
 import { useLanguage } from '@/components/i18n/language-provider';
 import { useLocalePath } from '@/components/i18n/use-locale-path';
-import { SiteSearchDialog, useSiteSearchShortcut } from '@/components/search/site-search-dialog';
+import { useSiteSearchShortcut } from '@/hooks/use-site-search-shortcut';
 import { usePublicHeader } from '@/hooks/use-public-header';
 import { PublicHeaderNav } from './public-header-nav';
 import { PublicHeaderActions } from './public-header-actions';
 import { PublicHeaderMobileNav } from './public-header-mobile-nav';
 import { cn } from '@/lib/utils';
+
+const SiteSearchDialog = dynamic(
+  () => import('@/components/search/site-search-dialog').then((m) => ({ default: m.SiteSearchDialog })),
+  { ssr: false }
+);
 
 export function PublicHeader() {
   const { t } = useLanguage();
@@ -53,7 +59,9 @@ export function PublicHeader() {
       </div>
 
       <PublicHeaderMobileNav header={header} />
-      <SiteSearchDialog open={header.searchOpen} onOpenChange={header.setSearchOpen} />
+      {header.searchOpen ? (
+        <SiteSearchDialog open={header.searchOpen} onOpenChange={header.setSearchOpen} />
+      ) : null}
     </header>
   );
 }
