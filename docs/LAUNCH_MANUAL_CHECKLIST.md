@@ -26,18 +26,34 @@ python scripts/open-launch-manual-tabs.py
 
 ## Owner-only (you click) — do in this order
 
-### A — Google Search Console (SKIPPED by agent — you must click)
-1. Property `qrbanner.com` / `sc-domain:qrbanner.com`
-2. Sitemaps → submit `https://qrbanner.com/sitemap.xml`
-3. URL Inspection → Request indexing for `/`, `/pricing`, `/tr/pricing`, `/templates`, `/llms.txt`
+### A — Google Search Console
+**DONE (owner 2026-07-20):** sitemap + URL Inspection.
 
-### B — G2 / Capterra (next after A)
+### B — G2 / Capterra
+**DEFERRED (owner 2026-07-20):** sonra claim + URL; site G2/Capterra olmadan çalışır (trust şerit gizli).
 1. https://qrbanner.com/reviews/g2-setup → **G2’de ürün ekle** / Capterra vendors
 2. Claim with `@qrbanner.com` email
 3. VPS `.env`: `NEXT_PUBLIC_G2_REVIEW_URL` + `NEXT_PUBLIC_CAPTERRA_REVIEW_URL` → restart
 
 ### C — Google Ads A→D
-Follow `marketing/google-ads/CONSOLE_A_D.md` (GA4 `G-3LY6YZDDD2` → import conversions → CSV from `marketing/google-ads/editor-csv*`).
+**SKIPPED (owner choice 2026-07-20):** ücretli reklam yok — A→D yapılmayacak. İleride Ads açılırsa: `marketing/google-ads/CONSOLE_A_D.md`.
 
 ### D — Optional
-Turnstile / Sentry · PSI when Google quota recovers
+
+**Turnstile / Sentry — DEFERRED (owner 2026-07-20):** anahtar gelince VPS’e yazılır; unset = skip (site çalışır).
+- Turnstile: Site Key + Secret → `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY` + rebuild
+- Sentry: DSN → `SENTRY_DSN` + `NEXT_PUBLIC_SENTRY_DSN` + rebuild
+
+**PSI / Lighthouse:** Google API 429. Local LH home was perf **63** (LCP ~6.8s, 89% render-delay from Reveal opacity). Fix in `homepage-lcp-perf` (hero SSR copy, no opacity:0; ticket dynamic). Re-measure after deploy.
+
+---
+
+## Owner launch status (2026-07-20)
+
+| Item | Status |
+|------|--------|
+| GSC | DONE |
+| Ads A→D | SKIPPED (no paid ads) |
+| G2 / Capterra | DEFERRED |
+| Turnstile / Sentry | DEFERRED |
+| PSI (local LH home) | perf 63 — optimize later |

@@ -15,31 +15,32 @@ TABS = [
     "https://qrbanner.com/reviews/g2-setup",
     "https://www.g2.com/products/new",
     "https://www.capterra.com/vendors/",
-    # C — Ads / GA4
-    "https://ads.google.com/",
-    "https://analytics.google.com/",
+    # C — Ads / GA4 (skip if no paid ads)
+    # "https://ads.google.com/",
+    # "https://analytics.google.com/",
+    # D — Turnstile + Sentry (optional)
+    "https://dash.cloudflare.com/?to=/:account/turnstile",
+    "https://sentry.io/signup/",
 ]
 
 CLICK_ORDER = """
-After tabs open, do this in order:
+After tabs open, do this in order (2026-07-20):
 
-A) Search Console (logged-in property qrbanner.com)
-   1. Sitemaps -> submit/resubmit https://qrbanner.com/sitemap.xml
-   2. URL Inspection -> Request indexing for:
-      /  /pricing  /tr/pricing  /templates  /llms.txt
+A) Search Console — DONE (owner)
 
-B) G2 + Capterra (from /reviews/g2-setup)
-   1. Claim/list product
-   2. Copy review URLs into VPS .env:
-      NEXT_PUBLIC_G2_REVIEW_URL=...
-      NEXT_PUBLIC_CAPTERRA_REVIEW_URL=...
-   3. pm2 restart qrbanner (or redeploy)
+B) G2 + Capterra (deferred — skip until ready)
+   1. Claim/list from /reviews/g2-setup
+   2. VPS: NEXT_PUBLIC_G2_REVIEW_URL + NEXT_PUBLIC_CAPTERRA_REVIEW_URL + rebuild
 
-C) Google Ads (CONSOLE_A_D.md)
-   1. Link GA4 G-3LY6YZDDD2
-   2. Import sign_up + first_qr_created
-   3. Realtime test
-   4. Import Editor CSVs (Paused) then Enable Create
+C) Google Ads — SKIPPED (no paid ads)
+
+D1) Turnstile (Cloudflare tab)
+   1. Add widget for qrbanner.com
+   2. Send SITE_KEY + SECRET_KEY → agent runs set-vps-env + rebuild
+
+D2) Sentry (sentry.io tab)
+   1. Next.js project → DSN
+   2. Send DSN → agent sets SENTRY_DSN + NEXT_PUBLIC_SENTRY_DSN + rebuild
 """
 
 

@@ -20,10 +20,11 @@ export function Reveal({ children, className, delay = 0, y = 24 }: RevealProps) 
     return <div className={className}>{children}</div>;
   }
 
+  // Animate transform only — opacity:0 delayed LCP on above-the-fold text.
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y }}
+      initial={{ opacity: 1, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay }}

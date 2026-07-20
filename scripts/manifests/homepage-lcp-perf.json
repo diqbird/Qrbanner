@@ -1,0 +1,8 @@
+{
+  "name": "homepage-lcp-perf",
+  "description": "Fix homepage LCP render-delay: hero without Reveal opacity fade; defer HeroQrTicket chunk",
+  "files": [
+    "components/landing/premium/hero.tsx",
+    "components/landing/premium/primitives.tsx"
+  ]
+}
