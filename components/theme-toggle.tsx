@@ -18,7 +18,7 @@ export function ThemeToggle() {
       <Button
         variant="ghost"
         size="icon"
-        className="h-8 w-8 rounded-full"
+        className="h-8 w-8 rounded-sm"
         aria-label={t('common.toggleThemeAria')}
         suppressHydrationWarning
       />
@@ -31,7 +31,7 @@ export function ThemeToggle() {
     <Button
       variant="ghost"
       size="icon"
-      className="relative h-8 w-8 rounded-full text-foreground/70 hover:bg-foreground/[0.06] hover:text-foreground"
+      className="relative h-8 w-8 rounded-sm text-[var(--jt-ink,currentColor)]/70 hover:bg-[var(--jt-ink,#1C1917)]/[0.06] hover:text-[var(--jt-ink,#1C1917)]"
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
       aria-label={isDark ? t('common.switchToLightAria') : t('common.switchToDarkAria')}
     >

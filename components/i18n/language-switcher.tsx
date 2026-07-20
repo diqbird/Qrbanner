@@ -29,13 +29,11 @@ export function LanguageSwitcher({ className, compact = true }: LanguageSwitcher
           variant="ghost"
           size="sm"
           className={cn(
-            'group relative h-8 gap-1.5 rounded-full px-2.5 text-[13px] font-medium tracking-tight',
-            'border border-transparent text-foreground/75',
-            'hover:-translate-y-0.5 hover:border-white/30 hover:bg-foreground/[0.06] hover:text-foreground',
-            'hover:shadow-[0_12px_28px_-14px_rgba(0,0,0,0.45)]',
-            'data-[state=open]:-translate-y-0.5 data-[state=open]:border-white/35 data-[state=open]:bg-foreground/[0.08]',
-            'data-[state=open]:shadow-[0_14px_32px_-12px_rgba(0,0,0,0.5)]',
-            'transition-all duration-200',
+            'group relative h-8 gap-1.5 rounded-sm px-2.5 text-[13px] font-medium tracking-tight',
+            'border border-transparent text-[var(--jt-ink,currentColor)]/75',
+            'hover:border-[var(--jt-rule,#D6CFC0)] hover:bg-[var(--jt-ink,#1C1917)]/[0.06] hover:text-[var(--jt-ink,#1C1917)]',
+            'data-[state=open]:border-[var(--jt-rule,#D6CFC0)] data-[state=open]:bg-[var(--jt-ink,#1C1917)]/[0.08]',
+            'transition-colors duration-200',
             className,
           )}
           aria-label={t('common.languageAria')}
